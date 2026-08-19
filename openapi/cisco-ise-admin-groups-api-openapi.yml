@@ -1,0 +1,610 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Rbac Catalog Admin Groups API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://10.86.189.217:443
+  description: Inferred Url
+tags:
+- name: Admin Groups
+paths:
+  /api/v1/rbac/admin-group:
+    get:
+      tags:
+      - Admin Groups
+      summary: Retrieve all admin groups available in Cisco ISE
+      description: Get admin groups API will be used to view Cisco ISE  network admin groups
+      operationId: listAllAdminGroups
+      parameters:
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: size
+        in: query
+        description: Number of objects returned per page
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: sort
+        in: query
+        description: sort type - asc or desc
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - asc
+          - desc
+      - name: sortBy
+        in: query
+        description: sort column by which objects needs to be sorted
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: filter
+        in: query
+        description: '<div> <style type="text/css" scoped> .apiServiceTable td, .apiServiceTable th { padding: 5px 10px !important; text-align: left; } </style> <span> <b>Simple filtering</b> should be available through the filter query string parameter. The structure of a filter is a triplet of field operator and value separated with dots. More than one filter can be sent. The logical operator common to ALL filter criteria will be by default AND, and can be changed by using the <i>"filterType=or"</i> query string parameter. Each resource Data model description should specify if an attribute is a filtered field. </span> <br /> <table class="apiServiceTable"> <thead> <tr> <th>OPERATOR</th> <th>DESCRIPTION</th> </tr> </thead> <tbody> <tr> <td>EQ</td> <td>Equals</td> </tr> <tr> <td>NEQ</td> <td>Not Equals</td> </tr> <tr> <td>GT</td> <td>Greater Than</td> </tr> <tr> <td>LT</td> <td>Less Then</td> </tr> <tr> <td>STARTSW</td> <td>Starts With</td> </tr> <tr> <td>NSTARTSW</td> <td>Not Starts With</td> </tr> <tr> <td>ENDSW</td> <td>Ends With</td> </tr> <tr> <td>NENDSW</td> <td>Not Ends With</td> </tr> <tr> <td>CONTAINS</td> <td>Contains</td> </tr> <tr> <td>NCONTAINS</td> <td>Not Contains</td> </tr> </tbody> </table> </div>'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: filterType
+        in: query
+        description: The logical operator common to ALL filter criteria will be by default AND, and can be changed by using the parameter
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - AND
+          - OR
+      responses:
+        '200':
+          description: Response object with all the admin groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminGroupResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+    post:
+      tags:
+      - Admin Groups
+      summary: Create admin group in Cisco ISE
+      description: Post admin group API will be used to create Cisco ISE network admin group <ul> <li><strong>name</strong> - Admin group name.</li> <li><strong>description</strong> - Admin group description.</li> <li><strong>isExternal</strong> -</li> <ul> <li>If <strong>isExternal</strong> is set to true <ul> <li>It is mandatory to pass values in externalGroups array for AD group association.</li> </ul> </li> <li>If <strong>isExternal</strong> is set to false <ul> <li>External group association is not allowed.</li> </ul> </li> </ul> <li><strong>externalGroups</strong> - An array of external AD groups associated with the admin group.</li> <li><strong>rbacUsers</strong> - An array of admin users associated with the admin group.</li> </ul>
+      operationId: createAdminGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenApiAdminGroup'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Successfully created admin group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Group already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/rbac/admin-group/reset/bulk:
+    post:
+      tags:
+      - Admin Groups
+      summary: Reset admin groups external available in Cisco ISE
+      description: Post reset admin groups API will be used to reset external Cisco ISE network admin group
+      operationId: resetAdminGroups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetExternalGroupNames'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Admin groups reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '207':
+          description: External groups reset completed for partial admin groups passed in the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Admin groups not found
+      security:
+      - BasicAuth: []
+  /api/v1/rbac/admin-group/{name}:
+    get:
+      tags:
+      - Admin Groups
+      summary: Get details of requested admin group created in Cisco ISE
+      description: Get admin group by name API will be used to get details of requested Cisco ISE network admin group
+      operationId: getAdminGroupByName
+      parameters:
+      - name: name
+        in: path
+        description: The name of the admin group
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleAdminGroup'
+                exampleSetFlag: false
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    put:
+      tags:
+      - Admin Groups
+      summary: Update details of an admin group created in Cisco ISE
+      description: Put admin group API will be used to update requested Cisco ISE network admin group <h3>Request Header</h3> <ul> <li><strong>name</strong> - The name of the admin group to be edited.</li> </ul> <h3>Request Body</h3> <ul> <li><strong>name</strong> - The updated admin group name.</li> <li><strong>description</strong> - The updated admin group description.</li> <li><strong>isExternal</strong> -</li> <ul> <li>If <strong>isExternal</strong> is set to true <ul> <li>All fields (name, description, externalGroups, rbacUsers) can be updated.</li> </ul> </li> <li>If <strong>isExternal</strong> is set to false <ul> <li>All fields except externalGroups (name, description, rbacUsers) can be updated.</li> </ul> </li> <li>If the admin group being edited is part of the system admin group <ul> <li>name and description cannot be edited.</li> </ul> </li> </ul> <li><strong>externalGroups</strong> - An array of external AD groups associated with the admin group.</li> <li><strong>rbacUsers</strong> - An array of admin users associated with the admin group.</li> </ul>
+      operationId: updateAdminGroup
+      parameters:
+      - name: name
+        in: path
+        description: The name of the admin group
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenApiAdminGroup'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Updated admin group successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Admin group not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - Admin Groups
+      summary: Delete requested admin group available in Cisco ISE
+      description: Delete admin group API will be used to delete requested Cisco ISE network admin group
+      operationId: deleteAdminGroup
+      parameters:
+      - name: name
+        in: path
+        description: The name of the admin group
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Admin group deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+        '400':
+          description: Admin group passed is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Admin group not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/rbac/external-groups:
+    get:
+      tags:
+      - Admin Groups
+      summary: Retrieve all external groups available in Cisco ISE
+      description: Get external groups API will be used to view Cisco ISE network external groups.
+      operationId: listAllExternalGroups
+      responses:
+        '200':
+          description: Response object with all the external groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalGroupResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalGroupResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalGroupResponse'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    AdminGroupResponse:
+      title: AdminGroupResponse
+      required:
+      - statusCode
+      type: object
+      properties:
+        adminGroupList:
+          type: array
+          description: A list of admin groups.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AdminGroupData'
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A descriptive message related to the response.
+          exampleSetFlag: true
+        statusCode:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+      description: Response schema for admin group data, including the status code, message, and a list of admin group data.
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The error code associated with the response. A non-zero code typically indicates an error.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A description of the error encountered.
+          exampleSetFlag: true
+      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
+      exampleSetFlag: false
+    SingleAdminGroup:
+      title: SingleAdminGroup
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: A brief description of the admin group.
+          exampleSetFlag: true
+        externalGroups:
+          type: array
+          description: List of external groups associated with this admin group.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        externalIdenSourceName:
+          type: string
+          description: The name of the external identity source used for this admin group.
+          exampleSetFlag: true
+        isExternal:
+          type: boolean
+          description: Indicates whether the admin group is external to the organization.
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the admin group.
+          exampleSetFlag: true
+        rbacUsers:
+          type: array
+          description: List of users who are part of this admin group, based on RBAC (Role-Based Access Control) information.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SingleAdminGroupRbacUsers'
+            exampleSetFlag: false
+      description: Schema representing a single admin group, including its name, description, external affiliation, and associated users.
+      exampleSetFlag: false
+    BaseResponse:
+      title: BaseResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message detailing the response, indicating success or failure.
+          exampleSetFlag: true
+      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
+      exampleSetFlag: false
+    SingleAdminGroupRbacUsers:
+      title: SingleAdminGroupRbacUsers
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email address of the user.
+          exampleSetFlag: true
+        firstName:
+          type: string
+          description: The first name of the user.
+          exampleSetFlag: true
+        isEnabled:
+          type: boolean
+          description: Indicates whether the user is enabled or not.
+          example: false
+          exampleSetFlag: true
+        lastName:
+          type: string
+          description: The last name of the user.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the user.
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AdminGroupData:
+      title: AdminGroupData
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: A brief description of the admin group.
+          exampleSetFlag: true
+        externalGroupCount:
+          type: integer
+          description: The number of external groups associated with the admin group.
+          format: int32
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the admin group.
+          exampleSetFlag: true
+      description: Schema representing data about an admin group, including its name, description, and the count of external groups associated with it.
+      exampleSetFlag: false
+    ResetExternalGroupNames:
+      title: ResetExternalGroupNames
+      required:
+      - names
+      type: object
+      properties:
+        names:
+          type: array
+          description: List of external group names to be reset.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Schema for resetting the names of external groups.
+      exampleSetFlag: false
+    ExternalGroupResponse:
+      title: ExternalGroupResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+        externalGroups:
+          type: array
+          description: List of external groups associated with the identity source.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        externalIdentitySoruce:
+          type: string
+          description: The source of external identity information, if applicable.
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A descriptive message related to the response.
+          exampleSetFlag: true
+      description: Response schema for external group information, including status code and external group details.
+      exampleSetFlag: false
+    OpenApiAdminGroup:
+      title: OpenApiAdminGroup
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: A brief description of the admin group.
+          exampleSetFlag: true
+        externalGroups:
+          type: array
+          description: List of external groups associated with this admin group, if applicable.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        isExternal:
+          type: boolean
+          description: Indicates whether the admin group is external to the organization.
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the admin group.
+          exampleSetFlag: true
+        rbacUsers:
+          type: array
+          description: List of users who are part of this admin group, based on their RBAC (Role-Based Access Control) memberships.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Schema representing an Admin Group, detailing the group's name, description, external affiliation, and associated users.
+      exampleSetFlag: false

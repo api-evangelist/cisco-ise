@@ -1,0 +1,957 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Acisettings API
+  version: '1.0'
+  description: 'Operations tagged acisettings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-aci-settings.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-aci-settings.yaml, the provider's source document. Operations and schemas
+      are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-aci-settings.yaml
+    operation_coverage: 4/7
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: acisettings
+paths:
+  /acisettings/:
+    get:
+      tags:
+      - acisettings
+      summary: GetAciSettings
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/acisettingsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/acisettingsResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /acisettings/testACIConnectivity:
+    put:
+      tags:
+      - acisettings
+      summary: TestACIConnection
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciTestConnectivityEntity'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AciTestConnectivityEntity'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /acisettings/{id}:
+    put:
+      tags:
+      - acisettings
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/apic.acisettings'
+            example:
+              AciSettings:
+                suffixToEpg: SGT
+                defaultSgtName: Unknown
+                enableElementsLimit: false
+                specificSxpDomain: true
+                suffixToSgt: EPG
+                enableDataPlane: false
+                aci51: false
+                aci50: false
+                description: Aci Settings
+                maxNumSgtToAci: 500
+                untaggedPacketIepgName: Untagged
+                name: AciSettings
+                allSxpDomain: false
+                maxNumIepgFromAci: 1000
+                specifixSxpDomainList:
+                - default
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                enableAci: false
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/acisettings:
+    get:
+      tags:
+      - acisettings
+      summary: Get all ACI Information
+      description: <p>This API allows the client to get ACI Settings.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- apic.acisettings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: 'Required Only if Enabled from GUI
+
+          Example:- fetch'
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/settings'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/settings'
+  /ers/config/acisettings/testACIConnectivity:
+    put:
+      tags:
+      - acisettings
+      summary: Test ACI Domain Manager connection
+      description: <p>This API allows the client to test ACI Domain Manager connection.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- apic.acisettings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Result'
+  /ers/config/acisettings/{id}:
+    put:
+      tags:
+      - acisettings
+      summary: Update ACI settings
+      description: <p>This API allows the client to update ACI settings.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- apic.acisettings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/settings'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/settings'
+  /ers/config/acisettings/versioninfo:
+    get:
+      tags:
+      - acisettings
+      summary: Get ACI settings version information
+      description: <p>This API helps to retrieve the version information related to the Cisco ACI settings.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    apic.acisettings:
+      required:
+      - AciSettings
+      type: object
+      properties:
+        AciSettings:
+          $ref: '#/components/schemas/AciSettings'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    acisettingsResponse:
+      type: object
+      properties:
+        AciSettings:
+          $ref: '#/components/schemas/acisettingsResponseEntity'
+      example:
+        AciSettings:
+          suffixToEpg: SGT
+          defaultSgtName: Unknown
+          enableElementsLimit: false
+          specificSxpDomain: true
+          suffixToSgt: EPG
+          enableDataPlane: false
+          aci51: false
+          aci50: false
+          description: Aci Settings
+          maxNumSgtToAci: 500
+          untaggedPacketIepgName: Untagged
+          name: AciSettings
+          allSxpDomain: false
+          maxNumIepgFromAci: 1000
+          specifixSxpDomainList:
+          - default
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          enableAci: false
+    acisettingsResponseEntity:
+      properties:
+        enableAci:
+          title: enableAci
+          type: boolean
+          description: Enable ACI Integration.
+          example: null
+        aci50:
+          title: aci50
+          type: boolean
+          description: Enable Policy Plane/API integration.
+          example: null
+        ipAddressHostName:
+          title: ipAddressHostName
+          type: string
+          description: ACI Cluster IP Address / Host name.
+          example: null
+        adminName:
+          title: adminName
+          type: string
+          description: ACI Cluster Admin name.
+          example: null
+        adminPassword:
+          title: adminPassword
+          type: string
+          description: ACI Cluster Admin password.
+          example: null
+        tenantName:
+          title: tenantName
+          type: string
+          description: ACI Cluster Tenant name.
+          example: null
+        l3RouteNetwork:
+          title: l3RouteNetwork
+          type: string
+          description: ACI Cluster L3 Route network name.
+          example: null
+        suffixToEpg:
+          title: suffixToEpg
+          type: string
+          description: Name Conversion - EPG suffix.
+          example: null
+        suffixToSgt:
+          title: suffixToSgt
+          type: string
+          description: Name Conversion - SGT suffix.
+          example: null
+        allSxpDomain:
+          title: allSxpDomain
+          type: boolean
+          description: SXP Propagation to all the SXP domains.
+          example: null
+        specificSxpDomain:
+          title: specificSxpDomain
+          type: boolean
+          description: SXP Propagation to specific SXP domains.
+          example: null
+        specifixSxpDomainList:
+          title: specifixSxpDomainList
+          type: array
+          description: Specific SXP domains list.
+          example: null
+          items:
+            type: string
+            example: null
+        aci51:
+          title: aci51
+          type: boolean
+          description: Enable Data Plane/Hardware integration (ACI 5.1 onwards).
+          example: null
+        aciipaddress:
+          title: aciipaddress
+          type: string
+          description: ACI Domain manager Ip Address.
+          example: null
+        aciuserName:
+          title: aciuserName
+          type: string
+          description: ACI Domain manager Username.
+          example: null
+        acipassword:
+          title: acipassword
+          type: string
+          description: ACI Domain manager Password.
+          example: null
+        enableDataPlane:
+          title: enableDataPlane
+          type: boolean
+          description: Enable data plane.
+          example: null
+        untaggedPacketIepgName:
+          title: untaggedPacketIepgName
+          type: string
+          description: Untagged IEPG packets name.
+          example: null
+        defaultSgtName:
+          title: defaultSgtName
+          type: string
+          description: Default SGT name.
+          example: null
+        enableElementsLimit:
+          title: enableElementsLimit
+          type: boolean
+          description: Enable Elements Limit.
+          example: null
+        maxNumIepgFromAci:
+          title: maxNumIepgFromAci
+          type: object
+          description: Max number of IEPGs.
+          example: null
+        maxNumSgtToAci:
+          title: maxNumSgtToAci
+          type: object
+          description: Max number of SGTs.
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    AciSettings:
+      required:
+      - aci50
+      - aci51
+      - enableAci
+      - name
+      properties:
+        enableAci:
+          title: enableAci
+          type: boolean
+          description: Enable ACI Integration.
+          example: null
+        aci50:
+          title: aci50
+          type: boolean
+          description: Enable Policy Plane/API integration.
+          example: null
+        ipAddressHostName:
+          title: ipAddressHostName
+          type: string
+          description: ACI Cluster IP Address / Host name.
+          example: null
+        adminName:
+          title: adminName
+          type: string
+          description: ACI Cluster Admin name.
+          example: null
+        adminPassword:
+          title: adminPassword
+          type: string
+          description: ACI Cluster Admin password.
+          example: null
+        tenantName:
+          title: tenantName
+          type: string
+          description: ACI Cluster Tenant name.
+          example: null
+        l3RouteNetwork:
+          title: l3RouteNetwork
+          type: string
+          description: ACI Cluster L3 Route network name.
+          example: null
+        suffixToEpg:
+          title: suffixToEpg
+          type: string
+          description: Name Conversion - EPG suffix.
+          example: null
+        suffixToSgt:
+          title: suffixToSgt
+          type: string
+          description: Name Conversion - SGT suffix.
+          example: null
+        allSxpDomain:
+          title: allSxpDomain
+          type: boolean
+          description: SXP Propagation to all the SXP domains.
+          example: null
+        specificSxpDomain:
+          title: specificSxpDomain
+          type: boolean
+          description: SXP Propagation to specific SXP domains.
+          example: null
+        specifixSxpDomainList:
+          title: specifixSxpDomainList
+          type: array
+          description: Specific SXP domains list.
+          example: null
+          items:
+            type: string
+            example: null
+        aci51:
+          title: aci51
+          type: boolean
+          description: Enable Data Plane/Hardware integration (ACI 5.1 onwards).
+          example: null
+        aciipaddress:
+          title: aciipaddress
+          type: string
+          description: ACI Domain manager Ip Address.
+          example: null
+        aciuserName:
+          title: aciuserName
+          type: string
+          description: ACI Domain manager Username.
+          example: null
+        acipassword:
+          title: acipassword
+          type: string
+          description: ACI Domain manager Password.
+          example: null
+        enableDataPlane:
+          title: enableDataPlane
+          type: boolean
+          description: Enable data plane.
+          example: null
+        untaggedPacketIepgName:
+          title: untaggedPacketIepgName
+          type: string
+          description: Untagged IEPG packets name.
+          example: null
+        defaultSgtName:
+          title: defaultSgtName
+          type: string
+          description: Default SGT name.
+          example: null
+        enableElementsLimit:
+          title: enableElementsLimit
+          type: boolean
+          description: Enable Elements Limit.
+          example: null
+        maxNumIepgFromAci:
+          title: maxNumIepgFromAci
+          type: object
+          description: Max number of IEPGs.
+          example: null
+        maxNumSgtToAci:
+          title: maxNumSgtToAci
+          type: object
+          description: Max number of SGTs.
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        AciSettings:
+          suffixToEpg: SGT
+          defaultSgtName: Unknown
+          enableElementsLimit: false
+          specificSxpDomain: true
+          suffixToSgt: EPG
+          enableDataPlane: false
+          aci51: false
+          aci50: false
+          description: Aci Settings
+          maxNumSgtToAci: 500
+          untaggedPacketIepgName: Untagged
+          name: AciSettings
+          allSxpDomain: false
+          maxNumIepgFromAci: 1000
+          specifixSxpDomainList:
+          - default
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          enableAci: false
+    AciTestConnectivityEntity:
+      properties:
+        ACITestConnectionResult:
+          properties:
+            result:
+              type: boolean
+              example: null
+          example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    Result:
+      type: object
+      properties:
+        ACITestConnectionResult:
+          $ref: '#/components/schemas/ACITestConnectionResult'
+    settings:
+      type: object
+      properties:
+        AciSettings:
+          $ref: '#/components/schemas/acisettings'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    acisettings:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 29fb45ab-6a8e-4658-8a28-02521c258178
+        enableAci:
+          type: boolean
+          example: false
+        tenantName:
+          type: string
+          example: ISE
+        l3RouteNetwork:
+          type: string
+          example: L3_ROUTE
+        suffixToEpg:
+          type: string
+          example: SGT
+        suffixToSgt:
+          type: string
+          example: EPG
+        allSxpDomain:
+          type: boolean
+          example: false
+        specificSxpDomain:
+          type: boolean
+          example: true
+        specifixSxpDomainList:
+          type: array
+          items:
+            type: string
+            example: default
+        enableDataPlane:
+          type: boolean
+          example: false
+        untaggedPacketIepgName:
+          type: string
+          example: Untagged
+        defaultSgtName:
+          type: string
+          example: Unknown
+        enableElementsLimit:
+          type: boolean
+          example: false
+        maxNumIepgFromAci:
+          type: integer
+          example: 1000
+        maxNumSgtToAci:
+          type: integer
+          example: 500
+        aci50:
+          type: boolean
+          example: false
+        aci51:
+          type: boolean
+          example: false
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    ACITestConnectionResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+          example: true
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/acisettings/versioninfo
+        type:
+          type: string
+          example: application/json
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-aci-settings.yaml

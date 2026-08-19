@@ -1,0 +1,1114 @@
+swagger: '2.0'
+info:
+  description: |
+    Self Registered Guest Portal API provides the ability to create, read, update, delete and search self registered portals.
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.2</td><td>Initial Cisco ISE Version</td></tr>
+    <tr style='border-bottom:solid #CCCCCC 1.0pt;background:#f8f8f8'><td>1</td><td>1.1</td><td>3.2</td><td>Added Patch operation</td></tr>
+    </table>
+    <br><br>
+    
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td><td>Self-Registered Guest Portal (default)</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td></td><td>4e8ade36-4048-472a-b345-632cc155acfc</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td><td>Guests may create their own accounts and be assigned a username and password, or use their social login to access the network</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>portalTestUrl</td><td>String</td><td>No</td><td>URL to bring up a test page for this portal</td><td></td><td>https://{ise-ip}:8443/portal/PortalSetup.action?portal=4e8ade36-4048-472a-b345-632cc155acfc</td></tr>
+    <tr><td style='font-family:monospace'>portalType</td><td>Enum</td><td>Yes</td><td>Allowed values:<br>- BYOD, <br>- HOTSPOTGUEST, <br>- MYDEVICE, <br>- SELFREGGUEST, <br>- SPONSOR, <br>- SPONSOREDGUEST</td><td>SELFREGGUEST</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>settings</td><td>List</td><td>No</td><td>Defines all of the settings groups available for a portal</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- portalSettings</td><td>List</td><td>No</td><td>The port, interface, certificate, and other basic settings of a portal</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - httpsPort</td><td>Integer</td><td>Yes</td><td>The port number that the allowed interfaces will listen on. Range from 8000 to 8999</td><td></td><td>8443</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowedInterfaces</td><td>Enum</td><td>Yes</td><td>Interfaces that the portal will be reachable on. Allowed values:<br>- eth0, <br>- eth1, <br>- eth2, <br>- eth3, <br>- eth4, <br>- eth5, <br>- bond0, <br>- bond1, <br>- bond2</td><td></td><td>[ "eth0", "bond0" ]</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - certificateGroupTag</td><td>String</td><td>Yes</td><td>Logical name of the x.509 server certificate that will be used for the portal</td><td></td><td>Default Portal Certificate Group</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - authenticationMethod</td><td>String</td><td>Yes</td><td>Unique Id of the identity source sequence</td><td></td><td>92e50f80-8c01-11e6-996c-525400b48521</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - assignedGuestTypeForEmployee</td><td>String</td><td>Yes</td><td>Unique Id of a guest type. Employees using this portal as a guest inherit login options from the guest type</td><td></td><td>Contractor (default)</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - displayLang</td><td>Enum</td><td>No</td><td>Allowed values:<br>- USEBROWSERLOCALE, <br>- ALWAYSUSE</td><td></td><td>USEBROWSERLOCALE</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fallbackLanguage</td><td>String</td><td>No</td><td>Used when displayLang = USEBROWSERLOCALE</td><td></td><td>English</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - alwaysUsedLanguage</td><td>String</td><td>No</td><td>Used when displayLang = ALWAYSUSE</td><td></td><td>English</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- loginPageSettings</td><td>List</td><td>No</td><td>Portal Login Page settings groups follow</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - maxFailedAttemptsBeforeRateLimit</td><td>Integer</td><td>No</td><td>Maximum failed login attempts before rate limiting</td><td>5</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - timeBetweenLoginsDuringRateLimit</td><td>Integer</td><td>No</td><td>Time between login attempts when rate limiting</td><td>2</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeAup</td><td>Boolean</td><td>No</td><td>Include an Acceptable Use Policy (AUP) that should be displayed during login</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - aupDisplay</td><td>Enum</td><td>No</td><td>How the AUP should be displayed, either on page or as a link. Only valid if includeAup = true. Allowed values:<br>- ONPAGE, <br>- ASLINK</td><td>ASLINK</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireAupAcceptance</td><td>Boolean</td><td>No</td><td>Require the portal user to accept the AUP. Only valid if includeAup = true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireAccessCode</td><td>Boolean</td><td>No</td><td>Require the portal user to enter an access code</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - accessCode</td><td>String</td><td>No</td><td>Access code that must be entered by the portal user (only valid if requireAccessCode = true)</td><td></td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowGuestToCreateAccounts</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowGuestToChangePassword</td><td>Boolean</td><td>No</td><td>Require the portal user to enter an access code</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowAlternateGuestPortal</td><td>Boolean</td><td>No</td><td></td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - alternateGuestPortal</td><td>String</td><td>No</td><td></td><td></td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- selfRegPageSettings</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - assignGuestsToGuestType</td><td>String</td><td>No</td><td>Guests are assigned to this guest type</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - accountValidityDuration</td><td>Integer</td><td>No</td><td>Self-registered guest account is valid for this many account_validity_time_units</td><td>1</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - accountValidityTimeUnits</td><td>Enum</td><td>No</td><td>Time units for account_validity_duration. Allowed Values:<br>- DAYS, <br>- HOURS, <br>- MINUTES</td><td>DAYS</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireRegistrationCode</td><td>Boolean</td><td>No</td><td>Self-registered guests are required to enter a registration code</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - registrationCode</td><td>String</td><td>No</td><td>The registration code that the guest user must enter</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldUserName</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldFirstName</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldLastName</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldEmailAddr</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldPhoneNo</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldCompany</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldLocation</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - selectableLocations</td><td>List</td><td>No</td><td>Guests can choose from these locations to set their time zone</td><td></td><td>["San Jose"]</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldSmsProvider</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - selectableSmsProviders</td><td>List</td><td>No</td><td>This attribute is an array of SMS provider names</td><td></td><td>["Global Default"]</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldPersonBeingVisited</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - fieldReasonForVisit</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - include</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - require</td><td>Boolean</td><td>No</td><td>Only applicable if include = true</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeAup</td><td>Boolean</td><td>No</td><td>Include an Acceptable Use Policy (AUP) that should be displayed during login</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - aupDisplay</td><td>Enum</td><td>No</td><td>How the AUP should be displayed, either on page or as a link. Only valid if includeAup = true. Allowed values:<br>- ONPAGE, <br>- ASLINK</td><td>ASLINK</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireAupAcceptance</td><td>Boolean</td><td>No</td><td>Require the portal user to accept the AUP. Only valid if includeAup = true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - enableGuestEmailWhitelist</td><td>Boolean</td><td>No</td><td>Allow guests with an e-mail address from selected domains</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - guestEmailWhitelistDomains</td><td>List</td><td>No</td><td>Self-registered guests whose e-mail address is in one of these domains will be allowed. Only valid if enableGuestEmailWhitelist = true</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - enableGuestEmailBlacklist</td><td>Boolean</td><td>No</td><td>Disallow guests with an e-mail address from selected domains</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - guestEmailBlacklistDomains</td><td>List</td><td>No</td><td>Self-registered guests whose e-mail address is in one of these domains will be disallowed. Only valid if enableGuestEmailBlacklist = true</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireGuestApproval</td><td>Boolean</td><td>No</td><td>Require self-registered guests to be approved if true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - autoLoginSelfWait</td><td>Boolean</td><td>No</td><td>Allow guests to login automatically from self-registration after sponsor's approval. No need to provide the credentials by guest to login</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - autoLoginTimePeriod</td><td>Integer</td><td>No</td><td>Waiting period for auto login until sponsor's approval. If time exceeds, guest has to login manually by providing the credentials. Default value is 5 minutes</td><td>5</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - sendApprovalRequestTo</td><td>Enum</td><td>No</td><td>Specifies where approval requests are sent. Only valid if requireGuestApproval = true. Allowed Values: <br>- SELECTEDEMAILADDRESSES, <br>- PERSONBEINGVISITED</td><td>SELECTEDEMAILADDRESSES</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - approvalEmailAddresses</td><td>String</td><td>No</td><td>Only valid if requireGuestApproval = true and sendApprovalRequestTo = SELECTEDEMAILADDRESSES</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - postRegistrationRedirect</td><td>Enum</td><td>No</td><td>After the registration submission direct the guest user to one of the following pages. Only valid if requireGuestApproval = true. Allowed Values:<br>- SELFREGISTRATIONSUCCESS, <br>- LOGINPAGEWITHINSTRUCTIONS <br>- URL</td><td>SELFREGISTRATIONSUCCESS</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - postRegistrationRedirectUrl</td><td>String</td><td>No</td><td>URL where guest user is redirected after registration. Only valid if requireGuestApproval = true and postRegistrationRedirect = URL</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - credentialNotificationUsingEmail</td><td>Boolean</td><td>No</td><td>If true, send credential notification upon approval using email. Only valid if requireGuestApproval = true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - credentialNotificationUsingSms</td><td>Boolean</td><td>No</td><td>If true, send credential notification upon approval using SMS. Only valid if requireGuestApproval = true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - approveDenyLinksValidFor</td><td>Integer</td><td>No</td><td>This attribute, along with approveDenyLinksTimeUnits, specifies how long the link can be used. Only valid if requireGuestApproval = true</td><td>1440</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - approveDenyLinksTimeUnits</td><td>Enum</td><td>No</td><td>This attribute, along with approveDenyLinksValidFor, specifies how long the link can be used. Only valid if requireGuestApproval = true. Allowed Values:<br>- DAYS, <br>- HOURS, <br>- MINUTES</td><td>DAYS</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireApproverToAuthenticate</td><td>Boolean</td><td>No</td><td>When self-registered guests require approval, an approval request is e-mailed to one or more sponsor users. If the Cisco ISE Administrator chooses to include an approval link in the e-mail, a sponsor user who clicks the link will be required to enter their username and password if this attribute is true. Only valid if requireGuestApproval = true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - sponsorPortalList</td><td>List</td><td>No</td><td>When self-registered guests require approval, an approval request is e-mailed to one or more sponsor users. If the Cisco ISE Administrator chooses to include an approval link in the e-mail, a sponsor user who clicks the link will be authenticated against the selected sponsor portals in the order specified. Only valid if requireGuestApproval = true. The array should contain the names of the selected portals</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- selfRegSuccessSettings</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeUserName</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includePassword</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeFirstName</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeLastName</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeEmailAddr</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includePhoneNo</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeCompany</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeLocation</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeSmsProvider</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includePersonBeingVisited</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeReasonForVisit</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowGuestSendSelfUsingPrint</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowGuestSendSelfUsingEmail</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowGuestSendSelfUsingSms</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeAup</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - aupOnPage</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireAupAcceptance</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireAupScrolling</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowGuestLoginFromSelfregSuccessPage</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- aupSettings</td><td>List</td><td>No</td><td>Configuration of the Acceptable Use Policy (AUP) for a portal</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - displayFrequency</td><td>Enum</td><td>No</td><td>How the AUP should be displayed, either on page or as a link. Only valid if includeAup = true. Allowed Values:<br>- FIRSTLOGIN, <br>- EVERYLOGIN, <br>- RECURRING</td><td>FIRSTLOGIN</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeAup</td><td>Boolean</td><td>No</td><td>Require the portal user to read and accept an AUP</td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - requireAupScrolling</td><td>Boolean</td><td>No</td><td>Require the portal user to scroll to the end of the AUP. Only valid if requireAupAcceptance = true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - useDiffAupForEmployees</td><td>Boolean</td><td>No</td><td>Only valid if requireAupAcceptance = trueG</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - skipAupForEmployees</td><td>Boolean</td><td>No</td><td>Only valid if requireAupAcceptance = true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - displayFrequencyIntervalDays</td><td>Integer</td><td>No</td><td>Number of days between AUP confirmations (when displayFrequency = recurring)</td><td>7</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- GuestChangePasswordSettings</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowChangePasswdAtFirstLogin</td><td>Boolean</td><td>No</td><td>Allow guest to change their own passwords</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- guestDeviceRegistrationSettings</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - autoRegisterGuestDevices</td><td>Boolean</td><td>No</td><td>Automatically register guest devices</td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - allowGuestsToRegisterDevices</td><td>Boolean</td><td>No</td><td>Allow guests to register devices</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- byodSettings</td><td>List</td><td>No</td><td>Configuration of BYOD Device Welcome, Registration and Success steps</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - byodWelcomeSettings</td><td>List</td><td>No</td><td>Configuration of BYOD endpoint welcome step configuration</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - enableBYOD</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - enableGuestAccess</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - requireMDM</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - includeAup</td><td>Boolean</td><td>No</td><td></td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - aupDisplay</td><td>Enum</td><td>No</td><td>How the AUP should be displayed, either on page or as a link. Only valid if includeAup = true. Allowed values:<br>- ONPAGE, <br>- ASLINK</td><td>ONPAGE</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - requireAupAcceptance</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - requireScrolling</td><td>Boolean</td><td>No</td><td>Require BYOD devices to scroll down to the bottom of the AUP, Only valid if includeAup = true</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - byodRegistrationSettings</td><td>List</td><td>No</td><td>Configuration of BYOD endpoint Registration step configuration</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - showDeviceID</td><td>Boolean</td><td>No</td><td>Display Device ID field during registration</td><td>true</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - endPointIdentityGroupId</td><td>String</td><td>No</td><td>Identity group id for which endpoint belongs</td><td></td><td>aa13bb40-8bff-11e6-996c-525400b48521</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - byodRegistrationSuccessSettings</td><td>List</td><td>No</td><td>Configuration of BYOD endpoint Registration Success step configuration</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - successRedirect</td><td>Enum</td><td>No</td><td>After an Authentication Success where should device be redirected. Allowed values:<br>- AUTHSUCCESSPAGE, <br>- ORIGINATINGURL, <br>- URL</td><td>AUTHSUCCESSPAGE</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - redirectUrl</td><td>String</td><td>No</td><td>Target URL for redirection, used when successRedirect = URL</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- authSuccessSettings</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - successRedirect</td><td>Enum</td><td>No</td><td>After an Authentication Success where should device be redirected. Allowed values:<br>- AUTHSUCCESSPAGE, <br>- ORIGINATINGURL, <br>- URL</td><td>AUTHSUCCESSPAGE</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - redirectUrl</td><td>String</td><td>No</td><td>Target URL for redirection, used when successRedirect = URL</td><td></td><td>www.cisco.com</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- postLoginBannerSettings</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includePostAccessBanner</td><td>Boolean</td><td>No</td><td>Include a Post-Login Banner page</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- supportInfoSettings</td><td>List</td><td>No</td><td>Portal Support Information Settings</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeSupportInfoPage</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeMacAddr</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeIpAddress</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeBrowserUserAgent</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includePolicyServer</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - includeFailureCode</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - emptyFieldDisplay</td><td>Enum</td><td>No</td><td>Specifies how empty fields are handled on the Support Information Page. Allowed values:<br>- HIDE, <br>- DISPLAYWITHNOVALUE, <br>- DISPLAYWITHDEFAULTVALUE</td><td></td><td>HIDE</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - defaultEmptyFieldValue</td><td>String</td><td>No</td><td>The default value displayed for an empty field Only valid when emptyFieldDisplay = DISPLAYWITHDEFAULTVALUE</td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>customizations</td><td>List</td><td>No</td><td>Defines all of the Portal Customizations available</td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>- portalTheme</td><td>List</td><td>No</td><td>Defines the configuration for portal theme</td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - id</td><td>String</td><td>No</td><td>The unique internal identifier of the portal theme</td><td></td><td>9eb421c0-8c01-11e6-996c-525400b48521</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - name</td><td>String</td><td>Yes</td><td>The system- or user-assigned name of the portal theme</td><td></td><td>Default Blue theme</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - themeData</td><td>String</td><td>No</td><td>A CSS file, represented as a Base64-encoded byte array</td><td></td><td>Base 64 encoded string of Theme CSS file</td></tr>
+    <tr valign=top><td tyle='font-family:monospace'>- portalTweakSettings</td><td>List</td><td>No</td><td>The Tweak Settings are a customization of the Portal Theme that has been selected for the portal. When the Portal Theme selection is changed, the Tweak Settings are overwritten to match the values in the theme. The Tweak Settings can subsequently be changed by the user</td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - bannerColor</td><td>String</td><td>No</td><td>Hex value of color</td><td></td><td>#0000FF</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - bannerTextColor</td><td>String</td><td>No</td><td></td><td></td><td>Banner Text color code from GUI</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - pageBackgroundColor</td><td>String</td><td>No</td><td></td><td></td><td>Color code from GUI</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - pageLabelAndTextColor</td><td>String</td><td>No</td><td></td><td></td><td>Label and Text color from GUI</td></tr>
+    <tr valign=top><td style='font-family:monospace'>- language</td><td>List</td><td>No</td><td>This property is supported only for Read operation and it allows to show the customizations in English. Other languages are not supported</td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - viewLanguage</td><td>String</td><td>No</td><td></td><td></td><td>English</td></tr>
+    <tr valign=top><td style='font-family:monospace'>- globalCustomizations</td><td>List</td><td>No</td><td>Represent the portal Global customizations</td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - bannerTitle</td><td>String</td><td>No</td><td></td><td></td><td>Guest Portal</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - contactText</td><td>String</td><td>No</td><td></td><td></td><td>Contact Support</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - footerElement</td><td>String</td><td>No</td><td></td><td></td><td>Footer Element</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - mobileLogoImage</td><td>Image</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp &nbsp - data</td><td>String</td><td>No</td><td>Represented as base 64 encoded string of the image byte array</td><td></td><td>base 64 encoded value of image</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - desktopLogoImage</td><td>Image</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp &nbsp - data</td><td>String</td><td>No</td><td>Represented as base 64 encoded string of the image byte array</td><td></td><td>base 64 encoded value of image</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - bannerImage</td><td>Image</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp &nbsp - data</td><td>String</td><td>No</td><td>Represented as base 64 encoded string of the image byte array</td><td></td><td>base 64 encoded value of image</td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp - backgroundImage</td><td>Image</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top><td style='font-family:monospace'>&nbsp &nbsp - data</td><td>String</td><td>No</td><td>Represented as base 64 encoded string of the image byte array</td><td></td><td>base 64 encoded value of image</td></tr>
+    <tr><td style='font-family:monospace'>- pageCustomizations</td><td>List</td><td>No</td><td>Represent the entire page customization as a giant dictionary</td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>&nbsp - data</td><td>List</td><td>No</td><td>The Dictionary will be exposed here as key value pair</td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>&nbsp &nbsp - key</td><td>String</td><td>Yes</td><td></td><td></td><td>ui_contact_ip_address_label</td></tr>
+    <tr valign=top style='border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>&nbsp &nbsp - value</td><td>String</td><td>Yes</td><td></td><td></td><td>SVAgYWRkcmVzczo=</td></tr>
+    </table>
+    
+  version: 1.0.0
+  title: selfregportal
+
+tags:
+- name: selfregportal
+
+paths:
+  /ers/config/selfregportal/{portal-id}:
+    get:
+      tags: 
+      - selfregportal
+      summary: Get self registered portal by ID
+      description:
+        <p>This API allows the client to get a self registered portal by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: portal-id
+          in: path
+          type: string
+          required: true
+          description: |
+            The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- portal.selfregportal.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/selfreg'
+    patch:
+      tags: 
+      - selfregportal
+      summary: Update part of the Self Registered Portal by ID
+      description:
+        <p>Update any attribute subset of the Self Registered Portal. Only the attributes sent are affected.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- portal.selfregportal.1.0
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/patchRequest'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/selfreg'  
+            
+    put:
+      tags:
+      - selfregportal
+      summary: Update self registered portal by ID
+      description:  <p>This API allows the client to update a self registered portal by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: portal-id
+          in: path
+          type: string
+          required: true
+          description: |
+            The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:-   portal.selfregportal.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'UpdateById' can be used within Bulk Request
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/selfreg'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+
+    delete:
+      tags:
+      - selfregportal
+      summary: Delete self registered portal by ID
+      description:
+        <p>This API deletes a self registered portal by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: portal-id
+          in: path
+          type: string
+          required: true
+          description: |
+            The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- portal.selfregportal.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'DeleteById' can be used within Bulk Request
+          required: false        
+      responses: 
+        204:
+          description: No content    
+          
+  /ers/config/selfregportal:
+    get:
+      tags: 
+      - selfregportal
+      summary: Get all self registered portals
+      description:
+        <p>This API allows the client to get all the self registered portals.</p>
+        <p><h1>Filter:</h1> <h3>[name]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> 
+        <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul>
+        <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul>
+        <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>     
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- portal.selfregportal.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+            
+    post:
+      tags:
+      - selfregportal
+      summary: Create self registered portal
+      description:
+        <p>This API creates a self registered portal.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- portal.selfregportal.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'Create' can be used within Bulk Request
+          required: false                    
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/selfreg'
+      responses:
+        201:
+          description: Created
+
+  /ers/config/selfregportal/versioninfo:
+    get:
+      tags:
+      - selfregportal
+      summary: Get self registered portal version information
+      description:
+        <p>This API helps to retrieve the version information related to the self registered portal.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+            
+definitions:
+  selfreg:
+    type: object
+    properties:
+      SelfRegPortal:
+        $ref: '#/definitions/SelfRegPortal'
+        
+  SelfRegPortal:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 4e8ade36-4048-472a-b345-632cc155acfc
+      name:
+        type: string
+        example: Self-Registered Guest Portal (default)
+      description:
+        type: string
+        example: Guests may create their own accounts and be assigned a username and password, or use their social login to access the network
+      portalType:
+        type: string
+        example: SELFREGGUEST
+      portalTestUrl:
+        type: string
+        example: https://<ise-ip>:8443/portal/PortalSetup.action?portal=4e8ade36-4048-472a-b345-632cc155acfc
+      settings:
+        type: object
+        properties:
+          portalSettings:
+            type: object
+            properties: 
+              httpsPort:
+                type: integer
+                example: 8443
+              allowedInterfaces:
+                type: string
+                example: [ "eth0", "bond0" ]
+              certificateGroupTag:
+                type: string
+                example: Default Portal Certificate Group
+              authenticationMethod:
+                type: string
+                example: 92e50f80-8c01-11e6-996c-525400b48521
+              assignedGuestTypeForEmployee:
+                type: string
+                example: Contractor (default)
+              displayLang:
+                type: string
+                example: USEBROWSERLOCALE
+              fallbackLanguage:
+                type: string
+                example: English
+              alwaysUsedLanguage:
+                type: string
+                example: English
+          loginPageSettings:
+            type: object
+            properties:
+              requireAccessCode:
+                type: boolean
+                example: false
+              maxFailedAttemptsBeforeRateLimit:
+                type: integer
+                example: 5
+              timeBetweenLoginsDuringRateLimit:
+                type: integer
+                example: 2
+              includeAup:
+                type: boolean
+                example: false
+              allowGuestToCreateAccounts:
+                type: boolean
+                example: true
+              allowForgotPassword:
+                type: boolean
+                example: true
+              allowGuestToChangePassword:
+                type: boolean
+                example: false
+              allowAlternateGuestPortal:
+                type: boolean
+                example: false
+              allowGuestToUseSocialAccounts:
+                type: boolean
+                example: false
+              allowShowGuestForm:
+                type: boolean
+                example: false
+              socialConfigs:
+                type: array
+                example: [
+                    {
+                        "socialMediaType": "",
+                        "socialMediaValue": ""
+                    }
+                ]
+                items:
+                  properties:
+                    name:
+                      type: string
+          selfRegPageSettings:
+            properties:
+              assignGuestsToGuestType:
+                type: string
+                example: Daily (default)
+              accountValidityDuration:
+                type: integer
+                example: 1
+              accountValidityTimeUnits:
+                type: string
+                example: DAYS
+              requireRegistrationCode:
+                type: boolean
+                example: false
+              fieldUserName:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false
+              fieldFirstName:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false  
+              fieldLastName:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false
+              fieldEmailAddr:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false                      
+              fieldPhoneNo:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false
+              fieldCompany:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false  
+              fieldLocation:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false
+              selectableLocations:
+                type: array
+                example: ["San Jose"]
+                items:
+                  properties:
+                    name:
+                      type: string
+              fieldSmsProvider:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false  
+              selectableSmsProviders:
+                type: array
+                example: ["Global Default"]
+                items:
+                  properties:
+                    name:
+                      type: string              
+              fieldPersonBeingVisited:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false                      
+              fieldReasonForVisit:
+                type: object
+                properties:
+                  include:
+                    type: boolean
+                    example: true
+                  require:
+                    type: boolean
+                    example: false      
+              includeAup:
+                type: boolean
+                example: false
+              aupDisplay:
+                type: string
+                example: ONPAGE
+              requireAupAcceptance:
+                type: boolean
+                example: false
+              enableGuestEmailWhitelist:
+                type: boolean
+                example: false
+              guestEmailWhitelistDomains:
+                type: string
+                example: []
+              enableGuestEmailBlacklist:
+                type: boolean
+                example: false
+              guestEmailBlacklistDomains:
+                type: string
+                example: []
+              requireGuestApproval:
+                type: boolean
+                example: true
+              autoLoginSelfWait:
+                type: boolean
+                example: false
+              autoLoginTimePeriod:
+                type: integer
+                example: 5
+              allowGraceAccess:
+                type: boolean
+                example: false
+              graceAccessExpireInterval:
+                type: integer
+                example: 10
+              graceAccessSendAccountExpiration:
+                type: boolean
+                example: false
+              sendApprovalRequestTo:
+                type: string
+                example: SELECTEDEMAILADDRESSES
+              postRegistrationRedirect:
+                type: string
+                example: SELFREGISTRATIONSUCCESS
+              credentialNotificationUsingEmail:
+                type: boolean
+                example: false
+              credentialNotificationUsingSms: 
+                type: boolean
+                example: false
+              approveDenyLinksTimeUnits:
+                type: string
+                example: DAYS
+              authenticateSponsorsUsingPortalList:
+                type: string
+                example: false
+              sponsorPortalList:
+                type: string
+                example: []
+          selfRegSuccessSettings:
+            type: object
+            properties:
+              includeUserName:
+                type: boolean
+                example: true
+              includePassword:
+                type: boolean
+                example: true
+              includeFirstName:
+                type: boolean
+                example: true
+              includeLastName:
+                type: boolean
+                example: true                
+              includeEmailAddr:
+                type: boolean
+                example: true
+              includePhoneNo:
+                type: boolean
+                example: true                
+              includeCompany:
+                type: boolean
+                example: true
+              includeLocation:
+                type: boolean
+                example: true                
+              includeSmsProvider:
+                type: boolean
+                example: true
+              includePersonBeingVisited:
+                type: boolean
+                example: true
+              includeReasonForVisit:
+                type: boolean
+                example: true
+              allowGuestSendSelfUsingPrint:
+                type: boolean
+                example: false                
+              allowGuestSendSelfUsingEmail:
+                type: boolean
+                example: false
+              allowGuestSendSelfUsingSms:
+                type: boolean
+                example: false                
+              includeAup:
+                type: boolean
+                example: false
+              aupOnPage:
+                type: boolean
+                example: false                 
+              requireAupAcceptance:
+                type: boolean
+                example: false                
+              requireAupScrolling:
+                type: boolean
+                example: false
+              allowGuestLoginFromSelfregSuccessPage:
+                type: boolean
+                example: false                   
+          aupSettings:
+            type: object
+            properties:
+              includeAup:
+                type: boolean
+                example: true
+              useDiffAupForEmployees:
+                type: boolean
+                example: false
+              skipAupForEmployees:
+                type: boolean
+                example: false
+              requireScrolling:
+                type: boolean
+                example: false
+              displayFrequency:
+                type: string
+                example: FIRSTLOGIN
+          guestChangePasswordSettings:
+            type: object
+            properties:
+              allowChangePasswdAtFirstLogin:
+                type: boolean
+                example: true
+          guestDeviceRegistrationSettings:
+            type: object
+            properties:
+              autoRegisterGuestDevices:
+                type: boolean
+                example: true
+              allowGuestsToRegisterDevices:
+                type: boolean
+                example: false
+          byodSettings:
+            type: object
+            properties:
+              byodWelcomeSettings:
+                type: object
+                properties:
+                  enableBYOD:
+                    type: boolean
+                    example: false
+                  enableGuestAccess:
+                    type: boolean
+                    example: false
+                  requireMDM:
+                    type: boolean
+                    example: false
+                  includeAup:
+                    type: boolean
+                    example: false
+                  aupDisplay:
+                    type: string
+                    example: ONPAGE
+                  requireAupAcceptance:
+                    type: boolean
+                    example: false
+                  requireScrolling:
+                    type: boolean
+                    example: false
+              byodRegistrationSettings:
+                type: object
+                properties:
+                  showDeviceID:
+                    type: boolean
+                    example: false
+                  endPointIdentityGroupId:
+                    type: string
+                    example: aa13bb40-8bff-11e6-996c-525400b48521
+              byodRegistrationSuccessSettings:
+                properties:
+                  successRedirect:
+                    type: string
+                    example: AUTHSUCCESSPAGE
+                  redirectUrl:
+                    type: string
+                    example: www.cisco.com
+          postAccessBannerSettings:
+            type: object
+            properties:
+              includePostAccessBanner:
+                type: boolean
+                example: true
+          authSuccessSettings:
+            type: object
+            properties:
+              successRedirect:
+                type: string
+                example: AUTHSUCCESSPAGE
+              redirectUrl:
+                type: string
+                example: www.cisco.com
+          supportInfoSettings:
+            type: object
+            properties: 
+              includeSupportInfoPage:
+                type: boolean
+                example: false
+              includeMacAddr:
+                type: boolean
+                example: true
+              includeIpAddress:
+                type: boolean
+                example: true
+              includeBrowserUserAgent:
+                type: boolean
+                example: true
+              includePolicyServer:
+                type: boolean
+                example: true
+              includeFailureCode:
+                type: boolean
+                example: true
+              emptyFieldDisplay:
+                type: string
+                example: HIDE
+      customizations:
+        type: object
+        properties:
+          portalTheme:
+            type: object
+            properties:
+              id:
+                type: string
+                example: 9eb421c0-8c01-11e6-996c-525400b48521
+              name:
+                type: string
+                example: Default Blue theme
+              themeData:
+                type: string
+                example: Base 64 encoded string of Theme CSS file
+          portalTweakSettings:
+            type: object
+            properties:
+              bannerColor:
+                type: string
+                example: Banner Color from GUI
+              bannerTextColor:
+                type: string
+                example: Banner Text color code from GUI
+              pageBackgroundColor:
+                type: string
+                example: Color code from GUI
+              pageLabelAndTextColor:
+                type: string
+                example: Label and Text color from GUI
+          language:
+            type: object
+            properties:
+              viewLanguage:
+                type: string
+                example: English
+          globalCustomizations:
+            type: object
+            properties:
+              mobileLogoImage:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: base 64 encoded value of image
+              desktopLogoImage:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: base 64 encoded value of image                
+              bannerImage:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: base 64 encoded value of image
+              bannerTitle:
+                type: string
+                example: Guest Portal
+              contactText:
+                type: string
+                example: Contact Support
+              footerElement:
+                type: string
+                example: Footer Element
+          pageCustomizations:
+            type: object
+            properties:
+              data:
+                type: array
+                example: [
+                  {
+                    "key" : "ui_contact_ip_address_label", 
+                    "value" : "SVAgYWRkcmVzczo="
+                  }
+                  ]
+                items:
+                  properties:
+                    name:
+                      type: string                
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/selfregportal/4e8ade36-4048-472a-b345-632cc155acfc
+          type:
+            type: string
+            example: application/json  
+ 
+  patchRequest:
+    type: object
+    properties:
+      SelfRegPortal:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value  
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 2
+      resources:
+        type: array
+        example: [ 
+            {
+                "id": "cbd0e81d-8a3e-48bc-807e-a86cc359e36c",
+                "name": "ISE Portal (default)",
+                "description": "Ise Portal for saml based feature purpose",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/selfregportal/cbd0e81d-8a3e-48bc-807e-a86cc359e36c",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "4e8ade36-4048-472a-b345-632cc155acfc",
+                "name": "Self-Registered Guest Portal (default)",
+                "description": "Guests may create their own accounts and be assigned a username and password, or use their social login to access the network",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/selfregportal/4e8ade36-4048-472a-b345-632cc155acfc",
+                    "type": "application/json"
+                }
+            }
+        ]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "1.0"
+      supportedVersions:
+        type: string
+        example: "1.0"  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/selfregportal/versioninfo
+      type:
+        type: string
+        example: application/json

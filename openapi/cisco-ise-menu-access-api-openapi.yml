@@ -1,0 +1,451 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Rbac Catalog Menu Access API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://10.86.189.217:443
+  description: Inferred Url
+tags:
+- name: Menu Access
+paths:
+  /api/v1/rbac/menu-access:
+    get:
+      tags:
+      - Menu Access
+      summary: Get all the menu access created in Cisco ISE
+      description: Get all the menu access created in Cisco ISE, example super admin menu access,Policy admin menu Access
+      operationId: listAllMenuAccess
+      parameters:
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: size
+        in: query
+        description: Number of objects returned per page
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: sort
+        in: query
+        description: sort type - asc or desc
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - asc
+          - desc
+      - name: sortBy
+        in: query
+        description: sort column by which objects needs to be sorted
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: filter
+        in: query
+        description: '<div> <style type="text/css" scoped> .apiServiceTable td, .apiServiceTable th { padding: 5px 10px !important; text-align: left; } </style> <span> <b>Simple filtering</b> should be available through the filter query string parameter. The structure of a filter is a triplet of field operator and value separated with dots. More than one filter can be sent. The logical operator common to ALL filter criteria will be by default AND, and can be changed by using the <i>"filterType=or"</i> query string parameter. Each resource Data model description should specify if an attribute is a filtered field. </span> <br /> <table class="apiServiceTable"> <thead> <tr> <th>OPERATOR</th> <th>DESCRIPTION</th> </tr> </thead> <tbody> <tr> <td>EQ</td> <td>Equals</td> </tr> <tr> <td>NEQ</td> <td>Not Equals</td> </tr> <tr> <td>GT</td> <td>Greater Than</td> </tr> <tr> <td>LT</td> <td>Less Then</td> </tr> <tr> <td>STARTSW</td> <td>Starts With</td> </tr> <tr> <td>NSTARTSW</td> <td>Not Starts With</td> </tr> <tr> <td>ENDSW</td> <td>Ends With</td> </tr> <tr> <td>NENDSW</td> <td>Not Ends With</td> </tr> <tr> <td>CONTAINS</td> <td>Contains</td> </tr> <tr> <td>NCONTAINS</td> <td>Not Contains</td> </tr> </tbody> </table> </div>'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: filterType
+        in: query
+        description: The logical operator common to ALL filter criteria will be by default AND, and can be changed by using the parameter
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - AND
+          - OR
+      responses:
+        '200':
+          description: A paged array of menu access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuAccessResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+    put:
+      tags:
+      - Menu Access
+      summary: Update details of menu access present in Cisco ISE
+      description: Update details of menu access present in Cisco ISE based on the permissions required for specific tabs
+      operationId: updateMenuAccess
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuAccessRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Updated menu access successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Request passed is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Menu access not found.
+      security:
+      - BasicAuth: []
+    post:
+      tags:
+      - Menu Access
+      summary: Create menu access in Cisco ISE
+      description: Create  menu access in Cisco ISE based on the access permissions required to the tabs.
+      operationId: createMenuAccess
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuAccessRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Added menu access successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Request passed is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+      security:
+      - BasicAuth: []
+  /api/v1/rbac/menu-access/{name}:
+    get:
+      tags:
+      - Menu Access
+      summary: Get details of requested menu access available in Cisco ISE
+      description: Get details of requested menu access available in Cisco ISE, which has the details of all the accessible tabs
+      operationId: getMenuAccessByName
+      parameters:
+      - name: name
+        in: path
+        description: The name of the menu access
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuAccessByNameResponse'
+                exampleSetFlag: false
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Group already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - Menu Access
+      summary: Delete menu access in Cisco ISE
+      description: Delete menu access API in Cisco ISE is used to delete menu access based on the role fulfilled
+      operationId: deleteMenuAccess
+      parameters:
+      - name: name
+        in: path
+        description: The name of the menu access
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Menu access deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Group already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    MenuAccessByNameResponse:
+      title: MenuAccessByNameResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+        description:
+          type: string
+          description: A brief description of the menu access.
+          exampleSetFlag: true
+        menuAccessPrivileges:
+          type: array
+          description: A list of menu access permissions associated with this menu.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MenuAccessPermission'
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A message providing more information about the response.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the menu for which the access details are being requested.
+          exampleSetFlag: true
+      description: Response schema for retrieving menu access details by name, including its privileges and a status code/message.
+      exampleSetFlag: false
+    MenuAccessResponse:
+      title: MenuAccessResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+        menuAccessList:
+          type: array
+          description: A list of menu access entries.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MenuAccessData'
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A descriptive message related to the response.
+          exampleSetFlag: true
+      description: Response schema for menu access data, including the status code, message, and a list of menu access entries.
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The error code associated with the response. A non-zero code typically indicates an error.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A description of the error encountered.
+          exampleSetFlag: true
+      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
+      exampleSetFlag: false
+    MenuAccessPermission:
+      title: MenuAccessPermission
+      type: object
+      properties:
+        childPermissions:
+          type: array
+          description: A list of child permissions that are part of this permission.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MenuAccessPermission'
+            exampleSetFlag: false
+        id:
+          type: string
+          description: A unique identifier for the permission.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the permission.
+          exampleSetFlag: true
+        permission:
+          type: string
+          description: A string representing the type of permission, such as 'read', 'write', etc.
+          exampleSetFlag: true
+      description: Represents a menu access permission, including its own properties and any child permissions it might have.
+      exampleSetFlag: false
+    MenuAccessData:
+      title: MenuAccessData
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: A brief description of the menu access.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the menu access entry.
+          exampleSetFlag: true
+      description: Schema representing data about a menu access entry, including its name and description.
+      exampleSetFlag: false
+    BaseResponse:
+      title: BaseResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message detailing the response, indicating success or failure.
+          exampleSetFlag: true
+      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
+      exampleSetFlag: false
+    MenuAccessRequest:
+      title: MenuAccessRequest
+      required:
+      - menuAccessPrivileges
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: A brief description of the menu access request.
+          exampleSetFlag: true
+        menuAccessPrivileges:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MenuAccessPermission'
+            exampleSetFlag: false
+        name:
+          type: string
+          description: The name of the menu access request.
+          exampleSetFlag: true
+      description: Request schema for creating or updating menu access, including its name, description, and privileges.
+      exampleSetFlag: false

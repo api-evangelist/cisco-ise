@@ -1,0 +1,272 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Policy Device Administration - Dictionary Attributes List API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.9.91:443
+  description: Inferred Url
+tags:
+- name: Device Administration - Dictionary Attributes List
+paths:
+  /api/v1/policy/device-admin/dictionaries/authentication:
+    get:
+      tags:
+      - Device Administration - Dictionary Attributes List
+      summary: Network Access - Returns list of dictionary attributes for authentication.
+      description: Network Access - Returns list of dictionary attributes for authentication.
+      operationId: getDeviceAdminDictionariesAuthentication
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of DictionaryAttributeResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DictionaryAttributeListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+  /api/v1/policy/device-admin/dictionaries/authorization:
+    get:
+      tags:
+      - Device Administration - Dictionary Attributes List
+      summary: Network Access - Returns list of dictionary attributes for authorization.
+      description: Network Access - Returns list of dictionary attributes for authorization.
+      operationId: getDeviceAdminDictionariesAuthorization
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of DictionaryAttributeResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DictionaryAttributeListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+  /api/v1/policy/device-admin/dictionaries/policyset:
+    get:
+      tags:
+      - Device Administration - Dictionary Attributes List
+      summary: Network Access - Returns list of dictionary attributes for policyset.
+      description: Network Access - Returns list of dictionary attributes for policyset.
+      operationId: getDeviceAdminDictionariesPolicyset
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of DictionaryAttributeResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DictionaryAttributeListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    DictionaryAttribute:
+      title: DictionaryAttribute
+      required:
+      - dataType
+      - internalName
+      - name
+      type: object
+      properties:
+        allowedValues:
+          type: array
+          description: all of the allowed values for the dictionary attribute
+          example: '[{"key":"key1"},{"value":"value1"},{"isDefault":true}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/DictionaryAttributeAllowedValues'
+            exampleSetFlag: false
+        dataType:
+          type: string
+          description: the data type for the dictionary attribute
+          example: IPV6
+          exampleSetFlag: true
+          enum:
+          - BOOLEAN
+          - DATE
+          - FLOAT
+          - INT
+          - IP
+          - IPV4
+          - IPV6
+          - IPV6INTERFACE
+          - IPV6PREFIX
+          - LONG
+          - OCTET_STRING
+          - STRING
+          - UINT64
+          - UNIT32
+        description:
+          type: string
+          description: The description of the Dictionary attribute
+          example: a dictionary attribute description
+          exampleSetFlag: true
+        dictionaryName:
+          type: string
+          description: the name of the dictionary which the dictionary attribute belongs to
+          example: my dictionary
+          exampleSetFlag: true
+        directionType:
+          type: string
+          description: the direction for the useage of the dictionary attribute
+          readOnly: true
+          example: BOTH
+          exampleSetFlag: true
+          enum:
+          - BOTH
+          - IN
+          - NONE
+          - OUT
+        id:
+          type: string
+          description: Identifier for the dictionary attribute
+          format: uuid
+          readOnly: true
+          example: 12345678-f0e7-456b-a2d1-876543320b11
+          exampleSetFlag: true
+        internalName:
+          type: string
+          description: the internal name of the dictionary attribute
+          example: my dictionary attribute internal name
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The dictionary attribute's name
+          example: my dictionary attribute
+          exampleSetFlag: true
+      description: Dictionary Attribute format
+      exampleSetFlag: false
+    DictionaryAttributeListResponseEntity:
+      title: DictionaryAttributeListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"allowedValues":[{"key":"key1","value":"value1","isDefault":true}],"dataType":"IPV6","description":"a dictionary attribute description","dictionaryName":"my dictionary","directionType":"BOTH","id":"12345678-f0e7-456b-a2d1-876543320b11","internalName":"my dictionary attribute internal name","name":"my dictionary attribute"}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/DictionaryAttribute'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    DictionaryAttributeAllowedValues:
+      title: DictionaryAttributeAllowedValues
+      required:
+      - key
+      - value
+      type: object
+      properties:
+        isDefault:
+          type: boolean
+          description: true if this key value is the default between the allowed values of the dictionary attribute
+          example: true
+          exampleSetFlag: true
+        key:
+          type: string
+          exampleSetFlag: true
+        value:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+  securitySchemes:
+    BasicAuth:
+      type: http
+      description: Basic authorization
+      scheme: basic

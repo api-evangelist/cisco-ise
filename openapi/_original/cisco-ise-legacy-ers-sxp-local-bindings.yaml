@@ -1,0 +1,450 @@
+swagger: '2.0'
+info:
+  description: "SXP Local Bindings API allows clients to add, get, update and delete SGT static mappings.\n\n<h2>Revision\
+    \ History</h2>\n<table font-family:monospace> \n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid\
+    \ #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td><td\
+    \ colspan =\"2\"><b>Revision Modification</b></td></tr>\n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid\
+    \ #CCCCCC .75pt;background:#DEEDF7'><td></td><td></td><td></td><td></b></td><td><b>Attribute</b></td><td><b>Description</b></td></tr>\n\
+    <tr><td>0</td><td>1.0</td><td>2.0</td><td>Initial Cisco ISE Version</td><td></td><td></td></tr>\n<tr valign=top style='border-bottom:solid\
+    \ #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td>1</td><td>1.1</td><td >3.0</td><td>Cisco ISE\
+    \ 3.0 model changes</td><td>vns</td><td>Added new property for the Virtual Networks</td></tr>\n</table>\n<br><br>\n\n\
+    <h2>Resource Definition</h2>\n<table>\n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example\
+    \ Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td></tr>\n\
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource\
+    \ UUID value</td><td>f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69</td></tr>\n<tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource\
+    \ Description</td><td></td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>bindingName</td><td>String</td><td>No</td><td>This\
+    \ field is depricated from Cisco ISE 3.0</td><td></td></tr>\n<tr><td style='font-family:monospace'>ipAddressOrHost</td><td>String</td><td>Yes</td><td>IP\
+    \ address for static mapping (hostname is not supported)</td><td>ipAddressOrHost</td></tr>\n<tr valign=top style='background:#f8f8f8'><td\
+    \ style='font-family:monospace'>sgt</td><td>String</td><td>Yes</td><td>SGT name or ID</td><td>sgt_id</td></tr>\n<tr><td\
+    \ style='font-family:monospace'>sxpVpn</td><td>String</td><td>Yes</td><td>List of SXP Domains, separated with comma. At\
+    \ least one of: sxpVpn or vns should be defined</td><td>Sxp Vpn Name</td></tr>\n<tr valign=top style='border-bottom:solid\
+    \ #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td style='font-family:monospace'>vns</td><td>String</td><td>Yes</td><td>List\
+    \ of Virtual Networks, separated with comma. At least one of: sxpVpn or vns should be defined</td><td>virtualNetwork</td></tr>\n\
+    </table>\n"
+  version: 1.0.0
+  title: SXP Local Bindings
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: sxplocalbindings
+paths:
+  /ers/config/sxplocalbindings/{id}:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Get SXP local binding by ID
+      description: <p>This API allows the client to get a SXP local binding by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/sxplocalbindings'
+    put:
+      tags:
+      - sxplocalbindings
+      summary: Update SXP local binding
+      description: <p>This API allows the client to update a SXP local binding.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Update' can be used within Bulk Request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/sxplocalbindings'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'
+    delete:
+      tags:
+      - sxplocalbindings
+      summary: Delete SXP local binding
+      description: <p>This API deletes a SXP local binding.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Delete' can be used within Bulk Request
+      responses:
+        204:
+          description: No Content
+  /ers/config/sxplocalbindings:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Get all SXP local bindings
+      description: <p>This API allows the client to get all the SXP local bindings.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'
+    post:
+      tags:
+      - sxplocalbindings
+      summary: Create SXP local binding
+      description: <p>This API creates a SXP local binding.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Create' can be used within Bulk Request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/sxplocalbindings'
+      responses:
+        201:
+          description: Created
+  /ers/config/sxplocalbindings/versioninfo:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Get SXP local bindings version information
+      description: <p>This API helps to retrieve the version information related to the SXP local bindings.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+  /ers/config/sxplocalbindings/submit:
+    put:
+      tags:
+      - sxplocalbindings
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/bulkrequest'
+      responses:
+        202:
+          description: Accepted
+  /ers/config/sxplocalbindings/bulk/{bulkid}:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: bulkid
+        in: path
+        type: string
+        required: true
+        description: 'The bulk ID is a dynamically generated value.<br>For example :- ‘615360357673’
+
+          '
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/bulkstatus'
+definitions:
+  sxplocalbindings:
+    type: object
+    properties:
+      ERSSxpLocalBindings:
+        $ref: '#/definitions/ERSSxpLocalBindings'
+  ERSSxpLocalBindings:
+    type: object
+    properties:
+      id:
+        type: string
+        example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+      ipAddressOrHost:
+        type: string
+        example: ipAddressOrHost
+      sxpVpn:
+        type: string
+        example: Sxp Vpn Name
+      sgt:
+        type: string
+        example: sgt_id
+      vns:
+        type: string
+        example: virtualNetwork
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+          type:
+            type: string
+            example: application/json
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+        $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+  SearchResult:
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example:
+        - id: ' f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+            type: application/json
+        items:
+          properties:
+            name:
+              type: string
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '1.1'
+      supportedVersions:
+        type: string
+        example: 1.0,1.1
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/sxplocalbindings/versioninfo
+      type:
+        type: string
+        example: application/json
+  bulkrequest:
+    type: object
+    properties:
+      LocalBindingBulkRequest:
+        $ref: '#/definitions/LocalBindingBulkRequest'
+  LocalBindingBulkRequest:
+    type: object
+    properties:
+      operationType:
+        type: string
+        example: create
+      resourceMediaType:
+        type: string
+        example: vnd.com.cisco.ise.sxp.sxplocalbindings.1.0+xml
+  bulkstatus:
+    type: object
+    properties:
+      BulkStatus:
+        $ref: '#/definitions/BulkStatus'
+  BulkStatus:
+    type: object
+    properties:
+      bulkId:
+        type: string
+        example: 1615791703003
+      mediaType:
+        type: string
+        example: ''
+      executionStatus:
+        type: string
+        example: COMPLETED
+      operationType:
+        type: string
+        example: create
+      startTime:
+        type: string
+        example: Mon Mar 15 07:01:43 UTC 2021
+      resourcesCount:
+        type: integer
+        example: 5
+      successCount:
+        type: integer
+        example: 5
+      failCount:
+        type: integer
+        example: 0
+      resourcesStatus:
+        type: array
+        example:
+        - id: '1234454324'
+          name: resource1
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '2343242342'
+          name: resource2
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '4564566456'
+          name: resource3
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '6544566455'
+          name: resource4
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        items:
+          properties:
+            name:
+              type: string

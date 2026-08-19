@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Trustsec COA Push API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Trustsec COA Push
+paths:
+  /api/v1/trustsec/coa/push:
+    put:
+      tags:
+      - Trustsec COA Push
+      summary: Push Trustsec COA to the network devices
+      description: Push Trustsec COA to the network devices
+      operationId: pushCOA
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/COAPushRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Trustsec COA Push request initiated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/COAPushResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    COAPushRequest:
+      title: COAPushRequest
+      type: object
+      properties:
+        coaType:
+          type: string
+          description: Type of trustsec CoA message to be sent to network-devices.
+          exampleSetFlag: true
+          enum:
+          - ALL
+          - ENV
+          - POLICY
+          - SGACL
+          - SGT
+          - STEERING_CONTRACT
+          - STEERING_POLICY
+        matrixId:
+          type: string
+          description: UUID of the Matrix
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+      description: Request object for Trustsec COA trigger to network-devices
+      exampleSetFlag: false
+    COAPushResponse:
+      title: COAPushResponse
+      type: object
+      properties:
+        message:
+          type: string
+          description: Response message for the COA trigger request
+          example: COA trigger request initiated successfully
+          exampleSetFlag: true
+        propagationId:
+          type: string
+          description: Identifier for the COA trigger request
+          example: '10'
+          exampleSetFlag: true
+        status:
+          type: string
+          description: Status of the COA trigger request
+          example: INITIATED
+          exampleSetFlag: true
+          enum:
+          - BUSY
+          - DONE
+          - FAILED
+          - INITIATED
+          - NO_CTS_DEVICE_AVAILABLE
+          - NO_REQUEST_AVAILABLE
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Response object for Trustsec COA trigger to network-devices
+      exampleSetFlag: false

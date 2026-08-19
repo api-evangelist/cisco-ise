@@ -1,0 +1,703 @@
+swagger: '2.0'
+info:
+  description: |
+    Authorization Profile API allows the client to add, delete, update, search and perform actions on authorization profiles. 
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td><td colspan ="2"><b>Revision Modification</b></td></tr>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td></td><td></td><td></td><td></b></td><td><b>Attribute</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.2</td><td>Initial Cisco ISE Version</td></tr>
+    <tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td rowspan ="17">1</td><td rowspan ="17">1.1</td><td rowspan ="17">2.3</td><td rowspan ="17">Support new attributes under common tasks</td><td>accessType</td><td>Added Attribute 'accessType'. Default value:'ACCESS_ACCEPT', additional values: 'ACCESS_REJECT'</td><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>authzProfileType</td><td>Added Attribute 'authzProfileType' to differentiate between types of authorization profiles. Default value:'SWITCH' (used for Standard Authorization Profiles) , additional values:'TACACS', 'TRUSTSEC'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>reauth</td><td>Added Attribute 'reauth' to determine reauthentication policy</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>webRedirection</td><td>Added Attribute 'webRedirection' to support selection of portal redirection</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>acl</td><td>Added String Attribute 'acl'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>trackMovement</td><td>Added Boolean Attribute 'trackMovement'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>serviceTemplate</td><td>Added Boolean Attribute 'serviceTemplate'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>easywiredSessionCandidate</td><td>Added Boolean Attribute 'easywiredSessionCandidate'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>daclName</td><td>Added String Attribute 'daclName'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>voiceDomainPermission</td><td>Added Boolean Attribute 'voiceDomainPermission'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>neat</td><td>Added Boolean Attribute 'neat'</td></tr></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>webAuth</td><td>Added Boolean Attribute 'webAuth'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>autoSmartPort</td><td>Added String Attribute 'autoSmartPort'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>interfaceTemplate</td><td>Added String Attribute 'interfaceTemplate'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>avcProfile</td><td>Added String Attribute 'avcProfile'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>macSecPolicy</td><td>Added Attribute 'macSecPolicy'. Possible values:'MUST_SECURE', 'MUST_NOT_SECURE', 'SHOULD_SECURE'</td></tr><tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; border-bottom:solid #CCCCCC 1.0pt;background:#f8f8f8'><td>asaVpn</td><td>Added String Attribute 'asaVpn'. String represent a RADIUS dictionary attribute</td></tr></tr>
+    <tr><td rowspan ="2">2</td><td rowspan ="2">1.2</td><td rowspan ="2">2.4</td><td rowspan ="2">Support Advanced Attributes</td><td>advancedAttributes</td><td>Added Attribute 'advancedAttributes' to support advanced attributes configuration</td><tr><td>profileName</td><td>Added Attribute 'profileName' to support Network Device Profiles</td></tr></tr>
+    <tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td rowspan ="3">3</td><td rowspan ="3">1.3</td><td rowspan ="3">2.6</td><td rowspan ="3">Support new attributes under common tasks</td><td>ipv6DaclName</td><td>Added String Attribute 'ipv6DaclName'</td><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>airespaceIPv6ACL</td><td>Added String Attribute 'airespaceIPv6ACL'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;border-bottom:solid #CCCCCC 1.0pt; background:#f8f8f8'><td>ipv6ACLFilter</td><td>Added String Attribute 'ipv6ACLFilter'</td></tr></tr>
+    <tr valign=top style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt'><td>4</td><td>1.4</td><td>3.1</td><td >Support new attributes under Common Tasks</td><td>uniqueIdentifier</td><td>Added String Attribute 'uniqueIdentifier'. String represent a RADIUS dictionary attribute</td></tr></tr>
+    <tr valign=top style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td>5</td><td>1.5</td><td>3.2</td><td>Added Patch operation</td></tr>
+    <tr valign=top style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt'><td>6</td><td>1.6</td><td>3.4</td><td >Support new attributes under Common Tasks</td><td>tagID</td><td>Added string attribute of tagID for rightHandSideAttribueValue. will only be applicable for rhs AdvancedDictionaryAttribute type when LHS is Radius dictionary attribute with name starting with 'Tunnel-'</td></tr></tr>
+    <tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td rowspan ="3">7</td><td rowspan ="3">1.7</td><td rowspan ="3">3.4 Patch 1</td><td rowspan ="3">Support new attributes for Reauthentication</td><td>reauthType</td><td>Added Enum Attribute 'reauthType' to specify the type of reauthentication. Default value: 'TIMER', additional value: 'EXPIRATION_DATE'</td><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>dictionaryName</td><td>Added Attribute 'dictionaryName' of type 'string' to specify dictionary name for the expiration date for reauthentication when 'reauthType' is 'EXPIRATION_DATE'</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;border-bottom:solid #CCCCCC 1.0pt; background:#f8f8f8'><td>attributeName</td><td>Added Attribute 'expirationDate' of type 'string' to specify attribute name for the expiration date for reauthentication when 'reauthType' is 'EXPIRATION_DATE'</td></tr></tr>
+    </table>
+    <br><br>
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td><td>name</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID value</td><td></td><td>id</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td><td>description</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>vlan </td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- nameID</td><td>String</td><td>Yes</td><td></td><td></td><td>vlanName</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- tagID</td><td>Integer</td><td>Yes</td><td>Valid range is 0-31</td><td></td><td>1</td></tr>
+    <tr><td style='font-family:monospace'>airespaceACL</td><td>String</td><td>No</td><td></td><td></td><td>ACL</td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>webRedirection</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr style='background:#f8f8f8'><td style='font-family:monospace'>- WebRedirectionType</td><td>String</td><td>Yes</td><td>Value MUST be one of the following:CentralizedWebAuth, HotSpot, NativeSupplicanProvisioning, ClientProvisioning. The WebRedirectionType must fit the portalName</td><td></td><td>CentralizedWebAuth</td></tr>
+    <tr style='background:#f8f8f8'><td style='font-family:monospace'>- acl</td><td>String</td><td>Yes</td><td></td><td></td><td>acl</td></tr>
+    <tr style='background:#f8f8f8'><td style='font-family:monospace'>- portalName</td><td>String</td><td>Yes</td><td>A portal that exist in the DB and fits the WebRedirectionType</td><td></td><td>Sponsored Guest Portal (default)</td></tr>
+    <tr style='background:#f8f8f8'><td style='font-family:monospace'>- staticIPHostNameFQDN</td><td>String</td><td>No</td><td></td><td></td><td>10.56.54.200</td></tr>
+    <tr style='background:#f8f8f8'><td style='font-family:monospace'>- displayCertificatesRenewalMessages</td><td>Boolean</td><td>No</td><td>The displayCertificatesRenewalMessages is mandatory when 'WebRedirectionType' value is 'CentralizedWebAuth'. For all other 'WebRedirectionType' values the field must be ignored</td><td>true</td><td></td></tr> 
+    <tr><td style='font-family:monospace'>accessType</td><td>Enum</td><td>No</td><td>Allowed Values: <br>- ACCESS_ACCEPT, <br>- ACCESS_REJECT</td><td>ACCESS_ACCEPT</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>authzProfileType</td><td>Enum</td><td>No</td><td>Allowed Values:<br>- SWITCH,<br> - TRUSTSEC,<br>- TACACS<br> SWITCH is used for Standard Authorization Profiles</td><td>SWITCH</td><td></td></tr>
+    <tr><td style='font-family:monospace'>profileName</td><td>String</td><td>No</td><td></td><td>Cisco</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>acl</td><td>String</td><td>No</td><td></td><td></td><td>aclfilter</td></tr>
+    <tr><td style='font-family:monospace'>daclName</td><td>String</td><td>No</td><td></td><td></td><td>PERMIT_ALL_IPV4_TRAFFIC</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>autoSmartPort</td><td>String</td><td>No</td><td></td><td></td><td>autoSmartPort</td></tr>
+    <tr><td style='font-family:monospace'>interfaceTemplate</td><td>Sring</td><td>No</td><td></td><td></td><td>interfaceTemplate</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>ipv6ACLFilter</td><td>String</td><td>No</td><td></td><td></td><td>ipv6ACLFilter</td></tr>
+    <tr><td style='font-family:monospace'>avcProfile</td><td>String</td><td>No</td><td></td><td></td><td>avcProfile</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>asaVpn</td><td>String</td><td>No</td><td></td><td></td><td>Cisco:cisco-call-type</td></tr>
+    <tr><td style='font-family:monospace'>trackMovement</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>serviceTemplate</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr><td style='font-family:monospace'>easywiredSessionCandidate</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>voiceDomainPermission</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr><td style='font-family:monospace'>neat</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>webAuth</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr><td style='font-family:monospace'>macSecPolicy</td><td>Enum</td><td>No</td><td>Allowed Values:<br>- MUST_SECURE, <br>- MUST_NOT_SECURE, <br>- SHOULD_SECURE</td><td></td><td>MUST_SECURE</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>reauth </td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- connectivity</td><td>Enum</td><td>Yes</td><td>Allowed Values: <br>- DEFAULT, <br>- RADIUS_REQUEST</td><td></td><td>RADIUS_REQUEST</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- reauthType</td><td>Enum</td><td>No</td><td>Allowed Values: TIMER, EXPIRATION_DATE. Specifies the type of reauthentication. TIMER is used for time-based reauthentication, while EXPIRATION_DATE is used for dynamic date-based reauthentication.</td><td></td><td>TIMER</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- dictionaryName</td><td>String</td><td>Yes</td><td>The name of the dictionary containing the attribute.</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- attributeName</td><td>String</td><td>Yes</td><td>The name of the attribute within the dictionary containing the value. value should be date based in ISO 8601 form with timezone offset. For example, 2035-12-31T23:59:59-08:00.</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- timer</td><td>Integer</td><td>No</td><td>Specifies the reauthentication timer in seconds. Valid range is 1-1073741823</td><td></td><td>1800</td></tr>
+    <tr><td style='font-family:monospace'>advancedAttributes</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>- leftHandSideDictionaryAttribue</td><td>List</td><td>Yes</td><td>Left side Dictionary and Attribute</td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>&nbsp - dictionaryName</td><td>String</td><td>Yes</td><td>Dictionary name</td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>&nbsp - attributeName</td><td>String</td><td>Yes</td><td>Attribute name</td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>- rightHandSideAttribueValue</td><td>LIst</td><td>Yes</td><td>Attribute value can be of type AttributeValue or AdvancedDictionaryAttribute. For AttributeValue the value is String, For AdvancedDictionaryAttribute the value is dictionaryName and attributeName properties, for RADIUS Dictionary with attribute name starting with 'Tunnel-' there is also tagID property which is a number between 0-31.</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>ipv6DaclName</td><td>String</td><td>No</td><td></td><td></td><td>PERMIT_ALL_IPV6_TRAFFIC</td></tr>
+    <tr style='border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>airespaceIPv6ACL</td><td>String</td><td>No</td><td></td><td></td><td>ACL6</td></tr>
+    </table>
+    
+  version: 1.0.0
+  title: Authorization Profile
+
+tags:
+- name: authorizationprofile
+
+
+paths:
+  /ers/config/authorizationprofile/name/{name}:
+    get:
+      tags: 
+      - authorizationprofile
+      summary: Get authorization profile by name
+      description:
+        <p>This API allows the client to get an authorization profile by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.authorizationprofile.1.3
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/profile_name'
+            
+  /ers/config/authorizationprofile/{id}:
+    get:
+      tags: 
+      - authorizationprofile
+      summary: Get authorization profile by ID
+      description:
+        <p>This API allows the client to get an authorization profile by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.authorizationprofile.1.3
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/profile'
+    patch:
+      tags: 
+      - authorizationprofile
+      summary: Update part of the authorization profile by ID
+      description:
+        <p>This API allows the user to update part of the authorization profile by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.authorizationprofile.1.3
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/patchRequest'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/profile'  
+            
+    put:
+      tags:
+      - authorizationprofile
+      summary: Update authorization profile
+      description:  <p>This API allows the client to update an authorization profile.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.authorizationprofile.1.3
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/profile'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+
+    delete:
+      tags:
+      - authorizationprofile
+      summary: Delete authorization profile
+      description:
+        <p>This API deletes an authorization profile.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.authorizationprofile.1.3
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        
+      responses: 
+        204:
+          description: No content    
+          
+  /ers/config/authorizationprofile:
+    get:
+      tags: 
+      - authorizationprofile
+      summary: Get all authorization profiles
+      description:
+        <p>This API allows the client to get all authorization profiles.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.authorizationprofile.1.3
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+
+    post:
+      tags:
+      - authorizationprofile
+      summary: Create authorization profiles
+      description:
+        <p>This API creates an authorization profile.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.authorizationprofile.1.3
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/profile'
+      responses:
+        201:
+          description: Created
+             
+  /ers/config/authorizationprofile/versioninfo:
+    get:
+      tags:
+      - authorizationprofile
+      summary: Get authorization profile version information
+      description:
+        <p>This API helps to retrieve the version information related to the authorization profile.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+            
+definitions:
+  profile_name:
+    type: object
+    properties:
+      AuthorizationProfile:
+        $ref: '#/definitions/AuthorizationProfile_name'
+        
+  AuthorizationProfile_name:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 5cd403c2-255b-4336-8eb8-77f1b4b01d2d
+      name:
+        type: string
+        example: name
+      description:
+        type: string
+        example: description
+      advancedAttributes:
+        type: array
+        example: [{leftHandSideDictionaryAttribue : {"AdvancedAttributeValueType" : "AdvancedDictionaryAttribute", "dictionaryName" : "Cisco", "attributeName" : "cisco-call-filter"}, rightHandSideAttribueValue : {                "AdvancedAttributeValueType" : "AttributeValue","value" : "23"}}]
+        items:
+          properties:
+            name:
+              type: string
+      accessType:
+        type: string
+        example: ACCESS_ACCEPT
+      authzProfileType:
+        type: string
+        example: SWITCH
+      vlan:
+        type: object
+        properties:
+          nameID:
+            type: string
+            example: vlanName
+          tagID:
+            type: integer
+            example: 1
+      reauth:
+        type: object
+        properties:
+          timer:
+            type: integer
+            example: 1000
+          connectivity:
+            type: string
+            example: RADIUS_REQUEST
+          reauthType:
+            type: string
+            example: TIMER
+      airespaceACL:
+        type: string
+        example: ACL
+      airespaceIPv6ACL:
+        type: string
+        example: ACL6
+      webRedirection:
+        type: object
+        properties:
+          WebRedirectionType:
+            type: string
+            example: CentralizedWebAuth
+          acl:
+            type: string
+            example: acl
+          portalName:
+            type: string
+            example: Sponsored Guest Portal (default)
+          staticIPHostNameFQDN:
+            type: string
+            example: 10.56.54.200
+          displayCertificatesRenewalMessages:
+            type: boolean
+            example: true
+      acl:
+        type: string
+        example: aclfilter
+      trackMovement:
+        type: boolean
+        example: false
+      agentlessPosture:
+        type: boolean
+        example: false
+      serviceTemplate:
+        type: boolean
+        example: false
+      easywiredSessionCandidate:
+        type: boolean
+        example: false
+      daclName:
+        type: string
+        example: PERMIT_ALL_IPV4_TRAFFIC
+      voiceDomainPermission:
+        type: boolean
+        example: false
+      neat:
+        type: boolean
+        example: false
+      webAuth:
+        type: boolean
+        example: false
+      autoSmartPort:
+        type: string
+        example: autoSmartPort
+      interfaceTemplate:
+        type: string
+        example: interfaceTemplate
+      ipv6ACLFilter:
+        type: string
+        example: ipv6ACLFilter
+      avcProfile:
+        type: string
+        example: avcProfile
+      macSecPolicy:
+        type: string
+        example: MUST_SECURE
+      asaVpn:
+        type: string
+        example: Cisco:cisco-call-type
+      profileName:
+        type: string
+        example: Cisco
+      ipv6DaclName:
+        type: string
+        example: PERMIT_ALL_IPV6_TRAFFIC
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/authorizationprofile/name/name
+          type:
+            type: string
+            example: application/json
+  profile:
+    type: object
+    properties:
+      AuthorizationProfile:
+        $ref: '#/definitions/AuthorizationProfile'
+        
+  AuthorizationProfile:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 5cd403c2-255b-4336-8eb8-77f1b4b01d2d
+      name:
+        type: string
+        example: name
+      description:
+        type: string
+        example: description
+      advancedAttributes:
+        type: array
+        example: [{leftHandSideDictionaryAttribue : {"AdvancedAttributeValueType" : "AdvancedDictionaryAttribute", "dictionaryName" : "Cisco", "attributeName" : "cisco-call-filter"}, rightHandSideAttribueValue : {                "AdvancedAttributeValueType" : "AttributeValue","value" : "23"}}]
+        items:
+          properties:
+            name:
+              type: string
+      accessType:
+        type: string
+        example: ACCESS_ACCEPT
+      authzProfileType:
+        type: string
+        example: SWITCH
+      vlan:
+        type: object
+        properties:
+          nameID:
+            type: string
+            example: vlanName
+          tagID:
+            type: integer
+            example: 1
+      reauth:
+        type: object
+        properties:
+          timer:
+            type: integer
+            example: 1000
+          connectivity:
+            type: string
+            example: RADIUS_REQUEST
+          reauthType:
+            type: string
+            example: TIMER
+      airespaceACL:
+        type: string
+        example: ACL
+      airespaceIPv6ACL:
+        type: string
+        example: ACL6
+      webRedirection:
+        type: object
+        properties:
+          WebRedirectionType:
+            type: string
+            example: CentralizedWebAuth
+          acl:
+            type: string
+            example: acl
+          portalName:
+            type: string
+            example: Sponsored Guest Portal (default)
+          staticIPHostNameFQDN:
+            type: string
+            example: 10.56.54.200
+          displayCertificatesRenewalMessages:
+            type: boolean
+            example: true
+      acl:
+        type: string
+        example: aclfilter
+      trackMovement:
+        type: boolean
+        example: false
+      agentlessPosture:
+        type: boolean
+        example: false
+      serviceTemplate:
+        type: boolean
+        example: false
+      easywiredSessionCandidate:
+        type: boolean
+        example: false
+      daclName:
+        type: string
+        example: PERMIT_ALL_IPV4_TRAFFIC
+      voiceDomainPermission:
+        type: boolean
+        example: false
+      neat:
+        type: boolean
+        example: false
+      webAuth:
+        type: boolean
+        example: false
+      autoSmartPort:
+        type: string
+        example: autoSmartPort
+      interfaceTemplate:
+        type: string
+        example: interfaceTemplate
+      ipv6ACLFilter:
+        type: string
+        example: ipv6ACLFilter
+      avcProfile:
+        type: string
+        example: avcProfile
+      macSecPolicy:
+        type: string
+        example: MUST_SECURE
+      asaVpn:
+        type: string
+        example: Cisco:cisco-call-type
+      profileName:
+        type: string
+        example: Cisco
+      ipv6DaclName:
+        type: string
+        example: PERMIT_ALL_IPV6_TRAFFIC
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/authorizationprofile/984b81c0-8c01-11e6-996c-525400b48521
+          type:
+            type: string
+            example: application/json
+            
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 9
+      resources:
+        type: array
+        example: [{"id" : "984b81c0-8c01-11e6-996c-525400b48521", "name" : "Blackhole_Wireless_Access", "description" : "Default profile used to blacklist wireless devices. Ensure that you configure a BLACKHOLE ACL on the Wireless LAN Controller.", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/authorizationprofile/984b81c0-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "982ef910-8c01-11e6-996c-525400b48521", "name" : "Cisco_IP_Phones", "description" : "Default profile used for Cisco Phones.", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/authorizationprofile/982ef910-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "b175b6f0-7a56-11eb-bf1f-0050568fa723", "name" : "Cisco_Temporal_Onboard", "description" : "Onboard the device with Cisco temporal agent", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/authorizationprofile/b175b6f0-7a56-11eb-bf1f-0050568fa723", "type" : "application/json"}}, {"id" : "9859b290-8c01-11e6-996c-525400b48521", "name" : "Cisco_WebAuth", "description" : "Default Profile used to redirect users to the CWA portal.", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/authorizationprofile/9859b290-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "6ef23ff0-8bff-11e6-996c-525400b48521", "name" : "DenyAccess", "description" : "Default Profile with access type as Access-Reject", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/authorizationprofile/6ef23ff0-8bff-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "98630160-8c01-11e6-996c-525400b48521", "name" : "NSP_Onboard", "description" : "Onboard the device with Native Supplicant Provisioning", "link" : {"rel" : "self" ,  "href" : "<isehttps://<ise-ip>:9060/ers/config/authorizationprofile/98630160-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "98408540-8c01-11e6-996c-525400b48521", "name" : "Non_Cisco_IP_Phones", "description" : "Default Profile used for Non Cisco Phones.", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/authorizationprofile/98408540-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "6eed36e0-8bff-11e6-996c-525400b48521", "name" : "PermitAccess", "description" : "Default Profile with access type as Access-Accept", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/authorizationprofile/6eed36e0-8bff-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "d886abe0-7cc8-11eb-ad58-005056926583", "name" : "UDN", "description" : "Default profile used for UDN.", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/authorizationprofile/d886abe0-7cc8-11eb-ad58-005056926583", "type" : "application/json"}}]
+        items:
+          properties:
+            name:
+              type: string
+  patchRequest:
+    type: object
+    properties:
+      AuthorizationProfile:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value            
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: 1.4
+      supportedVersions:
+        type: string
+        example: 1.0,1.1,1.2,1.3,1.4  
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/authorizationprofile/versioninfo
+      type:
+        type: string
+        example: application/json

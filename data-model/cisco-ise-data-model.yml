@@ -1,0 +1,250 @@
+generated: '2026-08-19'
+method: derived
+source: openapi/_original/ (103 documents)
+note: 'Derived from the schema graph of Cisco''s own published documents. Cisco ISE has no single object reference page, and
+  the two surfaces model the same world twice: the ERS documents use XML-derived ERS resource shapes (with an id, a name and
+  a link block), while the Open API documents use JSON wrappers of the form <Resource>Response / <Resource>ResponseWrapper.
+  Relationships below are the ones the specs express explicitly through id-reference fields; they are not inferred from naming
+  alone where the spec is silent.'
+identifiers:
+  primary: id — a UUID on ERS resources
+  secondary: name — unique within a resource type; many ERS resources expose a parallel /name/{name} lookup
+  endpoint_identity: MAC address is the natural key for endpoint resources
+core_entities:
+- name: NetworkDevice
+  domain: network access
+  spec: ERS
+  description: A RADIUS/TACACS+ client — switch, WLC, VPN gateway or firewall. Carries shared secrets, TACACS+ settings and
+    group membership.
+- name: NetworkDeviceGroup
+  domain: network access
+  spec: ERS
+  description: Hierarchical grouping of network devices used as a policy condition.
+- name: Endpoint
+  domain: endpoints
+  spec: ERS + Open API
+  description: A device on the network, keyed by MAC. Carries profiling attributes, identity-group membership and custom attributes.
+- name: EndpointIdentityGroup
+  domain: endpoints
+  spec: ERS
+  description: Static or dynamic grouping of endpoints.
+- name: InternalUser
+  domain: identity
+  spec: ERS
+  description: A locally stored user. From ISE 3.6 Beta carries ssh_keys for passwordless TACACS+.
+- name: IdentityGroup
+  domain: identity
+  spec: ERS
+  description: User grouping used in authorization conditions.
+- name: ActiveDirectory
+  domain: identity
+  spec: ERS
+  description: An AD join point — domains, groups, attributes and session stitching.
+- name: LDAP
+  domain: identity
+  spec: ERS
+  description: An LDAP identity source definition.
+- name: RestIdStore
+  domain: identity
+  spec: ERS
+  description: A REST-based external identity store, with user/device attributes and predefined regexes.
+- name: IdentitySequence
+  domain: identity
+  spec: ERS
+  description: Ordered list of identity stores consulted during authentication.
+- name: AuthorizationProfile
+  domain: policy
+  spec: ERS
+  description: The permission set returned on a successful authorization — VLAN, dACL, SGT, reauth timers.
+- name: PolicySet
+  domain: policy
+  spec: Open API
+  description: A RADIUS or TACACS+ policy set containing authentication rules, authorization rules, exception rules and global
+    exception rules.
+- name: Condition
+  domain: policy
+  spec: Open API
+  description: Library, network, time and date conditions referenced by policy rules.
+- name: AllowedProtocols
+  domain: policy
+  spec: ERS
+  description: The EAP/protocol selection applied by an authentication rule.
+- name: DownloadableAcl
+  domain: policy
+  spec: ERS
+  description: A dACL pushed to the network device on authorization.
+- name: SecurityGroup (SGT)
+  domain: trustsec
+  spec: ERS + Open API
+  description: A TrustSec security group tag.
+- name: SecurityGroupAcl (SGACL)
+  domain: trustsec
+  spec: ERS
+  description: The ACL enforced between security groups. From ISE 3.5 carries a TRAFFIC_STEERING type alongside TRUSTSEC.
+- name: EgressMatrixCell
+  domain: trustsec
+  spec: ERS
+  description: One cell of the TrustSec policy matrix binding a source SGT, a destination SGT and SGACLs. From ISE 3.4 Patch
+    2 scoped by matrixId.
+- name: VirtualNetwork
+  domain: trustsec
+  spec: Open API
+  description: A TrustSec virtual network, mapped to SGTs and VLANs.
+- name: SxpConnection / SxpLocalBinding / SxpVpn
+  domain: trustsec
+  spec: ERS
+  description: SXP peering, local IP-to-SGT bindings and VPN scoping.
+- name: GuestUser
+  domain: guest
+  spec: ERS
+  description: A guest account created by a sponsor or self-registration.
+- name: GuestType
+  domain: guest
+  spec: ERS
+  description: The template governing a guest account's lifetime and privileges.
+- name: Portal
+  domain: guest
+  spec: ERS
+  description: Hotspot, self-registered, sponsored-guest, sponsor, BYOD and my-devices portals, each with a theme and global
+    settings.
+- name: ProfilerProfile
+  domain: profiling
+  spec: ERS + Open API
+  description: A device profiling policy used to classify endpoints.
+- name: TacacsProfile / TacacsCommandSet / TacacsServerSequence
+  domain: device admin
+  spec: ERS
+  description: TACACS+ device-administration objects.
+- name: SystemCertificate / TrustedCertificate / CSR
+  domain: pki
+  spec: ERS + Open API
+  description: Node certificates, the trust store and certificate signing requests.
+- name: Node / Deployment
+  domain: operations
+  spec: ERS + Open API
+  description: ISE nodes, personas, node groups and the deployment topology.
+- name: Repository
+  domain: operations
+  spec: Open API
+  description: A remote file repository used for backup, restore, patch and support-bundle transfer.
+- name: Task
+  domain: operations
+  spec: Open API
+  description: An asynchronous job handle returned by long-running operations.
+- name: Webhook / AlarmRule
+  domain: events
+  spec: Open API
+  description: A webhook configuration and the alarm rules bound to it.
+relationships:
+- from: AuthorizationProfile
+  to: SecurityGroup
+  type: has_one
+  via: sgt
+  note: An authorization profile may assign an SGT.
+- from: AuthorizationProfile
+  to: DownloadableAcl
+  type: has_one
+  via: daclName
+- from: Endpoint
+  to: EndpointIdentityGroup
+  type: belongs_to
+  via: groupId
+- from: Endpoint
+  to: ProfilerProfile
+  type: has_one
+  via: profileId
+- from: InternalUser
+  to: IdentityGroup
+  type: belongs_to
+  via: identityGroups
+- from: NetworkDevice
+  to: NetworkDeviceGroup
+  type: has_many
+  via: NetworkDeviceGroupList
+- from: EgressMatrixCell
+  to: SecurityGroup
+  type: has_many
+  via: sourceSgtId, destinationSgtId
+- from: EgressMatrixCell
+  to: SecurityGroupAcl
+  type: has_many
+  via: sgacls
+- from: SecurityGroupToVirtualNetwork
+  to: SecurityGroup
+  type: belongs_to
+  via: securityGroupId
+- from: SecurityGroupToVirtualNetwork
+  to: VirtualNetwork
+  type: belongs_to
+  via: virtualNetworkId
+- from: SxpLocalBinding
+  to: SecurityGroup
+  type: belongs_to
+  via: sgt
+- from: SxpConnection
+  to: SxpVpn
+  type: belongs_to
+  via: sxpVpn
+- from: GuestUser
+  to: GuestType
+  type: belongs_to
+  via: guestType
+- from: GuestUser
+  to: Portal
+  type: belongs_to
+  via: portalId
+- from: Portal
+  to: PortalTheme
+  type: has_one
+  via: portalTheme
+- from: SponsorGroup
+  to: SponsorGroupMember
+  type: has_many
+  via: memberGroups
+- from: IdentitySequence
+  to: ActiveDirectory
+  type: has_many
+  via: idSeqItem
+- from: IdentitySequence
+  to: LDAP
+  type: has_many
+  via: idSeqItem
+- from: PolicySet
+  to: Condition
+  type: has_many
+  via: condition
+- from: PolicySet
+  to: AuthorizationProfile
+  type: has_many
+  via: profiles
+- from: PolicySet
+  to: AllowedProtocols
+  type: has_one
+  via: serviceName
+- from: Webhook
+  to: AlarmRule
+  type: has_many
+  via: alarmRuleIds
+- from: BackupRestore
+  to: Repository
+  type: belongs_to
+  via: repositoryName
+- from: SupportBundle
+  to: Repository
+  type: belongs_to
+  via: repositoryName
+- from: RadiusServerSequence
+  to: ExternalRadiusServer
+  type: has_many
+  via: radiusServerList
+- from: TacacsServerSequence
+  to: TacacsExternalServer
+  type: has_many
+  via: serverList
+summary:
+  documents_analysed: 103
+  distinct_schema_names: 1324
+  core_entities: 30
+  relationships: 25
+  note: Schema-name count is across all documents and includes near-duplicates where the ERS and Open API surfaces model the
+    same entity twice.

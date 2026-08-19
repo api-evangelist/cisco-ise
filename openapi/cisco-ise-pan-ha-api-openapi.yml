@@ -1,0 +1,164 @@
+openapi: 3.2.0
+info:
+  title: Deployment PAN HA API
+  description: APIs for the configuration, administration and monitoring of the nodes in a Cisco ISE cluster deployment.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    email: cs-ise-api@cisco.com
+  version: v3-oas3
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: PAN HA
+paths:
+  /deployment/pan-ha:
+    get:
+      summary: Get the current configuration of the PAN HA.
+      operationId: getPANHaStatus
+      description: In a high availability configuration, the primary PAN is in active state. The secondary PAN (backup PAN) is in standby state, which means that it receives all the configuration updates from the primary PAN, but is not active in the Cisco ISE cluster. You can configure Cisco ISE to automatically promote the secondary PAN when the primary PAN becomes unavailable.
+      tags:
+      - PAN HA
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PanHAResponse'
+        default:
+          description: An unexpected error has occured.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Enable, update or disable PAN failover configuration.
+      operationId: updatePanHA
+      description: To deploy the auto-failover feature, you must have at least three nodes, where two of the nodes assume the Administration persona, and one node acts as the health check node. A health check node is a non-administration node and can be a Policy Service, Monitoring, or pxGrid node, or any combination of these. If the PANs are in different data centers, you must have a health check node for each PAN. <br> All the fields are mandatory to enable PanHA. <br> Values of failedAttempts, pollingInterval, primaryHealthCheckNode, and secondaryHealthCheckNode are not considered when the isEnable value is "false" in the request body.
+      tags:
+      - PAN HA
+      requestBody:
+        description: Configure PAN HA.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PanHA'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    Hostname:
+      type: object
+      properties:
+        hostname:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+    PanHAResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/PanHA'
+          example: TBD
+        version:
+          type: string
+          example: 1.0.0
+    PanHA:
+      type: object
+      properties:
+        isEnabled:
+          type: boolean
+          example: true
+        primaryHealthCheckNode:
+          description: 'Hostname of the health check node that monitors the primary PAN.
+
+            We recommend that the health check node be placed in the same data center as the primary PAN.
+
+            '
+          $ref: '#/components/schemas/Hostname'
+        secondaryHealthCheckNode:
+          description: 'Hostname of the health check node that monitors secondary PAN.
+
+            We recommend that the health check node be placed in the same data center as the secondary PAN.
+
+            '
+          $ref: '#/components/schemas/Hostname'
+        pollingInterval:
+          description: 'Administration nodes are checked after each interval.
+
+            Seconds (30 - 300) <br>
+
+            The default value is 120.
+
+            '
+          default: 120
+          type: integer
+          example: 120
+        failedAttempts:
+          description: 'Failover occurs if the primary PAN is down for the specified number of failure polls.
+
+            Count (2 - 60).<br>
+
+            The default value is 5.
+
+            '
+          default: 5
+          type: integer
+          example: 5
+      required:
+      - isEnabled

@@ -1,0 +1,728 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Alarms Alarm Instances Services API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://10.104.241.219:443
+  description: Inferred Url
+tags:
+- name: Alarm Instances Services
+paths:
+  /api/v1/alarms/instances/acknowledge/acknowledgeByAlarmIDs:
+    put:
+      tags:
+      - Alarm Instances Services
+      summary: Acknowledge alarm instances by alarm IDs
+      description: This API acknowledges all alarm instances of given alarm IDs.
+      operationId: acknowledgeAlarmInstancesByAlarmIds
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeAlarmsByIdsRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgeAlarmsByIdsResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+  /api/v1/alarms/instances/acknowledge/acknowledgeByInstanceIds:
+    put:
+      tags:
+      - Alarm Instances Services
+      summary: Acknowledge alarm instances
+      description: This API acknowledges a list of alarm instances by setting their visited status.
+      operationId: acknowledgeAlarmInstances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeInstancesRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgeInstancesResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+  /api/v1/alarms/instances/{instanceId}:
+    get:
+      tags:
+      - Alarm Instances Services
+      summary: Retrieve specific alarm instance
+      description: This API retrieves specific alarm instances present in the system.
+      operationId: getAlarmInstancesById
+      parameters:
+      - name: instanceId
+        in: path
+        description: Get Alarm Instance by Id.
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlarmInstanceResponseWrapper'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Alarm Id not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+  /api/v1/alarms/instances/{page}/{size}:
+    get:
+      tags:
+      - Alarm Instances Services
+      summary: Retrieve all alarm instances
+      description: This API retrieves all alarm instances present in the system.
+      operationId: getAllAlarmInstances
+      parameters:
+      - name: page
+        in: path
+        description: Page number for pagination (default is 1)
+        required: true
+        style: simple
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: size
+        in: path
+        description: Number of items per page for pagination (default is 50)
+        required: true
+        style: simple
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: from
+        in: header
+        description: Start date for filtering alarm instances (ISO 8601 UTC format, e.g., "2025-09-15T10:00:00.000Z")
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: to
+        in: header
+        description: End date for filtering alarm instances (ISO 8601 UTC format, e.g., "2025-09-15T23:59:59.999Z")
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: severity
+        in: header
+        description: Severity level for filtering alarm instances (e.g., "Critical", "Warning", "Info")
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - Critical
+          - Info
+          - Warning
+      - name: iseNode
+        in: header
+        description: ISE Node name for filtering alarm instances
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: keyword
+        in: header
+        description: keyword for global search
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlarmInstancePaginatedResponseWrapper'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Alarm Id not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+  /api/v1/alarms/summary/groupByAlarms:
+    get:
+      tags:
+      - Alarm Instances Services
+      summary: Alarms summary grouped by Alarm Id
+      description: This API retrieves a summary of alarm instances including counts grouped by Alarms.
+      operationId: getAlarmInstancesSummary
+      parameters:
+      - name: from
+        in: header
+        description: Start date for filtering alarm instances (ISO 8601 UTC format, e.g., "2025-09-15T10:00:00.000Z")
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: to
+        in: header
+        description: End date for filtering alarm instances (ISO 8601 UTC format, e.g., "2025-09-15T23:59:59.999Z")
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                exampleSetFlag: true
+                items:
+                  $ref: '#/components/schemas/AlarmSummary'
+                  exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+  /api/v1/alarms/{alarmId}/instances/{page}/{size}:
+    get:
+      tags:
+      - Alarm Instances Services
+      summary: Retrieve alarm instances by Alarm ID
+      description: This API retrieves all alarm instances for a specific alarm ID.
+      operationId: getAlarmInstancesByType
+      parameters:
+      - name: alarmId
+        in: path
+        description: The alarm ID to filter instances
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: page
+        in: path
+        description: Page number for pagination (default is 1)
+        required: true
+        style: simple
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: size
+        in: path
+        description: Number of items per page for pagination (default is 50)
+        required: true
+        style: simple
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: from
+        in: header
+        description: Start date for filtering alarm instances (ISO 8601 UTC format, e.g., "2025-09-15T10:00:00.000Z")
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: to
+        in: header
+        description: End date for filtering alarm instances (ISO 8601 UTC format, e.g., "2025-09-15T23:59:59.999Z")
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: iseNode
+        in: header
+        description: ISE Node name for filtering alarm instances
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlarmInstancePagedResponseWrapper'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Alarm Id not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+components:
+  schemas:
+    AlarmInstanceResponseWrapper:
+      title: AlarmInstanceResponseWrapper
+      type: object
+      properties:
+        instance:
+          $ref: '#/components/schemas/AlarmInstance'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving a single alarm instance.
+      exampleSetFlag: false
+    AcknowledgeInstancesResponse:
+      title: AcknowledgeInstancesResponse
+      required:
+      - acknowledgedCount
+      - version
+      type: object
+      properties:
+        acknowledgedCount:
+          type: integer
+          description: Number of instances that were successfully acknowledged.
+          format: int32
+          example: 2
+          exampleSetFlag: true
+        version:
+          type: string
+          description: Version of the API.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response for acknowledging alarm instances.
+      exampleSetFlag: false
+    AcknowledgeAlarmsByIdsResponse:
+      title: AcknowledgeAlarmsByIdsResponse
+      required:
+      - acknowledgedCount
+      - version
+      type: object
+      properties:
+        acknowledgedCount:
+          type: integer
+          description: Total number of alarm instances that were successfully acknowledged across all alarm IDs.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        version:
+          type: string
+          description: Version of the API.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response for acknowledging alarm instances by alarm IDs.
+      exampleSetFlag: false
+    AlarmInstance:
+      title: AlarmInstance
+      type: object
+      properties:
+        alarmDetails:
+          type: string
+          description: Detailed information about the alarm instance.
+          example: Critical posture violation detected on endpoint
+          exampleSetFlag: true
+        alarmId:
+          type: string
+          description: The ID of the alarm rule that triggered this instance.
+          example: alarm-rule-123
+          exampleSetFlag: true
+        alarmName:
+          type: string
+          description: The name of the alarm.
+          example: Critical Posture Alarm
+          exampleSetFlag: true
+        description:
+          type: string
+          description: Description of the alarm condition that was triggered.
+          example: Detailed description of the alarm condition
+          exampleSetFlag: true
+        details:
+          type: string
+          description: Additional details about the alarm instance.
+          example: Additional alarm configuration details
+          exampleSetFlag: true
+        detailsLink:
+          type: string
+          description: Suggested actions to resolve or address the alarm.
+          example: Review and update security policies
+          exampleSetFlag: true
+        instanceId:
+          type: string
+          description: Unique identifier for the alarm instance.
+          example: 550e8400-e29b-41d4-a716-446655440000
+          exampleSetFlag: true
+        iseNode:
+          type: string
+          description: The ISE node where the alarm was generated.
+          example: ISE-Node-01
+          exampleSetFlag: true
+        loggedAt:
+          type: string
+          description: The timestamp when the alarm instance was logged.
+          exampleSetFlag: true
+        severity:
+          type: string
+          description: The severity level of the alarm instance.
+          example: High
+          exampleSetFlag: true
+        suggestedActions:
+          type: string
+          description: Suggested actions to resolve or address the alarm.
+          example: Review and update security policies
+          exampleSetFlag: true
+        timeInterval:
+          type: string
+          description: Suggested actions to resolve or address the alarm.
+          example: The time innterval of the instance
+          exampleSetFlag: true
+      description: Represents an alarm instance that has been triggered in the system.
+      exampleSetFlag: false
+    AcknowledgeInstancesRequest:
+      title: AcknowledgeInstancesRequest
+      required:
+      - instanceIds
+      type: object
+      properties:
+        instanceIds:
+          type: array
+          description: List of alarm instance IDs to be acknowledged.
+          example: '["550e8400-e29b-41d4-a716-446655440000","660f9400-f29c-51d5-b817-556755550111"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Represents the request payload for acknowledging alarm instances.
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
+      exampleSetFlag: false
+    AlarmSummary:
+      title: AlarmSummary
+      type: object
+      properties:
+        alarmId:
+          type: string
+          description: The unique identifier of the alarm.
+          example: 550e8400-e29b-41d4-a716-446655440000
+          exampleSetFlag: true
+        alarmName:
+          type: string
+          description: The name of the alarm.
+          example: Critical Posture Alarm
+          exampleSetFlag: true
+        description:
+          type: string
+          description: A brief description of the alarm rule.
+          example: This alarm rule monitors critical posture violations in the system.
+          exampleSetFlag: true
+        iseNodes:
+          type: array
+          description: List of ISE nodes where this alarm has occurred.
+          example: '["ISE-Node-01","ISE-Node-02"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        lastOccurredTime:
+          type: string
+          description: The last time this alarm occurred, in ISO 8601 format.
+          example: '2023-10-01T12:00:00Z'
+          exampleSetFlag: true
+        occurrences:
+          type: integer
+          description: The number of times this alarm has occurred.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        severity:
+          type: string
+          description: The severity level of the alarm.
+          example: Critical
+          exampleSetFlag: true
+        suggestedAction:
+          type: string
+          description: Suggested actions to be taken when the alarm rule is triggered.
+          example: Review the posture violations and take necessary actions.
+          exampleSetFlag: true
+      description: Represents a summary of alarm occurrences grouped by alarm ID.
+      exampleSetFlag: false
+    AcknowledgeAlarmsByIdsRequest:
+      title: AcknowledgeAlarmsByIdsRequest
+      required:
+      - alarmIds
+      type: object
+      properties:
+        alarmIds:
+          type: array
+          description: List of alarm IDs to acknowledge all instances for.
+          example: '["550e8400-e29b-41d4-a716-446655440000","660f9400-f29c-51d5-b817-556755550111"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Represents the request payload for acknowledging alarm instances by alarm IDs.
+      exampleSetFlag: false
+    AlarmInstancePaginatedResponseWrapper:
+      title: AlarmInstancePaginatedResponseWrapper
+      type: object
+      properties:
+        criticalSeverity:
+          type: integer
+          description: The total number of critical severity.
+          format: int64
+          example: 30
+          exampleSetFlag: true
+        infoSeverity:
+          type: integer
+          description: The total number of info severity.
+          format: int64
+          example: 59
+          exampleSetFlag: true
+        instances:
+          type: array
+          description: List of alarm instances
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AlarmInstance'
+            exampleSetFlag: false
+        pageNumber:
+          type: integer
+          description: The current page number of the paginated response.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        pageSize:
+          type: integer
+          description: The number of items per page in the paginated response.
+          format: int32
+          example: 10
+          exampleSetFlag: true
+        totalPages:
+          type: integer
+          description: The total number of pages available based on the page size.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        totalRecords:
+          type: integer
+          description: The total number of alarm instances available.
+          format: int64
+          example: 50
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+        warningSeverity:
+          type: integer
+          description: The total number of warning severity.
+          format: int64
+          example: 40
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving a list of alarm instances.
+      exampleSetFlag: false
+    AlarmInstancePagedResponseWrapper:
+      title: AlarmInstancePagedResponseWrapper
+      type: object
+      properties:
+        instances:
+          type: array
+          description: List of alarm instances
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AlarmInstance'
+            exampleSetFlag: false
+        pageNumber:
+          type: integer
+          description: The current page number of the paginated response.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        pageSize:
+          type: integer
+          description: The number of items per page in the paginated response.
+          format: int32
+          example: 10
+          exampleSetFlag: true
+        totalPages:
+          type: integer
+          description: The total number of pages available based on the page size.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        totalRecords:
+          type: integer
+          description: The total number of alarm instances available.
+          format: int64
+          example: 50
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving a single alarm instance.
+      exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        data:
+          type: array
+          description: Optional data payload, like a list of items.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A string containing a brief message about the result of the operation, such as "Success" for successful operations or an error message for failures.
+          example: Success
+          exampleSetFlag: true
+      description: Represents a simple message object used in API responses. This object typically contains a single message string that provides information about the success, error, or status of an operation.
+      exampleSetFlag: false

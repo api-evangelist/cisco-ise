@@ -1,0 +1,549 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE Split and Full Upgrade API
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}/v1/
+  variables:
+    server:
+      default: localhost
+      description: The host where the API is rooted
+security:
+- BasicAuth: []
+tags:
+- name: Upgrade
+paths:
+  /upgrade/prepare/pre-checks:
+    post:
+      summary: APIs to initiate pre-checks execution on Primary PAN for complete deployment.
+      description: 'API''s purpose is to initiate pre-checks execution on Primary PAN for complete deployment.
+
+        '
+      operationId: runPreChecksInPPAN
+      tags:
+      - Upgrade
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrecheckRequest'
+      responses:
+        202:
+          description: Prechecks initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeTaskResponse'
+        400:
+          description: Invalid input. Please provide valid inputs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /upgrade/prepare/get-status:
+    get:
+      summary: gets status of pre-checks
+      description: 'get the latest precheck report
+
+        '
+      operationId: getPrecheckStatus
+      tags:
+      - Upgrade
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      - $ref: '#/components/parameters/PrecheckReportID'
+      - $ref: '#/components/parameters/PreCheckID'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradePrecheckResponse'
+        400:
+          description: Invalid reportId. Please provide valid reportId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /upgrade/proceed/initiate-upgrade:
+    post:
+      summary: API's purpose would be to orchestrate upgrade execution on PPAN
+      description: 'API''s purpose would be to orchestrate upgrade execution on PPAN
+
+        '
+      operationId: initiateUpgradeOnPPAN
+      tags:
+      - Upgrade
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpgradeProceedRequest'
+      responses:
+        202:
+          description: Upgrade initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeTaskResponse'
+        400:
+          description: Unable to trigger upgrade , check error response for more details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /upgrade/stage/start-stage:
+    post:
+      summary: API to initiate staging orcheastration from PPAN
+      description: 'API to initiate staging orcheastration from PPAN
+
+        '
+      operationId: initiateStagingOnPPAN
+      tags:
+      - Upgrade
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StageRequest'
+      responses:
+        202:
+          description: Staging initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeTaskResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /upgrade/stage/cancel-stage:
+    post:
+      summary: API to cancel staging process from PPAN
+      description: 'API to cancel staging process of specified nodes from PPAN
+
+        '
+      operationId: cancelStagingOnPPAN
+      tags:
+      - Upgrade
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelStageRequest'
+      responses:
+        202:
+          description: Staging termination task initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeTaskResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /upgrade/stage/get-status:
+    get:
+      summary: get the status a particular upgrade stage process
+      description: 'get the status of upgrade stage process for the requested nodes
+
+        '
+      operationId: stageStatus
+      tags:
+      - Upgrade
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      - $ref: '#/components/parameters/PrecheckReportID'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeListStage'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /upgrade/proceed/get-status:
+    get:
+      summary: get the status of upgrade proceed process
+      description: 'get the status of upgrade process for the requested nodes
+
+        '
+      operationId: proceedStatus
+      tags:
+      - Upgrade
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      - $ref: '#/components/parameters/PrecheckReportID'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeProceed'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /upgrade/summary/get-status:
+    get:
+      summary: get the summary of upgrade process
+      description: 'get the summary of upgrade process
+
+        '
+      operationId: upgradeSummary
+      tags:
+      - Upgrade
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeProceed'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ListNode:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: repository precheck passed
+        name:
+          type: string
+          example: ise1.sn.test
+        status:
+          type: string
+          example: Success
+    UpgradeTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TaskIdResponse'
+        version:
+          type: string
+          example: 1.0.0
+    UpgradeProceed:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListNodeProceed'
+        remainingUpgradeTime:
+          type: integer
+          example: 0
+        percentage:
+          type: integer
+          example: 100
+        status:
+          type: string
+          example: success
+    PrecheckType:
+      type: object
+      properties:
+        onFailure:
+          type: string
+          example: fail
+        remediationMsg:
+          type: string
+          example: Repository validation failed. Check if repository configuration is correct and manually validate from UI in Repository page or in CLI using, show repository
+        updateTime:
+          type: long
+          example: 1631513275877
+        message:
+          type: string
+          example: null
+        executionTime:
+          type: long
+          example: null
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListNode'
+        checkType:
+          type: string
+          example: local
+        displayname:
+          type: string
+          example: Repository Validation
+        percentage:
+          type: integer
+          example: 100
+        name:
+          type: string
+          example: REPOSITORY_CHECK
+        successMsg:
+          type: string
+          example: Repository for bundle is validated successfully
+        successNodes:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: Success
+    ListNodeProceed:
+      type: object
+      properties:
+        dbStatus:
+          type: string
+          example: UPGRADE_EXEC_COMPLETED
+        message:
+          type: string
+          example: Upgrade completed successfully
+        node:
+          type: string
+          example: ise1.sn.test
+        percentage:
+          type: integer
+          example: 100
+        progressMsg:
+          type: string
+          example: Upgrade completed successfully
+        status:
+          type: string
+          example: passed
+        upgradeTime:
+          type: integer
+          example: 127
+    ErrorResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    UpgradeListStage:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpgradeStage'
+    UpgradePrecheckResponse:
+      type: object
+      properties:
+        preChecks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrecheckType'
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+        nodecount:
+          type: integer
+          example: 1
+        isValid:
+          type: boolean
+          example: false
+        status:
+          type: string
+          example: valid
+        iseVersion:
+          type: string
+          example: 3.4.0.451
+        patchNo:
+          type: integer
+          example: 99
+    TaskIdResponse:
+      type: object
+      properties:
+        preCheckReportID:
+          description: ID which can be used to track the status of task.
+          example: c4aa1432-be06-bf27-11eb-c208a1714b90
+          type: string
+        message:
+          type: string
+          example: Upgrade task has been initiated.
+    UpgradeProceedRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+      required:
+      - upgradeType
+      - preCheckReportID
+      - continueOnFailure
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Repository (repo_name) does not exist. Please configure the repository from ISE UI to proceed
+    CancelStageRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+    PrecheckRequest:
+      type: object
+      properties:
+        preChecks:
+          type: array
+          items:
+            type: string
+        hostnames:
+          type: array
+          items:
+            type: string
+            example: hostnames should be empty[] for FULL_UPGRADE
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        repoName:
+          type: string
+          example: repo_name
+        bundleName:
+          type: string
+          example: ise-upgradebundle-2.6.x-3.0.x-to-3.1.0.486.NOT_FOR_RELEASE.x86_64.tar.gz
+        patchBundleName:
+          type: string
+          example: ise-patchbundle-2.6.0.156-Patch1-20061206.SPA.x86_64.tar.gz
+        preCheckReportID:
+          type: string
+          example: 50bc7f99-057a-4d9f-aec4-20b7d4b89846
+        reTrigger:
+          type: boolean
+          example: false
+    UpgradeStage:
+      type: object
+      properties:
+        node:
+          type: string
+          example: ise1.sn.test
+        progressMsg:
+          type: string
+          example: Config files backed up successfully
+        percentage:
+          type: integer
+          example: 100
+        dbStatus:
+          type: string
+          example: UPGRADE_STAGING_COMPLETED
+        message:
+          type: string
+          example: Config Files Backup $ Copy Upgrade DB dump
+        status:
+          type: string
+          example: passed
+    StageRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+        reTrigger:
+          type: boolean
+          example: false
+  parameters:
+    PrecheckReportID:
+      in: query
+      name: preCheckReportID
+      description: Precheck report's id.
+      example: c4aa1432-be06-bf27-11eb-c208a1714b90
+      schema:
+        type: string
+    PreCheckID:
+      in: query
+      name: preCheckID
+      schema:
+        type: string
+    XRequestIdHeader:
+      in: header
+      name: X-Request-ID
+      description: request Id, will return in the response headers, and appear in logs
+      schema:
+        type: string
+      required: false
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+x-rbac: administration_system_upgrade

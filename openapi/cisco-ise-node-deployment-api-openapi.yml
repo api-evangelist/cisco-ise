@@ -1,0 +1,536 @@
+openapi: 3.2.0
+info:
+  title: Deployment Node Deployment API
+  description: APIs for the configuration, administration and monitoring of the nodes in a Cisco ISE cluster deployment.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    email: cs-ise-api@cisco.com
+  version: v3-oas3
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: Node Deployment
+paths:
+  /deployment/primary:
+    post:
+      summary: Promote a standalone node to a primary PAN.
+      operationId: makePrimary
+      description: 'This API promotes the standalone node on which the API is invoked to the primary Policy Administration node (PAN).
+
+        '
+      tags:
+      - Node Deployment
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Node is not standalone.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/standalone:
+    post:
+      summary: Change a primary PAN to a standalone node.
+      operationId: makeStandalone
+      description: 'This API changes the primary PAN in a single node cluster on which the API is invoked, to a standalone node.
+
+        '
+      tags:
+      - Node Deployment
+      responses:
+        '200':
+          description: 'The node changes from primary PAN to standalone.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Node is not a primary node in the single node cluster.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/node/:
+    get:
+      summary: Retrieve the list of all the nodes that are deployed in the cluster.
+      operationId: getDeploymentNodes
+      description: 'The API lists all the nodes that are deployed in the cluster.<br>
+
+        Returns basic information about each of the deployed nodes in the cluster like hostname, status, roles, and services. <br>
+
+        Supports filtering on FQDN, hostname, IP address, roles, services and node status.
+
+        '
+      tags:
+      - Node Deployment
+      parameters:
+      - $ref: '#/components/parameters/filtering'
+      - $ref: '#/components/parameters/filtertype'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentNodesResponse'
+        '400':
+          description: 'Invalid inputs have been supplied.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Register a standalone node to the cluster
+      operationId: registerNode
+      description: 'This API registers a Cisco ISE node to form a multi-node deployment.
+
+        '
+      tags:
+      - Node Deployment
+      requestBody:
+        description: Details of the registering node.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeRegistrationRequest'
+      responses:
+        '200':
+          description: Registration initiated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: 'Invalid inputs are supplied.
+
+            1. Node being registered is not a standalone node.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/node/{hostname}:
+    get:
+      summary: Retrieve details of a deployed node.
+      operationId: getNodeDetails
+      description: 'This API retrieves detailed information of the deployed node.
+
+        '
+      tags:
+      - Node Deployment
+      parameters:
+      - name: hostname
+        in: path
+        description: Hostname of the deployed node.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentNodeResponse'
+        '400':
+          description: Invalid inputs or parameters supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: No deployment node found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Replace the existing configuration of the Cisco ISE node with the configuration provided.
+      operationId: updateDeploymentNode
+      description: "This API updates the configuration of the Cisco ISE node with the configuration provided. \n"
+      tags:
+      - Node Deployment
+      parameters:
+      - name: hostname
+        in: path
+        description: Hostname of the deployed node.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      requestBody:
+        description: Configuration of the existing node which needs to be replaced with new configuration
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeUpdateRequest'
+            example:
+              roles:
+              - PrimaryAdmin
+              services:
+              - DeviceAdmin
+      responses:
+        '200':
+          description: Configuration updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid inputs supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: No node is found in the deployment with the provided hostname.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Remove a deployed node from a cluster.
+      operationId: deleteDeploymentNode
+      description: 'The deregistered node becomes a standalone Cisco ISE node.<br>
+
+        It retains the last configuration that it received from the primary PAN and assumes the default roles and services of a standalone node.
+
+        '
+      tags:
+      - Node Deployment
+      parameters:
+      - name: hostname
+        in: path
+        description: The hostname of the node in the deployment to be deregistered.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: 'Invalid inputs are supplied.
+
+            1. Node being deregistered is a standalone node.
+
+            2. Node being deregistered is a primary node.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: No node is found in the deployment with the provided hostname.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Unexpected error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/sync-node/{hostname}:
+    post:
+      summary: Trigger manual synchronization of the node.
+      operationId: syncNode
+      description: Performing a manual synchronization involves a reload of the target node, but not the primary PAN.
+      tags:
+      - Node Deployment
+      parameters:
+      - name: hostname
+        in: path
+        description: Hostname of the node.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      responses:
+        '202':
+          description: 'Manual synchronization task initiated. Use the Task Service Status API to retrieve the status of the task.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentTaskResponse'
+        '400':
+          description: Manual synchronization cannot be initiated on a primary PAN or standalone node.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node is not part of the cluster.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/promote:
+    post:
+      summary: Promote the secondary PAN in a multi-node cluster to the role of primary PAN.
+      operationId: promoteNode
+      description: 'Execute this API in the secondary PAN in the cluster to promote the node to primary PAN.  Ensure that the API Gateway setting is enabled in the secondary PAN.
+
+        '
+      tags:
+      - Node Deployment
+      responses:
+        '200':
+          description: 'Node promotion initiated from secondary PAN to primary PAN.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid inputs have been supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    FQDN:
+      maxLength: 64
+      minLength: 1
+      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
+      type: string
+    DeploymentNodeResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/DeploymentNode'
+        version:
+          type: string
+          example: 1.0.0
+    DeploymentTask:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID which can be used to track the status of the deployment task using the Task Service API.
+          example: a1714b90-be06-11eb-bf27-c208c4aa1432
+        message:
+          type: string
+          example: Deployment task initiated. You can use the Task Service Status API to get the status of the task.
+    Services:
+      type: array
+      items:
+        type: string
+        enum:
+        - Session
+        - Profiler
+        - TC-NAC
+        - SXP
+        - DeviceAdmin
+        - PassiveIdentity
+        - pxGrid
+        - pxGridCloud
+    NodeUpdateRequest:
+      type: object
+      properties:
+        roles:
+          $ref: '#/components/schemas/Roles'
+        services:
+          $ref: '#/components/schemas/Services'
+      required:
+      - roles
+      - services
+      example: TBD
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    DeploymentNode:
+      type: object
+      properties:
+        hostname:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+        fqdn:
+          $ref: '#/components/schemas/FQDN'
+        ipAddress:
+          $ref: '#/components/schemas/IPAddress'
+        roles:
+          $ref: '#/components/schemas/Roles'
+        services:
+          $ref: '#/components/schemas/Services'
+        nodeStatus:
+          $ref: '#/components/schemas/NodeStatus'
+      required:
+      - hostname
+      - fqdn
+      - ipAddress
+      - services
+      example: TBD
+    NodeStatus:
+      type: string
+      enum:
+      - Connected
+      - Disconnected
+      - InProgress
+      - ReplicationStopped
+      - RegistrationFailed
+      - NotInSync
+      - NotUpgraded
+      - NotApplicable
+    DeploymentTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/DeploymentTask'
+        version:
+          type: string
+          example: 1.0.0
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    IPAddress:
+      type: string
+      format: ipv4 | ipv6
+    DeploymentNodesResponse:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentNode'
+          example: TBD
+        version:
+          type: string
+          example: 1.0.0
+    Roles:
+      type: array
+      items:
+        type: string
+        enum:
+        - PrimaryAdmin
+        - SecondaryAdmin
+        - PrimaryMonitoring
+        - SecondaryMonitoring
+        - PrimaryDedicatedMonitoring
+        - SecondaryDedicatedMonitoring
+        - Standalone
+    NodeRegistrationRequest:
+      type: object
+      properties:
+        fqdn:
+          $ref: '#/components/schemas/FQDN'
+        userName:
+          type: string
+          example: admin
+        password:
+          type: string
+          format: password
+          example: changeMe
+        allowCertImport:
+          type: boolean
+          example: false
+          description: 'Consent to import the self-signed certificate of the registering node.
+
+            '
+        roles:
+          $ref: '#/components/schemas/Roles'
+        services:
+          $ref: '#/components/schemas/Services'
+      required:
+      - fqdn
+      - userName
+      - password
+      - allowCertImport
+      - roles
+      - services
+      example: TBD
+  parameters:
+    filtering:
+      name: filter
+      in: query
+      required: false
+      description: '<div> <style type="text/css" scoped> .apiServiceTable td, .apiServiceTable th { padding: 5px 10px !important; text-align: left; } </style> <span> <b>Simple filtering</b> is available through the filter query string parameter. The structure of a filter is a triplet of field operator and value, separated by dots. More than one filter can be sent. The logical operator common to all filter criteria is AND by default, and can be changed by using the <i>"filterType=or"</i> query string parameter. Each resource Data model description should specify if an attribute is a filtered field. </span> <br /> <table class="apiServiceTable"> <thead> <tr> <th>OPERATOR</th> <th>DESCRIPTION</th> </tr> </thead> <tbody> <tr> <td>EQ</td> <td>Equals</td> </tr> <tr> <td>NEQ</td> <td>Not Equals</td> </tr> <tr> <td>STARTSW</td> <td>Starts With</td> </tr> <tr> <td>NSTARTSW</td> <td>Not Starts With</td> </tr> <tr> <td>ENDSW</td> <td>Ends With</td> </tr> <tr> <td>NENDSW</td> <td>Not Ends With</td> </tr> <tr> <td>CONTAINS</td> <td>Contains</td> </tr> <tr> <td>NCONTAINS</td> <td>Not Contains</td> </tr> </tbody> </table> </div>'
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      allowReserved: true
+    filtertype:
+      name: filterType
+      in: query
+      description: The logical operator common to all filter criteria is AND by default, and can be changed by using this parameter.
+      required: false
+      schema:
+        type: string
+        enum:
+        - AND
+        - OR
+        default: AND

@@ -1,0 +1,484 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Systemcertificate API
+  version: '1.0'
+  description: 'Operations tagged systemcertificate across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-system-certificate.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-system-certificate.yaml, the provider's source document. Operations
+      and schemas are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-system-certificate.yaml
+    operation_coverage: 2/3
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: systemcertificate
+paths:
+  /systemcertificate/:
+    post:
+      tags:
+      - systemcertificate
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ca.systemcertificate'
+            example:
+              ERSSystemCertificate:
+                nodeId: ISE-01
+                ersLocalCertStub:
+                  certificateSanUri: <<URI>>
+                  expirationTTL: '2'
+                  certificateSanDns: cisco.com
+                  ersSubjectStub:
+                    commonName: $FQDN$
+                    localityName: City
+                    organizationName: HCL
+                    organizationalUnitName: HCL-SAMLCert
+                    countryName: Country
+                    stateOrProvinceName: State
+                  xgridCertificate: on OR off
+                  keyLength: 512 OR 1024 OR 2048 OR 4096
+                  samlCertificate: on OR off
+                  allowWildcardCerts: on OR off
+                  groupTagDD: add-group-tag
+                  digest: SHA-256 OR SHA-384 OR SHA-512
+                  certificatePolicies: certificate policies
+                  selectedExpirationTTLUnit: days OR weeks OR months OR years
+                  keyType: RSA OR ECDSA
+                  certificateSanIp: <<IP-ADDRESS>>
+                  friendlyName: HCL
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/systemcertificate:
+    post:
+      tags:
+      - systemcertificate
+      summary: Create system certificate
+      description: <p>This API allows the client to create a system certificate.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- ca.systemcertificate.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/systemcertificate'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/systemcertificate'
+  /ers/config/systemcertificate/versioninfo:
+    get:
+      tags:
+      - systemcertificate
+      summary: Get system certificate version information
+      description: <p>This API helps to retrieve the version information related to the system certificate.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+components:
+  schemas:
+    ca.systemcertificate:
+      required:
+      - ERSSystemCertificate
+      type: object
+      properties:
+        ERSSystemCertificate:
+          $ref: '#/components/schemas/ERSSystemCertificate'
+      example: null
+    ERSSystemCertificate:
+      required:
+      - nodeId
+      properties:
+        nodeId:
+          title: nodeId
+          type: string
+          description: NodeId of ISE application
+          example: null
+        ersLocalCertStub:
+          required:
+          - digest
+          - expirationTTL
+          - keyLength
+          - keyType
+          - selectedExpirationTTLUnit
+          properties:
+            subjectStub:
+              properties:
+                commonName:
+                  title: commonName
+                  type: string
+                  description: common name
+                  example: null
+                organizationalUnitName:
+                  title: organizationalUnitName
+                  type: string
+                  description: organizational UnitName
+                  example: null
+                organizationName:
+                  title: organizationName
+                  type: string
+                  description: organizationName
+                  example: null
+                localityName:
+                  title: localityName
+                  type: string
+                  description: LocalityName
+                  example: null
+                stateOrProvinceName:
+                  title: stateOrProvinceName
+                  type: string
+                  description: StateOrProvinceName
+                  example: null
+                countryName:
+                  title: countryName
+                  type: string
+                  description: CountryName
+                  example: null
+              example: null
+            keyType:
+              title: keyType
+              type: string
+              description: KeyType
+              example: null
+            keyLength:
+              title: keyLength
+              type: string
+              description: KeyLength
+              example: null
+            digest:
+              title: digest
+              type: string
+              description: Digest
+              example: null
+            expirationTTL:
+              title: expirationTTL
+              type: string
+              description: ExpirationTTL
+              example: null
+            selectedExpirationTTLUnit:
+              title: selectedExpirationTTLUnit
+              type: string
+              description: SelectedExpirationTTLUnit
+              example: null
+            groupTagDD:
+              title: groupTagDD
+              type: string
+              description: GroupTagDD
+              example: null
+            samlCertificate:
+              title: samlCertificate
+              type: string
+              description: SamlCertificate
+              example: null
+            xgridCertificate:
+              title: xgridCertificate
+              type: string
+              description: XgridCertificate
+              example: null
+            friendlyName:
+              title: friendlyName
+              type: string
+              description: FriendlyName
+              example: null
+            allowWildcardCerts:
+              title: allowWildcardCerts
+              type: string
+              description: AllowWildcardCerts
+              example: null
+            certificateSanDns:
+              title: certificateSanDns
+              type: string
+              description: CertificateSanDns
+              example: null
+            certificateSanIp:
+              title: certificateSanIp
+              type: string
+              description: CertificateSanIp
+              example: null
+            certificateSanUri:
+              title: certificateSanUri
+              type: string
+              description: CertificateSanUri
+              example: null
+            certificatePolicies:
+              title: certificatePolicies
+              type: string
+              description: CertificatePolicies
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        ERSSystemCertificate:
+          nodeId: ISE-01
+          ersLocalCertStub:
+            certificateSanUri: <<URI>>
+            expirationTTL: '2'
+            certificateSanDns: cisco.com
+            ersSubjectStub:
+              commonName: $FQDN$
+              localityName: City
+              organizationName: HCL
+              organizationalUnitName: HCL-SAMLCert
+              countryName: Country
+              stateOrProvinceName: State
+            xgridCertificate: on OR off
+            keyLength: 512 OR 1024 OR 2048 OR 4096
+            samlCertificate: on OR off
+            allowWildcardCerts: on OR off
+            groupTagDD: add-group-tag
+            digest: SHA-256 OR SHA-384 OR SHA-512
+            certificatePolicies: certificate policies
+            selectedExpirationTTLUnit: days OR weeks OR months OR years
+            keyType: RSA OR ECDSA
+            certificateSanIp: <<IP-ADDRESS>>
+            friendlyName: HCL
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    ERSSystemCertificate_2:
+      type: object
+      properties:
+        nodeId:
+          type: string
+          example: ISE-01
+        ersLocalCertStub:
+          type: object
+          properties:
+            friendlyName:
+              type: string
+              example: Cisco
+            ersSubjectStub:
+              type: object
+              properties:
+                commonName:
+                  type: string
+                  example: $FQDN$
+                organizationalUnitName:
+                  type: string
+                  example: Cisco-SAMLCert
+                organizationName:
+                  type: string
+                  example: Cisco
+                localityName:
+                  type: string
+                  example: City
+                stateOrProvinceName:
+                  type: string
+                  example: State
+                countryName:
+                  type: string
+                  example: Country
+            keyLength:
+              type: string
+              example: 512 OR 1024 OR 2048 OR 4096
+            xgridCertificate:
+              type: string
+              example: on OR off
+            groupTagDD:
+              type: string
+              example: add-group-tag
+            samlCertificate:
+              type: string
+              example: on OR off
+            keyType:
+              type: string
+              example: RSA OR ECDSA
+            digest:
+              type: string
+              example: SHA-256 OR SHA-384 OR SHA-512
+            certificatePolicies:
+              type: string
+              example: certificate policies
+            expirationTTL:
+              type: integer
+              example: 2
+            selectedExpirationTTLUnit:
+              type: string
+              example: days OR weeks OR months OR years
+            allowWildcardCerts:
+              type: string
+              example: on OR off
+            certificateSanDns:
+              type: string
+              example: cisco.com
+            certificateSanIp:
+              type: string
+              example: IP-ADDRESS
+            certificateSanUri:
+              type: string
+              example: URI
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    systemcertificate:
+      type: object
+      properties:
+        ERSSystemCertificate:
+          $ref: '#/components/schemas/ERSSystemCertificate_2'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/systemcertificate/versioninfo
+        type:
+          type: string
+          example: application/json
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-system-certificate.yaml

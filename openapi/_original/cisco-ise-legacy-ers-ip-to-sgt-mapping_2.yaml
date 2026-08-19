@@ -1,0 +1,565 @@
+swagger: '2.0'
+info:
+  description: "IP To SGT Mapping API allows the client to add, delete, update, search and deploy IP to SGT mapping.\n\n<h2>Revision\
+    \ History</h2>\n<table font-family:monospace> \n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid\
+    \ #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>\n\
+    <tr style= 'border-bottom:solid #CCCCCC 1.0pt'><td>0</td><td>1.0</td><td>2.0</td><td>Initial Cisco ISE Version</td></tr>\n\
+    <tr style= 'border-bottom:solid #CCCCCC 1.0pt'><td></td><td>1.1</td><td>3.5</td><td>Added sgtDomain attribute</td></tr>\n\
+    <tr style= 'border-bottom:solid #CCCCCC 1.0pt'><td>2</td><td>1.1</td><td>3.5 Patch 3</td><td>Added TTL and Resolving Node\
+    \ attributes</td></tr>\n</table>\n<br><br>\n\n<h2>Resource Definition</h2>\n<table>\n<tr valign=top style='border:solid\
+    \ #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example\
+    \ Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td>server1.cisco.com</td></tr>\n\
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource\
+    \ UUID, mandatory for update</td><td></td></tr>\n<tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource\
+    \ Description</td><td></td></tr>\n<tr style= 'background:#f8f8f8'><td style='font-family:monospace'>deployTo</td><td>String</td><td>Mandatory\
+    \ unless mappingGroup is set or unless deployType=ALL</td><td></td><td>network_device_id</td></tr>\n<tr><td style='font-family:monospace'>deployType</td><td>Enum</td><td>Yes</td><td>Allowed\
+    \ values:<br>- ALL,<br>- ND,<br>- NDG</td><td>ND</td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>hostName</td><td>String</td><td>Mandatory\
+    \ if hostIp is empty</td><td></td><td>server1.cisco.com</td></tr>\n<tr><td style='font-family:monospace'>sgt</td><td>String</td><td>Mandatory\
+    \ unless mappingGroup is set</td><td></td><td>sgt_id</td></tr>\n<tr style= 'background:#f8f8f8'><td style='font-family:monospace'>hostIp</td><td>String</td><td>Mandatory\
+    \ if hostName is empty -- valid IPL</td><td></td><td></td></tr>\n<tr style= 'border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>mappingGroup</td><td>String</td><td>Mandatory\
+    \ unless sgt and deployTo and deployType are set</td><td></td><td></td></tr>\n<tr style= 'border-bottom:solid #CCCCCC\
+    \ 1.0pt'><td style='font-family:monospace'>sgtDomain</td><td>String</td><td>No</td><td></td><td></td></tr>\n<tr style=\
+    \ 'border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>resolvingNodes</td><td>String</td><td>No</td><td></td><td>List\
+    \ of ISE Node names used for FQDN resolution, separated with comma</td></tr>\n<tr style= 'border-bottom:solid #CCCCCC\
+    \ 1.0pt'><td style='font-family:monospace'>ttl</td><td>integer</td><td>No</td><td></td><td>TTL in seconds for FQDN resolution</td></tr>\n\
+    </table>\n"
+  version: 1.0.0
+  title: sgmapping
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: sgmapping
+paths:
+  /ers/config/sgmapping/{id}/deploy:
+    put:
+      tags:
+      - sgmapping
+      summary: Deploy IP to SGT mapping by ID
+      description: <p>This API allows the client to deploy an IP to SGT mapping by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- trustsec.sgmapping.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      - in: header
+        name: Additional Information
+        type: string
+        description: Only one Deploy process can run at any given time
+      responses:
+        204:
+          description: No Content
+  /ers/config/sgmapping/deployall:
+    put:
+      tags:
+      - sgmapping
+      summary: Deploy all IP to SGT mappings
+      description: <p>This API allows the client to deploy all the IP to SGT mappings.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- trustsec.sgmapping.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      - in: header
+        name: Additional Information
+        type: string
+        description: Only one Deploy process can run at any given time
+      responses:
+        204:
+          description: No Content
+  /ers/config/sgmapping/deploy/status:
+    put:
+      tags:
+      - sgmapping
+      summary: Get IP to SGT mapping deployment status
+      description: <p>This API allows the client to get the IP to SGT mapping deployment status.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- trustsec.sgmapping.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      - in: header
+        name: Additional Information
+        type: string
+        description: Deploy Status will show last Deploy command output. The information will be saved until the next Deploy
+          command
+      responses:
+        204:
+          description: No Content
+          schema:
+            $ref: '#/definitions/OperationResult'
+  /ers/config/sgmapping/{id}:
+    get:
+      tags:
+      - sgmapping
+      summary: Get IP to SGT mapping by ID
+      description: <p>This API allows the client to get an IP to SGT mapping by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- trustsec.sgmapping.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/iptosgt'
+    put:
+      tags:
+      - sgmapping
+      summary: Update IP to SGT mapping by ID
+      description: <p>This API allows the client to update an IP to SGT mapping by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- trustsec.sgmapping.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/iptosgt'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'
+    delete:
+      tags:
+      - sgmapping
+      summary: Delete IP to SGT mapping
+      description: <p>This API deletes an IP to SGT mapping.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- trustsec.sgmapping.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      responses:
+        204:
+          description: No Content
+  /ers/config/sgmapping:
+    get:
+      tags:
+      - sgmapping
+      summary: Get all IP to SGT mappings
+      description: <p>This API allows the client to get all the IP to SGT mappings.</p> <p><h1>Filter:</h1> <h3>[hostName,
+        groupName, ip, sgtName]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY
+        (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET
+        /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul> <p><h1>Sorting:</h1> <h3>[hostName, groupName, ip, sgtName]</h3></p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- trustsec.sgmapping.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'
+    post:
+      tags:
+      - sgmapping
+      summary: Create IP to SGT mapping
+      description: <p>This API creates an IP to SGT mapping.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- trustsec.sgmapping.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Additional Information
+        type: string
+        description: <table> <tr><td>hostName</td><td>(Required):</td><td>server1.cisco.com</td></tr> <tr><td>mappingGroup</td><td>(Required):</td><td>Mapping
+          Group Id. Mandatory unless sgt and deployTo and deployType are set</td></tr> </table>
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/iptosgt'
+      responses:
+        201:
+          description: Created
+  /ers/config/sgmapping/versioninfo:
+    get:
+      tags:
+      - sgmapping
+      summary: Get IP to SGT mapping version information
+      description: <p>This API helps to retrieve the version information related to IP to SGT mapping.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+  /ers/config/sgmapping/bulk/submit:
+    put:
+      tags:
+      - sgmapping
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/bulkrequest'
+      responses:
+        202:
+          description: Accepted
+  /ers/config/sgmapping/bulk/{bulkid}:
+    get:
+      tags:
+      - sgmapping
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: bulkid
+        in: path
+        type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/bulkstatus'
+definitions:
+  iptosgt:
+    type: object
+    properties:
+      SGMapping:
+        $ref: '#/definitions/SGMapping'
+  SGMapping:
+    type: object
+    properties:
+      name:
+        type: string
+        example: server1.cisco.com
+      sgt:
+        type: string
+        example: sgt_ip
+      deployTo:
+        type: string
+        example: network_device_id
+      deployType:
+        type: string
+        example: ND
+      hostName:
+        type: string
+        example: server1.cisco.com
+      resolvingNodes:
+        type: string
+        example: psn1
+      sgtDomain:
+        type: string
+        example: sgt_domain
+      ttl:
+        type: number
+        example: 3600
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/sgmapping/id
+          type:
+            type: string
+            example: application/json
+  OperationResult:
+    type: object
+    properties:
+      OperationResult:
+        type: object
+        properties:
+          resultValue:
+            type: array
+            example:
+            - value: DdsAASDs%$##@ssds12
+              name: password
+            items:
+              properties:
+                name:
+                  type: string
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+        $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+  SearchResult:
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example:
+        - id: id
+          name: server1.cisco.com
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/ers/config/sgmapping/id
+            type: application/json
+        items:
+          properties:
+            name:
+              type: string
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '1.0'
+      supportedVersions:
+        type: string
+        example: '1.0'
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/sgmapping/versioninfo
+      type:
+        type: string
+        example: application/json
+  bulkrequest:
+    type: object
+    properties:
+      SGMappingBulkRequest:
+        $ref: '#/definitions/SGMappingBulkRequest'
+  SGMappingBulkRequest:
+    type: object
+    properties:
+      operationType:
+        type: string
+        example: create
+      resourceMediaType:
+        type: string
+        example: vnd.com.cisco.ise.trustsec.sgmapping.1.0+xml
+  bulkstatus:
+    type: object
+    properties:
+      BulkStatus:
+        $ref: '#/definitions/BulkStatus'
+  BulkStatus:
+    type: object
+    properties:
+      bulkId:
+        type: string
+        example: 1615791703003
+      mediaType:
+        type: string
+        example: ''
+      executionStatus:
+        type: string
+        example: COMPLETED
+      operationType:
+        type: string
+        example: create
+      startTime:
+        type: string
+        example: Mon Mar 15 07:01:43 UTC 2021
+      resourcesCount:
+        type: integer
+        example: 5
+      successCount:
+        type: integer
+        example: 5
+      failCount:
+        type: integer
+        example: 0
+      resourcesStatus:
+        type: array
+        example:
+        - id: '1234454324'
+          name: resource1
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '2343242342'
+          name: resource2
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '4564566456'
+          name: resource3
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '6544566455'
+          name: resource4
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        items:
+          properties:
+            name:
+              type: string

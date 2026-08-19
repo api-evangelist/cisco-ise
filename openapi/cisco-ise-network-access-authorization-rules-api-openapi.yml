@@ -1,0 +1,607 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Policy Network Access - Authorization Rules API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.9.91:443
+  description: Inferred Url
+tags:
+- name: Network Access - Authorization Rules
+paths:
+  /api/v1/policy/network-access/policy-set/{policyId}/authorization:
+    get:
+      tags:
+      - Network Access - Authorization Rules
+      summary: Network Access - Get authorization rules.
+      description: Network Access - Get authorization rules.
+      operationId: getNetworkAccessPolicyByIdAuthorizationRuleList
+      parameters:
+      - name: policyId
+        in: path
+        description: Policy id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Network Access Authorization Rule list response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkAccessAuthorizationRuleListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    post:
+      tags:
+      - Network Access - Authorization Rules
+      summary: Network Access - Create authorization rule.
+      description: 'Network Access - Create authorization rule: <ul> <li> Rule must include name and condition. </li> <li> Condition has hierarchical structure which define a set of conditions for which authoriztion policy rule could be match. </li> <li> Condition can be either reference to a stored Library condition, using model <b>ConditionReference</b> </li> or dynamically built conditions which are not stored in the conditions Library, using models <b>ConditionAttributes, ConditionAndBlock, ConditionOrBlock</b>. </li> </ul> '
+      operationId: createNetworkAccessPolicyByIdAuthorizationRule
+      parameters:
+      - name: policyId
+        in: path
+        description: Policy id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkAccessAuthorizationRuleResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Network Access Authorization Rule response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkAccessAuthorizationRuleResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/policy/network-access/policy-set/{policyId}/authorization/reset-hitcount:
+    post:
+      tags:
+      - Network Access - Authorization Rules
+      summary: Network Access - Reset HitCount for Authorization Rules
+      description: Network Access - Reset HitCount for Authorization Rules
+      operationId: resetHitCountsNetworkAccessPolicyByIdAuthorizationRules
+      parameters:
+      - name: policyId
+        in: path
+        description: Policy id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Response with success message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/policy/network-access/policy-set/{policyId}/authorization/{ruleId}:
+    get:
+      tags:
+      - Network Access - Authorization Rules
+      summary: Network Access - Get authorization rule attributes.
+      description: Network Access - Get authorization rule attributes.
+      operationId: getNetworkAccessPolicyByIdAuthorizationRuleById
+      parameters:
+      - name: policyId
+        in: path
+        description: Policy id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: ruleId
+        in: path
+        description: Rule id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Network Access Authorization Rule response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkAccessAuthorizationRuleResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    put:
+      tags:
+      - Network Access - Authorization Rules
+      summary: Network Access - Update authorization rule.
+      description: Network Access - Update authorization rule.
+      operationId: updateNetworkAccessPolicyByIdAuthorizationRuleById
+      parameters:
+      - name: policyId
+        in: path
+        description: Policy id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: ruleId
+        in: path
+        description: Rule id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Network Access Authorization Rule response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkAccessAuthorizationRuleResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkAccessAuthorizationRuleResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - Network Access - Authorization Rules
+      summary: Network Access - Delete authorization rule.
+      description: Network Access - Delete authorization rule.
+      operationId: deleteNetworkAccessPolicyByIdAuthorizationRuleById
+      parameters:
+      - name: policyId
+        in: path
+        description: Policy id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: ruleId
+        in: path
+        description: Rule id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Response with object ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponseEntity'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    RuleCommon:
+      title: RuleCommon
+      required:
+      - name
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/Condition'
+          exampleSetFlag: true
+        default:
+          type: boolean
+          description: Indicates if this rule is the default one
+          example: false
+          exampleSetFlag: true
+        hitCounts:
+          type: integer
+          description: The amount of times the rule was matched
+          format: int32
+          readOnly: true
+          example: 2
+          exampleSetFlag: true
+        id:
+          type: string
+          description: The identifier of the rule
+          format: uuid
+          readOnly: true
+          example: d82952cb-b901-4b09-b363-5ebf39bdbaf9
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Rule name, [Valid characters are alphanumerics, underscore, hyphen, space, period, parentheses]
+          example: MyRuleName_1
+          exampleSetFlag: true
+        rank:
+          type: integer
+          description: The rank(priority) in relation to other rules. Lower rank is higher priority.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        state:
+          type: string
+          description: The state that the rule is in. A disabled rule cannot be matched.
+          example: enabled
+          exampleSetFlag: true
+          enum:
+          - disabled
+          - enabled
+          - monitor
+      description: Common attributes in rule authentication/authorization
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+          exampleSetFlag: true
+      description: Response object containing success message
+      exampleSetFlag: false
+    RuleAuthorizationNetworkAccess:
+      title: RuleAuthorizationNetworkAccess
+      required:
+      - rule
+      type: object
+      properties:
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        profile:
+          type: array
+          description: The authorization profile/s
+          example: '["PermitAccess","NSP_Onboard"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        rule:
+          $ref: '#/components/schemas/RuleCommon'
+          exampleSetFlag: true
+        securityGroup:
+          type: string
+          description: Security group used in authorization policies
+          example: BYOD
+          exampleSetFlag: true
+      description: Authorization rule for network access
+      exampleSetFlag: false
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    NetworkAccessAuthorizationRuleResponseEntity:
+      title: NetworkAccessAuthorizationRuleResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    NetworkAccessAuthorizationRuleListResponseEntity:
+      title: NetworkAccessAuthorizationRuleListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"rule":{"default":true,"id":"c841b537-45fb-4c3a-a1ae-baeb3e4c4271","hitCounts":0,"rank":1,"state":"enabled","condition":null,"profile":["DenyAccess"],"securityGroup":null,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/network-access/policy-set/{{policy-id}}/authorization/c841b537-45fb-4c3a-a1ae-baeb3e4c4271","type":"application/json"}}},{"rule":{"default":false,"id":"c841b537-45fb-4c3a-a1ae-baeb3e4c427a","name":"Authorization Rule 1","hitCounts":0,"rank":0,"state":"enabled","condition":{"conditionType":"ConditionAttributes","isNegate":false,"dictionaryName":"Network Access","attributeName":"Device IP Address","operator":"ipEquals","attributeValue":"10.0.10.0"}},"profile":["PermitAccess"],"securityGroup":"BYOD","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/network-access/policy-set/{{policy-id}}/authorization/c841b537-45fb-4c3a-a1ae-baeb3e4c427a","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+  securitySchemes:
+    BasicAuth:
+      type: http
+      description: Basic authorization
+      scheme: basic

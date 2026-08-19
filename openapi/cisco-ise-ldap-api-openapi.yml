@@ -1,0 +1,2591 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Ldap API
+  version: '1.0'
+  description: 'Operations tagged ldap across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-ldap.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas
+      are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-ers-open-api-ers-apis.yaml
+    operation_coverage: 11/11
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: ldap
+paths:
+  /ldap/rootcacertificates:
+    get:
+      tags:
+      - ldap
+      summary: get-rootca-certificates
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ldap/:
+    get:
+      tags:
+      - ldap
+      summary: Get-All
+      parameters:
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ldapListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ldapListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - ldap
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identitystores.ldap'
+            example:
+              ERSLdap:
+                enablePasswordChangeLDAP: false
+                name: sample
+                description: Description
+                generalSettings:
+                  schema: ACTIVE_DIRECTORY
+                  groupNameAttribute: dn
+                  groupMapAttributeName: memberOf
+                  certificate: userCertificate
+                  userInfoAttributes:
+                    firstName: givenName
+                    lastName: sn
+                    country: co
+                    stateOrProvince: st
+                    streetAddress: streetAddress
+                    locality: l
+                    telephone: telephoneNumber
+                    department: department
+                    email: email
+                    organizationalUnit: company
+                  groupMemberReference: USERNAME
+                  userNameAttribute: userPrincipalName
+                  groupReference: GROUP_TO_USER
+                  userObjectClass: Person
+                  groupObjectClass: Group
+                groups:
+                  groupsNames:
+                  - CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+                connectionSettings:
+                  secondaryServer:
+                    hostName: ''
+                    useAdminAccess: true
+                    enableForceReconnect: false
+                    issuerCACertificate: ''
+                    adminDN: cn=administrator,cn=users,dc=ise,dc=com
+                    enableServerIdentityCheck: false
+                    serverTimeout: 10
+                    trustCertificate: ''
+                    port: 389
+                    maxConnections: 20
+                    adminPassword: Lab@123
+                    enableSecureConnection: false
+                    forceReconnectTime: 20
+                  failoverToSecondary: true
+                  failbackRetryDelay: 5
+                  alwaysAccessPrimaryFirst: true
+                  specifyServerForEachISENode: true
+                  primaryServer:
+                    hostName: ''
+                    useAdminAccess: true
+                    enableForceReconnect: false
+                    issuerCACertificate: ''
+                    adminDN: cn=administrator,cn=users,dc=ise,dc=com
+                    enableServerIdentityCheck: false
+                    serverTimeout: 10
+                    trustCertificate: ''
+                    port: 389
+                    maxConnections: 20
+                    adminPassword: Lab@123
+                    enableSecureConnection: false
+                    forceReconnectTime: 20
+                  ldapNodeData:
+                  - primaryHostname: ipAddress
+                    secondaryHostname: ipAddress
+                    name: ise222
+                    secondaryPort: 389
+                    primaryPort: 389
+                  - primaryHostname: ipAddress
+                    secondaryHostname: ipAddress
+                    name: ise223
+                    secondaryPort: 389
+                    primaryPort: 389
+                attributes:
+                  attributes:
+                  - internalName: whenChanged
+                    defaultValue: ' '
+                    name: whenChanged
+                    type: STRING
+                directoryOrganization:
+                  stripPrefix: false
+                  prefixSeparator: \
+                  macFormat: DASH
+                  groupDirectorySubtree: groupDirectorySubtree
+                  suffixSeparator: ' '
+                  stripSuffix: false
+                  userDirectorySubtree: userDirectorySubtree
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ldap/hosts:
+    get:
+      tags:
+      - ldap
+      summary: get-hosts
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ldap/issuercacertificates:
+    get:
+      tags:
+      - ldap
+      summary: get-issuerca-certificates
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ldap/{id}/testbindprimary:
+    put:
+      tags:
+      - ldap
+      summary: test-bind-primary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ldap/name/{name}:
+    get:
+      tags:
+      - ldap
+      summary: Get-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ldap/{id}/testbindsecondary:
+    put:
+      tags:
+      - ldap
+      summary: test-bind-secondary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ldap/{id}:
+    get:
+      tags:
+      - ldap
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ldapResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - ldap
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identitystores.ldap'
+            example:
+              ERSLdap:
+                enablePasswordChangeLDAP: false
+                name: sample
+                description: Description
+                generalSettings:
+                  schema: ACTIVE_DIRECTORY
+                  groupNameAttribute: dn
+                  groupMapAttributeName: memberOf
+                  certificate: userCertificate
+                  userInfoAttributes:
+                    firstName: givenName
+                    lastName: sn
+                    country: co
+                    stateOrProvince: st
+                    streetAddress: streetAddress
+                    locality: l
+                    telephone: telephoneNumber
+                    department: department
+                    email: email
+                    organizationalUnit: company
+                  groupMemberReference: USERNAME
+                  userNameAttribute: userPrincipalName
+                  groupReference: GROUP_TO_USER
+                  userObjectClass: Person
+                  groupObjectClass: Group
+                groups:
+                  groupsNames:
+                  - CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+                connectionSettings:
+                  secondaryServer:
+                    hostName: ''
+                    useAdminAccess: true
+                    enableForceReconnect: false
+                    issuerCACertificate: ''
+                    adminDN: cn=administrator,cn=users,dc=ise,dc=com
+                    enableServerIdentityCheck: false
+                    serverTimeout: 10
+                    trustCertificate: ''
+                    port: 389
+                    maxConnections: 20
+                    adminPassword: Lab@123
+                    enableSecureConnection: false
+                    forceReconnectTime: 20
+                  failoverToSecondary: true
+                  failbackRetryDelay: 5
+                  alwaysAccessPrimaryFirst: true
+                  specifyServerForEachISENode: true
+                  primaryServer:
+                    hostName: ''
+                    useAdminAccess: true
+                    enableForceReconnect: false
+                    issuerCACertificate: ''
+                    adminDN: cn=administrator,cn=users,dc=ise,dc=com
+                    enableServerIdentityCheck: false
+                    serverTimeout: 10
+                    trustCertificate: ''
+                    port: 389
+                    maxConnections: 20
+                    adminPassword: Lab@123
+                    enableSecureConnection: false
+                    forceReconnectTime: 20
+                  ldapNodeData:
+                  - primaryHostname: ipAddress
+                    secondaryHostname: ipAddress
+                    name: ise222
+                    secondaryPort: 389
+                    primaryPort: 389
+                  - primaryHostname: ipAddress
+                    secondaryHostname: ipAddress
+                    name: ise223
+                    secondaryPort: 389
+                    primaryPort: 389
+                attributes:
+                  attributes:
+                  - internalName: whenChanged
+                    defaultValue: ' '
+                    name: whenChanged
+                    type: STRING
+                directoryOrganization:
+                  stripPrefix: false
+                  prefixSeparator: \
+                  macFormat: DASH
+                  groupDirectorySubtree: groupDirectorySubtree
+                  suffixSeparator: ' '
+                  stripSuffix: false
+                  userDirectorySubtree: userDirectorySubtree
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - ldap
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    ldapListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/ldapListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    identitystores.ldap:
+      required:
+      - ERSLdap
+      type: object
+      properties:
+        ERSLdap:
+          $ref: '#/components/schemas/ERSLdap'
+      example: null
+    ldapResponseEntity:
+      properties:
+        generalSettings:
+          properties:
+            userObjectClass:
+              title: userObjectClass
+              type: string
+              description: userObjectClass.
+              example: null
+            userNameAttribute:
+              title: userNameAttribute
+              type: string
+              description: userNameAttribute
+              example: null
+            groupNameAttribute:
+              title: groupNameAttribute
+              type: string
+              description: groupNameAttribute
+              example: null
+            groupObjectClass:
+              title: groupObjectClass
+              type: string
+              description: groupObjectClass
+              example: null
+            groupMapAttributeName:
+              title: groupMapAttributeName
+              type: string
+              description: groupMapAttributeName
+              example: null
+            certificate:
+              title: certificate
+              type: string
+              description: certificate
+              example: null
+            schema:
+              title: schema
+              type: object
+              description: schema
+              example: null
+            groupMemberReference:
+              title: groupMemberReference
+              type: object
+              description: groupMemberReference
+              example: null
+            userInfoAttributes:
+              properties:
+                firstName:
+                  title: firstName
+                  type: string
+                  description: firstName
+                  example: null
+                department:
+                  title: department
+                  type: string
+                  description: department
+                  example: null
+                lastName:
+                  title: lastName
+                  type: string
+                  description: lastName
+                  example: null
+                organizationalUnit:
+                  title: organizationalUnit
+                  type: string
+                  description: organizationalUnit
+                  example: null
+                jobTitle:
+                  title: jobTitle
+                  type: string
+                  description: jobTitle
+                  example: null
+                locality:
+                  title: locality
+                  type: string
+                  description: locality
+                  example: null
+                email:
+                  title: email
+                  type: string
+                  description: email
+                  example: null
+                stateOrProvince:
+                  title: stateOrProvince
+                  type: string
+                  description: stateOrProvince
+                  example: null
+                telephone:
+                  title: telephone
+                  type: string
+                  description: telephone
+                  example: null
+                country:
+                  title: country
+                  type: string
+                  description: country
+                  example: null
+                streetAddress:
+                  title: streetAddress
+                  type: string
+                  description: streetAddress
+                  example: null
+                additionalAttribute:
+                  title: additionalAttribute
+                  type: string
+                  description: additionalAttribute
+                  example: null
+              example: null
+          example: null
+        connectionSettings:
+          properties:
+            primaryServer:
+              properties:
+                hostName:
+                  title: hostName
+                  type: string
+                  description: hostName
+                  example: null
+                port:
+                  title: port
+                  type: number
+                  description: port
+                  example: null
+                maxConnections:
+                  title: maxConnections
+                  type: number
+                  description: maxConnections
+                  example: null
+                serverTimeout:
+                  title: serverTimeout
+                  type: number
+                  description: serverTimeout
+                  example: null
+                useAdminAccess:
+                  title: useAdminAccess
+                  type: boolean
+                  description: useAdminAccess
+                  example: null
+                adminDN:
+                  title: adminDN
+                  type: string
+                  description: adminDN
+                  example: null
+                adminPassword:
+                  title: adminPassword
+                  type: string
+                  description: adminPassword
+                  example: null
+                enableSecureConnection:
+                  title: enableSecureConnection
+                  type: boolean
+                  description: enableSecureConnection
+                  example: null
+                enableServerIdentityCheck:
+                  title: enableServerIdentityCheck
+                  type: boolean
+                  description: enableServerIdentityCheck
+                  example: null
+                trustCertificate:
+                  title: trustCertificate
+                  type: string
+                  description: trustCertificate
+                  example: null
+                issuerCACertificate:
+                  title: issuerCACertificate
+                  type: string
+                  description: issuerCACertificate
+                  example: null
+                enableForceReconnect:
+                  title: enableForceReconnect
+                  type: boolean
+                  description: enableForceReconnect
+                  example: null
+                forceReconnectTime:
+                  title: forceReconnectTime
+                  type: number
+                  description: forceReconnectTime
+                  example: null
+              example: null
+            secondaryServer:
+              properties:
+                hostName:
+                  title: hostName
+                  type: string
+                  description: hostName
+                  example: null
+                port:
+                  title: port
+                  type: number
+                  description: port
+                  example: null
+                maxConnections:
+                  title: maxConnections
+                  type: number
+                  description: maxConnections
+                  example: null
+                serverTimeout:
+                  title: serverTimeout
+                  type: number
+                  description: serverTimeout
+                  example: null
+                useAdminAccess:
+                  title: useAdminAccess
+                  type: boolean
+                  description: useAdminAccess
+                  example: null
+                adminDN:
+                  title: adminDN
+                  type: string
+                  description: adminDN
+                  example: null
+                adminPassword:
+                  title: adminPassword
+                  type: string
+                  description: adminPassword
+                  example: null
+                enableSecureConnection:
+                  title: enableSecureConnection
+                  type: boolean
+                  description: enableSecureConnection
+                  example: null
+                enableServerIdentityCheck:
+                  title: enableServerIdentityCheck
+                  type: boolean
+                  description: enableServerIdentityCheck
+                  example: null
+                trustCertificate:
+                  title: trustCertificate
+                  type: string
+                  description: trustCertificate
+                  example: null
+                issuerCACertificate:
+                  title: issuerCACertificate
+                  type: string
+                  description: issuerCACertificate
+                  example: null
+                enableForceReconnect:
+                  title: enableForceReconnect
+                  type: boolean
+                  description: enableForceReconnect
+                  example: null
+                forceReconnectTime:
+                  title: forceReconnectTime
+                  type: number
+                  description: forceReconnectTime
+                  example: null
+              example: null
+            ldapNodeData:
+              title: ldapNodeData
+              type: array
+              description: ldapNodeData
+              example: null
+              items:
+                properties:
+                  name:
+                    title: name
+                    type: string
+                    description: name
+                    example: null
+                  primaryHostname:
+                    title: primaryHostname
+                    type: string
+                    description: ipaddress
+                    example: null
+                  secondaryHostname:
+                    title: secondaryHostname
+                    type: string
+                    description: ipaddress
+                    example: null
+                  primaryPort:
+                    title: primaryPort
+                    type: number
+                    description: primaryPort
+                    example: null
+                  secondaryPort:
+                    title: secondaryPort
+                    type: number
+                    description: secondaryPort
+                    example: null
+                example: null
+            failoverToSecondary:
+              title: failoverToSecondary
+              type: boolean
+              description: failoverToSecondary
+              example: null
+            failbackRetryDelay:
+              title: failbackRetryDelay
+              type: number
+              description: failbackRetryDelay
+              example: null
+            specifyServerForEachISENode:
+              title: specifyServerForEachISENode
+              type: boolean
+              description: specifyServerForEachISENode
+              example: null
+            alwaysAccessPrimaryFirst:
+              title: alwaysAccessPrimaryFirst
+              type: boolean
+              description: alwaysAccessPrimaryFirst
+              example: null
+          example: null
+        directoryOrganization:
+          properties:
+            userDirectorySubtree:
+              title: userDirectorySubtree
+              type: string
+              description: userDirectorySubtree
+              example: null
+            groupDirectorySubtree:
+              title: groupDirectorySubtree
+              type: string
+              description: groupDirectorySubtree
+              example: null
+            macFormat:
+              title: macFormat
+              type: object
+              description: macFormat
+              example: null
+            stripPrefix:
+              title: stripPrefix
+              type: boolean
+              description: stripPrefix
+              example: null
+            stripSuffix:
+              title: stripSuffix
+              type: string
+              description: stripSuffix
+              example: null
+            prefixSeparator:
+              title: prefixSeparator
+              type: string
+              description: prefixSeparator
+              example: null
+            suffixSeparator:
+              title: suffixSeparator
+              type: string
+              description: suffixSeparator
+              example: null
+          example: null
+        groups:
+          properties:
+            groupsNames:
+              title: groupsNames
+              type: array
+              description: List of groups
+              example: null
+              items:
+                example: null
+          example: null
+        attributes:
+          properties:
+            attributes:
+              title: attributes
+              type: array
+              description: List of Attributes
+              example: null
+              items:
+                example: null
+          example: null
+        enablePasswordChangeLDAP:
+          title: enablePasswordChangeLDAP
+          type: boolean
+          description: enablePasswordChangeLDAP
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ldapListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSLdap:
+      required:
+      - name
+      properties:
+        generalSettings:
+          required:
+          - schema
+          properties:
+            userObjectClass:
+              title: userObjectClass
+              type: string
+              description: userObjectClass.
+              example: null
+            userNameAttribute:
+              title: userNameAttribute
+              type: string
+              description: userNameAttribute
+              example: null
+            groupNameAttribute:
+              title: groupNameAttribute
+              type: string
+              description: groupNameAttribute
+              example: null
+            groupObjectClass:
+              title: groupObjectClass
+              type: string
+              description: groupObjectClass
+              example: null
+            groupMapAttributeName:
+              title: groupMapAttributeName
+              type: string
+              description: groupMapAttributeName
+              example: null
+            certificate:
+              title: certificate
+              type: string
+              description: certificate
+              example: null
+            schema:
+              title: schema
+              type: object
+              description: schema
+              example: null
+            groupMemberReference:
+              title: groupMemberReference
+              type: object
+              description: groupMemberReference
+              example: null
+            userInfoAttributes:
+              properties:
+                firstName:
+                  title: firstName
+                  type: string
+                  description: firstName
+                  example: null
+                department:
+                  title: department
+                  type: string
+                  description: department
+                  example: null
+                lastName:
+                  title: lastName
+                  type: string
+                  description: lastName
+                  example: null
+                organizationalUnit:
+                  title: organizationalUnit
+                  type: string
+                  description: organizationalUnit
+                  example: null
+                jobTitle:
+                  title: jobTitle
+                  type: string
+                  description: jobTitle
+                  example: null
+                locality:
+                  title: locality
+                  type: string
+                  description: locality
+                  example: null
+                email:
+                  title: email
+                  type: string
+                  description: email
+                  example: null
+                stateOrProvince:
+                  title: stateOrProvince
+                  type: string
+                  description: stateOrProvince
+                  example: null
+                telephone:
+                  title: telephone
+                  type: string
+                  description: telephone
+                  example: null
+                country:
+                  title: country
+                  type: string
+                  description: country
+                  example: null
+                streetAddress:
+                  title: streetAddress
+                  type: string
+                  description: streetAddress
+                  example: null
+                additionalAttribute:
+                  title: additionalAttribute
+                  type: string
+                  description: additionalAttribute
+                  example: null
+              example: null
+          example: null
+        connectionSettings:
+          properties:
+            primaryServer:
+              required:
+              - hostName
+              - port
+              - trustCertificate
+              properties:
+                hostName:
+                  title: hostName
+                  type: string
+                  description: hostName
+                  example: null
+                port:
+                  title: port
+                  type: number
+                  description: port
+                  example: null
+                maxConnections:
+                  title: maxConnections
+                  type: number
+                  description: maxConnections
+                  example: null
+                serverTimeout:
+                  title: serverTimeout
+                  type: number
+                  description: serverTimeout
+                  example: null
+                useAdminAccess:
+                  title: useAdminAccess
+                  type: boolean
+                  description: useAdminAccess
+                  example: null
+                adminDN:
+                  title: adminDN
+                  type: string
+                  description: adminDN
+                  example: null
+                adminPassword:
+                  title: adminPassword
+                  type: string
+                  description: adminPassword
+                  example: null
+                enableSecureConnection:
+                  title: enableSecureConnection
+                  type: boolean
+                  description: enableSecureConnection
+                  example: null
+                enableServerIdentityCheck:
+                  title: enableServerIdentityCheck
+                  type: boolean
+                  description: enableServerIdentityCheck
+                  example: null
+                trustCertificate:
+                  title: trustCertificate
+                  type: string
+                  description: trustCertificate
+                  example: null
+                issuerCACertificate:
+                  title: issuerCACertificate
+                  type: string
+                  description: issuerCACertificate
+                  example: null
+                enableForceReconnect:
+                  title: enableForceReconnect
+                  type: boolean
+                  description: enableForceReconnect
+                  example: null
+                forceReconnectTime:
+                  title: forceReconnectTime
+                  type: number
+                  description: forceReconnectTime
+                  example: null
+              example: null
+            secondaryServer:
+              properties:
+                hostName:
+                  title: hostName
+                  type: string
+                  description: hostName
+                  example: null
+                port:
+                  title: port
+                  type: number
+                  description: port
+                  example: null
+                maxConnections:
+                  title: maxConnections
+                  type: number
+                  description: maxConnections
+                  example: null
+                serverTimeout:
+                  title: serverTimeout
+                  type: number
+                  description: serverTimeout
+                  example: null
+                useAdminAccess:
+                  title: useAdminAccess
+                  type: boolean
+                  description: useAdminAccess
+                  example: null
+                adminDN:
+                  title: adminDN
+                  type: string
+                  description: adminDN
+                  example: null
+                adminPassword:
+                  title: adminPassword
+                  type: string
+                  description: adminPassword
+                  example: null
+                enableSecureConnection:
+                  title: enableSecureConnection
+                  type: boolean
+                  description: enableSecureConnection
+                  example: null
+                enableServerIdentityCheck:
+                  title: enableServerIdentityCheck
+                  type: boolean
+                  description: enableServerIdentityCheck
+                  example: null
+                trustCertificate:
+                  title: trustCertificate
+                  type: string
+                  description: trustCertificate
+                  example: null
+                issuerCACertificate:
+                  title: issuerCACertificate
+                  type: string
+                  description: issuerCACertificate
+                  example: null
+                enableForceReconnect:
+                  title: enableForceReconnect
+                  type: boolean
+                  description: enableForceReconnect
+                  example: null
+                forceReconnectTime:
+                  title: forceReconnectTime
+                  type: number
+                  description: forceReconnectTime
+                  example: null
+              example: null
+            ldapNodeData:
+              title: ldapNodeData
+              type: array
+              description: ldapNodeData
+              example: null
+              items:
+                properties:
+                  name:
+                    title: name
+                    type: string
+                    description: name
+                    example: null
+                  primaryHostname:
+                    title: primaryHostname
+                    type: string
+                    description: ipaddress
+                    example: null
+                  secondaryHostname:
+                    title: secondaryHostname
+                    type: string
+                    description: ipaddress
+                    example: null
+                  primaryPort:
+                    title: primaryPort
+                    type: number
+                    description: primaryPort
+                    example: null
+                  secondaryPort:
+                    title: secondaryPort
+                    type: number
+                    description: secondaryPort
+                    example: null
+                example: null
+            failoverToSecondary:
+              title: failoverToSecondary
+              type: boolean
+              description: failoverToSecondary
+              example: null
+            failbackRetryDelay:
+              title: failbackRetryDelay
+              type: number
+              description: failbackRetryDelay
+              example: null
+            specifyServerForEachISENode:
+              title: specifyServerForEachISENode
+              type: boolean
+              description: specifyServerForEachISENode
+              example: null
+            alwaysAccessPrimaryFirst:
+              title: alwaysAccessPrimaryFirst
+              type: boolean
+              description: alwaysAccessPrimaryFirst
+              example: null
+          example: null
+        directoryOrganization:
+          required:
+          - groupDirectorySubtree
+          - macFormat
+          - userDirectorySubtree
+          properties:
+            userDirectorySubtree:
+              title: userDirectorySubtree
+              type: string
+              description: userDirectorySubtree
+              example: null
+            groupDirectorySubtree:
+              title: groupDirectorySubtree
+              type: string
+              description: groupDirectorySubtree
+              example: null
+            macFormat:
+              title: macFormat
+              type: object
+              description: macFormat
+              example: null
+            stripPrefix:
+              title: stripPrefix
+              type: boolean
+              description: stripPrefix
+              example: null
+            stripSuffix:
+              title: stripSuffix
+              type: string
+              description: stripSuffix
+              example: null
+            prefixSeparator:
+              title: prefixSeparator
+              type: string
+              description: prefixSeparator
+              example: null
+            suffixSeparator:
+              title: suffixSeparator
+              type: string
+              description: suffixSeparator
+              example: null
+          example: null
+        groups:
+          properties:
+            groupsNames:
+              title: groupsNames
+              type: array
+              description: List of groups
+              example: null
+              items:
+                example: null
+          example: null
+        attributes:
+          properties:
+            attributes:
+              title: attributes
+              type: array
+              description: List of Attributes
+              example: null
+              items:
+                example: null
+          example: null
+        enablePasswordChangeLDAP:
+          title: enablePasswordChangeLDAP
+          type: boolean
+          description: enablePasswordChangeLDAP
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        ERSLdap:
+          enablePasswordChangeLDAP: false
+          name: sample
+          description: Description
+          generalSettings:
+            schema: ACTIVE_DIRECTORY
+            groupNameAttribute: dn
+            groupMapAttributeName: memberOf
+            certificate: userCertificate
+            userInfoAttributes:
+              firstName: givenName
+              lastName: sn
+              country: co
+              stateOrProvince: st
+              streetAddress: streetAddress
+              locality: l
+              telephone: telephoneNumber
+              department: department
+              email: email
+              organizationalUnit: company
+            groupMemberReference: USERNAME
+            userNameAttribute: userPrincipalName
+            groupReference: GROUP_TO_USER
+            userObjectClass: Person
+            groupObjectClass: Group
+          groups:
+            groupsNames:
+            - CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+          connectionSettings:
+            secondaryServer:
+              hostName: ''
+              useAdminAccess: true
+              enableForceReconnect: false
+              issuerCACertificate: ''
+              adminDN: cn=administrator,cn=users,dc=ise,dc=com
+              enableServerIdentityCheck: false
+              serverTimeout: 10
+              trustCertificate: ''
+              port: 389
+              maxConnections: 20
+              adminPassword: Lab@123
+              enableSecureConnection: false
+              forceReconnectTime: 20
+            failoverToSecondary: true
+            failbackRetryDelay: 5
+            alwaysAccessPrimaryFirst: true
+            specifyServerForEachISENode: true
+            primaryServer:
+              hostName: ''
+              useAdminAccess: true
+              enableForceReconnect: false
+              issuerCACertificate: ''
+              adminDN: cn=administrator,cn=users,dc=ise,dc=com
+              enableServerIdentityCheck: false
+              serverTimeout: 10
+              trustCertificate: ''
+              port: 389
+              maxConnections: 20
+              adminPassword: Lab@123
+              enableSecureConnection: false
+              forceReconnectTime: 20
+            ldapNodeData:
+            - primaryHostname: ipAddress
+              secondaryHostname: ipAddress
+              name: ise222
+              secondaryPort: 389
+              primaryPort: 389
+            - primaryHostname: ipAddress
+              secondaryHostname: ipAddress
+              name: ise223
+              secondaryPort: 389
+              primaryPort: 389
+          attributes:
+            attributes:
+            - internalName: whenChanged
+              defaultValue: ' '
+              name: whenChanged
+              type: STRING
+          directoryOrganization:
+            stripPrefix: false
+            prefixSeparator: \
+            macFormat: DASH
+            groupDirectorySubtree: groupDirectorySubtree
+            suffixSeparator: ' '
+            stripSuffix: false
+            userDirectorySubtree: userDirectorySubtree
+    ldapResponse:
+      type: object
+      properties:
+        ERSLdap:
+          $ref: '#/components/schemas/ldapResponseEntity'
+      example:
+        ERSLdap:
+          enablePasswordChangeLDAP: false
+          name: sample
+          description: Description
+          generalSettings:
+            schema: ACTIVE_DIRECTORY
+            groupNameAttribute: dn
+            groupMapAttributeName: memberOf
+            certificate: userCertificate
+            userInfoAttributes:
+              firstName: givenName
+              lastName: sn
+              country: co
+              stateOrProvince: st
+              streetAddress: streetAddress
+              locality: l
+              telephone: telephoneNumber
+              department: department
+              email: email
+              organizationalUnit: company
+            groupMemberReference: USERNAME
+            userNameAttribute: userPrincipalName
+            groupReference: GROUP_TO_USER
+            userObjectClass: Person
+            groupObjectClass: Group
+          groups:
+            groupsNames:
+            - CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+          connectionSettings:
+            secondaryServer:
+              hostName: ''
+              useAdminAccess: true
+              enableForceReconnect: false
+              issuerCACertificate: ''
+              adminDN: cn=administrator,cn=users,dc=ise,dc=com
+              enableServerIdentityCheck: false
+              serverTimeout: 10
+              trustCertificate: ''
+              port: 389
+              maxConnections: 20
+              adminPassword: Lab@123
+              enableSecureConnection: false
+              forceReconnectTime: 20
+            failoverToSecondary: true
+            failbackRetryDelay: 5
+            alwaysAccessPrimaryFirst: true
+            specifyServerForEachISENode: true
+            primaryServer:
+              hostName: ''
+              useAdminAccess: true
+              enableForceReconnect: false
+              issuerCACertificate: ''
+              adminDN: cn=administrator,cn=users,dc=ise,dc=com
+              enableServerIdentityCheck: false
+              serverTimeout: 10
+              trustCertificate: ''
+              port: 389
+              maxConnections: 20
+              adminPassword: Lab@123
+              enableSecureConnection: false
+              forceReconnectTime: 20
+            ldapNodeData:
+            - primaryHostname: ipAddress
+              secondaryHostname: ipAddress
+              name: ise222
+              secondaryPort: 389
+              primaryPort: 389
+            - primaryHostname: ipAddress
+              secondaryHostname: ipAddress
+              name: ise223
+              secondaryPort: 389
+              primaryPort: 389
+          attributes:
+            attributes:
+            - internalName: whenChanged
+              defaultValue: ' '
+              name: whenChanged
+              type: STRING
+          directoryOrganization:
+            stripPrefix: false
+            prefixSeparator: \
+            macFormat: DASH
+            groupDirectorySubtree: groupDirectorySubtree
+            suffixSeparator: ' '
+            stripSuffix: false
+            userDirectorySubtree: userDirectorySubtree
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    Link_2:
+      title: Link
+      type: object
+      properties:
+        rel:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/Rel'
+          - example: self
+        href:
+          example: https://{server}:{port}/ers/config
+          type: string
+        type:
+          example: application/json
+          type: string
+    Rel:
+      title: Rel
+      example: self
+      type: string
+      enum:
+      - next
+      - previous
+      - self
+      - status
+    ERSResponse_2:
+      title: ERSResponse
+      type: object
+      properties:
+        operation:
+          example: Operation
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    updatedField_2:
+      title: updatedField
+      type: object
+      properties:
+        field:
+          type: string
+        oldValue:
+          type: string
+        newValue:
+          type: string
+    ldapListResponse_2:
+      title: ldapListResponse
+      example:
+        SearchResult:
+          total: 2
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+          nextHyperLink:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          prevHyperLink:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    identitystores.ldap_2:
+      title: identitystores.ldap
+      type: object
+      properties:
+        ERSLdap:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/ERSLdap_2'
+          - example:
+              ERSLdap:
+                enablePasswordChangeLDAP: false
+                name: sample
+                description: Description
+                generalSettings:
+                  schema: ACTIVE_DIRECTORY
+                  groupNameAttribute: dn
+                  groupMapAttributeName: memberOf
+                  certificate: userCertificate
+                  userInfoAttributes:
+                    firstName: givenName
+                    lastName: sn
+                    country: co
+                    stateOrProvince: st
+                    streetAddress: streetAddress
+                    locality: l
+                    telephone: telephoneNumber
+                    department: department
+                    email: email
+                    organizationalUnit: company
+                  groupMemberReference: USERNAME
+                  userNameAttribute: userPrincipalName
+                  groupReference: GROUP_TO_USER
+                  userObjectClass: Person
+                  groupObjectClass: Group
+                groups:
+                  groupsNames:
+                  - CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+                connectionSettings:
+                  secondaryServer:
+                    hostName: ''
+                    useAdminAccess: true
+                    enableForceReconnect: false
+                    issuerCACertificate: ''
+                    adminDN: cn=administrator,cn=users,dc=ise,dc=com
+                    enableServerIdentityCheck: false
+                    serverTimeout: 10
+                    trustCertificate: ''
+                    port: 389
+                    maxConnections: 20
+                    adminPassword: Lab@123
+                    enableSecureConnection: false
+                    forceReconnectTime: 20
+                  failoverToSecondary: true
+                  failbackRetryDelay: 5
+                  alwaysAccessPrimaryFirst: true
+                  specifyServerForEachISENode: true
+                  primaryServer:
+                    hostName: ''
+                    useAdminAccess: true
+                    enableForceReconnect: false
+                    issuerCACertificate: ''
+                    adminDN: cn=administrator,cn=users,dc=ise,dc=com
+                    enableServerIdentityCheck: false
+                    serverTimeout: 10
+                    trustCertificate: ''
+                    port: 389
+                    maxConnections: 20
+                    adminPassword: Lab@123
+                    enableSecureConnection: false
+                    forceReconnectTime: 20
+                  ldapNodeData:
+                  - primaryHostname: ipAddress
+                    secondaryHostname: ipAddress
+                    name: ise222
+                    secondaryPort: 389
+                    primaryPort: 389
+                  - primaryHostname: ipAddress
+                    secondaryHostname: ipAddress
+                    name: ise223
+                    secondaryPort: 389
+                    primaryPort: 389
+                attributes:
+                  attributes:
+                  - internalName: whenChanged
+                    defaultValue: ' '
+                    name: whenChanged
+                    type: STRING
+                directoryOrganization:
+                  stripPrefix: false
+                  prefixSeparator: \
+                  macFormat: DASH
+                  groupDirectorySubtree: groupDirectorySubtree
+                  suffixSeparator: ' '
+                  stripSuffix: false
+                  userDirectorySubtree: userDirectorySubtree
+      required:
+      - ERSLdap
+    SearchResult:
+      title: SearchResult
+      type: object
+      properties:
+        total:
+          example: 2
+          type: integer
+          format: int32
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ldapListResponseEntity_2'
+    Message:
+      title: Message
+      type: object
+      properties:
+        title:
+          example: title
+          type: string
+        type:
+          example: type
+          type: string
+        code:
+          example: code
+          type: string
+    UserInfoAttributes:
+      title: UserInfoAttributes
+      type: object
+      properties:
+        firstName:
+          description: firstName
+          type: string
+        department:
+          description: department
+          type: string
+        lastName:
+          description: lastName
+          type: string
+        organizationalUnit:
+          description: organizationalUnit
+          type: string
+        jobTitle:
+          description: jobTitle
+          type: string
+        locality:
+          description: locality
+          type: string
+        email:
+          description: email
+          type: string
+        stateOrProvince:
+          description: stateOrProvince
+          type: string
+        telephone:
+          description: telephone
+          type: string
+        country:
+          description: country
+          type: string
+        streetAddress:
+          description: streetAddress
+          type: string
+        additionalAttribute:
+          description: additionalAttribute
+          type: string
+    ldapListResponseEntity_2:
+      title: ldapListResponseEntity
+      type: object
+      properties:
+        id:
+          description: Id description
+          type: string
+        name:
+          description: name description
+          type: string
+        description:
+          description: description
+          type: string
+        link:
+          $ref: '#/components/schemas/Link_2'
+    UpdatedFieldsList:
+      title: UpdatedFieldsList
+      type: object
+      properties:
+        updatedField:
+          type: array
+          items:
+            $ref: '#/components/schemas/updatedField_2'
+    GeneralSettings:
+      title: GeneralSettings
+      type: object
+      properties:
+        userObjectClass:
+          description: userObjectClass.
+          type: string
+        userNameAttribute:
+          description: userNameAttribute
+          type: string
+        groupNameAttribute:
+          description: groupNameAttribute
+          type: string
+        groupObjectClass:
+          description: groupObjectClass
+          type: string
+        groupMapAttributeName:
+          description: groupMapAttributeName
+          type: string
+        certificate:
+          description: certificate
+          type: string
+        schema:
+          description: schema
+          type: object
+        groupMemberReference:
+          description: groupMemberReference
+          type: object
+        userInfoAttributes:
+          $ref: '#/components/schemas/UserInfoAttributes'
+      required:
+      - schema
+    ldapResponseEntity_2:
+      title: ldapResponseEntity
+      type: object
+      properties:
+        generalSettings:
+          $ref: '#/components/schemas/GeneralSettings1'
+        link:
+          $ref: '#/components/schemas/Link_2'
+    GeneralSettings1:
+      title: GeneralSettings1
+      type: object
+      properties:
+        userObjectClass:
+          description: userObjectClass.
+          type: string
+        userNameAttribute:
+          description: userNameAttribute
+          type: string
+        groupNameAttribute:
+          description: groupNameAttribute
+          type: string
+        groupObjectClass:
+          description: groupObjectClass
+          type: string
+        groupMapAttributeName:
+          description: groupMapAttributeName
+          type: string
+        certificate:
+          description: certificate
+          type: string
+        schema:
+          description: schema
+          type: object
+        groupMemberReference:
+          description: groupMemberReference
+          type: object
+        userInfoAttributes:
+          $ref: '#/components/schemas/UserInfoAttributes'
+    ERSLdap_2:
+      title: ERSLdap
+      example:
+        ERSLdap:
+          enablePasswordChangeLDAP: false
+          name: sample
+          description: Description
+          generalSettings:
+            schema: ACTIVE_DIRECTORY
+            groupNameAttribute: dn
+            groupMapAttributeName: memberOf
+            certificate: userCertificate
+            userInfoAttributes:
+              firstName: givenName
+              lastName: sn
+              country: co
+              stateOrProvince: st
+              streetAddress: streetAddress
+              locality: l
+              telephone: telephoneNumber
+              department: department
+              email: email
+              organizationalUnit: company
+            groupMemberReference: USERNAME
+            userNameAttribute: userPrincipalName
+            groupReference: GROUP_TO_USER
+            userObjectClass: Person
+            groupObjectClass: Group
+          groups:
+            groupsNames:
+            - CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+          connectionSettings:
+            secondaryServer:
+              hostName: ''
+              useAdminAccess: true
+              enableForceReconnect: false
+              issuerCACertificate: ''
+              adminDN: cn=administrator,cn=users,dc=ise,dc=com
+              enableServerIdentityCheck: false
+              serverTimeout: 10
+              trustCertificate: ''
+              port: 389
+              maxConnections: 20
+              adminPassword: Lab@123
+              enableSecureConnection: false
+              forceReconnectTime: 20
+            failoverToSecondary: true
+            failbackRetryDelay: 5
+            alwaysAccessPrimaryFirst: true
+            specifyServerForEachISENode: true
+            primaryServer:
+              hostName: ''
+              useAdminAccess: true
+              enableForceReconnect: false
+              issuerCACertificate: ''
+              adminDN: cn=administrator,cn=users,dc=ise,dc=com
+              enableServerIdentityCheck: false
+              serverTimeout: 10
+              trustCertificate: ''
+              port: 389
+              maxConnections: 20
+              adminPassword: Lab@123
+              enableSecureConnection: false
+              forceReconnectTime: 20
+            ldapNodeData:
+            - primaryHostname: ipAddress
+              secondaryHostname: ipAddress
+              name: ise222
+              secondaryPort: 389
+              primaryPort: 389
+            - primaryHostname: ipAddress
+              secondaryHostname: ipAddress
+              name: ise223
+              secondaryPort: 389
+              primaryPort: 389
+          attributes:
+            attributes:
+            - internalName: whenChanged
+              defaultValue: ' '
+              name: whenChanged
+              type: STRING
+          directoryOrganization:
+            stripPrefix: false
+            prefixSeparator: \
+            macFormat: DASH
+            groupDirectorySubtree: groupDirectorySubtree
+            suffixSeparator: ' '
+            stripSuffix: false
+            userDirectorySubtree: userDirectorySubtree
+      type: object
+      properties:
+        generalSettings:
+          $ref: '#/components/schemas/GeneralSettings'
+    ldapResponse_2:
+      title: ldapResponse
+      type: object
+      properties:
+        ERSLdap:
+          $ref: '#/components/schemas/ldapResponseEntity_2'
+    UpdatedFieldsResponse_2:
+      title: UpdatedFieldsResponse
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-ldap.yaml

@@ -1,0 +1,102 @@
+generated: '2026-08-19'
+method: searched
+source: https://developer.cisco.com/docs/identity-services-engine/latest/ (Getting Started + Guides) and openapi/_original/
+authentication:
+  style: http-basic
+  artifact: authentication/cisco-ise-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: Cisco documents no idempotency key for either the ERS or the Open API surface. There is no Idempotency-Key header,
+    no client-supplied request identifier, and no replay window described anywhere in the ISE API documentation, and no such
+    parameter appears in any of the 103 published documents. Writes are therefore not safely retryable. This is a real gap
+    for agent use, and it is recorded as absent rather than inferred present — no Idempotency pointer is emitted in apis.yml.
+pagination:
+  style: page-number
+  params:
+    page:
+      default: 1
+      note: 1-based
+    size:
+      default: 20
+      max: 100
+  applies_to: all ERS get-all / search operations
+  example: GET /ers/config/internaluser?filter=name.STARTW.a&filter=identityGroup.EQ.Finance&size=50&page=1
+  docs: https://developer.cisco.com/docs/identity-services-engine/latest/pagination/
+filtering:
+  style: field.OPERATOR.value
+  params:
+  - filter
+  repeatable: true
+  operators_observed:
+  - EQ
+  - STARTW
+  - CONTAINS
+  - NOTEQ
+  - STARTSW
+  note: Filter expressions are passed as repeated filter= query parameters, e.g. filter=name.STARTW.a.
+content_negotiation:
+  request:
+  - application/json
+  - application/xml
+  response:
+  - application/json
+  - application/xml
+  note: Both surfaces are dual JSON/XML. The Accept header is mandatory on every ERS request; an unsupported media type returns
+    415.
+versioning:
+  scheme: media-type + uri-path
+  ers_media_type:
+    header: ERS-Media-Type
+    form: resource-namespace.resource-name.resource-version
+    example: identity.internaluser.1.2
+    required: false
+    note: Optional. When omitted the server assumes the latest resource version. An unsupported version returns 415 VERSION_EXCEPTION.
+  open_api_path: /api/v1
+  ers_path: /ers/config
+  product_versioning: API availability tracks the ISE release train (1.2 through 3.6 Beta); Cisco publishes a per-resource
+    matrix of the release in which each API first appeared.
+  docs: https://developer.cisco.com/docs/identity-services-engine/latest/versioning/
+method_semantics:
+  GET: get-all (search), get-by-id, get resource version
+  POST: create
+  PUT: update and non-CRUD operations
+  PATCH: partial update — only attributes sent are affected
+  DELETE: delete
+response_headers:
+  Location: POST only — URI of the newly created resource
+  Content-Type: application/json or application/xml
+request_headers:
+  Accept: required
+  Authorization: required — Basic
+  Content-Type: required on writes
+  ERS-Media-Type: optional resource version pin
+  X-CSRF-Token: required when CSRF check is enabled
+bulk:
+  supported: true
+  surface: ERS bulk request endpoints
+  docs: https://developer.cisco.com/docs/identity-services-engine/latest/bulk-requests/
+  note: ERS supports bulk create/update/delete submissions that return a bulk ID for status polling; the Exim (import/export)
+    Open API covers bulk endpoint import/export separately.
+error_envelope:
+  shape: ERS error response with a named exception code + HTTP status
+  rfc9457: false
+  artifact: errors/cisco-ise-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  documented_limit: 100 TPS concurrent ERS API connections
+  note: No RateLimit-*/X-RateLimit-*/Retry-After headers are documented. The published ceiling is a concurrency number with
+    no runtime signal, so a client cannot detect approaching exhaustion.
+  artifact: rate-limits/cisco-ise-rate-limits.yml
+tracing:
+  request_id_header: null
+  note: No correlation/request-id header is documented.
+gateway:
+  component: Cisco ISE API Gateway
+  note: From ISE 3.1 the MnT, ERS and Open APIs are all routed through the API Gateway, which is the single entry point on
+    port 443. In a distributed deployment reads may go to a PSN or the primary PAN; writes go only to the primary PAN.
+cross_links:
+- errors/cisco-ise-problem-types.yml
+- lifecycle/cisco-ise-lifecycle.yml
+- authentication/cisco-ise-authentication.yml
+- rate-limits/cisco-ise-rate-limits.yml

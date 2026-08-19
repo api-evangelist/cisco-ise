@@ -1,0 +1,168 @@
+openapi: 3.2.0
+info:
+  title: MnT Co A API
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}/admin/API/mnt
+  variables:
+    server:
+      default: localhost
+      description: The host where the API is rooted
+security:
+- basicAuth: []
+tags:
+- name: CoA
+paths:
+  /CoA/Reauth/{node}/{mac}/{type}:
+    get:
+      operationId: getCoAReauthStatus
+      summary: Get CoA reauthentication status
+      parameters:
+      - name: node
+        in: path
+        required: true
+        description: The node to retrieve CoA reauthentication status for
+        schema:
+          type: string
+      - name: mac
+        in: path
+        description: The MAC address to retrieve CoA reauthentication status for
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: The type parameter for the CoA reauthentication status
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/CoAResult'
+        '401':
+          description: Unauthorized access
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mnt-rest-result'
+      tags:
+      - CoA
+  /CoA/Disconnect/{node}/{mac}/{option}:
+    get:
+      operationId: getCoADisconnectStatus
+      summary: Get CoA disconnect status
+      parameters:
+      - name: node
+        in: path
+        required: true
+        description: The node to retrieve CoA disconnect status for
+        schema:
+          type: string
+      - name: mac
+        in: path
+        required: true
+        description: The MAC address to retrieve CoA disconnect status for
+        schema:
+          type: string
+      - name: option
+        in: path
+        description: The option parameter for the CoA disconnect status
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/CoAResult'
+        '401':
+          description: Unauthorized access
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mnt-rest-result'
+      tags:
+      - CoA
+components:
+  schemas:
+    mnt-rest-result:
+      type: object
+      additionalProperties: true
+      properties:
+        http-code:
+          type: integer
+          example: 500
+        cpm-code:
+          type: integer
+          example: 34110
+        description:
+          type: string
+          example: Server has encountered error while processing the REST request
+        module-name:
+          type: string
+          example: MnT
+        internal-error-info:
+          type: string
+          example: This host is not a MnT node. MnT REST APIs can not be executed on this node.
+        requested-operation:
+          type: string
+          example: Get By Type
+        resource-id:
+          type: string
+          example: dummy
+        resource-name:
+          type: string
+          example: dummy
+        resource-type:
+          type: string
+          example: ActiveCount
+        status:
+          type: string
+          example: SERVER_ERROR
+    CoAResult:
+      description: CoA result
+      type: object
+      xml:
+        name: remoteCoA
+      properties:
+        requestType:
+          type: string
+          xml:
+            attribute: true
+        results:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic

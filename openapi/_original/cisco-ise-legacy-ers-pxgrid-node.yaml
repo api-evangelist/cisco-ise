@@ -1,0 +1,391 @@
+swagger: '2.0'
+info:
+  description: |
+    pxGrid Node API allows the client to retrieve pxGrid information, delete an existing pxGrid node, and approve new pxGrid nodes. 
+
+    **Note:**
+    From Cisco ISE Release 3.1, all pxGrid connections must be based on pxGrid 2.0. pxGrid 1.0-based (XMPP-based) integrations will cease to work on Cisco ISE from Release 3.1 onwards. 
+    
+      pxGrid Version 2.0, which is based on WebSockets, was introduced in Cisco ISE Release 2.4. We recommend that you plan and upgrade your other systems to pxGrid 2.0-compliant versions in order to prevent potential disruptions, if any, to integrations.    
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+    <tr style ='border-bottom:solid #CCCCCC 1.0pt'><td>0</td><td>1.0</td><td>2.4</td><td>Initial Cisco ISE Version</td></tr>
+    </table>
+    <br><br>
+    
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td>ers-sample-client</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td>ab6deded-fcc2-47ff-8577-0014737c8fcf</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td>ERS sample client</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>status</td><td>String</td><td>No</td><td></td><td>Online (XMPP)</td></tr>
+    <tr><td style='font-family:monospace'>authMethod</td><td>String</td><td>No</td><td></td><td>Certificate</td></tr>
+    <tr valign=top style='background:#f8f8f8; border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>groups</td><td>String</td><td>No</td><td></td><td></td></tr>
+    </table>
+    <br><br>
+
+    <h2>pxGrid Characterization</h2>
+    <p><b>Session data Consumption over pxGrid</b></p> 
+    <p>On a 35 node Cisco ISE deployment with a dedicated primary Policy Administration node (PAN), dedicated secondary PAN, dedicated primary Monitoring and Troubleshooting node (MnT node), dedicated secondary MnT, dedicated pxGrid node and 30 heterogeneous Policy Service node (PSN) platforms, there was no delay observed in consuming session data with the following parameters as shown in the table below:</p>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>RADIUS Traffic</b></td><td><b>Total number of sessions in the deployment</b></td><td><b>Number of pxGrid clients (subscribers to the session topic)</b></td><td><b>pxGrid client’s delay in consuming session data</b></td></tr>
+    <tr style ='border-bottom:solid #CCCCCC 1.0pt'><td>Upto 500 transactions per second (TPS)</td><td>~2 million</td><td>50</td><td>No delay</td></tr>
+    </table>
+
+    <p><b>Bulk download time taken</b></p> 
+    <p>On a 35 node Cisco ISE deployment with a dedicated primary PAN, dedicated secondary PAN, dedicated primary MnT, dedicated secondary MnT, dedicated pxGrid node and 30 heterogeneous PSN Platforms, the bulk download time for all the pxGrid clients is shown in the table below:</p>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Total number of sessions in the deployment</b></td><td><b>Number of pxGrid clients (subscribers to the session topic)</b></td><td><b>Time taken for bulk download</b></td></tr>
+    <tr style ='border-bottom:solid #CCCCCC 1.0pt'><td>2 million</td><td>50</td><td>~17 minutes</td></tr>
+    </table>
+    
+    <br><br>
+    **Note:**
+     From Cisco ISE Release 3.1, we can use either pxgridnode or pxgridNode in the URL.
+    
+  version: 1.0.0
+  title: pxGrid Node
+
+tags:
+- name: pxgridnode
+
+paths:
+  /ers/config/pxgridNode/name/{name}/approve:
+    put:
+      tags: 
+      - pxgridnode
+      summary: Approve pxGrid node
+      description:
+        <p>This API allows the client to approve a pxGrid node.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- pxgrid.pxgridnode.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Additional Information
+          type: string
+          description: 
+               Only pending pxGrid nodes can be approved
+      responses: 
+        204:
+          description: No Content
+
+  /ers/config/pxgridNode/name/{name}:
+    get:
+      tags: 
+      - pxgridnode
+      summary: Get pxGrid node by name
+      description:
+        <p>This API allows the client to get a pxGrid node by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- pxgrid.pxgridnode.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/pxgridnode_name'
+
+    delete:
+      tags:
+      - pxgridnode
+      summary: Delete pxGrid node by name
+      description:
+        <p>This API deletes a pxGrid node by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- pxgrid.pxgridnode.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+               	Operation 'DeleteByName' can be used within Bulk Request
+      responses: 
+        204:
+          description: No Content 
+          
+  /ers/config/pxgridNode/{id}:
+    get:
+      tags: 
+      - pxgridnode
+      summary: Get pxGrid node by ID
+      description:
+        <p>This API allows the client to get a pxGrid node by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- pxgrid.pxgridnode.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/pxgridnode'
+          
+  /ers/config/pxgridNode:
+    get:
+      tags: 
+      - pxgridnode
+      summary: Get all pxGrid nodes
+      description:
+        <p>This API allows the client to get all the npxGrid nodes.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- 	pxgrid.pxgridnode.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+            
+  /ers/config/pxgridNode/versioninfo:
+    get:
+      tags:
+      - pxgridnode
+      summary: Get pxGrid node version information
+      description:
+        <p>This API helps to retrieve the version information related to the pxGrid node.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+
+definitions:
+  pxgridnode_name:
+    type: object
+    properties:
+      PxgridNode:
+        $ref: '#/definitions/PxgridNode_name'
+        
+  PxgridNode_name:
+    type: object
+    properties:
+      id:
+        type: string
+        example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+      name:
+        type: string
+        example: ers-sample-client
+      description:
+        type: string
+        example: ERS sample client 
+      status:
+        type: string
+        example: Online (XMPP)
+      authMethod:
+        type: string
+        example: Certificate
+      groups:
+        type: string
+        example: ""
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/pxgridNode/name/ers-sample-client
+          type:
+            type: string
+            example: application/json     
+            
+  pxgridnode:
+    type: object
+    properties:
+      PxgridNode:
+        $ref: '#/definitions/PxgridNode'
+        
+  PxgridNode:
+    type: object
+    properties:
+      id:
+        type: string
+        example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+      name:
+        type: string
+        example: ers-sample-client
+      description:
+        type: string
+        example: ERS sample client 
+      status:
+        type: string
+        example: Online (XMPP)
+      authMethod:
+        type: string
+        example: Certificate
+      groups:
+        type: string
+        example: ""
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/pxgridNode/ab6deded-fcc2-47ff-8577-0014737c8fcf
+          type:
+            type: string
+            example: application/json      
+            
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example: [
+            {
+                "id": "ab6deded-fcc2-47ff-8577-0014737c8fcf",
+                "name": "ers-sample-client",
+                "description": "ERS sample client",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/pxgridNode/	ab6deded-fcc2-47ff-8577-0014737c8fcf",
+                    "type": "application/json"
+                }
+            }
+        ]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "1.0"
+      supportedVersions:
+        type: string
+        example: "1.0"  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/pxgridNode/versioninfo
+      type:
+        type: string
+        example: application/json

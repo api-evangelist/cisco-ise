@@ -1,0 +1,461 @@
+swagger: '2.0'
+info:
+  description: |
+    External RADIUS Server API allows the client to add, delete, update, search and perform actions on external RADIUS server. 
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td><td colspan ="2"><b>Revision Modification</b></td></tr>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td></td><td></td><td></td><td></b></td><td><b>Attribute</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.3</td><td>Initial Cisco ISE Version</td></tr>
+    <tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8;border-bottom:solid #CCCCCC 1.0pt'><td>1</td><td>1.1</td><td>2.6</td><td >Support new attribute Proxy Dead Timeout</td><td>proxyTimeout</td><td>Added int Attribute 'proxyTimeout'</td></tr></tr>
+    <tr style='border-bottom:solid #CCCCCC'><td>2</td><td>1.2</td><td>3.2</td><td>Added Patch operation</td></tr>
+    <tr style='border-bottom:solid #CCCCCC'><td>3</td><td>1.3</td><td>3.5</td><td>Added msgAuthIsRequiredOnResponse attribute</td><td>msgAuthIsRequiredOnResponse</td><td>Added bool Attribute 'msgAuthIsRequiredOnResponse'</td></tr></tr>
+    </table>
+    <br><br>
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name. Allowed charactera are alphanumeric and _ (underscore).</td><td></td><td>externalRadiusServer1</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td></td><td>da095377-dce8-486e-933a-6ea788bbf51a</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td><td>example external radius server</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>hostIP</td><td>String</td><td>Yes</td><td>The IP of the host - must be a valid IPV4 address</td><td></td><td>1.1.1.1</td></tr>
+    <tr><td style='font-family:monospace'>sharedSecret</td><td>String</td><td>Yes</td><td>Shared secret maximum length is 128 characters</td><td></td><td>sharedSecret</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>enableKeyWrap</td><td>Boolean</td><td>Yes</td><td>KeyWrap may only be enabled if it is supported on the device. When running in FIPS mode this option should be enabled for such devices</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>encryptionKey</td><td>String</td><td>No</td><td>The encryptionKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 16 ASCII characters or 32 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')</td><td></td><td>1616161616161616</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>authenticatorKey</td><td>String</td><td>No</td><td>The authenticatorKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 20 ASCII characters or 40 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')</td><td></td><td>20202020202020202020</td></tr>
+    <tr><td style='font-family:monospace'>keyInputFormat</td><td>Enum</td><td>Yes</td><td>Specifies the format of the input for fields 'encryptionKey' and 'authenticatorKey'. Allowed Values:<br>- ASCII, <br>- HEXADECIMAL</td><td></td><td>ASCII</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>authenticationPort</td><td>Integer</td><td>Yes</td><td>Valid Range 1 to 65535</td><td></td><td>1812</td></tr>
+    <tr><td style='font-family:monospace'>accountingPort</td><td>Integer</td><td>Yes</td><td>Valid Range 1 to 65535</td><td></td><td>1813</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>timeout</td><td>Integer</td><td>Yes</td><td>Valid Range 1 to 120</td><td></td><td>5</td></tr>
+    <tr style= 'border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>retries</td><td>Integer</td><td>Yes</td><td>Valid Range 1 to 9</td><td></td><td>3</td></tr>
+    <tr valign=top style='border-bottom:solid #CCCCCC 1.0pt;background:#f8f8f8'><td style='font-family:monospace'>proxyTimeout</td><td>Integer</td><td>No</td><td>Valid Range 1 to 600</td><td>300</td><td></td></tr>
+    <tr valign=top style='border-bottom:solid #CCCCCC 1.0pt;background:#f8f8f8'><td style='font-family:monospace'>msgAuthIsRequiredOnResponse</td><td>Boolean</td><td>Yes</td><td>Should ISE validate the existence of Message-Authenticator on responses from the eternal RADIUS server</td><td>300</td><td>True</td></tr>
+    </table>
+  
+  version: 1.0.0
+  title: External RADIUS Server
+
+tags:
+- name: externalradiusserver
+
+
+paths:
+  /externalradiusserver/name/{name}:
+    get:
+      tags: 
+      - externalradiusserver
+      summary: Get external RADIUS server by name
+      description:
+        <p>This API allows the client to get an external RADIUS server by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.externalradiusserver.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/radius'
+            
+  /externalradiusserver/{id}:
+    get:
+      tags: 
+      - externalradiusserver
+      summary: Get external RADIUS server by ID
+      description:
+        <p>This API allows the client to get an external RADIUS server by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.externalradiusserver.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/radius'
+    patch:
+      tags: 
+      - externalradiusserver
+      summary: Update part of the RADIUS server configuration ID
+      description:
+        <p>This API allows the user to update part of the RADIUS server configuration by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.externalradiusserver.1.0
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/patchRequest'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/radius'  
+            
+    put:
+      tags:
+      - externalradiusserver
+      summary: Update external RADIUS server
+      description:  <p>This API allows the client to update an external RADIUS server.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.externalradiusserver.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/radius'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+
+    delete:
+      tags:
+      - externalradiusserver
+      summary: Delete external RADIUS server
+      description:
+        <p>This API deletes an external RADIUS server.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.externalradiusserver.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        
+      responses: 
+        204:
+          description: No content    
+          
+  /ers/config/externalradiusserver:
+    get:
+      tags: 
+      - externalradiusserver
+      summary: Get all external RADIUS servers
+      description:
+        <p>This API allows the client to get all the external RADIUS servers.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.externalradiusserver.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+
+    post:
+      tags:
+      - externalradiusserver
+      summary: Create external RADIUS server
+      description:
+        <p>This API creates an external RADIUS server.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.externalradiusserver.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/radius'
+      responses:
+        201:
+          description: Created
+             
+  /ers/config/externalradiusserver/versioninfo:
+    get:
+      tags:
+      - externalradiusserver
+      summary: Get external RADIUS server version information
+      description:
+        <p>This API helps to retrieve the version information related to the external RADIUS server.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+            
+definitions:
+  radius:
+    type: object
+    properties:
+      ExternalRadiusServer:
+        $ref: '#/definitions/ExternalRadiusServer'
+        
+  ExternalRadiusServer:
+    type: object
+    properties:
+      id:
+        type: string
+        example: da095377-dce8-486e-933a-6ea788bbf51a
+      name:
+        type: string
+        example: externalRadiusServer1
+      description:
+        type: string
+        example: example external radius server
+      hostIP:
+        type: string
+        example: 1.1.1.1
+      sharedSecret:
+        type: string
+        example: sharedSecret
+      enableKeyWrap:
+        type: boolean
+        example: true
+      encryptionKey:
+        type: string
+        example: 1616161616161616
+      authenticatorKey:
+        type: string
+        example: 20202020202020202020
+      keyInputFormat:
+        type: string
+        example: ASCII
+      authenticationPort:
+        type: integer
+        example: 1812
+      accountingPort:
+        type: integer
+        example: 1813
+      timeout:
+        type: integer
+        example: 5
+      retries:
+        type: integer
+        example: 3
+      proxyTimeout:
+        type: integer
+        example: 300
+      msgAuthIsRequiredOnResponse:
+        type: boolean
+        example: true
+        
+  patchRequest:
+    type: object
+    properties:
+      ExternalRadiusServer:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value          
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 2
+      resources:
+        type: array
+        example: [{"id" : "id1", "name" : "name1", "description" : "description1"}, {"id" : "id2", "name" : "name2", "description" : "description2"}]
+        items:
+          properties:
+            name:
+              type: string
+      nextPage:
+        type: array
+        example: [{"rel" : "next", "href" : "link-to-next-page", "type" : "application/xml"}]
+        items:
+          properties:
+            name:
+              type: string
+      previousPage:
+        type: array
+        example: [{"rel" : "previous", "href" : "link-to-previous-page", "type" : "application/xml"}]
+        items:
+          properties:
+            name:
+              type: string        
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: 1.1
+      supportedVersions:
+        type: string
+        example: 1.0,1.1 
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/externalradiusserver/versioninfo
+      type:
+        type: string
+        example: application/json

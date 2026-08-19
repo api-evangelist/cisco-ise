@@ -1,0 +1,75 @@
+generated: '2026-08-19'
+method: searched
+source: openapi/_original/cisco-ise-open-api-webhooks.yaml (fetched from https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/webhooks.yaml)
+  + the ISE changelog
+spec_type: Webhooks
+asyncapi_published: false
+note: 'Cisco publishes NO AsyncAPI document for Cisco ISE. It does publish a real, first-party webhook surface: a 13-operation
+  OpenAPI 3.0.3 document introduced in ISE 3.6 Beta (changelog entry 2026-04-21) that manages webhook configurations and binds
+  them to alarm rules. That is a management API for webhooks — Cisco describes the subscription and delivery model but does
+  not publish per-event payload schemas as an event catalogue, so the event types below are the alarm-rule categories the
+  API itself exposes rather than an enumerated message catalogue. Nothing here is invented; where Cisco publishes no schema,
+  that is recorded as unpublished.'
+surfaces:
+- name: Webhooks (ISE 3.6 Beta)
+  kind: http-webhook
+  direction: outbound (ISE to subscriber)
+  management_spec: openapi/_original/cisco-ise-open-api-webhooks.yaml
+  operations: 13
+  trigger_model: A webhook configuration is associated with one or more ISE alarm rules; ISE POSTs to the configured endpoint
+    when a bound alarm fires.
+  delivery_visibility: getRecentWebhookDeliveriesByConfigurationId returns the most recent 10 deliveries for a configuration
+    — the only delivery-observability affordance published.
+  management_operations:
+  - getAllWebhooks
+  - createWebhook
+  - getWebhookById
+  - updateWebhook
+  - removeWebhook
+  - bulkDeleteWebhooks
+  - setWebhookConfigStatus
+  - getAllAlarmRules
+  - getAlarmRuleById
+  - getAlarmsByWebhookId
+  - associateAlarmRules
+  - getAlarmByWebhookAndAlarmId
+  - getRecentWebhookDeliveriesByConfigurationId
+  payload_schema_published: false
+  payload_note: components.schemas in the webhooks document covers the management resources (WebhookRequest/Response, AlarmRuleResponse,
+    delivery wrappers). The body ISE actually POSTs to a subscriber is not described by a schema.
+- name: pxGrid
+  kind: pub-sub
+  direction: bidirectional
+  transport: STOMP over WebSocket (pxGrid 2.0), plus REST bulk retrieval
+  note: ISE's long-standing context-exchange bus — session, identity and TrustSec topics consumed by other Cisco and third-party
+    products. Cisco publishes reference clients (github.com/cisco-pxgrid/pxgrid-rest-ws, Java/Go/Python) but no AsyncAPI and
+    no machine-readable channel/message catalogue.
+  reference_clients: https://github.com/cisco-pxgrid/pxgrid-rest-ws
+  related_specs:
+  - openapi/_original/cisco-ise-open-api-pxgrid-direct.yaml
+  - openapi/_original/cisco-ise-open-api-pxgrid-cloud.yaml
+  - openapi/_original/cisco-ise-legacy-ers-pxgrid-node.yaml
+  - openapi/_original/cisco-ise-legacy-ers-pxgrid-settings.yaml
+- name: Prometheus AlertManager
+  kind: alerting
+  direction: outbound
+  spec: openapi/_original/cisco-ise-open-api-prometheus-alertmanager.yaml
+  operations: 16
+  note: ISE 3.4 exposes an AlertManager surface, giving a second, metrics-native alerting path alongside webhooks.
+- name: Alarms
+  kind: query
+  direction: inbound
+  spec: openapi/_original/cisco-ise-open-api-alarms.yaml
+  operations: 16
+  note: ISE 3.6 Beta. The alarm resources that webhook configurations bind to.
+- name: Syslog / MnT
+  kind: log-stream
+  direction: outbound
+  note: ISE also streams operational events by syslog to external collectors. Not described by any published machine-readable
+    contract; recorded here for completeness of the event surface, with no artifact claimed.
+summary:
+  asyncapi_documents: 0
+  webhook_management_operations: 13
+  event_payload_schemas_published: 0
+  gap: A published AsyncAPI 3.x for the pxGrid topics and the webhook payloads would be the single highest-value addition
+    to this product's event surface.

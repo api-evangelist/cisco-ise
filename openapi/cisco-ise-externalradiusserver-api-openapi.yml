@@ -1,0 +1,938 @@
+openapi: 3.2.0
+info:
+  title: ISE ERS Externalradiusserver API
+  version: 3.1.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+security:
+- HTTPBasicAuthentication: []
+tags:
+- name: externalradiusserver
+paths:
+  /externalradiusserver/:
+    get:
+      tags:
+      - externalradiusserver
+      summary: Get-All
+      parameters:
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/externalradiusserverListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/externalradiusserverListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    post:
+      tags:
+      - externalradiusserver
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/network.externalradiusserver'
+            example:
+              ExternalRadiusServer:
+                proxyTimeout: 300
+                authenticatorKey: '20202020202020202020'
+                hostIP: 1.1.1.1
+                enableKeyWrap: true
+                description: example external radius server
+                encryptionKey: '1616161616161616'
+                msgAuthIsRequiredOnResponse: true
+                timeout: 5
+                accountingPort: 1813
+                keyInputFormat: ASCII
+                retries: 3
+                name: externalRadiusServer1
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                sharedSecret: sharedSecret
+                authenticationPort: 1812
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+  /externalradiusserver/name/{name}:
+    get:
+      tags:
+      - externalradiusserver
+      summary: Get-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/externalradiusserverResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/externalradiusserverResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+  /externalradiusserver/{id}:
+    get:
+      tags:
+      - externalradiusserver
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/externalradiusserverResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/externalradiusserverResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    put:
+      tags:
+      - externalradiusserver
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/network.externalradiusserver'
+            example:
+              ExternalRadiusServer:
+                proxyTimeout: 300
+                authenticatorKey: '20202020202020202020'
+                hostIP: 1.1.1.1
+                enableKeyWrap: true
+                description: example external radius server
+                encryptionKey: '1616161616161616'
+                msgAuthIsRequiredOnResponse: true
+                timeout: 5
+                accountingPort: 1813
+                keyInputFormat: ASCII
+                retries: 3
+                name: externalRadiusServer1
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                sharedSecret: sharedSecret
+                authenticationPort: 1812
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+    delete:
+      tags:
+      - externalradiusserver
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    patch:
+      tags:
+      - externalradiusserver
+      summary: Patch
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/network.externalradiusserver'
+            example:
+              ExternalRadiusServer:
+                proxyTimeout: 300
+                authenticatorKey: '20202020202020202020'
+                hostIP: 1.1.1.1
+                enableKeyWrap: true
+                description: example external radius server
+                encryptionKey: '1616161616161616'
+                msgAuthIsRequiredOnResponse: true
+                timeout: 5
+                accountingPort: 1813
+                keyInputFormat: ASCII
+                retries: 3
+                name: externalRadiusServer1
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                sharedSecret: sharedSecret
+                authenticationPort: 1812
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/externalradiusserverResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    ExternalRadiusServer:
+      required:
+      - accountingPort
+      - authenticationPort
+      - enableKeyWrap
+      - hostIP
+      - keyInputFormat
+      - msgAuthIsRequiredOnResponse
+      - name
+      - retries
+      - sharedSecret
+      - timeout
+      properties:
+        hostIP:
+          title: hostIP
+          type: string
+          description: The IP of the host - must be a valid IPV4 address
+          example: null
+        sharedSecret:
+          title: sharedSecret
+          type: string
+          description: Shared secret maximum length is 128 characters
+          example: null
+        enableKeyWrap:
+          title: enableKeyWrap
+          type: boolean
+          description: KeyWrap may only be enabled if it is supported on the device. When running in FIPS mode this option should be enabled for such devices
+          example: null
+        encryptionKey:
+          title: encryptionKey
+          type: string
+          description: The encryptionKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 16 ASCII characters or 32 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')
+          example: null
+        authenticatorKey:
+          title: authenticatorKey
+          type: string
+          description: The authenticatorKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 20 ASCII characters or 40 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')
+          example: null
+        keyInputFormat:
+          title: keyInputFormat
+          type: string
+          description: 'Specifies the format of the input for fields ''encryptionKey'' and ''authenticatorKey''. Allowed Values: ASCII or HEXADECIMAL'
+          example: null
+        authenticationPort:
+          title: authenticationPort
+          type: object
+          description: Valid Range 1 to 65535
+          example: null
+        accountingPort:
+          title: accountingPort
+          type: object
+          description: Valid Range 1 to 65535
+          example: null
+        timeout:
+          title: timeout
+          type: object
+          description: Valid Range 1 to 120
+          example: null
+        retries:
+          title: retries
+          type: object
+          description: Valid Range 1 to 9
+          example: null
+        proxyTimeout:
+          title: proxyTimeout
+          type: object
+          description: Valid Range 1 to 600
+          example: null
+        msgAuthIsRequiredOnResponse:
+          title: msgAuthIsRequiredOnResponse
+          type: boolean
+          description: Should ISE validate the existence of Message-Authenticator on responses from the eternal RADIUS server
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        ExternalRadiusServer:
+          proxyTimeout: 300
+          authenticatorKey: '20202020202020202020'
+          hostIP: 1.1.1.1
+          enableKeyWrap: true
+          description: example external radius server
+          encryptionKey: '1616161616161616'
+          msgAuthIsRequiredOnResponse: true
+          timeout: 5
+          accountingPort: 1813
+          keyInputFormat: ASCII
+          retries: 3
+          name: externalRadiusServer1
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          sharedSecret: sharedSecret
+          authenticationPort: 1812
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    externalradiusserverResponseEntity:
+      properties:
+        hostIP:
+          title: hostIP
+          type: string
+          description: The IP of the host - must be a valid IPV4 address
+          example: null
+        sharedSecret:
+          title: sharedSecret
+          type: string
+          description: Shared secret maximum length is 128 characters
+          example: null
+        enableKeyWrap:
+          title: enableKeyWrap
+          type: boolean
+          description: KeyWrap may only be enabled if it is supported on the device. When running in FIPS mode this option should be enabled for such devices
+          example: null
+        encryptionKey:
+          title: encryptionKey
+          type: string
+          description: The encryptionKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 16 ASCII characters or 32 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')
+          example: null
+        authenticatorKey:
+          title: authenticatorKey
+          type: string
+          description: The authenticatorKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 20 ASCII characters or 40 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')
+          example: null
+        keyInputFormat:
+          title: keyInputFormat
+          type: string
+          description: 'Specifies the format of the input for fields ''encryptionKey'' and ''authenticatorKey''. Allowed Values: ASCII or HEXADECIMAL'
+          example: null
+        authenticationPort:
+          title: authenticationPort
+          type: object
+          description: Valid Range 1 to 65535
+          example: null
+        accountingPort:
+          title: accountingPort
+          type: object
+          description: Valid Range 1 to 65535
+          example: null
+        timeout:
+          title: timeout
+          type: object
+          description: Valid Range 1 to 120
+          example: null
+        retries:
+          title: retries
+          type: object
+          description: Valid Range 1 to 9
+          example: null
+        proxyTimeout:
+          title: proxyTimeout
+          type: object
+          description: Valid Range 1 to 600
+          example: null
+        msgAuthIsRequiredOnResponse:
+          title: msgAuthIsRequiredOnResponse
+          type: boolean
+          description: Should ISE validate the existence of Message-Authenticator on responses from the eternal RADIUS server
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    externalradiusserverListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    externalradiusserverResponse:
+      type: object
+      properties:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/externalradiusserverResponseEntity'
+      example:
+        ExternalRadiusServer:
+          proxyTimeout: 300
+          authenticatorKey: '20202020202020202020'
+          hostIP: 1.1.1.1
+          enableKeyWrap: true
+          description: example external radius server
+          encryptionKey: '1616161616161616'
+          msgAuthIsRequiredOnResponse: true
+          timeout: 5
+          accountingPort: 1813
+          keyInputFormat: ASCII
+          retries: 3
+          name: externalRadiusServer1
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          sharedSecret: sharedSecret
+          authenticationPort: 1812
+    externalradiusserverListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/externalradiusserverListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    network.externalradiusserver:
+      required:
+      - ExternalRadiusServer
+      type: object
+      properties:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/ExternalRadiusServer'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic

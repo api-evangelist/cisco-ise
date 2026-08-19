@@ -1,0 +1,888 @@
+openapi: 3.2.0
+info:
+  title: ISE ERS Deploymentinfo API
+  version: 3.1.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+security:
+- HTTPBasicAuthentication: []
+tags:
+- name: deploymentinfo
+paths:
+  /deploymentinfo/getAllInfo:
+    get:
+      tags:
+      - deploymentinfo
+      summary: GetAllInfo
+      parameters:
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deploymentinfoResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/deploymentinfoResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    deploymentinfoResponseEntity:
+      properties:
+        networkAccessInfo:
+          properties:
+            deploymentId:
+              title: deploymentId
+              type: string
+              description: Deployment ID
+              example: null
+            NodeList:
+              properties:
+                Scope:
+                  title: Scope
+                  type: string
+                  description: Scope
+                  example: null
+                Node:
+                  properties:
+                    NDGInfo:
+                      properties:
+                        NDGHierarchyMap:
+                          title: NDGHierarchyMap
+                          type: object
+                          description: NDG Hierarchy
+                          example: null
+                        NDGHierarchyNADMap:
+                          title: NDGHierarchyNADMap
+                          type: object
+                          description: NDGHierarchy NAD Map
+                          example: null
+                      example: null
+                    AuthorizationInfo:
+                      properties:
+                        ActiveVLANCount:
+                          title: ActiveVLANCount
+                          type: number
+                          description: Active VLAN count
+                          example: null
+                        PolicyLineCount:
+                          title: PolicyLineCount
+                          type: number
+                          description: Policy line count
+                          example: null
+                        ActiveACLCount:
+                          title: ActiveACLCount
+                          type: number
+                          description: Active ACL count
+                          example: null
+                      example: null
+                    AuthenticationInfo:
+                      properties:
+                        RADIUSIDStoreCount:
+                          title: RADIUSIDStoreCount
+                          type: number
+                          description: RADIUS ID Store Count
+                          example: null
+                        LocalIdentityNonAdminUserCount:
+                          title: LocalIdentityNonAdminUserCount
+                          type: number
+                          description: Local Identity NonAdmin User Count
+                          example: null
+                        PolicyLineCount:
+                          title: PolicyLineCount
+                          type: number
+                          description: Policy Line Count
+                          example: null
+                        LDAPIDStoreCount:
+                          title: LDAPIDStoreCount
+                          type: number
+                          description: LDAP ID Store Count
+                          example: null
+                        ADAuthStoreCount:
+                          title: ADAuthStoreCount
+                          type: number
+                          description: AD Auth Store Count
+                          example: null
+                        ODBCCount:
+                          title: ODBCCount
+                          type: number
+                          description: ODBC Count
+                          example: null
+                        RSAIDStoreCount:
+                          title: RSAIDStoreCount
+                          type: number
+                          description: RSA ID Store Count
+                          example: null
+                      example: null
+                  example: null
+              example: null
+          example: null
+        profilerInfo:
+          properties:
+            deploymentId:
+              title: deploymentId
+              type: string
+              description: Deployment ID
+              example: null
+            NodeList:
+              properties:
+                Node:
+                  properties:
+                    SerialNumber:
+                      title: SerialNumber
+                      type: string
+                      description: Serial Number
+                      example: null
+                    Scope:
+                      title: Scope
+                      type: string
+                      description: Scope
+                      example: null
+                    LastAppliedFeedDateTime:
+                      title: LastAppliedFeedDateTime
+                      type: object
+                      description: Last Applied Feed Date Time
+                      example: null
+                    OnlineSubscriptionEnabled:
+                      title: OnlineSubscriptionEnabled
+                      type: boolean
+                      description: Online Subscription Enabled
+                      example: null
+                    Profiles:
+                      properties:
+                        TotalProfilesCount:
+                          title: TotalProfilesCount
+                          type: number
+                          description: Total Profiles Count
+                          example: null
+                        UniqueEndpointsCount:
+                          title: UniqueEndpointsCount
+                          type: number
+                          description: Unique Endpoints Count
+                          example: null
+                        UnknownEndpointsCount:
+                          title: UnknownEndpointsCount
+                          type: number
+                          description: Unknown Endpoints Count
+                          example: null
+                        EndpointTypes:
+                          title: EndpointTypes
+                          type: string
+                          description: EndpointTypes
+                          example: null
+                        CustomProfilesCount:
+                          title: CustomProfilesCount
+                          type: number
+                          description: Custom Profiles Count
+                          example: null
+                      example: null
+                  example: null
+              example: null
+          example: null
+        deploymentInfo:
+          properties:
+            deploymentId:
+              title: deploymentId
+              type: string
+              description: Deployment ID
+              example: null
+            fipsStatus:
+              title: fipsStatus
+              type: string
+              description: FIPS Status
+              example: null
+            rmqServices:
+              title: rmqServices
+              type: string
+              description: RMQ Services Details
+              example: null
+            walkmeEnabled:
+              title: walkmeEnabled
+              type: boolean
+              description: WalkMeEnabled Status
+              example: null
+            NodeList:
+              properties:
+                NodeCount:
+                  title: NodeCount
+                  type: number
+                  description: Node Count
+                  example: null
+                PDPNodeCount:
+                  title: PDPNodeCount
+                  type: number
+                  description: PDP Node Count
+                  example: null
+                PAPNodeCount:
+                  title: PAPNodeCount
+                  type: number
+                  description: PAP Node Count
+                  example: null
+                MnTNodeCount:
+                  title: MnTNodeCount
+                  type: number
+                  description: MnT Node Count
+                  example: null
+                PxGridNodeCount:
+                  title: PxGridNodeCount
+                  type: number
+                  description: PxGrid Node Count
+                  example: null
+                PICNodeCount:
+                  title: PICNodeCount
+                  type: number
+                  description: PICNodeCount
+                  example: null
+                CountInfo:
+                  properties:
+                    fromDate:
+                      title: fromDate
+                      type: object
+                      description: From Date
+                      example: null
+                    toDate:
+                      title: toDate
+                      type: object
+                      description: To Date
+                      example: null
+                    CurrentPostureEndptCount:
+                      title: CurrentPostureEndptCount
+                      type: number
+                      description: Current Posture End Point Count
+                      example: null
+                    CurrentMDMEndPtCount:
+                      title: CurrentMDMEndPtCount
+                      type: number
+                      description: Current MDM End Point Count
+                      example: null
+                    CurrentGuestUserCount:
+                      title: CurrentGuestUserCount
+                      type: number
+                      description: Current Guest User Count
+                      example: null
+                    CurrentPxGridClientCount:
+                      title: CurrentPxGridClientCount
+                      type: number
+                      description: Current PxGrid Client Count
+                      example: null
+                  example: null
+                Node:
+                  properties:
+                    Status:
+                      title: Status
+                      type: string
+                      description: Status
+                      example: null
+                    PT:
+                      title: PT
+                      type: string
+                      description: PT
+                      example: null
+                    telemetryEnabled:
+                      title: telemetryEnabled
+                      type: boolean
+                      description: Is Telemetry Enabled
+                      example: null
+                    PeakMemoryUtilization:
+                      title: PeakMemoryUtilization
+                      type: object
+                      description: Peak Memory Utilization
+                      example: null
+                    NodeTypes:
+                      title: NodeTypes
+                      type: string
+                      description: Node Types
+                      example: null
+                    PID:
+                      title: PID
+                      type: string
+                      description: PID
+                      example: null
+                    ProfilerProbes:
+                      title: ProfilerProbes
+                      type: string
+                      description: Profiler Probes
+                      example: null
+                    NumberOfCpuCores:
+                      title: NumberOfCpuCores
+                      type: number
+                      description: Number Of CPU Cores
+                      example: null
+                    Profile:
+                      title: Profile
+                      type: string
+                      description: Profile
+                      example: null
+                    Name:
+                      title: Name
+                      type: string
+                      description: Node Name
+                      example: null
+                    NodeServiceType:
+                      title: NodeServiceType
+                      type: string
+                      description: Node Service Type
+                      example: null
+                    PeakCpuUtilization:
+                      title: PeakCpuUtilization
+                      type: object
+                      description: Peak CPU Utilization
+                      example: null
+                    VMDiskSpace:
+                      title: VMDiskSpace
+                      type: string
+                      description: VM Disk Space
+                      example: null
+                    VID:
+                      title: VID
+                      type: string
+                      description: VID
+                      example: null
+                    Version:
+                      title: Version
+                      type: string
+                      description: Version
+                      example: null
+                    NDGInfo:
+                      title: NDGInfo
+                      type: object
+                      description: NDG Info
+                      example: null
+                    SN:
+                      title: SN
+                      type: string
+                      description: Serial Number
+                      example: null
+                    LoadAvg:
+                      properties:
+                        fromDate:
+                          title: fromDate
+                          type: object
+                          description: From Date
+                          example: null
+                        LoadAvgFive:
+                          title: LoadAvgFive
+                          type: object
+                          description: Load Avg Five
+                          example: null
+                        toDate:
+                          title: toDate
+                          type: object
+                          description: To Date
+                          example: null
+                        LoadAvgFifteen:
+                          title: LoadAvgFifteen
+                          type: object
+                          description: Load Avg Fifteen
+                          example: null
+                        LoadAvgOne:
+                          title: LoadAvgOne
+                          type: object
+                          description: Load Avg One
+                          example: null
+                      example: null
+                    Memory:
+                      properties:
+                        fromDate:
+                          title: fromDate
+                          type: object
+                          description: From Date
+                          example: null
+                        Percent:
+                          title: Percent
+                          type: object
+                          description: Percent
+                          example: null
+                        toDate:
+                          title: toDate
+                          type: object
+                          description: To Date
+                          example: null
+                        Total:
+                          title: Total
+                          type: object
+                          description: Total Memory
+                          example: null
+                        Free:
+                          title: Free
+                          type: object
+                          description: Free Memory
+                          example: null
+                      example: null
+                    Disk:
+                      properties:
+                        fromDate:
+                          title: fromDate
+                          type: object
+                          description: From Date
+                          example: null
+                        toDate:
+                          title: toDate
+                          type: object
+                          description: To Date
+                          example: null
+                        FileSystem:
+                          properties:
+                            MountPoint:
+                              title: MountPoint
+                              type: string
+                              description: Mount Point
+                              example: null
+                            Used:
+                              title: Used
+                              type: object
+                              description: Used
+                              example: null
+                            Percent:
+                              title: Percent
+                              type: string
+                              description: Percent
+                              example: null
+                            Total:
+                              title: Total
+                              type: object
+                              description: Total
+                              example: null
+                            Available:
+                              title: Available
+                              type: object
+                              description: Available
+                              example: null
+                            Name:
+                              title: Name
+                              type: string
+                              description: Name
+                              example: null
+                          example: null
+                      example: null
+                  example: null
+              example: null
+          example: null
+        nadInfo:
+          properties:
+            deploymentId:
+              title: deploymentId
+              type: string
+              description: Deployment ID
+              example: null
+            NodeList:
+              properties:
+                Scope:
+                  title: Scope
+                  type: string
+                  description: Scope
+                  example: null
+                Node:
+                  properties:
+                    NADProfileInfo:
+                      properties:
+                        isTacacsSupported:
+                          title: isTacacsSupported
+                          type: boolean
+                          description: Is Tacacs Supported
+                          example: null
+                        Description:
+                          title: Description
+                          type: string
+                          description: Description
+                          example: null
+                        isRadiusSupported:
+                          title: isRadiusSupported
+                          type: boolean
+                          description: Is Radius Supported
+                          example: null
+                        isCiscoProvided:
+                          title: isCiscoProvided
+                          type: boolean
+                          description: Is Cisco Provided
+                          example: null
+                        isDefProfile:
+                          title: isDefProfile
+                          type: boolean
+                          description: Is Def Profile
+                          example: null
+                        isTrustSecSupported:
+                          title: isTrustSecSupported
+                          type: boolean
+                          description: Is TrustSec Supported
+                          example: null
+                        Id:
+                          title: Id
+                          type: string
+                          description: Id
+                          example: null
+                        Name:
+                          title: Name
+                          type: string
+                          description: Name
+                          example: null
+                      example: null
+                  example: null
+              example: null
+          example: null
+        mdmInfo:
+          properties:
+            deploymentId:
+              title: deploymentId
+              type: string
+              description: Deployment ID
+              example: null
+            activeMdmServersCount:
+              title: activeMdmServersCount
+              type: number
+              description: ''
+              example: null
+            activeDesktopMdmServersCount:
+              title: activeDesktopMdmServersCount
+              type: number
+              description: ''
+              example: null
+            activeMobileMdmServersCount:
+              title: activeMobileMdmServersCount
+              type: number
+              description: ''
+              example: null
+            multiMdmOptionEnabled:
+              title: multiMdmOptionEnabled
+              type: boolean
+              description: ''
+              example: null
+            NodeList:
+              properties:
+                Scope:
+                  title: Scope
+                  type: string
+                  description: Scope
+                  example: null
+                Node:
+                  title: Node
+                  type: object
+                  description: Node
+                  example: null
+              example: null
+          example: null
+        licensesInfo:
+          properties:
+            deploymentId:
+              title: deploymentId
+              type: string
+              description: Deployment ID
+              example: null
+            NodeList:
+              properties:
+                Scope:
+                  title: Scope
+                  type: string
+                  description: Scope
+                  example: null
+                Node:
+                  properties:
+                    VMLargeLicenseCount:
+                      title: VMLargeLicenseCount
+                      type: number
+                      description: VM Large License Count
+                      example: null
+                    isAnyLicenseExpired:
+                      title: isAnyLicenseExpired
+                      type: boolean
+                      description: Is Any License Expired
+                      example: null
+                    isPlusInstalled:
+                      title: isPlusInstalled
+                      type: boolean
+                      description: Is Plus Installed
+                      example: null
+                    TotalBaseCount:
+                      title: TotalBaseCount
+                      type: number
+                      description: TotalBaseCount
+                      example: null
+                    TACACSConsumptionCount:
+                      title: TACACSConsumptionCount
+                      type: number
+                      description: TACACS Consumption Count
+                      example: null
+                    TotalPlusCount:
+                      title: TotalPlusCount
+                      type: number
+                      description: Total Plus Count
+                      example: null
+                    VMMediumLicenseCount:
+                      title: VMMediumLicenseCount
+                      type: number
+                      description: VM Medium License Count
+                      example: null
+                    isBaseInstalled:
+                      title: isBaseInstalled
+                      type: boolean
+                      description: Is Base Installed
+                      example: null
+                    VirtualAccountName:
+                      title: VirtualAccountName
+                      type: string
+                      description: Virtual Account Name
+                      example: null
+                    PeakPlusCount:
+                      title: PeakPlusCount
+                      type: number
+                      description: Peak Plus Count
+                      example: null
+                    PeakApexCount:
+                      title: PeakApexCount
+                      type: number
+                      description: Peak Apex Count
+                      example: null
+                    deviceAdminCount:
+                      title: deviceAdminCount
+                      type: number
+                      description: Device Admin Count
+                      example: null
+                    SmartAccountName:
+                      title: SmartAccountName
+                      type: number
+                      description: Smart Account Name
+                      example: null
+                    VMLargeConsumptionCount:
+                      title: VMLargeConsumptionCount
+                      type: number
+                      description: VM Large Consumption Count
+                      example: null
+                    VMMediumConsumptionCount:
+                      title: VMMediumConsumptionCount
+                      type: number
+                      description: VM Medium Consumption Count
+                      example: null
+                    TotalApexCount:
+                      title: TotalApexCount
+                      type: number
+                      description: Total Apex Count
+                      example: null
+                    VMSmallConsumptionCount:
+                      title: VMSmallConsumptionCount
+                      type: number
+                      description: VM Small Consumption Count
+                      example: null
+                    VMSmallLicenseCount:
+                      title: VMSmallLicenseCount
+                      type: number
+                      description: VM Small License Count
+                      example: null
+                    PeakBaseCount:
+                      title: PeakBaseCount
+                      type: number
+                      description: Peak Base Count
+                      example: null
+                    isApexInstalled:
+                      title: isApexInstalled
+                      type: boolean
+                      description: Is Apex Installed
+                      example: null
+                    isWiredEnabled:
+                      title: isWiredEnabled
+                      type: boolean
+                      description: Is Wired Enabled
+                      example: null
+                    isEvaluationLic:
+                      title: isEvaluationLic
+                      type: boolean
+                      description: Is Evaluation License
+                      example: null
+                  example: null
+              example: null
+          example: null
+        postureInfo:
+          properties:
+            ActivePoliciesCount:
+              title: ActivePoliciesCount
+              type: number
+              description: Active Policies Count
+              example: null
+            InActivePoliciesCount:
+              title: InActivePoliciesCount
+              type: number
+              description: In Active Policies Count
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    deploymentinfoResponse:
+      type: object
+      properties:
+        ERSDeploymentInfo:
+          $ref: '#/components/schemas/deploymentinfoResponseEntity'
+      example:
+        ERSDeploymentInfo:
+          licensesInfo:
+            deploymentId: bb7bb222-2ed2-2022-bb2f-7cfbb349c156
+          name: ERSDeploymentInfo
+          nadInfo:
+            deploymentId: aaabb444-2ed2-2022-bb2f-7cfbb349c156
+          description: ERS DeploymentInfo
+          mdmInfo:
+            activeMdmServersCount: 1
+            activeMobileMdmServersCount: 0
+            activeDesktopMdmServersCount: 2
+            deploymentID: ba6bb222-2ed2-2022-bb2f-7cfbb349c156
+            multiMdmOptionEnabled: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          deploymentInfo:
+            rmqServices: Syslog,RADIUS Session Directory,Endpoint Ownership
+            deploymentId: ba6bb811-3ed2-4041-bb2f-7cfbb349c156
+            walkmeEnabled: false
+            fipsStatus: false
+          networkAccessInfo:
+            deploymentId: aaabb222-2ed2-2022-bb2f-7cfbb349c156
+          profilerInfo:
+            deploymentId: ba6bb222-2ed2-2022-bb2f-7cfbb999c156
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic

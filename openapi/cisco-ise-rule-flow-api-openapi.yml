@@ -1,0 +1,303 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Rule Flow API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Rule Flow
+paths:
+  /api/v1/trustsec/rule/flow:
+    post:
+      tags:
+      - Rule Flow
+      summary: Rule Flow data
+      description: Get Rule Flow data
+      operationId: getFilterFlow
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: list of FilterFlowResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterFlowResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+components:
+  schemas:
+    FilterFlowResponseEntity:
+      title: FilterFlowResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterFlow'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    FilterFlow:
+      title: FilterFlow
+      required:
+      - destination
+      - destinationMappingCount
+      - id
+      - inboundRules
+      - outboundRules
+      - source
+      - sourceMappingCount
+      - sxpDomain
+      - sxpDomainMappingCount
+      type: object
+      properties:
+        destination:
+          type: string
+          example: ACI_1
+          exampleSetFlag: true
+        destinationMappingCount:
+          $ref: '#/components/schemas/MappingCount'
+          exampleSetFlag: true
+        destinationType:
+          type: string
+          example: ACI or SXP_SPEAKER
+          exampleSetFlag: true
+          enum:
+          - ACI
+          - SXP_SPEAKER
+        id:
+          type: string
+          description: Identifier for the Rule Flow record
+          format: uuid
+          readOnly: true
+          example: 12345678-f0e7-456b-a2d1-876543320b14
+          exampleSetFlag: true
+        inboundRules:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        outboundRules:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        source:
+          type: string
+          example: ACI_1
+          exampleSetFlag: true
+        sourceMappingCount:
+          $ref: '#/components/schemas/MappingCount'
+          exampleSetFlag: true
+        sourceType:
+          type: string
+          example: ACI or ISE
+          exampleSetFlag: true
+          enum:
+          - ACI
+          - ISE
+        sxpDomain:
+          type: string
+          example: sxpDomain1
+          exampleSetFlag: true
+        sxpDomainMappingCount:
+          $ref: '#/components/schemas/MappingCount'
+          exampleSetFlag: true
+      exampleSetFlag: false
+    InputRequest:
+      title: InputRequest
+      type: object
+      properties:
+        applicationProfile:
+          type: string
+          example: applicationProfile1
+          exampleSetFlag: true
+        connectionName:
+          type: array
+          description: Connection name to be used to filter out the metadata
+          example: '["ACI1","ACI2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        epg:
+          type: string
+          example: epg1
+          exampleSetFlag: true
+        learnedBy:
+          type: string
+          example: dynamic
+          exampleSetFlag: true
+        learnedFrom:
+          type: string
+          example: 'true'
+          exampleSetFlag: true
+        mode:
+          type: string
+          example: dynamic
+          exampleSetFlag: true
+        psnsInvolved:
+          type: string
+          example: 'true'
+          exampleSetFlag: true
+        selectedEpg:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        sgt:
+          type: array
+          example: '["SGT1","SGT2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        sxpDomain:
+          type: string
+          example: sxpDomain1
+          exampleSetFlag: true
+        tenant:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
+        vn:
+          type: string
+          example: vn1
+          exampleSetFlag: true
+      description: Dictionary POST format
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    FilterMappingCount:
+      title: FilterMappingCount
+      required:
+      - enabled
+      - filterId
+      - filterName
+      - totalMappings
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        filterId:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+        filterName:
+          type: string
+          example: filter
+          exampleSetFlag: true
+        totalMappings:
+          type: integer
+          format: int32
+          example: 12
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MappingCount:
+      title: MappingCount
+      required:
+      - id
+      - name
+      - totalMappings
+      - totalReceivedMappings
+      - totalSharedMappings
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+        name:
+          type: string
+          example: ISE
+          exampleSetFlag: true
+        totalMappings:
+          type: integer
+          format: int32
+          example: 12
+          exampleSetFlag: true
+        totalReceivedMappings:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterMappingCount'
+            exampleSetFlag: false
+        totalSharedMappings:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterMappingCount'
+            exampleSetFlag: false
+      exampleSetFlag: false

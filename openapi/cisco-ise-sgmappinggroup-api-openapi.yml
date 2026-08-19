@@ -1,0 +1,1456 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Sgmappinggroup API
+  version: '1.0'
+  description: 'Operations tagged sgmappinggroup across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-ip-to-sgt-mapping-group.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-ip-to-sgt-mapping-group.yaml, the provider's source document. Operations
+      and schemas are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-ip-to-sgt-mapping-group.yaml
+    operation_coverage: 11/19
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: sgmappinggroup
+paths:
+  /sgmappinggroup/:
+    get:
+      tags:
+      - sgmappinggroup
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[name, sgtName]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[name, sgtName]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - sgtName
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[name, sgtName]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - sgtName
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sgmappinggroupListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sgmappinggroupListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - sgmappinggroup
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.sgmappinggroup'
+            example:
+              SGMappingGroup:
+                sgt: sgt_id
+                sgtDomain:
+                - sgt_domain
+                name: groupA
+                deployTo: network_device_id
+                deployType: ND
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /sgmappinggroup/deploy/status:
+    get:
+      tags:
+      - sgmappinggroup
+      summary: Deploy Status
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResultEntity'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationResultEntity'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /sgmappinggroup/{id}/deploy:
+    put:
+      tags:
+      - sgmappinggroup
+      summary: Deploy by ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /sgmappinggroup/deployall:
+    put:
+      tags:
+      - sgmappinggroup
+      summary: Deploy All
+      parameters: []
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /sgmappinggroup/{id}:
+    get:
+      tags:
+      - sgmappinggroup
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sgmappinggroupResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sgmappinggroupResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - sgmappinggroup
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.sgmappinggroup'
+            example:
+              SGMappingGroup:
+                sgt: sgt_id
+                sgtDomain:
+                - sgt_domain
+                name: groupA
+                deployTo: network_device_id
+                deployType: ND
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - sgmappinggroup
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/sgmappinggroup/{id}/deploy:
+    put:
+      tags:
+      - sgmappinggroup
+      summary: Deploy IP to SGT mapping group by ID
+      description: <p>This API allows the client to deploy an IP to SGT mapping group by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgmappinggroup.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Only one Deploy process can run at any given time
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/sgmappinggroup/deployall:
+    put:
+      tags:
+      - sgmappinggroup
+      summary: Deploy all IP to SGT mapping groups
+      description: <p>This API allows the client to deploy all the IP to SGT mapping groups.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgmappinggroup.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Only one Deploy process can run at any given time
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/sgmappinggroup/deploy/status:
+    put:
+      tags:
+      - sgmappinggroup
+      summary: Get IP to SGT mapping group deployment status
+      description: <p>This API allows the client to get the IP to SGT mapping group deployment status.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgmappinggroup.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Deploy Status will show last Deploy command output. The information will be saved until the next Deploy
+          command
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResult'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationResult'
+  /ers/config/sgmappinggroup/{id}:
+    get:
+      tags:
+      - sgmappinggroup
+      summary: Get IP to SGT mapping group by ID
+      description: <p>This API allows the client to get an IP to SGT mapping group by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgmappinggroup.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/iptosgtgroup'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/iptosgtgroup'
+    put:
+      tags:
+      - sgmappinggroup
+      summary: Update IP to SGT mapping group by ID
+      description: <p>This API allows the client to update an IP to SGT mapping group by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgmappinggroup.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/iptosgtgroup'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/iptosgtgroup'
+    delete:
+      tags:
+      - sgmappinggroup
+      summary: Delete IP to SGT mapping group
+      description: <p>This API deletes an IP to SGT mapping group.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgmappinggroup.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/sgmappinggroup:
+    get:
+      tags:
+      - sgmappinggroup
+      summary: Get all IP to SGT mapping groups
+      description: <p>This API allows the client to get all the IP to SGT mapping groups.</p> <p><h1>Filter:</h1> <h3>[name,
+        sgtName]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
+        sgtName]</h3></p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgmappinggroup.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+    post:
+      tags:
+      - sgmappinggroup
+      summary: Create IP to SGT mapping group
+      description: <p>This API creates an IP to SGT mapping group.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgmappinggroup.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/iptosgtgroup'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/iptosgtgroup'
+  /ers/config/sgmappinggroup/versioninfo:
+    get:
+      tags:
+      - sgmappinggroup
+      summary: Get IP to SGT mapping group version information
+      description: <p>This API helps to retrieve the version information related to the IP to SGT mapping group.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+  /ers/config/sgmappinggroup/bulk/submit:
+    put:
+      tags:
+      - sgmappinggroup
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      responses:
+        202:
+          description: Accepted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+  /ers/config/sgmappinggroup/bulk/{bulkid}:
+    get:
+      tags:
+      - sgmappinggroup
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      parameters:
+      - name: bulkid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    SGMappingGroup:
+      required:
+      - deployType
+      - name
+      - sgt
+      properties:
+        deployTo:
+          title: deployTo
+          type: object
+          description: ''
+          example: null
+        deployType:
+          title: deployType
+          type: string
+          description: Allowed values:ALL,ND,NDG
+          example: null
+        sgt:
+          title: sgt
+          type: object
+          description: ''
+          example: null
+        sgtDomain:
+          title: sgtDomain
+          type: string
+          description: ''
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        SGMappingGroup:
+          sgt: sgt_id
+          sgtDomain:
+          - sgt_domain
+          name: groupA
+          deployTo: network_device_id
+          deployType: ND
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    OperationResultEntity:
+      properties:
+        OperationResult:
+          properties:
+            resultValue:
+              type: array
+              example: null
+              items:
+                properties:
+                  Value:
+                    type: integer
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    trustsec.sgmappinggroup:
+      required:
+      - SGMappingGroup
+      type: object
+      properties:
+        SGMappingGroup:
+          $ref: '#/components/schemas/SGMappingGroup'
+      example: null
+    sgmappinggroupResponseEntity:
+      properties:
+        deployTo:
+          title: deployTo
+          type: object
+          description: ''
+          example: null
+        deployType:
+          title: deployType
+          type: string
+          description: Allowed values:ALL,ND,NDG
+          example: null
+        sgt:
+          title: sgt
+          type: object
+          description: ''
+          example: null
+        sgtDomain:
+          title: sgtDomain
+          type: string
+          description: ''
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    sgmappinggroupResponse:
+      type: object
+      properties:
+        SGMappingGroup:
+          $ref: '#/components/schemas/sgmappinggroupResponseEntity'
+      example:
+        SGMappingGroup:
+          sgt: sgt_id
+          sgtDomain:
+          - sgt_domain
+          name: groupA
+          deployTo: network_device_id
+          deployType: ND
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sgmappinggroupListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    sgmappinggroupListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sgmappinggroupListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    SGMappingGroup_2:
+      type: object
+      properties:
+        name:
+          type: string
+          example: groupA
+        sgt:
+          type: string
+          example: sgt_ip
+        sgtDomain:
+          type: string
+          example: sgt_domain
+        deployTo:
+          type: string
+          example: network_device_id
+        deployType:
+          type: string
+          example: ND
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sgmappinggroup/id
+            type:
+              type: string
+              example: application/json
+    bulkrequest:
+      type: object
+      properties:
+        SGMappingGroupBulkRequest:
+          $ref: '#/components/schemas/SGMappingGroupBulkRequest'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    SGMappingGroupBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.trustsec.sgmappinggroup.1.0+xml
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: id
+            name: groupA
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/sgmapping/id
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    iptosgtgroup:
+      type: object
+      properties:
+        SGMappingGroup:
+          $ref: '#/components/schemas/SGMappingGroup_2'
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    BulkStatus:
+      type: object
+      properties:
+        bulkId:
+          type: string
+          example: 1615791703003
+        mediaType:
+          type: string
+          example: ''
+        executionStatus:
+          type: string
+          example: COMPLETED
+        operationType:
+          type: string
+          example: create
+        startTime:
+          type: string
+          example: Mon Mar 15 07:01:43 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    OperationResult:
+      type: object
+      properties:
+        OperationResult:
+          type: object
+          properties:
+            resultValue:
+              type: array
+              example:
+              - value: DdsAASDs%$##@ssds12
+                name: password
+              items:
+                properties:
+                  name:
+                    type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sgmappinggroup/versioninfo
+        type:
+          type: string
+          example: application/json
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-ip-to-sgt-mapping-group.yaml

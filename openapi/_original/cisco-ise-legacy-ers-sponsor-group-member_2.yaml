@@ -1,0 +1,148 @@
+swagger: '2.0'
+info:
+  description: "Sponsor Group API allows the client to search the group members from different identity stores configured\
+    \ in the GUI.\n\n<h2>Revision History</h2>\n<table font-family:monospace> \n<tr valign=top style='border:solid #CCCCCC\
+    \ 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco\
+    \ ISE Version</b></td><td><b>Description</b></td></tr>\n<tr style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid\
+    \ #CCCCCC .75pt'><td>0</td><td>1.0</td><td>2.2</td><td>Initial Cisco ISE Version</td><td></td><td></td></tr>\n</table>\n\
+    <br><br>\n\n<h2>Resource Definition</h2>\n<table>\n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid\
+    \ #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example\
+    \ Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td>ALL_ACCOUNTS\
+    \ (default)</td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource\
+    \ UUID value</td><td>a176c430-8c01-11e6-996c-525400b48521</td></tr>\n<tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource\
+    \ Description</td><td></td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>dicType</td><td>String</td><td>Yes</td><td></td><td></td></tr>\n\
+    <tr style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt'><td style='font-family:monospace'>guid</td><td>String</td><td>Yes</td><td></td><td></td></tr>\n\
+    </table>\n"
+  version: 1.0.0
+  title: Sponsor Group Member
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: sponsorgroupmember
+paths:
+  /ers/config/sponsorgroupmember:
+    get:
+      tags:
+      - sponsorgroupmember
+      summary: Get all sponsor group members
+      description: <p>This API allows the client to get all the sponsor group members.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
+        description]</h3></p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- dentity.sponsorgroupmember.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'
+  /ers/config/sponsorgroupmember/versioninfo:
+    get:
+      tags:
+      - sponsorgroupmember
+      summary: Get sponsor group member version information
+      description: <p>This API helps to retrieve the version information related to the sponsor group member.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+definitions:
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+  SearchResult:
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 4
+      resources:
+        type: array
+        example:
+        - id: a176c430-8c01-11e6-996c-525400b48521
+          name: ALL_ACCOUNTS (default)
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/sponsorgroupmember/a176c430-8c01-11e6-996c-525400b48521
+            type: application/json
+        - id: a1740510-8c01-11e6-996c-525400b48521
+          name: Employee
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/sponsorgroupmember/a1740510-8c01-11e6-996c-525400b48521
+            type: application/json
+        - id: a1bb2030-8c01-11e6-996c-525400b48521
+          name: GROUP_ACCOUNTS (default)
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/sponsorgroupmember/a1bb2030-8c01-11e6-996c-525400b48521
+            type: application/json
+        - id: a19d5f00-8c01-11e6-996c-525400b48521
+          name: OWN_ACCOUNTS (default)
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/sponsorgroupmember/a19d5f00-8c01-11e6-996c-525400b48521
+            type: application/json
+        items:
+          properties:
+            name:
+              type: string
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '1.0'
+      supportedVersions:
+        type: string
+        example: '1.0'
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/sponsorgroupmember/versioninfo
+      type:
+        type: string
+        example: application/json

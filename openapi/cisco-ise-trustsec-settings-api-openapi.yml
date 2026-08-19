@@ -1,0 +1,203 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Trustsec Settings API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Trustsec Settings
+paths:
+  /api/v1/trustsec/general-settings:
+    get:
+      tags:
+      - Trustsec Settings
+      summary: Get the details of the Trustsec General Settings in ISE.
+      description: Get the details of the Trustsec General Settings in ISE.
+      operationId: getTrustsecGeneralSettings
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrustsecGeneralSettingsResponse'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+    put:
+      tags:
+      - Trustsec Settings
+      summary: Update Trustsec General Settings in ISE
+      description: Update Trustsec General Settings in ISE
+      operationId: updateTrustsecGeneralSettings
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrustsecGeneralSettingsRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+components:
+  schemas:
+    TrustsecGeneralSettingsRequest:
+      title: TrustsecGeneralSettingsRequest
+      type: object
+      properties:
+        allowMultipleSGACLs:
+          type: boolean
+          description: Allow multiple SGACLs to be downloaded to the network-device
+          example: false
+          exampleSetFlag: true
+        httpsServerConfig:
+          $ref: '#/components/schemas/CTSHttpsServerConfig'
+          exampleSetFlag: true
+      description: CTS HTTPS Server configuration
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SuccessResponse:
+      title: SuccessResponse
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CTSHttpsServerConfig:
+      title: CTSHttpsServerConfig
+      type: object
+      properties:
+        enableAuditLog:
+          type: boolean
+          description: Include entire response payload body in Audit
+          example: true
+          exampleSetFlag: true
+        enableHttps:
+          type: boolean
+          description: Enable/Disable HTTPS Server
+          example: true
+          exampleSetFlag: true
+      description: CTS HTTPS Server configuration
+      exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        message:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    TrustsecGeneralSettingsResponse:
+      title: TrustsecGeneralSettingsResponse
+      type: object
+      properties:
+        allowMultipleSGACLs:
+          type: boolean
+          description: Allow multiple SGACLs to be downloaded to the network-device
+          example: false
+          exampleSetFlag: true
+        httpsServerConfig:
+          $ref: '#/components/schemas/CTSHttpsServerConfig'
+          exampleSetFlag: true
+      exampleSetFlag: false

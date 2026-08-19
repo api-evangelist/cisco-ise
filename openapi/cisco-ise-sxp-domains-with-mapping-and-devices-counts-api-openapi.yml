@@ -1,0 +1,131 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec SXP Domains with mapping and devices counts API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: SXP Domains with mapping and devices counts
+paths:
+  /api/v1/trustsec/rule/sxp-domains:
+    get:
+      tags:
+      - SXP Domains with mapping and devices counts
+      summary: List of SXP Domains with mapping and devices counts
+      description: Get SXP Domains with mapping and devices counts
+      operationId: getSxpDomainsAggregation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of SxpDomainAggregationListResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SxpDomainAggregationListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+components:
+  schemas:
+    SxpDomainAggregation:
+      title: SxpDomainAggregation
+      required:
+      - devices
+      - id
+      - mappings
+      - sxpDomain
+      type: object
+      properties:
+        devices:
+          type: integer
+          format: int32
+          example: 20
+          exampleSetFlag: true
+        id:
+          type: string
+          description: ID
+          format: uuid
+          example: 12345678-f0e7-456b-a2d1-876543320123
+          exampleSetFlag: true
+        mappings:
+          type: integer
+          format: int32
+          example: 100
+          exampleSetFlag: true
+        sxpDomain:
+          type: string
+          example: sxpDomain1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpDomainAggregationListResponseEntity:
+      title: SxpDomainAggregationListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SxpDomainAggregation'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false

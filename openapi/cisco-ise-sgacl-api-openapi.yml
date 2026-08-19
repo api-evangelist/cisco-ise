@@ -1,0 +1,1217 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Sgacl API
+  version: '1.0'
+  description: 'Operations tagged sgacl across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-security-groups-acls.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-security-groups-acls.yaml, the provider's source document. Operations
+      and schemas are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-security-groups-acls.yaml
+    operation_coverage: 8/13
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: sgacl
+paths:
+  /sgacl/:
+    get:
+      tags:
+      - sgacl
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[ipVersion, sgAclType, name, description]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[ipVersion, sgAclType, name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - ipVersion
+          - sgAclType
+          - name
+          - description
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[ipVersion, sgAclType, name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - ipVersion
+          - sgAclType
+          - name
+          - description
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sgaclListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sgaclListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - sgacl
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.sgacl'
+            example:
+              Sgacl:
+                ipVersion: IPV4
+                sgAclType: TRUSTSEC
+                validateAclContent: false
+                name: name
+                description: description
+                readOnly: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                aclcontent: Permit IP
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /sgacl/{id}:
+    get:
+      tags:
+      - sgacl
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sgaclResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sgaclResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - sgacl
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.sgacl'
+            example:
+              Sgacl:
+                ipVersion: IPV4
+                sgAclType: TRUSTSEC
+                validateAclContent: false
+                name: name
+                description: description
+                readOnly: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                aclcontent: Permit IP
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - sgacl
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/sgacl/{id}:
+    get:
+      tags:
+      - sgacl
+      summary: Get security group ACL by ID
+      description: <p>This API allows the client to get a security group ACL by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sgacl'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sgacl'
+    put:
+      tags:
+      - sgacl
+      summary: Update security group ACL
+      description: <p>This API allows the client to update a security group ACL.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Update' can be used within Bulk Request
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Generation Id is a read Only attribute hence any values that would be sent in the request would be ignored
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sgacl'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/sgacl'
+    delete:
+      tags:
+      - sgacl
+      summary: Delete security group ACL
+      description: <p>This API deletes a security group ACL.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Delete' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/sgacl:
+    get:
+      tags:
+      - sgacl
+      summary: Get all security group ACLs
+      description: <p>This API allows the client to get all the security group ACLs.</p> <p><h1>Filter:</h1> <h3>[ipVersion,
+        name, description]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY
+        (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET
+        /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul> <p><h1>Sorting:</h1> <h3>[ipVersion, name, description]</h3></p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+    post:
+      tags:
+      - sgacl
+      summary: Create security group ACL
+      description: <p>This API creates a security group ACL.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.sgacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Create' can be used within Bulk Request
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Generation Id is a read Only attribute hence any values that would be sent in the request would be ignored
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sgacl'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/sgacl'
+  /ers/config/sgacl/versioninfo:
+    get:
+      tags:
+      - sgacl
+      summary: Get security group ACLs version information
+      description: <p>This API helps to retrieve the version information related to the security group ACLs.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+  /ers/config/sgacl/submit:
+    put:
+      tags:
+      - sgacl
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      responses:
+        202:
+          description: Accepted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+  /ers/config/sgacl/bulk/{bulkid}:
+    get:
+      tags:
+      - sgacl
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      parameters:
+      - name: bulkid
+        in: path
+        required: true
+        description: 'The bulk ID is a dynamically generated value.<br>For example :- ‘615360357673’
+
+          '
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    Sgacl:
+      required:
+      - ipVersion
+      - name
+      properties:
+        aclcontent:
+          title: aclcontent
+          type: string
+          description: ''
+          example: null
+        ipVersion:
+          title: ipVersion
+          type: string
+          description: Allowed values:IPV4,IPV6,IP_AGNOSTIC
+          example: null
+        generationId:
+          title: generationId
+          type: string
+          description: GenerationId is a read only attribute and is being generated by the server.
+          example: null
+        readOnly:
+          title: readOnly
+          type: boolean
+          description: ''
+          example: null
+        sgAclType:
+          title: sgAclType
+          type: string
+          description: SGACL type -  Trustsec or Traffic Steering.<br/>To use it as filter, the values should be 'TRAFFIC_STEERING'
+            or 'TRUSTSEC'. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=sgAclType.eq.TRUSTSEC' or
+            '[ERSObjectURL]?filter=sgAclType.eq.TRAFFIC_STEERING'
+          example: null
+        validateAclContent:
+          title: validateAclContent
+          type: boolean
+          description: Enforce SGACL syntax validation
+          example: null
+        modelledContent:
+          title: modelledContent
+          type: object
+          description: Modelled content of contract
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        Sgacl:
+          ipVersion: IPV4
+          sgAclType: TRUSTSEC
+          validateAclContent: false
+          name: name
+          description: description
+          readOnly: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          aclcontent: Permit IP
+    sgaclResponse:
+      type: object
+      properties:
+        Sgacl:
+          $ref: '#/components/schemas/sgaclResponseEntity'
+      example:
+        Sgacl:
+          ipVersion: IPV4
+          sgAclType: TRUSTSEC
+          validateAclContent: false
+          name: name
+          description: description
+          readOnly: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          aclcontent: Permit IP
+    trustsec.sgacl:
+      required:
+      - Sgacl
+      type: object
+      properties:
+        Sgacl:
+          $ref: '#/components/schemas/Sgacl'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sgaclListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sgaclListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    sgaclListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    sgaclResponseEntity:
+      properties:
+        aclcontent:
+          title: aclcontent
+          type: string
+          description: ''
+          example: null
+        ipVersion:
+          title: ipVersion
+          type: string
+          description: Allowed values:IPV4,IPV6,IP_AGNOSTIC
+          example: null
+        generationId:
+          title: generationId
+          type: string
+          description: GenerationId is a read only attribute and is being generated by the server.
+          example: null
+        readOnly:
+          title: readOnly
+          type: boolean
+          description: ''
+          example: null
+        sgAclType:
+          title: sgAclType
+          type: string
+          description: SGACL type -  Trustsec or Traffic Steering.<br/>To use it as filter, the values should be 'TRAFFIC_STEERING'
+            or 'TRUSTSEC'. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=sgAclType.eq.TRUSTSEC' or
+            '[ERSObjectURL]?filter=sgAclType.eq.TRAFFIC_STEERING'
+          example: null
+        validateAclContent:
+          title: validateAclContent
+          type: boolean
+          description: Enforce SGACL syntax validation
+          example: null
+        modelledContent:
+          title: modelledContent
+          type: object
+          description: Modelled content of contract
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    bulkrequest:
+      type: object
+      properties:
+        SgaclBulkRequest:
+          $ref: '#/components/schemas/SgaclBulkRequest'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    SgaclBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.trustsec.sgacl.1.0+xml
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 4
+        resources:
+          type: array
+          example:
+          - id: 92919850-8c01-11e6-996c-525400b48521
+            name: Deny IP
+            description: Deny IP SGACL
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/sgacl/92919850-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: a7900150-9053-11eb-8296-0050568fa723
+            name: Deny_IP_Log
+            description: Deny IP with logging
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/sgacl/a7900150-9053-11eb-8296-0050568fa723
+              type: application/json
+          - id: 92951ac0-8c01-11e6-996c-525400b48521
+            name: Permit IP
+            description: Permit IP SGACL
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/sgacl/92951ac0-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: a78d1b20-9053-11eb-8296-0050568fa723
+            name: Permit_IP_Log
+            description: Permit IP with logging
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/sgacl/a78d1b20-9053-11eb-8296-0050568fa723
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    BulkStatus:
+      type: object
+      properties:
+        bulkId:
+          type: string
+          example: 1615791703003
+        mediaType:
+          type: string
+          example: ''
+        executionStatus:
+          type: string
+          example: COMPLETED
+        operationType:
+          type: string
+          example: create
+        startTime:
+          type: string
+          example: Mon Mar 15 07:01:43 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.2'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1,1.2
+        link:
+          $ref: '#/components/schemas/link1'
+    Sgacl_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 92951ac0-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: Permit IP
+        description:
+          type: string
+          example: Permit IP SGACL
+        generationId:
+          type: string
+          example: 0
+        sgAclType:
+          type: string
+          example: TRUSTSEC
+        validateAclContent:
+          type: boolean
+          example: false
+        aclcontent:
+          type: string
+          example: permit ip
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sgacl/92951ac0-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    sgacl:
+      type: object
+      properties:
+        Sgacl:
+          $ref: '#/components/schemas/Sgacl_2'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sgacl/versioninfo
+        type:
+          type: string
+          example: application/json
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-security-groups-acls.yaml

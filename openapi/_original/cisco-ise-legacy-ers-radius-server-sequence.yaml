@@ -1,0 +1,483 @@
+swagger: '2.0'
+info:
+  description: |
+    RADIUS Server Sequence API allows the client to add, delete, update, search and perform actions on RADIUS server sequence. 
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.3</td><td>Initial Cisco ISE Version</td></tr>
+    <tr style='border-bottom:solid #CCCCCC 1.0pt;background:#f8f8f8'><td>1</td><td>1.1</td><td>3.2</td><td>Added Patch operation</td></tr>
+    </table>
+    <br><br>
+    
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td><td>name</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td><td>ab6deded-fcc2-47ff-8577-0014737c8fcf</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td><td>description</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>stripPrefix</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr><td style='font-family:monospace'>stripSuffix</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>prefixSeparator</td><td>String</td><td>No</td><td>The prefixSeparator is required only if stripPrefix is true. The maximum length is 1 character</td><td>\</td><td></td></tr>
+    <tr><td style='font-family:monospace'>suffixSeparator</td><td>String</td><td>No</td><td>The suffixSeparator is required only if stripSuffix is true. The maximum length is 1 character</td><td>@</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>remoteAccounting</td><td>Boolean</td><td>No</td><td></td><td>
+    true</td><td></td></tr>
+    <tr><td style='font-family:monospace'>localAccounting</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>useAttrSetOnRequest</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr><td style='font-family:monospace'>useAttrSetBeforeAcc</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>continueAuthorzPolicy</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr><td style='font-family:monospace'>radiusServers</td><td>List</td><td>Yes</td><td>List with names of external radius server. The order of the names in the list is the order of servers that will be used during authentication</td><td></td><td>[ "externalRadiusServer1", "externalRadiusServer2" ]</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>onRequestAttrManipulators</td><td>List</td><td>No</td><td>The onRequestAttrManipulators is required only if useAttrSetOnRequest is true</td><td></td><td></td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- AttributeManipulator</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>&nbsp - action</td><td>Enum</td><td>Yes</td><td>Allowed Values: <br>- ADD, <br>- UPDATE, <br>- REMOVE, <br>- REMOVEANY</td><td></td><td>ADD</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>&nbsp - dictionaryName</td><td>String</td><td>Yes</td><td></td><td></td><td>Cisco</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>&nbsp - attributeName</td><td>String</td><td>Yes</td><td></td><td></td><td>cisco-prev-hop-ip</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>&nbsp - value</td><td>String</td><td>Yes</td><td></td><td></td><td>test1</td></tr> 
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>&nbsp - changedVal</td><td>String</td><td>No</td><td>The changedVal is required only if the action equals to 'UPDATE'</td><td></td><td>test2</td></tr> 
+    <tr><td style='font-family:monospace'>beforeAcceptAttrManipulators</td><td>List</td><td>No</td><td>The beforeAcceptAttrManipulators is required only if useAttrSetBeforeAcc is true</td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>- AttributeManipulator</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>&nbsp - action</td><td>Enum</td><td>Yes</td><td>Allowed Values: <br>- ADD, <br>- UPDATE, <br>- REMOVE, <br>- REMOVEANY</td><td></td><td>ADD</td></tr>
+    <tr><td style='font-family:monospace'>&nbsp - dictionaryName</td><td>String</td><td>Yes</td><td></td><td></td><td>Cisco</td></tr>
+    <tr><td style='font-family:monospace'>&nbsp - attributeName</td><td>String</td><td>Yes</td><td></td><td></td><td>cisco-prev-hop-ip</td></tr>
+    <tr><td style='font-family:monospace'>&nbsp - value</td><td>String</td><td>Yes</td><td></td><td></td><td>test1</td></tr> 
+    <tr style='border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>&nbsp - changedVal</td><td>String</td><td>No</td><td>The changedVal is required only if the action equals to 'UPDATE'</td><td></td><td>test2</td></tr> 
+    </table> 
+  
+  version: 1.0.0
+  title: RADIUS Server Sequence
+
+tags:
+- name: radiusserversequence
+
+paths:
+  /ers/config/radiusserversequence/{id}:
+    get:
+      tags: 
+      - radiusserversequence
+      summary: Get RADIUS server sequence by ID
+      description:
+        <p>This API allows the client to get a RADIUS server sequence by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.radiusserversequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/radius'
+            
+    patch:
+      tags: 
+      - radiusserversequence
+      summary: Update part of the RADIUS server sequence by ID
+      description:
+        <p>Update any attribute subset of the RADIUS server sequence. Only the attributes sent are affected.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.radiusserversequence.1.0
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/patchRequest'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/radius'  
+            
+    put:
+      tags:
+      - radiusserversequence
+      summary: Update RADIUS server sequence
+      description:  <p>This API allows the client to update a RADIUS server sequence.</p>
+      consumes:
+      - application/json
+      - application/xml 
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.radiusserversequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/radius'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+
+    delete:
+      tags:
+      - radiusserversequence
+      summary: Delete RADIUS server sequence
+      description:
+        <p>This API deletes a RADIUS server sequence.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.radiusserversequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+      responses: 
+        204:
+          description: No content    
+
+  /ers/config/radiusserversequence:
+    get:
+      tags: 
+      - radiusserversequence
+      summary: Get all RADIUS server sequences
+      description:
+        <p>This API allows the client to get all the RADIUS server sequences.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.radiusserversequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+    post:
+      tags:
+      - radiusserversequence
+      summary: Create RADIUS server sequence
+      description:
+        <p>This API creates a RADIUS server sequence.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.radiusserversequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/radius'
+      responses:
+        201:
+          description: Created
+    
+  /ers/config/radiusserversequence/versioninfo:
+    get:
+      tags:
+      - radiusserversequence
+      summary: Get RADIUS server sequence version information
+      description:
+        <p>This API helps to retrieve the version information related to the RADIUS server sequence.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+            
+definitions:
+  radius:
+    type: object
+    properties:
+      RadiusServerSequence:
+        $ref: '#/definitions/RadiusServerSequence'
+        
+  RadiusServerSequence:
+    type: object
+    properties:
+      id:
+        type: string
+        example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+      name:
+        type: string
+        example: name
+      description:
+        type: string
+        example: description
+      stripPrefix:
+        type: boolean
+        example: false
+      stripSuffix:
+        type: boolean
+        example: false
+      prefixSeparator:
+        type: string
+        example: "\\"
+      suffixSeparator:
+        type: string
+        example: "@"
+      remoteAccounting:
+        type: boolean
+        example: true
+      localAccounting:
+        type: boolean
+        example: false
+      useAttrSetOnRequest:
+        type: boolean
+        example: false
+      useAttrSetBeforeAcc:
+        type: boolean
+        example: false
+      continueAuthorzPolicy:
+        type: boolean
+        example: false
+      RadiusServerList:
+        type: array
+        example: [ "externalRadiusServer1", "externalRadiusServer2" ]
+        items:
+          properties:
+            name:
+              type: string
+      OnRequestAttrManipulatorList:
+        type: array
+        example: [ {
+                    "action" : "ADD",
+                    "dictionaryName" : "Cisco",
+                    "attributeName" : "cisco-prev-hop-ip",
+                    "value" : "test1",
+                    "changedVal" : "test2"
+                  }, 
+                  {
+                    "action" : "UPDATE",
+                    "dictionaryName" : "Cisco",
+                    "attributeName" : "Cisco:cisco-ppp-vj-slot-comp",
+                    "value" : "12",
+                    "changedVal" : "13"
+                  } ]
+        items:
+          properties:
+            name:
+              type: string        
+      BeforeAcceptAttrManipulatorsList:
+        type: array
+        example: [ {
+                    "action" : "ADD",
+                    "dictionaryName" : "Cisco",
+                    "attributeName" : "cisco-prev-hop-ip",
+                    "value" : "test1",
+                    "changedVal" : "test2"
+                  }, 
+                  {
+                    "action" : "UPDATE",
+                    "dictionaryName" : "Cisco",
+                    "attributeName" : "Cisco:cisco-ppp-vj-slot-comp",
+                    "value" : "12",
+                    "changedVal" : "13"
+                  } ]
+        items:
+          properties:
+            name:
+              type: string          
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/radiusserversequence/ab6deded-fcc2-47ff-8577-0014737c8fcf
+          type:
+            type: string
+            example: application/json   
+            
+  patchRequest:
+    type: object
+    properties:
+      RadiusServerSequence:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value             
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+        
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example: [
+            {
+                "id": "ab6deded-fcc2-47ff-8577-0014737c8fcf",
+                "name": "name",
+                "description" : "description",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/radiusserversequence/ab6deded-fcc2-47ff-8577-0014737c8fcf",
+                    "type": "application/json"
+                }
+            }
+        ]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "1.0"
+      supportedVersions:
+        type: string
+        example: "1.0" 
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/radiusserversequence/versioninfo
+      type:
+        type: string
+        example: application/json

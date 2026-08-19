@@ -1,0 +1,640 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Portal API
+  version: '1.0'
+  description: 'Operations tagged portal across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-portal.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-portal.yaml, the provider's source document. Operations and schemas
+      are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-portal.yaml
+    operation_coverage: 3/5
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: portal
+paths:
+  /portal/:
+    get:
+      tags:
+      - portal
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/portalListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/portalListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /portal/{id}:
+    get:
+      tags:
+      - portal
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/portalResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/portalResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/portal/{id}:
+    get:
+      tags:
+      - portal
+      summary: Get portal by ID
+      description: <p>This API allows the client to get a portal by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.portal.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/portal'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/portal'
+  /ers/config/portal:
+    get:
+      tags:
+      - portal
+      summary: Get all portals
+      description: <p>This API allows the client to get all the portals.</p> <p><h1>Filter:</h1> <h3>[name, description]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
+        description]</h3></p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.portal.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+  /ers/config/portal/versioninfo:
+    get:
+      tags:
+      - portal
+      summary: Get portal version information
+      description: <p>This API helps to retrieve the version information realted to the portal.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    portalListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/portalListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    portalResponse:
+      type: object
+      properties:
+        ERSPortal:
+          $ref: '#/components/schemas/portalResponseEntity'
+      example:
+        ERSPortal:
+          name: portal1
+          description: example portal
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    portalResponseEntity:
+      properties:
+        allowSponsorToChangeOwnPassword:
+          title: allowSponsorToChangeOwnPassword
+          type: boolean
+          description: allowSponsorToChangeOwnPassword
+          example: null
+        loginPageAccessCode:
+          title: loginPageAccessCode
+          type: string
+          description: loginPageAccessCode
+          example: null
+        guestUserFieldList:
+          title: guestUserFieldList
+          type: array
+          description: guestUserFieldList
+          example: null
+          items:
+            properties:
+              labelName:
+                title: labelName
+                type: string
+                description: labelName
+                example: null
+              dataType:
+                title: dataType
+                type: string
+                description: dataType
+                example: null
+              instructionText:
+                title: instructionText
+                type: string
+                description: instructionText
+                example: null
+              required:
+                title: required
+                type: boolean
+                description: required
+                example: null
+              dictionaryLabelKey:
+                title: dictionaryLabelKey
+                type: string
+                description: dictionaryLabelKey
+                example: null
+              customType:
+                title: customType
+                type: boolean
+                description: customType
+                example: null
+            example: null
+        aupPageAccessCode:
+          title: aupPageAccessCode
+          type: string
+          description: aupPageAccessCode
+          example: null
+        portalType:
+          title: portalType
+          type: string
+          description: portalType
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    portalListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    ERSPortal:
+      type: object
+      properties:
+        id:
+          type: string
+          example: bc5524ea-b1e5-47ed-a907-5304821da916
+        name:
+          type: string
+          example: ISE Portal (default)
+        description:
+          type: string
+          example: Ise Portal for saml based feature purpose
+        portalType:
+          type: string
+          example: GUEST
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/portal/bc5524ea-b1e5-47ed-a907-5304821da916
+            type:
+              type: string
+              example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 5
+        resources:
+          type: array
+          example:
+          - id: 3c83785b-c7f7-42bc-ab26-a281da5620a6
+            name: Sponsor Portal (default)
+            description: Default portal used by sponsors to create and manage accounts for authorized visitors to securely
+              access the network
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/portal/3c83785b-c7f7-42bc-ab26-a281da5620a6
+              type: application/json
+          - id: bc5524ea-b1e5-47ed-a907-5304821da916
+            name: ISE Portal (default)
+            description: ISE Portal for saml based feature purpose
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/portal/bc5524ea-b1e5-47ed-a907-5304821da916
+              type: application/json
+          - id: 7508caf2-4014-4cdc-ac01-fb1066a66a36
+            name: Self-Registered Guest Portal (default)
+            description: Guests may create their own accounts and be assigned a username and password, or use their social
+              login to access the network
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/portal/7508caf2-4014-4cdc-ac01-fb1066a66a36
+              type: application/json
+          - id: 28513a65-2eb3-43e8-8474-5dd4994cd9d9
+            name: Sponsored Guest Portal (default)
+            description: Sponsors create guest accounts, and guests access the network using their assigned username and password
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/portal/28513a65-2eb3-43e8-8474-5dd4994cd9d9
+              type: application/json
+          - id: b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
+            name: Hotspot Guest Portal (default)
+            description: Guests do not require username and password credentials to access the network, but you can optionally
+              require an access code
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/portal/b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '2.0'
+        supportedVersions:
+          type: string
+          example: '2.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    portal:
+      type: object
+      properties:
+        ERSPortal:
+          $ref: '#/components/schemas/ERSPortal'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/portal/versioninfo
+        type:
+          type: string
+          example: application/json
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-portal.yaml

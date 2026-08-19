@@ -1,0 +1,96 @@
+generated: '2026-08-19'
+method: searched
+source: https://developer.cisco.com/docs/identity-services-engine/latest/error-responses/ enriched from openapi/_original/
+  4xx-5xx responses
+docs: https://developer.cisco.com/docs/identity-services-engine/latest/error-responses/
+format: vendor-specific
+rfc9457: false
+note: 'Cisco publishes a named ERS exception registry: on failure the API returns an HTTP status plus an ERS response body
+  naming the exception. It is not RFC 9457 application/problem+json — no type URI, no title/detail/instance members, and the
+  error body is available in both JSON and XML. Across the 103 published documents the 4xx/5xx responses are declared but
+  almost entirely without described error schemas.'
+envelope:
+  media_types:
+  - application/json
+  - application/xml
+  carries:
+  - message code
+  - message description
+  - HTTP status
+  failure_flows_docs: https://developer.cisco.com/docs/identity-services-engine/latest/failure-flows/
+problems:
+- code: VERSION_EXCEPTION
+  status: 415
+  title: Resource version no longer supported
+  detail: The resource version sent in the request content (ERS-Media-Type) is no longer supported by the server.
+  remediation: Re-read the current resource version and update the ERS-Media-Type header, or omit it to accept the latest.
+- code: MEDIA_TYPE_EXCEPTION
+  status: 415
+  title: Invalid media type
+  detail: The media type sent by the client in the Accept or Content-Type header is invalid.
+  remediation: Send Accept and Content-Type of application/json or application/xml.
+- code: UNSUPPORTED_RESOURCE_EXCEPTION
+  status: 400
+  title: Unsupported resource
+  detail: The resource named in the URI is not supported by the server.
+  remediation: Check the resource path against the ERS reference and the ISE release; many resources were introduced in specific
+    releases.
+- code: UNSUPPORTED_METHOD_EXCEPTION
+  status: 400
+  title: Unsupported method
+  detail: The request method type is not supported for the specified URI.
+  remediation: Check the method matrix for the resource; PATCH in particular was only introduced across ERS resources in ISE
+    3.2.
+- code: QUERY_VALIDATION_EXCEPTION
+  status: 400
+  title: Invalid query
+  detail: The search filter or paging parameters are not valid.
+  remediation: Validate the filter=field.OPERATOR.value form and keep size at 100 or below.
+- code: SCHEMA_VALIDATION_EXCEPTION
+  status: 400
+  title: Schema validation failed
+  detail: The resource failed validation against its schema — typically a missing mandatory field such as name.
+  remediation: Validate the payload against the resource schema before sending.
+- code: APPLICATION_RESOURCE_VALIDATION_EXCEPTION
+  status: 400
+  title: Semantic validation failed
+  detail: The resource is schema-valid but does not meet the semantic requirements of the application.
+  remediation: Read the message description; this usually names the offending attribute combination.
+- code: INTERNAL_EXCEPTION
+  status: 500
+  title: Internal server error
+  detail: Any unexpected internal server error occurring at runtime.
+  remediation: Retry; escalate with the ISE support bundle if persistent.
+- code: CONVERSION_EXCEPTION
+  status: 500
+  title: Conversion error
+  detail: Raised during internal conversions. Cisco documents that it should be treated as INTERNAL_EXCEPTION.
+  remediation: Treat as INTERNAL_EXCEPTION.
+- code: CRUD_OPERATION_EXCEPTION
+  status: 500
+  title: CRUD operation error
+  detail: Raised during CRUD operation execution. Cisco documents that it should be treated as INTERNAL_EXCEPTION.
+  remediation: Treat as INTERNAL_EXCEPTION.
+status_census:
+  source: openapi/_original/ across 103 documents
+  declared:
+    '200': 1190
+    '404': 975
+    '401': 956
+    '403': 946
+    '400': 849
+    '406': 409
+    '415': 406
+    '500': 406
+    '201': 342
+    '204': 236
+    '202': 45
+    '409': 19
+    '422': 14
+    '405': 12
+    '417': 3
+    '207': 2
+gaps:
+- No RFC 9457 problem+json.
+- No machine-readable error type URIs.
+- No documented retry-after or backoff signal on 500-class errors.

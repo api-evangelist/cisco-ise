@@ -1,0 +1,1758 @@
+openapi: 3.2.0
+info:
+  title: ISE ERS Sponsoredguestportal API
+  version: 3.1.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+security:
+- HTTPBasicAuthentication: []
+tags:
+- name: sponsoredguestportal
+paths:
+  /sponsoredguestportal/:
+    get:
+      tags:
+      - sponsoredguestportal
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sponsoredguestportalListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sponsoredguestportalListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    post:
+      tags:
+      - sponsoredguestportal
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/portal.sponsoredguestportal'
+            example:
+              SponsoredGuestPortal:
+                portalType: SPONSOREDGUEST
+                settings:
+                  loginPageSettings:
+                    maxFailedAttemptsBeforeRateLimit: 5
+                    allowGuestToChangePassword: false
+                    requireAccessCode: false
+                    allowGuestToCreateAccounts: false
+                    includeAup: false
+                    allowAlternateGuestPortal: false
+                    socialConfigs: []
+                    timeBetweenLoginsDuringRateLimit: 2
+                    allowShowGuestForm: false
+                    allowForgotPassword: false
+                    accessCode: Access code
+                    allowGuestToUseSocialAccounts: false
+                    requireAupAcceptance: false
+                    requireAupScrolling: false
+                    aupDisplay: ASLINK
+                  authSuccessSettings:
+                    redirectUrl: www.cisco.com
+                    successRedirect: AUTHSUCCESSPAGE
+                  supportInfoSettings:
+                    includePolicyServer: true
+                    includeFailureCode: true
+                    includeMacAddr: true
+                    includeBrowserUserAgent: true
+                    includeSupportInfoPage: false
+                    includeIpAddress: true
+                    emptyFieldDisplay: HIDE
+                  guestChangePasswordSettings:
+                    allowChangePasswdAtFirstLogin: false
+                  aupSettings:
+                    requireAccessCode: false
+                    requireScrolling: false
+                    includeAup: false
+                    useDiffAupForEmployees: false
+                    displayFrequency: FIRSTLOGIN
+                    skipAupForEmployees: false
+                  postLoginBannerSettings:
+                    includePostAccessBanner: true
+                  portalSettings:
+                    allowedInterfaces:
+                    - eth0
+                    - bond0
+                    authenticationMethod: Identity Source
+                    availableSsids: []
+                    certificateGroupTag: Default Portal Certificate Group
+                    assignedGuestTypeForEmployee: Guest Type
+                    alwaysUsedLanguage: English
+                    displayLang: USEBROWSERLOCALE
+                    fallbackLanguage: English
+                    httpsPort: 8443
+                  guestDeviceRegistrationSettings:
+                    autoRegisterGuestDevices: false
+                    allowGuestsToRegisterDevices: true
+                name: name
+                description: description
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                customizations:
+                  globalCustomizations:
+                    bannerImage:
+                      data: base 64 encoded value of image
+                    contactText: 'Contact Information '
+                    bannerTitle: Banner Title
+                    desktopLogoImage:
+                      data: base 64 encoded value of image
+                    mobileLogoImage:
+                      data: base 64 encoded value of image
+                    footerElement: Footer Element
+                  portalTweakSettings:
+                    pageBackgroundColor: Color code from GUI
+                    pageLabelAndTextColor: Label and Text color from GUI
+                    bannerColor: Banner Color from GUI
+                    bannerTextColor: Banner Text color code from GUI
+                  pageCustomizations:
+                    data:
+                    - value: Contact Support
+                      key: ui_contact_link
+                  language:
+                    viewLanguage: English
+                  portalTheme:
+                    themeData: Base 64 encoded string of Theme CSS file
+                    name: ThemeName
+                    id: themeId
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+  /sponsoredguestportal/{portal-id}:
+    get:
+      tags:
+      - sponsoredguestportal
+      summary: Get-By-Id
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        schema:
+          title: portal-id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sponsoredguestportalResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sponsoredguestportalResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    put:
+      tags:
+      - sponsoredguestportal
+      summary: UpdateById
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        schema:
+          title: portal-id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/portal.sponsoredguestportal'
+            example:
+              SponsoredGuestPortal:
+                portalType: SPONSOREDGUEST
+                settings:
+                  loginPageSettings:
+                    maxFailedAttemptsBeforeRateLimit: 5
+                    allowGuestToChangePassword: false
+                    requireAccessCode: false
+                    allowGuestToCreateAccounts: false
+                    includeAup: false
+                    allowAlternateGuestPortal: false
+                    socialConfigs: []
+                    timeBetweenLoginsDuringRateLimit: 2
+                    allowShowGuestForm: false
+                    allowForgotPassword: false
+                    accessCode: Access code
+                    allowGuestToUseSocialAccounts: false
+                    requireAupAcceptance: false
+                    requireAupScrolling: false
+                    aupDisplay: ASLINK
+                  authSuccessSettings:
+                    redirectUrl: www.cisco.com
+                    successRedirect: AUTHSUCCESSPAGE
+                  supportInfoSettings:
+                    includePolicyServer: true
+                    includeFailureCode: true
+                    includeMacAddr: true
+                    includeBrowserUserAgent: true
+                    includeSupportInfoPage: false
+                    includeIpAddress: true
+                    emptyFieldDisplay: HIDE
+                  guestChangePasswordSettings:
+                    allowChangePasswdAtFirstLogin: false
+                  aupSettings:
+                    requireAccessCode: false
+                    requireScrolling: false
+                    includeAup: false
+                    useDiffAupForEmployees: false
+                    displayFrequency: FIRSTLOGIN
+                    skipAupForEmployees: false
+                  postLoginBannerSettings:
+                    includePostAccessBanner: true
+                  portalSettings:
+                    allowedInterfaces:
+                    - eth0
+                    - bond0
+                    authenticationMethod: Identity Source
+                    availableSsids: []
+                    certificateGroupTag: Default Portal Certificate Group
+                    assignedGuestTypeForEmployee: Guest Type
+                    alwaysUsedLanguage: English
+                    displayLang: USEBROWSERLOCALE
+                    fallbackLanguage: English
+                    httpsPort: 8443
+                  guestDeviceRegistrationSettings:
+                    autoRegisterGuestDevices: false
+                    allowGuestsToRegisterDevices: true
+                name: name
+                description: description
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                customizations:
+                  globalCustomizations:
+                    bannerImage:
+                      data: base 64 encoded value of image
+                    contactText: 'Contact Information '
+                    bannerTitle: Banner Title
+                    desktopLogoImage:
+                      data: base 64 encoded value of image
+                    mobileLogoImage:
+                      data: base 64 encoded value of image
+                    footerElement: Footer Element
+                  portalTweakSettings:
+                    pageBackgroundColor: Color code from GUI
+                    pageLabelAndTextColor: Label and Text color from GUI
+                    bannerColor: Banner Color from GUI
+                    bannerTextColor: Banner Text color code from GUI
+                  pageCustomizations:
+                    data:
+                    - value: Contact Support
+                      key: ui_contact_link
+                  language:
+                    viewLanguage: English
+                  portalTheme:
+                    themeData: Base 64 encoded string of Theme CSS file
+                    name: ThemeName
+                    id: themeId
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+    delete:
+      tags:
+      - sponsoredguestportal
+      summary: DeleteById
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        schema:
+          title: portal-id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    portal.sponsoredguestportal:
+      required:
+      - SponsoredGuestPortal
+      type: object
+      properties:
+        SponsoredGuestPortal:
+          $ref: '#/components/schemas/SponsoredGuestPortal'
+      example: null
+    sponsoredguestportalListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    sponsoredguestportalResponseEntity:
+      properties:
+        portalTestUrl:
+          title: portalTestUrl
+          type: string
+          description: URL to bring up a test page for this portal
+          example: null
+        portalType:
+          title: portalType
+          type: string
+          description: 'allowed values: byod, hotspotGuest, mydevice, selfRegGuest, sponsor and sponsoredGuest'
+          example: null
+        settings:
+          properties:
+            portalSettings:
+              properties:
+                httpsPort:
+                  title: httpsPort
+                  type: number
+                  description: The port number that the allowed interfaces will listen on. Range from 8000 to 8999
+                  example: null
+                allowedInterfaces:
+                  title: allowedInterfaces
+                  type: string
+                  description: 'Interfaces that the portal will be reachable on. allowed values: eth0, eth1, eth2, eth3, eth4, eth5, bond0, bond1 and bond2'
+                  example: null
+                certificateGroupTag:
+                  title: certificateGroupTag
+                  type: string
+                  description: Logical name of the x.509 server certificate that will be used for the portal.
+                  example: null
+                authenticationMethod:
+                  title: authenticationMethod
+                  type: string
+                  description: Unique Id of the identity source sequence .
+                  example: null
+                assignedGuestTypeForEmployee:
+                  title: assignedGuestTypeForEmployee
+                  type: string
+                  description: Unique Id of a guest type. Employees using this portal as a guest inherit login options from the guest type.
+                  example: null
+                displayLang:
+                  title: displayLang
+                  type: string
+                  description: 'allowed values:  useBrowserLocale and alwaysUse'
+                  example: null
+                fallbackLanguage:
+                  title: fallbackLanguage
+                  type: string
+                  description: Used when displayLang = useBrowserLocale
+                  example: null
+                alwaysUsedLanguage:
+                  title: alwaysUsedLanguage
+                  type: string
+                  description: Used when displayLang = alwaysUse
+                  example: null
+              example: null
+            loginPageSettings:
+              properties:
+                maxFailedAttemptsBeforeRateLimit:
+                  title: maxFailedAttemptsBeforeRateLimit
+                  type: number
+                  description: Maximum failed login attempts before rate limiting.
+                  example: null
+                timeBetweenLoginsDuringRateLimit:
+                  title: timeBetweenLoginsDuringRateLimit
+                  type: number
+                  description: Time between login attempts when rate limiting
+                  example: null
+                includeAup:
+                  title: includeAup
+                  type: boolean
+                  description: Include an Acceptable Use Policy (AUP) that should be displayed during login.
+                  example: null
+                aupDisplay:
+                  title: aupDisplay
+                  type: string
+                  description: How the AUP should be displayed, either on page or as a link.  Only valid if includeAup = true. Allowed Values onPage and asLink
+                  example: null
+                requireAupAcceptance:
+                  title: requireAupAcceptance
+                  type: boolean
+                  description: Require the portal user to accept the AUP.  Only valid if includeAup = true
+                  example: null
+                requireAccessCode:
+                  title: requireAccessCode
+                  type: boolean
+                  description: Require the portal user to enter an access code.
+                  example: null
+                accessCode:
+                  title: accessCode
+                  type: string
+                  description: Access code that must be entered by the portal user (only valid if requireAccessCode = true).
+                  example: null
+                allowGuestToCreateAccounts:
+                  title: allowGuestToCreateAccounts
+                  type: boolean
+                  description: ''
+                  example: null
+                allowGuestToChangePassword:
+                  title: allowGuestToChangePassword
+                  type: boolean
+                  description: Require the portal user to enter an access code.
+                  example: null
+              example: null
+            aupSettings:
+              properties:
+                displayFrequency:
+                  title: displayFrequency
+                  type: string
+                  description: How the AUP should be displayed, either on page or as a link.  Only valid if includeAup = true. Allowed Values firstLogin, everyLogin and recurring
+                  example: null
+                includeAup:
+                  title: includeAup
+                  type: boolean
+                  description: Require the portal user to read and accept an AUP.
+                  example: null
+                requireAupScrolling:
+                  title: requireAupScrolling
+                  type: boolean
+                  description: Require the portal user to scroll to the end of the AUP.  Only valid if requireAupAcceptance = true.
+                  example: null
+                useDiffAupForEmployees:
+                  title: useDiffAupForEmployees
+                  type: boolean
+                  description: ' Only valid if requireAupAcceptance = true.'
+                  example: null
+                skipAupForEmployees:
+                  title: skipAupForEmployees
+                  type: boolean
+                  description: ' Only valid if requireAupAcceptance = true.'
+                  example: null
+                displayFrequencyIntervalDays:
+                  title: displayFrequencyIntervalDays
+                  type: number
+                  description: Number of days between AUP confirmations (when displayFrequency = recurring).
+                  example: null
+              example: null
+            guestChangePasswordSettings:
+              properties:
+                allowChangePasswdAtFirstLogin:
+                  title: allowChangePasswdAtFirstLogin
+                  type: boolean
+                  description: Allow guest to change their own passwords.
+                  example: null
+              example: null
+            guestDeviceRegistrationSettings:
+              properties:
+                autoRegisterGuestDevices:
+                  title: autoRegisterGuestDevices
+                  type: boolean
+                  description: 'Automatically register guest devices '
+                  example: null
+                allowGuestsToRegisterDevices:
+                  title: allowGuestsToRegisterDevices
+                  type: boolean
+                  description: Allow guests to register devices.
+                  example: null
+              example: null
+            byodSettings:
+              properties:
+                byodWelcomeSettings:
+                  properties:
+                    enableBYOD:
+                      title: enableBYOD
+                      type: boolean
+                      description: ''
+                      example: null
+                    enableGuestAccess:
+                      title: enableGuestAccess
+                      type: boolean
+                      description: ''
+                      example: null
+                    requireMDM:
+                      title: requireMDM
+                      type: boolean
+                      description: ''
+                      example: null
+                    includeAup:
+                      title: includeAup
+                      type: boolean
+                      description: ''
+                      example: null
+                    aupDisplay:
+                      title: aupDisplay
+                      type: string
+                      description: 'How the AUP should be displayed, either on page or as a link.  Only valid if includeAup = true. allowedValues: onPage, asLink'
+                      example: null
+                    requireAupAcceptance:
+                      title: requireAupAcceptance
+                      type: boolean
+                      description: ''
+                      example: null
+                    requireScrolling:
+                      title: requireScrolling
+                      type: boolean
+                      description: Require BYOD devices to scroll down to the bottom of the AUP, Only valid if includeAup = true
+                      example: null
+                  example: null
+                byodRegistrationSettings:
+                  properties:
+                    showDeviceID:
+                      title: showDeviceID
+                      type: boolean
+                      description: Display Device ID field during registration.
+                      example: null
+                    endPointIdentityGroupId:
+                      title: endPointIdentityGroupId
+                      type: string
+                      description: TIdentity group id for which endpoint belongs.
+                      example: null
+                  example: null
+                byodRegistrationSuccessSettings:
+                  properties:
+                    successRedirect:
+                      title: successRedirect
+                      type: string
+                      description: 'After an Authentication Success where should device be redirected, allowedValues: authSuccessPage, originatingURL and url'
+                      example: null
+                    redirectUrl:
+                      title: redirectUrl
+                      type: string
+                      description: Target URL for redirection, used when successRedirect = url
+                      example: null
+                  example: null
+              example: null
+            authSuccessSettings:
+              properties:
+                successRedirect:
+                  title: successRedirect
+                  type: string
+                  description: After an Authentication Success where should user be redirected. Allowed Values authSuccessPage, originatingURL and url.
+                  example: null
+                redirectUrl:
+                  title: redirectUrl
+                  type: string
+                  description: Target URL for redirection, used when successRedirect = url
+                  example: null
+              example: null
+            postLoginBannerSettings:
+              properties:
+                includePostAccessBanner:
+                  title: includePostAccessBanner
+                  type: boolean
+                  description: Include a Post-Login Banner page.
+                  example: null
+              example: null
+            supportInfoSettings:
+              properties:
+                includeSupportInfoPage:
+                  title: includeSupportInfoPage
+                  type: boolean
+                  description: ''
+                  example: null
+                includeMacAddr:
+                  title: includeMacAddr
+                  type: boolean
+                  description: ''
+                  example: null
+                includeIpAddress:
+                  title: includeIpAddress
+                  type: boolean
+                  description: ''
+                  example: null
+                includeBrowserUserAgent:
+                  title: includeBrowserUserAgent
+                  type: boolean
+                  description: ''
+                  example: null
+                includePolicyServer:
+                  title: includePolicyServer
+                  type: boolean
+                  description: ''
+                  example: null
+                includeFailureCode:
+                  title: includeFailureCode
+                  type: boolean
+                  description: ''
+                  example: null
+                emptyFieldDisplay:
+                  title: emptyFieldDisplay
+                  type: string
+                  description: 'Specifies how empty fields are handled on the Support Information Page. allowedValues: hide, displayWithNoValue and displayWithDefaultValue'
+                  example: null
+                defaultEmptyFieldValue:
+                  title: defaultEmptyFieldValue
+                  type: string
+                  description: ' The default value displayed for an empty field  Only valid when emptyFieldDisplay = displayWithDefaultValue.  '
+                  example: null
+              example: null
+          example: null
+        customizations:
+          properties:
+            portalTheme:
+              properties:
+                id:
+                  title: id
+                  type: string
+                  description: The unique internal identifier of the portal theme.
+                  example: null
+                name:
+                  title: name
+                  type: string
+                  description: The system- or user-assigned name of the portal theme.
+                  example: null
+                themeData:
+                  title: themeData
+                  type: string
+                  description: A CSS file, represented as a Base64-encoded byte array.
+                  example: null
+              example: null
+            portalTweakSettings:
+              properties:
+                banneColor:
+                  title: banneColor
+                  type: string
+                  description: ''
+                  example: null
+                bannerTextColor:
+                  title: bannerTextColor
+                  type: string
+                  description: ''
+                  example: null
+                pageBackgroundColor:
+                  title: pageBackgroundColor
+                  type: string
+                  description: ''
+                  example: null
+                pageLabelAndTextColor:
+                  title: pageLabelAndTextColor
+                  type: string
+                  description: ''
+                  example: null
+              example: null
+            language:
+              title: language
+              type: object
+              description: This property is supported only for Read operation and it allows to show the customizations in English. Other languages are not supported.
+              example: null
+            globalCustomizations:
+              properties:
+                bannerTitle:
+                  title: bannerTitle
+                  type: string
+                  description: ''
+                  example: null
+                contactText:
+                  title: contactText
+                  type: string
+                  description: ''
+                  example: null
+                footerElement:
+                  title: footerElement
+                  type: string
+                  description: ''
+                  example: null
+                mobileLogoImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+                bannerImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+                backgroundImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+              example: null
+            pageCustomizations:
+              properties:
+                data:
+                  title: data
+                  type: array
+                  description: The Dictionary will be exposed here as key value pair
+                  example: null
+                  items:
+                    properties:
+                      key:
+                        title: key
+                        type: string
+                        description: ''
+                        example: null
+                      value:
+                        title: value
+                        type: string
+                        description: ''
+                        example: null
+                    example: null
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    sponsoredguestportalListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sponsoredguestportalListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    sponsoredguestportalResponse:
+      type: object
+      properties:
+        SponsoredGuestPortal:
+          $ref: '#/components/schemas/sponsoredguestportalResponseEntity'
+      example:
+        SponsoredGuestPortal:
+          portalType: SPONSOREDGUEST
+          settings:
+            loginPageSettings:
+              maxFailedAttemptsBeforeRateLimit: 5
+              allowGuestToChangePassword: false
+              requireAccessCode: false
+              allowGuestToCreateAccounts: false
+              includeAup: false
+              allowAlternateGuestPortal: false
+              socialConfigs: []
+              timeBetweenLoginsDuringRateLimit: 2
+              allowShowGuestForm: false
+              allowForgotPassword: false
+              accessCode: Access code
+              allowGuestToUseSocialAccounts: false
+              requireAupAcceptance: false
+              requireAupScrolling: false
+              aupDisplay: ASLINK
+            authSuccessSettings:
+              redirectUrl: www.cisco.com
+              successRedirect: AUTHSUCCESSPAGE
+            supportInfoSettings:
+              includePolicyServer: true
+              includeFailureCode: true
+              includeMacAddr: true
+              includeBrowserUserAgent: true
+              includeSupportInfoPage: false
+              includeIpAddress: true
+              emptyFieldDisplay: HIDE
+            guestChangePasswordSettings:
+              allowChangePasswdAtFirstLogin: false
+            aupSettings:
+              requireAccessCode: false
+              requireScrolling: false
+              includeAup: false
+              useDiffAupForEmployees: false
+              displayFrequency: FIRSTLOGIN
+              skipAupForEmployees: false
+            postLoginBannerSettings:
+              includePostAccessBanner: true
+            portalSettings:
+              allowedInterfaces:
+              - eth0
+              - bond0
+              authenticationMethod: Identity Source
+              availableSsids: []
+              certificateGroupTag: Default Portal Certificate Group
+              assignedGuestTypeForEmployee: Guest Type
+              alwaysUsedLanguage: English
+              displayLang: USEBROWSERLOCALE
+              fallbackLanguage: English
+              httpsPort: 8443
+            guestDeviceRegistrationSettings:
+              autoRegisterGuestDevices: false
+              allowGuestsToRegisterDevices: true
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          customizations:
+            globalCustomizations:
+              bannerImage:
+                data: base 64 encoded value of image
+              contactText: 'Contact Information '
+              bannerTitle: Banner Title
+              desktopLogoImage:
+                data: base 64 encoded value of image
+              mobileLogoImage:
+                data: base 64 encoded value of image
+              footerElement: Footer Element
+            portalTweakSettings:
+              pageBackgroundColor: Color code from GUI
+              pageLabelAndTextColor: Label and Text color from GUI
+              bannerColor: Banner Color from GUI
+              bannerTextColor: Banner Text color code from GUI
+            pageCustomizations:
+              data:
+              - value: Contact Support
+                key: ui_contact_link
+            language:
+              viewLanguage: English
+            portalTheme:
+              themeData: Base 64 encoded string of Theme CSS file
+              name: ThemeName
+              id: themeId
+    SponsoredGuestPortal:
+      required:
+      - name
+      - portalType
+      properties:
+        portalTestUrl:
+          title: portalTestUrl
+          type: string
+          description: URL to bring up a test page for this portal
+          example: null
+        portalType:
+          title: portalType
+          type: string
+          description: 'allowed values: byod, hotspotGuest, mydevice, selfRegGuest, sponsor and sponsoredGuest'
+          example: null
+        settings:
+          properties:
+            portalSettings:
+              required:
+              - allowedInterfaces
+              - assignedGuestTypeForEmployee
+              - authenticationMethod
+              - certificateGroupTag
+              - httpsPort
+              properties:
+                httpsPort:
+                  title: httpsPort
+                  type: number
+                  description: The port number that the allowed interfaces will listen on. Range from 8000 to 8999
+                  example: null
+                allowedInterfaces:
+                  title: allowedInterfaces
+                  type: string
+                  description: 'Interfaces that the portal will be reachable on. allowed values: eth0, eth1, eth2, eth3, eth4, eth5, bond0, bond1 and bond2'
+                  example: null
+                certificateGroupTag:
+                  title: certificateGroupTag
+                  type: string
+                  description: Logical name of the x.509 server certificate that will be used for the portal.
+                  example: null
+                authenticationMethod:
+                  title: authenticationMethod
+                  type: string
+                  description: Unique Id of the identity source sequence .
+                  example: null
+                assignedGuestTypeForEmployee:
+                  title: assignedGuestTypeForEmployee
+                  type: string
+                  description: Unique Id of a guest type. Employees using this portal as a guest inherit login options from the guest type.
+                  example: null
+                displayLang:
+                  title: displayLang
+                  type: string
+                  description: 'allowed values:  useBrowserLocale and alwaysUse'
+                  example: null
+                fallbackLanguage:
+                  title: fallbackLanguage
+                  type: string
+                  description: Used when displayLang = useBrowserLocale
+                  example: null
+                alwaysUsedLanguage:
+                  title: alwaysUsedLanguage
+                  type: string
+                  description: Used when displayLang = alwaysUse
+                  example: null
+              example: null
+            loginPageSettings:
+              properties:
+                maxFailedAttemptsBeforeRateLimit:
+                  title: maxFailedAttemptsBeforeRateLimit
+                  type: number
+                  description: Maximum failed login attempts before rate limiting.
+                  example: null
+                timeBetweenLoginsDuringRateLimit:
+                  title: timeBetweenLoginsDuringRateLimit
+                  type: number
+                  description: Time between login attempts when rate limiting
+                  example: null
+                includeAup:
+                  title: includeAup
+                  type: boolean
+                  description: Include an Acceptable Use Policy (AUP) that should be displayed during login.
+                  example: null
+                aupDisplay:
+                  title: aupDisplay
+                  type: string
+                  description: How the AUP should be displayed, either on page or as a link.  Only valid if includeAup = true. Allowed Values onPage and asLink
+                  example: null
+                requireAupAcceptance:
+                  title: requireAupAcceptance
+                  type: boolean
+                  description: Require the portal user to accept the AUP.  Only valid if includeAup = true
+                  example: null
+                requireAccessCode:
+                  title: requireAccessCode
+                  type: boolean
+                  description: Require the portal user to enter an access code.
+                  example: null
+                accessCode:
+                  title: accessCode
+                  type: string
+                  description: Access code that must be entered by the portal user (only valid if requireAccessCode = true).
+                  example: null
+                allowGuestToCreateAccounts:
+                  title: allowGuestToCreateAccounts
+                  type: boolean
+                  description: ''
+                  example: null
+                allowGuestToChangePassword:
+                  title: allowGuestToChangePassword
+                  type: boolean
+                  description: Require the portal user to enter an access code.
+                  example: null
+              example: null
+            aupSettings:
+              properties:
+                displayFrequency:
+                  title: displayFrequency
+                  type: string
+                  description: How the AUP should be displayed, either on page or as a link.  Only valid if includeAup = true. Allowed Values firstLogin, everyLogin and recurring
+                  example: null
+                includeAup:
+                  title: includeAup
+                  type: boolean
+                  description: Require the portal user to read and accept an AUP.
+                  example: null
+                requireAupScrolling:
+                  title: requireAupScrolling
+                  type: boolean
+                  description: Require the portal user to scroll to the end of the AUP.  Only valid if requireAupAcceptance = true.
+                  example: null
+                useDiffAupForEmployees:
+                  title: useDiffAupForEmployees
+                  type: boolean
+                  description: ' Only valid if requireAupAcceptance = true.'
+                  example: null
+                skipAupForEmployees:
+                  title: skipAupForEmployees
+                  type: boolean
+                  description: ' Only valid if requireAupAcceptance = true.'
+                  example: null
+                displayFrequencyIntervalDays:
+                  title: displayFrequencyIntervalDays
+                  type: number
+                  description: Number of days between AUP confirmations (when displayFrequency = recurring).
+                  example: null
+              example: null
+            guestChangePasswordSettings:
+              properties:
+                allowChangePasswdAtFirstLogin:
+                  title: allowChangePasswdAtFirstLogin
+                  type: boolean
+                  description: Allow guest to change their own passwords.
+                  example: null
+              example: null
+            guestDeviceRegistrationSettings:
+              properties:
+                autoRegisterGuestDevices:
+                  title: autoRegisterGuestDevices
+                  type: boolean
+                  description: 'Automatically register guest devices '
+                  example: null
+                allowGuestsToRegisterDevices:
+                  title: allowGuestsToRegisterDevices
+                  type: boolean
+                  description: Allow guests to register devices.
+                  example: null
+              example: null
+            byodSettings:
+              properties:
+                byodWelcomeSettings:
+                  properties:
+                    enableBYOD:
+                      title: enableBYOD
+                      type: boolean
+                      description: ''
+                      example: null
+                    enableGuestAccess:
+                      title: enableGuestAccess
+                      type: boolean
+                      description: ''
+                      example: null
+                    requireMDM:
+                      title: requireMDM
+                      type: boolean
+                      description: ''
+                      example: null
+                    includeAup:
+                      title: includeAup
+                      type: boolean
+                      description: ''
+                      example: null
+                    aupDisplay:
+                      title: aupDisplay
+                      type: string
+                      description: 'How the AUP should be displayed, either on page or as a link.  Only valid if includeAup = true. allowedValues: onPage, asLink'
+                      example: null
+                    requireAupAcceptance:
+                      title: requireAupAcceptance
+                      type: boolean
+                      description: ''
+                      example: null
+                    requireScrolling:
+                      title: requireScrolling
+                      type: boolean
+                      description: Require BYOD devices to scroll down to the bottom of the AUP, Only valid if includeAup = true
+                      example: null
+                  example: null
+                byodRegistrationSettings:
+                  properties:
+                    showDeviceID:
+                      title: showDeviceID
+                      type: boolean
+                      description: Display Device ID field during registration.
+                      example: null
+                    endPointIdentityGroupId:
+                      title: endPointIdentityGroupId
+                      type: string
+                      description: TIdentity group id for which endpoint belongs.
+                      example: null
+                  example: null
+                byodRegistrationSuccessSettings:
+                  properties:
+                    successRedirect:
+                      title: successRedirect
+                      type: string
+                      description: 'After an Authentication Success where should device be redirected, allowedValues: authSuccessPage, originatingURL and url'
+                      example: null
+                    redirectUrl:
+                      title: redirectUrl
+                      type: string
+                      description: Target URL for redirection, used when successRedirect = url
+                      example: null
+                  example: null
+              example: null
+            authSuccessSettings:
+              properties:
+                successRedirect:
+                  title: successRedirect
+                  type: string
+                  description: After an Authentication Success where should user be redirected. Allowed Values authSuccessPage, originatingURL and url.
+                  example: null
+                redirectUrl:
+                  title: redirectUrl
+                  type: string
+                  description: Target URL for redirection, used when successRedirect = url
+                  example: null
+              example: null
+            postLoginBannerSettings:
+              properties:
+                includePostAccessBanner:
+                  title: includePostAccessBanner
+                  type: boolean
+                  description: Include a Post-Login Banner page.
+                  example: null
+              example: null
+            supportInfoSettings:
+              properties:
+                includeSupportInfoPage:
+                  title: includeSupportInfoPage
+                  type: boolean
+                  description: ''
+                  example: null
+                includeMacAddr:
+                  title: includeMacAddr
+                  type: boolean
+                  description: ''
+                  example: null
+                includeIpAddress:
+                  title: includeIpAddress
+                  type: boolean
+                  description: ''
+                  example: null
+                includeBrowserUserAgent:
+                  title: includeBrowserUserAgent
+                  type: boolean
+                  description: ''
+                  example: null
+                includePolicyServer:
+                  title: includePolicyServer
+                  type: boolean
+                  description: ''
+                  example: null
+                includeFailureCode:
+                  title: includeFailureCode
+                  type: boolean
+                  description: ''
+                  example: null
+                emptyFieldDisplay:
+                  title: emptyFieldDisplay
+                  type: string
+                  description: 'Specifies how empty fields are handled on the Support Information Page. allowedValues: hide, displayWithNoValue and displayWithDefaultValue'
+                  example: null
+                defaultEmptyFieldValue:
+                  title: defaultEmptyFieldValue
+                  type: string
+                  description: ' The default value displayed for an empty field  Only valid when emptyFieldDisplay = displayWithDefaultValue.  '
+                  example: null
+              example: null
+          example: null
+        customizations:
+          properties:
+            portalTheme:
+              required:
+              - name
+              properties:
+                id:
+                  title: id
+                  type: string
+                  description: The unique internal identifier of the portal theme.
+                  example: null
+                name:
+                  title: name
+                  type: string
+                  description: The system- or user-assigned name of the portal theme.
+                  example: null
+                themeData:
+                  title: themeData
+                  type: string
+                  description: A CSS file, represented as a Base64-encoded byte array.
+                  example: null
+              example: null
+            portalTweakSettings:
+              properties:
+                banneColor:
+                  title: banneColor
+                  type: string
+                  description: ''
+                  example: null
+                bannerTextColor:
+                  title: bannerTextColor
+                  type: string
+                  description: ''
+                  example: null
+                pageBackgroundColor:
+                  title: pageBackgroundColor
+                  type: string
+                  description: ''
+                  example: null
+                pageLabelAndTextColor:
+                  title: pageLabelAndTextColor
+                  type: string
+                  description: ''
+                  example: null
+              example: null
+            language:
+              title: language
+              type: object
+              description: This property is supported only for Read operation and it allows to show the customizations in English. Other languages are not supported.
+              example: null
+            globalCustomizations:
+              properties:
+                bannerTitle:
+                  title: bannerTitle
+                  type: string
+                  description: ''
+                  example: null
+                contactText:
+                  title: contactText
+                  type: string
+                  description: ''
+                  example: null
+                footerElement:
+                  title: footerElement
+                  type: string
+                  description: ''
+                  example: null
+                mobileLogoImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+                bannerImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+                backgroundImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+              example: null
+            pageCustomizations:
+              properties:
+                data:
+                  title: data
+                  type: array
+                  description: The Dictionary will be exposed here as key value pair
+                  example: null
+                  items:
+                    properties:
+                      key:
+                        title: key
+                        type: string
+                        description: ''
+                        example: null
+                      value:
+                        title: value
+                        type: string
+                        description: ''
+                        example: null
+                    example: null
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        SponsoredGuestPortal:
+          portalType: SPONSOREDGUEST
+          settings:
+            loginPageSettings:
+              maxFailedAttemptsBeforeRateLimit: 5
+              allowGuestToChangePassword: false
+              requireAccessCode: false
+              allowGuestToCreateAccounts: false
+              includeAup: false
+              allowAlternateGuestPortal: false
+              socialConfigs: []
+              timeBetweenLoginsDuringRateLimit: 2
+              allowShowGuestForm: false
+              allowForgotPassword: false
+              accessCode: Access code
+              allowGuestToUseSocialAccounts: false
+              requireAupAcceptance: false
+              requireAupScrolling: false
+              aupDisplay: ASLINK
+            authSuccessSettings:
+              redirectUrl: www.cisco.com
+              successRedirect: AUTHSUCCESSPAGE
+            supportInfoSettings:
+              includePolicyServer: true
+              includeFailureCode: true
+              includeMacAddr: true
+              includeBrowserUserAgent: true
+              includeSupportInfoPage: false
+              includeIpAddress: true
+              emptyFieldDisplay: HIDE
+            guestChangePasswordSettings:
+              allowChangePasswdAtFirstLogin: false
+            aupSettings:
+              requireAccessCode: false
+              requireScrolling: false
+              includeAup: false
+              useDiffAupForEmployees: false
+              displayFrequency: FIRSTLOGIN
+              skipAupForEmployees: false
+            postLoginBannerSettings:
+              includePostAccessBanner: true
+            portalSettings:
+              allowedInterfaces:
+              - eth0
+              - bond0
+              authenticationMethod: Identity Source
+              availableSsids: []
+              certificateGroupTag: Default Portal Certificate Group
+              assignedGuestTypeForEmployee: Guest Type
+              alwaysUsedLanguage: English
+              displayLang: USEBROWSERLOCALE
+              fallbackLanguage: English
+              httpsPort: 8443
+            guestDeviceRegistrationSettings:
+              autoRegisterGuestDevices: false
+              allowGuestsToRegisterDevices: true
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          customizations:
+            globalCustomizations:
+              bannerImage:
+                data: base 64 encoded value of image
+              contactText: 'Contact Information '
+              bannerTitle: Banner Title
+              desktopLogoImage:
+                data: base 64 encoded value of image
+              mobileLogoImage:
+                data: base 64 encoded value of image
+              footerElement: Footer Element
+            portalTweakSettings:
+              pageBackgroundColor: Color code from GUI
+              pageLabelAndTextColor: Label and Text color from GUI
+              bannerColor: Banner Color from GUI
+              bannerTextColor: Banner Text color code from GUI
+            pageCustomizations:
+              data:
+              - value: Contact Support
+                key: ui_contact_link
+            language:
+              viewLanguage: English
+            portalTheme:
+              themeData: Base 64 encoded string of Theme CSS file
+              name: ThemeName
+              id: themeId
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic

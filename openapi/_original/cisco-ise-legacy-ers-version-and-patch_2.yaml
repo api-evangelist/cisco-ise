@@ -1,0 +1,67 @@
+swagger: '2.0'
+info:
+  description: 'Version and Patch API is used to provide the Cisco ISE version on which the Cisco ISE cluster is running,
+    and a comma-separated list of the patches that are installed. The highest numbered patch is the patch that the cluster
+    in running on.
+
+    '
+  version: 1.0.0
+  title: Version and Patch
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: versionandpatch
+paths:
+  /ers/config/op/systemconfig/iseversion:
+    get:
+      tags:
+      - versionandpatch
+      summary: Get Cisco ISE version and patch information
+      description: <p>This API allows the client to get Cisco ISE version and patch information.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: Username Header
+        type: string
+        description: <username>:<password>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/version'
+definitions:
+  version:
+    type: object
+    properties:
+      OperationResult:
+        type: object
+        properties:
+          resultValue:
+            type: array
+            example:
+            - value: 3.1.0.335
+              name: version
+            - value: '0'
+              name: patch information
+            items:
+              properties:
+                name:
+                  type: string

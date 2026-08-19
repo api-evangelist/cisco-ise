@@ -1,0 +1,853 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Sgt API
+  version: '1.0'
+  description: 'Operations tagged sgt across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-open-api-trustsec.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas
+      are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-ers-open-api-ers-apis.yaml
+    operation_coverage: 5/6
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: sgt
+paths:
+  /sgt/:
+    get:
+      tags:
+      - sgt
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[propogateToApic, name, description, value]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[name, description, value]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+          - value
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[name, description, value]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+          - value
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sgtListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sgtListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - sgt
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.sgt'
+            example:
+              Sgt:
+                propogateToApic: false
+                defaultSGACLs: []
+                name: name
+                description: description
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                value: 2
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /sgt/{id}:
+    get:
+      tags:
+      - sgt
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sgtResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sgtResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - sgt
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.sgt'
+            example:
+              Sgt:
+                propogateToApic: false
+                defaultSGACLs: []
+                name: name
+                description: description
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                value: 2
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - sgt
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /api/v1/trustsec/rule/sgt:
+    get:
+      tags:
+      - sgt
+      summary: List of Inbound Outbound Rules for SGT data
+      description: Get Inbound Outbound Rules list for SGT data
+      operationId: getFiltersForSgt
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears
+          in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of SgtFilterListResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SgtFilterListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+    servers:
+    - url: https://172.23.118.207:443
+      description: Inferred Url
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    sgtListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    trustsec.sgt:
+      required:
+      - Sgt
+      type: object
+      properties:
+        Sgt:
+          $ref: '#/components/schemas/Sgt'
+      example: null
+    sgtListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sgtListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    sgtResponse:
+      type: object
+      properties:
+        Sgt:
+          $ref: '#/components/schemas/sgtResponseEntity'
+      example:
+        Sgt:
+          propogateToApic: false
+          defaultSGACLs: []
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          value: 2
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sgtResponseEntity:
+      properties:
+        value:
+          title: value
+          type: object
+          description: 'Value range: 2 ot 65519 or -1 to auto-generate'
+          example: null
+        propogateToApic:
+          title: propogateToApic
+          type: boolean
+          description: ''
+          example: null
+        isReadOnly:
+          title: isReadOnly
+          type: boolean
+          description: ''
+          example: null
+        defaultSGACLs:
+          title: defaultSGACLs
+          type: array
+          description: ''
+          example: null
+          items:
+            type: string
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    Sgt:
+      required:
+      - name
+      - value
+      properties:
+        value:
+          title: value
+          type: object
+          description: 'Value range: 2 ot 65519 or -1 to auto-generate'
+          example: null
+        propogateToApic:
+          title: propogateToApic
+          type: boolean
+          description: ''
+          example: null
+        isReadOnly:
+          title: isReadOnly
+          type: boolean
+          description: ''
+          example: null
+        defaultSGACLs:
+          title: defaultSGACLs
+          type: array
+          description: ''
+          example: null
+          items:
+            type: string
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        Sgt:
+          propogateToApic: false
+          defaultSGACLs: []
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          value: 2
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    FilterList:
+      title: FilterList
+      required:
+      - inboundOutboundRules
+      - sgtName
+      type: object
+      properties:
+        inboundOutboundRules:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/InboundOutboundRule'
+            exampleSetFlag: false
+        sgtName:
+          type: string
+          exampleSetFlag: true
+        sxpName:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SgtFilterListResponseEntity:
+      title: SgtFilterListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/SgtFilterList'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SgtFilterList:
+      title: SgtFilterList
+      required:
+      - sgtFilters
+      type: object
+      properties:
+        sgtFilters:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterList'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    InboundOutboundRule:
+      title: InboundOutboundRule
+      required:
+      - id
+      - name
+      - ruleType
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        ruleType:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-open-api-trustsec.yaml

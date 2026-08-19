@@ -1,0 +1,75 @@
+generated: '2026-08-19'
+method: searched
+source: openapi/_original/ (103 documents) + https://developer.cisco.com/docs/identity-services-engine/latest/authentication/
+docs: https://developer.cisco.com/docs/identity-services-engine/latest/authentication/
+summary:
+  types:
+  - http
+  http_schemes:
+  - basic
+  oauth2_flows: []
+  api_key_in: []
+  declared_in_specs: 6
+  total_specs: 103
+  note: Only 6 of 103 published documents declare a securityScheme at all, though every ISE API requires HTTP Basic. The other
+    97 describe authenticated operations with no security block.
+schemes:
+- name: HTTPBasicAuthentication
+  type: http
+  scheme: basic
+  sources:
+  - openapi/_original/cisco-ise-ers-open-api-ers-apis.yaml
+- name: BasicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/_original/cisco-ise-open-api-5g.yaml
+  - openapi/_original/cisco-ise-open-api-policy.yaml
+  - openapi/_original/cisco-ise-open-api-upgrade.yaml
+- name: httpBasic
+  type: http
+  scheme: basic
+  sources:
+  - openapi/_original/cisco-ise-open-api-endpoints.yaml
+- name: basicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/_original/cisco-ise-monitoring-open-api-monitoring-open-api.yaml
+model:
+  mechanism: HTTP Basic (RFC 7617) over TLS. Credentials are Base64-encoded in the Authorization header.
+  no_oauth: Cisco documents no OAuth 2.0 or API-key flow for the ISE administrative APIs. The OIDC OpenAPI in this repo configures
+    OIDC identity providers INSIDE ISE for end-user authentication; it is not an auth mechanism for the API itself.
+  authorization:
+  - role: ERS Admin
+    grants: Full CRUD on all ERS APIs (GET, POST, PUT, DELETE).
+  - role: ERS Operator
+    grants: Read-only (GET requests only).
+  - role: Super Admin
+    grants: Access to all API services.
+  account_sources:
+  - ISE internal users
+  - Microsoft Active Directory group mapped to ERS Admin or ERS Operator
+  csrf:
+    supported: true
+    modes:
+    - Use CSRF Check for Enhanced Security
+    - Disable CSRF for ERS Request
+    behaviour: When enabled, the client GETs a CSRF token from ISE and replays it on subsequent requests. Sessions idle for
+      more than 60 seconds are reset and issue a new CSRF token.
+  tls:
+    ers_supported:
+    - TLS 1.1
+    - TLS 1.2
+    - TLS 1.3
+    ers_not_supported:
+    - TLS 1.0
+    note: Enabling TLS 1.0 in ISE Security Settings affects EAP only and does not re-enable it for ERS.
+  enablement:
+    default: disabled
+    note: API services are OFF by default. ERS and Open API must each be toggled on per node under Administration > System
+      > Settings > API Settings. Calls made before enablement return an error, and unenabled nodes time out.
+  ports:
+    ers: 443 (9060 also accepted)
+    open_api: 443 via the API Gateway (9070 node-to-node)
+    mnt: 9443 node-to-node

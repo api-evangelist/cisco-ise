@@ -1,0 +1,937 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Trustsec Matrix API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Trustsec Matrix
+paths:
+  /api/v1/trustsec/matrix:
+    get:
+      tags:
+      - Trustsec Matrix
+      summary: Get list of policy matrices configured.
+      description: Get list of policy matrices configured.
+      operationId: getTrustsecMatrices
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: size
+        in: query
+        description: Number of objects returned per page
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiMatrixListResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+    post:
+      tags:
+      - Trustsec Matrix
+      summary: Create a matrix in the ISE under Trustsec Policy
+      description: Create a matrix in the ISE under Trustsec Policy
+      operationId: createTrustsecMatrix
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMatrixPostRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMatrixPostResponse'
+                exampleSetFlag: false
+        '201':
+          description: Success. The Trustsec matrix has been created in the ISE.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMatrixPostResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict [Returned when attempting to create a Trustsec matrix with the name that already exists]
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+  /api/v1/trustsec/matrix/{matrixUuid}:
+    get:
+      tags:
+      - Trustsec Matrix
+      summary: Get the details of the given policy Matrix ID.
+      description: Get the details of the given Matrix ID.
+      operationId: getTrustsecMatrix
+      parameters:
+      - name: matrixUuid
+        in: path
+        description: UUID of the Matrix
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatrixDetailResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+    put:
+      tags:
+      - Trustsec Matrix
+      summary: Update the given Trustsec matrix in the ISE
+      description: Update the given Trustsec matrix in the ISE
+      operationId: updateTrustsecMatrix
+      parameters:
+      - name: matrixUuid
+        in: path
+        description: UUID of the Matrix
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatrixUpdate'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+    delete:
+      tags:
+      - Trustsec Matrix
+      summary: Delete the given Trustsec matrix from the ISE
+      description: Delete the given matrix from the ISE
+      operationId: deleteTrustsecMatrix
+      parameters:
+      - name: matrixUuid
+        in: path
+        description: UUID of the Matrix
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/matrix/{matrixUuid}/cells:
+    get:
+      tags:
+      - Trustsec Matrix
+      summary: Get all the policies created in the given Trustsec Matrix
+      description: Get all the policies created in the given Trustsec Matrix.
+      operationId: getTrustsecMatrixCells
+      parameters:
+      - name: matrixUuid
+        in: path
+        description: UUID of the Matrix
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: size
+        in: query
+        description: Number of objects returned per page
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatrixCellsResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/matrix/{matrixUuid}/cells/{matrixCellUuid}:
+    get:
+      tags:
+      - Trustsec Matrix
+      summary: Get the details of the given matrix cell of the given matrix.
+      description: Get the policy detail of the given Matrix cell.
+      operationId: getTrustsecMatrixCellDetail
+      parameters:
+      - name: matrixUuid
+        in: path
+        description: UUID of the Matrix
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: matrixCellUuid
+        in: path
+        description: UUID of the Matrix Cell
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatrixCellDetailResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/matrix/{matrixUuid}/network-device-groups:
+    put:
+      tags:
+      - Trustsec Matrix
+      summary: Assign Network device groups to the given Matrix. This operation will assign all the network-devices from the given network-device-groups to the Matrix. Either NAD or NDG can be assigned to the Matrix. This operation will trigger policy CoA to the applicable network-devices.
+      description: Assign Network device groups to the given Matrix. This operation will assign all the network-devices from the given network-device-groups to the Matrix.
+      operationId: assignNdgsToMatrix
+      parameters:
+      - name: matrixUuid
+        in: path
+        description: UUID of the Matrix
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignNdgsRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/matrix/{matrixUuid}/network-devices:
+    put:
+      tags:
+      - Trustsec Matrix
+      summary: Assign NADs to the given Matrix. Once the NAD assignment is successful, it will send CoA to the respective NADs. Either NAD or NDG can be assigned to the Matrix.
+      description: Assign NADs to the given Matrix. Once the NAD assignment is successful, it will send CoA to the respective NADs. Either NAD or NDG can be assigned to the Matrix.
+      operationId: assignNadsToMatrix
+      parameters:
+      - name: matrixUuid
+        in: path
+        description: UUID of the Matrix
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignNadsRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+components:
+  schemas:
+    AssignNadsRequest:
+      title: AssignNadsRequest
+      type: object
+      properties:
+        nadList:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+      description: Request object for assigning list of network-devices to a policy matrix
+      exampleSetFlag: false
+    MatrixCellDetailResponse:
+      title: MatrixCellDetailResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/MatrixCellDetailObj'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Matrix cell detail response
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        message:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MatrixUpdate:
+      title: MatrixUpdate
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description of the Matrix
+          example: This is a production Matrix
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Name of the given Matrix
+          example: production
+          exampleSetFlag: true
+      description: Request object for updating the Matrix
+      exampleSetFlag: false
+    MatrixCellsResponse:
+      title: MatrixCellsResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MatrixCell'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Matrix cells response
+      exampleSetFlag: false
+    AssignNdgsRequest:
+      title: AssignNdgsRequest
+      type: object
+      properties:
+        ndgList:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+      description: Request object for assigning list of network-device-groups to a policy matrix
+      exampleSetFlag: false
+    SuccessResponse:
+      title: SuccessResponse
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MatrixCell:
+      title: MatrixCell
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description of the Matrix
+          example: This is a production Matrix
+          exampleSetFlag: true
+        destinationSgtUuid:
+          type: string
+          description: UUID of the destination SGT for the given matrix cell.
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        matrixCellUuid:
+          type: string
+          description: UUID of the Matrix
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        sgacls:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+        sourceSgtUuid:
+          type: string
+          description: UUID of the Source SGT for the given matrix cell.
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CreateMatrixPostRequest:
+      title: CreateMatrixPostRequest
+      type: object
+      properties:
+        copyPolicyFrom:
+          type: string
+          description: Policy Name from which the trustsec policies needs to be copied. The default value is empty means it will create a new Matrix without any policies.
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        defconLevel:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - DEFCON1_CRITICAL
+          - DEFCON2_SEVERE
+          - DEFCON3_SUBSTANTIAL
+          - DEFCON4_MODERATE
+          - DEFCON5_NORMAL
+        description:
+          type: string
+          description: Description of the Matrix
+          example: This is a production Matrix
+          exampleSetFlag: true
+        matrixPolicyType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - TRAFFIC_STEERING_POLICY
+          - TRUSTSEC_POLICY
+        name:
+          type: string
+          description: Name of the given Matrix
+          example: production
+          exampleSetFlag: true
+      description: Request object for creating a new Matrix
+      exampleSetFlag: false
+    CreateMatrixPostResponse:
+      title: CreateMatrixPostResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/MatrixDetailObj'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Create Matrix response format
+      exampleSetFlag: false
+    MatrixDetailResponse:
+      title: MatrixDetailResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/MatrixDetailObj'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MatrixObj:
+      title: MatrixObj
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description of the Matrix
+          example: This is a production Matrix
+          exampleSetFlag: true
+        lastModified:
+          type: string
+          description: The last modified timestamp
+          example: 02-Nov-2022 12:37
+          exampleSetFlag: true
+        matrixPolicyType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - TRAFFIC_STEERING_POLICY
+          - TRUSTSEC_POLICY
+        matrixUuId:
+          type: string
+          description: UUID of the Matrix
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        nadList:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+        name:
+          type: string
+          description: Name of the given Matrix
+          example: production
+          exampleSetFlag: true
+        ndgList:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+        noOfNads:
+          type: integer
+          description: Number of NADs associated with the Matrix
+          format: int32
+          example: 2
+          exampleSetFlag: true
+        type:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - DEFAULT
+          - DEFCON
+          - MULTIPLE
+          - PRODUCTION
+          - STAGING
+      description: POJO for capturig the matrix details
+      exampleSetFlag: false
+    MultiMatrixListResponse:
+      title: MultiMatrixListResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MatrixObj'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MatrixCellDetailObj:
+      title: MatrixCellDetailObj
+      type: object
+      properties:
+        destinationSgtUuid:
+          type: string
+          description: UUID of the destination SGT for the given matrix cell.
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        matrixCellName:
+          type: string
+          description: Name of the given matrix cell
+          example: SG1_SG2
+          exampleSetFlag: true
+        matrixCellStatus:
+          type: string
+          description: Status of the given matrix cell
+          example: MONITOR
+          exampleSetFlag: true
+        sgacls:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+        sourceSgtUuid:
+          type: string
+          description: UUID of the Source SGT for the given matrix cell.
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+      description: POJO for capturing the Matrix cell details.
+      exampleSetFlag: false
+    MatrixDetailObj:
+      title: MatrixDetailObj
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description of the Matrix
+          example: This is a production Matrix
+          exampleSetFlag: true
+        lastModified:
+          type: string
+          description: The last modified timestamp
+          example: 02-Nov-2022 12:37
+          exampleSetFlag: true
+        matrixPolicyType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - TRAFFIC_STEERING_POLICY
+          - TRUSTSEC_POLICY
+        matrixUuId:
+          type: string
+          description: UUID of the Matrix
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        nadList:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+        name:
+          type: string
+          description: Name of the given Matrix
+          example: production
+          exampleSetFlag: true
+        ndgList:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+        noOfNads:
+          type: integer
+          description: Number of NADs associated with the Matrix
+          format: int32
+          example: 2
+          exampleSetFlag: true
+        noOfPolicies:
+          type: integer
+          description: Number of policy configured for the Matrix
+          format: int32
+          example: 2
+          exampleSetFlag: true
+      description: POJO for capturig the matrix details
+      exampleSetFlag: false

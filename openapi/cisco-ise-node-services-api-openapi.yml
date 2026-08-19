@@ -1,0 +1,450 @@
+openapi: 3.2.0
+info:
+  title: Deployment Node Services API
+  description: APIs for the configuration, administration and monitoring of the nodes in a Cisco ISE cluster deployment.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    email: cs-ise-api@cisco.com
+  version: v3-oas3
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: Node Services
+paths:
+  /node/{hostname}/interface:
+    get:
+      summary: Get the list of interfaces on a node in a cluster.
+      description: 'This API retrieves the list of interfaces on a node in a cluster.
+
+        '
+      tags:
+      - Node Services
+      operationId: getInterfaces
+      parameters:
+      - name: hostname
+        in: path
+        description: Hostname of the node.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterfacesResponse'
+        '404':
+          description: Node not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /node/{hostname}/sxp-interface:
+    get:
+      summary: Get the interface configured for SXP.
+      description: 'This API retrieves the SXP interface.
+
+        '
+      tags:
+      - Node Services
+      operationId: getSxpInterface
+      parameters:
+      - name: hostname
+        in: path
+        description: Hostname of the node.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterfaceResponse'
+        '400':
+          description: Bad input [SXP service is not enabled on the node].
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Configure the interface for use with SXP.
+      description: 'This API configures the SXP interface.
+
+        '
+      tags:
+      - Node Services
+      operationId: setSxpInterface
+      parameters:
+      - name: hostname
+        in: path
+        description: Hostname of the node.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      requestBody:
+        description: Configure the SXP interface.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Interface'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad input [SXP service is not enabled on the node].
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /profile/{hostname}:
+    get:
+      summary: Retrieve the profiler probe configuration of a PSN.
+      description: 'This API retrieves the profiler probe configuration of a PSN.
+
+        '
+      tags:
+      - Node Services
+      operationId: getProfilerProbeConfig
+      parameters:
+      - name: hostname
+        in: path
+        description: Hostname of the node.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfilingConfigurationResponse'
+        '404':
+          description: Node not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error, the node is not a PSN.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update the profiler probe configuration of a PSN.
+      description: "This API updates the profiler probe configuration of a PSN. \n"
+      operationId: setProfilerProbeConfig
+      tags:
+      - Node Services
+      parameters:
+      - name: hostname
+        in: path
+        description: Hostname of the node.
+        required: true
+        schema:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+      requestBody:
+        description: Profiler probe configuration of a node in the deployment.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfilingConfiguration'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: A node with the specified hostname could not be found in the cluster.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ActiveDirectoryProbe:
+      description: The Active Directory probe queries the Active Directory for Windows information.
+      properties:
+        daysBeforeRescan:
+          type: integer
+          default: 1
+          example: 1
+      example: TBD
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+    ProfilingConfigurationResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ProfilingConfiguration'
+        version:
+          type: string
+          example: TBD
+    Interface:
+      type: object
+      properties:
+        interface:
+          type: string
+          example: GigabitEthernet 0
+      required:
+      - interface
+    RadiusProbe:
+      description: The RADIUS probe collects RADIUS session attributes as well as CDP, LLDP, DHCP, HTTP, and MDM attributes from IOS Sensors.
+      type: array
+      minItems: 0
+      maxItems: 0
+      items:
+        type: object
+    DhcpSpanProbe:
+      description: The DHCP SPAN probe collects DHCP packets.
+      properties:
+        interface:
+          type: string
+          default: GigabitEthernet0
+          example: GigabitEthernet0
+      example: TBD
+    InterfacesResponse:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interface'
+          example: TBD
+        version:
+          type: string
+          example: 1.0.0
+    NetflowProbe:
+      description: The NetFlow probe collects the NetFlow packets that are sent to it from routers.
+      properties:
+        interface:
+          type: string
+          default: GigabitEthernet0
+          example: GigabitEthernet0
+        port:
+          $ref: '#/components/schemas/Port'
+          default: 9996
+      example: TBD
+    PxGridProbe:
+      description: The pxGrid probe fetches attributes of MAC address or IP address as a subscriber from the pxGrid queue.
+      type: array
+      minItems: 0
+      maxItems: 0
+      items:
+        type: object
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    DhcpProbe:
+      description: The DHCP probe listens for DHCP packets from IP helpers.
+      properties:
+        interface:
+          type: string
+          example: GigabitEthernet0
+        port:
+          $ref: '#/components/schemas/Port'
+          default: 67
+      example: TBD
+    InterfaceResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Interface'
+        version:
+          type: string
+          example: 1.0.0
+    DnsProbe:
+      description: The DNS probe performs a DNS lookup for the FQDN.
+      properties:
+        timeout:
+          type: integer
+          default: 2
+          example: 2
+      example: TBD
+    NmapProbe:
+      description: The NMAP probe scans endpoints for open ports and OS.
+      type: array
+      minItems: 0
+      maxItems: 0
+      items:
+        type: object
+    SnmpTrapProbe:
+      description: The SNMP trap probe receives linkup, linkdown, and MAC notification traps from network devices.
+      properties:
+        linkTrapQuery:
+          type: boolean
+          default: true
+          example: true
+        macTrapQuery:
+          type: boolean
+          default: true
+          example: true
+        interface:
+          type: string
+          default: GigabitEthernet0
+          example: GigabitEthernet0
+        port:
+          $ref: '#/components/schemas/Port'
+          default: 162
+      example: TBD
+    SnmpQueryProbe:
+      description: The SNMP query probe collects details from network devices such as interface, CDP, LLDP, and ARP.
+      properties:
+        retries:
+          type: integer
+          default: 2
+          example: 2
+        timeout:
+          type: integer
+          default: 1000
+          example: 1000
+        eventTimeout:
+          type: integer
+          default: 30
+          example: 30
+      example: TBD
+    HttpProbe:
+      description: The HTTP probe receives and parses HTTP packets.
+      properties:
+        interface:
+          type: string
+          default: GigabitEthernet0
+          example: GigabitEthernet0
+      example: TBD
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    ProfilingConfiguration:
+      type: object
+      properties:
+        netflow:
+          $ref: '#/components/schemas/NetflowProbe'
+          example: TBD
+        dhcp:
+          $ref: '#/components/schemas/DhcpProbe'
+          example: TBD
+        dhcpSpan:
+          $ref: '#/components/schemas/DhcpSpanProbe'
+          example: TBD
+        http:
+          $ref: '#/components/schemas/HttpProbe'
+          example: TBD
+        radius:
+          $ref: '#/components/schemas/RadiusProbe'
+          example: TBD
+        nmap:
+          $ref: '#/components/schemas/NmapProbe'
+          example: TBD
+        dns:
+          $ref: '#/components/schemas/DnsProbe'
+          example: TBD
+        snmpQuery:
+          $ref: '#/components/schemas/SnmpQueryProbe'
+          example: TBD
+        snmpTrap:
+          $ref: '#/components/schemas/SnmpTrapProbe'
+          example: TBD
+        activeDirectory:
+          $ref: '#/components/schemas/ActiveDirectoryProbe'
+          example: TBD
+        pxgrid:
+          $ref: '#/components/schemas/PxGridProbe'
+          example: TBD
+    Port:
+      type: integer
+      minimum: 0
+      maximum: 65535

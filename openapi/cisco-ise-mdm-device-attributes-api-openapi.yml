@@ -1,0 +1,406 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Mdm Device Attributes API
+  version: '1.0'
+  description: 'Operations tagged mdm-device-attributes across 2 of this provider''s published API definitions: cisco-ise-mdm-mobile-device-management.yaml,
+    cisco-ise-mdm-older-versions.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-mdm-older-versions.yaml, the provider's source document. Operations and schemas
+      are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-mdm-older-versions.yaml
+    operation_coverage: 2/3
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: mdm-device-attributes
+paths:
+  /<mdm-server>/{api_path}/devices/:
+    get:
+      tags:
+      - mdm-device-attributes
+      summary: Get the device attributes from the MDM server
+      description: 'This API is used for query device attributes. We can give a query category such as  GUID, Hostname, MAC
+        address, compliance status,  User, and the Attribute filter.<br><br>The maximum number of devices returned is the
+        value of “query_max_size” returned from “mdm server info API” (API #1), default is 5000. The Cisco ISE initial call
+        of this API will pass paging info “0”. If MDM have more than ''query_max_size'' number of devices to return, it can
+        design its own paging scheme, just return the paging_info in its response, which will be part of the URL in next call
+        from Cisco ISE. If paging info is “0” in response, or it doesn’t return paging info in its response, means all record
+        has been returned, then Cisco ISE will not make further calls for the query.<br><br>Similar to earlier version API
+        is used to get device attributes particularly compliance data based on GUID (MDM ID), it is the key identity of the
+        device managed by vendor .  Vendor is expected to have unique id for each device it is managing, GUID is expected
+        to be less than 128 bytes in size.  Previously in v1/v2 MAC Address, UDID, IMEI, MEID were available as unique identifiers.  With
+        v3, GUID & hostname are additional identifiers added to the list. MDM.DaysSinceLastCheckin - Number of days since
+        a user last checked in or synched a device with MDM server, from 1 to 365 days.<br><br> Example: https://mdm-server/ciscoise/mdmapi/v3/devices/?paging=<paging>&querycriteria=<Query
+        Criteria category>value=<Query Criteria value>&filter=<Attribute filter>'
+      parameters:
+      - name: api_path
+        in: path
+        description: api_path obtained from GET operation of mdm-server-info
+        required: true
+        schema:
+          type: string
+      - name: paging
+        in: query
+        description: 0 means first call.
+        required: true
+        schema:
+          type: integer
+      - name: querycriteria
+        in: query
+        description: '<ul><li>guid: Recommended to follow standard based on RFC 4122, expected to be unique identifier for
+          the device with maximum length of 128 bytes.</li><li>guidhn (hostname): Standard or traditional hostname assigned
+          to device, expected to be unique identifier for the device</li><li>MAC address</li><li>compliance </li><li>macaddress:
+          standardize as 12 HEX without separator</li><li>MEID (Mobile Equipment Identifier): 14 character HEX code or 10
+          digit decimal code)</li><li>UDID (Unique Device Identifier)</li><li>IMEI (International Mobile Station Equipment
+          Identity)</li><li>compliance: true/false</li><li>username: free form string</li></ul>'
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: Value corresponding to the Query criteria category.
+        required: true
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: '<table><tr><b><td><b>Attribute Name</b></td><td><b>Type</b></td><td><b>Description</b></td></b></tr><tr><td>register_status</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>Compliance Status</td><td>boolean</td><td>true or false</td></tr><tr><td>disk_encryption_on</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>pin_lock_on</td><td>boolean</td><td>true or false</td></tr><tr><td>jail_broken</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>manufacturer</td><td>String</td><td>For example: Samsung</td></tr><tr><td>Model</td><td>String</td><td></td></tr><tr><td>IMEI</td><td>String</td><td></td></tr><tr><td>MEID</td><td>String</td><td></td></tr><tr><td>UDID</td><td>String</td><td></td></tr><tr><td>Serial
+          Number</td><td>String</td><td></td></tr><tr><td>OS_version</td><td>String</td><td></td></tr><tr><td>Phone Number</td><td>String</td><td></td></tr><tr><td>lastCheckinTimeStamp</td><td>String</td><td>last
+          logon (check-in) time in milliseconds since Epoch</td></tr><tr><td>GUID</td><td>String</td><td>required if query
+          is based on legacy Macddress/UDID/IMEI</td></tr><tr><td>MAC addresses</td><td>String</td><td>comma separated max
+          5 MAC addresses</td></tr><tr><td>period</td><td>String</td><td>Time period in days</td></tr></table>'
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: '{username}:{password}'
+        required: true
+        schema:
+          type: string
+      - name: Example
+        in: header
+        description: <b>API to get device attributes using guid as device identifier :</b> <br>https://mdm-server/ise/mdm/api/devices/?paging=0&querycriteria=guid&value=000000000000&filter=all
+          <br><b>API to get multiple non-compliant devices attributes using guid as device identifier :</b> <br>https://mdm-server/ise/mdm/api/devices/?paging=0&querycriteria=compliance&value=false&deviceidentifier=guid&filter=all   ->
+          guid for all devices <br>If the device is not enrolled (an unregistered device) to the any mdm server then the expected
+          response from the mdm server should be empty deviceList in v2 and v3. <br><b>API to get device attributes using
+          previously supported macaddress/udid/imei/meid as device identifier will be supported with version 3 attributes
+          as well.</b> <br>URL for macaddress/udid/imei/meid based compliance check will remain the same as in version 2,
+          below is example for macaddress <br>https://mdm-server/ise/mdm/api/devices/?paging=0&querycriteria=macaddress&value=000000000000&filter=all
+          <br>Response for this will include additional parameters(guid, lastCheckinTimeStamp) in version 3 <br><b>API to
+          get multiple non-compliant devices attributes using macaddress as device identifier</b> <br>https://mdm-server/ise/mdm/api/devices/?paging=0&querycriteria=compliance&value=false&deviceidentifier=macaddress&filter=all
+          <br>If the device is not enrolled (an unregistered device) to the any mdm server then the expected response from
+          the mdm server should be empty deviceList in v2 and v3.
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mdm-device-attributes-response'
+  /<mdm-server-ip>/{api_path}/devices/:
+    get:
+      tags:
+      - mdm-device-attributes
+      summary: Get the device attributes from the MDM server
+      description: 'This API is used for query device attributes. We can give a query category such as MAC address, compliance
+        status,  User, and the Attribute filter.<br><br>The maximum number of devices returned is the value of “query_max_size”
+        returned from “mdm server info API” (API #1), default is 5000. The Cisco ISE initial call of this API will pass paging
+        info “0”. If MDM have more than ''query_max_size'' number of devices to return, it can design its own paging scheme,
+        just return the paging_info in its response, which will be part of the URL in next call from Cisco ISE. If paging
+        info is “0” in response, or it doesn’t return paging info in its response, means all record has been returned, then
+        Cisco ISE will not make further calls for the query.<br><br> <table> <tr><td><b>Version</b></td><td><b>URL</b></td><tr>
+        <tr><td>1</td><td>/devices/{paging}/{Query Criteria Category}/{value}/{Attribute filter}</td></tr> <tr><td>2</td><td>/devices/?paging={paging}&querycriteria={Query
+        Criteria category}&value={Query Criteria value}&filter={Attribute filter}</td></tr> </table>'
+      parameters:
+      - name: api_path
+        in: path
+        description: api_path obtained from GET operation of mdm-server-info
+        required: true
+        schema:
+          type: string
+      - name: paging
+        in: query
+        description: 0 means first call.
+        required: true
+        schema:
+          type: integer
+      - name: querycriteria
+        in: query
+        description: '<b>Version 1:</b><br><ul><li>macaddress: standardize as 12 HEX without separator</li><li>compliance:
+          true/false</li><li>username: free form string</li></ul><br><b>Version 2:</b><br><br><ul><li>macaddress: standardize
+          as 12 HEX without separator</li><li>compliance: true/false</li><li>username: free form string</li><li>MEID (Mobile
+          Equipment Identifier): 14 character HEX code or 10 digit decimal code)</li><li>UDID (Unique Device Identifier)</li><li>IMEI
+          (International Mobile Station Equipment Identity)</li></ul>'
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: Value corresponding to the Query criteria category.
+        required: true
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: '<table><tr><b><td><b>Attribute Name</b></td><td><b>Type</b></td><td><b>Description</b></td></b></tr><tr><td>register_status</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>Compliance Status</td><td>boolean</td><td>true or false</td></tr><tr><td>disk_encryption_on</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>pin_lock_on</td><td>boolean</td><td>true or false</td></tr><tr><td>jail_broken</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>manufacturer</td><td>String</td><td>For example: Samsung</td></tr><tr><td>Model</td><td>String</td><td></td></tr><tr><td>IMEI</td><td>String</td><td></td></tr><tr><td>MEID</td><td>String</td><td></td></tr><tr><td>UDID</td><td>String</td><td></td></tr><tr><td>Serial
+          Number</td><td>String</td><td></td></tr><tr><td>OS_version</td><td>String</td><td></td></tr><tr><td>Phone Number</td><td>String</td><td></td></tr></table>'
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: '{username}:{password}'
+        required: true
+        schema:
+          type: string
+      - name: Example
+        in: header
+        description: <b>Version 1:</b><br> <ul><li>https://mdm-server/ise/mdm/api/devices/0/macaddress/000000000000/all</li>
+          <li>https://mdm-server/ise/mdm/api/devices/0/username/abcd1234/register_status+compliance_status </li> <li>https://mdm-server/ise/mdm/api/devices/0/compliance/false/all</li>
+          <li>https://mdm-server/ise/mdm/api/devicess/0/all</li></ul> <br><b>Version 2:</b><br><br> <ul><li>https://mdm-server/ise/mdm/api/devices/?paging=0&querycriteria=macaddress&value=000000000000&filter=all</li>
+          <li>https://mdm-server/ise/mdm/api/devices/?paging=0&querycriteria=<macaddress/udid/meid/imei>&value=000000000000&filter=all</li>
+          <li>https://mdm-server/ise/mdm/api/devices/?paging=0&querycriteria=username&value=abcd1234&filter=register_status+compliance_status</li>
+          <li>https://mdm-server/ise/mdm/api/devices/?paging=0&querycriteria=compliance&value=false&filter=all</li> <li>https://mdm-server/ise/mdm/api/devices/?paging=0&filter=all</li></ul>
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mdm-device-attributes-response_2'
+  /<mdm-server-ip>/{api_path}/batchdevices/:
+    post:
+      tags:
+      - mdm-device-attributes
+      summary: Send the device attributes to the MDM server
+      description: This “POST” version of query API is functional equivalent API from “GET” version. “POST” version allows
+        passing multiple values of a particular query criterion. For example, if query criterion is macaddress, then it can
+        pass a list of mac addresses for the query.<br><br> <table> <tr><td><b>Version</b></td><td><b>URL</b></td><tr> <tr><td>1</td><td>/devices/{paging}/{Query
+        Criteria Category}/{value}/{Attribute filter}</td></tr> <tr><td>2</td><td>/devices/?paging={paging}&querycriteria={Query
+        Criteria category}&value={Query Criteria value}&filter={Attribute filter}</td></tr> </table>
+      parameters:
+      - name: api_path
+        in: path
+        description: api_path obtained from GET operation of mdm-server-info
+        required: true
+        schema:
+          type: string
+      - name: paging
+        in: query
+        description: 0 means first call.
+        required: true
+        schema:
+          type: integer
+      - name: querycriteria
+        in: query
+        description: '<b>Version 1:</b><br><ul><li>macaddress: standardize as 12 HEX without separator</li><li>compliance:
+          true/false</li><li>username: free form string</li></ul><br><b>Version 2:</b><br><br><ul><li>macaddress: standardize
+          as 12 HEX without separator</li><li>compliance: true/false</li><li>username: free form string</li><li>MEID (Mobile
+          Equipment Identifier): 14 character HEX code or 10 digit decimal code)</li><li>UDID (Unique Device Identifier)</li><li>IMEI
+          (International Mobile Station Equipment Identity)</li></ul>'
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: Value corresponding to the Query criteria category.
+        required: true
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: '<table><tr><b><td><b>Attribute Name</b></td><td><b>Type</b></td><td><b>Description</b></td></b></tr><tr><td>register_status</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>Compliance Status</td><td>boolean</td><td>true or false</td></tr><tr><td>disk_encryption_on</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>pin_lock_on</td><td>boolean</td><td>true or false</td></tr><tr><td>jail_broken</td><td>boolean</td><td>true
+          or false</td></tr><tr><td>manufacturer</td><td>String</td><td>For example: Samsung</td></tr><tr><td>Model</td><td>String</td><td></td></tr><tr><td>IMEI</td><td>String</td><td></td></tr><tr><td>MEID</td><td>String</td><td></td></tr><tr><td>UDID</td><td>String</td><td></td></tr><tr><td>Serial
+          Number</td><td>String</td><td></td></tr><tr><td>OS_version</td><td>String</td><td></td></tr><tr><td>Phone Number</td><td>String</td><td></td></tr></table>'
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: '{username}:{password}'
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mdm-device-attributes-response_2'
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/mdm-device-attributes-request'
+components:
+  schemas:
+    mdm-device-attributes-response:
+      type: object
+      properties:
+        name:
+          type: string
+          example: attributes
+        api_version:
+          type: integer
+          example: 3
+        paging_info:
+          type: integer
+          example: 0
+        server_busy_wait_seconds:
+          type: integer
+          example: 0
+        deviceList:
+          type: object
+          properties:
+            device:
+              type: object
+              properties:
+                guid:
+                  type: string
+                  example: 1759c0fd-c8da-49e8-b14f-19d85acfacea
+                attributes:
+                  type: object
+                  properties:
+                    register_status:
+                      type: boolean
+                      example: true
+                    compliance:
+                      type: object
+                      properties:
+                        status:
+                          type: boolean
+                          example: false
+                        failure_reason:
+                          type: string
+                          example: something not compliant
+                        remediation:
+                          type: string
+                          example: instruction on how to rememdiate
+                    disk_encryption_on:
+                      type: boolean
+                      example: true
+                    pin_lock_on:
+                      type: boolean
+                      example: true
+                    jail_broken:
+                      type: boolean
+                      example: false
+                    manufacturer:
+                      type: string
+                      example: Apple
+                    model:
+                      type: string
+                      example: iPad 8th Gen 10.2-inch (Wi-Fi Only)
+                    udid:
+                      type: string
+                      example: 00008020-0015784C218A402E
+                    serial_number:
+                      type: string
+                      example: F9GDX3RQQ1GC
+                    os_version:
+                      type: string
+                      example: iOS 14.4
+                    phone_number:
+                      type: string
+                      example: PDA 2
+                    lastCheckinTimeStamp:
+                      type: string
+                      example: 1621571561000
+                    guid:
+                      type: string
+                      example: 1759c0fd-c8da-49e8-b14f-19d85acfacea
+                    macaddresses:
+                      type: string
+                      example: F434F0A1E478
+    mdm-device-attributes-request:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 3408BC507C78
+    mdm-device-attributes-response_2:
+      type: object
+      properties:
+        name:
+          type: string
+          example: attributes
+        api_version:
+          type: integer
+          example: 2
+        paging_info:
+          type: integer
+          example: 0
+        deviceList:
+          type: object
+          properties:
+            device:
+              type: object
+              properties:
+                macaddress:
+                  type: string
+                  example: 0
+                attributes:
+                  type: object
+                  properties:
+                    register_status:
+                      type: boolean
+                      example: true
+                    compliance:
+                      type: object
+                      properties:
+                        status:
+                          type: boolean
+                          example: false
+                        failure_reason:
+                          type: string
+                          example: something not compliant
+                        remediation:
+                          type: string
+                          example: instruction on how to rememdiate
+                    disk_encryption_on:
+                      type: boolean
+                      example: true
+                    pin_lock_on:
+                      type: boolean
+                      example: true
+                    jail_broken:
+                      type: boolean
+                      example: false
+                    manufacturer:
+                      type: string
+                      example: Samsung
+                    imei:
+                      type: string
+                      example: 1234567890
+                    os_version:
+                      type: string
+                      example: Android,2.3.2
+x-refined-from:
+- cisco-ise-mdm-mobile-device-management.yaml
+- cisco-ise-mdm-older-versions.yaml

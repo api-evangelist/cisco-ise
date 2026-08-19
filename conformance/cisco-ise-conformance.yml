@@ -1,0 +1,82 @@
+generated: '2026-08-19'
+method: derived
+source: openapi/_original/ (103 documents) + https://developer.cisco.com/docs/identity-services-engine/latest/
+standards:
+- id: openapi-3
+  conforms: true
+  evidence: 32 documents declare openapi 3.0.1/3.0.3, covering 1,020 of 1,490 operations.
+- id: swagger-2
+  conforms: true
+  evidence: '71 documents declare swagger: "2.0" — the legacy ERS per-resource references and both MDM documents.'
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 securityScheme appears in any of the 103 documents; Cisco documents HTTP Basic only for the administrative
+    APIs.
+- id: oidc
+  conforms: false
+  evidence: ISE ships an OIDC OpenAPI, but it configures OIDC identity providers inside ISE for end users. ISE does not itself
+    expose an OIDC-protected API, and serves no /.well-known/openid-configuration.
+- id: rfc7617-http-basic
+  conforms: true
+  evidence: 'Documented authentication mechanism; declared as type: http, scheme: basic in 6 documents.'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use a named ERS exception envelope in JSON or XML; no application/problem+json response is declared anywhere.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: A deprecation policy is published but no Sunset or Deprecation response header is documented or declared.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: well-known/cisco-ise-security.txt — PGP-signed security.txt served by www.cisco.com.
+- id: csaf
+  conforms: true
+  evidence: security.txt advertises a CSAF provider-metadata.json at https://www.cisco.com/.well-known/csaf/provider-metadata.json.
+- id: pagination
+  conforms: true
+  evidence: 'Page-number pagination documented for all ERS get-all operations: page (1-based, default 1) and size (default
+    20, max 100).'
+- id: idempotency
+  conforms: false
+  evidence: No idempotency key, header or replay window documented or present in any published document.
+- id: json-api
+  conforms: false
+  evidence: Responses are plain JSON/XML resource envelopes, not JSON:API documents.
+- id: scim2
+  conforms: false
+  evidence: Identity resources use ISE-native ERS shapes (internaluser, identitygroup), not SCIM 2.0 paths or schemas.
+- id: odata
+  conforms: false
+  evidence: Filtering uses the ISE filter=field.OPERATOR.value form, not OData $filter.
+- id: radius
+  conforms: true
+  evidence: ISE is a RADIUS/802.1X policy server; the Policy OpenAPI models RADIUS policy sets, AuthN/AuthZ rules, dictionaries
+    and conditions directly.
+- id: tacacs-plus
+  conforms: true
+  evidence: TACACS+ policy, command sets, profiles, external servers and server sequences are all modelled in the published
+    documents.
+- id: ieee-802-1x
+  conforms: true
+  evidence: Core product function; allowedprotocols and authorization-profile documents model 802.1X protocol selection and
+    enforcement.
+- id: cisco-trustsec
+  conforms: true
+  evidence: 139-operation TrustSec OpenAPI covering security group tags, SGACLs, egress matrices, virtual networks and SXP.
+- id: prometheus-alertmanager
+  conforms: true
+  evidence: A dedicated 16-operation Prometheus AlertManager OpenAPI (ISE 3.4) exposes the AlertManager surface.
+- id: 3gpp-5g
+  conforms: true
+  evidence: A 16-operation 5G OpenAPI covering user equipment and subscriber resources (ISE 3.2).
+contract_quality:
+  operations: 1490
+  documents: 103
+  operations_without_operation_id: 860
+  operations_without_operation_id_pct: 57.7
+  documents_declaring_security_schemes: 6
+  documents_failing_strict_yaml_parse: 30
+  operations_marked_deprecated: 0
+  note: 'These are measurements of Cisco''s own published documents, not of API Evangelist artifacts. The single largest is
+    the ERS Open API: 395 operations, not one of which carries an operationId. Combined with the legacy ERS documents that
+    is 860 of 1,490 operations a code generator or agent tool-namer cannot bind to.'
+certifications_note: Product certifications are captured separately in security/cisco-ise-trust-center.yml.

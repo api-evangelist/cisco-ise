@@ -1,0 +1,2019 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Internaluser API
+  version: '1.0'
+  description: 'Operations tagged internaluser across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-internal-user.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-internal-user.yaml, the provider's source document. Operations and
+      schemas are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-internal-user.yaml
+    operation_coverage: 11/21
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: internaluser
+paths:
+  /internaluser/:
+    get:
+      tags:
+      - internaluser
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[firstName, lastName, identityGroup, name, description, email, enabled]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[daysTillPasswdExpiry, dateCreated, name, description, dateEnabled, dateModified]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - daysTillPasswdExpiry
+          - dateCreated
+          - name
+          - description
+          - dateEnabled
+          - dateModified
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[daysTillPasswdExpiry, dateCreated, name, description, dateEnabled, dateModified]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - daysTillPasswdExpiry
+          - dateCreated
+          - name
+          - description
+          - dateEnabled
+          - dateModified
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internaluserListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/internaluserListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - internaluser
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.internaluser'
+            example:
+              InternalUser:
+                lastName: lastName
+                passwordNeverExpires: false
+                identityGroups: CSV of identity groups IDs
+                description: description
+                dateModified: '2015-12-20'
+                enabled: true
+                changePassword: true
+                expiryDate: '2016-12-11'
+                firstName: firstName
+                password: password
+                dateCreated: '2015-12-15'
+                ssh_keys:
+                - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM=
+                  ecdsa256-key
+                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
+                passwordIDStore: Internal Users
+                enablePassword: enablePassword
+                name: name
+                daysForPasswordExpiration: 60
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                accountNameAlias: accountNameAlias
+                email: email@domain.com
+                expiryDateEnabled: false
+                customAttributes:
+                  key1: value1
+                  key2: value3
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /internaluser/name/{name}:
+    get:
+      tags:
+      - internaluser
+      summary: Get-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internaluserResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/internaluserResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - internaluser
+      summary: Update-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.internaluser'
+            example:
+              InternalUser:
+                lastName: lastName
+                passwordNeverExpires: false
+                identityGroups: CSV of identity groups IDs
+                description: description
+                dateModified: '2015-12-20'
+                enabled: true
+                changePassword: true
+                expiryDate: '2016-12-11'
+                firstName: firstName
+                password: password
+                dateCreated: '2015-12-15'
+                ssh_keys:
+                - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM=
+                  ecdsa256-key
+                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
+                passwordIDStore: Internal Users
+                enablePassword: enablePassword
+                name: name
+                daysForPasswordExpiration: 60
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                accountNameAlias: accountNameAlias
+                email: email@domain.com
+                expiryDateEnabled: false
+                customAttributes:
+                  key1: value1
+                  key2: value3
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - internaluser
+      summary: Delete-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    patch:
+      tags:
+      - internaluser
+      summary: Patch-By-Name
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.internaluser'
+            example:
+              InternalUser:
+                lastName: lastName
+                passwordNeverExpires: false
+                identityGroups: CSV of identity groups IDs
+                description: description
+                dateModified: '2015-12-20'
+                enabled: true
+                changePassword: true
+                expiryDate: '2016-12-11'
+                firstName: firstName
+                password: password
+                dateCreated: '2015-12-15'
+                ssh_keys:
+                - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM=
+                  ecdsa256-key
+                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
+                passwordIDStore: Internal Users
+                enablePassword: enablePassword
+                name: name
+                daysForPasswordExpiration: 60
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                accountNameAlias: accountNameAlias
+                email: email@domain.com
+                expiryDateEnabled: false
+                customAttributes:
+                  key1: value1
+                  key2: value3
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internaluserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /internaluser/{id}:
+    get:
+      tags:
+      - internaluser
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internaluserResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/internaluserResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - internaluser
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.internaluser'
+            example:
+              InternalUser:
+                lastName: lastName
+                passwordNeverExpires: false
+                identityGroups: CSV of identity groups IDs
+                description: description
+                dateModified: '2015-12-20'
+                enabled: true
+                changePassword: true
+                expiryDate: '2016-12-11'
+                firstName: firstName
+                password: password
+                dateCreated: '2015-12-15'
+                ssh_keys:
+                - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM=
+                  ecdsa256-key
+                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
+                passwordIDStore: Internal Users
+                enablePassword: enablePassword
+                name: name
+                daysForPasswordExpiration: 60
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                accountNameAlias: accountNameAlias
+                email: email@domain.com
+                expiryDateEnabled: false
+                customAttributes:
+                  key1: value1
+                  key2: value3
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - internaluser
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    patch:
+      tags:
+      - internaluser
+      summary: Patch
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.internaluser'
+            example:
+              InternalUser:
+                lastName: lastName
+                passwordNeverExpires: false
+                identityGroups: CSV of identity groups IDs
+                description: description
+                dateModified: '2015-12-20'
+                enabled: true
+                changePassword: true
+                expiryDate: '2016-12-11'
+                firstName: firstName
+                password: password
+                dateCreated: '2015-12-15'
+                ssh_keys:
+                - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM=
+                  ecdsa256-key
+                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
+                passwordIDStore: Internal Users
+                enablePassword: enablePassword
+                name: name
+                daysForPasswordExpiration: 60
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                accountNameAlias: accountNameAlias
+                email: email@domain.com
+                expiryDateEnabled: false
+                customAttributes:
+                  key1: value1
+                  key2: value3
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internaluserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/internaluser/name/{name}:
+    get:
+      tags:
+      - internaluser
+      summary: Get internal user by name
+      description: <p>This API allows the client to get an internal user by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/internal_name'
+    patch:
+      tags:
+      - internaluser
+      summary: Update part of the internal user configuration by name
+      description: <p>This API allows the user to update part of the internal user configuration by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/internal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+    put:
+      tags:
+      - internaluser
+      summary: Update internal user by name
+      description: <p>This API allows the client to update an internal user by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/internal_name'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/internal_name'
+    delete:
+      tags:
+      - internaluser
+      summary: Delete internal user by name
+      description: <p>This API deletes an internal user by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:-   identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/internaluser/{id}:
+    get:
+      tags:
+      - internaluser
+      summary: Get internal user by ID
+      description: <p>This API allows the client to get an internal user by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/internal'
+    patch:
+      tags:
+      - internaluser
+      summary: Update part of the internal user configuration by ID
+      description: <p>This API allows the user to update part of the internal user configuration by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internal'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/internal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+    put:
+      tags:
+      - internaluser
+      summary: Update internal user by ID
+      description: <p>This API allows the client to update an internal user by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/internal'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/internal'
+    delete:
+      tags:
+      - internaluser
+      summary: Delete internal user by ID
+      description: <p>This API deletes an internal user by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/internaluser:
+    get:
+      tags:
+      - internaluser
+      summary: Get all internal users
+      description: <p>This API allows the client to get all the internal users.</p> <p><h1>Filter:</h1> <h3>[firstName, lastName,
+        identityGroup, name, description, email, enabled]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow
+        the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:-   identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+    post:
+      tags:
+      - internaluser
+      summary: Create internal user
+      description: <p>This API creates an internal user.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:-   identity.internaluser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/internal'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/internal'
+  /ers/config/internaluser/versioninfo:
+    get:
+      tags:
+      - internaluser
+      summary: Get internal user version information
+      description: <p>This API helps to retrieve the version information related to the internal user.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    internaluserListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    internaluserResponse:
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/internaluserResponseEntity'
+      example:
+        InternalUser:
+          lastName: lastName
+          passwordNeverExpires: false
+          identityGroups: CSV of identity groups IDs
+          description: description
+          dateModified: '2015-12-20'
+          enabled: true
+          changePassword: true
+          expiryDate: '2016-12-11'
+          firstName: firstName
+          password: password
+          dateCreated: '2015-12-15'
+          ssh_keys:
+          - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM=
+            ecdsa256-key
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
+          passwordIDStore: Internal Users
+          enablePassword: enablePassword
+          name: name
+          daysForPasswordExpiration: 60
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          accountNameAlias: accountNameAlias
+          email: email@domain.com
+          expiryDateEnabled: false
+          customAttributes:
+            key1: value1
+            key2: value3
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    identity.internaluser:
+      required:
+      - InternalUser
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser'
+      example: null
+    internaluserResponseEntity:
+      properties:
+        changePassword:
+          title: changePassword
+          type: boolean
+          description: ''
+          example: null
+        email:
+          title: email
+          type: string
+          description: ''
+          example: null
+        accountNameAlias:
+          title: accountNameAlias
+          type: string
+          description: The Account Name Alias will be used to send email notifications about password expiration
+          example: null
+        enablePassword:
+          title: enablePassword
+          type: string
+          description: EnablePassword field is added in ISE 2.0 to support T+
+          example: null
+        enabled:
+          title: enabled
+          type: boolean
+          description: Whether the user is enabled/disabled.<br/>To use it as filter, the values should be 'Enabled' or 'Disabled'.
+            The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=enabled.EQ.Enabled'
+          example: null
+        passwordNeverExpires:
+          title: passwordNeverExpires
+          type: boolean
+          description: Set TRUE to indicate the user password never expires. This will not apply to Users who are also ISE
+            Admins
+          example: null
+        daysForPasswordExpiration:
+          title: daysForPasswordExpiration
+          type: number
+          description: This field is for read only
+          example: null
+        customAttributes:
+          title: customAttributes
+          type: string
+          description: Key value map
+          example: null
+        firstName:
+          title: firstName
+          type: string
+          description: ''
+          example: null
+        identityGroups:
+          title: identityGroups
+          type: string
+          description: CSV of identity group IDs.
+          example: null
+        lastName:
+          title: lastName
+          type: string
+          description: ''
+          example: null
+        password:
+          title: password
+          type: string
+          description: ''
+          example: null
+        passwordIDStore:
+          title: passwordIDStore
+          type: string
+          description: the id store where the internal user's password is kept
+          example: null
+        expiryDateEnabled:
+          title: expiryDateEnabled
+          type: boolean
+          description: ''
+          example: null
+        expiryDate:
+          title: expiryDate
+          type: string
+          description: 'to store the internal user''s expiry date information. It''s format is = ''YYYY-MM-DD'' '
+          example: null
+        dateModified:
+          title: dateModified
+          type: string
+          description: The date of the last user modification by admin, formatted as 'YYYY-MM-DD'. Read-only.
+          example: null
+        dateCreated:
+          title: dateCreated
+          type: string
+          description: The date of the user creation, formatted as 'YYYY-MM-DD'. Read-only.
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    internaluserListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/internaluserListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    InternalUser:
+      required:
+      - enabled
+      - name
+      properties:
+        changePassword:
+          title: changePassword
+          type: boolean
+          description: ''
+          example: null
+        email:
+          title: email
+          type: string
+          description: ''
+          example: null
+        accountNameAlias:
+          title: accountNameAlias
+          type: string
+          description: The Account Name Alias will be used to send email notifications about password expiration
+          example: null
+        enablePassword:
+          title: enablePassword
+          type: string
+          description: EnablePassword field is added in ISE 2.0 to support T+
+          example: null
+        enabled:
+          title: enabled
+          type: boolean
+          description: Whether the user is enabled/disabled.<br/>To use it as filter, the values should be 'Enabled' or 'Disabled'.
+            The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=enabled.EQ.Enabled'
+          example: null
+        passwordNeverExpires:
+          title: passwordNeverExpires
+          type: boolean
+          description: Set TRUE to indicate the user password never expires. This will not apply to Users who are also ISE
+            Admins
+          example: null
+        daysForPasswordExpiration:
+          title: daysForPasswordExpiration
+          type: number
+          description: This field is for read only
+          example: null
+        customAttributes:
+          title: customAttributes
+          type: string
+          description: Key value map
+          example: null
+        firstName:
+          title: firstName
+          type: string
+          description: ''
+          example: null
+        identityGroups:
+          title: identityGroups
+          type: string
+          description: CSV of identity group IDs.
+          example: null
+        lastName:
+          title: lastName
+          type: string
+          description: ''
+          example: null
+        password:
+          title: password
+          type: string
+          description: ''
+          example: null
+        passwordIDStore:
+          title: passwordIDStore
+          type: string
+          description: the id store where the internal user's password is kept
+          example: null
+        expiryDateEnabled:
+          title: expiryDateEnabled
+          type: boolean
+          description: ''
+          example: null
+        expiryDate:
+          title: expiryDate
+          type: string
+          description: 'to store the internal user''s expiry date information. It''s format is = ''YYYY-MM-DD'' '
+          example: null
+        dateModified:
+          title: dateModified
+          type: string
+          description: The date of the last user modification by admin, formatted as 'YYYY-MM-DD'. Read-only.
+          example: null
+        dateCreated:
+          title: dateCreated
+          type: string
+          description: The date of the user creation, formatted as 'YYYY-MM-DD'. Read-only.
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        InternalUser:
+          lastName: lastName
+          passwordNeverExpires: false
+          identityGroups: CSV of identity groups IDs
+          description: description
+          dateModified: '2015-12-20'
+          enabled: true
+          changePassword: true
+          expiryDate: '2016-12-11'
+          firstName: firstName
+          password: password
+          dateCreated: '2015-12-15'
+          ssh_keys:
+          - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM=
+            ecdsa256-key
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
+          passwordIDStore: Internal Users
+          enablePassword: enablePassword
+          name: name
+          daysForPasswordExpiration: 60
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          accountNameAlias: accountNameAlias
+          email: email@domain.com
+          expiryDateEnabled: false
+          customAttributes:
+            key1: value1
+            key2: value3
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    InternalUser_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: b24b09e2-16f8-4e48-ace1-2c262a9449f1
+        name:
+          type: string
+          example: name
+        description:
+          type: string
+          example: description
+        enabled:
+          type: boolean
+          example: true
+        email:
+          type: string
+          example: email@domain.com
+        password:
+          type: string
+          example: '*******'
+        firstName:
+          type: string
+          example: firstName
+        lastName:
+          type: string
+          example: lastName
+        changePassword:
+          type: boolean
+          example: true
+        identityGroups:
+          type: string
+          example: identityGroups
+        expiryDateEnabled:
+          type: boolean
+          example: true
+        expiryDate:
+          type: string
+          example: '2021-05-19'
+        enablePassword:
+          type: string
+          example: enablePassword
+        dateModified:
+          type: string
+          example: '2021-01-03'
+        dateCreated:
+          type: string
+          example: '2021-01-01'
+        enablePasswordlessAuth:
+          type: string
+          example: true
+        customAttributes:
+          type: object
+          properties:
+            key1:
+              type: string
+              example: value1
+            key2:
+              type: string
+              example: value2
+        passwordIDStore:
+          type: string
+          example: Internal Users
+        ssh_keys:
+          type: string
+          example:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6... user@example.com
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/internaluser/name/name
+            type:
+              type: string
+              example: application/json
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    internal:
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser_2'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    patchRequest:
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/patchRequestBody'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: b24b09e2-16f8-4e48-ace1-2c262a9449f1
+            name: name
+            description: description
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/internaluser/b24b09e2-16f8-4e48-ace1-2c262a9449f1
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.2'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1,1.2
+        link:
+          $ref: '#/components/schemas/link1'
+    InternalUser_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: b24b09e2-16f8-4e48-ace1-2c262a9449f1
+        name:
+          type: string
+          example: name
+        description:
+          type: string
+          example: description
+        enabled:
+          type: boolean
+          example: true
+        email:
+          type: string
+          example: email@domain.com
+        accountNameAlias:
+          type: string
+          example: user123
+        password:
+          type: string
+          example: '*******'
+        firstName:
+          type: string
+          example: firstName
+        lastName:
+          type: string
+          example: lastName
+        changePassword:
+          type: boolean
+          example: true
+        identityGroups:
+          type: string
+          example: identityGroups
+        passwordNeverExpires:
+          type: boolean
+          example: false
+        daysForPasswordExpiration:
+          type: integer
+          example: 60
+        expiryDateEnabled:
+          type: boolean
+          example: true
+        expiryDate:
+          type: string
+          example: '2021-05-19'
+        enablePassword:
+          type: string
+          example: enablePassword
+        dateModified:
+          type: string
+          example: '2021-01-03'
+        dateCreated:
+          type: string
+          example: '2021-01-01'
+        enablePasswordlessAuth:
+          type: string
+          example: true
+        customAttributes:
+          type: object
+          properties:
+            key1:
+              type: string
+              example: value1
+            key2:
+              type: string
+              example: value2
+        passwordIDStore:
+          type: string
+          example: Internal Users
+        ssh_keys:
+          type: string
+          example:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6... user@example.com
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/internaluser/b24b09e2-16f8-4e48-ace1-2c262a9449f1
+            type:
+              type: string
+              example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    internal_name:
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser_name'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/internaluser/versioninfo
+        type:
+          type: string
+          example: application/json
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-internal-user.yaml

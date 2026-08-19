@@ -1,0 +1,654 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Profiler Profiler Policy Management (Custom/Direct/ML -Rules) API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://10.76.231.217:443
+  description: Inferred Url
+tags:
+- name: Profiler Policy Management (Custom/Direct/ML -Rules)
+paths:
+  /api/v1/profiler/endpoint-custom-dictionary:
+    get:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Get endpoint custom dictionary
+      operationId: fetchEndpointDictionary
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+  /api/v1/profiler/endpoint-direct-dictionary:
+    get:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Get endpoint direct dictionary
+      operationId: fetchDictionaryAllConnectorConfigInfo
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+  /api/v1/profiler/policy:
+    get:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Get policy
+      description: Returns a list of policies. If "name", "id", and "type" are not provided, all policies are returned. "name", "id" and "type" are AND conditons.
+      operationId: listPolicy
+      parameters:
+      - name: name
+        in: query
+        description: Filter policies by comma separated names
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: id
+        in: query
+        description: Filter policies by comma separated IDs
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: type
+        in: query
+        description: Filter policies by type
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CUSTOM
+          - DIRECT
+          - ML
+      responses:
+        '200':
+          description: Array of policies
+          content:
+            application/json:
+              schema:
+                type: array
+                exampleSetFlag: true
+                items:
+                  $ref: '#/components/schemas/ProfilePolicyWithId'
+                  exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+    put:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Update policy
+      operationId: updatePolicies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              exampleSetFlag: true
+              items:
+                $ref: '#/components/schemas/ProfilePolicyWithId'
+                exampleSetFlag: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                exampleSetFlag: true
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Policy not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    post:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Create policy
+      operationId: createPolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              exampleSetFlag: true
+              items:
+                $ref: '#/components/schemas/ProfilePolicy'
+                exampleSetFlag: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                exampleSetFlag: true
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Policy not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Delete policy by ID
+      operationId: deletePolicyByIds
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              exampleSetFlag: true
+              items:
+                type: string
+                exampleSetFlag: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                exampleSetFlag: true
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Policy not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/profiler/policy-export:
+    get:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Export policy JSON file
+      operationId: exportPolicy
+      responses:
+        '200':
+          description: JSON file successfully exported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InlineResponse200'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: File not found
+        '500':
+          description: Internal server error
+      security:
+      - BasicAuth: []
+  /api/v1/profiler/policy-status:
+    put:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Update policy status by ID
+      operationId: updatePolicyStatusById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              exampleSetFlag: true
+              items:
+                $ref: '#/components/schemas/PolicyAndStatus'
+                exampleSetFlag: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                exampleSetFlag: true
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Policy not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/profiler/policy/duplicate-check:
+    post:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Check duplicate condition
+      operationId: duplicateConditionCheck
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseProfilePolicy'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DuplicateCheckResponseMessage'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+  /api/v1/profiler/policy/mfc-values:
+    get:
+      tags:
+      - Profiler Policy Management (Custom/Direct/ML -Rules)
+      summary: Get profileLabel values
+      description: Returns a list of matched profileLabel values for the profileLabel type
+      operationId: getMatchingMFCValues
+      parameters:
+      - name: pattern
+        in: query
+        description: ProfileLabel value search pattern
+        required: true
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: type
+        in: query
+        description: ProfileLabel type
+        required: true
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - MFCInfoEndpointType
+          - MFCInfoHardwareManufacturer
+          - MFCInfoHardwareModel
+          - MFCInfoOperatingSystem
+      responses:
+        '200':
+          description: Filtered result of profileLabel values
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MFCValuesPojo'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    DuplicateCheckResponseMessage:
+      title: DuplicateCheckResponseMessage
+      type: object
+      properties:
+        isDuplicate:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        matchedPolicy:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ProfilePolicyWithId:
+      title: ProfilePolicyWithId
+      required:
+      - policyId
+      - profilingType
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/Condition'
+          exampleSetFlag: true
+        matchedEndpoints:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        policyId:
+          type: string
+          exampleSetFlag: true
+        profileLabel:
+          $ref: '#/components/schemas/ProfileLabel'
+          exampleSetFlag: true
+        profilingType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CUSTOM
+          - DIRECT
+          - ML
+        rulePriority:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        status:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    PolicyAndStatus:
+      title: PolicyAndStatus
+      required:
+      - policyId
+      - status
+      type: object
+      properties:
+        policyId:
+          type: string
+          exampleSetFlag: true
+        status:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ProfilePolicy:
+      title: ProfilePolicy
+      required:
+      - profilingType
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/Condition'
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        profileLabel:
+          $ref: '#/components/schemas/ProfileLabel'
+          exampleSetFlag: true
+        profilingType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CUSTOM
+          - DIRECT
+          - ML
+        rulePriority:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        status:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    MFCValuesPojo:
+      title: MFCValuesPojo
+      type: object
+      properties:
+        admin:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        system:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      exampleSetFlag: false
+    InlineResponse200:
+      title: InlineResponse200
+      type: object
+      properties:
+        message:
+          type: string
+          example: File export successful
+          exampleSetFlag: true
+      exampleSetFlag: false
+    BaseProfilePolicy:
+      title: BaseProfilePolicy
+      required:
+      - profilingType
+      type: object
+      properties:
+        policyId:
+          type: string
+          exampleSetFlag: true
+        profilingType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CUSTOM
+          - DIRECT
+          - ML
+      exampleSetFlag: false
+    ProfileLabel:
+      title: ProfileLabel
+      type: object
+      properties:
+        MFCInfoEndpointType:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        MFCInfoHardwareManufacturer:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        MFCInfoHardwareModel:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        MFCInfoOperatingSystem:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      exampleSetFlag: false

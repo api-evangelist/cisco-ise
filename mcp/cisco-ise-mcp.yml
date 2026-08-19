@@ -1,0 +1,86 @@
+generated: '2026-08-19'
+method: derived
+status: candidate
+source: openapi/_original/ (103 documents); searched Cisco docs, github.com/CiscoISE and the public MCP registries 2026-08-19
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+note: Cisco publishes NO first-party MCP server for Cisco Identity Services Engine. There is no hosted endpoint, no Cisco-published
+  npm or PyPI package, and no mention of MCP in the ISE developer documentation or the CiscoISE GitHub organisation. The tool
+  list below is a CANDIDATE derived from Cisco's own OpenAPI operations — it is a proposal, not something anyone ships. No
+  MCPServer pointer is emitted in apis.yml, because emitting one would credit Cisco with an agent surface it does not operate.
+third_party_servers:
+- name: ISE_MCP
+  author: John Capobianco (automateyournetwork)
+  url: https://github.com/automateyournetwork/ISE_MCP
+  transport: stdio
+  implementation: Python fastmcp; generates tools dynamically from a configured list of ISE REST resources
+  first_party: false
+- name: cisco-ise-mcp
+  author: dlhace
+  url: https://glama.ai/mcp/servers/dlhace/cisco-ise-mcp
+  first_party: false
+third_party_note: Recorded for accuracy, not credited to Cisco. Both are community projects wrapping the same public ISE APIs
+  this repo harvests. Neither is operated, endorsed or distributed by Cisco.
+related_cisco_mcp:
+  note: Cisco does run MCP elsewhere in its portfolio — the DevNet foundation-search MCP and the Webex messaging MCP — but
+    neither serves Cisco ISE, and neither belongs to this provider profile.
+server:
+  name: cisco-ise
+  transport: null
+  url: null
+tools:
+- name: list_endpoints
+  description: List endpoints known to ISE.
+  source_operation: openapi/_original/cisco-ise-open-api-endpoints.yaml#list_1
+- name: get_endpoint
+  description: Retrieve one endpoint by MAC or id.
+  source_operation: openapi/_original/cisco-ise-open-api-endpoints.yaml#get_1
+- name: get_device_type_summary
+  description: Summarise endpoints by device type.
+  source_operation: openapi/_original/cisco-ise-open-api-endpoints.yaml#getDeviceTypeSummary
+- name: list_alarms
+  description: List ISE alarm rules.
+  source_operation: openapi/_original/cisco-ise-open-api-alarms.yaml#getAllAlarms
+- name: get_alarm_instances
+  description: Page through alarm instances.
+  source_operation: openapi/_original/cisco-ise-open-api-alarms.yaml#getAllAlarmInstances
+- name: acknowledge_alarms
+  description: Acknowledge alarm instances by instance id.
+  source_operation: openapi/_original/cisco-ise-open-api-alarms.yaml#acknowledgeAlarmInstances
+- name: list_security_groups
+  description: List TrustSec security groups.
+  source_operation: openapi/_original/cisco-ise-open-api-trustsec.yaml#getSecurityGroups
+- name: list_sgt_reservations
+  description: List reserved SGT ranges.
+  source_operation: openapi/_original/cisco-ise-open-api-api-sgt-reservation.yaml#getSgtReservedRanges
+- name: list_profiler_policies
+  description: List endpoint profiling policies.
+  source_operation: openapi/_original/cisco-ise-open-api-ise-profiler.yaml#listPolicy
+- name: list_system_certificates
+  description: List system certificates on a node.
+  source_operation: openapi/_original/cisco-ise-open-api-certificates.yaml#getSystemCertificates
+- name: get_last_backup_status
+  description: Report the status of the last configuration backup.
+  source_operation: openapi/_original/cisco-ise-open-api-backuprestore.yaml#getLastConfigBackupStatus
+- name: list_repositories
+  description: List configured file repositories.
+  source_operation: openapi/_original/cisco-ise-open-api-repository.yaml#getRepositories
+- name: get_task_status
+  description: Poll an asynchronous ISE task.
+  source_operation: openapi/_original/cisco-ise-open-api-task-service.yaml#getTaskStatus
+- name: list_deployment_nodes
+  description: List nodes in the ISE deployment.
+  source_operation: openapi/_original/cisco-ise-open-api-deployment.yaml#getDeploymentNodes
+- name: list_webhooks
+  description: List webhook configurations.
+  source_operation: openapi/_original/cisco-ise-open-api-webhooks.yaml#getAllWebhooks
+design_notes:
+- Read-only tools only. Every write on this product changes network access policy for real endpoints; a candidate tool set
+  should not propose enforcement writes without a human-in-the-loop contract — see agentic-access if generated.
+- Authentication would be HTTP Basic against a customer-owned appliance, so any real server is necessarily self-hosted per
+  deployment rather than a hosted Cisco endpoint.

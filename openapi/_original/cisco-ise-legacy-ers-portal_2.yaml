@@ -1,0 +1,223 @@
+swagger: '2.0'
+info:
+  description: "Portal API allows the client to search profiles. \n\n<h2>Revision History</h2>\n<table font-family:monospace>\
+    \ \n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision\
+    \ #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>\n<tr><td>0</td><td>1.0</td><td>1.2</td><td>Initial\
+    \ Cisco ISE Version</td></tr>\n<tr style='background:#f8f8f8;border-bottom:solid #CCCCCC 1.0pt'><td>1</td><td>2.0</td><td>1.3</td><td>Introducing\
+    \ new schema - not supporting 1.0 anymore</td></tr>    \n</table>\n<br><br>\n\n<h2>Resource Definition</h2>\n<table>\n\
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example\
+    \ Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td>ISE\
+    \ Portal (default)</td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource\
+    \ UUID, mandatory for update</td><td>bc5524ea-b1e5-47ed-a907-5304821da916</td></tr>\n<tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td></td><td>ISE\
+    \ Portal for saml based feature purpose</td></tr>\n<tr valign=top style='background:#f8f8f8; border-bottom:solid #CCCCCC\
+    \ 1.0pt'><td style='font-family:monospace'>portalType</td><td>String</td><td>No</td><td></td><td>GUEST</td></tr>\n</table>\n"
+  version: 1.0.0
+  title: Portal
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: portal
+paths:
+  /ers/config/portal/{id}:
+    get:
+      tags:
+      - portal
+      summary: Get portal by ID
+      description: <p>This API allows the client to get a portal by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.portal.2.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/portal'
+  /ers/config/portal:
+    get:
+      tags:
+      - portal
+      summary: Get all portals
+      description: <p>This API allows the client to get all the portals.</p> <p><h1>Filter:</h1> <h3>[name, description]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
+        description]</h3></p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.portal.2.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'
+  /ers/config/portal/versioninfo:
+    get:
+      tags:
+      - portal
+      summary: Get portal version information
+      description: <p>This API helps to retrieve the version information realted to the portal.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+definitions:
+  portal:
+    type: object
+    properties:
+      ERSPortal:
+        $ref: '#/definitions/ERSPortal'
+  ERSPortal:
+    type: object
+    properties:
+      id:
+        type: string
+        example: bc5524ea-b1e5-47ed-a907-5304821da916
+      name:
+        type: string
+        example: ISE Portal (default)
+      description:
+        type: string
+        example: Ise Portal for saml based feature purpose
+      portalType:
+        type: string
+        example: GUEST
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/portal/bc5524ea-b1e5-47ed-a907-5304821da916
+          type:
+            type: string
+            example: application/json
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+  SearchResult:
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 5
+      resources:
+        type: array
+        example:
+        - id: 3c83785b-c7f7-42bc-ab26-a281da5620a6
+          name: Sponsor Portal (default)
+          description: Default portal used by sponsors to create and manage accounts for authorized visitors to securely access
+            the network
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/portal/3c83785b-c7f7-42bc-ab26-a281da5620a6
+            type: application/json
+        - id: bc5524ea-b1e5-47ed-a907-5304821da916
+          name: ISE Portal (default)
+          description: ISE Portal for saml based feature purpose
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/portal/bc5524ea-b1e5-47ed-a907-5304821da916
+            type: application/json
+        - id: 7508caf2-4014-4cdc-ac01-fb1066a66a36
+          name: Self-Registered Guest Portal (default)
+          description: Guests may create their own accounts and be assigned a username and password, or use their social login
+            to access the network
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/portal/7508caf2-4014-4cdc-ac01-fb1066a66a36
+            type: application/json
+        - id: 28513a65-2eb3-43e8-8474-5dd4994cd9d9
+          name: Sponsored Guest Portal (default)
+          description: Sponsors create guest accounts, and guests access the network using their assigned username and password
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/portal/28513a65-2eb3-43e8-8474-5dd4994cd9d9
+            type: application/json
+        - id: b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
+          name: Hotspot Guest Portal (default)
+          description: Guests do not require username and password credentials to access the network, but you can optionally
+            require an access code
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/portal/b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
+            type: application/json
+        items:
+          properties:
+            name:
+              type: string
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '2.0'
+      supportedVersions:
+        type: string
+        example: '2.0'
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/portal/versioninfo
+      type:
+        type: string
+        example: application/json

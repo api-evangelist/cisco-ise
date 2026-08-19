@@ -1,0 +1,430 @@
+openapi: 3.2.0
+info:
+  title: ISE ERS Ctsenvdata API
+  version: 3.1.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+security:
+- HTTPBasicAuthentication: []
+tags:
+- name: ctsenvdata
+paths:
+  /ctsenvdata/:
+    post:
+      tags:
+      - ctsenvdata
+      summary: TrustSec-Query
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.ctsenvdata'
+            example:
+              CTSEnvData:
+                capability:
+                - SGTAGS
+                - ENV_DATA_BASIC
+                - SG_TABLES
+                - SERVERS
+                deviceName: tnad
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+  /ctsapi/v2/ctsenvdata/:
+    post:
+      tags:
+      - ctsenvdata
+      summary: TrustSec-Query
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.ctsenvdata'
+            example:
+              CTSEnvData:
+                capability:
+                - SGTAGS
+                - ENV_DATA_BASIC
+                - SG_TABLES
+                - SERVERS
+                deviceName: tnad
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+  /ctsapi/v3/ctsenvdata/:
+    post:
+      tags:
+      - ctsenvdata
+      summary: TrustSec-Query
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.ctsenvdata'
+            example:
+              CTSEnvData:
+                capability:
+                - SGTAGS
+                - ENV_DATA_BASIC
+                - SG_TABLES
+                - SERVERS
+                deviceName: tnad
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    trustsec.ctsenvdata:
+      required:
+      - CTSEnvData
+      type: object
+      properties:
+        CTSEnvData:
+          $ref: '#/components/schemas/CTSEnvData'
+      example: null
+    CTSEnvData:
+      properties:
+        deviceName:
+          title: deviceName
+          type: string
+          description: ''
+          example: null
+        pushId:
+          title: pushId
+          type: string
+          description: ''
+          example: null
+        capability:
+          title: capability
+          type: array
+          description: 'allowed values: ENV_DATA_BASIC, SG_TABLES, SGTAGS, SERVERS, SG_EPG_TRANSLATION, PUSH_ID_SUPPORT'
+          example: null
+          items:
+            type: string
+            example: null
+        sgTablesFilter:
+          title: sgTablesFilter
+          type: array
+          description: ''
+          example: null
+          items:
+            type: string
+            example: null
+        policyVerId:
+          title: policyVerId
+          type: string
+          description: ''
+          example: null
+        deviceSgt:
+          title: deviceSgt
+          type: string
+          description: ''
+          example: null
+        refreshTimer:
+          title: refreshTimer
+          type: string
+          description: ''
+          example: null
+        sgts:
+          properties:
+            securityGroupTable:
+              title: securityGroupTable
+              type: string
+              description: ''
+              example: null
+            genID:
+              title: genID
+              type: string
+              description: ''
+              example: null
+            securityGroupInfo:
+              properties:
+                sgtNumber:
+                  title: sgtNumber
+                  type: string
+                  description: ''
+                  example: null
+                genID:
+                  title: genID
+                  type: string
+                  description: ''
+                  example: null
+                sgtName:
+                  title: sgtName
+                  type: string
+                  description: ''
+                  example: null
+              example: null
+          example: null
+        servers:
+          properties:
+            ipAddresses:
+              title: ipAddresses
+              type: array
+              description: ''
+              example: null
+              items:
+                type: string
+                example: null
+            ipv4:
+              title: ipv4
+              type: string
+              description: ''
+              example: null
+            serverName:
+              title: serverName
+              type: string
+              description: ''
+              example: null
+            serverType:
+              title: serverType
+              type: string
+              description: ''
+              example: null
+            hostName:
+              title: hostName
+              type: string
+              description: ''
+              example: null
+            port:
+              title: port
+              type: string
+              description: ''
+              example: null
+            certificate:
+              title: certificate
+              type: string
+              description: ''
+              example: null
+          example: null
+        securityGroupTables:
+          title: securityGroupTables
+          type: array
+          description: ''
+          example: null
+          items:
+            properties:
+              name:
+                title: name
+                type: string
+                description: ''
+                example: null
+              genId:
+                title: genId
+                type: string
+                description: ''
+                example: null
+            example: null
+        reportConfigType:
+          title: reportConfigType
+          type: string
+          description: ''
+          example: null
+        pushIdSupport:
+          title: pushIdSupport
+          type: string
+          description: ''
+          example: null
+      example:
+        CTSEnvData:
+          capability:
+          - SGTAGS
+          - ENV_DATA_BASIC
+          - SG_TABLES
+          - SERVERS
+          deviceName: tnad
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic

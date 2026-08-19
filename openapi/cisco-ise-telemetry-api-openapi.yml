@@ -1,0 +1,160 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - System Settings Telemetry API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://10.56.60.25:443
+  description: Inferred Url
+tags:
+- name: telemetry
+paths:
+  /api/v1/system-settings/telemetry/transport-gateway:
+    get:
+      tags:
+      - telemetry
+      summary: Returns ISE transport gateway settings
+      description: Transport Gateway acts a proxy for the communication between the ISE servers in your network and the Telemetry servers in case of air-gapped network. <br> **This API is deprecated. Transport Gateway is no longer supported in Cisco ISE.**
+      operationId: getTransportGateway
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return to the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Transport Gateway response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransportGatewaySettingsResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+    put:
+      tags:
+      - telemetry
+      summary: Configure ISE transport gateway settings
+      description: Transport Gateway acts a proxy for the communication between the ISE servers in your network and the Telemetry servers in case of air-gapped network. <br> **This API is deprecated. Transport Gateway is no longer supported in Cisco ISE.**
+      operationId: updateTransportGateway
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return to the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransportGatewaySettings'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Transport Gateway response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransportGatewaySettingsResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    TransportGatewaySettings:
+      title: TransportGatewaySettings
+      required:
+      - enableTransportGateway
+      - url
+      type: object
+      properties:
+        enableTransportGateway:
+          type: boolean
+          description: Indicates whether transport gateway is enabled or not.
+          example: true
+          exampleSetFlag: true
+        url:
+          type: string
+          description: URL of transport gateway
+          format: uri
+          example: http://gateway.xx
+          exampleSetFlag: true
+      description: Transport Gateway acts a proxy for the communication between the ISE servers in your network and the Telemetry servers in case of air-gapped network.<br> **Transport Gateway is no longer supported in Cisco ISE.**
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: An error message
+          exampleSetFlag: true
+      exampleSetFlag: false
+    TransportGatewaySettingsResponseEntity:
+      title: TransportGatewaySettingsResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TransportGatewaySettings'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false

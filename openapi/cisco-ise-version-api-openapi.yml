@@ -1,0 +1,111 @@
+openapi: 3.2.0
+info:
+  title: MnT Version API
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}/admin/API/mnt
+  variables:
+    server:
+      default: localhost
+      description: The host where the API is rooted
+security:
+- basicAuth: []
+tags:
+- name: Version
+paths:
+  /Version:
+    get:
+      summary: Get Product Version
+      operationId: getProductVersion
+      description: Returns the version information for the product.
+      responses:
+        '200':
+          description: Successful response with the product version information
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '401':
+          description: Unauthorized access
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mnt-rest-result'
+      tags:
+      - Version
+components:
+  schemas:
+    mnt-rest-result:
+      type: object
+      additionalProperties: true
+      properties:
+        http-code:
+          type: integer
+          example: 500
+        cpm-code:
+          type: integer
+          example: 34110
+        description:
+          type: string
+          example: Server has encountered error while processing the REST request
+        module-name:
+          type: string
+          example: MnT
+        internal-error-info:
+          type: string
+          example: This host is not a MnT node. MnT REST APIs can not be executed on this node.
+        requested-operation:
+          type: string
+          example: Get By Type
+        resource-id:
+          type: string
+          example: dummy
+        resource-name:
+          type: string
+          example: dummy
+        resource-type:
+          type: string
+          example: ActiveCount
+        status:
+          type: string
+          example: SERVER_ERROR
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          xml:
+            attribute: true
+        version:
+          type: string
+          example: 3.5.0.223
+        type_of_node:
+          type: integer
+          example: 1
+      xml:
+        name: product
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic

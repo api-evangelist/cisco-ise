@@ -1,0 +1,2265 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Workload Connection API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Workload Connection
+paths:
+  /api/v1/trustsec/inbound-rule/previewMappingCount:
+    get:
+      tags:
+      - Workload Connection
+      summary: Returns a count of total number of inbound rule mappings
+      description: count of total number of inbound rule mappings.
+      operationId: getPreviewMappingCount
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Returns a count of total number of inbound rule mappings
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+                exampleSetFlag: true
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection:
+    get:
+      tags:
+      - Workload Connection
+      summary: Get all workload connections
+      description: List all the workload connections configured.
+      operationId: getCloudConnections
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Workload Connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudConnectionSummaryListResponseEntity'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/attribute:
+    get:
+      tags:
+      - Workload Connection
+      summary: Get attributes for all connectors
+      operationId: getAttributesForAllConnectors
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Attributes from all workload connections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllAttributesMappingResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/attribute/values/{connectionType}/{attributeName}:
+    get:
+      tags:
+      - Workload Connection
+      summary: Get the values of an attribute
+      operationId: getAttributeValues
+      parameters:
+      - name: connectionType
+        in: path
+        description: External Connection Type
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - '"AWS"'
+          - '"AZURE"'
+          - '"GCP"'
+          - '"VCENTER"'
+      - name: attributeName
+        in: path
+        description: Attribute name in dictionary
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Attribute values
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeValuesResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/attribute/{connectionType}:
+    get:
+      tags:
+      - Workload Connection
+      summary: Get attributes for all connectors of a specific type
+      operationId: getAttributesForConnectorsByType
+      parameters:
+      - name: connectionType
+        in: path
+        description: External Connection Type
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - '"AWS"'
+          - '"AZURE"'
+          - '"GCP"'
+          - '"VCENTER"'
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Attributes from all workload connections of a specific type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchAttributeMappingResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+      - Workload Connection
+      summary: Perform the required crud operations given a list of all attributes of a specific type
+      description: Updates the attribute
+      operationId: updateAttributesByType
+      parameters:
+      - name: connectionType
+        in: path
+        description: External Connection Type
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - '"AWS"'
+          - '"AZURE"'
+          - '"GCP"'
+          - '"VCENTER"'
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              exampleSetFlag: true
+              items:
+                $ref: '#/components/schemas/AttributeMapping'
+                exampleSetFlag: false
+      responses:
+        '200':
+          description: Update of attributes
+          content:
+            application/json:
+              schema:
+                type: string
+                exampleSetFlag: true
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/aws:
+    post:
+      tags:
+      - Workload Connection
+      summary: Create an AWS connection.
+      description: Create an AWS connection.
+      operationId: createAWSConnection
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwsConfigWithAttribute'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Created connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwsConfigResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/aws/attribute/fetch:
+    post:
+      tags:
+      - Workload Connection
+      summary: Get Attributes list from AWS
+      description: Get Attributes list from AWS connection.
+      operationId: getAttributesFromAWS
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwsAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Attributes response list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchAttributeMappingResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/aws/test:
+    post:
+      tags:
+      - Workload Connection
+      summary: Test the AWS Connection
+      description: AWS connection - test the connection.
+      operationId: testAWSConnector
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwsAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Test connection is successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/aws/{connectionId}:
+    get:
+      tags:
+      - Workload Connection
+      summary: Returns AWS connection details.
+      description: Returns AWS connection details.
+      operationId: getAWSConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwsConfigResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+      - Workload Connection
+      summary: Edit an AWS connection.
+      description: Edit an AWS connection.
+      operationId: updateAWSConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwsConfig'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Updated connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwsConfigResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/azure:
+    post:
+      tags:
+      - Workload Connection
+      summary: Create an Azure connection
+      description: Create an Azure connection.
+      operationId: createAzureConnection
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AzureConfigWithAttribute'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Created connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureConfigResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/azure/attribute/fetch:
+    post:
+      tags:
+      - Workload Connection
+      summary: Get Attributes list from Azure
+      description: Get Attributes list from Azure connection.
+      operationId: getAttributesFromAzure
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AzureAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Attributes response list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchAttributeMappingResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/azure/test:
+    post:
+      tags:
+      - Workload Connection
+      summary: Test the Azure Connection
+      description: Azure connection - test the connection.
+      operationId: testAzureConnector
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AzureAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Test connection is successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/azure/{connectionId}:
+    get:
+      tags:
+      - Workload Connection
+      summary: Returns the Azure connection
+      description: Returns the Azure connection.
+      operationId: getAzureConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Azure connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureConfigResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+      - Workload Connection
+      summary: Update an Azure connection
+      description: Update an Azure connection.
+      operationId: updateAzureConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AzureConfig'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Updated connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureConfigResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/fetch-new-attributes/{connectionId}:
+    get:
+      tags:
+      - Workload Connection
+      summary: Fetch the new attributes from an workload connection
+      operationId: fetchNewAttributes
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: New attributes fetched for the connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchAttributeMappingResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/gcp:
+    post:
+      tags:
+      - Workload Connection
+      summary: Create a GCP connection.
+      description: Create a GCP connection.
+      operationId: createGCPConnection
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GcpConfigWithAttribute'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Created connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GcpConfigResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/gcp/attribute/fetch:
+    post:
+      tags:
+      - Workload Connection
+      summary: Get Attributes list from GCP
+      description: Get Attributes list from GCP connection.
+      operationId: getAttributesFromGCP
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GcpAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Attributes response list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchAttributeMappingResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/gcp/test:
+    post:
+      tags:
+      - Workload Connection
+      summary: Test the GCP Connection
+      description: GCP connection - test the connection.
+      operationId: testGCPConnector
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GcpAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Test connection is successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/gcp/{connectionId}:
+    get:
+      tags:
+      - Workload Connection
+      summary: Returns a GCP connection details.
+      description: Returns a GCP connection details.
+      operationId: getGCPConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: GCP connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GcpConfigResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+      - Workload Connection
+      summary: Edit a GCP connection.
+      description: Edit a GCP connection.
+      operationId: updateGCPConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GcpConfig'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Updated connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GcpConfigResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/names:
+    get:
+      tags:
+      - Workload Connection
+      summary: Get all workload connection names
+      description: List all the workload connection names configured.
+      operationId: getWorkloadConnectionNames
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Workload Connection names
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadConnectionNamesResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/services/start:
+    post:
+      tags:
+      - Workload Connection
+      summary: Start the workload connector services
+      description: Start the workload connector services
+      operationId: startWorkloadConnectorServices
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Starting the workload connector services.
+          content:
+            application/json:
+              schema:
+                $ref: Error-ModelName{namespace='java.lang', name='Void'}
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/services/status:
+    get:
+      tags:
+      - Workload Connection
+      summary: Returns status of workload connector services
+      description: Get the status of workload connector services
+      operationId: getWorkloadConnectorServicesStatus
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Returns the status of the services
+          content:
+            application/json:
+              schema:
+                type: string
+                exampleSetFlag: true
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/services/threshold:
+    get:
+      tags:
+      - Workload Connection
+      summary: Returns a dynamic count of new workload connections allowed along with the hardware profile of ISE
+      description: Based on the memory usage, returns the number of new workload connections allowed along with the hardware profile of ISE.
+      operationId: getWorkloadConnectorThreshold
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Returns the count of new workload connections allowed and the hardware profile of ISE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkloadConnectorThresholdResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/vcenter:
+    post:
+      tags:
+      - Workload Connection
+      summary: Create a VCenter connection
+      description: Create a VCenter connection.
+      operationId: createVCenterConnection
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VcenterConfigWithAttribute'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Created connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VcenterConfigResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/vcenter/attribute/fetch:
+    post:
+      tags:
+      - Workload Connection
+      summary: Get Attributes list from vCenter
+      description: Get Attributes list from vCenter connection.
+      operationId: getAttributesFromVCenter
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VcenterAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Attributes response list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchAttributeMappingResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/vcenter/test:
+    post:
+      tags:
+      - Workload Connection
+      summary: Test the vCenter Connection
+      description: vCenter connection - test the connection.
+      operationId: testvCenterConnector
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VcenterAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Test successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/vcenter/{connectionId}:
+    get:
+      tags:
+      - Workload Connection
+      summary: Returns the VCenter connection
+      description: Returns the VCenter connection.
+      operationId: getVCenterConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: vCenter connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VcenterConfigResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+      - Workload Connection
+      summary: Edit a VCenter connection
+      description: Edit a VCenter connection.
+      operationId: updateVCenterConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VcenterConfig'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Updated connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VcenterConfigResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/{connectionId}:
+    delete:
+      tags:
+      - Workload Connection
+      summary: Delete workload connection by connection id
+      description: delete workload connection information based on connection id.
+      operationId: deleteCloudConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Deleted the Workload Connection
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v1/trustsec/integration/workload-connection/{connectionId}/connect:
+    post:
+      tags:
+      - Workload Connection
+      summary: Connect a workload connection by connection id
+      description: Connect to the workload connection.
+      operationId: connectCloudConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Connected to workload
+          content:
+            application/json:
+              schema:
+                $ref: Error-ModelName{namespace='java.lang', name='Void'}
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/{connectionId}/suspend:
+    post:
+      tags:
+      - Workload Connection
+      summary: Suspend workload connection by connection id
+      description: Suspend workload connection based on connection id.
+      operationId: suspendCloudConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Suspended Workload Connection
+          content:
+            application/json:
+              schema:
+                $ref: Error-ModelName{namespace='java.lang', name='Void'}
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/workload-connection/{connectionId}/syncnow:
+    post:
+      tags:
+      - Workload Connection
+      summary: Re-sync with workload connection by connection id
+      description: Re-sync with workload connection based on connection id.
+      operationId: syncCloudConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for the Workload Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Suspended Workload Connection
+          content:
+            application/json:
+              schema:
+                $ref: Error-ModelName{namespace='java.lang', name='Void'}
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    WorkloadConnectorThresholdResponseEntity:
+      title: WorkloadConnectorThresholdResponseEntity
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/WorkloadConnectorThresholdResponse'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AzureConfig:
+      title: AzureConfig
+      required:
+      - clientId
+      - clientSecret
+      - name
+      - subscriptionId
+      - syncInterval
+      - tenantId
+      type: object
+      properties:
+        clientId:
+          type: string
+          exampleSetFlag: true
+        clientSecret:
+          type: string
+          exampleSetFlag: true
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: azure_connection_name
+          exampleSetFlag: true
+        subscriptionId:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+        tenantId:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AwsAccessInfo:
+      title: AwsAccessInfo
+      required:
+      - accessKeyId
+      - regions
+      - secretAccessKey
+      type: object
+      properties:
+        accessKeyId:
+          type: string
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        secretAccessKey:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    VcenterConfigResponse:
+      title: VcenterConfigResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/VcenterConfig'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeMapping:
+      title: AttributeMapping
+      required:
+      - dictionaryName
+      - includeInDictionary
+      - name
+      type: object
+      properties:
+        dictionaryName:
+          type: string
+          example: origin
+          exampleSetFlag: true
+        includeInDictionary:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          example: location
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeReferences:
+      title: AttributeReferences
+      type: object
+      properties:
+        policyName:
+          type: string
+          example: rule1
+          exampleSetFlag: true
+        policyType:
+          type: string
+          example: Inbound Filter
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AzureConfigWithAttribute:
+      title: AzureConfigWithAttribute
+      required:
+      - clientId
+      - clientSecret
+      - name
+      - subscriptionId
+      - syncInterval
+      - tenantId
+      type: object
+      properties:
+        attributes:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMapping'
+            exampleSetFlag: false
+        clientId:
+          type: string
+          exampleSetFlag: true
+        clientSecret:
+          type: string
+          exampleSetFlag: true
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: azure_connection_name
+          exampleSetFlag: true
+        subscriptionId:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+        tenantId:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    VcenterConfig:
+      title: VcenterConfig
+      required:
+      - hostname
+      - name
+      - password
+      - syncInterval
+      - username
+      - validateCertificate
+      type: object
+      properties:
+        description:
+          type: string
+          exampleSetFlag: true
+        hostname:
+          type: string
+          description: VMware vCenter hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          description: ID if connection is already created
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          description: vCenter connection name
+          example: vCenter1
+          exampleSetFlag: true
+        nsxHostname:
+          type: string
+          description: VMware NSX hostname or IP address
+          readOnly: true
+          example: 10.0.0.1
+          exampleSetFlag: true
+        nsxPassword:
+          type: string
+          description: password
+          readOnly: true
+          example: nsxpassword
+          exampleSetFlag: true
+        nsxType:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+          enum:
+          - NSX-T
+        nsxUsername:
+          type: string
+          description: Username
+          readOnly: true
+          example: user1
+          exampleSetFlag: true
+        password:
+          type: string
+          example: password1
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format. Minimum value is PT1M and maximum value is P7D.
+          example: PT15M
+          exampleSetFlag: true
+        username:
+          type: string
+          example: user1
+          exampleSetFlag: true
+        validateCertificate:
+          type: boolean
+          description: Validation certificate
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeMappingWithType:
+      title: AttributeMappingWithType
+      required:
+      - dictionaryName
+      - includeInDictionary
+      - name
+      type: object
+      properties:
+        dictionaryName:
+          type: string
+          example: origin
+          exampleSetFlag: true
+        dictionaryType:
+          type: string
+          example: AWS
+          exampleSetFlag: true
+        includeInDictionary:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          example: location
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeValues:
+      title: AttributeValues
+      type: object
+      properties:
+        values:
+          type: array
+          example: '["US","UK"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      exampleSetFlag: false
+    AwsConfigWithAttribute:
+      title: AwsConfigWithAttribute
+      required:
+      - accessKeyId
+      - name
+      - regions
+      - secretAccessKey
+      - syncInterval
+      type: object
+      properties:
+        accessKeyId:
+          type: string
+          exampleSetFlag: true
+        attributes:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMapping'
+            exampleSetFlag: false
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: aws_connection_name
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        secretAccessKey:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeMappingWithReferences:
+      title: AttributeMappingWithReferences
+      required:
+      - dictionaryName
+      - includeInDictionary
+      - name
+      type: object
+      properties:
+        dictionaryName:
+          type: string
+          example: origin
+          exampleSetFlag: true
+        includeInDictionary:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          example: location
+          exampleSetFlag: true
+        references:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeReferences'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    AwsConfig:
+      title: AwsConfig
+      required:
+      - accessKeyId
+      - name
+      - regions
+      - secretAccessKey
+      - syncInterval
+      type: object
+      properties:
+        accessKeyId:
+          type: string
+          exampleSetFlag: true
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: aws_connection_name
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        secretAccessKey:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    TestResponse:
+      title: TestResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: Test successful
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    GcpConfigResponse:
+      title: GcpConfigResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/GcpConfig'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CloudConnectionSummaryListResponseEntity:
+      title: CloudConnectionSummaryListResponseEntity
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/CloudConnectionSummary'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AzureConfigResponse:
+      title: AzureConfigResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/AzureConfig'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    WorkloadConnectorThresholdResponse:
+      title: WorkloadConnectorThresholdResponse
+      type: object
+      properties:
+        iseProfile:
+          type: string
+          description: The hardware profile of ISE
+          example: sns3615
+          exampleSetFlag: true
+        thresholdCount:
+          type: integer
+          description: Threshold value for the connector
+          format: int32
+          example: 1000
+          exampleSetFlag: true
+      exampleSetFlag: false
+    GcpConfigWithAttribute:
+      title: GcpConfigWithAttribute
+      required:
+      - name
+      - regions
+      - serviceAccountJson
+      - syncInterval
+      type: object
+      properties:
+        attributes:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMapping'
+            exampleSetFlag: false
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        serviceAccountJson:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+      exampleSetFlag: false
+    GcpConfig:
+      title: GcpConfig
+      required:
+      - name
+      - regions
+      - serviceAccountJson
+      - syncInterval
+      type: object
+      properties:
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        serviceAccountJson:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+      exampleSetFlag: false
+    FetchAttributeMappingResponse:
+      title: FetchAttributeMappingResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMappingWithReferences'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    WorkloadConnectionNames:
+      title: WorkloadConnectionNames
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Workload Connection name
+          example: AWS_1
+          exampleSetFlag: true
+        platform:
+          type: string
+          description: Workload Platform
+          example: AWS
+          exampleSetFlag: true
+      exampleSetFlag: false
+    VcenterAccessInfo:
+      title: VcenterAccessInfo
+      required:
+      - hostname
+      - password
+      - username
+      - validateCertificate
+      type: object
+      properties:
+        hostname:
+          type: string
+          description: VMware vCenter hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        nsxHostname:
+          type: string
+          description: VMware NSX hostname or IP address
+          readOnly: true
+          example: 10.0.0.1
+          exampleSetFlag: true
+        nsxPassword:
+          type: string
+          description: password
+          readOnly: true
+          example: nsxpassword
+          exampleSetFlag: true
+        nsxType:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+          enum:
+          - NSX-T
+        nsxUsername:
+          type: string
+          description: Username
+          readOnly: true
+          example: user1
+          exampleSetFlag: true
+        password:
+          type: string
+          example: password1
+          exampleSetFlag: true
+        username:
+          type: string
+          example: user1
+          exampleSetFlag: true
+        validateCertificate:
+          type: boolean
+          description: Validation certificate
+          example: false
+          exampleSetFlag: true
+      description: vCenter connection configuration
+      exampleSetFlag: false
+    AwsConfigResponse:
+      title: AwsConfigResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/AwsConfig'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AllAttributesMappingResponse:
+      title: AllAttributesMappingResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMappingWithType'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    GcpAccessInfo:
+      title: GcpAccessInfo
+      required:
+      - regions
+      - serviceAccountJson
+      type: object
+      properties:
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        serviceAccountJson:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    VcenterConfigWithAttribute:
+      title: VcenterConfigWithAttribute
+      required:
+      - hostname
+      - name
+      - password
+      - syncInterval
+      - username
+      - validateCertificate
+      type: object
+      properties:
+        attributes:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMapping'
+            exampleSetFlag: false
+        description:
+          type: string
+          exampleSetFlag: true
+        hostname:
+          type: string
+          description: VMware vCenter hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          description: ID if connection is already created
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          description: vCenter connection name
+          example: vCenter1
+          exampleSetFlag: true
+        nsxHostname:
+          type: string
+          description: VMware NSX hostname or IP address
+          readOnly: true
+          example: 10.0.0.1
+          exampleSetFlag: true
+        nsxPassword:
+          type: string
+          description: password
+          readOnly: true
+          example: nsxpassword
+          exampleSetFlag: true
+        nsxType:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+          enum:
+          - NSX-T
+        nsxUsername:
+          type: string
+          description: Username
+          readOnly: true
+          example: user1
+          exampleSetFlag: true
+        password:
+          type: string
+          example: password1
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format. Minimum value is PT1M and maximum value is P7D.
+          example: PT15M
+          exampleSetFlag: true
+        username:
+          type: string
+          example: user1
+          exampleSetFlag: true
+        validateCertificate:
+          type: boolean
+          description: Validation certificate
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    WorkloadConnectionNamesResponseEntity:
+      title: WorkloadConnectionNamesResponseEntity
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/WorkloadConnectionNames'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeValuesResponse:
+      title: AttributeValuesResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/AttributeValues'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CloudConnectionSummary:
+      title: CloudConnectionSummary
+      type: object
+      properties:
+        errorReason:
+          type: string
+          example: error reason
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        lastUpdate:
+          type: string
+          description: Last update timestamp of the Virtual Network
+          readOnly: true
+          example: '2021-01-30T08:30:00Z'
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Workload Connection name
+          example: AWS_1
+          exampleSetFlag: true
+        platform:
+          type: string
+          description: Workload Platform
+          example: AWS
+          exampleSetFlag: true
+        receivedIP:
+          type: integer
+          format: int32
+          example: 1000
+          exampleSetFlag: true
+        receivedSGTMappings:
+          type: integer
+          format: int32
+          example: 1000
+          exampleSetFlag: true
+        state:
+          type: string
+          description: Corresponding actions will change the state of the connection
+          readOnly: true
+          exampleSetFlag: true
+          enum:
+          - CONNECTED
+          - CONNECTING
+          - DELETE_ERROR
+          - DELETING
+          - ERROR
+          - SUSPENDED
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format (or) "RealTime" for ACI
+          example: PT15M
+          exampleSetFlag: true
+      description: Workload connection summary
+      exampleSetFlag: false
+    AzureAccessInfo:
+      title: AzureAccessInfo
+      required:
+      - clientId
+      - clientSecret
+      - subscriptionId
+      - tenantId
+      type: object
+      properties:
+        clientId:
+          type: string
+          exampleSetFlag: true
+        clientSecret:
+          type: string
+          exampleSetFlag: true
+        subscriptionId:
+          type: string
+          exampleSetFlag: true
+        tenantId:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false

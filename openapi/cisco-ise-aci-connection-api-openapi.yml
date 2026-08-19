@@ -1,0 +1,1319 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec ACI Connection API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: ACI Connection
+paths:
+  /api/v1/trustsec/integration/aci-connection:
+    get:
+      tags:
+      - ACI Connection
+      summary: Get all ACI connections
+      description: List all the ACI connections configured.
+      operationId: getACIConnections
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: ACI Connections information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciConnectionSummaryResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+      - ACI Connection
+      summary: Saves ACI connection
+      description: Saves ACI connection information with template and selected epg .
+      operationId: saveACIConnection
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AciConnection'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciConnectionResponse'
+                exampleSetFlag: false
+        '201':
+          description: ACI Connection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciConnectionResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/action:
+    post:
+      tags:
+      - ACI Connection
+      summary: connect, suspend, delete multiple ACI connections
+      description: ACI connection - connect, suspend, delete multiple ACI connections.
+      operationId: actionAciConnector
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: action on aci connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/connect:
+    post:
+      tags:
+      - ACI Connection
+      summary: Save and connect to ACI
+      description: Save the ACI connection and connect to ACI.
+      operationId: saveAndConnectToACI
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AciConnection'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Saved and connected to ACI
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciConnectionResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/contract/fetch:
+    post:
+      tags:
+      - ACI Connection
+      summary: Fetch contracts based on Outbound SGT Domain Rules configuration
+      description: Fetch contracts from ACI for the given Outbound SGT Domain Rules configuration
+      operationId: getContracts
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EgressFilterDestinationList'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: list of ACI-Tenant contracts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciTenantContractListResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/domain/fetch:
+    post:
+      tags:
+      - ACI Connection
+      summary: Fetch List of authentication Domains in APIC
+      description: Fetch Authentication Domains from ACI APIC
+      operationId: getAuthDomains
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AciConnectionAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: list of DomainListResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainListResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/ise-readiness:
+    get:
+      tags:
+      - ACI Connection
+      summary: Checks ISE readiness for ACI connection
+      description: Checks ISE readiness for ACI connection
+      operationId: validateACIReadiness
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: ISE ready for ACI connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/sgt-range:
+    get:
+      tags:
+      - ACI Connection
+      summary: List of reserved SGT Ranges for ACI Connection
+      description: Get reserved SGT ranges list for given ACI connection
+      operationId: getReservedSgtRanges
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of SgtListResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SgtListResponseEntity'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/status:
+    get:
+      tags:
+      - ACI Connection
+      summary: Returns connection status of all ACI connections
+      description: ACI connection - status of all ACI Connections
+      operationId: getAciConnectionStatus
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: action on aci connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciConnectionStatusResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/integration/aci-connection/test:
+    post:
+      tags:
+      - ACI Connection
+      summary: Test the ACI Connection
+      description: ACI connection - test the connection.
+      operationId: testAciConnector
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AciConnectionAccessInfo'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: ACI Test Connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestConnectionResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/{connectionId}:
+    get:
+      tags:
+      - ACI Connection
+      summary: Get ACI connection by connection id
+      description: Get ACI connection information based on connection id.
+      operationId: getACIConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for ACI Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: ACI Connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciConnectionResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+      - ACI Connection
+      summary: Updates ACI connection.
+      description: Updates ACI connection information.
+      operationId: updateACIConnection
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for ACI Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AciConnection'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: ACI Connection updated
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+      - ACI Connection
+      summary: Delete ACI connection by connection id
+      description: delete ACI connection information based on connection id.
+      operationId: deleteACIConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for ACI Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Deleted the ACI Connection
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v1/trustsec/integration/aci-connection/{connectionId}/connect:
+    post:
+      tags:
+      - ACI Connection
+      summary: Connect to ACI connection by connection id
+      description: Connect to the ACI. Request body is optional to provide inbound and outbound rules during wizard flow.
+      operationId: connectACIConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for ACI Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Connected to ACI
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/{connectionId}/status:
+    get:
+      tags:
+      - ACI Connection
+      summary: Get the connection status by connection id
+      description: Returns the connection status by connection id
+      operationId: getConnectionStatusByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for ACI Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: ACI Connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AciConnectionByIdStatusResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/trustsec/integration/aci-connection/{connectionId}/suspend:
+    post:
+      tags:
+      - ACI Connection
+      summary: Suspend ACI connection by connection id
+      description: Suspend ACI connection based on connection id.
+      operationId: suspendACIConnectionByID
+      parameters:
+      - name: connectionId
+        in: path
+        description: Unique id for ACI Connection
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Suspended ACI Connection
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Contract:
+      title: Contract
+      type: object
+      properties:
+        dn:
+          type: string
+          example: uni/tn-tn1/brc-contract1
+          exampleSetFlag: true
+        name:
+          type: string
+          example: contract1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AciConnectionStatusResponse:
+      title: AciConnectionStatusResponse
+      type: object
+      properties:
+        response:
+          type: array
+          description: Connection name to be used to filter out the metadata
+          example: '["ACI1","ACI2"]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AciConnectionStatus'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      description: List of AciConnectionStatus
+      exampleSetFlag: false
+    AciConnectionSummaryResponse:
+      title: AciConnectionSummaryResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AciConnectionSummary'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    L3Out:
+      title: L3Out
+      type: object
+      properties:
+        l3out:
+          type: string
+          example: l3out1
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
+        vn:
+          type: string
+          example: vn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SgtRange:
+      title: SgtRange
+      required:
+      - high
+      - low
+      type: object
+      properties:
+        high:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        low:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      description: SGT range
+      exampleSetFlag: false
+    ActionRequest:
+      title: ActionRequest
+      type: object
+      properties:
+        ConnectionIDs:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        action:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - Connect
+          - Delete
+          - Suspend
+      description: connect, suspend or delete multiple ACI connections
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    NameConversion:
+      title: NameConversion
+      type: object
+      properties:
+        affixType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - PREFIX
+          - SUFFIX
+        affixValue:
+          type: string
+          description: Prefix or suffix value
+          exampleSetFlag: true
+        attributeConversions:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeConversion'
+            exampleSetFlag: false
+        attributeTypes:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+            enum:
+            - AP
+            - CONNECTION_NAME
+            - EPG_TYPE
+            - TN
+            - VN
+        method:
+          type: string
+          description: 'Name conversion method:   * `ATTRIBUTE` - Use attributeTypes and attributeConversions to convert name   * `AFFIX` - Use affixType and affixValue to convert name '
+          exampleSetFlag: true
+          enum:
+          - AFFIX
+          - ATTRIBUTE
+      description: Name conversion configuration
+      exampleSetFlag: false
+    DomainListResponseEntity:
+      title: DomainListResponseEntity
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/DomainList'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    AciConnectionByIdStatusResponse:
+      title: AciConnectionByIdStatusResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/AciConnectionStatus'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AciConnection:
+      title: AciConnection
+      required:
+      - hostname
+      - name
+      - username
+      type: object
+      properties:
+        connMode:
+          type: string
+          description: Out-of-Band/In-Band
+          exampleSetFlag: true
+        domain:
+          type: string
+          description: Auth Domain
+          example: Default
+          exampleSetFlag: true
+        errorReason:
+          type: string
+          example: error reason
+          exampleSetFlag: true
+        hostname:
+          type: string
+          description: ACI hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        learnedIPs:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AciConnectionAllOfLearnedIPs'
+            exampleSetFlag: false
+        name:
+          type: string
+          description: ACI name
+          example: ACI1
+          exampleSetFlag: true
+        nameConversion:
+          $ref: '#/components/schemas/NameConversion'
+          exampleSetFlag: true
+        password:
+          type: string
+          description: Password
+          example: password1
+          exampleSetFlag: true
+        selectedEpgs:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Epg'
+            exampleSetFlag: false
+        sgtRanges:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SgtRange'
+            exampleSetFlag: false
+        state:
+          type: string
+          description: Corresponding actions will change the state of the connection
+          readOnly: true
+          exampleSetFlag: true
+          enum:
+          - CONNECT
+          - CONNECTING
+          - DELETE_ERROR
+          - DELETING
+          - ERROR
+          - SUSPEND
+          - UNDEPLOYED
+        usedSgtRanges:
+          type: array
+          description: SGT ranges used by the connection
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SgtRange'
+            exampleSetFlag: false
+        username:
+          type: string
+          description: Username
+          example: user1
+          exampleSetFlag: true
+        validateCertificate:
+          type: boolean
+          description: ValidationCertificate
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AciConnectionAllOfLearnedIPs:
+      title: AciConnectionAllOfLearnedIPs
+      type: object
+      properties:
+        ipaddress:
+          type: string
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        status:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ContractInterface:
+      title: ContractInterface
+      type: object
+      properties:
+        dn:
+          type: string
+          example: uni/tn-tn1/cif-contractIf1
+          exampleSetFlag: true
+        name:
+          type: string
+          example: contractIf1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EgressFilterDestination:
+      title: EgressFilterDestination
+      type: object
+      properties:
+        l3outs:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/L3Out'
+            exampleSetFlag: false
+        name:
+          type: string
+          example: ACI1
+          exampleSetFlag: true
+        type:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - ACI
+          - SXP_SPEAKER
+      description: Destinations mapped to l3outs used in the outbound rule destination configurations
+      exampleSetFlag: false
+    AciTenantContractListResponseEntity:
+      title: AciTenantContractListResponseEntity
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AciTenantContract'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ReadinessResponse:
+      title: ReadinessResponse
+      type: object
+      properties:
+        OldAciConnectionCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        PxGridCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        SXPDefaultDeviceCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        SXPServiceCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        SXPviaPxGridCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        notReadyReason:
+          type: string
+          example: Failed to enable SXP services
+          exampleSetFlag: true
+        ready:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        urlRedirect:
+          type: string
+          example: /admin/#workcenters/workcenter_trustsec/workcenter_trustsec_settings/apic
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EgressFilterDestinationList:
+      title: EgressFilterDestinationList
+      type: object
+      properties:
+        destinations:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/EgressFilterDestination'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    TestConnectionResponse:
+      title: TestConnectionResponse
+      type: object
+      properties:
+        learnedIPs:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AciConnectionAllOfLearnedIPs'
+            exampleSetFlag: false
+      description: Response to test Connection
+      exampleSetFlag: false
+    AciConnectionResponse:
+      title: AciConnectionResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/AciConnection'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SgtRangeList:
+      title: SgtRangeList
+      type: object
+      properties:
+        clientName:
+          type: string
+          example: AC1#1
+          exampleSetFlag: true
+        endIndex:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        startIndex:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AciConnectionSummary:
+      title: AciConnectionSummary
+      type: object
+      properties:
+        domain:
+          type: string
+          example: default
+          exampleSetFlag: true
+        errorReason:
+          type: string
+          example: error reason
+          exampleSetFlag: true
+        hostname:
+          type: string
+          description: ACI hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        lastUpdate:
+          type: string
+          example: Oct 25, 2024 1:40 PM
+          exampleSetFlag: true
+        name:
+          type: string
+          description: ACI name
+          example: ACI1
+          exampleSetFlag: true
+        receivedMappings:
+          type: integer
+          format: int32
+          example: 1000
+          exampleSetFlag: true
+        sgtRanges:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SgtRange'
+            exampleSetFlag: false
+        sharedMappings:
+          type: integer
+          format: int32
+          example: 2000
+          exampleSetFlag: true
+        state:
+          type: string
+          description: Corresponding actions will change the state of the connection
+          readOnly: true
+          exampleSetFlag: true
+          enum:
+          - CONNECTED
+          - CONNECTING
+          - DELETE_ERROR
+          - DELETING
+          - DISCONNECTED
+          - ERROR
+          - SUSPENDED
+          - UNDEPLOYED
+        syncedEPG:
+          type: integer
+          description: Synced EPGs/ESGs
+          format: int32
+          example: 5
+          exampleSetFlag: true
+      description: ACI connection summary
+      exampleSetFlag: false
+    AttributeConversion:
+      title: AttributeConversion
+      type: object
+      properties:
+        from:
+          type: string
+          description: From original value
+          exampleSetFlag: true
+        to:
+          type: string
+          description: To new value
+          exampleSetFlag: true
+        type:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - AP
+          - CONNECTION_NAME
+          - EPG_TYPE
+          - TN
+          - VN
+      description: Attribute conversion configuration
+      exampleSetFlag: false
+    SgtListResponseEntity:
+      title: SgtListResponseEntity
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SgtRangeList'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    AciConnectionAccessInfo:
+      title: AciConnectionAccessInfo
+      required:
+      - hostname
+      - name
+      - username
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Auth Domain
+          example: Default
+          exampleSetFlag: true
+        hostname:
+          type: string
+          description: ACI hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          description: ID if connection is already created
+          exampleSetFlag: true
+        name:
+          type: string
+          description: ACI name
+          example: ACI1
+          exampleSetFlag: true
+        password:
+          type: string
+          description: Password
+          example: password1
+          exampleSetFlag: true
+        username:
+          type: string
+          description: Username
+          example: user1
+          exampleSetFlag: true
+        validateCertificate:
+          type: boolean
+          description: ValidationCertificate
+          example: false
+          exampleSetFlag: true
+      description: ACI connection configuration
+      exampleSetFlag: false
+    AciTenantContract:
+      title: AciTenantContract
+      type: object
+      properties:
+        contractIfs:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/ContractInterface'
+            exampleSetFlag: false
+        contracts:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Contract'
+            exampleSetFlag: false
+        name:
+          type: string
+          example: ACI1
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AciConnectionStatus:
+      title: AciConnectionStatus
+      type: object
+      properties:
+        errorReason:
+          type: string
+          description: error reason
+          exampleSetFlag: true
+        id:
+          type: string
+          description: aci connection id
+          example: 12345678-f0e7-456b-a2d1-876543320123
+          exampleSetFlag: true
+        name:
+          type: string
+          description: aci connection name
+          example: aci1
+          exampleSetFlag: true
+        receivedMappingCount:
+          type: integer
+          description: Inbound Rule mapping count
+          format: int32
+          exampleSetFlag: true
+        status:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CONNECTED
+          - DELETE_ERROR
+          - DELETING
+          - DISCONNECTED
+          - ERROR
+          - SUSPENDED
+          - SUSPENDING
+          - UNDEPLOYED
+        syncedEpgCount:
+          type: integer
+          description: count the number of epgs that are synced
+          format: int32
+          exampleSetFlag: true
+      description: ACI Connection status
+      exampleSetFlag: false
+    ActionResponse:
+      title: ActionResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: Action on ACI Connection was Successful
+          exampleSetFlag: true
+      exampleSetFlag: false
+    DomainList:
+      title: DomainList
+      type: object
+      properties:
+        guiBanner:
+          type: string
+          example: admin for domain1
+          exampleSetFlag: true
+        name:
+          type: string
+          example: admin1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Epg:
+      title: Epg
+      type: object
+      properties:
+        ap:
+          type: string
+          example: applicationProfile1
+          exampleSetFlag: true
+        bd:
+          type: string
+          example: bd1
+          exampleSetFlag: true
+        conversionWarnings:
+          type: array
+          description: 'Warnings for EPG to Security Group name conversion:   * `TRUNCATION` - Name is truncated   * `DUPLICATION` - Another EPG was converted to the same name   * `DUPLICATION_ACROSS_CONNECTIONS` - Another EPG was converted to the same name in a other ACI connection   * `CONFLICT` -  Name is different from existing stored entry '
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+            enum:
+            - CONFLICT
+            - DUPLICATION
+            - DUPLICATION_ACROSS_CONNECTIONS
+            - IN_POLICY_USE
+            - TRUNCATION
+        convertedSgtName:
+          type: string
+          description: Converted Security Group name
+          example: epg1_sg
+          exampleSetFlag: true
+        dn:
+          type: string
+          description: dn
+          example: uni/tn-tenant1/ap-ap1/epg-epg1
+          exampleSetFlag: true
+        epg:
+          type: string
+          example: epg1
+          exampleSetFlag: true
+        epgNotEsg:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        selected:
+          type: boolean
+          description: Selected for the connection
+          example: true
+          exampleSetFlag: true
+        sgt:
+          type: integer
+          description: Security Group Tag
+          format: int32
+          readOnly: true
+          example: 123
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
+        vn:
+          type: string
+          example: vn1
+          exampleSetFlag: true
+      exampleSetFlag: false

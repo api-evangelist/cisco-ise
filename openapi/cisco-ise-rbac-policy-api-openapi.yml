@@ -1,0 +1,306 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Rbac Catalog RBAC Policy API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://10.86.189.217:443
+  description: Inferred Url
+tags:
+- name: RBAC Policy
+paths:
+  /api/v1/rbac/policy:
+    get:
+      tags:
+      - RBAC Policy
+      summary: Get all rbac policy available in Cisco ISE
+      description: Get rbac policy API allows to retrieve all rbac policy and policy related data access, menu access
+      operationId: listAllRbacPolicy
+      responses:
+        '200':
+          description: A paged array of rbac policy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RbacPolicyResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+    post:
+      tags:
+      - RBAC Policy
+      summary: Create rbac policy in Cisco ISE
+      description: Create rbac policy API allows to create rbac policy with related menu access and data access
+      operationId: createRbacPolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenApiRbacPolicy'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '201':
+          description: Added rbac policy successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+      security:
+      - BasicAuth: []
+  /api/v1/rbac/policy/{name}:
+    put:
+      tags:
+      - RBAC Policy
+      summary: Update rbac policy in Cisco ISE
+      description: Update rbac policy API allows to update rbac policy with related menu access and data access permissions
+      operationId: updateRbacPolicy
+      parameters:
+      - name: name
+        in: path
+        description: The name of the rbac policy
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenApiRbacPolicy'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Updated rbac policy successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Admin group passed is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - RBAC Policy
+      summary: Delete rbac policy by name in Cisco ISE
+      description: Delete rbac policy API allows to delete rbac policy available in Cisco ISE
+      operationId: deleteRbacPolicy
+      parameters:
+      - name: name
+        in: path
+        description: The name of the rbac policy
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Rbac policy deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Rbac policy not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The error code associated with the response. A non-zero code typically indicates an error.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A description of the error encountered.
+          exampleSetFlag: true
+      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
+      exampleSetFlag: false
+    RbacPolicyResponse:
+      title: RbacPolicyResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        RbacPolicyList:
+          type: array
+          description: A list of RBAC policies, each defining permissions for a particular role or group.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/OpenApiRbacPolicy'
+            exampleSetFlag: false
+        code:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message providing additional details about the status of the request.
+          exampleSetFlag: true
+      description: Response schema for retrieving RBAC (Role-Based Access Control) policies, including a list of policies.
+      exampleSetFlag: false
+    BaseResponse:
+      title: BaseResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message detailing the response, indicating success or failure.
+          exampleSetFlag: true
+      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
+      exampleSetFlag: false
+    OpenApiRbacPolicyPermission:
+      title: OpenApiRbacPolicyPermission
+      required:
+      - menuAccessName
+      type: object
+      properties:
+        dataAccessName:
+          type: string
+          description: The name of the data access related to this permission.
+          exampleSetFlag: true
+        menuAccessName:
+          type: string
+          description: The name of the menu access related to this permission.
+          exampleSetFlag: true
+      description: Defines a permission within the RBAC policy.
+      exampleSetFlag: false
+    OpenApiRbacPolicy:
+      title: OpenApiRbacPolicy
+      required:
+      - adminGroups
+      - policyName
+      type: object
+      properties:
+        Permission:
+          $ref: '#/components/schemas/OpenApiRbacPolicyPermission'
+          exampleSetFlag: true
+        adminGroups:
+          type: array
+          description: A list of admin groups that are associated with this RBAC policy.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        enabled:
+          type: boolean
+          description: Indicates whether the RBAC policy is enabled or disabled.
+          example: false
+          exampleSetFlag: true
+        policyName:
+          type: string
+          description: The name of the RBAC policy.
+          exampleSetFlag: true
+      description: Represents an RBAC (Role-Based Access Control) policy, including the policy's name, enabled status, and associated admin groups.
+      exampleSetFlag: false

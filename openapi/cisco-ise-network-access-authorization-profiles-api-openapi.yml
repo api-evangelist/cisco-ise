@@ -1,0 +1,106 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Policy Network Access - Authorization Profiles API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.9.91:443
+  description: Inferred Url
+tags:
+- name: Network Access - Authorization Profiles
+paths:
+  /api/v1/policy/network-access/authorization-profiles:
+    get:
+      tags:
+      - Network Access - Authorization Profiles
+      summary: Network Access - Returns list of authorization profiles.
+      description: <p>Network Access - Returns list of authorization profiles.<br> (Other CRUD APIs available throught ERS)<br></p>
+      operationId: getNetworkAccessProfiles
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of authoirzation profiles
+          content:
+            application/json:
+              schema:
+                type: array
+                exampleSetFlag: true
+                items:
+                  $ref: '#/components/schemas/Profile'
+                  exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Profile:
+      title: Profile
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+        name:
+          type: string
+          example: Permit Access
+          exampleSetFlag: true
+      exampleSetFlag: false
+  securitySchemes:
+    BasicAuth:
+      type: http
+      description: Basic authorization
+      scheme: basic

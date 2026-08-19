@@ -1,0 +1,185 @@
+swagger: '2.0'
+info:
+  description: "Guest Location API allows the client to search the locations configured from Cisco ISE GUI.\n\n<h2>Revision\
+    \ History</h2>\n<table font-family:monospace> \n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid\
+    \ #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>\n\
+    <tr style='border-bottom:solid #CCCCCC 1.0pt'><td>0</td><td>1.0</td><td>2.2</td><td>Initial Cisco ISE Version</td></tr>\n\
+    </table>\n<br><br>\n<h2>Resource Definition</h2>\n<table>\n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid\
+    \ #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example\
+    \ Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td>name</td></tr>\n\
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource\
+    \ UUID, mandatory for update</td><td>9f083530-8c01-11e6-996c-525400b48521</td></tr>\n<tr style= 'border-bottom:solid #CCCCCC\
+    \ 1.0pt'><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td></tr>\n\
+    </table>\n"
+  version: 1.0.0
+  title: Guest Location
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: guestlocation
+paths:
+  /ers/config/guestlocation/{id}:
+    get:
+      tags:
+      - guestlocation
+      summary: Get guest location by ID
+      description: <p>This API allows the client to get a guest location by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.guestlocation.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/guestlocation'
+  /ers/config/guestlocation:
+    get:
+      tags:
+      - guestlocation
+      summary: Get all guest locations
+      description: <p>This API allows the client to get all the guest locations.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
+        description]</h3></p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.guestlocation.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'
+  /ers/config/guestlocation/versioninfo:
+    get:
+      tags:
+      - guestlocation
+      summary: Get guest location version information
+      description: <p>This API helps to retrieve the version information related to the guest location.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+definitions:
+  guestlocation:
+    type: object
+    properties:
+      LocationIdentification:
+        $ref: '#/definitions/LocationIdentification'
+  LocationIdentification:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 9f083530-8c01-11e6-996c-525400b48521
+      name:
+        type: string
+        example: name
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/guestlocation/9ecb5340-8c01-11e6-996c-525400b48521
+          type:
+            type: string
+            example: application/json
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+  SearchResult:
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example:
+        - id: 9f083530-8c01-11e6-996c-525400b48521
+          name: San Jose
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/ers/config/guestlocation/9f083530-8c01-11e6-996c-525400b48521
+            type: application/json
+        items:
+          properties:
+            name:
+              type: string
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '1.0'
+      supportedVersions:
+        type: string
+        example: '1.0'
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/guestlocation/versioninfo
+      type:
+        type: string
+        example: application/json

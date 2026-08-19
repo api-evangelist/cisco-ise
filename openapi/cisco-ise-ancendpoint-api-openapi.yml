@@ -1,0 +1,1001 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Ancendpoint API
+  version: '1.0'
+  description: 'Operations tagged ancendpoint across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-anc-endpoint.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-anc-endpoint.yaml, the provider's source document. Operations and schemas
+      are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-anc-endpoint.yaml
+    operation_coverage: 7/11
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: ancendpoint
+paths:
+  /ancendpoint/:
+    get:
+      tags:
+      - ancendpoint
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[name]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[name]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[name]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ancendpointListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ancendpointListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ancendpoint/apply:
+    put:
+      tags:
+      - ancendpoint
+      summary: apply
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/anc.ancendpoint'
+            example:
+              ErsAncEndpoint:
+                macAddress: 00:11:22:33:44:55
+                policyName: policy1
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ancendpoint/clear:
+    put:
+      tags:
+      - ancendpoint
+      summary: clear
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/anc.ancendpoint'
+            example:
+              ErsAncEndpoint:
+                macAddress: 00:11:22:33:44:55
+                policyName: policy1
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ancendpoint/{id}:
+    get:
+      tags:
+      - ancendpoint
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ancendpointResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ancendpointResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/ancendpoint/{id}:
+    get:
+      tags:
+      - ancendpoint
+      summary: Get ANC endpoint by ID
+      description: <p>This API allows the client to get an ANC endpoint by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- anc.ancendpoint.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: 'Required Only if Enabled from GUI
+
+          Example:- fetch'
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ancendpointid'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ancendpointid'
+  /ers/config/ancendpoint/clear:
+    put:
+      tags:
+      - ancendpoint
+      summary: Clear required configuration
+      description: <p>This API allows the client to clear the required configuration.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- anc.ancendpoint.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Additional Attributes
+        description: MAC address, IP address
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ancendpointapply'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ancendpointapply'
+  /ers/config/ancendpoint:
+    get:
+      tags:
+      - ancendpoint
+      summary: Get all ANC endpoints
+      description: <p>This API allows the client to get all the ANC endpoints.</p> <p><h1>Filter:</h1><h3>[MAC address]</h3></p>
+        <p>You can use MAC address as a filter for the endpoints. For example:</p> <p font-family:monospace>https://<ISE node>/ers/config/ancendpoint/?filter=name.CONTAINS.00:00:01:00:00:0B</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.2
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: 'Required Only if Enabled from GUI
+
+          Example:- fetch'
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getall'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/getall'
+  /ers/config/ancendpoint/apply:
+    put:
+      tags:
+      - ancendpoint
+      summary: Apply required configuration
+      description: <p>This API allows the client to apply the required configuration.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- anc.ancendpoint.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Additional Attributes
+        description: MAC address, IP address, Policy Name
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ancendpointapply'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ancendpointapply'
+  /ers/config/ancendpoint/versioninfo:
+    get:
+      tags:
+      - ancendpoint
+      summary: Get ANC endpoint version information
+      description: <p>This API helps to retrieve the version information related to the ANC Endpoint.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+  /ers/config/ancendpoint/bulk/submit:
+    put:
+      tags:
+      - ancendpoint
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      responses:
+        202:
+          description: Accepted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+  /ers/config/ancendpoint/bulk/{bulkid}:
+    get:
+      tags:
+      - ancendpoint
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      parameters:
+      - name: bulkid
+        in: path
+        required: true
+        description: 'The bulk ID is a dynamically generated value.<br>For example :- ‘615360357673’
+
+          '
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/monitorbulkrequest'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/monitorbulkrequest'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    ancendpointListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/ancendpointListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    ancendpointResponse:
+      type: object
+      properties:
+        ErsAncEndpoint:
+          $ref: '#/components/schemas/ancendpointResponseEntity'
+      example:
+        ErsAncEndpoint:
+          macAddress: 00:11:22:33:44:55
+          policyName: policy1
+    ancendpointListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    anc.ancendpoint:
+      required:
+      - ErsAncEndpoint
+      type: object
+      properties:
+        ErsAncEndpoint:
+          $ref: '#/components/schemas/ErsAncEndpoint'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    ErsAncEndpoint:
+      required:
+      - macAddress
+      - policyName
+      properties:
+        macAddress:
+          title: macAddress
+          type: string
+          description: MAC address of the endpoint
+          example: null
+        policyName:
+          title: policyName
+          type: string
+          description: Policy name for applying to the endpoint
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        ErsAncEndpoint:
+          macAddress: 00:11:22:33:44:55
+          policyName: policy1
+    ancendpointResponseEntity:
+      properties:
+        macAddress:
+          title: macAddress
+          type: string
+          description: MAC address of the endpoint
+          example: null
+        policyName:
+          title: policyName
+          type: string
+          description: Policy name for applying to the endpoint
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    bulkrequest:
+      type: object
+      properties:
+        ErsAncEndpointBulkRequest:
+          $ref: '#/components/schemas/bulkrequest1'
+    ancendpointid:
+      type: object
+      properties:
+        ErsAncEndpoint:
+          $ref: '#/components/schemas/ancendpointid1'
+    bulkrequest1:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: xml
+    monitorbulkrequest:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/monitorbulkrequest1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    monitorbulkrequest1:
+      type: object
+      properties:
+        bulkID:
+          type: string
+          example: 1612351741691
+        executionStatus:
+          type: string
+          example: COMPLETED
+        operationType:
+          type: string
+          example: create
+        startTime:
+          type: string
+          example: Wed Feb 03 11:29:01 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 5
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
+    ancendpointapply:
+      type: object
+      properties:
+        OperationAdditionalData:
+          $ref: '#/components/schemas/ancendpointapply1'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    ancendpointid1:
+      type: object
+      properties:
+        id:
+          type: string
+          example: e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+        macAddress:
+          type: string
+          example: 00:11:22:33:44:55
+        policyName:
+          type: string
+          example: portbounce
+        link:
+          $ref: '#/components/schemas/link2'
+    getall1:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 3
+        resources:
+          type: array
+          example:
+          - id: e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ancendpoint/e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+              type: application/json
+          - id: da9b6184-5fc2-4820-bd73-915e9705f858
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ancendpoint/da9b6184-5fc2-4820-bd73-915e9705f858
+              type: application/json
+          - id: a89d0e7d-76d9-4b6d-8a38-bac70ac31ad0
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ancendpoint/a89d0e7d-76d9-4b6d-8a38-bac70ac31ad0
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    getall:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/getall1'
+    ancendpointapply1:
+      type: object
+      properties:
+        additionalData:
+          type: array
+          example:
+          - name: example additional attribute name
+            value: its value
+          items:
+            properties:
+              name:
+                type: string
+    link2:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/ancendpoint/e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+        type:
+          type: string
+          example: application/xml
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/ancendpoint/versioninfo
+        type:
+          type: string
+          example: application/xml
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-anc-endpoint.yaml

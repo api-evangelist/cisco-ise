@@ -1,0 +1,142 @@
+openapi: 3.2.0
+info:
+  title: MnT Acct Status API
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}/admin/API/mnt
+  variables:
+    server:
+      default: localhost
+      description: The host where the API is rooted
+security:
+- basicAuth: []
+tags:
+- name: AcctStatus
+paths:
+  /AcctStatus/MACAddress/{mac}/{duration}:
+    get:
+      summary: Retrieve account status by MAC address and duration
+      operationId: getAcctStatus
+      parameters:
+      - name: mac
+        in: path
+        required: true
+        description: The MAC address to retrieve account status for
+        schema:
+          type: string
+      - name: duration
+        in: path
+        required: true
+        description: The duration parameter for the account status
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AcctStatusOutputList'
+        '401':
+          description: Unauthorized access
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mnt-rest-result'
+      tags:
+      - AcctStatus
+components:
+  schemas:
+    mnt-rest-result:
+      type: object
+      additionalProperties: true
+      properties:
+        http-code:
+          type: integer
+          example: 500
+        cpm-code:
+          type: integer
+          example: 34110
+        description:
+          type: string
+          example: Server has encountered error while processing the REST request
+        module-name:
+          type: string
+          example: MnT
+        internal-error-info:
+          type: string
+          example: This host is not a MnT node. MnT REST APIs can not be executed on this node.
+        requested-operation:
+          type: string
+          example: Get By Type
+        resource-id:
+          type: string
+          example: dummy
+        resource-name:
+          type: string
+          example: dummy
+        resource-type:
+          type: string
+          example: ActiveCount
+        status:
+          type: string
+          example: SERVER_ERROR
+    AcctStatusOutputList:
+      description: List of account status
+      type: object
+      xml:
+        name: acctStatusOutputList
+      properties:
+        acctStatusList:
+          type: array
+          items:
+            type: object
+            properties:
+              macAddress:
+                type: string
+                xml:
+                  attribute: true
+              acctStatusElements:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    calling_station_id:
+                      type: string
+                    paks_in:
+                      type: integer
+                    paks_out:
+                      type: integer
+                    bytes_in:
+                      type: integer
+                    bytes_out:
+                      type: integer
+                    session_time:
+                      type: integer
+                    server:
+                      type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic

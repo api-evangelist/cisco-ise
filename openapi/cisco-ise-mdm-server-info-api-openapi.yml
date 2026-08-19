@@ -1,0 +1,171 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Mdm Server Info API
+  version: '1.0'
+  description: 'Operations tagged mdm-server-info across 2 of this provider''s published API definitions: cisco-ise-mdm-mobile-device-management.yaml,
+    cisco-ise-mdm-older-versions.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-mdm-mobile-device-management.yaml, the provider's source document. Operations
+      and schemas are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-mdm-mobile-device-management.yaml
+    operation_coverage: 1/2
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: mdm-server-info
+paths:
+  /<mdm-server>/ciscoise/mdminfo/:
+    get:
+      tags:
+      - mdm-server-info
+      summary: Get the MDM server information
+      description: 'This API (available since version 2) is used for initially adding an MDM vendor in the Cisco ISE server.
+        This is similar to the version 1 and version 2 APIs, except that in addition it provides information about the API
+        version used by Cisco ISE as a URL query parameter.<br><br><b>NOTE</b>: The URL required for sending the MDM Server
+        Info api request is fixed because the API path (obtained from the REST webservice response for the MDM Server Info
+        API) is not yet known to Cisco ISE.<br><br>Base API for version 3 remains similar. In the response it is mandatory
+        for the partner MDM server to share the vendor, product_name & product_version for version 3 and above.<br><br> Example:
+        https://mdm-server/ciscoise/mdminfo/?ise_api_version={max_ise_supported_api_version}'
+      parameters:
+      - name: ise_api_version
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: Resources
+        in: header
+        description: <table> <tr><td><b>Attribute Name</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td></tr>
+          <tr><td>name</td><td>String</td><td>Yes</td><td>mdminfo</td></tr> <tr><td>api_version</td><td>Integer</td><td>Yes</td><td>Response
+          from MDM server with supported version, should be equal to or less than ISE supported version shared in API call/request
+          URL</td></tr> <tr><td>api_path</td><td>String</td><td>Yes</td><td>API path to get device compliance or non-compliance
+          information</td></tr> <tr><td>redirect_url</td><td>String</td><td>Yes</td><td>URL for end users to register or enroll
+          to MDM server</td></tr> <tr><td>query_max_size</td><td>Integer</td><td>Yes</td><td>Maximum number of records that
+          can be retrieved at a time during bulk retrievals (Eg. Non compliance API response)</td></tr> <tr><td>messaging_support</td><td>Boolean</td><td>Yes</td><td>Indicates
+          if messaging is supported through MDM server</td></tr> <tr><td>vendor</td><td>String</td><td>Yes</td><td>Name of
+          the MDM partner (Mandatory from version 3)</td></tr> <tr><td>product_name</td><td>String</td><td>Yes</td><td>Name
+          of the MDM server (Mandatory from version 3)</td></tr> <tr><td>product_version</td><td>String</td><td>Yes</td><td>Version
+          of the MDM server  (Mandatory from version 3)</td></tr> </table>
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mdm-server-info'
+  /<mdm-server-ip>/ciscoise/mdminfo/:
+    get:
+      tags:
+      - mdm-server-info
+      summary: Get the MDM server information
+      description: 'This API (available since version 2) is used for initially adding an MDM vendor in the Cisco ISE server.
+        This is similar to the version 1 API, except that in addition it provides information about the API version used by
+        Cisco ISE as a URL query parameter.<br><br><b>NOTE</b>: The URL required for sending the MDM Server Info api request
+        is fixed because the API path (obtained from the REST webservice response for the MDM Server Info API) is not yet
+        known to Cisco ISE.<br><br> <table> <tr><td><b>Version</b></td><td><b>URL</b></td><tr> <tr><td>1</td><td>https://mdm-server/ciscoise/mdminfo</td></tr>
+        <tr><td>2</td><td>https://mdm-server/ciscoise/mdminfo/?ise_api_version={max_ise_supported_api_version}</td></tr> </table>'
+      parameters:
+      - name: ise_api_version
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: Resources
+        in: header
+        description: <table> <tr><td><b>Attribute Name</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td></tr>
+          <tr><td>name</td><td>String</td><td>Yes</td><td>mdminfo</td></tr> <tr><td>api_version</td><td>Integer</td><td>Yes</td><td>Maximum
+          version MDM server supports</td></tr> <tr><td>api_path</td><td>String</td><td>Yes</td><td>API path to get device
+          compliance or non-compliance information</td></tr> <tr><td>redirect_url</td><td>String</td><td>Yes</td><td>URL for
+          end users to register or enroll to MDM server</td></tr> <tr><td>query_max_size</td><td>Integer</td><td>Yes</td><td>Maximum
+          number of records that can be retrieved at a time during bulk retrievals (Eg. Non compliance API response)</td></tr>
+          <tr><td>messaging_support</td><td>Boolean</td><td>Yes</td><td>Indicates if messaging is supported through MDM server</td></tr>
+          <tr><td>vendor</td><td>String</td><td>No</td><td>Name of the MDM partner</td></tr> <tr><td>product_name</td><td>String</td><td>No</td><td>Name
+          of the MDM server</td></tr> <tr><td>product_version</td><td>String</td><td>No</td><td>Version of the MDM server</td></tr>
+          </table>
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mdm-server-info_2'
+components:
+  schemas:
+    mdm-server-info:
+      type: object
+      properties:
+        name:
+          type: string
+          example: mdminfo
+        api_version:
+          type: integer
+          example: 3
+        api_path:
+          type: string
+          example: /ciscoise/mdmapi/v3
+        redirect_url:
+          type: string
+          example: https://login.mobileiron.com/
+        query_max_size:
+          type: integer
+          example: 1000
+        messaging_support:
+          type: boolean
+          example: true
+        vendor:
+          type: string
+          example: MobileIron
+        product_name:
+          type: string
+          example: MobileIron Cloud
+        product_version:
+          type: string
+          example: 76.0.0.22
+    mdm-server-info_2:
+      type: object
+      properties:
+        name:
+          type: string
+          example: mdminfo
+        api_version:
+          type: integer
+          example: 2
+        api_path:
+          type: string
+          example: /ciscoise/mdmapi/v2
+        redirect_url:
+          type: string
+          example: https://www.mobileiron.net
+        query_max_size:
+          type: integer
+          example: 1000
+        messaging_support:
+          type: boolean
+          example: true
+        vendor:
+          type: string
+          example: MobileIron
+        product_name:
+          type: string
+          example: MobileIron Cloud
+        product_version:
+          type: string
+          example: 75.0.0.12
+x-refined-from:
+- cisco-ise-mdm-mobile-device-management.yaml
+- cisco-ise-mdm-older-versions.yaml

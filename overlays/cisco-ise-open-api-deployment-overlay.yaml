@@ -1,0 +1,38 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Deployment (OpenAPI)
+  version: 1.0.0
+extends: openapi/_original/cisco-ise-open-api-deployment.yaml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: cisco-ise
+    x-apievangelist-source: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/deployment.yaml
+    x-apievangelist-harvested: '2026-08-19'
+    x-apievangelist-sha256: acba2c0630deebce619306058953568ffa6b787d8b99d73ccc25e34a100d5759
+    x-apievangelist-provenance:
+      method: harvested
+      first_party: true
+      http_status: 200
+      authored_by_api_evangelist: false
+- target: $.info
+  update:
+    x-apievangelist-runtime:
+      authentication: HTTP Basic over TLS 1.1+; ERS Admin (read/write) or ERS Operator (read-only) role required
+      enablement: API services are disabled by default and must be enabled per node under Administration > System > Settings
+        > API Settings
+      gateway: Routed through the Cisco ISE API Gateway on port 443; writes reach only the primary PAN
+      pagination: page (1-based, default 1) + size (default 20, max 100) on get-all operations
+      rate_limit: 100 TPS concurrent ERS API connections; no rate-limit response headers are returned
+      idempotency: none — no idempotency key is supported, writes are not safely retryable
+      errors: named ERS exception codes, not RFC 9457
+      artifacts:
+        authentication: authentication/cisco-ise-authentication.yml
+        conventions: conventions/cisco-ise-conventions.yml
+        errors: errors/cisco-ise-problem-types.yml
+        rate_limits: rate-limits/cisco-ise-rate-limits.yml
+        lifecycle: lifecycle/cisco-ise-lifecycle.yml
+- target: $.servers
+  update:
+    x-apievangelist-note: 'On-premises product: the real base URL is the customer''s own ISE appliance. Where the published
+      server names a 10.x/172.x address it is a Cisco lab host and is not callable.'

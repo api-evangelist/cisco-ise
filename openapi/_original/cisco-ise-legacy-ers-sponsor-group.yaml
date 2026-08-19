@@ -1,0 +1,531 @@
+swagger: '2.0'
+info:
+  description: |
+    Sponsor Group API allows the client to add, delete, update and search sponsor groups.
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.2</td><td>Initial Cisco ISE Version</td></tr>
+    </table>
+    <br><br>
+    
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td><td>EmplALL_ACCOUNTS (default)oyees</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td><td>9f1eca71-8c01-11e6-996c-525400b48521</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td><td>Sponsors assigned to this group can manage all guest user accounts. By default, users in the ALL_ACCOUNTS user identity group are members of this sponsor group</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>isEnabled</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>isDefaultGroup</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>memberGroups</td><td>List</td><td>No</td><td></td><td></td><td>["ALL_ACCOUNTS (default)"]</td></tr>
+    <tr><td style='font-family:monospace'>guestTypes</td><td>List</td><td>No</td><td></td><td></td><td>["Contractor (default)", "Daily (default)", "Weekly (default)" ]</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>locations</td><td>List</td><td>No</td><td></td><td></td><td>["San Jose"]</td></tr>
+    <tr><td style='font-family:monospace'>autoNotification</td><td>Boolean</td><td>No</td><td></td><td></td><td>false</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>managePermission</td><td>Enum</td><td>No</td><td>Allowed values:<br>- ALLACCOUNTS, <br>- GROUPACCOUNTS, <br>- OWNACCOUNTS</td><td></td><td>ALLACCOUNTS</td></tr>
+    <tr><td style='font-family:monospace'>createPermissions</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>- canImportMultipleAccounts</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- importBatchSizeLimit</td><td>Integer</td><td>No</td><td></td><td>200</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- canCreateRandomAccounts</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- randomBatchSizeLimit</td><td>Integer</td><td>No</td><td></td><td>200</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- defaultUsernamePrefix</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>- canSpecifyUsernamePrefix</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- canSetFutureStartDate</td><td>Boolean</td><td>No</td><td></td><td></td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>- startDateFutureLimitDays</td><td>Integer</td><td>No</td><td></td><td></td><td>1</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>otherPermissions</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canUpdateGuestContactInfo</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canViewGuestPasswords</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canSendSmsNotifications</td><td>Boolean</td><td>No</td><td></td><td></td><td>false</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canResetGuestPasswords</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canExtendGuestAccounts</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canDeleteGuestAccounts</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canSuspendGuestAccounts</td><td>Boolean</td><td>Yes</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- requireSuspensionReason</td><td>Boolean</td><td>No</td><td></td><td></td><td>false</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canReinstateSuspendedAccounts</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- canApproveSelfregGuests</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>- limitApprovalToSponsorsGuests</td><td>Boolean</td><td>Yes</td><td></td><td></td><td>false</td></tr>
+    <tr style= 'background:#f8f8f8;border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt'><td style='font-family:monospace'>- canAccessViaRest</td><td>Boolean</td><td>No</td><td></td><td></td><td>false</td></tr>
+    </table>
+  
+  version: 1.0.0
+  title: Sponsor Group
+
+tags:
+- name: sponsorgroup
+
+
+paths:
+  /ers/config/sponsorgroup/{id}:
+    get:
+      tags: 
+      - sponsorgroup
+      summary: Get sponsor group by ID
+      description:
+        <p>This API allows the client to get a sponsor group by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.sponsorgroup.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/sponsorgroup'
+ 
+    put:
+      tags:
+      - sponsorgroup
+      summary: Update sponsor group by ID
+      description:  <p>This API allows the client to update a sponsor group by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- dentity.sponsorgroup.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+               Operation 'UpdateById' can be used within Bulk Request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/sponsorgroup'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+            
+    delete:
+      tags:
+      - sponsorgroup
+      summary: Delete sponsor group by ID
+      description:
+        <p>This API deletes a sponsor group by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.sponsorgroup.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+               Operation 'DeleteById' can be used within Bulk Request
+      responses: 
+        204:
+          description: No Content  
+          
+  /ers/config/sponsorgroup:
+    get:
+      tags: 
+      - sponsorgroup
+      summary: Get all sponsor groups
+      description:
+        <p>This API allows the client to get all the sponsor groups.</p>
+        <p><h1>Filter:</h1> <h3>[name]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> 
+        <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul>
+        <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul>
+        <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>   
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- dentity.sponsorgroup.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+
+    post:
+      tags:
+      - sponsorgroup
+      summary: Create sponsor group
+      description:
+        <p>This API creates a sponsor group.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.sponsorgroup.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+               Operation 'Create' can be used within Bulk Request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/sponsorgroup'
+      responses:
+        201:
+          description: Created
+             
+  /ers/config/sponsorgroup/versioninfo:
+    get:
+      tags:
+      - sponsorgroup
+      summary: Get sponsor group version information
+      description:
+        <p>This API helps to retrieve the version information related to the sponsor group.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+            
+definitions:
+  sponsorgroup:
+    type: object
+    properties:
+      SponsorGroup:
+        $ref: '#/definitions/SponsorGroup'
+        
+  SponsorGroup:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 9f1eca71-8c01-11e6-996c-525400b48521
+      name:
+        type: string
+        example: ALL_ACCOUNTS (default)
+      description:
+        type: string
+        example: Sponsors assigned to this group can manage all guest user accounts. By default, users in the ALL_ACCOUNTS user identity group are members of this sponsor group
+      isEnabled:
+        type: boolean
+        example: true
+      isDefaultGroup:
+        type: boolean
+        example: true
+      memberGroups:
+        type: array
+        example: [
+            "ALL_ACCOUNTS (default)"
+        ]
+        items:
+          properties:
+            name:
+              type: string
+      guestTypes:
+        type: array
+        example: [
+            "Contractor (default)",
+            "Daily (default)",
+            "Weekly (default)"
+        ]
+        items:
+          properties:
+            name:
+              type: string
+      locations:
+        type: array
+        example: [
+            "San Jose"
+        ]
+        items:
+          properties:
+            name:
+              type: string              
+      autoNotification:
+        type: boolean
+        example: false
+      createPermissions:
+        type: object
+        properties:
+          canImportMultipleAccounts:
+            type: boolean
+            example: true
+          importBatchSizeLimit:
+            type: integer
+            example: 200
+          canCreateRandomAccounts:
+            type: boolean
+            example: true
+          randomBatchSizeLimit:
+            type: integer
+            example: 200
+          canSpecifyUsernamePrefix:
+            type: boolean
+            example: true
+          canSetFutureStartDate:
+            type: boolean
+            example: false
+          startDateFutureLimitDays:
+            type: integer
+            example: 1
+      managePermission:
+        type: string
+        example: ALLACCOUNTS
+      otherPermissions:
+        type: object
+        properties:
+          canUpdateGuestContactInfo:
+            type: boolean
+            example: true
+          canViewGuestPasswords:
+            type: boolean
+            example: true          
+          canSendSmsNotifications:
+            type: boolean
+            example: false
+          canResetGuestPasswords:
+            type: boolean
+            example: true   
+          canExtendGuestAccounts:
+            type: boolean
+            example: true
+          canDeleteGuestAccounts:
+            type: boolean
+            example: true          
+          canSuspendGuestAccounts:
+            type: boolean
+            example: true
+          requireSuspensionReason:
+            type: boolean
+            example: false
+          canReinstateSuspendedAccounts:
+            type: boolean
+            example: true
+          canApproveSelfregGuests:
+            type: boolean
+            example: true          
+          limitApprovalToSponsorsGuests:
+            type: boolean
+            example: false
+          canAccessViaRest:
+            type: boolean
+            example: false          
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/sponsorgroup/9f1eca71-8c01-11e6-996c-525400b48521
+          type:
+            type: string
+            example: application/json  
+  
+  patchRequest:
+    type: object
+    properties:
+      SponsorGroup:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value  
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 3
+      resources:
+        type: array
+        example: [
+            {
+                "id": "9f1eca71-8c01-11e6-996c-525400b48521",
+                "name": "ALL_ACCOUNTS (default)",
+                "description": "Sponsors assigned to this group can manage all guest user accounts. By default, users in the ALL_ACCOUNTS user identity group are members of this sponsor group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sponsorgroup/9f1eca71-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "9f69b621-8c01-11e6-996c-525400b48521",
+                "name": "GROUP_ACCOUNTS (default)",
+                "description": "Sponsors assigned to this group can manage just the guest accounts created by sponsors from the same sponsor group. By default, users in the GROUP_ACCOUNTS user identity group are members of this sponsor group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sponsorgroup/9f69b621-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "9f4c1c01-8c01-11e6-996c-525400b48521",
+                "name": "OWN_ACCOUNTS (default)",
+                "description": "Sponsors assigned to this group can manage only the guest accounts that they have created. By default, users in the OWN_ACCOUNTS user identity group are members of this sponsor group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>/ers/config/sponsorgroup/9f4c1c01-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            }
+        ]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "1.0"
+      supportedVersions:
+        type: string
+        example: "1.0"  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/sponsorgroup/versioninfo
+      type:
+        type: string
+        example: application/json
+

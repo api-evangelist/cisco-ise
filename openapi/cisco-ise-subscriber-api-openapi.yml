@@ -1,0 +1,395 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE 5G Subscriber API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}/v1/
+  variables:
+    server:
+      default: localhost
+      description: The host where the API is rooted
+security:
+- BasicAuth: []
+tags:
+- name: Subscriber
+paths:
+  /fiveg/subscriber:
+    get:
+      summary: Get all subscribers
+      operationId: getAllSubscribers
+      tags:
+      - Subscriber
+      parameters:
+      - $ref: ./api.yaml#/components/parameters/pageNumber
+      - $ref: ./api.yaml#/components/parameters/pageSize
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      - $ref: ./api.yaml#/components/parameters/filtering
+      - $ref: ./api.yaml#/components/parameters/filtertype
+      - $ref: ./api.yaml#/components/parameters/sortType
+      - $ref: ./api.yaml#/components/parameters/sortBy
+      responses:
+        200:
+          description: Subscribers retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriberGetAllResponsePayload'
+        400:
+          $ref: ./api.yaml#/components/responses/BadRequest
+        404:
+          $ref: ./api.yaml#/components/responses/NotFound
+    post:
+      summary: Create subscriber holding the IMEI
+      operationId: createSubscriber
+      tags:
+      - Subscriber
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriberCreateRequest'
+      responses:
+        201:
+          description: Subscriber created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriberResponsePayload'
+        400:
+          $ref: ./api.yaml#/components/responses/BadRequest
+        500:
+          $ref: ./api.yaml#/components/responses/InternalServerError
+  /fiveg/subscriber/{subscriberId}:
+    get:
+      summary: Get the subscriber for a given ID
+      operationId: getSubscriberById
+      tags:
+      - Subscriber
+      parameters:
+      - $ref: '#/components/parameters/SubscriberIdParam'
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      responses:
+        200:
+          description: Subscriber retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriberResponsePayload'
+        500:
+          $ref: ./api.yaml#/components/responses/InternalServerError
+        404:
+          $ref: ./api.yaml#/components/responses/NotFound
+    put:
+      summary: Update a subscriber for a given ID and the request payload
+      operationId: updateSubscriber
+      tags:
+      - Subscriber
+      parameters:
+      - $ref: '#/components/parameters/SubscriberIdParam'
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriberUpdateRequest'
+      responses:
+        200:
+          description: Subscriber updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriberResponsePayload'
+        404:
+          $ref: ./api.yaml#/components/responses/NotFound
+        400:
+          $ref: ./api.yaml#/components/responses/BadRequest
+        500:
+          $ref: ./api.yaml#/components/responses/InternalServerError
+        409:
+          $ref: ./api.yaml#/components/responses/Conflict
+    delete:
+      summary: Delete the subscriber for a given ID
+      operationId: deleteSubscriber
+      tags:
+      - Subscriber
+      parameters:
+      - $ref: '#/components/parameters/SubscriberIdParam'
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      responses:
+        200:
+          description: Subscriber deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        204:
+          $ref: ./api.yaml#/components/responses/NoContent
+        500:
+          $ref: ./api.yaml#/components/responses/InternalServerError
+  /fiveg/subscriber/imsi/{imsi}:
+    get:
+      summary: Get a subscriber by IMSI
+      operationId: getSubscriberByIMSI
+      tags:
+      - Subscriber
+      parameters:
+      - $ref: '#/components/parameters/IMSI'
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      responses:
+        200:
+          description: Subscriber retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriberResponsePayload'
+        400:
+          $ref: ./api.yaml#/components/responses/BadRequest
+        404:
+          $ref: ./api.yaml#/components/responses/NotFound
+        500:
+          $ref: ./api.yaml#/components/responses/InternalServerError
+  /fiveg/subscriber/bulk:
+    post:
+      summary: Create, update and delete subscribers in bulk
+      operationId: bulkSubscriberOperation
+      tags:
+      - Subscriber
+      parameters:
+      - $ref: '#/components/parameters/XRequestIdHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Operations'
+      responses:
+        200:
+          description: Subscriber created successfully
+          $ref: '#/components/responses/TaskAccepted'
+        500:
+          $ref: ./api.yaml#/components/responses/InternalServerError
+        400:
+          $ref: ./api.yaml#/components/responses/BadRequest
+components:
+  schemas:
+    Version:
+      type: string
+      pattern: ^[0-9]+(\.[0-9]+){2}$
+      example: 1.0.0
+    SubscriberCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/SubscriberUpdateRequest'
+      - type: object
+        required:
+        - imsi
+        properties:
+          imsi:
+            type: string
+            description: IMSI for subscriber
+            example: '490154203237518'
+            pattern: ^([0-9]){15,16}$
+    SubscriberGetAllResponsePayload:
+      allOf:
+      - type: object
+        properties:
+          response:
+            type: array
+            items:
+              $ref: '#/components/schemas/SubscriberResponse'
+      - $ref: '#/components/schemas/GetAllResponseAttrs'
+    SubscriberArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/SubscriberBulkRequest'
+    SubscriberBulkRequest:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/SubscriberId'
+        imsi:
+          type: string
+          description: IMSI for Subscriber
+          example: '490154203237518'
+          pattern: ^([0-9]){15,16}$
+        enabled:
+          type: boolean
+          description: Subscriber is enabled or not
+          default: true
+          example: true
+        friendlyName:
+          type: string
+          description: Friendly name for the subscriber
+          example: FriendlyName
+        identityGroups:
+          type: string
+          description: Identity Groups. If you add more than one identity group, they need to be comma separated
+          example: 7a9484cf-0ebc-47ad-a9ef-bc12729ed73f,7b9484cf-0ebc-47ad-a9ef-bc12729ed73f
+        imeis:
+          type: string
+          description: Comma separated IMEIs to be attached to the subscriber
+          example: 490154203237518,490154203237515
+        opc:
+          type: string
+          description: OPC
+          example: '12345678901234567890123456789012'
+        ki:
+          type: string
+          description: KI
+          example: '12345678901234567890123456789012'
+    SubscriberId:
+      type: string
+      format: uuid
+      example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73d
+    Timestamp:
+      type: object
+      properties:
+        createTime:
+          type: string
+        updateTime:
+          type: string
+    SubscriberResponse:
+      allOf:
+      - $ref: '#/components/schemas/Subscriber'
+      - type: object
+        properties:
+          link:
+            $ref: '#/components/schemas/Link'
+    Subscriber:
+      allOf:
+      - $ref: '#/components/schemas/SubscriberCreateRequest'
+      - $ref: '#/components/schemas/Timestamp'
+      - type: object
+        properties:
+          id:
+            $ref: '#/components/schemas/SubscriberId'
+    GetAllResponseAttrs:
+      type: object
+      properties:
+        nextPage:
+          $ref: '#/components/schemas/Link'
+        previousPage:
+          $ref: '#/components/schemas/Link'
+        version:
+          $ref: '#/components/schemas/Version'
+    Link:
+      type: object
+      properties:
+        rel:
+          enum:
+          - next
+          - previous
+          - self
+          - status
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ip>/api/v1/fiveg/<userEquipment/subscriber>/<ID>
+        type:
+          type: string
+          example: application/json
+    SubscriberUpdateRequest:
+      type: object
+      required:
+      - opc
+      - ki
+      properties:
+        enabled:
+          type: boolean
+          description: Subscriber is enabled or not
+          default: true
+          example: true
+        friendlyName:
+          type: string
+          description: Friendly name for the subscriber
+          example: FriendlyName
+        identityGroups:
+          type: string
+          description: Identity Groups. If you add more than one identity group, they need to be comma separated.
+          example: 7a9484cf-0ebc-47ad-a9ef-bc12729ed73f,7b9484cf-0ebc-47ad-a9ef-bc12729ed73f
+        imeis:
+          type: string
+          description: IMEI to be attached to the subscriber
+          example: '490154203237518'
+        opc:
+          type: string
+          description: OPC
+          pattern: ^([A-Fa-f0-9]){32}$
+          example: '12345678901234567890123456789012'
+        ki:
+          type: string
+          description: KI
+          pattern: ^([A-Fa-f0-9]){32}$
+          example: '12345678901234567890123456789012'
+    DeleteResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Resource with ID 8d32371d-ee1a-47ce-995f-5966dec3c5dc was deleted successfully
+    SubscriberResponsePayload:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/SubscriberResponse'
+        version:
+          $ref: '#/components/schemas/Version'
+    Operations:
+      type: object
+      properties:
+        operation:
+          enum:
+          - Create
+          - Update
+          - Delete
+        ItemList:
+          $ref: '#/components/schemas/SubscriberArray'
+  parameters:
+    IMSI:
+      name: imsi
+      in: path
+      description: IMSI parameter
+      required: true
+      schema:
+        type: string
+      example: '490154203237518'
+    XRequestIdHeader:
+      in: header
+      name: X-Request-ID
+      description: The Request ID is returned in the response headers and appear in logs
+      schema:
+        type: string
+      required: false
+    SubscriberIdParam:
+      name: subscriberId
+      in: path
+      description: Unique ID for a subscriber object
+      required: true
+      schema:
+        $ref: '#/components/schemas/SubscriberId'
+  responses:
+    TaskAccepted:
+      description: Task accepted ID can be used to track the task through the task API
+      content:
+        application/json:
+          schema:
+            $ref: ./api.yaml#/components/schemas/TaskResponse
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

@@ -1,0 +1,1138 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Sxplocalbindings API
+  version: '1.0'
+  description: 'Operations tagged sxplocalbindings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-sxp-local-bindings.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-sxp-local-bindings.yaml, the provider's source document. Operations
+      and schemas are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-sxp-local-bindings.yaml
+    operation_coverage: 8/13
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: sxplocalbindings
+paths:
+  /sxplocalbindings/:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[sgt, vpn, vns, ipOrHost]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[sgt, vpn, ip, vns, ipOrHost]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - sgt
+          - vpn
+          - ip
+          - vns
+          - ipOrHost
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[sgt, vpn, ip, vns, ipOrHost]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - sgt
+          - vpn
+          - ip
+          - vns
+          - ipOrHost
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sxplocalbindingsListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sxplocalbindingsListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - sxplocalbindings
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sxp.sxplocalbindings'
+            example:
+              ERSSxpLocalBindings:
+                sgt: sgt_id
+                sxpVpn: Sxp Vpn Name
+                vns: virtualNetwork
+                ipAddressOrHost: ipAddressOrHost
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /sxplocalbindings/{id}:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sxplocalbindingsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sxplocalbindingsResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - sxplocalbindings
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sxp.sxplocalbindings'
+            example:
+              ERSSxpLocalBindings:
+                sgt: sgt_id
+                sxpVpn: Sxp Vpn Name
+                vns: virtualNetwork
+                ipAddressOrHost: ipAddressOrHost
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - sxplocalbindings
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/sxplocalbindings/{id}:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Get SXP local binding by ID
+      description: <p>This API allows the client to get a SXP local binding by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sxplocalbindings'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sxplocalbindings'
+    put:
+      tags:
+      - sxplocalbindings
+      summary: Update SXP local binding
+      description: <p>This API allows the client to update a SXP local binding.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Update' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sxplocalbindings'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/sxplocalbindings'
+    delete:
+      tags:
+      - sxplocalbindings
+      summary: Delete SXP local binding
+      description: <p>This API deletes a SXP local binding.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Delete' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/sxplocalbindings:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Get all SXP local bindings
+      description: <p>This API allows the client to get all the SXP local bindings.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+    post:
+      tags:
+      - sxplocalbindings
+      summary: Create SXP local binding
+      description: <p>This API creates a SXP local binding.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- sxp.sxplocalbindings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Create' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sxplocalbindings'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/sxplocalbindings'
+  /ers/config/sxplocalbindings/versioninfo:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Get SXP local bindings version information
+      description: <p>This API helps to retrieve the version information related to the SXP local bindings.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+  /ers/config/sxplocalbindings/submit:
+    put:
+      tags:
+      - sxplocalbindings
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      responses:
+        202:
+          description: Accepted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+  /ers/config/sxplocalbindings/bulk/{bulkid}:
+    get:
+      tags:
+      - sxplocalbindings
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      parameters:
+      - name: bulkid
+        in: path
+        required: true
+        description: 'The bulk ID is a dynamically generated value.<br>For example :- ‘615360357673’
+
+          '
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    sxplocalbindingsResponseEntity:
+      properties:
+        bindingName:
+          title: bindingName
+          type: string
+          description: This field is depricated from ISE 3.0
+          example: null
+        ipAddressOrHost:
+          title: ipAddressOrHost
+          type: string
+          description: IP address for static mapping (hostname is not supported)
+          example: null
+        sgt:
+          title: sgt
+          type: string
+          description: SGT name or ID
+          example: null
+        sxpVpn:
+          title: sxpVpn
+          type: string
+          description: 'List of SXP Domains, separated with comma. At least one of: sxpVpn or vns should be defined'
+          example: null
+        vns:
+          title: vns
+          type: string
+          description: 'List of Virtual Networks, separated with comma. At least one of: sxpVpn or vns should be defined'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    sxplocalbindingsListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sxplocalbindingsListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    sxplocalbindingsResponse:
+      type: object
+      properties:
+        ERSSxpLocalBindings:
+          $ref: '#/components/schemas/sxplocalbindingsResponseEntity'
+      example:
+        ERSSxpLocalBindings:
+          sgt: sgt_id
+          sxpVpn: Sxp Vpn Name
+          vns: virtualNetwork
+          ipAddressOrHost: ipAddressOrHost
+    sxplocalbindingsListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sxp.sxplocalbindings:
+      required:
+      - ERSSxpLocalBindings
+      type: object
+      properties:
+        ERSSxpLocalBindings:
+          $ref: '#/components/schemas/ERSSxpLocalBindings'
+      example: null
+    ERSSxpLocalBindings:
+      required:
+      - ipAddressOrHost
+      - sgt
+      - sxpVpn
+      - vns
+      properties:
+        bindingName:
+          title: bindingName
+          type: string
+          description: This field is depricated from ISE 3.0
+          example: null
+        ipAddressOrHost:
+          title: ipAddressOrHost
+          type: string
+          description: IP address for static mapping (hostname is not supported)
+          example: null
+        sgt:
+          title: sgt
+          type: string
+          description: SGT name or ID
+          example: null
+        sxpVpn:
+          title: sxpVpn
+          type: string
+          description: 'List of SXP Domains, separated with comma. At least one of: sxpVpn or vns should be defined'
+          example: null
+        vns:
+          title: vns
+          type: string
+          description: 'List of Virtual Networks, separated with comma. At least one of: sxpVpn or vns should be defined'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        ERSSxpLocalBindings:
+          sgt: sgt_id
+          sxpVpn: Sxp Vpn Name
+          vns: virtualNetwork
+          ipAddressOrHost: ipAddressOrHost
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    bulkrequest:
+      type: object
+      properties:
+        LocalBindingBulkRequest:
+          $ref: '#/components/schemas/LocalBindingBulkRequest'
+    sxplocalbindings:
+      type: object
+      properties:
+        ERSSxpLocalBindings:
+          $ref: '#/components/schemas/ERSSxpLocalBindings_2'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    LocalBindingBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.sxp.sxplocalbindings.1.0+xml
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: ' f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    BulkStatus:
+      type: object
+      properties:
+        bulkId:
+          type: string
+          example: 1615791703003
+        mediaType:
+          type: string
+          example: ''
+        executionStatus:
+          type: string
+          example: COMPLETED
+        operationType:
+          type: string
+          example: create
+        startTime:
+          type: string
+          example: Mon Mar 15 07:01:43 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    ERSSxpLocalBindings_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+        ipAddressOrHost:
+          type: string
+          example: ipAddressOrHost
+        sxpVpn:
+          type: string
+          example: Sxp Vpn Name
+        sgt:
+          type: string
+          example: sgt_id
+        vns:
+          type: string
+          example: virtualNetwork
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+            type:
+              type: string
+              example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sxplocalbindings/versioninfo
+        type:
+          type: string
+          example: application/json
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-sxp-local-bindings.yaml

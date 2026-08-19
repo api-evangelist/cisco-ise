@@ -1,0 +1,181 @@
+openapi: 3.2.0
+info:
+  description: "Telemetry Information API allows clients to get telemetry configuration information.\n\n<h2>Revision History</h2>\n<table font-family:monospace> \n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>\n<tr style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt'><td>0</td><td>1.0</td><td>3.0</td><td>Initial Cisco ISE Version</td><td></td><td></td></tr>\n</table>\n<br><br>\n\n<h2>Resource Definition</h2>\n<table>\n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td>ed7176fb-3faf-4060-845e-d5fa5236bd6e</td></tr>\n<tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>status</td><td>String</td><td>No</td><td></td><td>SCHEnable</td></tr>\n<tr><td style='font-family:monospace'>deploymentId</td><td>String</td><td>No</td><td></td><td>ed7176fb-3faf-4060-845e-d5fa5236bd6e</td></tr>\n<tr valign=top style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td style='font-family:monospace'>udiSN</td><td>String</td><td>No</td><td></td><td>CH2MKIEGBGO</td></tr>\n</table>\n"
+  version: 1.0.0
+  title: Telemetry Information Telemetryinformation API
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: telemetryinformation
+paths:
+  /ers/config/telemetryinfo/{id}:
+    get:
+      tags:
+      - telemetryinformation
+      summary: Get telemetry information by ID
+      description: <p>This API allows the client to get telemetry information by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- telemetry.telemetryinfo.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/telemetryinfo'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/telemetryinfo'
+  /ers/config/telemetryinfo:
+    get:
+      tags:
+      - telemetryinformation
+      summary: Get all telemtry information
+      description: <p>This API allows the client to get all the telemetry information.</p> <p><h1>Filter:</h1> <h3>[deploymentId]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- telemetry.telemetryinfo.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+  /ers/config/telemetryinfo/versioninfo:
+    get:
+      tags:
+      - telemetryinformation
+      summary: Get telemtry information version information
+      description: <p>This API helps to retrieve the version information related to the telemetry information.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+components:
+  schemas:
+    telemetryinfo:
+      type: object
+      properties:
+        TelemetryInfo:
+          $ref: '#/components/schemas/TelemetryInfo'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: ed7176fb-3faf-4060-845e-d5fa5236bd6e
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/telemetryinfo/ed7176fb-3faf-4060-845e-d5fa5236bd6e
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    TelemetryInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ed7176fb-3faf-4060-845e-d5fa5236bd6e
+        status:
+          type: string
+          example: SCHEnable
+        deploymentId:
+          type: string
+          example: Sed7176fb-3faf-4060-845e-d5fa5236bd6e
+        udiSN:
+          type: string
+          example: CH2MKIEGBGO
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/telemetryinfo/ed7176fb-3faf-4060-845e-d5fa5236bd6e
+            type:
+              type: string
+              example: application/json
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/telemetryinfo/versioninfo
+        type:
+          type: string
+          example: application/json

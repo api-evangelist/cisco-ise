@@ -1,0 +1,1959 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Restidstore API
+  version: '1.0'
+  description: 'Operations tagged restidstore across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-rest-id-store.yaml, the provider's source document. Operations and
+      schemas are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-rest-id-store.yaml
+    operation_coverage: 11/21
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: restidstore
+paths:
+  /restidstore/:
+    get:
+      tags:
+      - restidstore
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[name]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[name]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[name]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/restidstoreListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/restidstoreListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - restidstore
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identitystores.restidstore'
+            example:
+              ERSRestIDStore:
+                ersRestIDStoreDeviceAttributes:
+                  attributes:
+                  - name: ''
+                    type: ''
+                name: RestIdStore1
+                description: Object that represents the restID store
+                ersRestIDStoreAttributes:
+                  headers:
+                  - value: tenantID_value
+                    key: tenantID
+                  - value: clientID_value
+                    key: clientID
+                  - value: clientSecret_value
+                    key: clientSecret
+                  usernameSuffix: '@place.com'
+                  rootUrl: rootUrl
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                ersRestIDStoreGroups:
+                  groups:
+                  - group1
+                ersRestIDStoreUserAttributes:
+                  attributes:
+                  - name: AttributeName1
+                    type: String
+                ersRestIDStoreAdvanceSettings:
+                  sanAttribute: EMAIL
+                  regex: ^(.+)@(\S+)$
+                  subjectNameFormat: ''
+                  sanAttributeValue: username@domain.com
+                  deviceQuerySetting: ENTRA_DEVICE_NAME
+                  sshKeysAttributeName: sshPublicKeys
+                  identifyDeviceCertificate: SAN
+                  regexType: CUSTOM
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /restidstore/name/{name}:
+    get:
+      tags:
+      - restidstore
+      summary: Get-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/restidstoreResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/restidstoreResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - restidstore
+      summary: Update-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identitystores.restidstore'
+            example:
+              ERSRestIDStore:
+                ersRestIDStoreDeviceAttributes:
+                  attributes:
+                  - name: ''
+                    type: ''
+                name: RestIdStore1
+                description: Object that represents the restID store
+                ersRestIDStoreAttributes:
+                  headers:
+                  - value: tenantID_value
+                    key: tenantID
+                  - value: clientID_value
+                    key: clientID
+                  - value: clientSecret_value
+                    key: clientSecret
+                  usernameSuffix: '@place.com'
+                  rootUrl: rootUrl
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                ersRestIDStoreGroups:
+                  groups:
+                  - group1
+                ersRestIDStoreUserAttributes:
+                  attributes:
+                  - name: AttributeName1
+                    type: String
+                ersRestIDStoreAdvanceSettings:
+                  sanAttribute: EMAIL
+                  regex: ^(.+)@(\S+)$
+                  subjectNameFormat: ''
+                  sanAttributeValue: username@domain.com
+                  deviceQuerySetting: ENTRA_DEVICE_NAME
+                  sshKeysAttributeName: sshPublicKeys
+                  identifyDeviceCertificate: SAN
+                  regexType: CUSTOM
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - restidstore
+      summary: Delete-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    patch:
+      tags:
+      - restidstore
+      summary: Patch-By-Name
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identitystores.restidstore'
+            example:
+              ERSRestIDStore:
+                ersRestIDStoreDeviceAttributes:
+                  attributes:
+                  - name: ''
+                    type: ''
+                name: RestIdStore1
+                description: Object that represents the restID store
+                ersRestIDStoreAttributes:
+                  headers:
+                  - value: tenantID_value
+                    key: tenantID
+                  - value: clientID_value
+                    key: clientID
+                  - value: clientSecret_value
+                    key: clientSecret
+                  usernameSuffix: '@place.com'
+                  rootUrl: rootUrl
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                ersRestIDStoreGroups:
+                  groups:
+                  - group1
+                ersRestIDStoreUserAttributes:
+                  attributes:
+                  - name: AttributeName1
+                    type: String
+                ersRestIDStoreAdvanceSettings:
+                  sanAttribute: EMAIL
+                  regex: ^(.+)@(\S+)$
+                  subjectNameFormat: ''
+                  sanAttributeValue: username@domain.com
+                  deviceQuerySetting: ENTRA_DEVICE_NAME
+                  sshKeysAttributeName: sshPublicKeys
+                  identifyDeviceCertificate: SAN
+                  regexType: CUSTOM
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/restidstoreResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /restidstore/{id}:
+    get:
+      tags:
+      - restidstore
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/restidstoreResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/restidstoreResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - restidstore
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identitystores.restidstore'
+            example:
+              ERSRestIDStore:
+                ersRestIDStoreDeviceAttributes:
+                  attributes:
+                  - name: ''
+                    type: ''
+                name: RestIdStore1
+                description: Object that represents the restID store
+                ersRestIDStoreAttributes:
+                  headers:
+                  - value: tenantID_value
+                    key: tenantID
+                  - value: clientID_value
+                    key: clientID
+                  - value: clientSecret_value
+                    key: clientSecret
+                  usernameSuffix: '@place.com'
+                  rootUrl: rootUrl
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                ersRestIDStoreGroups:
+                  groups:
+                  - group1
+                ersRestIDStoreUserAttributes:
+                  attributes:
+                  - name: AttributeName1
+                    type: String
+                ersRestIDStoreAdvanceSettings:
+                  sanAttribute: EMAIL
+                  regex: ^(.+)@(\S+)$
+                  subjectNameFormat: ''
+                  sanAttributeValue: username@domain.com
+                  deviceQuerySetting: ENTRA_DEVICE_NAME
+                  sshKeysAttributeName: sshPublicKeys
+                  identifyDeviceCertificate: SAN
+                  regexType: CUSTOM
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - restidstore
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    patch:
+      tags:
+      - restidstore
+      summary: Patch
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identitystores.restidstore'
+            example:
+              ERSRestIDStore:
+                ersRestIDStoreDeviceAttributes:
+                  attributes:
+                  - name: ''
+                    type: ''
+                name: RestIdStore1
+                description: Object that represents the restID store
+                ersRestIDStoreAttributes:
+                  headers:
+                  - value: tenantID_value
+                    key: tenantID
+                  - value: clientID_value
+                    key: clientID
+                  - value: clientSecret_value
+                    key: clientSecret
+                  usernameSuffix: '@place.com'
+                  rootUrl: rootUrl
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                ersRestIDStoreGroups:
+                  groups:
+                  - group1
+                ersRestIDStoreUserAttributes:
+                  attributes:
+                  - name: AttributeName1
+                    type: String
+                ersRestIDStoreAdvanceSettings:
+                  sanAttribute: EMAIL
+                  regex: ^(.+)@(\S+)$
+                  subjectNameFormat: ''
+                  sanAttributeValue: username@domain.com
+                  deviceQuerySetting: ENTRA_DEVICE_NAME
+                  sshKeysAttributeName: sshPublicKeys
+                  identifyDeviceCertificate: SAN
+                  regexType: CUSTOM
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/restidstoreResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/restidstore/name/{name}:
+    get:
+      tags:
+      - restidstore
+      summary: Get REST ID store by name
+      description: <p>This API allows the client to get a REST ID store by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/rest'
+    patch:
+      tags:
+      - restidstore
+      summary: Update part of the REST ID Store by name
+      description: <p>Update any attribute subset of the REST ID Store. Only the attributes sent are affected.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/rest'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+    put:
+      tags:
+      - restidstore
+      summary: Update REST ID store by name
+      description: <p>This API allows the client to update a REST ID store by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/rest'
+    delete:
+      tags:
+      - restidstore
+      summary: Delete REST ID store by name
+      description: <p>This API deletes a REST ID store by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/restidstore/{id}:
+    get:
+      tags:
+      - restidstore
+      summary: Get REST ID store by ID
+      description: <p>This API allows the client to get a REST ID store by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/rest'
+    patch:
+      tags:
+      - restidstore
+      summary: Update part of the REST ID Store by ID
+      description: <p>Update any attribute subset of the REST ID Store. Only the attributes sent are affected.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/rest'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+    put:
+      tags:
+      - restidstore
+      summary: Update REST ID store
+      description: <p>This API allows the client to update a REST ID store.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Update' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/rest'
+    delete:
+      tags:
+      - restidstore
+      summary: Delete REST ID store
+      description: <p>This API deletes a REST ID store.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/restidstore:
+    get:
+      tags:
+      - restidstore
+      summary: Get all REST ID stores
+      description: <p>This API allows the client to get all the REST ID stores.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name]</h3></p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+    post:
+      tags:
+      - restidstore
+      summary: Create REST ID store
+      description: <p>This API creates a REST ID store.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.restidstore.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/rest'
+  /ers/config/restidstore/versioninfo:
+    get:
+      tags:
+      - restidstore
+      summary: Get REST ID store version information
+      description: <p>This API helps to retrieve the version information related to the REST ID store.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    restidstoreResponse:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/restidstoreResponseEntity'
+      example:
+        ERSRestIDStore:
+          ersRestIDStoreDeviceAttributes:
+            attributes:
+            - name: ''
+              type: ''
+          name: RestIdStore1
+          description: Object that represents the restID store
+          ersRestIDStoreAttributes:
+            headers:
+            - value: tenantID_value
+              key: tenantID
+            - value: clientID_value
+              key: clientID
+            - value: clientSecret_value
+              key: clientSecret
+            usernameSuffix: '@place.com'
+            rootUrl: rootUrl
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          ersRestIDStoreGroups:
+            groups:
+            - group1
+          ersRestIDStoreUserAttributes:
+            attributes:
+            - name: AttributeName1
+              type: String
+          ersRestIDStoreAdvanceSettings:
+            sanAttribute: EMAIL
+            regex: ^(.+)@(\S+)$
+            subjectNameFormat: ''
+            sanAttributeValue: username@domain.com
+            deviceQuerySetting: ENTRA_DEVICE_NAME
+            sshKeysAttributeName: sshPublicKeys
+            identifyDeviceCertificate: SAN
+            regexType: CUSTOM
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    restidstoreResponseEntity:
+      properties:
+        ersRestIDStoreAttributes:
+          properties:
+            usernameSuffix:
+              title: usernameSuffix
+              type: string
+              description: Suffix of the username domain.
+              example: null
+            rootUrl:
+              title: rootUrl
+              type: string
+              description: url of the root of the RestIDStore. Can't Update this field
+              example: null
+            predefined:
+              title: predefined
+              type: object
+              description: The cloud provider connected to of the RestIDStore. Only Microsoft Entra ID is supported.
+              example: null
+            headers:
+              title: headers
+              type: array
+              description: headers for the RestIDStore.
+              example: null
+              items:
+                properties:
+                  key:
+                    title: key
+                    type: string
+                    description: key of the header.
+                    example: null
+                  value:
+                    title: value
+                    type: string
+                    description: value of the header
+                    example: null
+                example: null
+          example: null
+        ersRestIDStoreGroups:
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name of group
+              example: null
+          example: null
+        ersRestIDStoreUserAttributes:
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name and Type of attribute
+              example: null
+          example: null
+        ersRestIDStoreDeviceAttributes:
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name and Type of attribute
+              example: null
+          example: null
+        ersRestIDStoreAdvanceSettings:
+          properties:
+            deviceQuerySetting:
+              title: deviceQuerySetting
+              type: object
+              description: deviceQuerySetting values must be one of NONE,ENTRA_DEVICE_NAME,ENTRA_DEVICE_ID
+              example: null
+            identifyDeviceCertificate:
+              title: identifyDeviceCertificate
+              type: object
+              description: identifyDeviceCertificate values must be one of NONE,SNF,SAN
+              example: null
+            subjectNameFormat:
+              title: subjectNameFormat
+              type: string
+              description: subjectNameFormat values must be empty
+              example: null
+            sanAttribute:
+              title: sanAttribute
+              type: object
+              description: sanAttribute values must be one of  NONE,URI,EMAIL,DNS
+              example: null
+            sanAttributeValue:
+              title: sanAttributeValue
+              type: string
+              description: sanAttributeValue values must be empty
+              example: null
+            regexType:
+              title: regexType
+              type: object
+              description: regexType values must be one of NONE,PREDEFINED,CUSTOM
+              example: null
+            regex:
+              title: regex
+              type: string
+              description: regex values must be pattren
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    restidstoreListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/restidstoreListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    ERSRestIDStore:
+      required:
+      - name
+      properties:
+        ersRestIDStoreAttributes:
+          required:
+          - rootUrl
+          properties:
+            usernameSuffix:
+              title: usernameSuffix
+              type: string
+              description: Suffix of the username domain.
+              example: null
+            rootUrl:
+              title: rootUrl
+              type: string
+              description: url of the root of the RestIDStore. Can't Update this field
+              example: null
+            predefined:
+              title: predefined
+              type: object
+              description: The cloud provider connected to of the RestIDStore. Only Microsoft Entra ID is supported.
+              example: null
+            headers:
+              title: headers
+              type: array
+              description: headers for the RestIDStore.
+              example: null
+              items:
+                properties:
+                  key:
+                    title: key
+                    type: string
+                    description: key of the header.
+                    example: null
+                  value:
+                    title: value
+                    type: string
+                    description: value of the header
+                    example: null
+                example: null
+          example: null
+        ersRestIDStoreGroups:
+          required:
+          - name
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name of group
+              example: null
+          example: null
+        ersRestIDStoreUserAttributes:
+          required:
+          - name
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name and Type of attribute
+              example: null
+          example: null
+        ersRestIDStoreDeviceAttributes:
+          required:
+          - name
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name and Type of attribute
+              example: null
+          example: null
+        ersRestIDStoreAdvanceSettings:
+          properties:
+            deviceQuerySetting:
+              title: deviceQuerySetting
+              type: object
+              description: deviceQuerySetting values must be one of NONE,ENTRA_DEVICE_NAME,ENTRA_DEVICE_ID
+              example: null
+            identifyDeviceCertificate:
+              title: identifyDeviceCertificate
+              type: object
+              description: identifyDeviceCertificate values must be one of NONE,SNF,SAN
+              example: null
+            subjectNameFormat:
+              title: subjectNameFormat
+              type: string
+              description: subjectNameFormat values must be empty
+              example: null
+            sanAttribute:
+              title: sanAttribute
+              type: object
+              description: sanAttribute values must be one of  NONE,URI,EMAIL,DNS
+              example: null
+            sanAttributeValue:
+              title: sanAttributeValue
+              type: string
+              description: sanAttributeValue values must be empty
+              example: null
+            regexType:
+              title: regexType
+              type: object
+              description: regexType values must be one of NONE,PREDEFINED,CUSTOM
+              example: null
+            regex:
+              title: regex
+              type: string
+              description: regex values must be pattren
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        ERSRestIDStore:
+          ersRestIDStoreDeviceAttributes:
+            attributes:
+            - name: ''
+              type: ''
+          name: RestIdStore1
+          description: Object that represents the restID store
+          ersRestIDStoreAttributes:
+            headers:
+            - value: tenantID_value
+              key: tenantID
+            - value: clientID_value
+              key: clientID
+            - value: clientSecret_value
+              key: clientSecret
+            usernameSuffix: '@place.com'
+            rootUrl: rootUrl
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          ersRestIDStoreGroups:
+            groups:
+            - group1
+          ersRestIDStoreUserAttributes:
+            attributes:
+            - name: AttributeName1
+              type: String
+          ersRestIDStoreAdvanceSettings:
+            sanAttribute: EMAIL
+            regex: ^(.+)@(\S+)$
+            subjectNameFormat: ''
+            sanAttributeValue: username@domain.com
+            deviceQuerySetting: ENTRA_DEVICE_NAME
+            sshKeysAttributeName: sshPublicKeys
+            identifyDeviceCertificate: SAN
+            regexType: CUSTOM
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    identitystores.restidstore:
+      required:
+      - ERSRestIDStore
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/ERSRestIDStore'
+      example: null
+    restidstoreListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    patchRequest:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/patchRequestBody'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 79aac430-7cc8-11eb-ad58-005056926583
+            name: ISE_EST_Local_Host
+            description: example nd
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    rest:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/ERSRestIDStore_2'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    ERSRestIDStore_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: b1155994-b736-46af-9add-04bed3058e3a
+        name:
+          type: string
+          example: RestIdStore1
+        description:
+          type: string
+          example: Object that represents the restID store
+        enableRestIdStore:
+          type: boolean
+          example: false
+        ersRestIDStoreAttributes:
+          type: object
+          properties:
+            usernameSuffix:
+              type: string
+              example: '@place.com'
+            rootUrl:
+              type: string
+              example: rootUrl
+            predefined:
+              type: string
+              example: Azure
+            headers:
+              type: array
+              example:
+              - key: tenantID
+                value: tenantID_value
+              - key: clientID
+                value: clientID_value
+              - key: clientSecret
+                value: clientSecret_value
+              items:
+                properties:
+                  name:
+                    type: string
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
+        type:
+          type: string
+          example: application/json
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-rest-id-store.yaml

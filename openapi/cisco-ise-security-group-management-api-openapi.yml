@@ -1,0 +1,95 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Security Group Management API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Security Group Management
+paths:
+  /api/v1/trustsec/security-group:
+    get:
+      tags:
+      - Security Group Management
+      summary: Get Security Groups
+      description: Get Security Groups
+      operationId: getSecurityGroups
+      parameters:
+      - name: sortBy
+        in: query
+        description: sort column by which objects needs to be sorted
+        required: false
+        style: form
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: List of Security Groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroupResult'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    SecurityGroupResult:
+      title: SecurityGroupResult
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SecurityGroup'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Security Group Result
+      exampleSetFlag: false
+    SecurityGroup:
+      title: SecurityGroup
+      type: object
+      properties:
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: Employees
+          exampleSetFlag: true
+        tag:
+          type: integer
+          format: int32
+          readOnly: true
+          example: 4
+          exampleSetFlag: true
+      description: Security Group
+      exampleSetFlag: false

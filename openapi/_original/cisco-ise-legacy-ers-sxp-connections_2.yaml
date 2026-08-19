@@ -1,0 +1,463 @@
+swagger: '2.0'
+info:
+  description: "SXP Connections API allows clients to add, get, update and delete the Security Group Tag (SGT) Exchange Protocol\
+    \ (SXP) connections.\n\n<h2>Revision History</h2>\n<table font-family:monospace> \n<tr valign=top style='border:solid\
+    \ #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco\
+    \ ISE Version</b></td><td><b>Description</b></td><td colspan =\"2\"><b>Revision Modification</b></td></tr>\n<tr valign=top\
+    \ style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td></td><td></td><td></td><td></b></td><td><b>Attribute</b></td><td><b>Description</b></td></tr>\n\
+    <tr><td>0</td><td>1.0</td><td>2.0</td><td>Initial Cisco ISE Version</td><td></td><td></td></tr>\n<tr valign=top style='border-bottom:solid\
+    \ #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td>1</td><td>1.1</td><td >3.0</td><td rowspan\
+    \ =\"4\">Cisco ISE 3.0 model changes</td><td>sxpVpn</td><td>Attribute can include some VPNs separated by comma</td></tr>\
+    \            \n</table>\n<br><br>\n\n<h2>Resource Definition</h2>\n<table>\n<tr valign=top style='border:solid #CCCCCC\
+    \ 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example\
+    \ Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td></tr>\n\
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource\
+    \ UUID value</td><td>f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69</td></tr>\n<tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource\
+    \ Description</td><td>Brief description about network peer</td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>sxpPeer</td><td>String</td><td>Yes</td><td></td><td>Sxp\
+    \ Peer Name</td></tr>\n<tr><td style='font-family:monospace'>sxpVpn</td><td>String</td><td>Yes</td><td></td><td>Sxp VPN\
+    \ Name</td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>sxpNode</td><td>String</td><td>Yes</td><td></td><td>Sxp\
+    \ Node Name</td></tr>\n<tr><td style='font-family:monospace'>ipAddress</td><td>String</td><td>Yes</td><td></td><td>Sxp\
+    \ Peer IP address</td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>sxpMode</td><td>String</td><td>Yes</td><td></td><td>Sxp\
+    \ Mode</td></tr>\n<tr><td style='font-family:monospace'>sxpVersion</td><td>String</td><td>Yes</td><td></td><td>Sxp Version</td></tr>\n\
+    <tr valign=top style='background:#f8f8f8;border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>enabled</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>\n\
+    </table>\n"
+  version: 1.0.0
+  title: SXP Connections
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: sxpconnections
+paths:
+  /ers/config/sxpconnections/{id}:
+    get:
+      tags:
+      - sxpconnections
+      summary: Get SXP connection by ID
+      description: <p>This API allows the client to get a SXP connection by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxpconnections.1.1
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/sxpconnections'
+    put:
+      tags:
+      - sxpconnections
+      summary: Update SXP connection
+      description: <p>This API allows the client to update a SXP connection.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxpconnections.1.1
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Update' can be used within Bulk Request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/sxpconnections'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'
+    delete:
+      tags:
+      - sxpconnections
+      summary: Delete SXP connection
+      description: <p>This API deletes a SXP connection.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxpconnections.1.1
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Delete' can be used within Bulk Request
+      responses:
+        204:
+          description: No Content
+  /ers/config/sxpconnections:
+    get:
+      tags:
+      - sxpconnections
+      summary: Get all SXP connections
+      description: <p>This API allows the client to get all the SXP connections.</p> <p><h1>Filter:</h1> <h3>[name, description]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
+        description]</h3></p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxpconnections.1.1
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'
+    post:
+      tags:
+      - sxpconnections
+      summary: Create SXP connection
+      description: <p>This API creates a SXP connection.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- sxp.sxpconnections.1.1
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Create' can be used within Bulk Request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/sxpconnections'
+      responses:
+        201:
+          description: Created
+  /ers/config/sxpconnections/versioninfo:
+    get:
+      tags:
+      - sxpconnections
+      summary: Get SXP connections version information
+      description: <p>This API helps to retrieve the version information related to the SXP connections.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+  /ers/config/sxpconnections/submit:
+    put:
+      tags:
+      - sxpconnections
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/bulkrequest'
+      responses:
+        202:
+          description: Accepted
+  /ers/config/sxpconnections/bulk/{bulkid}:
+    get:
+      tags:
+      - sxpconnections
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: bulkid
+        in: path
+        type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/bulkstatus'
+definitions:
+  sxpconnections:
+    type: object
+    properties:
+      ERSSxpConnection:
+        $ref: '#/definitions/ERSSxpConnection'
+  ERSSxpConnection:
+    type: object
+    properties:
+      id:
+        type: string
+        example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+      description:
+        type: string
+        example: Brief description about network peer
+      sxpPeer:
+        type: string
+        example: Sxp Peer Name
+      sxpVpn:
+        type: string
+        example: Sxp VPN Name
+      sxpNode:
+        type: string
+        example: Sxp Node Name
+      ipAddress:
+        type: string
+        example: Sxp Peer IP address
+      sxpMode:
+        type: string
+        example: Sxp Mode
+      sxpVersion:
+        type: string
+        example: Sxp Version
+      enabled:
+        type: boolean
+        example: true
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/sxpconnections/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+          type:
+            type: string
+            example: application/json
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+        $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+  SearchResult:
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example:
+        - id: '  f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/ers/config/sxpconnections/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+            type: application/json
+        items:
+          properties:
+            name:
+              type: string
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '1.1'
+      supportedVersions:
+        type: string
+        example: 1.0,1.1
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/sxpconnections/versioninfo
+      type:
+        type: string
+        example: application/json
+  bulkrequest:
+    type: object
+    properties:
+      ConnectionBulkRequest:
+        $ref: '#/definitions/ConnectionBulkRequest'
+  ConnectionBulkRequest:
+    type: object
+    properties:
+      operationType:
+        type: string
+        example: create
+      resourceMediaType:
+        type: string
+        example: vnd.com.cisco.ise.sxp.sxpconnections.1.0+xml
+  bulkstatus:
+    type: object
+    properties:
+      BulkStatus:
+        $ref: '#/definitions/BulkStatus'
+  BulkStatus:
+    type: object
+    properties:
+      bulkId:
+        type: string
+        example: 1615791703003
+      mediaType:
+        type: string
+        example: ''
+      executionStatus:
+        type: string
+        example: COMPLETED
+      operationType:
+        type: string
+        example: create
+      startTime:
+        type: string
+        example: Mon Mar 15 07:01:43 UTC 2021
+      resourcesCount:
+        type: integer
+        example: 5
+      successCount:
+        type: integer
+        example: 5
+      failCount:
+        type: integer
+        example: 0
+      resourcesStatus:
+        type: array
+        example:
+        - id: '1234454324'
+          name: resource1
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '2343242342'
+          name: resource2
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '4564566456'
+          name: resource3
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '6544566455'
+          name: resource4
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        items:
+          properties:
+            name:
+              type: string

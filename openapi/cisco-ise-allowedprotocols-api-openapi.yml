@@ -1,0 +1,1924 @@
+openapi: 3.2.0
+info:
+  title: ISE ERS Allowedprotocols API
+  version: 3.1.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+security:
+- HTTPBasicAuthentication: []
+tags:
+- name: allowedprotocols
+paths:
+  /allowedprotocols/:
+    get:
+      tags:
+      - allowedprotocols
+      summary: Get-All
+      parameters:
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allowedprotocolsListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/allowedprotocolsListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    post:
+      tags:
+      - allowedprotocols
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policy.allowedprotocols'
+            example:
+              AllowedProtocols:
+                allowEapMd5: true
+                allowMsChapV2: false
+                allowMsChapV1: false
+                allowEapTls: true
+                description: example allowed protocols
+                requireMessageAuth: false
+                displayAdditionalTLSParams: false
+                peap:
+                  allowPeapEapMsChapV2: true
+                  requireCryptobinding: false
+                  allowPeapEapMsChapV2PwdChange: false
+                  allowPeapEapGtc: false
+                  allowPeapEapMsChapV2PwdChangeRetries: 1
+                  allowPeapEapTlsAuthOfExpiredCerts: false
+                  allowPeapV0: false
+                  allowPeapEapTls: true
+                eapTlsLBit: false
+                eapTtls:
+                  eapTtlsEapMsChapV2PwdChange: false
+                  eapTtlsMsChapV2: true
+                  eapTtlsMsChapV1: true
+                  eapTtlsEapMsChapV2: true
+                  eapTtlsPapAscii: true
+                  eapTtlsEapMd5: true
+                  eapTtlsEapMsChapV2PwdChangeRetries: 1
+                  eapTtlsChap: true
+                teap:
+                  allowTeapEapTlsAuthOfExpiredCerts: false
+                  allowTeapEapMsChapV2PwdChange: false
+                  enableEapChaining: false
+                  acceptClientCertDuringTunnelEst: true
+                  allowTeapEapMsChapV2: true
+                  allowDowngradeMsk: true
+                  allowTeapEapMsChapV2PwdChangeRetries: 3
+                  allowTeapEapTls: true
+                preferredEapProtocol: PEAP
+                allowWeakCiphersForEap: false
+                allowChap: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                fiveG: false
+                eapTls:
+                  eapTlsEnableStatelessSessionResume: false
+                  allowEapTlsAuthOfExpiredCerts: false
+                allowPreferredEapProtocol: true
+                allowTeap: true
+                processHostLookup: true
+                allowPapAscii: true
+                allowPeap: true
+                eapFast:
+                  allowEapFastEapMsChapV2PwdChangeRetries: 1
+                  allowEapFastEapTlsAuthOfExpiredCerts: false
+                  allowEapFastEapGtc: true
+                  allowEapFastEapGtcPwdChangeRetries: 1
+                  allowEapFastEapTls: true
+                  eapFastUsePacsUseProactivePacUpdatePrecentage: 10
+                  eapFastUsePacsStatelessSessionResume: false
+                  allowEapFastEapMsChapV2: true
+                  eapFastUsePacsAllowMachineAuthentication: false
+                  eapFastUsePacsTunnelPacTtlUnits: SECONDS
+                  allowEapFastEapMsChapV2PwdChange: false
+                  eapFastUsePacsAllowAnonymProvisioning: false
+                  eapFastEnableEAPChaining: false
+                  eapFastUsePacsTunnelPacTtl: 7776000
+                  eapFastUsePacsAllowAuthenProvisioning: false
+                  eapFastUsePacs: true
+                  allowEapFastEapGtcPwdChange: false
+                allowEapTtls: true
+                name: allowedprotocols1
+                allowLeap: false
+                allowEapFast: true
+                rsaPss: false
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+  /allowedprotocols/name/{name}:
+    get:
+      tags:
+      - allowedprotocols
+      summary: Get-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allowedprotocolsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/allowedprotocolsResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+  /allowedprotocols/{id}:
+    get:
+      tags:
+      - allowedprotocols
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allowedprotocolsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/allowedprotocolsResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    put:
+      tags:
+      - allowedprotocols
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policy.allowedprotocols'
+            example:
+              AllowedProtocols:
+                allowEapMd5: true
+                allowMsChapV2: false
+                allowMsChapV1: false
+                allowEapTls: true
+                description: example allowed protocols
+                requireMessageAuth: false
+                displayAdditionalTLSParams: false
+                peap:
+                  allowPeapEapMsChapV2: true
+                  requireCryptobinding: false
+                  allowPeapEapMsChapV2PwdChange: false
+                  allowPeapEapGtc: false
+                  allowPeapEapMsChapV2PwdChangeRetries: 1
+                  allowPeapEapTlsAuthOfExpiredCerts: false
+                  allowPeapV0: false
+                  allowPeapEapTls: true
+                eapTlsLBit: false
+                eapTtls:
+                  eapTtlsEapMsChapV2PwdChange: false
+                  eapTtlsMsChapV2: true
+                  eapTtlsMsChapV1: true
+                  eapTtlsEapMsChapV2: true
+                  eapTtlsPapAscii: true
+                  eapTtlsEapMd5: true
+                  eapTtlsEapMsChapV2PwdChangeRetries: 1
+                  eapTtlsChap: true
+                teap:
+                  allowTeapEapTlsAuthOfExpiredCerts: false
+                  allowTeapEapMsChapV2PwdChange: false
+                  enableEapChaining: false
+                  acceptClientCertDuringTunnelEst: true
+                  allowTeapEapMsChapV2: true
+                  allowDowngradeMsk: true
+                  allowTeapEapMsChapV2PwdChangeRetries: 3
+                  allowTeapEapTls: true
+                preferredEapProtocol: PEAP
+                allowWeakCiphersForEap: false
+                allowChap: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                fiveG: false
+                eapTls:
+                  eapTlsEnableStatelessSessionResume: false
+                  allowEapTlsAuthOfExpiredCerts: false
+                allowPreferredEapProtocol: true
+                allowTeap: true
+                processHostLookup: true
+                allowPapAscii: true
+                allowPeap: true
+                eapFast:
+                  allowEapFastEapMsChapV2PwdChangeRetries: 1
+                  allowEapFastEapTlsAuthOfExpiredCerts: false
+                  allowEapFastEapGtc: true
+                  allowEapFastEapGtcPwdChangeRetries: 1
+                  allowEapFastEapTls: true
+                  eapFastUsePacsUseProactivePacUpdatePrecentage: 10
+                  eapFastUsePacsStatelessSessionResume: false
+                  allowEapFastEapMsChapV2: true
+                  eapFastUsePacsAllowMachineAuthentication: false
+                  eapFastUsePacsTunnelPacTtlUnits: SECONDS
+                  allowEapFastEapMsChapV2PwdChange: false
+                  eapFastUsePacsAllowAnonymProvisioning: false
+                  eapFastEnableEAPChaining: false
+                  eapFastUsePacsTunnelPacTtl: 7776000
+                  eapFastUsePacsAllowAuthenProvisioning: false
+                  eapFastUsePacs: true
+                  allowEapFastEapGtcPwdChange: false
+                allowEapTtls: true
+                name: allowedprotocols1
+                allowLeap: false
+                allowEapFast: true
+                rsaPss: false
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+    delete:
+      tags:
+      - allowedprotocols
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    patch:
+      tags:
+      - allowedprotocols
+      summary: Patch
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policy.allowedprotocols'
+            example:
+              AllowedProtocols:
+                allowEapMd5: true
+                allowMsChapV2: false
+                allowMsChapV1: false
+                allowEapTls: true
+                description: example allowed protocols
+                requireMessageAuth: false
+                displayAdditionalTLSParams: false
+                peap:
+                  allowPeapEapMsChapV2: true
+                  requireCryptobinding: false
+                  allowPeapEapMsChapV2PwdChange: false
+                  allowPeapEapGtc: false
+                  allowPeapEapMsChapV2PwdChangeRetries: 1
+                  allowPeapEapTlsAuthOfExpiredCerts: false
+                  allowPeapV0: false
+                  allowPeapEapTls: true
+                eapTlsLBit: false
+                eapTtls:
+                  eapTtlsEapMsChapV2PwdChange: false
+                  eapTtlsMsChapV2: true
+                  eapTtlsMsChapV1: true
+                  eapTtlsEapMsChapV2: true
+                  eapTtlsPapAscii: true
+                  eapTtlsEapMd5: true
+                  eapTtlsEapMsChapV2PwdChangeRetries: 1
+                  eapTtlsChap: true
+                teap:
+                  allowTeapEapTlsAuthOfExpiredCerts: false
+                  allowTeapEapMsChapV2PwdChange: false
+                  enableEapChaining: false
+                  acceptClientCertDuringTunnelEst: true
+                  allowTeapEapMsChapV2: true
+                  allowDowngradeMsk: true
+                  allowTeapEapMsChapV2PwdChangeRetries: 3
+                  allowTeapEapTls: true
+                preferredEapProtocol: PEAP
+                allowWeakCiphersForEap: false
+                allowChap: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                fiveG: false
+                eapTls:
+                  eapTlsEnableStatelessSessionResume: false
+                  allowEapTlsAuthOfExpiredCerts: false
+                allowPreferredEapProtocol: true
+                allowTeap: true
+                processHostLookup: true
+                allowPapAscii: true
+                allowPeap: true
+                eapFast:
+                  allowEapFastEapMsChapV2PwdChangeRetries: 1
+                  allowEapFastEapTlsAuthOfExpiredCerts: false
+                  allowEapFastEapGtc: true
+                  allowEapFastEapGtcPwdChangeRetries: 1
+                  allowEapFastEapTls: true
+                  eapFastUsePacsUseProactivePacUpdatePrecentage: 10
+                  eapFastUsePacsStatelessSessionResume: false
+                  allowEapFastEapMsChapV2: true
+                  eapFastUsePacsAllowMachineAuthentication: false
+                  eapFastUsePacsTunnelPacTtlUnits: SECONDS
+                  allowEapFastEapMsChapV2PwdChange: false
+                  eapFastUsePacsAllowAnonymProvisioning: false
+                  eapFastEnableEAPChaining: false
+                  eapFastUsePacsTunnelPacTtl: 7776000
+                  eapFastUsePacsAllowAuthenProvisioning: false
+                  eapFastUsePacs: true
+                  allowEapFastEapGtcPwdChange: false
+                allowEapTtls: true
+                name: allowedprotocols1
+                allowLeap: false
+                allowEapFast: true
+                rsaPss: false
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allowedprotocolsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    allowedprotocolsResponse:
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/allowedprotocolsResponseEntity'
+      example:
+        AllowedProtocols:
+          allowEapMd5: true
+          allowMsChapV2: false
+          allowMsChapV1: false
+          allowEapTls: true
+          description: example allowed protocols
+          requireMessageAuth: false
+          displayAdditionalTLSParams: false
+          peap:
+            allowPeapEapMsChapV2: true
+            requireCryptobinding: false
+            allowPeapEapMsChapV2PwdChange: false
+            allowPeapEapGtc: false
+            allowPeapEapMsChapV2PwdChangeRetries: 1
+            allowPeapEapTlsAuthOfExpiredCerts: false
+            allowPeapV0: false
+            allowPeapEapTls: true
+          eapTlsLBit: false
+          eapTtls:
+            eapTtlsEapMsChapV2PwdChange: false
+            eapTtlsMsChapV2: true
+            eapTtlsMsChapV1: true
+            eapTtlsEapMsChapV2: true
+            eapTtlsPapAscii: true
+            eapTtlsEapMd5: true
+            eapTtlsEapMsChapV2PwdChangeRetries: 1
+            eapTtlsChap: true
+          teap:
+            allowTeapEapTlsAuthOfExpiredCerts: false
+            allowTeapEapMsChapV2PwdChange: false
+            enableEapChaining: false
+            acceptClientCertDuringTunnelEst: true
+            allowTeapEapMsChapV2: true
+            allowDowngradeMsk: true
+            allowTeapEapMsChapV2PwdChangeRetries: 3
+            allowTeapEapTls: true
+          preferredEapProtocol: PEAP
+          allowWeakCiphersForEap: false
+          allowChap: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          fiveG: false
+          eapTls:
+            eapTlsEnableStatelessSessionResume: false
+            allowEapTlsAuthOfExpiredCerts: false
+          allowPreferredEapProtocol: true
+          allowTeap: true
+          processHostLookup: true
+          allowPapAscii: true
+          allowPeap: true
+          eapFast:
+            allowEapFastEapMsChapV2PwdChangeRetries: 1
+            allowEapFastEapTlsAuthOfExpiredCerts: false
+            allowEapFastEapGtc: true
+            allowEapFastEapGtcPwdChangeRetries: 1
+            allowEapFastEapTls: true
+            eapFastUsePacsUseProactivePacUpdatePrecentage: 10
+            eapFastUsePacsStatelessSessionResume: false
+            allowEapFastEapMsChapV2: true
+            eapFastUsePacsAllowMachineAuthentication: false
+            eapFastUsePacsTunnelPacTtlUnits: SECONDS
+            allowEapFastEapMsChapV2PwdChange: false
+            eapFastUsePacsAllowAnonymProvisioning: false
+            eapFastEnableEAPChaining: false
+            eapFastUsePacsTunnelPacTtl: 7776000
+            eapFastUsePacsAllowAuthenProvisioning: false
+            eapFastUsePacs: true
+            allowEapFastEapGtcPwdChange: false
+          allowEapTtls: true
+          name: allowedprotocols1
+          allowLeap: false
+          allowEapFast: true
+          rsaPss: false
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    policy.allowedprotocols:
+      required:
+      - AllowedProtocols
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/AllowedProtocols'
+      example: null
+    allowedprotocolsResponseEntity:
+      properties:
+        processHostLookup:
+          title: processHostLookup
+          type: boolean
+          description: ''
+          example: null
+        allowPapAscii:
+          title: allowPapAscii
+          type: boolean
+          description: ''
+          example: null
+        allowChap:
+          title: allowChap
+          type: boolean
+          description: ''
+          example: null
+        allowMsChapV1:
+          title: allowMsChapV1
+          type: boolean
+          description: ''
+          example: null
+        allowMsChapV2:
+          title: allowMsChapV2
+          type: boolean
+          description: ''
+          example: null
+        allowEapMd5:
+          title: allowEapMd5
+          type: boolean
+          description: ''
+          example: null
+        allowLeap:
+          title: allowLeap
+          type: boolean
+          description: ''
+          example: null
+        allowEapTls:
+          title: allowEapTls
+          type: boolean
+          description: ''
+          example: null
+        allowEapTtls:
+          title: allowEapTtls
+          type: boolean
+          description: ''
+          example: null
+        allowEapFast:
+          title: allowEapFast
+          type: boolean
+          description: ''
+          example: null
+        allowPeap:
+          title: allowPeap
+          type: boolean
+          description: ''
+          example: null
+        allowTeap:
+          title: allowTeap
+          type: boolean
+          description: ''
+          example: null
+        allowPreferredEapProtocol:
+          title: allowPreferredEapProtocol
+          type: boolean
+          description: ''
+          example: null
+        eapTlsLBit:
+          title: eapTlsLBit
+          type: boolean
+          description: ''
+          example: null
+        allowWeakCiphersForEap:
+          title: allowWeakCiphersForEap
+          type: boolean
+          description: ''
+          example: null
+        fiveG:
+          title: fiveG
+          type: boolean
+          description: ''
+          example: null
+        rsaPss:
+          title: rsaPss
+          type: boolean
+          description: ''
+          example: null
+        displayAdditionalTLSParams:
+          title: displayAdditionalTLSParams
+          type: boolean
+          description: ''
+          example: null
+        requireMessageAuth:
+          title: requireMessageAuth
+          type: boolean
+          description: ''
+          example: null
+        preferredEapProtocol:
+          title: preferredEapProtocol
+          type: string
+          description: 'The preferredEapProtocol is required only if allowPreferredEapProtocol is true, otherwise it must be ignored. Allowed Values: EAP_FAST, PEAP, LEAP, EAP_MD5, EAP_TLS, EAP_TTLS, TEAP'
+          example: null
+        eapTls:
+          properties:
+            allowEapTlsAuthOfExpiredCerts:
+              title: allowEapTlsAuthOfExpiredCerts
+              type: boolean
+              description: ''
+              example: null
+            eapTlsEnableStatelessSessionResume:
+              title: eapTlsEnableStatelessSessionResume
+              type: boolean
+              description: ''
+              example: null
+            eapTlsSessionTicketTtl:
+              title: eapTlsSessionTicketTtl
+              type: object
+              description: Time to live. The eapTlsSessionTicketTtl is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored
+              example: null
+            eapTlsSessionTicketTtlUnits:
+              title: eapTlsSessionTicketTtlUnits
+              type: object
+              description: 'Time to live time units. The eapTlsSessionTicketTtlUnits is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored. Allowed Values: SECONDS, MINUTES, HOURS, DAYS, WEEKS'
+              example: null
+            eapTlsSessionTicketPrecentage:
+              title: eapTlsSessionTicketPrecentage
+              type: object
+              description: The eapTlsSessionTicketPrecentage is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored
+              example: null
+          example: null
+        peap:
+          properties:
+            allowPeapEapMsChapV2:
+              title: allowPeapEapMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            allowPeapEapMsChapV2PwdChange:
+              title: allowPeapEapMsChapV2PwdChange
+              type: boolean
+              description: The allowPeapEapMsChapV2PwdChange is required only if allowPeapEapMsChapV2 is true, otherwise it must be ignored
+              example: null
+            allowPeapEapMsChapV2PwdChangeRetries:
+              title: allowPeapEapMsChapV2PwdChangeRetries
+              type: object
+              description: The allowPeapEapMsChapV2PwdChangeRetries is required only if allowPeapEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowPeapEapGtc:
+              title: allowPeapEapGtc
+              type: boolean
+              description: ''
+              example: null
+            allowPeapEapGtcPwdChange:
+              title: allowPeapEapGtcPwdChange
+              type: boolean
+              description: The allowPeapEapGtcPwdChange is required only if allowPeapEapGtc is true, otherwise it must be ignored
+              example: null
+            allowPeapEapGtcPwdChangeRetries:
+              title: allowPeapEapGtcPwdChangeRetries
+              type: object
+              description: The allowPeapEapGtcPwdChangeRetries is required only if allowPeapEapGtc is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowPeapEapTls:
+              title: allowPeapEapTls
+              type: boolean
+              description: ''
+              example: null
+            allowPeapEapTlsAuthOfExpiredCerts:
+              title: allowPeapEapTlsAuthOfExpiredCerts
+              type: boolean
+              description: The allowPeapEapTlsAuthOfExpiredCerts is required only if allowPeapEapTls is true, otherwise it must be ignored
+              example: null
+            requireCryptobinding:
+              title: requireCryptobinding
+              type: boolean
+              description: ''
+              example: null
+            allowPeapV0:
+              title: allowPeapV0
+              type: boolean
+              description: ''
+              example: null
+          example: null
+        eapTtls:
+          properties:
+            eapTtlsPapAscii:
+              title: eapTtlsPapAscii
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsChap:
+              title: eapTtlsChap
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsMsChapV1:
+              title: eapTtlsMsChapV1
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsMsChapV2:
+              title: eapTtlsMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsEapMd5:
+              title: eapTtlsEapMd5
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsEapMsChapV2:
+              title: eapTtlsEapMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsEapMsChapV2PwdChange:
+              title: eapTtlsEapMsChapV2PwdChange
+              type: boolean
+              description: The eapTtlsEapMsChapV2PwdChange is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored
+              example: null
+            eapTtlsEapMsChapV2PwdChangeRetries:
+              title: eapTtlsEapMsChapV2PwdChangeRetries
+              type: object
+              description: The eapTtlsEapMsChapV2PwdChangeRetries is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+          example: null
+        eapFast:
+          properties:
+            allowEapFastEapMsChapV2:
+              title: allowEapFastEapMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            allowEapFastEapMsChapV2PwdChange:
+              title: allowEapFastEapMsChapV2PwdChange
+              type: boolean
+              description: The allowEapFastEapMsChapV2PwdChange is required only if allowEapFastEapMsChapV2 is true, otherwise it must be ignored
+              example: null
+            allowEapFastEapMsChapV2PwdChangeRetries:
+              title: allowEapFastEapMsChapV2PwdChangeRetries
+              type: object
+              description: The allowEapFastEapMsChapV2PwdChangeRetries is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowEapFastEapGtc:
+              title: allowEapFastEapGtc
+              type: boolean
+              description: ''
+              example: null
+            allowEapFastEapGtcPwdChange:
+              title: allowEapFastEapGtcPwdChange
+              type: boolean
+              description: The allowEapFastEapGtcPwdChange is required only if allowEapFastEapGtc is true, otherwise it must be ignored
+              example: null
+            allowEapFastEapGtcPwdChangeRetries:
+              title: allowEapFastEapGtcPwdChangeRetries
+              type: object
+              description: The allowEapFastEapGtcPwdChangeRetries is required only if allowEapFastEapGtc is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowEapFastEapTls:
+              title: allowEapFastEapTls
+              type: boolean
+              description: ''
+              example: null
+            allowEapFastEapTlsAuthOfExpiredCerts:
+              title: allowEapFastEapTlsAuthOfExpiredCerts
+              type: boolean
+              description: The allowEapFastEapTlsAuthOfExpiredCerts is required only if allowEapFastEapTls is true, otherwise it must be ignored
+              example: null
+            eapFastEnableEAPChaining:
+              title: eapFastEnableEAPChaining
+              type: boolean
+              description: ''
+              example: null
+            eapFastUsePacs:
+              title: eapFastUsePacs
+              type: boolean
+              description: ''
+              example: null
+            eapFastUsePacsTunnelPacTtl:
+              title: eapFastUsePacsTunnelPacTtl
+              type: object
+              description: The eapFastUsePacsTunnelPacTtl is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsTunnelPacTtlUnits:
+              title: eapFastUsePacsTunnelPacTtlUnits
+              type: string
+              description: 'The eapFastUsePacsTunnelPacTtlUnits is required only if eapFastUsePacs is true, otherwise it must be ignored. Allowed Values: SECONDS, MINUTES, HOURS, DAYS, WEEKS'
+              example: null
+            eapFastUsePacsUseProactivePacUpdatePrecentage:
+              title: eapFastUsePacsUseProactivePacUpdatePrecentage
+              type: object
+              description: The eapFastUsePacsUseProactivePacUpdatePrecentage is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAllowAnonymProvisioning:
+              title: eapFastUsePacsAllowAnonymProvisioning
+              type: boolean
+              description: The eapFastUsePacsAllowAnonymProvisioning is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAllowAuthenProvisioning:
+              title: eapFastUsePacsAllowAuthenProvisioning
+              type: boolean
+              description: The eapFastUsePacsAllowAuthenProvisioning is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsServerReturns:
+              title: eapFastUsePacsServerReturns
+              type: boolean
+              description: The eapFastUsePacsServerReturns is required only if eapFastUsePacsAllowAuthenProvisioning is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAcceptClientCert:
+              title: eapFastUsePacsAcceptClientCert
+              type: boolean
+              description: The eapFastUsePacsAcceptClientCert is required only if eapFastUsePacsAllowAuthenProvisioning is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAllowMachineAuthentication:
+              title: eapFastUsePacsAllowMachineAuthentication
+              type: boolean
+              description: The eapFastUsePacsAllowMachineAuthentication is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsMachinePacTtl:
+              title: eapFastUsePacsMachinePacTtl
+              type: object
+              description: The eapFastUsePacsMachinePacTtl is required only if eapFastUsePacsAllowMachineAuthentication is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsMachinePacTtlUnits:
+              title: eapFastUsePacsMachinePacTtlUnits
+              type: string
+              description: 'The eapFastUsePacsMachinePacTtlUnits is required only if eapFastUsePacsAllowMachineAuthentication is true, otherwise it must be ignored. Allowed Values: SECONDS, MINUTES, HOURS, DAYS, WEEKS'
+              example: null
+            eapFastUsePacsStatelessSessionResume:
+              title: eapFastUsePacsStatelessSessionResume
+              type: boolean
+              description: The eapFastUsePacsStatelessSessionResume is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAuthorizationPacTtl:
+              title: eapFastUsePacsAuthorizationPacTtl
+              type: object
+              description: The eapFastUsePacsAuthorizationPacTtl is required only if eapFastUsePacsStatelessSessionResume is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAuthorizationPacTtlUnits:
+              title: eapFastUsePacsAuthorizationPacTtlUnits
+              type: string
+              description: 'The eapFastUsePacsAuthorizationPacTtlUnits is required only if eapFastUsePacsStatelessSessionResume is true, otherwise it must be ignored. Allowed Values: SECONDS, MINUTES, HOURS, DAYS, WEEKS'
+              example: null
+            eapFastDontUsePacsAcceptClientCert:
+              title: eapFastDontUsePacsAcceptClientCert
+              type: boolean
+              description: The eapFastDontUsePacsAcceptClientCert is required only if eapFastUsePacs is FALSE, otherwise it must be ignored
+              example: null
+            eapFastDontUsePacsAllowMachineAuthentication:
+              title: eapFastDontUsePacsAllowMachineAuthentication
+              type: boolean
+              description: The eapFastDontUsePacsAllowMachineAuthentication is required only if eapFastUsePacs is FALSE, otherwise it must be ignored
+              example: null
+          example: null
+        teap:
+          properties:
+            allowTeapEapMsChapV2:
+              title: allowTeapEapMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            allowTeapEapMsChapV2PwdChange:
+              title: allowTeapEapMsChapV2PwdChange
+              type: boolean
+              description: The allowTeapEapMsChapV2PwdChange is required only if allowTeapEapMsChapV2 is true, otherwise it must be ignored
+              example: null
+            allowTeapEapMsChapV2PwdChangeRetries:
+              title: allowTeapEapMsChapV2PwdChangeRetries
+              type: object
+              description: The allowTeapEapMsChapV2PwdChangeRetries is required only if allowTeapEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowTeapEapTls:
+              title: allowTeapEapTls
+              type: boolean
+              description: ''
+              example: null
+            allowTeapEapTlsAuthOfExpiredCerts:
+              title: allowTeapEapTlsAuthOfExpiredCerts
+              type: boolean
+              description: The allowTeapEapTlsAuthOfExpiredCerts is required only if allowTeapEapTls is true, otherwise it must be ignored
+              example: null
+            acceptClientCertDuringTunnelEst:
+              title: acceptClientCertDuringTunnelEst
+              type: boolean
+              description: ''
+              example: null
+            enableEapChaining:
+              title: enableEapChaining
+              type: boolean
+              description: ''
+              example: null
+            allowDowngradeMsk:
+              title: allowDowngradeMsk
+              type: boolean
+              description: ''
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    allowedprotocolsListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/allowedprotocolsListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    allowedprotocolsListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    AllowedProtocols:
+      required:
+      - allowChap
+      - allowEapFast
+      - allowEapMd5
+      - allowEapTls
+      - allowEapTtls
+      - allowLeap
+      - allowMsChapV1
+      - allowMsChapV2
+      - allowPapAscii
+      - allowPeap
+      - allowPreferredEapProtocol
+      - allowTeap
+      - allowWeakCiphersForEap
+      - eapTlsLBit
+      - fiveG
+      - name
+      - processHostLookup
+      - requireMessageAuth
+      properties:
+        processHostLookup:
+          title: processHostLookup
+          type: boolean
+          description: ''
+          example: null
+        allowPapAscii:
+          title: allowPapAscii
+          type: boolean
+          description: ''
+          example: null
+        allowChap:
+          title: allowChap
+          type: boolean
+          description: ''
+          example: null
+        allowMsChapV1:
+          title: allowMsChapV1
+          type: boolean
+          description: ''
+          example: null
+        allowMsChapV2:
+          title: allowMsChapV2
+          type: boolean
+          description: ''
+          example: null
+        allowEapMd5:
+          title: allowEapMd5
+          type: boolean
+          description: ''
+          example: null
+        allowLeap:
+          title: allowLeap
+          type: boolean
+          description: ''
+          example: null
+        allowEapTls:
+          title: allowEapTls
+          type: boolean
+          description: ''
+          example: null
+        allowEapTtls:
+          title: allowEapTtls
+          type: boolean
+          description: ''
+          example: null
+        allowEapFast:
+          title: allowEapFast
+          type: boolean
+          description: ''
+          example: null
+        allowPeap:
+          title: allowPeap
+          type: boolean
+          description: ''
+          example: null
+        allowTeap:
+          title: allowTeap
+          type: boolean
+          description: ''
+          example: null
+        allowPreferredEapProtocol:
+          title: allowPreferredEapProtocol
+          type: boolean
+          description: ''
+          example: null
+        eapTlsLBit:
+          title: eapTlsLBit
+          type: boolean
+          description: ''
+          example: null
+        allowWeakCiphersForEap:
+          title: allowWeakCiphersForEap
+          type: boolean
+          description: ''
+          example: null
+        fiveG:
+          title: fiveG
+          type: boolean
+          description: ''
+          example: null
+        rsaPss:
+          title: rsaPss
+          type: boolean
+          description: ''
+          example: null
+        displayAdditionalTLSParams:
+          title: displayAdditionalTLSParams
+          type: boolean
+          description: ''
+          example: null
+        requireMessageAuth:
+          title: requireMessageAuth
+          type: boolean
+          description: ''
+          example: null
+        preferredEapProtocol:
+          title: preferredEapProtocol
+          type: string
+          description: 'The preferredEapProtocol is required only if allowPreferredEapProtocol is true, otherwise it must be ignored. Allowed Values: EAP_FAST, PEAP, LEAP, EAP_MD5, EAP_TLS, EAP_TTLS, TEAP'
+          example: null
+        eapTls:
+          required:
+          - allowEapTlsAuthOfExpiredCerts
+          - eapTlsEnableStatelessSessionResume
+          properties:
+            allowEapTlsAuthOfExpiredCerts:
+              title: allowEapTlsAuthOfExpiredCerts
+              type: boolean
+              description: ''
+              example: null
+            eapTlsEnableStatelessSessionResume:
+              title: eapTlsEnableStatelessSessionResume
+              type: boolean
+              description: ''
+              example: null
+            eapTlsSessionTicketTtl:
+              title: eapTlsSessionTicketTtl
+              type: object
+              description: Time to live. The eapTlsSessionTicketTtl is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored
+              example: null
+            eapTlsSessionTicketTtlUnits:
+              title: eapTlsSessionTicketTtlUnits
+              type: object
+              description: 'Time to live time units. The eapTlsSessionTicketTtlUnits is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored. Allowed Values: SECONDS, MINUTES, HOURS, DAYS, WEEKS'
+              example: null
+            eapTlsSessionTicketPrecentage:
+              title: eapTlsSessionTicketPrecentage
+              type: object
+              description: The eapTlsSessionTicketPrecentage is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored
+              example: null
+          example: null
+        peap:
+          required:
+          - allowPeapEapGtc
+          - allowPeapEapMsChapV2
+          - allowPeapEapTls
+          - allowPeapV0
+          - requireCryptobinding
+          properties:
+            allowPeapEapMsChapV2:
+              title: allowPeapEapMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            allowPeapEapMsChapV2PwdChange:
+              title: allowPeapEapMsChapV2PwdChange
+              type: boolean
+              description: The allowPeapEapMsChapV2PwdChange is required only if allowPeapEapMsChapV2 is true, otherwise it must be ignored
+              example: null
+            allowPeapEapMsChapV2PwdChangeRetries:
+              title: allowPeapEapMsChapV2PwdChangeRetries
+              type: object
+              description: The allowPeapEapMsChapV2PwdChangeRetries is required only if allowPeapEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowPeapEapGtc:
+              title: allowPeapEapGtc
+              type: boolean
+              description: ''
+              example: null
+            allowPeapEapGtcPwdChange:
+              title: allowPeapEapGtcPwdChange
+              type: boolean
+              description: The allowPeapEapGtcPwdChange is required only if allowPeapEapGtc is true, otherwise it must be ignored
+              example: null
+            allowPeapEapGtcPwdChangeRetries:
+              title: allowPeapEapGtcPwdChangeRetries
+              type: object
+              description: The allowPeapEapGtcPwdChangeRetries is required only if allowPeapEapGtc is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowPeapEapTls:
+              title: allowPeapEapTls
+              type: boolean
+              description: ''
+              example: null
+            allowPeapEapTlsAuthOfExpiredCerts:
+              title: allowPeapEapTlsAuthOfExpiredCerts
+              type: boolean
+              description: The allowPeapEapTlsAuthOfExpiredCerts is required only if allowPeapEapTls is true, otherwise it must be ignored
+              example: null
+            requireCryptobinding:
+              title: requireCryptobinding
+              type: boolean
+              description: ''
+              example: null
+            allowPeapV0:
+              title: allowPeapV0
+              type: boolean
+              description: ''
+              example: null
+          example: null
+        eapTtls:
+          required:
+          - eapTtlsChap
+          - eapTtlsEapMd5
+          - eapTtlsEapMsChapV2
+          - eapTtlsMsChapV1
+          - eapTtlsMsChapV2
+          - eapTtlsPapAscii
+          properties:
+            eapTtlsPapAscii:
+              title: eapTtlsPapAscii
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsChap:
+              title: eapTtlsChap
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsMsChapV1:
+              title: eapTtlsMsChapV1
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsMsChapV2:
+              title: eapTtlsMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsEapMd5:
+              title: eapTtlsEapMd5
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsEapMsChapV2:
+              title: eapTtlsEapMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            eapTtlsEapMsChapV2PwdChange:
+              title: eapTtlsEapMsChapV2PwdChange
+              type: boolean
+              description: The eapTtlsEapMsChapV2PwdChange is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored
+              example: null
+            eapTtlsEapMsChapV2PwdChangeRetries:
+              title: eapTtlsEapMsChapV2PwdChangeRetries
+              type: object
+              description: The eapTtlsEapMsChapV2PwdChangeRetries is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+          example: null
+        eapFast:
+          required:
+          - allowEapFastEapGtc
+          - allowEapFastEapMsChapV2
+          - allowEapFastEapTls
+          - eapFastEnableEAPChaining
+          - eapFastUsePacs
+          properties:
+            allowEapFastEapMsChapV2:
+              title: allowEapFastEapMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            allowEapFastEapMsChapV2PwdChange:
+              title: allowEapFastEapMsChapV2PwdChange
+              type: boolean
+              description: The allowEapFastEapMsChapV2PwdChange is required only if allowEapFastEapMsChapV2 is true, otherwise it must be ignored
+              example: null
+            allowEapFastEapMsChapV2PwdChangeRetries:
+              title: allowEapFastEapMsChapV2PwdChangeRetries
+              type: object
+              description: The allowEapFastEapMsChapV2PwdChangeRetries is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowEapFastEapGtc:
+              title: allowEapFastEapGtc
+              type: boolean
+              description: ''
+              example: null
+            allowEapFastEapGtcPwdChange:
+              title: allowEapFastEapGtcPwdChange
+              type: boolean
+              description: The allowEapFastEapGtcPwdChange is required only if allowEapFastEapGtc is true, otherwise it must be ignored
+              example: null
+            allowEapFastEapGtcPwdChangeRetries:
+              title: allowEapFastEapGtcPwdChangeRetries
+              type: object
+              description: The allowEapFastEapGtcPwdChangeRetries is required only if allowEapFastEapGtc is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowEapFastEapTls:
+              title: allowEapFastEapTls
+              type: boolean
+              description: ''
+              example: null
+            allowEapFastEapTlsAuthOfExpiredCerts:
+              title: allowEapFastEapTlsAuthOfExpiredCerts
+              type: boolean
+              description: The allowEapFastEapTlsAuthOfExpiredCerts is required only if allowEapFastEapTls is true, otherwise it must be ignored
+              example: null
+            eapFastEnableEAPChaining:
+              title: eapFastEnableEAPChaining
+              type: boolean
+              description: ''
+              example: null
+            eapFastUsePacs:
+              title: eapFastUsePacs
+              type: boolean
+              description: ''
+              example: null
+            eapFastUsePacsTunnelPacTtl:
+              title: eapFastUsePacsTunnelPacTtl
+              type: object
+              description: The eapFastUsePacsTunnelPacTtl is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsTunnelPacTtlUnits:
+              title: eapFastUsePacsTunnelPacTtlUnits
+              type: string
+              description: 'The eapFastUsePacsTunnelPacTtlUnits is required only if eapFastUsePacs is true, otherwise it must be ignored. Allowed Values: SECONDS, MINUTES, HOURS, DAYS, WEEKS'
+              example: null
+            eapFastUsePacsUseProactivePacUpdatePrecentage:
+              title: eapFastUsePacsUseProactivePacUpdatePrecentage
+              type: object
+              description: The eapFastUsePacsUseProactivePacUpdatePrecentage is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAllowAnonymProvisioning:
+              title: eapFastUsePacsAllowAnonymProvisioning
+              type: boolean
+              description: The eapFastUsePacsAllowAnonymProvisioning is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAllowAuthenProvisioning:
+              title: eapFastUsePacsAllowAuthenProvisioning
+              type: boolean
+              description: The eapFastUsePacsAllowAuthenProvisioning is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsServerReturns:
+              title: eapFastUsePacsServerReturns
+              type: boolean
+              description: The eapFastUsePacsServerReturns is required only if eapFastUsePacsAllowAuthenProvisioning is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAcceptClientCert:
+              title: eapFastUsePacsAcceptClientCert
+              type: boolean
+              description: The eapFastUsePacsAcceptClientCert is required only if eapFastUsePacsAllowAuthenProvisioning is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAllowMachineAuthentication:
+              title: eapFastUsePacsAllowMachineAuthentication
+              type: boolean
+              description: The eapFastUsePacsAllowMachineAuthentication is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsMachinePacTtl:
+              title: eapFastUsePacsMachinePacTtl
+              type: object
+              description: The eapFastUsePacsMachinePacTtl is required only if eapFastUsePacsAllowMachineAuthentication is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsMachinePacTtlUnits:
+              title: eapFastUsePacsMachinePacTtlUnits
+              type: string
+              description: 'The eapFastUsePacsMachinePacTtlUnits is required only if eapFastUsePacsAllowMachineAuthentication is true, otherwise it must be ignored. Allowed Values: SECONDS, MINUTES, HOURS, DAYS, WEEKS'
+              example: null
+            eapFastUsePacsStatelessSessionResume:
+              title: eapFastUsePacsStatelessSessionResume
+              type: boolean
+              description: The eapFastUsePacsStatelessSessionResume is required only if eapFastUsePacs is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAuthorizationPacTtl:
+              title: eapFastUsePacsAuthorizationPacTtl
+              type: object
+              description: The eapFastUsePacsAuthorizationPacTtl is required only if eapFastUsePacsStatelessSessionResume is true, otherwise it must be ignored
+              example: null
+            eapFastUsePacsAuthorizationPacTtlUnits:
+              title: eapFastUsePacsAuthorizationPacTtlUnits
+              type: string
+              description: 'The eapFastUsePacsAuthorizationPacTtlUnits is required only if eapFastUsePacsStatelessSessionResume is true, otherwise it must be ignored. Allowed Values: SECONDS, MINUTES, HOURS, DAYS, WEEKS'
+              example: null
+            eapFastDontUsePacsAcceptClientCert:
+              title: eapFastDontUsePacsAcceptClientCert
+              type: boolean
+              description: The eapFastDontUsePacsAcceptClientCert is required only if eapFastUsePacs is FALSE, otherwise it must be ignored
+              example: null
+            eapFastDontUsePacsAllowMachineAuthentication:
+              title: eapFastDontUsePacsAllowMachineAuthentication
+              type: boolean
+              description: The eapFastDontUsePacsAllowMachineAuthentication is required only if eapFastUsePacs is FALSE, otherwise it must be ignored
+              example: null
+          example: null
+        teap:
+          required:
+          - acceptClientCertDuringTunnelEst
+          - allowDowngradeMsk
+          - allowTeapEapMsChapV2
+          - allowTeapEapTls
+          - enableEapChaining
+          properties:
+            allowTeapEapMsChapV2:
+              title: allowTeapEapMsChapV2
+              type: boolean
+              description: ''
+              example: null
+            allowTeapEapMsChapV2PwdChange:
+              title: allowTeapEapMsChapV2PwdChange
+              type: boolean
+              description: The allowTeapEapMsChapV2PwdChange is required only if allowTeapEapMsChapV2 is true, otherwise it must be ignored
+              example: null
+            allowTeapEapMsChapV2PwdChangeRetries:
+              title: allowTeapEapMsChapV2PwdChangeRetries
+              type: object
+              description: The allowTeapEapMsChapV2PwdChangeRetries is required only if allowTeapEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3
+              example: null
+            allowTeapEapTls:
+              title: allowTeapEapTls
+              type: boolean
+              description: ''
+              example: null
+            allowTeapEapTlsAuthOfExpiredCerts:
+              title: allowTeapEapTlsAuthOfExpiredCerts
+              type: boolean
+              description: The allowTeapEapTlsAuthOfExpiredCerts is required only if allowTeapEapTls is true, otherwise it must be ignored
+              example: null
+            acceptClientCertDuringTunnelEst:
+              title: acceptClientCertDuringTunnelEst
+              type: boolean
+              description: ''
+              example: null
+            enableEapChaining:
+              title: enableEapChaining
+              type: boolean
+              description: ''
+              example: null
+            allowDowngradeMsk:
+              title: allowDowngradeMsk
+              type: boolean
+              description: ''
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        AllowedProtocols:
+          allowEapMd5: true
+          allowMsChapV2: false
+          allowMsChapV1: false
+          allowEapTls: true
+          description: example allowed protocols
+          requireMessageAuth: false
+          displayAdditionalTLSParams: false
+          peap:
+            allowPeapEapMsChapV2: true
+            requireCryptobinding: false
+            allowPeapEapMsChapV2PwdChange: false
+            allowPeapEapGtc: false
+            allowPeapEapMsChapV2PwdChangeRetries: 1
+            allowPeapEapTlsAuthOfExpiredCerts: false
+            allowPeapV0: false
+            allowPeapEapTls: true
+          eapTlsLBit: false
+          eapTtls:
+            eapTtlsEapMsChapV2PwdChange: false
+            eapTtlsMsChapV2: true
+            eapTtlsMsChapV1: true
+            eapTtlsEapMsChapV2: true
+            eapTtlsPapAscii: true
+            eapTtlsEapMd5: true
+            eapTtlsEapMsChapV2PwdChangeRetries: 1
+            eapTtlsChap: true
+          teap:
+            allowTeapEapTlsAuthOfExpiredCerts: false
+            allowTeapEapMsChapV2PwdChange: false
+            enableEapChaining: false
+            acceptClientCertDuringTunnelEst: true
+            allowTeapEapMsChapV2: true
+            allowDowngradeMsk: true
+            allowTeapEapMsChapV2PwdChangeRetries: 3
+            allowTeapEapTls: true
+          preferredEapProtocol: PEAP
+          allowWeakCiphersForEap: false
+          allowChap: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          fiveG: false
+          eapTls:
+            eapTlsEnableStatelessSessionResume: false
+            allowEapTlsAuthOfExpiredCerts: false
+          allowPreferredEapProtocol: true
+          allowTeap: true
+          processHostLookup: true
+          allowPapAscii: true
+          allowPeap: true
+          eapFast:
+            allowEapFastEapMsChapV2PwdChangeRetries: 1
+            allowEapFastEapTlsAuthOfExpiredCerts: false
+            allowEapFastEapGtc: true
+            allowEapFastEapGtcPwdChangeRetries: 1
+            allowEapFastEapTls: true
+            eapFastUsePacsUseProactivePacUpdatePrecentage: 10
+            eapFastUsePacsStatelessSessionResume: false
+            allowEapFastEapMsChapV2: true
+            eapFastUsePacsAllowMachineAuthentication: false
+            eapFastUsePacsTunnelPacTtlUnits: SECONDS
+            allowEapFastEapMsChapV2PwdChange: false
+            eapFastUsePacsAllowAnonymProvisioning: false
+            eapFastEnableEAPChaining: false
+            eapFastUsePacsTunnelPacTtl: 7776000
+            eapFastUsePacsAllowAuthenProvisioning: false
+            eapFastUsePacs: true
+            allowEapFastEapGtcPwdChange: false
+          allowEapTtls: true
+          name: allowedprotocols1
+          allowLeap: false
+          allowEapFast: true
+          rsaPss: false
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic

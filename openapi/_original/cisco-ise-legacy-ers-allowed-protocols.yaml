@@ -1,0 +1,939 @@
+swagger: '2.0'
+info:
+  description: |
+    Allowed Protocols API allows the client to add, delete, update, search and perform actions on allowed protocols. 
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td><td colspan ="2"><b>Revision Modification</b></td></tr>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td></td><td></td><td></td><td></b></td><td><b>Attribute</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.3</td><td>Initial Cisco ISE Version</td></tr>
+    <tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td rowspan ="10">1</td><td rowspan ="10">1.1</td><td rowspan ="10">2.7</td><td rowspan = '10'>Added support for TEAP</td><td>preferredEapProtocol</td><td>Added value 'TEAP' to enum attribute preferredEapProtocol</td><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>allowTeap</td><td>Added boolean attribute allowTeap</td></tr><tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>allowTeapEapMsChapV2</td><td>Added boolean attribute allowTeapEapMsChapV2</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>allowTeapEapMsChapV2PwdChange</td><td>Added boolean attribute allowTeap</td></tr><tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td>allowTeapEapMsChapV2PwdChangeRetries</td><td>Added int attribute allowTeapEapMsChapV2PwdChangeRetries</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>allowTeapEapTls</td><td>Added boolean attribute allowTeapEapTls</td></tr><tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; border-bottom:solid #CCCCCC 1.0pt;background:#f8f8f8'><td>allowTeapEapTlsAuthOfExpiredCerts</td><td>Added boolean attribute allowTeapEapTlsAuthOfExpiredCerts</td></tr><tr valign=top style= 'border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt; background:#f8f8f8'><td>acceptClientCertDuringTunnelEst</td><td>Added boolean attribute acceptClientCertDuringTunnelEst</td></tr><tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td>enableEapChaining</td><td>Added boolean attribute enableEapChaining</td></tr><tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;border-bottom:solid #CCCCCC 1.0pt;background:#f8f8f8'><td>allowDowngradeMsk</td><td>Added boolean attribute allowDowngradeMsk</td></tr></tr>
+    <tr><td>2</td><td>1.2</td><td>3.2</td><td>Added Patch operation</td></tr>
+    <tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td rowspan ="10">3</td><td rowspan ="10">1.3</td><td rowspan ="10">3.4</td><td rowspan = '10'>Added support for RSA-PSS operation</td><td>allowRsaPss</td><td>Enable/Disable RSA PSS cipher based on policy</td></tr></tr>
+    </table>	  
+    <br><br>
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td>Default Device Admin</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, Mandatory for update</td><td>926901b0-8c01-11e6-996c-525400b48521</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td>Default Allowed Protocol Service Device Admin</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>processHostLookup</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>allowPapAscii</td><td>Boolean</td><td>No</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>allowChap</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>allowMsChapV1</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>allowMsChapV2</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>allowEapMd5</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>allowLeap</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>allowEapTls</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>allowEapTtls</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>allowEapFast</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>allowPeap</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>allowTeap</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>allowPreferredEapProtocol</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>eapTlsLBit</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>allowWeakCiphersForEap</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>fiveG</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>rsaPss</td><td>Boolean</td><td></td><td>true</td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>requireMessageAuth</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>preferredEapProtocol</td><td>Enum</td><td>No</td><td>The preferredEapProtocol is required only if allowPreferredEapProtocol is true, otherwise it must be ignored. Allowed Values: <br>- EAP_FAST, <br>- PEAP, <br>- LEAP, <br>- EAP_MD5, <br>- EAP_TLS, <br>- EAP_TTLS, <br>- TEAP</td><td>PEAP</td></tr>
+    <tr valign=top><td style='font-family:monospace'>eapTls</td><td>List</td><td>No</td><td>The eapTls is required only if allowEapTls is true, otherwise it must be ignored. The object eapTls contains the settings for EAP TLS protocol</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- allowEapTlsAuthOfExpiredCerts</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>- eapTlsEnableStatelessSessionResume</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>- eapTlsSessionTicketTtl</td><td>Integer</td><td>No</td><td>Time to live. The eapTlsSessionTicketTtl is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored</td><td>1</td></tr>
+    <tr><td style='font-family:monospace'>- eapTlsSessionTicketTtlUnits</td><td>Enum</td><td>No</td><td>Time to live time units. The eapTlsSessionTicketTtlUnits is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored. Allowed Values: <br>- SECONDS, <br>- MINUTES, <br>- HOURS, <br>- DAYS, <br>- WEEKS</td><td>SECONDS</td></tr>
+    <tr><td style='font-family:monospace'>- eapTlsSessionTicketPrecentage</td><td>Integer</td><td>No</td><td>The eapTlsSessionTicketPrecentage is required only if eapTlsEnableStatelessSessionResume is true, otherwise it must be ignored</td><td>1</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>peap</td><td>List</td><td>No</td><td>The peap is required only if allowPeap is true, otherwise it must be ignored. The object peap contains the settings for PEAP protocol</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapEapMsChapV2</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapEapMsChapV2PwdChange</td><td>Boolean</td><td>No</td><td>The allowPeapEapMsChapV2PwdChange is required only if allowPeapEapMsChapV2 is true, otherwise it must be ignored</td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapEapMsChapV2PwdChangeRetries</td><td>Integer</td><td>No</td><td>The allowPeapEapMsChapV2PwdChangeRetries is required only if allowPeapEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3</td><td>1</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapEapGtc</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapEapGtcPwdChange</td><td>Boolean</td><td>No</td><td>The allowPeapEapGtcPwdChange is required only if allowPeapEapGtc is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapEapGtcPwdChangeRetries</td><td>Integer</td><td>No</td><td>The allowPeapEapGtcPwdChangeRetries is required only if allowPeapEapGtc is true, otherwise it must be ignored. Valid range is 0-3</td><td>1</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapEapTls</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapEapTlsAuthOfExpiredCerts</td><td>Boolean</td><td>No</td><td>The allowPeapEapTlsAuthOfExpiredCerts is required only if allowPeapEapTls is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- requireCryptobinding</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowPeapV0</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr valign=top><td style='font-family:monospace'>eapTtls</td><td>List</td><td>No</td><td>The eapTtls is required only if allowEapTtls is true, otherwise it must be ignored. The object eapTtls contains the settings for EAP TTLS protocol</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- eapTtlsPapAscii</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- eapTtlsChap</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- eapTtlsMsChapV1</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- eapTtlsMsChapV2</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- eapTtlsEapMd5</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- eapTtlsEapMsChapV2</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- eapTtlsEapMsChapV2PwdChange</td><td>Boolean</td><td>No</td><td>The eapTtlsEapMsChapV2PwdChange is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored</td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- eapTtlsEapMsChapV2PwdChangeRetries</td><td>Integer</td><td>No</td><td>The eapTtlsEapMsChapV2PwdChangeRetries is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3</td><td>1</td></tr>
+     <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>eapFast</td><td>List</td><td>No</td><td>The eapFast is required only if allowEapFast is true, otherwise it must be ignored. The object eapFast contains the settings for EAP FAST protocol</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowEapFastEapMsChapV2</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowEapFastEapMsChapV2PwdChange</td><td>Boolean</td><td>No</td><td>The allowEapFastEapMsChapV2PwdChange is required only if allowEapFastEapMsChapV2 is true, otherwise it must be ignored</td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowEapFastEapMsChapV2PwdChangeRetries</td><td>Integer</td><td>No</td><td>The allowEapFastEapMsChapV2PwdChangeRetries is required only if eapTtlsEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3</td><td>1</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowEapFastEapGtc</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowEapFastEapGtcPwdChange</td><td>Boolean</td><td>No</td><td>The allowEapFastEapGtcPwdChange is required only if allowEapFastEapGtc is true, otherwise it must be ignored</td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowEapFastEapGtcPwdChangeRetries</td><td>Integer</td><td>No</td><td>  The allowEapFastEapGtcPwdChangeRetries is required only if allowEapFastEapGtc is true, otherwise it must be ignored. Valid range is 0-3</td><td>1</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowEapFastEapTls</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowEapFastEapTlsAuthOfExpiredCerts</td><td>Boolean</td><td>No</td><td>The allowEapFastEapTlsAuthOfExpiredCerts is required only if allowEapFastEapTls is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastEnableEAPChaining</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacs</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsTunnelPacTtl</td><td>Integer</td><td>No</td><td>The eapFastUsePacsTunnelPacTtl is required only if eapFastUsePacs is true, otherwise it must be ignored</td><td>7776000</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsTunnelPacTtlUnits</td><td>Enum</td><td>No</td><td>  The eapFastUsePacsTunnelPacTtlUnits is required only if eapFastUsePacs is true, otherwise it must be ignored. Allowed Values: <br>- SECONDS, <br>- MINUTES, <br>- HOURS, <br>- DAYS, <br>- WEEKS</td><td>SECONDS</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsUseProactivePacUpdatePrecentage</td><td>Integer</td><td>No</td><td>  The eapFastUsePacsUseProactivePacUpdatePrecentage is required only if eapFastUsePacs is true, otherwise it must be ignored</td><td>10</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsAllowAnonymProvisioning</td><td>Boolean</td><td>No</td><td>The eapFastUsePacsAllowAnonymProvisioning is required only if eapFastUsePacs is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsAllowAuthenProvisioning</td><td>Boolean</td><td>No</td><td>The eapFastUsePacsAllowAuthenProvisioning is required only if eapFastUsePacs is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsReturnAccessAccept<br>AfterAuthenticatedProvisioning</td><td>Boolean</td><td>No</td><td>The eapFastUsePacsReturnAccessAcceptAfterAuthenticatedProvisioning is required only if eapFastUsePacsAllowAuthenProvisioning is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsAcceptClientCert</td><td>Boolean</td><td>No</td><td>The eapFastUsePacsAcceptClientCert is required only if eapFastUsePacsAllowAuthenProvisioning is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsAllowMachineAuthentication</td><td>Boolean</td><td>No</td><td></td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsMachinePacTtl</td><td>Integer</td><td>No</td><td>The eapFastUsePacsMachinePacTtl is required only if eapFastUsePacsAllowMachineAuthentication is true, otherwise it must be ignored</td><td>1</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsMachinePacTtlUnits</td><td>Enum</td><td>No</td><td>The eapFastUsePacsMachinePacTtlUnits is required only if eapFastUsePacsAllowMachineAuthentication is true, otherwise it must be ignored. Allowed Values: <br>- SECONDS, <br>- MINUTES, <br>- HOURS, <br>- DAYS, <br>- WEEKS</td><td>SECONDS</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsStatelessSessionResume</td><td>Boolean</td><td>No</td><td>The eapFastUsePacsStatelessSessionResume is required only if eapFastUsePacs is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsAuthorizationPacTtl</td><td>Integer</td><td>No</td><td>  The eapFastUsePacsAuthorizationPacTtl is required only if eapFastUsePacsStatelessSessionResume is true, otherwise it must be ignored</td><td>1</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastUsePacsAuthorizationPacTtlUnits</td><td>Enum</td><td>No</td><td>The eapFastUsePacsAuthorizationPacTtlUnits is required only if eapFastUsePacsStatelessSessionResume is true, otherwise it must be ignored. Allowed Values:<br>- SECONDS, <br>- MINUTES, <br>- HOURS, <br>- DAYS, <br>- WEEKS</td><td>SECONDS</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastDontUsePacsAcceptClientCert</td><td>Boolean</td><td>No</td><td>The eapFastDontUsePacsAcceptClientCert is required only if eapFastUsePacs is FALSE, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- eapFastDontUsePacsAllowMachineAuthentication</td><td>Boolean</td><td>No</td><td>The eapFastDontUsePacsAllowMachineAuthentication is required only if eapFastUsePacs is FALSE, otherwise it must be ignored</td><td>false</td></tr>
+    <tr valign=top><td style='font-family:monospace'>teap</td><td>List</td><td>No</td><td>The teap is required only if allowTeap is true, otherwise it must be ignored. The object teap contains the settings for TEAP protocol</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- allowTeapEapMsChapV2</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- allowTeapEapMsChapV2PwdChange</td><td>Boolean</td><td>No</td><td>The allowTeapEapMsChapV2PwdChange is required only if allowTeapEapMsChapV2 is true, otherwise it must be ignored</td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- allowTeapEapMsChapV2PwdChangeRetries</td><td>Integer</td><td>No</td><td>The allowTeapEapMsChapV2PwdChangeRetries is required only if allowTeapEapMsChapV2 is true, otherwise it must be ignored. Valid range is 0-3</td><td>3</td></tr>
+    <tr><td style='font-family:monospace'>- allowTeapEapTls</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- allowTeapEapTlsAuthOfExpiredCerts</td><td>Boolean</td><td>No</td><td>The allowTeapEapTlsAuthOfExpiredCerts is required only if allowTeapEapTls is true, otherwise it must be ignored</td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>- acceptClientCertDuringTunnelEst</td><td>Boolean</td><td>Yes</td><td></td><td>true</td></tr>
+    <tr><td style='font-family:monospace'>- enableEapChaining</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    <tr style='border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>- allowDowngradeMsk</td><td>Boolean</td><td>Yes</td><td></td><td>false</td></tr>
+    </table>
+    
+  version: 1.0.0
+  title: Allowed Protocols
+
+tags:
+- name: allowedprotocols
+
+
+paths:
+  /ers/config/allowedprotocols/name/{name}:
+    get:
+      tags: 
+      - allowedprotocols
+      summary: Get allowed protocol by name
+      description:
+        <p>This API allows the client to get an allowed protocol by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.allowedprotocols.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/allowed_name'
+            
+  /ers/config/allowedprotocols/{id}:
+    patch:
+      tags: 
+      - allowedprotocols
+      summary: Update part of the allowed protocol by ID
+      description:
+        <p>This API allows the client to patch an allowed protocol by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.allowedprotocols.1.1
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/patchRequest'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/allowed'  
+    get:
+      tags: 
+      - allowedprotocols
+      summary: Get allowed protocol by ID
+      description:
+        <p>This API allows the client to get an allowed protocol by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.allowedprotocols.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/allowed'
+            
+    put:
+      tags:
+      - allowedprotocols
+      summary: Update allowed protocol
+      description:  <p>This API allows the client to update an allowed protocol.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.allowedprotocols.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/allowed'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+
+    delete:
+      tags:
+      - allowedprotocols
+      summary: Delete allowed protocol
+      description:
+        <p>This API deletes an allowed protocol.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.allowedprotocols.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        
+      responses: 
+        204:
+          description: No content    
+          
+  /ers/config/allowedprotocols:
+    get:
+      tags: 
+      - allowedprotocols
+      summary: Get all allowed protocols
+      description:
+        <p>This API allows the client to get all the allowed protocols.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.allowedprotocols.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+
+    post:
+      tags:
+      - allowedprotocols
+      summary: Create allowed protocol
+      description:
+        <p>This API creates an allowed protocol.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- policy.allowedprotocols.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/allowed'
+      responses:
+        201:
+          description: Created
+             
+  /ers/config/allowedprotocols/versioninfo:
+    get:
+      tags:
+      - allowedprotocols
+      summary: Get allowed protocols version information
+      description:
+        <p>This API helps to retrieve the version information related to the allowed protocols.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+            
+definitions:
+  allowed_name:
+    type: object
+    properties:
+      AllowedProtocols:
+        $ref: '#/definitions/AllowedProtocols_name'
+  AllowedProtocols_name:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 92613980-8c01-11e6-996c-525400b48521
+      name:
+        type: string
+        example: Default Network Access
+      description:
+        type: string
+        example: Default Allowed Protocol Service
+      eapTls:
+        type: object
+        properties:
+          allowEapTlsAuthOfExpiredCerts:
+            type: boolean
+            example: false
+          eapTlsEnableStatelessSessionResume:
+            type: boolean
+            example: false
+      peap:
+        type: object
+        properties:
+          allowPeapEapMsChapV2:
+            type: boolean
+            example: true
+          allowPeapEapMsChapV2PwdChange:
+            type: boolean
+            example: true
+          allowPeapEapMsChapV2PwdChangeRetries:
+            type: integer
+            example: 1
+          allowPeapEapGtc:
+            type: boolean
+            example: true
+          allowPeapEapGtcPwdChange:
+            type: boolean
+            example: true
+          allowPeapEapGtcPwdChangeRetries:
+            type: integer
+            example: 1          
+          allowPeapEapTls:
+            type: boolean
+            example: true
+          allowPeapEapTlsAuthOfExpiredCerts:
+            type: boolean
+            example: false
+          requireCryptobinding:
+            type: boolean
+            example: false
+          allowPeapV0:
+            type: boolean
+            example: false
+      eapFast:
+        type: object
+        properties:
+          allowEapFastEapMsChapV2:
+            type: boolean
+            example: true
+          allowEapFastEapMsChapV2PwdChange:
+            type: boolean
+            example: true
+          allowEapFastEapMsChapV2PwdChangeRetries:
+            type: integer
+            example: 1
+          allowEapFastEapGtc:
+            type: boolean
+            example: true
+          allowEapFastEapGtcPwdChange:
+            type: boolean
+            example: true
+          allowEapFastEapGtcPwdChangeRetries:
+            type: integer
+            example: 1
+          allowEapFastEapTls:
+            type: boolean
+            example: true
+          allowEapFastEapTlsAuthOfExpiredCerts:
+            type: boolean
+            example: false
+          eapFastUsePacs:
+            type: boolean
+            example: true
+          eapFastUsePacsTunnelPacTtl:
+            type: integer
+            example: 7776000
+          eapFastUsePacsTunnelPacTtlUnits:
+            type: string
+            example: SECONDS
+          eapFastUsePacsUseProactivePacUpdatePrecentage:
+            type: integer
+            example: 10
+          eapFastUsePacsAllowAnonymProvisioning:
+            type: boolean
+            example: false
+          eapFastUsePacsAllowAuthenProvisioning:
+            type: boolean
+            example: false
+          eapFastUsePacsAllowMachineAuthentication:
+            type: boolean
+            example: false
+          eapFastUsePacsStatelessSessionResume:
+            type: boolean
+            example: false
+          eapFastEnableEAPChaining:
+            type: boolean
+            example: false
+      eapTtls:
+        type: object
+        properties:
+          eapTtlsPapAscii:
+            type: boolean
+            example: true
+          eapTtlsChap:
+            type: boolean
+            example: true
+          eapTtlsMsChapV1:
+            type: boolean
+            example: true
+          eapTtlsMsChapV2:
+            type: boolean
+            example: true
+          eapTtlsEapMd5:
+            type: boolean
+            example: true
+          eapTtlsEapMsChapV2:
+            type: boolean
+            example: true
+          eapTtlsEapMsChapV2PwdChange:
+            type: boolean
+            example: true
+          eapTtlsEapMsChapV2PwdChangeRetries:
+            type: integer
+            example: 1
+      teap:
+        type: object
+        properties:
+          allowTeapEapMsChapV2:
+            type: boolean
+            example: true
+          allowTeapEapMsChapV2PwdChange:
+            type: boolean
+            example: true
+          allowTeapEapMsChapV2PwdChangeRetries:
+            type: integer
+            example: 3
+          allowTeapEapTls:
+            type: boolean
+            example: true
+          allowTeapEapTlsAuthOfExpiredCerts:
+            type: boolean
+            example: false
+          acceptClientCertDuringTunnelEst:
+            type: boolean
+            example: true
+          enableEapChaining:
+            type: boolean
+            example: false
+          allowDowngradeMsk:
+            type: boolean
+            example: true
+      processHostLookup:
+        type: boolean
+        example: true
+      allowPapAscii:
+        type: boolean
+        example: true
+      allowChap:
+        type: boolean
+        example: false
+      allowMsChapV1:
+        type: boolean
+        example: false
+      allowMsChapV2:
+        type: boolean
+        example: false
+      allowEapMd5:
+        type: boolean
+        example: true
+      allowLeap:
+        type: boolean
+        example: false
+      allowEapTls:
+        type: boolean
+        example: true
+      allowEapTtls:
+        type: boolean
+        example: true
+      allowEapFast:
+        type: boolean
+        example: true
+      allowPeap:
+        type: boolean
+        example: true
+      allowTeap:
+        type: boolean
+        example: true
+      allowPreferredEapProtocol:
+        type: boolean
+        example: true
+      preferredEapProtocol:
+        type: string
+        example: PEAP
+      eapTlsLBit:
+        type: boolean
+        example: false
+      allowWeakCiphersForEap:
+        type: boolean
+        example: false
+      fiveG:
+        type: boolean
+        example: false
+      rsaPss:
+        type: boolean
+        example: false
+      requireMessageAuth:
+        type: boolean
+        example: false
+      link1:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/allowedprotocols/name/Default Network Access
+          type:
+           type: string  
+           example: application/json
+
+  allowed:
+    type: object
+    properties:
+      AllowedProtocols:
+        $ref: '#/definitions/AllowedProtocols'
+  AllowedProtocols:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 92613980-8c01-11e6-996c-525400b48521
+      name:
+        type: string
+        example: Default Network Access
+      description:
+        type: string
+        example: Default Allowed Protocol Service
+      eapTls:
+        type: object
+        properties:
+          allowEapTlsAuthOfExpiredCerts:
+            type: boolean
+            example: false
+          eapTlsEnableStatelessSessionResume:
+            type: boolean
+            example: false
+      peap:
+        type: object
+        properties:
+          allowPeapEapMsChapV2:
+            type: boolean
+            example: true
+          allowPeapEapMsChapV2PwdChange:
+            type: boolean
+            example: true
+          allowPeapEapMsChapV2PwdChangeRetries:
+            type: integer
+            example: 1
+          allowPeapEapGtc:
+            type: boolean
+            example: true
+          allowPeapEapGtcPwdChange:
+            type: boolean
+            example: true
+          allowPeapEapGtcPwdChangeRetries:
+            type: integer
+            example: 1          
+          allowPeapEapTls:
+            type: boolean
+            example: true
+          allowPeapEapTlsAuthOfExpiredCerts:
+            type: boolean
+            example: false
+          requireCryptobinding:
+            type: boolean
+            example: false
+          allowPeapV0:
+            type: boolean
+            example: false
+      eapFast:
+        type: object
+        properties:
+          allowEapFastEapMsChapV2:
+            type: boolean
+            example: true
+          allowEapFastEapMsChapV2PwdChange:
+            type: boolean
+            example: true
+          allowEapFastEapMsChapV2PwdChangeRetries:
+            type: integer
+            example: 1
+          allowEapFastEapGtc:
+            type: boolean
+            example: true
+          allowEapFastEapGtcPwdChange:
+            type: boolean
+            example: true
+          allowEapFastEapGtcPwdChangeRetries:
+            type: integer
+            example: 1
+          allowEapFastEapTls:
+            type: boolean
+            example: true
+          allowEapFastEapTlsAuthOfExpiredCerts:
+            type: boolean
+            example: false
+          eapFastUsePacs:
+            type: boolean
+            example: true
+          eapFastUsePacsTunnelPacTtl:
+            type: integer
+            example: 7776000
+          eapFastUsePacsTunnelPacTtlUnits:
+            type: string
+            example: SECONDS
+          eapFastUsePacsUseProactivePacUpdatePrecentage:
+            type: integer
+            example: 10
+          eapFastUsePacsAllowAnonymProvisioning:
+            type: boolean
+            example: false
+          eapFastUsePacsAllowAuthenProvisioning:
+            type: boolean
+            example: false
+          eapFastUsePacsAllowMachineAuthentication:
+            type: boolean
+            example: false
+          eapFastUsePacsStatelessSessionResume:
+            type: boolean
+            example: false
+          eapFastEnableEAPChaining:
+            type: boolean
+            example: false
+      eapTtls:
+        type: object
+        properties:
+          eapTtlsPapAscii:
+            type: boolean
+            example: true
+          eapTtlsChap:
+            type: boolean
+            example: true
+          eapTtlsMsChapV1:
+            type: boolean
+            example: true
+          eapTtlsMsChapV2:
+            type: boolean
+            example: true
+          eapTtlsEapMd5:
+            type: boolean
+            example: true
+          eapTtlsEapMsChapV2:
+            type: boolean
+            example: true
+          eapTtlsEapMsChapV2PwdChange:
+            type: boolean
+            example: true
+          eapTtlsEapMsChapV2PwdChangeRetries:
+            type: integer
+            example: 1
+      teap:
+        type: object
+        properties:
+          allowTeapEapMsChapV2:
+            type: boolean
+            example: true
+          allowTeapEapMsChapV2PwdChange:
+            type: boolean
+            example: true
+          allowTeapEapMsChapV2PwdChangeRetries:
+            type: integer
+            example: 3
+          allowTeapEapTls:
+            type: boolean
+            example: true
+          allowTeapEapTlsAuthOfExpiredCerts:
+            type: boolean
+            example: false
+          acceptClientCertDuringTunnelEst:
+            type: boolean
+            example: true
+          enableEapChaining:
+            type: boolean
+            example: false
+          allowDowngradeMsk:
+            type: boolean
+            example: true
+      processHostLookup:
+        type: boolean
+        example: true
+      allowPapAscii:
+        type: boolean
+        example: true
+      allowChap:
+        type: boolean
+        example: false
+      allowMsChapV1:
+        type: boolean
+        example: false
+      allowMsChapV2:
+        type: boolean
+        example: false
+      allowEapMd5:
+        type: boolean
+        example: true
+      allowLeap:
+        type: boolean
+        example: false
+      allowEapTls:
+        type: boolean
+        example: true
+      allowEapTtls:
+        type: boolean
+        example: true
+      allowEapFast:
+        type: boolean
+        example: true
+      allowPeap:
+        type: boolean
+        example: true
+      allowTeap:
+        type: boolean
+        example: true
+      allowPreferredEapProtocol:
+        type: boolean
+        example: true
+      preferredEapProtocol:
+        type: string
+        example: PEAP
+      eapTlsLBit:
+        type: boolean
+        example: false
+      allowWeakCiphersForEap:
+        type: boolean
+        example: false
+      fiveG:
+        type: boolean
+        example: false
+      rsaPss:
+        type: boolean
+        example: false
+      requireMessageAuth:
+        type: boolean
+        example: false
+      link1:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/allowedprotocols/926901b0-8c01-11e6-996c-525400b48521
+          type:
+           type: string  
+           example: application/json
+           
+
+  			
+
+  patchRequest:
+    type: object
+    properties:
+      AllowedProtocols:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value
+
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 2
+      resources:
+        type: array
+        example: [{"id" : "926901b0-8c01-11e6-996c-525400b48521", "name" : "Default Device Admin", "description" : "Default Allowed Protocol Service Device Admin", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/allowedprotocols/926901b0-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "92613980-8c01-11e6-996c-525400b48521", "name" : "Default Network Access", "description" : "Default Allowed Protocol Service", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/allowedprotocols/92613980-8c01-11e6-996c-525400b48521", "type" : "application/json"}}]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: 1.1
+      supportedVersions:
+        type: string
+        example: 1.0,1.1  
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/allowedprotocols/versioninfo
+      type:
+        type: string
+        example: application/json

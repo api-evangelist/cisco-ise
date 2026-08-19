@@ -1,0 +1,1571 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Egressmatrixcell API
+  version: '1.0'
+  description: 'Operations tagged egressmatrixcell across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-egress-matrix-cell.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-egress-matrix-cell.yaml, the provider's source document. Operations
+      and schemas are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-egress-matrix-cell.yaml
+    operation_coverage: 11/19
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: egressmatrixcell
+paths:
+  /egressmatrixcell/:
+    get:
+      tags:
+      - egressmatrixcell
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[sgtSrcValue, matrixStatus, description, matrixId, sgtSrcName, sgtDstName, sgtDstValue]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[description, sgtSrcName, sgtDstName, sgtDstValue]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - description
+          - sgtSrcName
+          - sgtDstName
+          - sgtDstValue
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[description, sgtSrcName, sgtDstName, sgtDstValue]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - description
+          - sgtSrcName
+          - sgtDstName
+          - sgtDstValue
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/egressmatrixcellListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/egressmatrixcellListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - egressmatrixcell
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.egressmatrixcell'
+            example:
+              EgressMatrixCell:
+                sourceSgtId: 2ebbc200-7a26-11e4-bc43-000c29ed7428
+                destinationSgtId: 1ebbc200-7a26-11e4-bc43-000c29ed7428
+                matrixCellStatus: MONITOR
+                matrixId: f47ac10b-58cc-4372-a567-0e02b2c3d479
+                id: 3b12f244-7c2b-4b1e-9bc1-1a5d6e420b94
+                sgacls:
+                - 1ebbc100-7a26-11e4-bc43-000c29ed7428
+                - 2ebbc100-7a26-11e4-bc43-000c29ed7428
+                defaultRule: PERMIT_IP
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /egressmatrixcell/status/{status}:
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Set All Cells Status
+      parameters:
+      - name: status
+        in: path
+        required: true
+        schema:
+          title: status
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /egressmatrixcell/clonecell/{id}/srcSgt/{srcSgtId}/dstSgt/{dstSgtId}:
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Clone Cell
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      - name: srcSgtId
+        in: path
+        required: true
+        schema:
+          title: srcSgtId
+          type: string
+          example: null
+      - name: dstSgtId
+        in: path
+        required: true
+        schema:
+          title: dstSgtId
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResultEntity'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationResultEntity'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /egressmatrixcell/clearallmatrixcells:
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Clear All Matrix Cells
+      parameters: []
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /egressmatrixcell/{id}:
+    get:
+      tags:
+      - egressmatrixcell
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/egressmatrixcellResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/egressmatrixcellResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustsec.egressmatrixcell'
+            example:
+              EgressMatrixCell:
+                sourceSgtId: 2ebbc200-7a26-11e4-bc43-000c29ed7428
+                destinationSgtId: 1ebbc200-7a26-11e4-bc43-000c29ed7428
+                matrixCellStatus: MONITOR
+                matrixId: f47ac10b-58cc-4372-a567-0e02b2c3d479
+                id: 3b12f244-7c2b-4b1e-9bc1-1a5d6e420b94
+                sgacls:
+                - 1ebbc100-7a26-11e4-bc43-000c29ed7428
+                - 2ebbc100-7a26-11e4-bc43-000c29ed7428
+                defaultRule: PERMIT_IP
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - egressmatrixcell
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/egressmatrixcell/clearallmatrixcells:
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Clear all egress matrix cells
+      description: <p>This API allows the client to clear all the egress matrix cells.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.egressmatrixcell.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/egressmatrixcell/status/{status}:
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Set status of all egress matrix cells
+      description: <p>his API allows the client to set status of all the egress matrix cells.</p>
+      parameters:
+      - name: status
+        in: path
+        required: true
+        description: 'The status of the Egress Matrix Cell.<br>Valid status values can be: ENABLE | DISABLE | MONITOR
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.egressmatrixcell.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/egressmatrixcell/clonecell/{id}/srcSgt/{srcSgtId}/dstSgt/{dstSgtId}:
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Clone egress matrix cell
+      description: <p>This API allows the client to clone an egress matrix cell.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: srcSgtId
+        in: path
+        required: true
+        description: 'The ID of the source from where the SGT information is received on Cisco ISE.<br>Example :- 92bb1950-8c01-11e6-996c-525400b48521
+
+          '
+        schema:
+          type: string
+      - name: dstSgtId
+        in: path
+        required: true
+        description: 'The ID of the destination to which the SGT information is being sent by Cisco ISE<br>Example :- 92bb1950-8c01-11e6-996c-525400b48521
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.egressmatrixcell.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResult'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationResult'
+  /ers/config/egressmatrixcell/{id}:
+    get:
+      tags:
+      - egressmatrixcell
+      summary: Get egress matrix cell by ID
+      description: <p>This API allows the client to get an egress matrix cell by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.egressmatrixcell.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/egressmatrixcell'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/egressmatrixcell'
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Update egress matrix cell
+      description: <p>This API allows the client to update an egress matrix cell.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.egressmatrixcell.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Update' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/egressmatrixcell'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/egressmatrixcell'
+    delete:
+      tags:
+      - egressmatrixcell
+      summary: Delete egress matrix cell
+      description: <p>This API deletes an egress matrix cell.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.egressmatrixcell.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Delete' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/egressmatrixcell:
+    get:
+      tags:
+      - egressmatrixcell
+      summary: Get all egress matrix cell
+      description: <p>This API allows the client to get all the egress matrix cell.</p> <p><h1>Filter:</h1> <h3>[sgtSrcValue,
+        matrixStatus, description, sgtSrcName, sgtDstName, sgtDstValue]</h3></p> <p>To search guest users by using <b>toDate</b>
+        column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul> <p><h1>Sorting:</h1> <h3>[description, sgtSrcName, sgtDstName, sgtDstValue]</h3></p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.egressmatrixcell.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+    post:
+      tags:
+      - egressmatrixcell
+      summary: Create egress matrix cell
+      description: <p>This API creates an egress matrix cell.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- trustsec.egressmatrixcell.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Create' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/egressmatrixcell'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/egressmatrixcell'
+  /ers/config/egressmatrixcell/versioninfo:
+    get:
+      tags:
+      - egressmatrixcell
+      summary: Get egress matrix cell version information
+      description: <p>This API helps to retrieve the version information related to the egress matrix cell.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+  /ers/config/egressmatrixcell/bulk/submit:
+    put:
+      tags:
+      - egressmatrixcell
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      responses:
+        202:
+          description: Accepted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+  /ers/config/egressmatrixcell/bulk/{bulkid}:
+    get:
+      tags:
+      - egressmatrixcell
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      parameters:
+      - name: bulkid
+        in: path
+        required: true
+        description: 'The bulk ID is a dynamically generated value.<br>Example :- ‘615360357673’
+
+          '
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    egressmatrixcellListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/egressmatrixcellListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    egressmatrixcellResponse:
+      type: object
+      properties:
+        EgressMatrixCell:
+          $ref: '#/components/schemas/egressmatrixcellResponseEntity'
+      example:
+        EgressMatrixCell:
+          sourceSgtId: 2ebbc200-7a26-11e4-bc43-000c29ed7428
+          destinationSgtId: 1ebbc200-7a26-11e4-bc43-000c29ed7428
+          matrixCellStatus: MONITOR
+          matrixId: f47ac10b-58cc-4372-a567-0e02b2c3d479
+          id: 3b12f244-7c2b-4b1e-9bc1-1a5d6e420b94
+          sgacls:
+          - 1ebbc100-7a26-11e4-bc43-000c29ed7428
+          - 2ebbc100-7a26-11e4-bc43-000c29ed7428
+          defaultRule: PERMIT_IP
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    OperationResultEntity:
+      properties:
+        OperationResult:
+          properties:
+            resultValue:
+              type: array
+              example: null
+              items:
+                properties:
+                  Value:
+                    type: integer
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    egressmatrixcellListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    trustsec.egressmatrixcell:
+      required:
+      - EgressMatrixCell
+      type: object
+      properties:
+        EgressMatrixCell:
+          $ref: '#/components/schemas/EgressMatrixCell'
+      example: null
+    egressmatrixcellResponseEntity:
+      properties:
+        defaultRule:
+          title: defaultRule
+          type: string
+          description: allowed values:NONE,DENY_IP,PERMIT_IP
+          example: null
+        destinationSgtId:
+          title: destinationSgtId
+          type: string
+          description: ''
+          example: null
+        matrixCellStatus:
+          title: matrixCellStatus
+          type: string
+          description: Allowed values:DISABLED,ENABLED,MONITOR
+          example: null
+        sgacls:
+          title: sgacls
+          type: array
+          description: ''
+          example: null
+          items:
+            example: null
+        sourceSgtId:
+          title: sourceSgtId
+          type: string
+          description: ''
+          example: null
+        matrixId:
+          title: matrixId
+          type: string
+          description: Default value is Production Matrix Id, when no value is provided during creation.<br/>To use it as
+            filter, the values should be an UUID of a Matrix. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=matrixId.eq.ccf9a6ea-153b-4056-b8f4-0dc17eca4d30'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    EgressMatrixCell:
+      required:
+      - defaultRule
+      - destinationSgtId
+      - matrixCellStatus
+      - sourceSgtId
+      properties:
+        defaultRule:
+          title: defaultRule
+          type: string
+          description: allowed values:NONE,DENY_IP,PERMIT_IP
+          example: null
+        destinationSgtId:
+          title: destinationSgtId
+          type: string
+          description: ''
+          example: null
+        matrixCellStatus:
+          title: matrixCellStatus
+          type: string
+          description: Allowed values:DISABLED,ENABLED,MONITOR
+          example: null
+        sgacls:
+          title: sgacls
+          type: array
+          description: ''
+          example: null
+          items:
+            example: null
+        sourceSgtId:
+          title: sourceSgtId
+          type: string
+          description: ''
+          example: null
+        matrixId:
+          title: matrixId
+          type: string
+          description: Default value is Production Matrix Id, when no value is provided during creation.<br/>To use it as
+            filter, the values should be an UUID of a Matrix. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=matrixId.eq.ccf9a6ea-153b-4056-b8f4-0dc17eca4d30'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        EgressMatrixCell:
+          sourceSgtId: 2ebbc200-7a26-11e4-bc43-000c29ed7428
+          destinationSgtId: 1ebbc200-7a26-11e4-bc43-000c29ed7428
+          matrixCellStatus: MONITOR
+          matrixId: f47ac10b-58cc-4372-a567-0e02b2c3d479
+          id: 3b12f244-7c2b-4b1e-9bc1-1a5d6e420b94
+          sgacls:
+          - 1ebbc100-7a26-11e4-bc43-000c29ed7428
+          - 2ebbc100-7a26-11e4-bc43-000c29ed7428
+          defaultRule: PERMIT_IP
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    bulkrequest:
+      type: object
+      properties:
+        EgressMatrixCellBulkRequest:
+          $ref: '#/components/schemas/EgressMatrixCellBulkRequest'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    egressmatrixcell:
+      type: object
+      properties:
+        EgressMatrixCell:
+          $ref: '#/components/schemas/EgressMatrixCell_2'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 92c1a900-8c01-11e6-996c-525400b48521
+            name: ANY-ANY
+            description: Default egress rule
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/egressmatrixcell/92c1a900-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    EgressMatrixCellBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.trustsec.egressmatrixcell.1.0+xml
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    BulkStatus:
+      type: object
+      properties:
+        bulkId:
+          type: string
+          example: 1615360357673
+        mediaType:
+          type: string
+          example: ''
+        executionStatus:
+          type: string
+          example: COMPLETED
+        operationType:
+          type: string
+          example: create
+        startTime:
+          type: string
+          example: Wed Mar 10 07:12:37 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    OperationResult:
+      type: object
+      properties:
+        OperationResult:
+          type: object
+          properties:
+            resultValue:
+              type: array
+              example:
+              - value: DdsAASDs%$##@ssds12
+                name: password
+              items:
+                properties:
+                  name:
+                    type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    EgressMatrixCell_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 92c1a900-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: ANY-ANY
+        description:
+          type: string
+          example: Default egress rule
+        sourceSgtId:
+          type: string
+          example: 92bb1950-8c01-11e6-996c-525400b48521
+        destinationSgtId:
+          type: string
+          example: 92bb1950-8c01-11e6-996c-525400b48521
+        matrixCellStatus:
+          type: string
+          example: ENABLED
+        defaultRule:
+          type: string
+          example: PERMIT_IP
+        sgacls:
+          type: array
+          example:
+          - 92951ac0-8c01-11e6-996c-525400b48521
+          items:
+            properties:
+              name:
+                type: string
+        matrixId:
+          type: string
+          example: f47ac10b-58cc-4372-a567-0e02b2c3d479
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/egressmatrixcell/92c1a900-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/egressmatrixcell/versioninfo
+        type:
+          type: string
+          example: application/json
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-egress-matrix-cell.yaml

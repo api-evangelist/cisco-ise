@@ -1,0 +1,504 @@
+swagger: '2.0'
+info:
+  description: 'Adaptive Network Control (ANC) provides the ability to create network endpoint authorization controls based
+    on ANC policies.
+
+
+    <h2>Revision History</h2>
+
+    <table font-family:monospace>
+
+    <tr valign=top style=''border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7''><td><b>Revision
+    #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+
+    <tr style=''border-bottom:solid #CCCCCC 1.0pt''><td>0</td><td>1.0</td><td>2.1</td><td>Initial Cisco ISE Version</td><td></td></tr>
+
+    </table>
+
+    <br><br>
+
+
+    <h2>Resource Definition</h2>
+
+    <table>
+
+    <tr valign=top style=''border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7''><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example
+    Values</b></td></tr>
+
+    <tr><td style=''font-family:monospace''>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td></tr>
+
+    <tr valign=top style=''background:#f8f8f8''><td style=''font-family:monospace''>id</td><td>String</td><td>No</td><td>Resource
+    ID</td><td>test</td></tr>
+
+    <tr><td style=''font-family:monospace''>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td></tr>
+
+    <tr valign=top style=''background:#f8f8f8;mso-border-alt:solid #CCCCCC .75pt;border-bottom:solid #CCCCCC 1.0pt'';><td
+    style=''font-family:monospace''>action</td><td>Enum</td><td>Yes</td><td>- QUARANTINE: Allows you to use Exception policies
+    (authorization policies) to limit or deny an endpoint access to the network. <br>- PORTBOUNCE: Resets the port on the
+    network device to which the endpoint is connected<br>- SHUTDOWN : Shuts down the port on the network device to which the
+    endpoint is connected<br>- REAUTHENTICATE: Forces the target client to re-authenticate and optionally implement an updated
+    policy</td><td>SHUTDOWN</td></tr>
+
+    </table>
+
+    '
+  version: 1.0.0
+  title: ANC Policy
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: ancpolicy
+paths:
+  /ers/config/ancpolicy/name/{name}:
+    get:
+      tags:
+      - ancpolicy
+      summary: Get ANC policy by name
+      description: <p>This API allows the client to get an ANC policy by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- anc.ancpolicy.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: 'Required Only if Enabled from GUI
+
+          Example:- fetch'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ancpolicyid'
+  /ers/config/ancpolicy/{id}:
+    get:
+      tags:
+      - ancpolicy
+      summary: Get ANC policy by ID
+      description: <p>This API allows the client to get an ANC policy by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- anc.ancpolicy.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: 'Required Only if Enabled from GUI
+
+          Example:- fetch'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ancpolicyid'
+    put:
+      tags:
+      - ancpolicy
+      summary: Update ANC policy
+      description: <p>This API allows the client to update an ANC policy.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- anc.ancpolicy.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Update' can be used within Bulk Request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/ancpolicyid'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/update'
+    delete:
+      tags:
+      - ancpolicy
+      summary: Delete ANC policy
+      description: <p>This API allows the client to delete an ANC policy.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- anc.ancpolicy.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Delete' can be used within Bulk Request
+      responses:
+        204:
+          description: No Content
+  /ers/config/ancpolicy:
+    get:
+      tags:
+      - ancpolicy
+      summary: Get all ANC policies
+      description: <p>This API allows the client to get all the ANC policies.</p> <p><h1>Filter:</h1><h3>[name]</h3></p> <p>To
+        search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul>
+        <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1><h3>[name]</h3></p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- anc.ancpolicy.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: 'Required Only if Enabled from GUI
+
+          Example:- fetch'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/getall'
+    post:
+      tags:
+      - ancpolicy
+      summary: Create ANC policy
+      description: This API allows the client to create an ANC policy.
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- anc.ancpolicy.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: header
+        name: Bulk Support
+        type: string
+        description: Operation 'Create' can be used within Bulk Request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/ancpolicyid'
+      responses:
+        201:
+          description: Created
+  /ers/config/ancpolicy/versioninfo:
+    get:
+      tags:
+      - ancpolicy
+      summary: Get ANC policy version information
+      description: <p>This API helps to retrieve the version information related to the ANC policy</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+  /ers/config/ancpolicy/bulk/submit:
+    put:
+      tags:
+      - ancpolicy
+      summary: Submit bulk request
+      description: <p>This API allows the client to submit the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/bulkrequest'
+      responses:
+        202:
+          description: Accepted
+  /ers/config/ancpolicy/bulk/{bulkid}:
+    get:
+      tags:
+      - ancpolicy
+      summary: Monitor bulk request
+      description: <p>This API allows the client to monitor the bulk request.</p>
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: bulkid
+        in: path
+        type: string
+        required: true
+        description: 'The bulk ID is a dynamically generated value.<br>For example :- ‘615360357673’
+
+          '
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/monitorbulkrequest'
+definitions:
+  ancpolicyid:
+    type: object
+    properties:
+      ErsAncPolicy:
+        $ref: '#/definitions/ancpolicyid1'
+  ancpolicyid1:
+    type: object
+    properties:
+      id:
+        type: string
+        example: policy1
+      name:
+        type: string
+        example: policy1
+      actions:
+        type: array
+        items:
+          type: string
+          enum:
+          - QUARANTINE
+      link:
+        $ref: '#/definitions/link2'
+  update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/update1'
+  update1:
+    type: object
+    properties:
+      updatedField:
+        type: array
+        example:
+        - field: field1
+          oldValue: val_old
+          newValue: val_new
+        - field: some other field
+          oldValue: val_old
+          newValue: val_new
+        items:
+          properties:
+            name:
+              type: string
+  getall:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/getall1'
+  getall1:
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 2
+      resources:
+        type: array
+        example:
+        - id: port_bounce
+          name: port_bounce
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/ancpolicy/e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+            type: application/json
+        - id: quarantine
+          name: quarantine
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/ancpolicy/da9b6184-5fc2-4820-bd73-915e9705f858
+            type: application/json
+        - id: test
+          name: test
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/ancpolicy/a89d0e7d-76d9-4b6d-8a38-bac70ac31ad0
+            type: application/json
+        items:
+          properties:
+            name:
+              type: string
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version1'
+  version1:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '1.0'
+      supportedVersions:
+        type: string
+        example: '1.0'
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/ancpolicy/versioninfo
+      type:
+        type: string
+        example: application/xml
+  link2:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/ancpolicy/policy1
+      type:
+        type: string
+        example: application/xml
+  bulkrequest:
+    type: object
+    properties:
+      ErsAncPolicyBulkRequest:
+        $ref: '#/definitions/bulkrequest1'
+  bulkrequest1:
+    type: object
+    properties:
+      operationType:
+        type: string
+        example: create
+      resourceMediaType:
+        type: string
+        example: vnd.com.cisco.ise.anc.ancpolicy.1.0+xml
+  monitorbulkrequest:
+    type: object
+    properties:
+      BulkStatus:
+        $ref: '#/definitions/monitorbulkrequest1'
+  monitorbulkrequest1:
+    type: object
+    properties:
+      bulkID:
+        type: string
+        example: 1612351741691
+      executionStatus:
+        type: string
+        example: COMPLETED
+      operationType:
+        type: string
+        example: create
+      startTime:
+        type: string
+        example: Wed Feb 03 11:29:01 UTC 2021
+      resourcesCount:
+        type: integer
+        example: 5
+      successCount:
+        type: integer
+        example: 5
+      failCount:
+        type: integer
+        example: 5
+      resourcesStatus:
+        type: array
+        example:
+        - id: '1234454324'
+          name: resource1
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '2343242342'
+          name: resource2
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '4564566456'
+          name: resource3
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        - id: '6544566455'
+          name: resource4
+          description: description...
+          resourceExecutionStatus: PENDING
+          status: PENDING
+        items:
+          properties:
+            name:
+              type: string

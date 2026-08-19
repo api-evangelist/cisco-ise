@@ -1,0 +1,131 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Trustsec Integration Rule - Default Trustsec Integration Rule set API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Trustsec Integration Rule - Default Trustsec Integration Rule set
+paths:
+  /api/v1/trustsec/policy-set/{connectorType}:
+    get:
+      tags:
+      - Trustsec Integration Rule - Default Trustsec Integration Rule set
+      summary: Trustsec Integration Rule - Default Trustsec Integration Rule set for a connector type.
+      description: Get default CDP policy set for a connector type.
+      operationId: getDefaultCDPolicySet
+      parameters:
+      - name: connectorType
+        in: path
+        description: Connector Type
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: PolicySet response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CDPolicySetInfoResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+components:
+  schemas:
+    CDPolicySetInfo:
+      title: CDPolicySetInfo
+      required:
+      - classificationPolicySetId
+      - connectorType
+      - ingressPolicySetId
+      type: object
+      properties:
+        classificationPolicySetId:
+          type: string
+          description: Id of classification policy set
+          example: My_classification_policy_set 1
+          exampleSetFlag: true
+        connectorType:
+          type: string
+          description: Type of connector
+          example: ACI
+          exampleSetFlag: true
+        ingressPolicySetId:
+          type: string
+          description: Id of ingress policy set
+          example: My_ingress_policy_set 1
+          exampleSetFlag: true
+      description: CDP Policy set info structure
+      exampleSetFlag: false
+    CDPolicySetInfoResponseEntity:
+      title: CDPolicySetInfoResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/CDPolicySetInfo'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false

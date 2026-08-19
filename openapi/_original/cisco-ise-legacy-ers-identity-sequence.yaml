@@ -1,0 +1,567 @@
+swagger: '2.0'
+info:
+  description: |
+    Identity Sequence API allows the client to add, delete, update and search Identity sequences.  
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.2</td><td>Initial Cisco ISE Version</td></tr>
+    <tr style='background:#f8f8f8'><td>1</td><td>1.1</td><td>2.4</td><td>Added GetByName operation</td></tr>
+    <tr style='border-bottom:solid #CCCCCC 1.0pt'><td>2</td><td>1.2</td><td>3.2</td><td>Added Patch operation</td></tr>
+    </table>
+    <br><br>
+    
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td>All_User_ID_Stores</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td>93246270-8c01-11e6-996c-525400b48521</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td>A built-in Identity Sequence to include all User Identity Stores</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>breakOnStoreFail</td><td>Boolean</td><td>Yes</td><td>Do not access other stores in the sequence If a selected identity store cannot be accessed for authentication</td><td>false</td></tr>
+    <tr><td style='font-family:monospace'>certificateAuthenticationProfile</td><td>String</td><td>Yes</td><td>Certificate Authentication Profile, empty if doesn't exist</td><td>Preloaded_Certificate_Profile</td></tr>
+    <tr style= 'border-bottom:solid #CCCCCC 1.0pt; background:#f8f8f8'><td style='font-family:monospace'>idSeqItem</td><td>List</td><td>Yes</td><td>List of id stores comprised of id store name and order</td><td>[
+            {
+                "idstore": "Internal Users",
+                "order": 1
+            },<br>
+            {
+                "idstore": "All_AD_Join_Points",
+                "order": 2
+            },<br>
+            {
+                "idstore": "Guest Users",
+                "order": 3
+            }
+        ]</td></tr>
+    </table>
+    
+  version: 1.0.0
+  title: Identity Sequence
+
+tags:
+- name: idstoresequence
+
+paths:
+  /ers/config/idstoresequence/name/{name}:
+    get:
+      tags: 
+      - idstoresequence
+      summary: Get identity sequence by name
+      description:
+        <p>This API allows the client to get an identity sequence by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.idstoresequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/identitysequence_name'
+
+  /ers/config/idstoresequence/{id}:
+    get:
+      tags: 
+      - idstoresequence
+      summary: Get identity sequence by ID
+      description:
+        <p>This API allows the client to get an identity sequence by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.idstoresequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/idstoresequence'
+            
+    patch:
+      tags: 
+      - idstoresequence
+      summary: Update part of the identity store sequence by ID
+      description:
+        <p>This API allows the user to update part of the identity store sequence by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identitystores.idstoresequence.1.0
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/patchRequest'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/idstoresequence'          
+    put:
+      tags:
+      - idstoresequence
+      summary: Update identity sequence 
+      description:  <p>This API allows the client to update an identity sequence.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.idstoresequence.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Additional Information
+          type: string
+          description: 
+               Partial update is not supported              
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/idstoresequence'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+
+    delete:
+      tags:
+      - idstoresequence
+      summary: Delete identity sequence
+      description:
+        <p>This API deletes an identity sequence.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.idstoresequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+      responses: 
+        204:
+          description: No Content  
+          
+  /ers/config/idstoresequence:
+    get:
+      tags: 
+      - idstoresequence
+      summary: Get all identity sequences
+      description:
+        <p>This API allows the client to get all the identity sequences.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.idstoresequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+
+    post:
+      tags:
+      - idstoresequence
+      summary: Create identity sequence
+      description:
+        <p>This API creates an identity sequence.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.idstoresequence.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/idstoresequence'
+      responses:
+        201:
+          description: Created
+
+  /ers/config/idstoresequence/versioninfo:
+    get:
+      tags:
+      - idstoresequence
+      summary: Get identity sequence version information
+      description:
+        <p>This API helps to retrieve the version information related to the identity sequence.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+
+
+definitions:
+  identitysequence_name:
+    type: object
+    properties:
+      IdStoreSequence:
+        $ref: '#/definitions/IdStoreSequence_name'
+        
+  IdStoreSequence_name:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 93246270-8c01-11e6-996c-525400b48521
+      name:
+        type: string
+        example: All_User_ID_Store
+      description:
+        type: string
+        example: A built-in Identity Sequence to include all User Identity Stores
+      idSeqItem:
+        type: array
+        example: [
+                {
+                  "idstore": "Internal Users",
+                  "order": 1
+                },
+                {
+                  "idstore": "All_AD_Join_Points",
+                  "order": 2
+                },
+                {
+                  "idstore": "Guest Users",
+                  "order": 3
+                }
+                 ]
+        items:
+          properties:
+            name:
+              type: string
+      certificateAuthenticationProfile:
+        type: string
+        example: Preloaded_Certificate_Profile
+      breakOnStoreFail:
+        type: boolean
+        example: false
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/idstoresequence/name/All_User_ID_Store
+          type:
+            type: string
+            example: application/json      
+            
+  idstoresequence:
+    type: object
+    properties:
+      IdStoreSequence:
+        $ref: '#/definitions/IdStoreSequence'
+        
+  IdStoreSequence:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 93246270-8c01-11e6-996c-525400b48521
+      name:
+        type: string
+        example: All_User_ID_Store
+      description:
+        type: string
+        example: A built-in Identity Sequence to include all User Identity Stores
+      idSeqItem:
+        type: array
+        example: [
+                {
+                  "idstore": "Internal Users",
+                  "order": 1
+                },
+                {
+                  "idstore": "All_AD_Join_Points",
+                  "order": 2
+                },
+                {
+                  "idstore": "Guest Users",
+                  "order": 3
+                }
+                 ]
+        items:
+          properties:
+            name:
+              type: string
+      certificateAuthenticationProfile:
+        type: string
+        example: Preloaded_Certificate_Profile
+      breakOnStoreFail:
+        type: boolean
+        example: false
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/idstoresequence/93246270-8c01-11e6-996c-525400b48521
+          type:
+            type: string
+            example: application/json  
+            
+  patchRequest:
+    type: object
+    properties:
+      IdStoreSequence:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value    
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 5
+      resources:
+        type: array
+        example: [
+            {
+                "id": "93246270-8c01-11e6-996c-525400b48521",
+                "name": "All_User_ID_Stores",
+                "description": "A built-in Identity Sequence to include all User Identity Stores",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/idstoresequence/93246270-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "9c6fb000-8c01-11e6-996c-525400b48521",
+                "name": "Certificate_Request_Sequence",
+                "description": "A built-in Identity Sequence for Certificate Request APIs",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/idstoresequence/9c6fb000-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "92e50f80-8c01-11e6-996c-525400b48521",
+                "name": "Guest_Portal_Sequence",
+                "description": "A built-in Identity Sequence for the Guest Portal",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/idstoresequence/92e50f80-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "930fa1f0-8c01-11e6-996c-525400b48521",
+                "name": "MyDevices_Portal_Sequence",
+                "description": "A built-in Identity Sequence for the My Devices Portal",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/idstoresequence/930fa1f0-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "92faba60-8c01-11e6-996c-525400b48521",
+                "name": "Sponsor_Portal_Sequence",
+                "description": "A built-in Identity Sequence for the Sponsor Portal",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/idstoresequence/92faba60-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            }
+        ]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "1.0"
+      supportedVersions:
+        type: string
+        example: 1.0,1.1  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: <ise-ip>/ers/config/idstoresequence/versioninfo
+      type:
+        type: string
+        example: application/json

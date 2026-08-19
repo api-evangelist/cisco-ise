@@ -1,0 +1,119 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec External Connection API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: External Connection
+paths:
+  /api/v1/trustsec/integration/external-connection:
+    get:
+      tags:
+      - External Connection
+      summary: Get all external connections
+      description: List all the ACI and Workload connections configured.
+      operationId: getExternalConnections
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: All external connection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalConnectionSummaryResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    ExternalConnectionSummary:
+      title: ExternalConnectionSummary
+      type: object
+      properties:
+        errorReason:
+          type: string
+          example: error reason
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        lastUpdate:
+          type: string
+          description: Last update timestamp of the Virtual Network
+          readOnly: true
+          example: '2021-01-30T08:30:00Z'
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Connection name
+          example: AWS_1/ACI_1
+          exampleSetFlag: true
+        platform:
+          type: string
+          description: Workload Platform
+          example: AWS/ACI
+          exampleSetFlag: true
+        receivedIPMappings:
+          type: integer
+          format: int32
+          example: 1000
+          exampleSetFlag: true
+        receivedSGTMappings:
+          type: integer
+          format: int32
+          example: 1000
+          exampleSetFlag: true
+        state:
+          type: string
+          description: Corresponding actions will change the state of the connection
+          readOnly: true
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format (or) "RealTime" for ACI
+          example: PT15M
+          exampleSetFlag: true
+      description: All connection summary
+      exampleSetFlag: false
+    ExternalConnectionSummaryResponse:
+      title: ExternalConnectionSummaryResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/ExternalConnectionSummary'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false

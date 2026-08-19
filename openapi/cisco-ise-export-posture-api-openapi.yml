@@ -1,0 +1,352 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Exim Export Posture API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://10.127.96.224:443
+  description: Inferred Url
+tags:
+- name: Export-Posture
+paths:
+  /api/v1/exim/export/posture/cancel:
+    get:
+      tags:
+      - Export-Posture
+      summary: Cancel posture policy export
+      description: Cancels the ongoing posture policy export process and performs cleanup
+      operationId: postureCancelExport
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+  /api/v1/exim/export/posture/complete-export:
+    post:
+      tags:
+      - Export-Posture
+      summary: Export and download posture policies
+      description: Initiates the synchronous export of posture policy and the file can be downloaded once export is completed.
+      operationId: exportAndDownloadPosturePolicies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportMapper'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+                exampleSetFlag: false
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/Resource'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileValidationResponse'
+                exampleSetFlag: false
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/FileValidationResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+  /api/v1/exim/export/posture/current-status:
+    get:
+      tags:
+      - Export-Posture
+      summary: Get current export posture status
+      description: Retrieve the current posture export status
+      operationId: exportCurrentStatus
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InlineResponse500'
+                exampleSetFlag: false
+  /api/v1/exim/export/posture/discard:
+    get:
+      tags:
+      - Export-Posture
+      summary: Discard posture policy export files
+      description: Cleans up and discards any exported files from the export folder
+      operationId: postureDiscardExport
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+  /api/v1/exim/export/posture/download:
+    get:
+      tags:
+      - Export-Posture
+      summary: Download posture policy export file
+      description: Triggers download of the posture export zip file when export mode is local
+      operationId: postureDownloadPolicy
+      responses:
+        '200':
+          description: Export Download status
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/Resource'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal server error
+  /api/v1/exim/export/posture/exporting:
+    post:
+      tags:
+      - Export-Posture
+      summary: Export posture policies
+      description: Initiates the asynchronous export of posture policy
+      operationId: exportPoliciesBySelectedIds
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportMapper'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatus'
+                exampleSetFlag: false
+components:
+  schemas:
+    FileStatus:
+      title: FileStatus
+      required:
+      - message
+      - status
+      type: object
+      properties:
+        message:
+          type: string
+          description: Detailed message about the export status
+          example: Export completed successfully and uploaded to repository
+          exampleSetFlag: true
+        status:
+          type: string
+          description: Status of the export operation
+          example: COMPLETED
+          exampleSetFlag: true
+      description: Status and message for asynchronous file-based operations.
+      exampleSetFlag: false
+    Resource:
+      title: Resource
+      type: object
+      properties:
+        description:
+          type: string
+          exampleSetFlag: true
+        file:
+          type: string
+          format: binary
+          exampleSetFlag: true
+        filename:
+          type: string
+          exampleSetFlag: true
+        inputStream:
+          $ref: '#/components/schemas/InputStream'
+          exampleSetFlag: true
+        open:
+          type: boolean
+          exampleSetFlag: true
+        readable:
+          type: boolean
+          exampleSetFlag: true
+        uri:
+          type: string
+          format: uri
+          exampleSetFlag: true
+        url:
+          type: string
+          format: url
+          exampleSetFlag: true
+      exampleSetFlag: false
+    FileValidationResponse:
+      title: FileValidationResponse
+      required:
+      - message
+      - status
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message for the UI
+          example: Invalid import method specified
+          exampleSetFlag: true
+        status:
+          type: integer
+          description: HTTP status code
+          format: int32
+          example: 400
+          exampleSetFlag: true
+      description: Standard validation response for file-related operations.
+      exampleSetFlag: false
+    InputStream:
+      title: InputStream
+      type: object
+      exampleSetFlag: false
+    ExportMapper:
+      title: ExportMapper
+      required:
+      - exportMode
+      - exportOption
+      - fileName
+      type: object
+      properties:
+        encryptionKey:
+          type: string
+          description: Encryption key used for securing the export
+          example: Test_30#
+          exampleSetFlag: true
+        exportMode:
+          type: string
+          description: all policies or only selected ones
+          example: exportAll
+          exampleSetFlag: true
+        exportOption:
+          type: string
+          description: Mode of export
+          example: repository
+          exampleSetFlag: true
+        fileName:
+          type: string
+          description: Name of the file to be created
+          example: posture-export
+          exampleSetFlag: true
+        policyIds:
+          type: array
+          description: List of posture policy identifiers selected for export or import.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        repository:
+          type: string
+          description: Repository where the file will be uploaded
+          example: Provide Repository already exist on server
+          exampleSetFlag: true
+      description: Request body for posture policy export configuration.
+      exampleSetFlag: false
+    InlineResponse500:
+      title: InlineResponse500
+      type: object
+      properties:
+        error:
+          type: string
+          example: Unable to retrieve export status
+          exampleSetFlag: true
+      exampleSetFlag: false

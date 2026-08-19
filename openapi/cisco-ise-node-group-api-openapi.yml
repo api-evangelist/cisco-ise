@@ -1,0 +1,456 @@
+openapi: 3.2.0
+info:
+  title: Deployment Node Group API
+  description: APIs for the configuration, administration and monitoring of the nodes in a Cisco ISE cluster deployment.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    email: cs-ise-api@cisco.com
+  version: v3-oas3
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: Node Group
+paths:
+  /deployment/node-group:
+    get:
+      summary: Retrieve the list of all the node groups.
+      operationId: getNodeGroups
+      description: This API retrieves the details of all the node groups in the cluster.<br> Each node group retrieved consists of name, description and MAR cache details like query-attempts, query-timeout, replication-attempts, replication-timeout. </br>
+      tags:
+      - Node Group
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeGroupsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node groups not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create a node group.
+      operationId: createNodeGroup
+      description: '<div> <style type="text/css" scoped> .nodeGroupTable td , .nodeGroupTable th { padding: 5px 10px !important; text-align: left;} </style> <span>This API creates a node group in the cluster.  A node group is a group of PSNs, where the PSNs maintain a heartbeat with each other. It is used primarily to terminate or transfer posture-pending sessions when a PSN in a local node group fails.  Node group members can communicate over TCP/7800.</span><br> </br><span>The following parameters are used in the request body of the API:</span></br> <table class="nodeGroupTable"> <thead> <tr> <th>PARAMETER</th> <th>DESCRIPTION</th> <th>EXAMPLE</th> </tr> </thead> <tbody> <tr> <td>name<sup><font color=red>* required</font></sup></td> <td>Name of the node group(<b>valid-range:</b> 1-100 characters)</td> <td>{"name": "site1"}</td> </tr> <tr> <td>description</td> <td>Description of the node group (<b>valid-range:</b> 1-256 characters)</td> <td>{"name": "site2", "description": "sample"}</td> </tr> <tr> <td>query-attempts</td> <td>The number of times Cisco ISE attempts to perform the cache entry query. (<b>valid-range:</b> 0 - 5, <b>default-value:</b> 1)</td> <td>{"name": "site3","marCache": {"query-attempts": 1}}</td> </tr> <tr> <td>query-timeout</td> <td>The time, in seconds, after which a cache entry query times out. (<b>valid-range:</b> 1 - 10, <b>default-value:</b> 2) second(s)</td> <td>{"name": "site4","marCache": {"query-timeout": 2}}</td> </tr> <td>replication-attempts</td> <td>The number of times Cisco ISE attempts to perform MAR cache entry replication. (<b>valid-range:</b> 0 - 5, <b>default-value:</b> 2)</td> <td>{"name": "site5","marCache": {"replication-attempts": 2}}</td> </tr> <tr> <td>replication-timeout</td> <td>The time, in seconds, after which the cache entry replication times out. (<b>valid-range:</b> 1 - 10, <b>default-value:</b> 5) second(s)</td> <td>{"name": "site6","marCache": {"replication-timeout": 5}}</td> </tr> </tbody> </table></br> <span><b>NOTE 1: </b>: Node group name and description cannot contain any of the following characters: ! % ^ : ; , . ~ @ # & [ { ( | ) } ] ` > <  / \ " - + = ?</br> <b>NOTE 2: </b>: Parameter marCache stands for Machine Access Restriction (MAR) cache that provides an additional means of controlling authorization for Active Directory-authentication users. We can enable the marCache for a nodegroup by providing key "marCache" in json request. Additionally we may also provide any combination of parameters - query-attempts, query-timeout, replication-attempts, replication-timeout in marCache object. If no value is specified for a particular parameter its default value will be recorded.If no marCache object is given, marCache will be considered as disabled.  </br></span> <div>'
+      tags:
+      - Node Group
+      requestBody:
+        description: Details of new node group to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeGroupConfig'
+      responses:
+        '201':
+          description: Created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict. Node group already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/node-group/{nodeGroupName}:
+    get:
+      summary: Retrieve the details of a node group
+      operationId: getNodeGroup
+      description: This API retrieves the details of a node group in the cluster using a node group name.
+      tags:
+      - Node Group
+      parameters:
+      - name: nodeGroupName
+        in: path
+        description: Name of the existing node group.
+        required: true
+        schema:
+          pattern: ^[a-zA-Z0-9_ ]{1,100}$
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeGroupResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node groups not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update an existing node group.
+      operationId: updateNodeGroup
+      description: Update an existing node group.
+      tags:
+      - Node Group
+      parameters:
+      - name: nodeGroupName
+        in: path
+        description: Name of the existing node group.
+        required: true
+        schema:
+          pattern: ^[a-zA-Z0-9_ ]{1,100}$
+          type: string
+      requestBody:
+        description: Details of the exiting node group that must be updated.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeGroupConfig'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden [Updating a node group whose name does not match with the payload is forbidden].
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node group does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '405':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete a node group.
+      operationId: deleteNodeGroup
+      description: Delete an existing node group in the cluster. Deleting the node group does not delete the nodes, but failover is no longer carried out among the nodes.
+      tags:
+      - Node Group
+      parameters:
+      - name: nodeGroupName
+        in: path
+        description: Name of the existing node group.
+        required: true
+        schema:
+          pattern: ^[a-zA-Z0-9_ ]{1,100}$
+          type: string
+      - name: forceDelete
+        in: query
+        description: Force delete the group even if the node group contains one or more nodes.
+        required: true
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden [Node group contains one or more nodes.]
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/node-group/{nodeGroupName}/add-node:
+    post:
+      summary: Add a node to a node group.
+      operationId: addNode
+      description: '<div> <style type="text/css" scoped> .nodeGroupTable td , .nodeGroupTable th { padding: 5px 10px !important; text-align: left;} </style> <span>This API adds a node to the node group in the cluster. When a node that belongs to a node group fails, another node in the same node group issues a Change of Authorization (CoA) for all the URL-redirected sessions on the failed node.</span><br> </br><span>The following parameters are used in the request body of the API:</span></br> <table class="nodeGroupTable"> <thead> <tr> <th>PARAMETER</th> <th>DESCRIPTION</th> <th>EXAMPLE</th> </tr> </thead> <tbody> <tr> <td>hostname<sup><font color=red>* required</font></sup></td> <td>Name of the host name </td> <td>{"hostname": "isenode"}</td> </tr> </tbody> </table></br> <div>'
+      tags:
+      - Node Group
+      parameters:
+      - name: nodeGroupName
+        in: path
+        description: Name of the existing node group.
+        required: true
+        schema:
+          pattern: ^[a-zA-Z0-9_ ]{1,100}$
+          type: string
+      requestBody:
+        description: Hostname of the node that must be added to the node group.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hostname'
+            example:
+              Hostname: isenode
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node/Nodegroup not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict. The node is already part of a node group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/node-group/{nodeGroupName}/remove-node:
+    post:
+      summary: Remove a node from a node group.
+      operationId: removeNode
+      description: '<div> <style type="text/css" scoped> .nodeGroupTable td , .nodeGroupTable th { padding: 5px 10px !important; text-align: left;} </style> <span>Purpose of this API is to remove a node from a node group in the cluster. Removing node from the node group does not delete the node, but failover is no longer carried out if the node is not part any node group.</span><br> </br><span>The following parameters are used in the request body of the API:</span></br> <table class="nodeGroupTable"> <thead> <tr> <th>PARAMETER</th> <th>DESCRIPTION</th> <th>EXAMPLE</th> </tr> </thead> <tbody> <tr> <td>hostname<sup><font color=red>* required</font></sup></td> <td>Name of the host name </td> <td>{"hostname": "isenode"}</td> </tr> </tbody> </table></br> <div>'
+      tags:
+      - Node Group
+      parameters:
+      - name: nodeGroupName
+        in: path
+        description: Name of the existing node group.
+        required: true
+        schema:
+          pattern: ^[a-zA-Z0-9_ ]{1,100}$
+          type: string
+      requestBody:
+        description: Hostname of the node that must be deleted from the node group.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hostname'
+            example:
+              Hostname: isenode
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: Node not found in the node group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /deployment/node-group/{nodeGroupName}/node:
+    get:
+      summary: Retrieve the list of nodes in a given node group.
+      operationId: getNodes
+      description: This API retrieves the list of nodes associated with a node group in the cluster with a given node group name.
+      tags:
+      - Node Group
+      parameters:
+      - name: nodeGroupName
+        in: path
+        description: Name of the existing node group.
+        required: true
+        schema:
+          pattern: ^[a-zA-Z0-9_ ]{1,100}$
+          type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeGroupNodesResponse'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Node group not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    NodeGroupNodesResponse:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hostname'
+          example:
+          - hostname: isenode1
+          - hostname: isenode2
+        version:
+          type: string
+          example: 1.0.0
+    NodeGroupConfig:
+      type: object
+      properties:
+        name:
+          pattern: ^[a-zA-Z0-9_ ]{1,100}$
+          type: string
+          example: site1
+        description:
+          $ref: '#/components/schemas/Description'
+        marCache:
+          type: object
+          properties:
+            replication-timeout:
+              description: 'The time, in seconds, after which the cache entry replication times out. (1 - 10).
+
+                '
+              minimum: 1
+              maximum: 10
+              default: 5
+              type: integer
+              example: 5
+            replication-attempts:
+              description: 'The number of times Cisco ISE attempts to perform MAR cache entry replication. (0 - 5).
+
+                '
+              minimum: 0
+              maximum: 5
+              default: 2
+              type: integer
+              example: 2
+            query-timeout:
+              description: 'The time, in seconds, after which the cache entry query times out. (1 - 10).
+
+                '
+              minimum: 1
+              maximum: 10
+              default: 2
+              type: integer
+              example: 2
+            query-attempts:
+              description: 'The number of times Cisco ISE attempts to perform the cache entry query. (0 - 5).
+
+                '
+              minimum: 0
+              maximum: 5
+              default: 1
+              example: 1
+              type: integer
+          example: TBD
+      required:
+      - name
+    NodeGroupsResponse:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeGroupConfig'
+          example: TBD
+        version:
+          type: string
+          example: 1.0.0
+    NodeGroupResponse:
+      type: object
+      properties:
+        response:
+          type: object
+          $ref: '#/components/schemas/NodeGroupConfig'
+          example: TBD
+        version:
+          type: string
+          example: 1.0.0
+    Hostname:
+      type: object
+      properties:
+        hostname:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    Description:
+      maxLength: 256
+      minLength: 1
+      pattern: '[a-zA-Z][a-zA-Z0-9\\-_ ]*'
+      type: string
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success

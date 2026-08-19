@@ -1,0 +1,408 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Policy Device Administration - Network Conditions API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.9.91:443
+  description: Inferred Url
+tags:
+- name: Device Administration - Network Conditions
+paths:
+  /api/v1/policy/device-admin/network-condition:
+    get:
+      tags:
+      - Device Administration - Network Conditions
+      summary: Device Admin - Returns a list of network conditions.
+      description: Device Admin - Returns a list of network conditions.
+      operationId: getDeviceAdminNetworkConditions
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of network conditions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConditionListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    post:
+      tags:
+      - Device Administration - Network Conditions
+      summary: Device Admin- Creates network condition.
+      description: Device Admin- Creates network condition.
+      operationId: postDeviceAdminNetworkCondition
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkCondition'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConditionResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConditionResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+  /api/v1/policy/device-admin/network-condition/{conditionId}:
+    get:
+      tags:
+      - Device Administration - Network Conditions
+      summary: Device Admin - Returns a network condition.
+      description: Device Admin - Returns a network condition.
+      operationId: getDeviceAdminNetworkConditionByConditionId
+      parameters:
+      - name: conditionId
+        in: path
+        description: Condition id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Network condition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConditionResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    put:
+      tags:
+      - Device Administration - Network Conditions
+      summary: Device Admin - Update network condition.
+      description: Device Admin - Update network condition.
+      operationId: putDeviceAdminNetworkConditionByConditionId
+      parameters:
+      - name: conditionId
+        in: path
+        description: Condition id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkCondition'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConditionResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - Device Administration - Network Conditions
+      summary: Device Admin - Delete network condition.
+      description: Device Admin - Delete network condition.
+      operationId: deleteDeviceAdminNetworkConditionByConditionId
+      parameters:
+      - name: conditionId
+        in: path
+        description: Condition id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Response with object ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponseEntity'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    NetworkConditionListResponseEntity:
+      title: NetworkConditionListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"name":"Endstation condition 1","id":"ad947f38-7063-4da2-8723-652e0ca2ea41","description":"Optional description","conditionType":"EndstationCondition","ipAddrList":["3.3.3.3","4.4.4.4"],"macAddrList":null,"cliDnisList":null,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/network-condition/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}},{"name":"Endstation condition 2","id":"b79114b5-4a89-41ba-a8fe-d1a5f6d56a43","description":"Optional description","conditionType":"EndstationCondition","ipAddrList":["1.1.1.1","2.2.2.2"],"macAddrList":["00-0E-A6-A7-63-F7,00-0E-A6-A7-63-F8","00-0E-A6-A7-63-F7,-ANY-"],"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/network-condition/ad947f38-7063-4da2-8723-652e0ca2ea42","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/NetworkCondition'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    NetworkCondition:
+      title: NetworkCondition
+      required:
+      - conditionType
+      - name
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: This field determines the content of the conditions field
+          example: EndstationCondition
+          exampleSetFlag: true
+          enum:
+          - DeviceCondition
+          - DevicePortCondition
+          - EndstationCondition
+        description:
+          type: string
+          example: Network Condition Description
+          exampleSetFlag: true
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Network Condition name
+          example: My network condition
+          exampleSetFlag: true
+      description: Unique network conditions to restrict access to the network
+      exampleSetFlag: false
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    NetworkConditionResponseEntity:
+      title: NetworkConditionResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/NetworkCondition'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+  securitySchemes:
+    BasicAuth:
+      type: http
+      description: Basic authorization
+      scheme: basic

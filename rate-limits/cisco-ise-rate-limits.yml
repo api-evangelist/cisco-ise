@@ -1,0 +1,34 @@
+generated: '2026-08-19'
+method: searched
+source: https://developer.cisco.com/docs/identity-services-engine/latest/maximum-concurrent-ers-api-connections/
+docs: https://developer.cisco.com/docs/identity-services-engine/latest/maximum-concurrent-ers-api-connections/
+limit_count: 1
+limits:
+- name: Maximum concurrent ERS API connections
+  scope: per-deployment
+  surface: ERS API
+  limit: 100
+  unit: transactions per second
+  window: 1s
+  burst: null
+  source: https://developer.cisco.com/docs/identity-services-engine/latest/maximum-concurrent-ers-api-connections/
+  verbatim: The maximum number of Concurrent ERS API Connections is 100 transactions per second (TPS).
+response_headers:
+  ratelimit_standard: null
+  x_ratelimit: null
+  retry_after: null
+  note: Cisco documents NO rate-limit response headers for either the ERS or Open API surface — no RateLimit-*, no X-RateLimit-*,
+    no Retry-After — and none appear in any of the 103 published documents. There is also no documented status code for exhaustion;
+    429 is declared on zero of the 1,490 operations. A client cannot detect that it is approaching the 100 TPS ceiling, and
+    cannot distinguish throttling from a generic failure.
+exhaustion_status: null
+session:
+  ers_idle_timeout_seconds: 60
+  note: 'Not a rate limit, but the closest runtime constraint Cisco publishes: an ERS session idle for more than 60 seconds
+    is reset and a new CSRF token must be fetched.'
+mdm_expectation:
+  scope: outbound MDM integration
+  target_ms: 200
+  degrade_ms: 300
+  note: For the MDM contract ISE calls outward on, Cisco states compliance queries are expected to answer within 200ms and
+    that anything over 300ms affects end-user access.

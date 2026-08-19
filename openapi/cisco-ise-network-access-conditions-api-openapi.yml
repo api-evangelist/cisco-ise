@@ -1,0 +1,692 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Policy Network Access - Conditions API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.9.91:443
+  description: Inferred Url
+tags:
+- name: Network Access - Conditions
+paths:
+  /api/v1/policy/network-access/condition:
+    get:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Returns all library conditions
+      description: Network Access - Returns all library conditions
+      operationId: getNetworkAccessConditions
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: List of library conditions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    post:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Creates a library condition.
+      description: 'Network Access - Creates a library condition: <ul> <li> Library Condition has hierarchical structure which define a set of condition for which authentication and authorization policy rules could be match.</li> <li> Condition can be compose from single dictionary attribute name and value using model <b>LibraryConditionAttributes</b> , or from combination of dictionary attributes with logical operation of AND/OR between them, using models: <b>LibraryConditionAndBlock</b> or <b>LibraryConditionOrBlock</b>.</li> <li> When using AND/OR blocks, the condition will include inner layers inside these blocks, these layers are built using the inner condition models: <b>ConditionAttributes</b>, <b>ConditionAndBlock</b>, <b>ConditionOrBlock</b>, that represent dynamically built Conditions which are not stored in the conditions Library, or using <b>ConditionReference</b>, which includes an ID to existing stored condition in the library.</li> <li> The LibraryCondition models can only be used in the outer-most layer (root of the condition) and must always include the condition name.</li> <li> When using one of the 3 inner condition models (<b>ConditionAttributes, ConditionAndBlock, ConditionOrBlock</b>), condition name cannot be included in the request, since these will not be stored in the conditions library, and used only as inner members of the root condition.</li> <li> When using <b>ConditionReference</b> model in inner layers, the condition name is not required.</li> <li> ConditionReference objects can also include a reference ID to a condition of type <b>TimeAndDate</b>.</li> </ul> '
+      operationId: postNetworkAccessCondition
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Condition'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Library condition object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - BasicAuth: []
+  /api/v1/policy/network-access/condition/authentication:
+    get:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Returns list of library conditions for Authentication rules scope.
+      description: Network Access - Returns list of library conditions for Authentication rules scope.
+      operationId: getNetworkAccessConditionsForAuthenticationRule
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: List of library conditions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/policy/network-access/condition/authorization:
+    get:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Returns list of library conditions for Authorization rules scope.
+      description: Network Access - Returns list of library conditions for Authorization rules scope.
+      operationId: getNetworkAccessConditionsForAuthorizationRule
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: List of library conditions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/policy/network-access/condition/condition-by-name/{conditionName}:
+    get:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Returns a library condition.
+      description: Network Access - Returns a library condition.
+      operationId: getNetworkAccessConditionByConditionName
+      parameters:
+      - name: conditionName
+        in: path
+        description: Condition name
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Library condition object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    put:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Update library condition by condition name.
+      description: Network Access - Update library condition using condition name.
+      operationId: putNetworkAccessConditionByConditionName
+      parameters:
+      - name: conditionName
+        in: path
+        description: Condition name
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Condition'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Library condition object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Delete a library condition by condition Name.
+      description: Network Access - Delete a library condition using condition Name.
+      operationId: deleteNetworkAccessConditionByConditionName
+      parameters:
+      - name: conditionName
+        in: path
+        description: Condition name
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Response with object ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponseEntity'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/policy/network-access/condition/policyset:
+    get:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Returns list of library conditions for PolicySet scope.
+      description: Network Access - Returns list of library conditions for PolicySet scope.
+      operationId: getNetworkAccessConditionsForPolicySet
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: List of library conditions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+  /api/v1/policy/network-access/condition/{conditionId}:
+    get:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Returns a library condition.
+      description: Network Access - Returns a library condition.
+      operationId: getNetworkAccessConditionByConditionId
+      parameters:
+      - name: conditionId
+        in: path
+        description: Condition id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Library condition object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    put:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Update library condition.
+      description: Network Access - Update library condition.
+      operationId: putNetworkAccessConditionByConditionId
+      parameters:
+      - name: conditionId
+        in: path
+        description: Condition id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Condition'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: Library condition object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryConditionResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - Network Access - Conditions
+      summary: Network Access - Delete a library condition.
+      description: Network Access - Delete a library condition.
+      operationId: deleteNetworkAccessConditionByConditionId
+      parameters:
+      - name: conditionId
+        in: path
+        description: Condition id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Response with object ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponseEntity'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    LibraryConditionListResponseEntity:
+      title: LibraryConditionListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"name":"WirelessMAB","conditionType":"LibraryConditionAttributes","description":"Match only wireless MAB","dictionaryName":"Normalised Radius","attributeName":"RadiusFlowType","operator":"equals","attributeValue":"WirelessMAB","id":"ad947f38-7063-4da2-8723-652e0ca2ea41","isNegate":false,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/condition/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}},{"name":"Wired_MAB","conditionType":"LibraryConditionAttributes","description":"Match only Wired MAB","dictionaryName":"Normalised Radius","attributeName":"RadiusFlowType","operator":"equals","attributeValue":"WiredMAB","id":"ad947f38-7063-4da2-8723-652e0ca2ea42","isNegate":false,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/condition/ad947f38-7063-4da2-8723-652e0ca2ea42","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Condition'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    LibraryConditionResponseEntity:
+      title: LibraryConditionResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Condition'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+  securitySchemes:
+    BasicAuth:
+      type: http
+      description: Basic authorization
+      scheme: basic

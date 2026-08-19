@@ -1,0 +1,210 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - Alarms Alarm details API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://10.104.241.219:443
+  description: Inferred Url
+tags:
+- name: Alarm details
+paths:
+  /api/v1/alarms/details-report/definitions:
+    get:
+      tags:
+      - Alarm details
+      summary: Retrieve Report Definitions with Sections
+      description: Returns static report definition data containing report names and their associated sections with IDs and titles.
+      operationId: getReportDefinitions
+      responses:
+        '200':
+          description: Successful response containing the report definitions with sections.
+          content:
+            application/json:
+              schema:
+                type: array
+                exampleSetFlag: true
+                items:
+                  $ref: '#/components/schemas/ReportDefinitionWithSections'
+                  exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+  /api/v1/alarms/{reportName}/details-report:
+    get:
+      tags:
+      - Alarm details
+      summary: Retrieve Report Data
+      description: Fetches data for a specific report section. The response format varies based on the section's template (grid, chart, etc.).
+      operationId: getReportStoreData
+      parameters:
+      - name: reportName
+        in: path
+        description: The reportName is used to retrieve data from the designated report.
+        required: true
+        style: simple
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: section
+        in: header
+        description: The ID of the report section for which to retrieve data. Must correspond to a valid section ID from the report definition.
+        required: true
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: server
+        in: header
+        description: Server identifier to filter results for a specific server.
+        required: true
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: timeRange
+        in: header
+        description: Specifies the time range for the report data. Accepts predefined values such as 'today', 'last7days' and  'last30days'. Use 'custom' to specify a custom range with the 'from' and 'to' parameters. If omitted, the default time range is determined by the report's definition, often defaulting to 'today'.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - custom
+          - last30days
+          - last7days
+          - today
+      - name: from
+        in: header
+        description: Start timestamp for custom time range filter. Supports epoch time in milliseconds or time format (ISO 8601 UTC format, e.g., "2025-09-15T10:00:00.000Z").
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: to
+        in: header
+        description: End timestamp for custom time range filter. Supports epoch time in milliseconds or time format (ISO 8601 UTC format, e.g., "2025-09-15T10:00:00.000Z").
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Successful response containing the report data. The structure of the items in the array depends on the report section's template.
+          content:
+            application/json:
+              schema:
+                type: array
+                exampleSetFlag: true
+                items:
+                  type: object
+                  exampleSetFlag: false
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                exampleSetFlag: false
+components:
+  schemas:
+    Message:
+      title: Message
+      type: object
+      properties:
+        data:
+          type: array
+          description: Optional data payload, like a list of items.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A string containing a brief message about the result of the operation, such as "Success" for successful operations or an error message for failures.
+          example: Success
+          exampleSetFlag: true
+      description: Represents a simple message object used in API responses. This object typically contains a single message string that provides information about the success, error, or status of an operation.
+      exampleSetFlag: false
+    ReportSectionDefinition:
+      title: ReportSectionDefinition
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the section.
+          example: '0'
+          exampleSetFlag: true
+        title:
+          type: string
+          description: The title/name of the section.
+          example: chartTimeVsCPUUtilization
+          exampleSetFlag: true
+      description: Represents a section within a report definition.
+      exampleSetFlag: false
+    ReportDefinitionWithSections:
+      title: ReportDefinitionWithSections
+      type: object
+      properties:
+        reportName:
+          type: string
+          description: The name of the report file.
+          example: Health-Summary.xml
+          exampleSetFlag: true
+        sections:
+          type: array
+          description: List of sections within the report.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/ReportSectionDefinition'
+            exampleSetFlag: false
+      description: Represents a report definition with its associated sections.
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
+      exampleSetFlag: false

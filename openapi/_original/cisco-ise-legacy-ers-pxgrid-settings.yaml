@@ -1,0 +1,122 @@
+swagger: '2.0'
+info:
+  description: "pxGrid Settings API allows the client to change auto-approve settings for pxGrid nodes.\n    \n**Note:**\n\
+    From Cisco ISE Release 3.1, all pxGrid connections must be based on pxGrid 2.0. pxGrid 1.0-based (XMPP-based) integrations\
+    \ will cease to work on Cisco ISE from Release 3.1 onwards. \n\n  pxGrid Version 2.0, which is based on WebSockets, was\
+    \ introduced in Cisco ISE Release 2.4. We recommend that you plan and upgrade your other systems to pxGrid 2.0-compliant\
+    \ versions in order to prevent potential disruptions, if any, to integrations.    \n    \n\n<h2>Revision History</h2>\n\
+    <table font-family:monospace>\n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision\
+    \ #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>\n<tr style\
+    \ ='border-bottom:solid #CCCCCC 1.0pt'><td>0</td><td>1.0</td><td>3.0</td><td>Initial Cisco ISE Version</td></tr>\n</table>\n\
+    <br><br>\n\n<h2>Resource Definition</h2>\n<table>\n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid\
+    \ #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default\
+    \ Values</b></td><td><b>Example Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource\
+    \ Name</td><td></td><td></td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource\
+    \ UUID, mandatory for update</td><td><td></td></tr>\n<tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource\
+    \ Description</td><td></td><td></td></tr>\n<tr style= 'background:#f8f8f8'><td style='font-family:monospace'>autoApproveCertBasedAccounts</td><td>Boolean</td><td>Yes</td><td>Auto\
+    \ approve certificate based accounts when true</td><td>false</td><td>true</td></tr>\n<tr style='border-bottom:solid #CCCCCC\
+    \ 1.0pt'><td style='font-family:monospace'>allowPasswordBasedAccounts</td><td>Boolean</td><td>Yes</td><td>Allow password\
+    \ based acoounts when true</td><td>false</td><td></td></tr>\n</table>\n"
+  version: 1.0.0
+  title: pxGrid Settings
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: pxgridsettings
+paths:
+  /ers/config/pxgridsettings/autoapprove:
+    put:
+      tags:
+      - pxgridsettings
+      summary: Auto approve pxGrid settings
+      description: <p>This API allows the client to auto approve the pxGrid settings.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- pxgrid.pxgridsettings.1.0
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/settings'
+      responses:
+        204:
+          description: No Content
+  /ers/config/pxgridsettings/versioninfo:
+    get:
+      tags:
+      - pxgridsettings
+      summary: Get pxGrid settings version information
+      description: <p>This API helps to retrieve the version information related to the pxGrid settings.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+definitions:
+  settings:
+    type: object
+    properties:
+      PxgridSettings:
+        $ref: '#/definitions/PxgridSettings'
+  PxgridSettings:
+    type: object
+    properties:
+      autoApproveCertBasedAccounts:
+        type: boolean
+        example: true
+      allowPasswordBasedAccounts:
+        type: boolean
+        example: false
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '1.0'
+      supportedVersions:
+        type: string
+        example: '1.0'
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/pxgridsettings/versioninfo
+      type:
+        type: string
+        example: application/json

@@ -1,0 +1,69 @@
+# Cisco Identity Services Engine (ISE)
+
+> Cisco's network access control and zero-trust policy platform: 802.1X/RADIUS authentication, TACACS+
+> device administration, guest and BYOD onboarding, endpoint profiling, posture, and TrustSec
+> security-group segmentation. Cisco publishes 103 machine-readable API descriptions covering 1,490
+> operations for it. The APIs are served by each customer's own on-premises ISE appliance behind the
+> ISE API Gateway, so there is no shared public API host — but the contracts themselves are public.
+
+Authentication is HTTP Basic over TLS 1.1+, with ERS Admin (read/write) and ERS Operator (read-only)
+roles. API services are DISABLED by default and must be enabled per node. There is no OAuth, no API
+key, and no documented idempotency key. Pagination is page/size (default 20, max 100). The published
+throughput ceiling is 100 TPS for ERS, with no rate-limit response headers.
+
+## APIs
+
+- [Cisco ISE API reference](https://developer.cisco.com/docs/identity-services-engine/latest/): the developer portal for every surface below
+- [ERS Open API](https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/ERS-Open-API/ERS_APIs.yaml): 395 operations, OpenAPI 3.0.1, the consolidated External RESTful Services contract
+- [Policy](https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/policy.yaml): 138 operations — RADIUS and TACACS+ policy sets, conditions, dictionaries
+- [TrustSec](https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/TrustSec.yaml): 139 operations — SGTs, SGACLs, egress matrices, virtual networks, SXP
+- [Monitoring (MnT)](https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Monitoring-Open-API/monitoring-open-api.yaml): 20 operations — sessions, active counts, reporting
+- [Certificates](https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/certificates.yaml): 22 operations — CSRs, system and trusted certificates
+- [Deployment](https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/deployment.yaml): 24 operations — nodes, node groups, PAN HA
+- [Webhooks](https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/webhooks.yaml): 13 operations — webhook configuration bound to alarm rules
+- [Mobile Device Management](https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Mobile%20Device%20Management/mobile-device-management.yaml): the outbound contract ISE calls on a third-party MDM
+
+## Specs
+
+- [Full spec index with provenance](https://raw.githubusercontent.com/api-evangelist/cisco-ise/refs/heads/main/openapi/cisco-ise-openapi-index.yml): all 103 documents, source URL, SHA-256, operation count
+- [APIs.json profile](https://raw.githubusercontent.com/api-evangelist/cisco-ise/refs/heads/main/apis.yml)
+
+## Docs
+
+- [Getting started / setting up](https://developer.cisco.com/docs/identity-services-engine/latest/setting-up/)
+- [Authentication](https://developer.cisco.com/docs/identity-services-engine/latest/authentication/)
+- [Pagination](https://developer.cisco.com/docs/identity-services-engine/latest/pagination/)
+- [Error responses](https://developer.cisco.com/docs/identity-services-engine/latest/error-responses/)
+- [Versioning and deprecation policy](https://developer.cisco.com/docs/identity-services-engine/latest/versioning/)
+- [Per-resource release matrix](https://developer.cisco.com/docs/identity-services-engine/latest/api-versioning/)
+- [Changelog](https://developer.cisco.com/docs/identity-services-engine/latest/changelog/)
+- [Maximum concurrent ERS connections](https://developer.cisco.com/docs/identity-services-engine/latest/maximum-concurrent-ers-api-connections/)
+- [DevNet Sandbox](https://developer.cisco.com/site/sandbox/)
+- [Licensing guide](https://www.cisco.com/c/en/us/products/collateral/security/identity-services-engine/guide-c07-656177.html)
+
+## SDKs
+
+- [ciscoisesdk (Python)](https://pypi.org/project/ciscoisesdk/) — 2.4.5, 2026-06-22
+- [cisco.ise (Ansible)](https://galaxy.ansible.com/ui/repo/published/cisco/ise/) — 3.2.0, 2026-05-08
+- [ciscoise-go-sdk (Go)](https://pkg.go.dev/github.com/CiscoISE/ciscoise-go-sdk) — v1.3.6, 2025-02-13
+- [CiscoISE/ciscoise (Terraform)](https://registry.terraform.io/providers/CiscoISE/ciscoise/latest) — 0.8.2-beta, 2025-02-14
+- [CiscoDevNet/terraform-provider-ise](https://github.com/CiscoDevNet/terraform-provider-ise)
+
+## Optional
+
+- [Cisco PSIRT security.txt](https://www.cisco.com/.well-known/security.txt)
+- [Cisco security vulnerability policy](https://sec.cloudapps.cisco.com/security/center/resources/security_vulnerability_policy.html)
+- [Cisco Trust Portal](https://trustportal.cisco.com/c/r/ctp/trust-portal.html)
+- [ISE blog](https://blogs.cisco.com/tag/cisco-ise)
+- [CiscoISE on GitHub](https://github.com/CiscoISE)
+
+## Notes for agents
+
+- There is no shared API host. `baseURL` values in this profile are templated on the customer's own
+  appliance (`https://{server}:{port}/ers/config`, `https://{ise-node}`). Several published `servers[]`
+  blocks name Cisco lab IPs (10.x/172.x) and are not callable.
+- 860 of 1,490 published operations carry no `operationId`, including all 395 in the ERS Open API.
+  Bind by method + path for those.
+- No idempotency key exists. Do not auto-retry writes.
+- Every write changes real network access policy. Treat POST/PUT/DELETE on policy, TrustSec,
+  authorization-profile and ANC resources as consequential.

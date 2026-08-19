@@ -1,0 +1,257 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec TrustSec OpenAPI View API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: TrustSec OpenAPI View
+paths:
+  /api/v1/trustsec/matrix/defaultPolicy:
+    get:
+      tags:
+      - TrustSec OpenAPI View
+      summary: Get default matrix data using view
+      description: Get default matrix data using view
+      operationId: getDefaultTrustsecMatrixPolicyViewDetails
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: matrixId
+        in: query
+        description: Matrix Id
+        required: false
+        style: form
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Trustsec Matrix details via OpenAPI
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrustsecMatrixPolicyViewResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/matrix/matrixPoliciesView:
+    get:
+      tags:
+      - TrustSec OpenAPI View
+      summary: Get entire matrix data using view
+      description: Get entire matrix data using view
+      operationId: getTrustsecMatrixPolicyViewDetails
+      parameters:
+      - name: startRow
+        in: query
+        description: Start Row
+        required: true
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: startColumn
+        in: query
+        description: Start Column
+        required: true
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: endRow
+        in: query
+        description: End Row
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: endColumn
+        in: query
+        description: End Column
+        required: false
+        style: form
+        schema:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      - name: matrixId
+        in: query
+        description: Matrix Id
+        required: false
+        style: form
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Trustsec Matrix details via OpenAPI
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrustsecMatrixPolicyViewResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+components:
+  schemas:
+    TrustsecMatrixPolicyViewResponse:
+      title: TrustsecMatrixPolicyViewResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/TrustsecMatrixPolicyViewDetailObj'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Trustsec Matrix view Result
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MatrixViewPolicyObj:
+      title: MatrixViewPolicyObj
+      type: object
+      properties:
+        colorPattern:
+          type: string
+          description: colorPattern
+          example: color:#EBF1DE,pattern:P0
+          exampleSetFlag: true
+        contractType:
+          type: string
+          description: Contract type of the policy
+          example: permit
+          exampleSetFlag: true
+        description:
+          type: string
+          description: description of the policy
+          example: sgt_1
+          exampleSetFlag: true
+        destinationSgtId:
+          type: string
+          description: destination security group tag id of the policy
+          example: sgt_1
+          exampleSetFlag: true
+        destinationSgtName:
+          type: string
+          description: destination security group tag name of the policy
+          example: DestSGT 1
+          exampleSetFlag: true
+        sgAclNameList:
+          type: string
+          description: SecurityGroup ACL name list
+          exampleSetFlag: true
+        sourceSgtId:
+          type: string
+          description: Source security group tag id of the policy
+          example: sgt_1
+          exampleSetFlag: true
+        sourceSgtName:
+          type: string
+          description: Source security group tag name of the policy
+          example: SourceSGT 1
+          exampleSetFlag: true
+        status:
+          type: object
+          description: status of  policy
+          example: sgt_1
+          exampleSetFlag: true
+      description: POJO for capturig the matrix details
+      exampleSetFlag: false
+    TrustsecMatrixPolicyViewDetailObj:
+      title: TrustsecMatrixPolicyViewDetailObj
+      type: object
+      properties:
+        matrixViewPolicyList:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MatrixViewPolicyObj'
+            exampleSetFlag: false
+      description: POJO for capturig the matrix view details
+      exampleSetFlag: false

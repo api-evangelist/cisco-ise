@@ -42,7 +42,7 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cisco Identity Services Engine (ISE) is Cisco's network access control and zero-trust policy platform, handling 802.1X authentication, guest and BYOD onboarding, profiling, posture and TrustSec security-group policy. It exposes the External RESTful Services (ERS) API, an OpenAPI-documented set of newer endpoints served from the appliance itself, and pxGrid for security context exchange. Because the contract is served by each customer's own appliance, there is no central anonymously fetchable specification.
+Cisco Identity Services Engine (ISE) is Cisco's network access control and zero-trust policy platform: 802.1X and RADIUS authentication, TACACS+ device administration, guest and BYOD onboarding, endpoint profiling, posture assessment, and TrustSec security-group segmentation.
 
 ## Ownership
 
@@ -50,15 +50,73 @@ Part of the Cisco family.
 
 ## Contract status
 
-The contract is served by each customer's own on-premises controller, so there is no central anonymously fetchable specification. API Evangelist has not authored a substitute.
+**Published — corrected 2026-08-19.**
+
+An earlier pass on this profile recorded *"the contract is served by each customer's own on-premises
+controller, so there is no central anonymously fetchable specification."* That was wrong. It was
+reached by checking only the JavaScript-rendered docs shell at `developer.cisco.com`.
+
+Cisco publishes **103 machine-readable API descriptions covering 1,490 operations** for Cisco ISE,
+anonymously and without credentials, on its own DevNet documentation CDN at
+`pubhub.devnetcloud.com`, under the DevNet project `identity-services-engine-api-v1` (project_id
+3039). They are enumerable from that project's own `config.json` manifest. All 103 were fetched at
+HTTP 200 and are saved verbatim in [`openapi/_original/`](openapi/_original/) with per-file source
+URL, SHA-256, byte count and operation count recorded in
+[`openapi/cisco-ise-openapi-index.yml`](openapi/cisco-ise-openapi-index.yml).
+
+What is customer-specific is the **runtime**, not the **contract**. The API is served by each
+customer's own appliance behind the Cisco ISE API Gateway, so base URLs in this profile are
+templated (`https://{server}:{port}/ers/config`, `https://{ise-node}`) — which is correct and
+expected for an on-premises product.
+
+| | |
+|---|---|
+| Documents | 103 (32 OpenAPI 3.0.x, 71 Swagger 2.0) |
+| Operations | 1,490 |
+| Largest | ERS Open API — 395 operations, OpenAPI 3.0.1 |
+| Authentication | HTTP Basic; ERS Admin (read/write) or ERS Operator (read-only) |
+| Published rate limit | 100 TPS concurrent ERS connections, no response headers |
+| Event surface | Webhooks OpenAPI (ISE 3.6 Beta), Prometheus AlertManager, pxGrid |
+
+### Defects found in Cisco's published documents
+
+Recorded, not repaired — repairing them here would destroy provenance.
+
+- **860 of 1,490 operations (58%) carry no `operationId`**, including all 395 in the ERS Open API.
+- **30 of the 69 legacy ERS Swagger 2.0 documents contain literal tab characters** and fail a strict
+  YAML parse.
+- **95 of 103 documents declare no `securitySchemes`**, although every ISE API requires HTTP Basic.
+- **`servers[]` mostly names Cisco lab appliances** (`10.x`, `172.x`, `iseui-vm11.cisco.com`) rather
+  than the templated on-premises form.
+- **Zero operations are marked `deprecated: true`**, although Cisco's published policy says
+  deprecated operations are marked in the OpenAPI description and the changelog records real
+  deprecations (Transport Gateway, ISE 3.3 Patch 2 and 3.4 GA).
+- **No idempotency key of any kind**, on either surface — writes are not safely retryable.
+
+## Agent surface
+
+- **No first-party MCP server.** Cisco publishes none for ISE. `mcp/cisco-ise-mcp.yml` holds a
+  *derived candidate* tool set and is deliberately **not** wired as an `MCPServer` pointer.
+  Community servers exist (automateyournetwork/ISE_MCP, dlhace/cisco-ise-mcp) and are recorded as
+  third-party, not credited to Cisco.
+- **No A2A agent card.** `/.well-known/agent-card.json` and `/.well-known/agent.json` both return
+  404 on `developer.cisco.com`. Nothing is written for it.
+- **No `llms.txt` published** by Cisco; one is generated at `llms/cisco-ise-llms.txt`.
+- Five Agent Skills in [`skills/`](skills/), every `operationId` verified against the harvested
+  documents.
 
 ## Verified links
 
-- [Portal](https://developer.cisco.com/docs/identity-services-engine/)
-- [Documentation](https://developer.cisco.com/docs/identity-services-engine/)
-- [APIReference](https://developer.cisco.com/docs/identity-services-engine/)
+- [Developer portal](https://developer.cisco.com/identity-services-engine/)
+- [API reference](https://developer.cisco.com/docs/identity-services-engine/latest/)
+- [Getting started](https://developer.cisco.com/docs/identity-services-engine/latest/setting-up/)
+- [Changelog](https://developer.cisco.com/docs/identity-services-engine/latest/changelog/)
+- [Versioning and deprecation policy](https://developer.cisco.com/docs/identity-services-engine/latest/versioning/)
+- [DevNet Sandbox](https://developer.cisco.com/site/sandbox/)
+- [Licensing guide](https://www.cisco.com/c/en/us/products/collateral/security/identity-services-engine/guide-c07-656177.html)
+- [GitHub (CiscoISE)](https://github.com/CiscoISE)
+- [Blog](https://blogs.cisco.com/tag/cisco-ise)
+- [Cisco PSIRT security.txt](https://www.cisco.com/.well-known/security.txt)
 - [ParentCompany](https://apis.io/providers/cisco/)
-- [Terraform](https://github.com/CiscoDevNet/terraform-provider-ise)
-- [Portal](https://developer.cisco.com/)
 
 All URLs above returned HTTP 200 when probed on 2026-08-19.

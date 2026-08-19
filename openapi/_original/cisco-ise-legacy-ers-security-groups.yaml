@@ -1,0 +1,681 @@
+swagger: '2.0'
+info:
+  description: |
+    SGT API allows the client to search SGTs.
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td><td colspan ="2"><b>Revision Modification</b></td></tr>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td></td><td></td><td></td><td></b></td><td><b>Attribute</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>1.2</td><td>Initial Cisco ISE Version</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td>1</td><td>1.1</td><td>1.4</td><td>Cisco ISE 1.4 model changes</td><td>isTagFromRange</td><td>Removed Attribute isTagFromRange - depricated - set to FALSE value by default</td></tr>
+    <tr><td>2</td><td>1.2</td><td>2.3</td><td>Cisco ISE 2.3 model changes</td><td>propogateToApic</td><td>Added Boolean Attribute propogateToApic - By default value is false</td></tr>
+    <tr valign=top style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td rowspan='2'>3</td><td rowspan='2'>1.3</td><td rowspan='2'>2.7</td><td rowspan='2'>Cisco ISE 2.7 model changes</td><td>isReadOnly</td><td>Added Boolean Attribute isReadOnly - By default value is false</td></tr><tr style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td>defaultSGACLs</td><td>Added List Attribute defaultSGACLs</td></tr>
+    </table>
+    <br><br>
+    
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td><td>Employees</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td><td>93ad6890-8c01-11e6-996c-525400b48521</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td><td>Employee Security Group</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>value</td><td>Integer</td><td>Yes</td><td>Value range: 2 ot 65519 or -1 to auto-generate</td><td></td><td>4</td></tr>
+    <tr><td style='font-family:monospace'>propogateToApic</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>isReadOnly</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr><td style='font-family:monospace'>defaultSGACLs</td><td>List</td><td>No</td><td></td><td></td><td>[ ]</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>propogateToApic</td><td>Boolean</td><td>No</td><td></td><td></td><td>true</td></tr>
+    <tr style= 'border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt'><td style='font-family:monospace'>generationId</td><td>Integer</td><td>No</td><td></td><td></td><td>0</td></tr>
+    </table>
+  
+  version: 1.0.0
+  title: sgt
+
+tags:
+- name: sgt
+
+
+paths:
+  /ers/config/sgt/{id}:
+    get:
+      tags: 
+      - sgt
+      summary: Get security group by ID
+      description:
+        <p>This API allows the client to get a security group by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- trustsec.sgt.1.2
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/securitygroups'
+
+    put:
+      tags:
+      - sgt
+      summary: Update security group
+      description:  <p>This API allows the client to update a security group.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- trustsec.sgt.1.2
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+               Operation 'Update' can be used within Bulk Request
+        - in: header
+          name: Additional Information
+          type: string
+          description: 
+               Generation Id is a read Only attribute hence any values that would be sent in the request would be ignored.
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/securitygroups'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+            
+    delete:
+      tags:
+      - sgt
+      summary: Delete security group
+      description:
+        <p>This API deletes a security group.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- trustsec.sgt.1.2
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+               Operation 'Delete' can be used within Bulk Request
+      responses: 
+        204:
+          description: No Content  
+          
+  /ers/config/sgt:
+    get:
+      tags: 
+      - sgt
+      summary: Get all security groups
+      description:
+        <p>This API allows the client to get all the security groups.</p>
+        <p><h1>Filter:</h1> <h3>[propogateToApic, name, description, value]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> 
+        <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul>
+        <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul>
+        <p><h1>Sorting:</h1> <h3>[name, description, value]</h3></p>    
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- trustsec.sgt.1.2
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+
+    post:
+      tags:
+      - sgt
+      summary: Create security group
+      description:
+        <p>This API creates a security group.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- trustsec.sgt.1.2
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+               Operation 'Create' can be used within Bulk Request
+        - in: header
+          name: Additional Information
+          type: string
+          description: 
+               Generation Id is a read Only attribute hence any values that would be sent in the request would be ignored.value '-1' , value will be auto generated according trustsec settings ranges only for , it can be Create opration.
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/securitygroups'
+      responses:
+        201:
+          description: Created
+             
+  /ers/config/sgt/versioninfo:
+    get:
+      tags:
+      - sgt
+      summary: Get security groups version information
+      description:
+        <p>This API helps to retrieve the version information related to the security groups.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+
+  /ers/config/sgt/submit:
+    put:
+      tags:
+      - sgt
+      summary: Submit bulk request 
+      description:
+        <p>This API allows the client to submit the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/bulkrequest'  
+      responses:
+        202:
+          description: Accepted
+
+  /ers/config/sgt/bulk/{bulkid}:
+    get:
+      tags:
+      - sgt
+      summary: Monitor bulk request 
+      description:
+        <p>This API allows the client to monitor the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: bulkid
+          in: path
+          type: string 
+          required: true
+          description: |
+            The bulk ID is a dynamically generated value.<br>For example :- ‘615360357673’
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/bulkstatus'
+          
+definitions:
+  securitygroups:
+    type: object
+    properties:
+      Sgt:
+        $ref: '#/definitions/Sgt'
+        
+  Sgt:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 93ad6890-8c01-11e6-996c-525400b48521
+      name:
+        type: string
+        example: Employees
+      description:
+        type: string
+        example: Employee Security Group
+      value:
+        type: integer
+        example: 4
+      generationId:
+        type: integer
+        example: 0
+      propogateToApic:
+        type: boolean
+        example: true
+      defaultSGACLs:
+        type: array
+        example: "[ ]"
+        items:
+          properties:
+            name:
+              type: string
+        
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/sgt/	93ad6890-8c01-11e6-996c-525400b48521
+          type:
+            type: string
+            example: application/json  
+            
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 16
+      resources:
+        type: array
+        example: [
+            {
+                "id": "934557f0-8c01-11e6-996c-525400b48521",
+                "name": "Auditors",
+                "description": "Auditor Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/934557f0-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "935d4cc0-8c01-11e6-996c-525400b48521",
+                "name": "BYOD",
+                "description": "BYOD Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/935d4cc0-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "9370d4c0-8c01-11e6-996c-525400b48521",
+                "name": "Contractors",
+                "description": "Contractor Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/9370d4c0-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "93837260-8c01-11e6-996c-525400b48521",
+                "name": "Developers",
+                "description": "Developer Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/93837260-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "9396d350-8c01-11e6-996c-525400b48521",
+                "name": "Development_Servers",
+                "description": "Development Servers Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/9396d350-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "93ad6890-8c01-11e6-996c-525400b48521",
+                "name": "Employees",
+                "description": "Employee Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/93ad6890-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "93c66ed0-8c01-11e6-996c-525400b48521",
+                "name": "Guests",
+                "description": "Guest Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/93c66ed0-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "93e1bf00-8c01-11e6-996c-525400b48521",
+                "name": "Network_Services",
+                "description": "Network Services Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/93e1bf00-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "93f91790-8c01-11e6-996c-525400b48521",
+                "name": "PCI_Servers",
+                "description": "PCI Servers Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/93f91790-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "940facd0-8c01-11e6-996c-525400b48521",
+                "name": "Point_of_Sale_Systems",
+                "description": "Point of Sale Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/940facd0-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "9423aa00-8c01-11e6-996c-525400b48521",
+                "name": "Production_Servers",
+                "description": "Production Servers Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/9423aa00-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "9437a730-8c01-11e6-996c-525400b48521",
+                "name": "Production_Users",
+                "description": "Production User Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/9437a730-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "944b2f30-8c01-11e6-996c-525400b48521",
+                "name": "Quarantined_Systems",
+                "description": "Quarantine Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/944b2f30-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "94621290-8c01-11e6-996c-525400b48521",
+                "name": "Test_Servers",
+                "description": "Test Servers Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/94621290-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "947832a0-8c01-11e6-996c-525400b48521",
+                "name": "TrustSec_Devices",
+                "description": "TrustSec Devices Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/947832a0-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            },
+            {
+                "id": "92adf9f0-8c01-11e6-996c-525400b48521",
+                "name": "Unknown",
+                "description": "Unknown Security Group",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/sgt/92adf9f0-8c01-11e6-996c-525400b48521",
+                    "type": "application/json"
+                }
+            }
+        ]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "1.3"
+      supportedVersions:
+        type: string
+        example: "1.0,1.1,1.2,1.3"  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/sgt/versioninfo
+      type:
+        type: string
+        example: application/json
+
+  bulkrequest:
+    type: object
+    properties:
+      SgtBulkRequest:
+        $ref: '#/definitions/SgtBulkRequest'
+        
+  SgtBulkRequest:
+    type: object
+    properties:
+      operationType:
+        type: string
+        example: create
+      resourceMediaType:
+        type: string
+        example: vnd.com.cisco.ise.trustsec.sgt.1.0+xml
+        
+  bulkstatus:
+    type: object
+    properties:
+      BulkStatus:
+        $ref: '#/definitions/BulkStatus'
+        
+  BulkStatus:
+    type: object
+    properties:
+      bulkId:
+        type: string
+        example: 1615791703003
+      mediaType:
+        type: string
+        example: ""
+      executionStatus:
+        type: string
+        example: COMPLETED
+      operationType:
+        type: string
+        example: create
+      startTime:
+        type: string
+        example: Mon Mar 15 07:01:43 UTC 2021
+      resourcesCount:
+        type: integer
+        example: 5
+      successCount:
+        type: integer
+        example: 5
+      failCount:
+        type: integer
+        example: 0
+      resourcesStatus:
+        type: array
+        example: [{
+                    "id" : "1234454324", 
+                    "name": "resource1", 
+                    "description": "description...", 
+                    "resourceExecutionStatus" : "PENDING", 
+                    "status" : "PENDING"
+                  }, 
+                  {
+                    "id" : "2343242342", 
+                    "name": "resource2", 
+                    "description": "description...", 
+                    "resourceExecutionStatus" : "PENDING", 
+                    "status" : "PENDING"
+                  }, 
+                  {
+                    "id" : "4564566456", 
+                    "name": "resource3", 
+                    "description": "description...", 
+                    "resourceExecutionStatus" : "PENDING", 
+                    "status" : "PENDING"
+                  },
+                  {
+                    "id" : "6544566455", 
+                    "name": "resource4", 
+                    "description": "description...", 
+                    "resourceExecutionStatus" : "PENDING", 
+                    "status" : "PENDING"
+                  } ]
+        items:
+          properties:
+            name:
+              type: string

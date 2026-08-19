@@ -1,0 +1,1380 @@
+openapi: 3.2.0
+info:
+  title: ISE ERS Authorizationprofile API
+  version: 3.1.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+security:
+- HTTPBasicAuthentication: []
+tags:
+- name: authorizationprofile
+paths:
+  /authorizationprofile/:
+    get:
+      tags:
+      - authorizationprofile
+      summary: Get-All
+      parameters:
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authorizationprofileListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/authorizationprofileListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    post:
+      tags:
+      - authorizationprofile
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policy.authorizationprofile'
+            example:
+              AuthorizationProfile:
+                airespaceIPv6ACL: ACL6
+                macSecPolicy: MUST_SECURE
+                profileName: Cisco
+                avcProfile: avcProfile
+                voiceDomainPermission: false
+                description: description
+                acl: aclfilter
+                asaVpn: Cisco:cisco-call-type
+                ipv6ACLFilter: ipv6ACLFilter
+                accessType: ACCESS_ACCEPT
+                agentlessPosture: false
+                vlan:
+                  tagID: 1
+                  nameID: vlanName
+                trackMovement: false
+                autoSmartPort: autoSmartPort
+                neat: false
+                interfaceTemplate: interfaceTemplate
+                serviceTemplate: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                reauth:
+                  timer: 1800
+                  connectivity: RADIUS_REQUEST
+                  reauthType: TIMER
+                webRedirection:
+                  WebRedirectionType: CentralizedWebAuth
+                  displayCertificatesRenewalMessages: true
+                  staticIPHostNameFQDN: 10.56.54.200
+                  portalName: Sponsored Guest Portal (default)
+                  acl: acl
+                uniqueIdentifier: CERTIFICATE:Subject Alternative Name - URI
+                ipv6DaclName: PERMIT_ALL_IPV6_TRAFFIC
+                authzProfileType: SWITCH
+                airespaceACL: ACL
+                daclName: PERMIT_ALL_IPV4_TRAFFIC
+                easywiredSessionCandidate: false
+                name: name
+                advancedAttributes:
+                - leftHandSideDictionaryAttribue:
+                    dictionaryName: Cisco
+                    attributeName: cisco-call-filter
+                    AdvancedAttributeValueType: AdvancedDictionaryAttribute
+                  rightHandSideAttribueValue:
+                    value: '23'
+                    AdvancedAttributeValueType: AttributeValue
+                webAuth: false
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+  /authorizationprofile/name/{name}:
+    get:
+      tags:
+      - authorizationprofile
+      summary: Get-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authorizationprofileResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/authorizationprofileResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+  /authorizationprofile/{id}:
+    get:
+      tags:
+      - authorizationprofile
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authorizationprofileResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/authorizationprofileResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    put:
+      tags:
+      - authorizationprofile
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policy.authorizationprofile'
+            example:
+              AuthorizationProfile:
+                airespaceIPv6ACL: ACL6
+                macSecPolicy: MUST_SECURE
+                profileName: Cisco
+                avcProfile: avcProfile
+                voiceDomainPermission: false
+                description: description
+                acl: aclfilter
+                asaVpn: Cisco:cisco-call-type
+                ipv6ACLFilter: ipv6ACLFilter
+                accessType: ACCESS_ACCEPT
+                agentlessPosture: false
+                vlan:
+                  tagID: 1
+                  nameID: vlanName
+                trackMovement: false
+                autoSmartPort: autoSmartPort
+                neat: false
+                interfaceTemplate: interfaceTemplate
+                serviceTemplate: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                reauth:
+                  timer: 1800
+                  connectivity: RADIUS_REQUEST
+                  reauthType: TIMER
+                webRedirection:
+                  WebRedirectionType: CentralizedWebAuth
+                  displayCertificatesRenewalMessages: true
+                  staticIPHostNameFQDN: 10.56.54.200
+                  portalName: Sponsored Guest Portal (default)
+                  acl: acl
+                uniqueIdentifier: CERTIFICATE:Subject Alternative Name - URI
+                ipv6DaclName: PERMIT_ALL_IPV6_TRAFFIC
+                authzProfileType: SWITCH
+                airespaceACL: ACL
+                daclName: PERMIT_ALL_IPV4_TRAFFIC
+                easywiredSessionCandidate: false
+                name: name
+                advancedAttributes:
+                - leftHandSideDictionaryAttribue:
+                    dictionaryName: Cisco
+                    attributeName: cisco-call-filter
+                    AdvancedAttributeValueType: AdvancedDictionaryAttribute
+                  rightHandSideAttribueValue:
+                    value: '23'
+                    AdvancedAttributeValueType: AttributeValue
+                webAuth: false
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+    delete:
+      tags:
+      - authorizationprofile
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    patch:
+      tags:
+      - authorizationprofile
+      summary: Patch
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/policy.authorizationprofile'
+            example:
+              AuthorizationProfile:
+                airespaceIPv6ACL: ACL6
+                macSecPolicy: MUST_SECURE
+                profileName: Cisco
+                avcProfile: avcProfile
+                voiceDomainPermission: false
+                description: description
+                acl: aclfilter
+                asaVpn: Cisco:cisco-call-type
+                ipv6ACLFilter: ipv6ACLFilter
+                accessType: ACCESS_ACCEPT
+                agentlessPosture: false
+                vlan:
+                  tagID: 1
+                  nameID: vlanName
+                trackMovement: false
+                autoSmartPort: autoSmartPort
+                neat: false
+                interfaceTemplate: interfaceTemplate
+                serviceTemplate: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                reauth:
+                  timer: 1800
+                  connectivity: RADIUS_REQUEST
+                  reauthType: TIMER
+                webRedirection:
+                  WebRedirectionType: CentralizedWebAuth
+                  displayCertificatesRenewalMessages: true
+                  staticIPHostNameFQDN: 10.56.54.200
+                  portalName: Sponsored Guest Portal (default)
+                  acl: acl
+                uniqueIdentifier: CERTIFICATE:Subject Alternative Name - URI
+                ipv6DaclName: PERMIT_ALL_IPV6_TRAFFIC
+                authzProfileType: SWITCH
+                airespaceACL: ACL
+                daclName: PERMIT_ALL_IPV4_TRAFFIC
+                easywiredSessionCandidate: false
+                name: name
+                advancedAttributes:
+                - leftHandSideDictionaryAttribue:
+                    dictionaryName: Cisco
+                    attributeName: cisco-call-filter
+                    AdvancedAttributeValueType: AdvancedDictionaryAttribute
+                  rightHandSideAttribueValue:
+                    value: '23'
+                    AdvancedAttributeValueType: AttributeValue
+                webAuth: false
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authorizationprofileResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    authorizationprofileListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    authorizationprofileResponseEntity:
+      properties:
+        vlan:
+          properties:
+            nameID:
+              title: nameID
+              type: string
+              description: ''
+              example: null
+            tagID:
+              title: tagID
+              type: number
+              description: Valid range is 0-31
+              example: null
+          example: null
+        webRedirection:
+          properties:
+            WebRedirectionType:
+              title: WebRedirectionType
+              type: string
+              description: 'Value MUST be one of the following: CentralizedWebAuth, HotSpot, NativeSupplicanProvisioning, ClientProvisioning. The WebRedirectionType must fit the portalName'
+              example: null
+            ACL:
+              title: ACL
+              type: string
+              description: ''
+              example: null
+            portalName:
+              title: portalName
+              type: string
+              description: A portal that exist in the DB and fits the WebRedirectionType
+              example: null
+            staticIPHostNameFQDN:
+              title: staticIPHostNameFQDN
+              type: string
+              description: ''
+              example: null
+            displayCertificatesRenewalMessages:
+              title: displayCertificatesRenewalMessages
+              type: boolean
+              description: The displayCertificatesRenewalMessages is mandatory when 'WebRedirectionType' value is 'CentralizedWebAuth'. For all other 'WebRedirectionType' values the field must be ignored
+              example: null
+          example: null
+        accessType:
+          title: accessType
+          type: string
+          description: 'Allowed Values: ACCESS_ACCEPT, ACCESS_REJECT'
+          example: null
+        authzProfileType:
+          title: authzProfileType
+          type: string
+          description: 'Allowed Values: SWITCH, TRUSTSEC, TACACS. SWITCH is used for Standard Authorization Profiles. only SWITCH is supported.'
+          example: null
+        profileName:
+          title: profileName
+          type: string
+          description: Value needs to be an existing Network Device Profile
+          example: null
+        airespaceACL:
+          title: airespaceACL
+          type: string
+          description: ''
+          example: null
+        acl:
+          title: acl
+          type: string
+          description: ''
+          example: null
+        daclName:
+          title: daclName
+          type: string
+          description: ''
+          example: null
+        autoSmartPort:
+          title: autoSmartPort
+          type: string
+          description: ''
+          example: null
+        interfaceTemplate:
+          title: interfaceTemplate
+          type: string
+          description: ''
+          example: null
+        ipv6ACLFilter:
+          title: ipv6ACLFilter
+          type: string
+          description: ''
+          example: null
+        avcProfile:
+          title: avcProfile
+          type: string
+          description: ''
+          example: null
+        asaVpn:
+          title: asaVpn
+          type: string
+          description: ''
+          example: null
+        uniqueIdentifier:
+          title: uniqueIdentifier
+          type: string
+          description: ''
+          example: null
+        trackMovement:
+          title: trackMovement
+          type: object
+          description: ''
+          example: null
+        serviceTemplate:
+          title: serviceTemplate
+          type: object
+          description: ''
+          example: null
+        easywiredSessionCandidate:
+          title: easywiredSessionCandidate
+          type: object
+          description: ''
+          example: null
+        voiceDomainPermission:
+          title: voiceDomainPermission
+          type: object
+          description: ''
+          example: null
+        neat:
+          title: neat
+          type: object
+          description: ''
+          example: null
+        webAuth:
+          title: webAuth
+          type: object
+          description: ''
+          example: null
+        macSecPolicy:
+          title: macSecPolicy
+          type: string
+          description: 'Allowed Values: MUST_SECURE, MUST_NOT_SECURE, SHOULD_SECURE'
+          example: null
+        reauth:
+          properties:
+            connectivity:
+              title: connectivity
+              type: string
+              description: 'Allowed Values: DEFAULT, RADIUS_REQUEST'
+              example: null
+            reauthType:
+              title: reauthType
+              type: string
+              description: 'Allowed Values: TIMER, EXPIRATION_DATE. Specifies the type of reauthentication. TIMER is used for time-based reauthentication, while EXPIRATION_DATE is used for dynamic date-based reauthentication.'
+              example: null
+            dictionaryName:
+              title: dictionaryName
+              type: string
+              description: The name of the dictionary containing the attribute.
+              example: null
+            attributeName:
+              title: attributeName
+              type: string
+              description: 'The name of the attribute within the dictionary containing the value. value should be date based in ISO 8601 form with timezone offset. For example, 2035-12-31T23:59:59-08:00. '
+              example: null
+            timer:
+              title: timer
+              type: object
+              description: Specifies the reauthentication timer in seconds. Valid range is 1-1073741823
+              example: null
+          example: null
+        advancedAttributes:
+          properties:
+            leftHandSideDictionaryAttribue:
+              properties:
+                dictionaryName:
+                  title: dictionaryName
+                  type: string
+                  description: Dictionary name
+                  example: null
+                attributeName:
+                  title: attributeName
+                  type: string
+                  description: Attribute name
+                  example: null
+              example: null
+            rightHandSideAttribueValue:
+              title: rightHandSideAttribueValue
+              type: object
+              description: Attribute value can be of type AttributeValue or AdvancedDictionaryAttribute. For AttributeValue the value is String, For AdvancedDictionaryAttribute the value is dictionaryName and attributeName properties, for RADIUS Dictionary with attribute name starting with 'Tunnel-' there is also tagID property which is a number between 0-31
+              example: null
+          example: null
+        ipv6DaclName:
+          title: ipv6DaclName
+          type: string
+          description: ''
+          example: null
+        airespaceIPv6ACL:
+          title: airespaceIPv6ACL
+          type: string
+          description: ''
+          example: null
+        agentlessPosture:
+          title: agentlessPosture
+          type: object
+          description: ''
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    authorizationprofileResponse:
+      type: object
+      properties:
+        AuthorizationProfile:
+          $ref: '#/components/schemas/authorizationprofileResponseEntity'
+      example:
+        AuthorizationProfile:
+          airespaceIPv6ACL: ACL6
+          macSecPolicy: MUST_SECURE
+          profileName: Cisco
+          avcProfile: avcProfile
+          voiceDomainPermission: false
+          description: description
+          acl: aclfilter
+          asaVpn: Cisco:cisco-call-type
+          ipv6ACLFilter: ipv6ACLFilter
+          accessType: ACCESS_ACCEPT
+          agentlessPosture: false
+          vlan:
+            tagID: 1
+            nameID: vlanName
+          trackMovement: false
+          autoSmartPort: autoSmartPort
+          neat: false
+          interfaceTemplate: interfaceTemplate
+          serviceTemplate: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          reauth:
+            timer: 1800
+            connectivity: RADIUS_REQUEST
+            reauthType: TIMER
+          webRedirection:
+            WebRedirectionType: CentralizedWebAuth
+            displayCertificatesRenewalMessages: true
+            staticIPHostNameFQDN: 10.56.54.200
+            portalName: Sponsored Guest Portal (default)
+            acl: acl
+          uniqueIdentifier: CERTIFICATE:Subject Alternative Name - URI
+          ipv6DaclName: PERMIT_ALL_IPV6_TRAFFIC
+          authzProfileType: SWITCH
+          airespaceACL: ACL
+          daclName: PERMIT_ALL_IPV4_TRAFFIC
+          easywiredSessionCandidate: false
+          name: name
+          advancedAttributes:
+          - leftHandSideDictionaryAttribue:
+              dictionaryName: Cisco
+              attributeName: cisco-call-filter
+              AdvancedAttributeValueType: AdvancedDictionaryAttribute
+            rightHandSideAttribueValue:
+              value: '23'
+              AdvancedAttributeValueType: AttributeValue
+          webAuth: false
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    AuthorizationProfile:
+      required:
+      - name
+      properties:
+        vlan:
+          required:
+          - nameID
+          - tagID
+          properties:
+            nameID:
+              title: nameID
+              type: string
+              description: ''
+              example: null
+            tagID:
+              title: tagID
+              type: number
+              description: Valid range is 0-31
+              example: null
+          example: null
+        webRedirection:
+          required:
+          - ACL
+          - WebRedirectionType
+          - portalName
+          properties:
+            WebRedirectionType:
+              title: WebRedirectionType
+              type: string
+              description: 'Value MUST be one of the following: CentralizedWebAuth, HotSpot, NativeSupplicanProvisioning, ClientProvisioning. The WebRedirectionType must fit the portalName'
+              example: null
+            ACL:
+              title: ACL
+              type: string
+              description: ''
+              example: null
+            portalName:
+              title: portalName
+              type: string
+              description: A portal that exist in the DB and fits the WebRedirectionType
+              example: null
+            staticIPHostNameFQDN:
+              title: staticIPHostNameFQDN
+              type: string
+              description: ''
+              example: null
+            displayCertificatesRenewalMessages:
+              title: displayCertificatesRenewalMessages
+              type: boolean
+              description: The displayCertificatesRenewalMessages is mandatory when 'WebRedirectionType' value is 'CentralizedWebAuth'. For all other 'WebRedirectionType' values the field must be ignored
+              example: null
+          example: null
+        accessType:
+          title: accessType
+          type: string
+          description: 'Allowed Values: ACCESS_ACCEPT, ACCESS_REJECT'
+          example: null
+        authzProfileType:
+          title: authzProfileType
+          type: string
+          description: 'Allowed Values: SWITCH, TRUSTSEC, TACACS. SWITCH is used for Standard Authorization Profiles. only SWITCH is supported.'
+          example: null
+        profileName:
+          title: profileName
+          type: string
+          description: Value needs to be an existing Network Device Profile
+          example: null
+        airespaceACL:
+          title: airespaceACL
+          type: string
+          description: ''
+          example: null
+        acl:
+          title: acl
+          type: string
+          description: ''
+          example: null
+        daclName:
+          title: daclName
+          type: string
+          description: ''
+          example: null
+        autoSmartPort:
+          title: autoSmartPort
+          type: string
+          description: ''
+          example: null
+        interfaceTemplate:
+          title: interfaceTemplate
+          type: string
+          description: ''
+          example: null
+        ipv6ACLFilter:
+          title: ipv6ACLFilter
+          type: string
+          description: ''
+          example: null
+        avcProfile:
+          title: avcProfile
+          type: string
+          description: ''
+          example: null
+        asaVpn:
+          title: asaVpn
+          type: string
+          description: ''
+          example: null
+        uniqueIdentifier:
+          title: uniqueIdentifier
+          type: string
+          description: ''
+          example: null
+        trackMovement:
+          title: trackMovement
+          type: object
+          description: ''
+          example: null
+        serviceTemplate:
+          title: serviceTemplate
+          type: object
+          description: ''
+          example: null
+        easywiredSessionCandidate:
+          title: easywiredSessionCandidate
+          type: object
+          description: ''
+          example: null
+        voiceDomainPermission:
+          title: voiceDomainPermission
+          type: object
+          description: ''
+          example: null
+        neat:
+          title: neat
+          type: object
+          description: ''
+          example: null
+        webAuth:
+          title: webAuth
+          type: object
+          description: ''
+          example: null
+        macSecPolicy:
+          title: macSecPolicy
+          type: string
+          description: 'Allowed Values: MUST_SECURE, MUST_NOT_SECURE, SHOULD_SECURE'
+          example: null
+        reauth:
+          required:
+          - attributeName
+          - connectivity
+          - dictionaryName
+          properties:
+            connectivity:
+              title: connectivity
+              type: string
+              description: 'Allowed Values: DEFAULT, RADIUS_REQUEST'
+              example: null
+            reauthType:
+              title: reauthType
+              type: string
+              description: 'Allowed Values: TIMER, EXPIRATION_DATE. Specifies the type of reauthentication. TIMER is used for time-based reauthentication, while EXPIRATION_DATE is used for dynamic date-based reauthentication.'
+              example: null
+            dictionaryName:
+              title: dictionaryName
+              type: string
+              description: The name of the dictionary containing the attribute.
+              example: null
+            attributeName:
+              title: attributeName
+              type: string
+              description: 'The name of the attribute within the dictionary containing the value. value should be date based in ISO 8601 form with timezone offset. For example, 2035-12-31T23:59:59-08:00. '
+              example: null
+            timer:
+              title: timer
+              type: object
+              description: Specifies the reauthentication timer in seconds. Valid range is 1-1073741823
+              example: null
+          example: null
+        advancedAttributes:
+          required:
+          - rightHandSideAttribueValue
+          properties:
+            leftHandSideDictionaryAttribue:
+              required:
+              - attributeName
+              - dictionaryName
+              properties:
+                dictionaryName:
+                  title: dictionaryName
+                  type: string
+                  description: Dictionary name
+                  example: null
+                attributeName:
+                  title: attributeName
+                  type: string
+                  description: Attribute name
+                  example: null
+              example: null
+            rightHandSideAttribueValue:
+              title: rightHandSideAttribueValue
+              type: object
+              description: Attribute value can be of type AttributeValue or AdvancedDictionaryAttribute. For AttributeValue the value is String, For AdvancedDictionaryAttribute the value is dictionaryName and attributeName properties, for RADIUS Dictionary with attribute name starting with 'Tunnel-' there is also tagID property which is a number between 0-31
+              example: null
+          example: null
+        ipv6DaclName:
+          title: ipv6DaclName
+          type: string
+          description: ''
+          example: null
+        airespaceIPv6ACL:
+          title: airespaceIPv6ACL
+          type: string
+          description: ''
+          example: null
+        agentlessPosture:
+          title: agentlessPosture
+          type: object
+          description: ''
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        AuthorizationProfile:
+          airespaceIPv6ACL: ACL6
+          macSecPolicy: MUST_SECURE
+          profileName: Cisco
+          avcProfile: avcProfile
+          voiceDomainPermission: false
+          description: description
+          acl: aclfilter
+          asaVpn: Cisco:cisco-call-type
+          ipv6ACLFilter: ipv6ACLFilter
+          accessType: ACCESS_ACCEPT
+          agentlessPosture: false
+          vlan:
+            tagID: 1
+            nameID: vlanName
+          trackMovement: false
+          autoSmartPort: autoSmartPort
+          neat: false
+          interfaceTemplate: interfaceTemplate
+          serviceTemplate: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          reauth:
+            timer: 1800
+            connectivity: RADIUS_REQUEST
+            reauthType: TIMER
+          webRedirection:
+            WebRedirectionType: CentralizedWebAuth
+            displayCertificatesRenewalMessages: true
+            staticIPHostNameFQDN: 10.56.54.200
+            portalName: Sponsored Guest Portal (default)
+            acl: acl
+          uniqueIdentifier: CERTIFICATE:Subject Alternative Name - URI
+          ipv6DaclName: PERMIT_ALL_IPV6_TRAFFIC
+          authzProfileType: SWITCH
+          airespaceACL: ACL
+          daclName: PERMIT_ALL_IPV4_TRAFFIC
+          easywiredSessionCandidate: false
+          name: name
+          advancedAttributes:
+          - leftHandSideDictionaryAttribue:
+              dictionaryName: Cisco
+              attributeName: cisco-call-filter
+              AdvancedAttributeValueType: AdvancedDictionaryAttribute
+            rightHandSideAttribueValue:
+              value: '23'
+              AdvancedAttributeValueType: AttributeValue
+          webAuth: false
+    policy.authorizationprofile:
+      required:
+      - AuthorizationProfile
+      type: object
+      properties:
+        AuthorizationProfile:
+          $ref: '#/components/schemas/AuthorizationProfile'
+      example: null
+    authorizationprofileListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/authorizationprofileListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic

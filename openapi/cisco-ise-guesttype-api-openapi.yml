@@ -1,0 +1,1251 @@
+openapi: 3.2.0
+info:
+  title: ISE ERS Guesttype API
+  version: 3.1.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+security:
+- HTTPBasicAuthentication: []
+tags:
+- name: guesttype
+paths:
+  /guesttype/:
+    get:
+      tags:
+      - guesttype
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[name]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guesttypeListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guesttypeListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    post:
+      tags:
+      - guesttype
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.guesttype'
+            example:
+              GuestType:
+                allowDynamicIdentityGroups: true
+                expirationNotification:
+                  sendEmailNotification: false
+                  sendSmsNotification: false
+                  enableNotification: false
+                  emailText: EmailText
+                  advanceNotificationUnits: DAYS
+                  advanceNotificationDuration: 3
+                  smsText: SMS Text
+                name: Name
+                description: Description
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                sponsorGroups:
+                - Group1
+                - Group2
+                dynamicGroups:
+                - externalGroupName: ExternalServerName:GroupName
+                  endpointIdentityGroupId: generatedID
+                loginOptions:
+                  maxSimultaneousLogins: 3
+                  identityGroupId: generatedID
+                  failureAction: Disconnect_Oldest_Connection
+                  limitSimultaneousLogins: true
+                  allowGuestPortalBypass: false
+                  maxRegisteredDevices: 5
+                accessTime:
+                  dayTimeLimits:
+                  - days:
+                    - Sunday
+                    - Tuesday
+                    startTime: '12:00'
+                    endTime: '16:00'
+                  maxAccountDuration: 365
+                  durationTimeUnit: DAYS
+                  defaultDuration: 90
+                  allowAccessOnSpecificDaysTimes: false
+                  fromFirstLogin: true
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+  /guesttype/email/{id}:
+    put:
+      tags:
+      - guesttype
+      summary: email
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.guesttype'
+            example:
+              GuestType:
+                allowDynamicIdentityGroups: true
+                expirationNotification:
+                  sendEmailNotification: false
+                  sendSmsNotification: false
+                  enableNotification: false
+                  emailText: EmailText
+                  advanceNotificationUnits: DAYS
+                  advanceNotificationDuration: 3
+                  smsText: SMS Text
+                name: Name
+                description: Description
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                sponsorGroups:
+                - Group1
+                - Group2
+                dynamicGroups:
+                - externalGroupName: ExternalServerName:GroupName
+                  endpointIdentityGroupId: generatedID
+                loginOptions:
+                  maxSimultaneousLogins: 3
+                  identityGroupId: generatedID
+                  failureAction: Disconnect_Oldest_Connection
+                  limitSimultaneousLogins: true
+                  allowGuestPortalBypass: false
+                  maxRegisteredDevices: 5
+                accessTime:
+                  dayTimeLimits:
+                  - days:
+                    - Sunday
+                    - Tuesday
+                    startTime: '12:00'
+                    endTime: '16:00'
+                  maxAccountDuration: 365
+                  durationTimeUnit: DAYS
+                  defaultDuration: 90
+                  allowAccessOnSpecificDaysTimes: false
+                  fromFirstLogin: true
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+  /guesttype/sms/{id}:
+    put:
+      tags:
+      - guesttype
+      summary: sms
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.guesttype'
+            example:
+              GuestType:
+                allowDynamicIdentityGroups: true
+                expirationNotification:
+                  sendEmailNotification: false
+                  sendSmsNotification: false
+                  enableNotification: false
+                  emailText: EmailText
+                  advanceNotificationUnits: DAYS
+                  advanceNotificationDuration: 3
+                  smsText: SMS Text
+                name: Name
+                description: Description
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                sponsorGroups:
+                - Group1
+                - Group2
+                dynamicGroups:
+                - externalGroupName: ExternalServerName:GroupName
+                  endpointIdentityGroupId: generatedID
+                loginOptions:
+                  maxSimultaneousLogins: 3
+                  identityGroupId: generatedID
+                  failureAction: Disconnect_Oldest_Connection
+                  limitSimultaneousLogins: true
+                  allowGuestPortalBypass: false
+                  maxRegisteredDevices: 5
+                accessTime:
+                  dayTimeLimits:
+                  - days:
+                    - Sunday
+                    - Tuesday
+                    startTime: '12:00'
+                    endTime: '16:00'
+                  maxAccountDuration: 365
+                  durationTimeUnit: DAYS
+                  defaultDuration: 90
+                  allowAccessOnSpecificDaysTimes: false
+                  fromFirstLogin: true
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+  /guesttype/{id}:
+    get:
+      tags:
+      - guesttype
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guesttypeResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guesttypeResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+    put:
+      tags:
+      - guesttype
+      summary: UpdateById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.guesttype'
+            example:
+              GuestType:
+                allowDynamicIdentityGroups: true
+                expirationNotification:
+                  sendEmailNotification: false
+                  sendSmsNotification: false
+                  enableNotification: false
+                  emailText: EmailText
+                  advanceNotificationUnits: DAYS
+                  advanceNotificationDuration: 3
+                  smsText: SMS Text
+                name: Name
+                description: Description
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                sponsorGroups:
+                - Group1
+                - Group2
+                dynamicGroups:
+                - externalGroupName: ExternalServerName:GroupName
+                  endpointIdentityGroupId: generatedID
+                loginOptions:
+                  maxSimultaneousLogins: 3
+                  identityGroupId: generatedID
+                  failureAction: Disconnect_Oldest_Connection
+                  limitSimultaneousLogins: true
+                  allowGuestPortalBypass: false
+                  maxRegisteredDevices: 5
+                accessTime:
+                  dayTimeLimits:
+                  - days:
+                    - Sunday
+                    - Tuesday
+                    startTime: '12:00'
+                    endTime: '16:00'
+                  maxAccountDuration: 365
+                  durationTimeUnit: DAYS
+                  defaultDuration: 90
+                  allowAccessOnSpecificDaysTimes: false
+                  fromFirstLogin: true
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+    delete:
+      tags:
+      - guesttype
+      summary: DeleteById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    guesttypeListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/guesttypeListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    identity.guesttype:
+      required:
+      - GuestType
+      type: object
+      properties:
+        GuestType:
+          $ref: '#/components/schemas/GuestType'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    GuestType:
+      required:
+      - name
+      properties:
+        accessTime:
+          properties:
+            allowAccessOnSpecificDaysTimes:
+              title: allowAccessOnSpecificDaysTimes
+              type: boolean
+              description: Enable Specific Day Time Limits
+              example: null
+            defaultDuration:
+              title: defaultDuration
+              type: number
+              description: ''
+              example: null
+            durationTimeUnit:
+              title: durationTimeUnit
+              type: string
+              description: Allowed values are Days or Hours or Minutes
+              example: null
+            fromFirstLogin:
+              title: fromFirstLogin
+              type: boolean
+              description: When Account Duration starts from first login or specified date
+              example: null
+            maxAccountDuration:
+              title: maxAccountDuration
+              type: number
+              description: Maximum value of Account Duration
+              example: null
+            dayTimeLimits:
+              title: dayTimeLimits
+              type: array
+              description: List of Time Ranges for account access
+              example: null
+              items:
+                properties:
+                  dayTimeLimit:
+                    title: dayTimeLimit
+                    type: object
+                    description: Time Ranges for account access
+                    example: null
+                example: null
+          example: null
+        allowDynamicIdentityGroups:
+          title: allowDynamicIdentityGroups
+          type: boolean
+          description: Enable the DynamicGroups Option
+          example: null
+        dynamicGroups:
+          title: dynamicGroups
+          type: array
+          description: List of Dynamic Groups
+          example: null
+          items:
+            properties:
+              externalGroupName:
+                title: externalGroupName
+                type: string
+                description: List of External Group Names
+                example: null
+              identityGroupId:
+                title: identityGroupId
+                type: string
+                description: ID of Guest Identity Group
+                example: null
+            example: null
+        loginOptions:
+          required:
+          - identityGroupId
+          properties:
+            allowGuestPortalBypass:
+              title: allowGuestPortalBypass
+              type: boolean
+              description: ''
+              example: null
+            failureAction:
+              title: failureAction
+              type: string
+              description: When Guest Exceeds limit this action will be invoked, Allowed values are Disconnect_Oldest_Connection or Disconnect_Newest_Connection
+              example: null
+            identityGroupId:
+              title: identityGroupId
+              type: string
+              description: ID of Guest Identity Group
+              example: null
+            limitSimultaneousLogins:
+              title: limitSimultaneousLogins
+              type: boolean
+              description: Enable Simultaneous Logins
+              example: null
+            maxRegisteredDevices:
+              title: maxRegisteredDevices
+              type: number
+              description: Maximum devices guests can register
+              example: null
+            maxSimultaneousLogins:
+              title: maxSimultaneousLogins
+              type: number
+              description: Number of Simultaneous Logins
+              example: null
+          example: null
+        expirationNotification:
+          properties:
+            advanceNotificationDuration:
+              title: advanceNotificationDuration
+              type: number
+              description: Send Account Expiration Notification Duration before ( Days, Hours, Minutes )
+              example: null
+            advanceNotificationUnits:
+              title: advanceNotificationUnits
+              type: string
+              description: Allowed values are Days, Hours, Minutes
+              example: null
+            enableNotification:
+              title: enableNotification
+              type: boolean
+              description: Enable Notification settings
+              example: null
+            sendEmailNotification:
+              title: sendEmailNotification
+              type: boolean
+              description: Enable Email Notification
+              example: null
+            sendSmsNotification:
+              title: sendSmsNotification
+              type: number
+              description: Maximum devices guests can register
+              example: null
+          example: null
+        sponsorGroups:
+          title: sponsorGroups
+          type: array
+          description: List of Sponsor Groups
+          example: null
+          items:
+            type: string
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        GuestType:
+          allowDynamicIdentityGroups: true
+          expirationNotification:
+            sendEmailNotification: false
+            sendSmsNotification: false
+            enableNotification: false
+            emailText: EmailText
+            advanceNotificationUnits: DAYS
+            advanceNotificationDuration: 3
+            smsText: SMS Text
+          name: Name
+          description: Description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          sponsorGroups:
+          - Group1
+          - Group2
+          dynamicGroups:
+          - externalGroupName: ExternalServerName:GroupName
+            endpointIdentityGroupId: generatedID
+          loginOptions:
+            maxSimultaneousLogins: 3
+            identityGroupId: generatedID
+            failureAction: Disconnect_Oldest_Connection
+            limitSimultaneousLogins: true
+            allowGuestPortalBypass: false
+            maxRegisteredDevices: 5
+          accessTime:
+            dayTimeLimits:
+            - days:
+              - Sunday
+              - Tuesday
+              startTime: '12:00'
+              endTime: '16:00'
+            maxAccountDuration: 365
+            durationTimeUnit: DAYS
+            defaultDuration: 90
+            allowAccessOnSpecificDaysTimes: false
+            fromFirstLogin: true
+    guesttypeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    guesttypeResponseEntity:
+      properties:
+        accessTime:
+          properties:
+            allowAccessOnSpecificDaysTimes:
+              title: allowAccessOnSpecificDaysTimes
+              type: boolean
+              description: Enable Specific Day Time Limits
+              example: null
+            defaultDuration:
+              title: defaultDuration
+              type: number
+              description: ''
+              example: null
+            durationTimeUnit:
+              title: durationTimeUnit
+              type: string
+              description: Allowed values are Days or Hours or Minutes
+              example: null
+            fromFirstLogin:
+              title: fromFirstLogin
+              type: boolean
+              description: When Account Duration starts from first login or specified date
+              example: null
+            maxAccountDuration:
+              title: maxAccountDuration
+              type: number
+              description: Maximum value of Account Duration
+              example: null
+            dayTimeLimits:
+              title: dayTimeLimits
+              type: array
+              description: List of Time Ranges for account access
+              example: null
+              items:
+                properties:
+                  dayTimeLimit:
+                    title: dayTimeLimit
+                    type: object
+                    description: Time Ranges for account access
+                    example: null
+                example: null
+          example: null
+        allowDynamicIdentityGroups:
+          title: allowDynamicIdentityGroups
+          type: boolean
+          description: Enable the DynamicGroups Option
+          example: null
+        dynamicGroups:
+          title: dynamicGroups
+          type: array
+          description: List of Dynamic Groups
+          example: null
+          items:
+            properties:
+              externalGroupName:
+                title: externalGroupName
+                type: string
+                description: List of External Group Names
+                example: null
+              identityGroupId:
+                title: identityGroupId
+                type: string
+                description: ID of Guest Identity Group
+                example: null
+            example: null
+        loginOptions:
+          properties:
+            allowGuestPortalBypass:
+              title: allowGuestPortalBypass
+              type: boolean
+              description: ''
+              example: null
+            failureAction:
+              title: failureAction
+              type: string
+              description: When Guest Exceeds limit this action will be invoked, Allowed values are Disconnect_Oldest_Connection or Disconnect_Newest_Connection
+              example: null
+            identityGroupId:
+              title: identityGroupId
+              type: string
+              description: ID of Guest Identity Group
+              example: null
+            limitSimultaneousLogins:
+              title: limitSimultaneousLogins
+              type: boolean
+              description: Enable Simultaneous Logins
+              example: null
+            maxRegisteredDevices:
+              title: maxRegisteredDevices
+              type: number
+              description: Maximum devices guests can register
+              example: null
+            maxSimultaneousLogins:
+              title: maxSimultaneousLogins
+              type: number
+              description: Number of Simultaneous Logins
+              example: null
+          example: null
+        expirationNotification:
+          properties:
+            advanceNotificationDuration:
+              title: advanceNotificationDuration
+              type: number
+              description: Send Account Expiration Notification Duration before ( Days, Hours, Minutes )
+              example: null
+            advanceNotificationUnits:
+              title: advanceNotificationUnits
+              type: string
+              description: Allowed values are Days, Hours, Minutes
+              example: null
+            enableNotification:
+              title: enableNotification
+              type: boolean
+              description: Enable Notification settings
+              example: null
+            sendEmailNotification:
+              title: sendEmailNotification
+              type: boolean
+              description: Enable Email Notification
+              example: null
+            sendSmsNotification:
+              title: sendSmsNotification
+              type: number
+              description: Maximum devices guests can register
+              example: null
+          example: null
+        sponsorGroups:
+          title: sponsorGroups
+          type: array
+          description: List of Sponsor Groups
+          example: null
+          items:
+            type: string
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    guesttypeResponse:
+      type: object
+      properties:
+        GuestType:
+          $ref: '#/components/schemas/guesttypeResponseEntity'
+      example:
+        GuestType:
+          allowDynamicIdentityGroups: true
+          expirationNotification:
+            sendEmailNotification: false
+            sendSmsNotification: false
+            enableNotification: false
+            emailText: EmailText
+            advanceNotificationUnits: DAYS
+            advanceNotificationDuration: 3
+            smsText: SMS Text
+          name: Name
+          description: Description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          sponsorGroups:
+          - Group1
+          - Group2
+          dynamicGroups:
+          - externalGroupName: ExternalServerName:GroupName
+            endpointIdentityGroupId: generatedID
+          loginOptions:
+            maxSimultaneousLogins: 3
+            identityGroupId: generatedID
+            failureAction: Disconnect_Oldest_Connection
+            limitSimultaneousLogins: true
+            allowGuestPortalBypass: false
+            maxRegisteredDevices: 5
+          accessTime:
+            dayTimeLimits:
+            - days:
+              - Sunday
+              - Tuesday
+              startTime: '12:00'
+              endTime: '16:00'
+            maxAccountDuration: 365
+            durationTimeUnit: DAYS
+            defaultDuration: 90
+            allowAccessOnSpecificDaysTimes: false
+            fromFirstLogin: true
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic

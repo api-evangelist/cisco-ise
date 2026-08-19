@@ -1,0 +1,204 @@
+openapi: 3.2.0
+info:
+  title: MnT Auth Status API
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}/admin/API/mnt
+  variables:
+    server:
+      default: localhost
+      description: The host where the API is rooted
+security:
+- basicAuth: []
+tags:
+- name: AuthStatus
+paths:
+  /AuthStatus/MACAddress/{mac}/{duration}/{number}/{parameter}:
+    get:
+      summary: Get Authentication Status
+      operationId: getAuthStatus
+      description: Returns authentication status details for a given MAC address, duration, number, and parameter.
+      parameters:
+      - name: mac
+        in: path
+        required: true
+        description: The MAC address to retrieve authentication status for
+        schema:
+          type: string
+          example: 00:14:22:01:23:45
+      - name: duration
+        in: path
+        required: true
+        description: number of seconds in which an attempt is made to search and retrieve the authentication status records associated with the designated MAC address
+        schema:
+          type: string
+          example: '120'
+      - name: number
+        in: path
+        required: true
+        description: The number parameter for the authentication status
+        schema:
+          type: string
+          example: '0'
+      - name: parameter
+        in: path
+        required: true
+        description: Additional parameter for the authentication status
+        schema:
+          type: string
+          example: params
+      responses:
+        '200':
+          description: Successful response containing the authentication status information
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AuthStatusOutputList'
+        '401':
+          description: Unauthorized access
+        '404':
+          description: Resource not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/mnt-rest-result'
+      tags:
+      - AuthStatus
+components:
+  schemas:
+    mnt-rest-result:
+      type: object
+      additionalProperties: true
+      properties:
+        http-code:
+          type: integer
+          example: 500
+        cpm-code:
+          type: integer
+          example: 34110
+        description:
+          type: string
+          example: Server has encountered error while processing the REST request
+        module-name:
+          type: string
+          example: MnT
+        internal-error-info:
+          type: string
+          example: This host is not a MnT node. MnT REST APIs can not be executed on this node.
+        requested-operation:
+          type: string
+          example: Get By Type
+        resource-id:
+          type: string
+          example: dummy
+        resource-name:
+          type: string
+          example: dummy
+        resource-type:
+          type: string
+          example: ActiveCount
+        status:
+          type: string
+          example: SERVER_ERROR
+    AuthStatusOutputList:
+      description: List of authentication status
+      type: object
+      xml:
+        name: authStatusOutputList
+      properties:
+        authStatusList:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                xml:
+                  attribute: true
+              authStatusElements:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    passed:
+                      type: boolean
+                    failed:
+                      type: boolean
+                    user_name:
+                      type: string
+                    nas_ip_address:
+                      type: string
+                    nas_ipv6_address:
+                      type: string
+                    calling_station_id:
+                      type: string
+                    identity_group:
+                      type: string
+                    acs_server:
+                      type: string
+                    acs_timestamp:
+                      type: string
+                    execution_steps:
+                      type: string
+                    message_code:
+                      type: integer
+                    id:
+                      type: string
+                    acsview_timestamp:
+                      type: string
+                    identity_store:
+                      type: string
+                    response_time:
+                      type: integer
+                    other_attributes:
+                      type: string
+                    framed_ipv6_address:
+                      type: object
+                      properties:
+                        ipv6_address:
+                          type: array
+                          items:
+                            type: string
+                    network_device_name:
+                      type: string
+                    authentication_method:
+                      type: string
+                    authentication_protocol:
+                      type: string
+                    response:
+                      type: string
+                    audit_session_id:
+                      type: string
+                    nas_port_id:
+                      type: string
+                    posture_status:
+                      type: string
+                    selected_azn_profiles:
+                      type: string
+                    service_type:
+                      type: string
+                    nac_policy_compliance:
+                      type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic

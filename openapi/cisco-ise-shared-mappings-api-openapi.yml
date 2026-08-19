@@ -1,0 +1,118 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Shared Mappings API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Shared Mappings
+paths:
+  /api/v1/trustsec/shared-mappings:
+    get:
+      tags:
+      - Shared Mappings
+      summary: Get all Shared Mappings counts for each connection
+      description: Get all Shared Mappings counts for each connection
+      operationId: getAllSharedMappings
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: ACI Shared mappings information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedMappingsGetAllResponse'
+                exampleSetFlag: false
+        '400':
+          description: Bad Request for this specified resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+components:
+  schemas:
+    SharedMappingInfo:
+      title: SharedMappingInfo
+      type: object
+      properties:
+        connectionName:
+          type: string
+          description: Connection Name
+          exampleSetFlag: true
+        noOfSharedMappings:
+          type: integer
+          description: Number of SharedMappings for connection
+          format: int32
+          exampleSetFlag: true
+      description: Number of SharedMappings info
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SharedMappingsGetAllResponse:
+      title: SharedMappingsGetAllResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SharedMappingInfo'
+            exampleSetFlag: false
+      description: Shared Mappings information format
+      exampleSetFlag: false

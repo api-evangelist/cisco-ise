@@ -1,0 +1,672 @@
+swagger: '2.0'
+info:
+  description: "Internal User API allows the client to add, delete, update and search internal users.\n\n<h2>Revision History</h2>\n\
+    <table font-family:monospace> \n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision\
+    \ #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td><td colspan =\"\
+    2\"><b>Revision Modification</b></td></tr>\n<tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC\
+    \ .75pt;background:#DEEDF7'><td></td><td></td><td></td><td></b></td><td><b>Attribute</b></td><td><b>Description</b></td></tr>\n\
+    <tr><td>0</td><td>1.0</td><td>1.2</td><td>Initial Cisco ISE Version</td><td></td><td></td></tr>\n<tr valign=top style='border-top:solid\
+    \ #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8'><td>1</td><td>1.1</td><td>2.0</td><td>Cisco ISE\
+    \ 2.0 model changes</td><td>enablePassword</td><td>Added Attribute 'enablePassword' for TACACS</td>   \n<tr><td rowspan\
+    \ =\"3\">2</td><td rowspan =\"3\">1.2</td><td rowspan =\"3\">2.1</td><td rowspan =\"3\">Cisco ISE 2.1 model changes</td><td>passwordIDStore</td><td>Added\
+    \ Attribute 'passwordIDStore' for choosing where passwords are stored. default value:'Internal Users'</td><tr><td>expiryDateEnabled</td><td>Added\
+    \ Attribute 'expiryDateEnabled' for choosing whether ExpiryDate enabled or not . default value:'false'</td></tr><tr style\
+    \ = 'border-bottom:solid #CCCCCC 1.0pt'><td>expiryDate</td><td>Added Attribute 'expiryDate' to know the Expiry Date. Format\
+    \ is = YYYY-MM-DD</td></tr></tr>\n<tr style='border-bottom:solid #CCCCCC 1.0pt'><td>3</td><td>1.3</td><td>3.2</td><td>Added\
+    \ Patch and PatchByName operations</td><td></td><td></td></tr>\n<tr><td rowspan =\"3\">4</td><td rowspan =\"3\">1.4</td><td\
+    \ rowspan =\"3\">3.2</td><td rowspan =\"3\">Added new attributes: passwordNeverExpires, accountNameAlias and daysForPasswordExpiration</td><td>passwordNeverExpires</td><td>Added\
+    \ attribute 'passwordNeverExpires' and an option to enable or disable this feature</td><tr><td>accountNameAlias</td><td>Added\
+    \ attribute 'accountNameAlias' to edit the name in email notifications sent for password expiration</td></tr><tr style\
+    \ = 'border-bottom:solid #CCCCCC 1.0pt'><td>daysForPasswordExpiration</td><td>Added this attribute to retrieve the days\
+    \ left for password expiry. It is a read-only attribute.</td></tr></tr>\n<tr><td rowspan =\"3\">5</td><td rowspan =\"\
+    3\">1.5</td><td rowspan =\"3\">3.2 patch 1</td><td rowspan =\"3\">Added new attributes: dateModified, dateCreated</td><td>dateModified</td><td>The\
+    \ date of the last user modification by admin, formatted as 'YYYY-MM-DD'. Read-only.</td><tr><td>dateCreated</td><td>The\
+    \ date of the user creation, formatted as 'YYYY-MM-DD'. Read-only.</td></tr><tr style = 'border-bottom:solid #CCCCCC 1.0pt'></td></tr></tr>\n\
+    <tr><td rowspan =\"3\">6</td><td rowspan =\"3\">1.6</td><td rowspan =\"3\">3.6</td><td rowspan =\"3\">Added new attributes:\
+    \ enablePasswordlessAuth, ssh_keys</td><td>enablePasswordlessAuth</td><td>Added Attribute 'enablePasswordlessAuth' for\
+    \ enable/disable the option. Default value: 'false'</td><tr><td>ssh_keys</td><td>Added Attribute 'ssh_keys' for adding\
+    \ user ssh keys in the format of list of strings. Example: ['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6... user@example.com']</td></tr><tr\
+    \ style = 'border-bottom:solid #CCCCCC 1.0pt'></td></tr></tr>\n</table>\n<br><br>\n\n<h2>Resource Definition</h2>\n<table>\n\
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default\
+    \ Values</b></td><td><b>Example Values</b></td></tr>\n<tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource\
+    \ Name</td><td></td><td>name</td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource\
+    \ UUID, mandatory for update</td><td><td>b24b09e2-16f8-4e48-ace1-2c262a9449f1</td></tr>\n<tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource\
+    \ Description</td><td></td><td>description</td></tr>\n<tr style= 'background:#f8f8f8'><td style='font-family:monospace'>changePassword</td><td>Boolean</td><td>Yes</td><td></td><td>true</td><td></td></tr>\n\
+    <tr><td style='font-family:monospace'>email</td><td>String</td><td>No</td><td></td><td></td><td>email@domain.com</td></tr>\n\
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>accountNameAlias</td><td>String</td><td>No</td><td>The\
+    \ Account Name Alias is used to send email notifications about password expiration.</td><td></td><td>name</td></tr>\n\
+    <tr><td style='font-family:monospace'>passwordNeverExpires</td><td>Boolean</td><td>No</td><td>Set this attribute to 'true'\
+    \ to indicate the user password never expires. This does not apply to users who are also ISE admins</td><td>false</td><td>true</td></tr>\n\
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>enablePassword</td><td>String</td><td>No</td><td>EnablePassword\
+    \ field is added in ISE 2.0 to support T+</td><td></td><td>enablePassword</td></tr>\n<tr><td style='font-family:monospace'>enabled</td><td>Boolean</td><td>Yes</td><td>Whether\
+    \ the user is enabled/disabled. To use it as filter, the values should be 'Enabled' or 'Disabled'. The values are case\
+    \ sensitive. For example, '[ERSObjectURL]?filter=enabled.EQ.Enabled'</td><td></td><td>true</td></tr>\n<tr valign=top style='background:#f8f8f8'><td\
+    \ style='font-family:monospace'>customAttributes</td><td>String</td><td>No</td><td>Key value map</td><td><td>{\"key1\"\
+    \ : \"value1\"}</td></tr>\n<tr><td style='font-family:monospace'>firstName</td><td>String</td><td>No</td><td></td><td></td><td>firstName</td></tr>\n\
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>identifcusttyGroups</td><td>String</td><td>No</td><td>CSV\
+    \ of identity group IDs</td><td></td><td>identityGroups</td></tr>\n<tr><td style='font-family:monospace'>lastName</td><td>String</td><td>No</td><td></td><td></td><td>lastName</td></tr>\n\
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>password</td><td>String</td><td>No</td><td></td><td></td><td>password</td></tr>\n\
+    <tr><td style='font-family:monospace'>passwordIDStore</td><td>String</td><td>Yes</td><td>The id store where the internal\
+    \ user's password is kept</td><td>Internal Users</td><td></td></tr>\n<tr><td style='font-family:monospace'>ssh_keys</td><td>String</td><td>Yes</td><td>Attribute\
+    \ 'ssh_keys' for adding user ssh keys in the format of list of strings.</td><td>['ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6...\
+    \ user@example.com']</td><td></td></tr>\n<tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>expiryDateEnabled</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>\n\
+    <tr style =' border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>expiryDate</td><td>String</td><td>No</td><td>To\
+    \ store the internal user's expiry date information. It's format is = 'YYYY-MM-DD'</td><td></td><td>2021-05-19</td></tr>\n\
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>daysForPasswordExpiration</td><td>Integer</td><td>No</td><td>This\
+    \ attribute is read-only</td><td>60</td><td>300</td></tr>\n<tr><td style='font-family:monospace'>dateModified</td><td>String</td><td>No</td><td>The\
+    \ date of the last user modification by admin, formatted as 'YYYY-MM-DD'. Read-only.</td><td></td><td></td></tr>\n<tr><td\
+    \ style='font-family:monospace'>dateCreated</td><td>String</td><td>No</td><td>The date of the user creation, formatted\
+    \ as 'YYYY-MM-DD'. Read-only.</td><td></td><td></td></tr>\n<tr><td style='font-family:monospace'>enablePasswordlessAuth</td><td>String</td><td>No</td><td>Attribute\
+    \ 'enablePasswordlessAuth' for enable/disable the option.</td><td>false</td><td></td></tr>\n\n</table>\n"
+  version: 1.0.0
+  title: Internal User
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+tags:
+- name: internaluser
+paths:
+  /ers/config/internaluser/name/{name}:
+    get:
+      tags:
+      - internaluser
+      summary: Get internal user by name
+      description: <p>This API allows the client to get an internal user by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.internaluser.1.2
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_name'
+    patch:
+      tags:
+      - internaluser
+      summary: Update part of the internal user configuration by name
+      description: <p>This API allows the user to update part of the internal user configuration by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.internaluser.1.2
+        required: false
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/patchRequest'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/internal'
+    put:
+      tags:
+      - internaluser
+      summary: Update internal user by name
+      description: <p>This API allows the client to update an internal user by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.internaluser.1.2
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/internal_name'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'
+    delete:
+      tags:
+      - internaluser
+      summary: Delete internal user by name
+      description: <p>This API deletes an internal user by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: name
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:-   identity.internaluser.1.2
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      responses:
+        204:
+          description: No Content
+  /ers/config/internaluser/{id}:
+    get:
+      tags:
+      - internaluser
+      summary: Get internal user by ID
+      description: <p>This API allows the client to get an internal user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.internaluser.1.2
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/internal'
+    patch:
+      tags:
+      - internaluser
+      summary: Update part of the internal user configuration by ID
+      description: <p>This API allows the user to update part of the internal user configuration by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.internaluser.1.2
+        required: false
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/patchRequest'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/internal'
+    put:
+      tags:
+      - internaluser
+      summary: Update internal user by ID
+      description: <p>This API allows the client to update an internal user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.internaluser.1.2
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/internal'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'
+    delete:
+      tags:
+      - internaluser
+      summary: Delete internal user by ID
+      description: <p>This API deletes an internal user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:- identity.internaluser.1.2
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      responses:
+        204:
+          description: No Content
+  /ers/config/internaluser:
+    get:
+      tags:
+      - internaluser
+      summary: Get all internal users
+      description: <p>This API allows the client to get all the internal users.</p> <p><h1>Filter:</h1> <h3>[firstName, lastName,
+        identityGroup, name, description, email, enabled]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow
+        the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:-   identity.internaluser.1.2
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: Required Only if Enabled from GUI Example:- fetch
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'
+    post:
+      tags:
+      - internaluser
+      summary: Create internal user
+      description: <p>This API creates an internal user.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        type: string
+        description: Example:-   identity.internaluser.1.2
+        required: false
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        type: string
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+      - in: body
+        name: request
+        schema:
+          $ref: '#/definitions/internal'
+      responses:
+        201:
+          description: Created
+  /ers/config/internaluser/versioninfo:
+    get:
+      tags:
+      - internaluser
+      summary: Get internal user version information
+      description: <p>This API helps to retrieve the version information related to the internal user.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+definitions:
+  internal_name:
+    type: object
+    properties:
+      InternalUser:
+        $ref: '#/definitions/InternalUser_name'
+  InternalUser_name:
+    type: object
+    properties:
+      id:
+        type: string
+        example: b24b09e2-16f8-4e48-ace1-2c262a9449f1
+      name:
+        type: string
+        example: name
+      description:
+        type: string
+        example: description
+      enabled:
+        type: boolean
+        example: true
+      email:
+        type: string
+        example: email@domain.com
+      password:
+        type: string
+        example: '*******'
+      firstName:
+        type: string
+        example: firstName
+      lastName:
+        type: string
+        example: lastName
+      changePassword:
+        type: boolean
+        example: true
+      identityGroups:
+        type: string
+        example: identityGroups
+      expiryDateEnabled:
+        type: boolean
+        example: true
+      expiryDate:
+        type: string
+        example: '2021-05-19'
+      enablePassword:
+        type: string
+        example: enablePassword
+      dateModified:
+        type: string
+        example: '2021-01-03'
+      dateCreated:
+        type: string
+        example: '2021-01-01'
+      enablePasswordlessAuth:
+        type: string
+        example: true
+      customAttributes:
+        type: object
+        properties:
+          key1:
+            type: string
+            example: value1
+          key2:
+            type: string
+            example: value2
+      passwordIDStore:
+        type: string
+        example: Internal Users
+      ssh_keys:
+        type: string
+        example:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6... user@example.com
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/internaluser/name/name
+          type:
+            type: string
+            example: application/json
+  internal:
+    type: object
+    properties:
+      InternalUser:
+        $ref: '#/definitions/InternalUser'
+  InternalUser:
+    type: object
+    properties:
+      id:
+        type: string
+        example: b24b09e2-16f8-4e48-ace1-2c262a9449f1
+      name:
+        type: string
+        example: name
+      description:
+        type: string
+        example: description
+      enabled:
+        type: boolean
+        example: true
+      email:
+        type: string
+        example: email@domain.com
+      accountNameAlias:
+        type: string
+        example: user123
+      password:
+        type: string
+        example: '*******'
+      firstName:
+        type: string
+        example: firstName
+      lastName:
+        type: string
+        example: lastName
+      changePassword:
+        type: boolean
+        example: true
+      identityGroups:
+        type: string
+        example: identityGroups
+      passwordNeverExpires:
+        type: boolean
+        example: false
+      daysForPasswordExpiration:
+        type: integer
+        example: 60
+      expiryDateEnabled:
+        type: boolean
+        example: true
+      expiryDate:
+        type: string
+        example: '2021-05-19'
+      enablePassword:
+        type: string
+        example: enablePassword
+      dateModified:
+        type: string
+        example: '2021-01-03'
+      dateCreated:
+        type: string
+        example: '2021-01-01'
+      enablePasswordlessAuth:
+        type: string
+        example: true
+      customAttributes:
+        type: object
+        properties:
+          key1:
+            type: string
+            example: value1
+          key2:
+            type: string
+            example: value2
+      passwordIDStore:
+        type: string
+        example: Internal Users
+      ssh_keys:
+        type: string
+        example:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6... user@example.com
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/internaluser/b24b09e2-16f8-4e48-ace1-2c262a9449f1
+          type:
+            type: string
+            example: application/json
+  patchRequest:
+    type: object
+    properties:
+      InternalUser:
+        $ref: '#/definitions/patchRequestBody'
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+        $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+  SearchResult:
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example:
+        - id: b24b09e2-16f8-4e48-ace1-2c262a9449f1
+          name: name
+          description: description
+          link:
+            rel: self
+            href: https://<ise-ip>:9060/ers/config/ers/config/internaluser/b24b09e2-16f8-4e48-ace1-2c262a9449f1
+            type: application/json
+        items:
+          properties:
+            name:
+              type: string
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: '1.2'
+      supportedVersions:
+        type: string
+        example: 1.0,1.1,1.2
+      link:
+        $ref: '#/definitions/link1'
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/internaluser/versioninfo
+      type:
+        type: string
+        example: application/json

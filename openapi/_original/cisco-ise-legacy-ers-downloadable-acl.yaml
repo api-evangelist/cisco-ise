@@ -1,0 +1,413 @@
+swagger: '2.0'
+info:
+  description: |
+    Downloadable ACL API allows the client to add, delete, update, search and perform actions on downloadable ACL. 
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td><td colspan ="2"><b>Revision Modification</b></td></tr>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td></td><td></td><td></td><td></b></td><td><b>Attribute</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.3</td><td>Initial Cisco ISE Version</td><td></td><td></td></tr>
+    <tr valign=top style='border-top:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#f8f8f8;border-bottom:solid #CCCCCC 1.0pt'><td>1</td><td>1.1</td><td>2.6</td><td >Support new attribute IP version in 2.6</td><td>daclType</td><td>Added Enum Attribute 'daclType'</td></tr></tr>
+    <tr><td>2</td><td>1.2</td><td>3.2</td><td>Added Patch operation</td><td></td><td></td></tr>
+    </table>
+    <br><br>
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name. Name may contain alphanumeric or any of the following characters [_.-]</td><td></td><td>multiline_acl</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>Yes</td><td>Resource UUID </td><td></td><td>c1e0e9e0-717f-11eb-9fb2-b6cb23d38630</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Use the string \n for a newline</td><td></td><td>description</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>dacl</td><td>String</td><td>Yes</td><td>The DACL Content. Use the string \n for a newline</td><td></td><td>permit ip any any</td></tr>
+    <tr style= 'border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>daclType</td><td>Enum</td><td>No</td><td>Allowed values:<br>- IPV4, <br>- IPV6, <br>- IP_AGNOSTIC</td><td>IPV4</td><td></td></tr>
+    </table>
+    
+  version: 1.0.0
+  title: Downloadable ACL
+
+tags:
+- name: downloadableacl
+
+paths:
+  /ers/config/downloadableacl/{id}:
+    get:
+      tags: 
+      - downloadableacl
+      summary: Get downloadable ACL by ID
+      description:
+        <p>This API allows the client to get a downloadable ACL by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.downloadableacl.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/downloadable'
+    patch:
+      tags: 
+      - downloadableacl
+      summary: Update part of the downloadable ACL by ID
+      description:
+        <p>This API allows the user to update part of the downloadable ACL by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.downloadableacl.1.1
+          required: false
+        - in: header
+          name: Additional Information
+          type: string
+          description:
+              Generation ID is a read-only attribute. Hence any values that would be sent in the request would be ignored.
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/patchRequest'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/downloadable'  
+            
+    put:
+      tags:
+      - downloadableacl
+      summary: Update downloadable ACL
+      description:  <p>This API allows the client to update a downloadable ACL.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:-   network.downloadableacl.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'Update' can be used within Bulk Request
+          required: false
+        - in: header
+          name: Additional Information
+          type: string
+          description: 
+              Generation Id is a read Only attribute hence any values that would be sent in the request would be ignored.
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/downloadable'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+
+    delete:
+      tags:
+      - downloadableacl
+      summary: Delete downloadable ACL
+      description:
+        <p>This API deletes a downloadable ACL.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.downloadableacl.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+      responses: 
+        204:
+          description: No content    
+          
+  /ers/config/downloadableacl:
+
+    get:
+      tags: 
+      - downloadableacl
+      summary: Get all downloadable ACLs
+      description:
+        <p>This API allows the client to get all downloadable ACLs.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.downloadableacl.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+            
+    post:
+      tags:
+      - downloadableacl
+      summary: Create downloadable ACL
+      description:
+        <p>This API creates a downloadable ACL.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- network.downloadableacl.1.1
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'Create' can be used within Bulk Request
+          required: false     
+        - in: header
+          name: Additional Information
+          type: string
+          description: 
+              Generation Id is a read Only attribute hence any values that would be sent in the request would be ignored.value '-1' , value will be auto generated according trustsec settings ranges only for , it can be Create opration.
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/downloadable'
+      responses:
+        201:
+          description: Created
+
+  /ers/config/downloadableacl/versioninfo:
+    get:
+      tags:
+      - downloadableacl
+      summary: Get downloadable ACL version information
+      description:
+        <p>This API helps to retrieve the version information related to the downloadable ACL.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+            
+definitions:
+  downloadable:
+    type: object
+    properties:
+      DownloadableAcl:
+        $ref: '#/definitions/DownloadableAcl'
+        
+  DownloadableAcl:
+    type: object
+    properties:
+      id:
+        type: string
+        example: c1e0e9e0-717f-11eb-9fb2-b6cb23d38630
+      name:
+        type: string
+        example: multiline_acl
+      description:
+        type: string
+        example: "this is my \n multiline \n ACL."
+      dacl:
+        type: string
+        example: "permit udp any eq bootpc any eq bootps\n permit tcp any host <ise-ip> eq www\n permit tcp any host <ise-ip> eq 443\n permit tcp any host <ise-ip> eq 8443\n permit tcp any host <ise-ip> eq 8905\n permit icmp any any"
+      daclType:
+        type: string
+        example: IPV4
+      link1:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/downloadableacl/c1e09e0-717f-11eb-9fb2-b6cb23d38630
+          href:
+            type: string
+            example: link
+          type:
+            type: string
+            example: application/json
+            
+  patchRequest:
+    type: object
+    properties:
+      DownloadableAcl:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value           
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 5
+      resources:
+        type: array
+        example: [{"id" : "9825aa40-8c01-11e6-996c-525400b48521", "name" : "DENY_ALL_IPV4_TRAFFIC", "description" : "Deny all ipv4 traffic", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/downloadableacl/9825aa40-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "32f29720-b838-11ea-8502-005056871e13", "name" : "DENY_ALL_IPV6_TRAFFIC", "description" : "Deny all ipv6 traffic", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/downloadableacl/32f29720-b838-11ea-8502-005056871e13", "type" : "application/json"}}, {"id" : "982498d0-8c01-11e6-996c-525400b48521", "name" : "PERMIT_ALL_IPV4_TRAFFIC", "description" : "Allow all ipv4 Traffic", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/downloadableacl/982498d0-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "32f0c260-b838-11ea-8502-005056871e13", "name" : "PERMIT_ALL_IPV6_TRAFFIC", "description" : "Allow all ipv6 Traffic", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/downloadableacl/32f0c260-b838-11ea-8502-005056871e13", "type" : "application/json"}}, {"id" : "c1e0e9e0-717f-11eb-9fb2-b6cb23d38630", "name" : "multiline_acl", "description" : "this is my\nmultiline\nACL", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/downloadableacl/c1e0e9e0-717f-11eb-9fb2-b6cb23d38630", "type" : "application/json"}}]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: 1.1
+      supportedVersions:
+        type: string
+        example: 1.0,1.1  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/downloadableacl/versioninfo
+      type:
+        type: string
+        example: application/json

@@ -1,0 +1,1252 @@
+swagger: '2.0'
+info:
+  description: |
+    Guest User API allows the client to add, delete, update and search guest users among other operations which are available from the sponsor portal. Please note that each API description shows whether the API is supported in bulk operation. The bulk section is showing only 'create' bulk operation. However, all other operation which are bulk supported can be used in the same way.
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>1.2</td><td>Initial Cisco ISE Version</td></tr>
+    <tr valign=top style= 'background:#f8f8f8'><td>1</td><td>2.0</td><td>1.3</td><td>Introducing new schema - not supporting 1.0 anymore</td></tr>
+    </table>
+    <br><br>
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td><td>guestUser</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td></td><td>ab6deded-fcc2-47ff-8577-0014737c8fcf</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td><td>ERS Example user</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>customFields</td><td>Map</td><td>No</td><td>Key value map</td><td></td><td>"some key" : "some value"</td></tr>
+    <tr><td style='font-family:monospace'>guestType</td><td>String</td><td>No</td><td></td><td></td><td>Contractor</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>status</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>reasonForVisit</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>personBeingVisited</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>sponsorUserName</td><td>String</td><td>No</td><td></td><td></td><td>Mr Spons</td></tr>
+    <tr style= 'background:#f8f8f8'><td style='font-family:monospace'>sponsorUserId</td><td>String</td><td>No</td><td></td><td></td><td></td></tr> 
+    <tr><td style='font-family:monospace'>statusReason</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>portalId</td><td>String</td><td>No</td><td></td><td></td><td>23423432523</td></tr> 
+    <tr><td style='font-family:monospace'>guestAccessInfo</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>- validDays</td><td>Integer</td><td>Yes</td><td>Number of days guest user is valid. To validate validDays property, Cisco ISE considers only date (not time) between fromDate and toDate properites</td><td></td><td>90</td></tr>
+    <tr><td style='font-family:monospace'>- fromDate</td><td>String</td><td>No</td><td></td><td></td><td>07/29/2014 14:44</td></tr>
+    <tr><td style='font-family:monospace'>- toDate</td><td>String</td><td>No</td><td></td><td></td><td>10/29/2014 17:30</td></tr>
+    <tr><td style='font-family:monospace'>- location</td><td>String</td><td>No</td><td></td><td></td><td>San Jose</td></tr>
+    <tr><td style='font-family:monospace'>- ssid</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>- groupTag</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>GuestInfo</td><td>List</td><td>Yes</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  emailAddress</td><td>String</td><td>No</td><td></td><td></td><td>email@some.uri.com</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  enabled</td><td>Boolean</td><td>Yes</td><td>This field is only for Get operation not applicable for Create, Update operations</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  password</td><td>String</td><td>Yes</td><td></td><td></td><td>asdlkj324ew</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  phoneNumber</td><td>String</td><td>No</td><td>Phone number should be E.164 format</td><td></td><td>+13211239034</td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  smsServiceProvider</td><td>String</td><td>No</td><td></td><td></td><td>Global Default</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  userName</td><td>String</td><td>No</td><td>If account needs be created with mobile number, please provide mobile number here</td><td></td><td>DS3ewdsa34wWE</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  firstName</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  lastName</td><td>String</td><td>No</td><td></td><td></td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  company</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>-  creationTime</td><td>String</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8; border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>-  notificationLanguage</td><td>String</td><td>No</td><td></td><td></td><td></td></tr> 
+    </table>
+    
+  version: 1.0.0
+  title: Guest User
+
+tags:
+- name: guestuser
+
+paths:
+  /ers/config/guestuser/approve/{id}:
+    put:
+      tags: 
+      - guestuser
+      summary: Approve guest user by ID
+      description:
+        <p>This API allows the client to approve a guest user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'approve' can be used within Bulk Request
+            
+      responses: 
+        204:
+          description: No Content
+          
+  /ers/config/guestuser/changeSponsorPassword/{portalId}:
+    put:
+      tags: 
+      - guestuser
+      summary: Change sponsor password
+      description:
+        <p>This API allows the client to change the sponsor password.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: portalId
+          in: path
+          type: string
+          required: true
+          description: |
+            The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'changeSponsorPassword' can be used within Bulk Request
+        - in: header
+          name: Additional Attributes
+          type: string
+          description: 
+              currentPassword, newPassword
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/OperationAdditionalData'
+            
+      responses: 
+        204:
+          description: No Content
+
+  /ers/config/guestuser/suspend/name/{name}:
+    put:
+      tags: 
+      - guestuser
+      summary: Suspend guest user by name
+      description:
+        <p>This API allows the client to suspend a guest user by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'suspendByName' can be used within Bulk Request
+            
+      responses: 
+        204:
+          description: No Content
+
+  /ers/config/guestuser/reinstate/name/{name}:
+    put:
+      tags: 
+      - guestuser
+      summary: Reinstate guest user by name
+      description:
+        <p>This API allows the client to reinstate a guest user by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'reinstateByName' can be used within Bulk Request
+            
+      responses: 
+        204:
+          description: No Content
+          
+  /ers/config/guestuser/name/{name}: 
+            
+    put:
+      tags:
+      - guestuser
+      summary: Update guest user by name
+      description:  <p>This API allows the client to update a guest user by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'UpdateByName' can be used within Bulk Request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/guestuser_name'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+
+    delete:
+      tags:
+      - guestuser
+      summary: Delete guest user
+      description:
+        <p>This API deletes a guest user.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk support
+          type: string
+          description: Operation 'DeleteByName' can be used within Bulk Request
+      responses: 
+        204:
+          description: No Content  
+
+    get:
+      tags: 
+      - guestuser
+      summary: Get guest user by name
+      description:
+        <p>This API allows the client to get a guest user by name.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: name
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/guestuser_name'
+            
+  /ers/config/guestuser/resetpassword/{id}:
+    put:
+      tags: 
+      - guestuser
+      summary: Reset guest user password
+      description:
+        <p>This API allows the client to reset the guest user password.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'resetpassword' can be used within Bulk Request
+            
+      responses: 
+        200:
+          description: Ok  
+          schema:
+            $ref: '#/definitions/OperationResult'
+ 
+  /ers/config/guestuser/reinstate/{id}:
+    put:
+      tags: 
+      - guestuser
+      summary: Reinstate guest user by ID
+      description:
+        <p>This API allows the client to reinstate a guest user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'reinstateById' can be used within Bulk Request
+            
+      responses: 
+        204:
+          description: No Content    
+    
+  /ers/config/guestuser/email/{id}/portalId/{portalId}:
+    put:
+      tags: 
+      - guestuser
+      summary: Update guest user email by ID
+      description:
+        <p>This API allows the client to update a guest user email by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: portalId
+          in: path
+          type: string
+          required: true
+          description: |
+            The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Additional Attributes
+          type: string
+          description: 
+              senderEmail
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'email' can be used within Bulk Request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/OperationAdditionalData'
+            
+      responses: 
+        204:
+          description: No Content
+  
+  /ers/config/guestuser/sms/{id}/portalId/{portalId}:
+    put:
+      tags: 
+      - guestuser
+      summary: Update guest user sms by ID
+      description:
+        <p>This API allows the client to update a guest user sms by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: portalId
+          in: path
+          type: string
+          required: true
+          description: |
+            The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'sms' can be used within Bulk Request
+            
+      responses: 
+        204:
+          description: No Content
+  
+  /ers/config/guestuser/deny/{id}:
+    put:
+      tags: 
+      - guestuser
+      summary: Deny guest user by ID
+      description:
+        <p>This API allows the client to deny a guest user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'deny' can be used within Bulk Request
+            
+      responses: 
+        204:
+          description: No Content
+          
+  /ers/config/guestuser/{id}:
+    get:
+      tags: 
+      - guestuser
+      summary: Get guest user by ID
+      description:
+        <p>This API allows the client to get a guest user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/guestuser'
+    patch:
+      tags: 
+      - guestuser
+      summary: Update part of the guest user by ID
+      description:
+        <p>This API allows the user to update part of the guest user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/patchRequest'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/guestuser'  
+                    
+    put:
+      tags:
+      - guestuser
+      summary: Update guest user by ID
+      description:  <p>This API allows the client to update a guest user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'UpdateById' can be used within Bulk Request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/guestuser'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+            
+    delete:
+      tags:
+      - guestuser
+      summary: Delete guest user by ID
+      description:
+        <p>This API deletes a guest user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk support
+          type: string
+          description: Operation 'DeleteById' can be used within Bulk Request
+      responses: 
+        204:
+          description: No Content  
+          
+  /ers/config/guestuser:
+    get:
+      tags: 
+      - guestuser
+      summary: Get all guest users
+      description:
+        <p>This API allows the client to get all the guest users.</p>
+        <p><h1>Filter:</h1> <h3>[lastName, sponsor, creationTime, personBeingVisited, toDate, userName, firstName, emailAddress, phoneNumber, groupTag, name, company, guestType, status]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> 
+        <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul>
+        <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul>
+        <p><h1>Sorting:</h1> <h3>[firstName, lastName, emailAddress, name, description]</h3></p>    
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+
+    post:
+      tags:
+      - guestuser
+      summary: Create guest user
+      description:
+        <p>This API creates a guest user.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk support
+          type: string
+          description: Operation 'Create' can be used within Bulk Request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/guestuser'
+      responses:
+        201:
+          description: Created
+
+  /ers/config/guestuser/suspend/{id}:
+    put:
+      tags: 
+      - guestuser
+      summary: Suspend guest user by ID
+      description:
+        <p>This API allows the client to suspend a guest user by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guestuser.2.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Additional Attributes
+          type: string
+          description: 
+              reason
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'suspendById' can be used within Bulk Request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/OperationAdditionalData'            
+      responses: 
+        204:
+          description: No Content
+          
+  /ers/config/guestuser/versioninfo:
+    get:
+      tags:
+      - guestuser
+      summary: Get guest user version information
+      description:
+        <p>This API helps to retrieve the version information related to the guest user.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+
+  /ers/config/guestuser/bulk/submit:
+    put:
+      tags:
+      - guestuser
+      summary: Submit bulk request 
+      description:
+        <p>This API allows the client to submit the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/bulkrequest'  
+      responses:
+        202:
+          description: Accepted
+
+  /ers/config/guestuser/bulk/{bulkid}:
+    get:
+      tags:
+      - guestuser
+      summary: Monitor bulk request 
+      description:
+        <p>This API allows the client to monitor the bulk request.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: bulkid
+          in: path
+          type: string 
+          required: true
+          description: |
+            The bulk ID is a dynamically generated value.<br>For example :- ‘615360357673’
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/bulkstatus'
+          
+definitions:
+  guestuser_name:
+    type: object
+    properties:
+      GuestUser:
+        $ref: '#/definitions/GuestUser_name'
+        
+  GuestUser_name:
+    type: object
+    properties:
+      id:
+        type: string
+        example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+      name:
+        type: string
+        example: guestUser
+      description:
+        type: string
+        example: ERS Example user
+      guestType:
+        type: string
+        example: Contractor
+      sponsorUserName:
+        type: string
+        example: Mr Spons
+      guestInfo:
+        type: object
+        properties:
+          userName:
+            type: string
+            example: DS3ewdsa34wWE
+          emailAddress:
+            type: string
+            example: email@some.uri.com
+          phoneNumber:
+            type: string
+            example: "+13211239034"
+          password: 
+            type: string
+            example: asdlkj324ew
+          enabled:
+            type: boolean
+            example: true
+          smsServiceProvider:
+            type: string
+            example: Global Default
+      guestAccessInfo:
+        type: object
+        properties:
+          validDays:
+            type: integer
+            example: 90
+          fromDate:
+            type: string
+            example: 07/29/2014 14:44
+          toDate:
+            type: string
+            example: 10/29/2014 17:30
+          location:
+            type: string
+            example: San Jose
+      portalId:
+        type: string
+        example: 23423432523
+      customFields:
+        type: object
+        properties:
+          another key:
+            type: string
+            example: and its value
+          some key:
+            type: string
+            example: some value
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/guestuser/name/guestUser
+          type:
+            type: string
+            example: application/json      
+
+  guestuser:
+    type: object
+    properties:
+      GuestUser:
+        $ref: '#/definitions/GuestUser'
+        
+  GuestUser:
+    type: object
+    properties:
+      id:
+        type: string
+        example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+      name:
+        type: string
+        example: guestUser
+      description:
+        type: string
+        example: ERS Example user
+      guestType:
+        type: string
+        example: Contractor
+      sponsorUserName:
+        type: string
+        example: Mr Spons
+      guestInfo:
+        type: object
+        properties:
+          userName:
+            type: string
+            example: DS3ewdsa34wWE
+          emailAddress:
+            type: string
+            example: email@some.uri.com
+          phoneNumber:
+            type: string
+            example: "+13211239034"
+          password: 
+            type: string
+            example: asdlkj324ew
+          enabled:
+            type: boolean
+            example: true
+          smsServiceProvider:
+            type: string
+            example: Global Default
+      guestAccessInfo:
+        type: object
+        properties:
+          validDays:
+            type: integer
+            example: 90
+          fromDate:
+            type: string
+            example: 07/29/2014 14:44
+          toDate:
+            type: string
+            example: 10/29/2014 17:30
+          location:
+            type: string
+            example: San Jose
+      portalId:
+        type: string
+        example: 23423432523
+      customFields:
+        type: object
+        properties:
+          another key:
+            type: string
+            example: and its value
+          some key:
+            type: string
+            example: some value
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/guestuser/ab6deded-fcc2-47ff-8577-0014737c8fcf
+          type:
+            type: string
+            example: application/json      
+
+  OperationAdditionalData:
+    type: object
+    properties:
+      OperationAdditionalData:
+        type: object
+        properties:
+          additionalData:
+            type: array
+            example: [{"name": "example additional attribute name", "value": "its value"}]
+            items:
+              properties:
+                name:
+                  type: string            
+  
+  patchRequest:
+    type: object
+    properties:
+      GuestUser:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value     
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  OperationResult:
+    type: object
+    properties:
+      OperationResult:
+        type: object
+        properties:
+          resultValue:
+            type: array
+            example: [{"value": "DdsAASDs%$##@ssds12", "name": "password"}]
+            items:
+              properties:
+                name:
+                  type: string 
+                  
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example: [{"id" : "ab6deded-fcc2-47ff-8577-0014737c8fcf", "name": "guestUser", "description": "ERS Example user", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/guestuser/ab6deded-fcc2-47ff-8577-0014737c8fcf", "type" : "application/json"}}]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "2.0"
+      supportedVersions:
+        type: string
+        example: "2.0"  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/guestuser/versioninfo
+      type:
+        type: string
+        example: application/json
+
+  bulkrequest:
+    type: object
+    properties:
+      GuestUserBulkRequest:
+        $ref: '#/definitions/GuestUserBulkRequest'
+        
+  GuestUserBulkRequest:
+    type: object
+    properties:
+      operationType:
+        type: string
+        example: create
+      resourceMediaType:
+        type: string
+        example: vnd.com.cisco.ise.identity.guestuser.2.0+xml
+
+  bulkstatus:
+    type: object
+    properties:
+      BulkStatus:
+        $ref: '#/definitions/BulkStatus'
+        
+  BulkStatus:
+    type: object
+    properties:
+      bulkId:
+        type: string
+        example: 1615360357673
+      mediaType:
+        type: string
+        example: ""
+      executionStatus:
+        type: string
+        example: COMPLETED
+      operationType:
+        type: string
+        example: create
+      startTime:
+        type: string
+        example: Wed Mar 10 07:12:37 UTC 2021
+      resourcesCount:
+        type: integer
+        example: 5
+      successCount:
+        type: integer
+        example: 5
+      failCount:
+        type: integer
+        example: 0
+      resourcesStatus:
+        type: array
+        example: [{"id" : "1234454324", "name": "resource1", "description": "description...", "resourceExecutionStatus" : "PENDING", "status" : "PENDING"}, {"id" : "2343242342", "name": "resource2", "description": "description...", "resourceExecutionStatus" : "PENDING", "status" : "PENDING"}, {"id" : "4564566456", "name": "resource3", "description": "description...", "resourceExecutionStatus" : "PENDING", "status" : "PENDING"}, {"id" : "6544566455", "name": "resource4", "description": "description...", "resourceExecutionStatus" : "PENDING", "status" : "PENDING"} ]
+        items:
+          properties:
+            name:
+              type: string

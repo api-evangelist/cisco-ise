@@ -1,0 +1,269 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec SXP API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: SXP
+paths:
+  /api/v1/trustsec/rule/all-sxp:
+    get:
+      tags:
+      - SXP
+      summary: List of all SXP Domains used in rules
+      description: List of all SXP Domains used in rules
+      operationId: getFiltersForAllSxp
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of AllSxpFilterListResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllSxpFilterListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/rule/sxp:
+    get:
+      tags:
+      - SXP
+      summary: List of rules containing provided SXP Domains
+      description: List of rules containing provided SXP Domains
+      operationId: getFiltersForSxp
+      parameters:
+      - name: sxpDomain
+        in: query
+        description: List of SXP Domains to filter by
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of SxpFilterListResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SxpFilterListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/sxp/domain:
+    get:
+      tags:
+      - SXP
+      summary: Get all SXP domains
+      description: Get all SXP domains
+      operationId: getSxpDomains
+      responses:
+        '200':
+          description: List of SXP domains
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SxpDomainResult'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    SxpFilterListResponseEntity:
+      title: SxpFilterListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    FilterList:
+      title: FilterList
+      required:
+      - inboundOutboundRules
+      - sgtName
+      type: object
+      properties:
+        inboundOutboundRules:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/InboundOutboundRule'
+            exampleSetFlag: false
+        sgtName:
+          type: string
+          exampleSetFlag: true
+        sxpName:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpFilterList:
+      title: SxpFilterList
+      required:
+      - sxpFilters
+      type: object
+      properties:
+        sxpFilters:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterList'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpDomainResult:
+      title: SxpDomainResult
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SxpDomain'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: SXP Domain Result
+      exampleSetFlag: false
+    InboundOutboundRule:
+      title: InboundOutboundRule
+      required:
+      - id
+      - name
+      - ruleType
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        ruleType:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpDomain:
+      title: SxpDomain
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: sxpDomain1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AllSxpFilterListResponseEntity:
+      title: AllSxpFilterListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/SxpFilterList'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false

@@ -1,0 +1,101 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - MFA Is MFA Enabled API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.9.91:443
+  description: Inferred Url
+tags:
+- name: is-MFA-Enabled
+paths:
+  /api/v1/duo-mfa/status:
+    get:
+      tags:
+      - is-MFA-Enabled
+      summary: MFA feature enabled status
+      description: Is MFA feature enabled?
+      operationId: isMfaEnabled
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: request Id, will return in the response headers, and appear in logs
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: is MFA feature enabled?
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MfaEnabledStatus'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+      security:
+      - BasicAuth: []
+components:
+  schemas:
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          description: Error message
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MfaEnabledStatus:
+      title: MfaEnabledStatus
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+      description: Mfa enabled status format
+      exampleSetFlag: false

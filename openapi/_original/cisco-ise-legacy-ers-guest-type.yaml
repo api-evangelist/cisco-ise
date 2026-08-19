@@ -1,0 +1,585 @@
+swagger: '2.0'
+info:
+  description: |
+    Guest Type API allows the client to add, delete, update and search guest type.
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+    <tr><td>0</td><td>1.0</td><td>2.2</td><td>Initial Cisco ISE Version</td></tr>
+    <tr><td>1</td><td>2.0</td><td>3.3</td><td>Support New Atrributes</td></tr>
+    </table>
+    <br><br>
+    
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Default Values</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td></td><td>Contractor (default)</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td></td><td>9f03a151-8c01-11e6-996c-525400b48521</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td></td><td>Default settings allow network access for up to a year.</td></tr>
+    <tr valign=top 'background:#f8f8f8'><td style='font-family:monospace'>accessTime</td><td>List</td><td>No</td><td></td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- allowAccessOnSpecificDaysTimes</td><td>Boolean</td><td>No</td><td>Enable Specific Day Time Limits</td><td>false</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- defaultDuration</td><td>Integer</td><td>No</td><td></td><td>90</td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- durationTimeUnit</td><td>Enum</td><td>No</td><td>Allowed values are: <br>- DAYS, <br>- HOURS, <br>- MINUTES</td><td>DAYS</td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- fromFirstLogin</td><td>Boolean</td><td>No</td><td>When Account Duration starts from first login or specified date</td><td>false</td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- maxAccountDuration</td><td>Integer</td><td>No</td><td>Maximum value of Account Duration</td><td>365</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- dayTimeLimits</td><td>List</td><td>No</td><td>List of Time Ranges for account access</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp - dayTimeLimit</td><td>List</td><td>No</td><td>Time Ranges for account access</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - startTime</td><td>String</td><td>No</td><td>Start time in HH:mm format</td><td>09:00</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - endTime</td><td>String</td><td>No</td><td>End time in HH:mm format</td><td>17:00</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp - days</td><td>List</td><td>No</td><td>List of Days</td><td></td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>&nbsp &nbsp &nbsp - day</td><td>Enum</td><td>No</td><td>Value should be one of Week day. Allowed values are: <br>- Sunday, <br>- Monday, <br>- Tuesday, <br>- Wednesday, <br>- Thursday, <br>- Friday, <br>- Saturday</td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>loginOptions</td><td>List</td><td>No</td><td>Login options</td><td></td><td></td></tr>
+    <tr><td style='font-family:monospace'>- allowGuestPortalBypass</td><td>Boolean</td><td>No</td><td></td><td>false</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- failureAction</td><td>Enum</td><td>No</td><td>When Guest Exceeds limit this action will be invoked, Allowed values are: <br>- Disconnect_Oldest_Connection, <br>- Disconnect_Newest_Connection</td><td>Disconnect_Oldest_Connection</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- identityGroupId</td><td>String</td><td>Yes</td><td>ID of Guest Identity Group</td><td></td><td>aa178bd0-8bff-11e6-996c-525400b48521</td></tr>
+    <tr><td style='font-family:monospace'>- limitSimultaneousLogins</td><td>Boolean</td><td>No</td><td>Enable Simultaneous Logins</td><td>true</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- maxRegisteredDevices</td><td>Integer</td><td>No</td><td>Maximum devices guests can register</td><td>5</td><td></td></tr>
+    <tr><td style='font-family:monospace'>- maxSimultaneousLogins</td><td>Integer</td><td>No</td><td>Number of Simultaneous Logins</td><td>3</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>expirationNotification</td><td>List</td><td>No</td><td>Expiration Notification Settings</td><td></td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- advanceNotificationDuration</td><td>Integer</td><td>No</td><td>Send Account Expiration Notification Duration before ( Days, Hours, Minutes )</td><td>3</td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- advanceNotificationUnits</td><td>Enum</td><td>No</td><td>Allowed values are: <br>- DAYS, <br>- HOURS, <br>- MINUTES</td><td>DAYS</td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- enableNotification</td><td>Boolean</td><td>No</td><td>Enable Notification settings</td><td>false</td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- sendEmailNotification</td><td>Boolean</td><td>No</td><td>Enable Email Notification</td><td>false</td><td></td></tr> 
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- sendSmsNotification</td><td>Integer</td><td>No</td><td>Maximum devices guests can register</td><td>5</td><td></td></tr> 
+    <tr style='border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>sponsorGroups</td><td>List</td><td>Yes</td><td>List of Sponsor Groups</td><td></td><td>["GROUP_ACCOUNTS (default)", "ALL_ACCOUNTS (default)", "OWN_ACCOUNTS (default)"]</td></tr>
+    <tr style='border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>allowDynamicIdentityGroups</td><td>Boolean</td><td>No</td><td>Allows dynamic identity groups</td><td>DynamicIdentityGroupOption</td><td>False</td></tr>
+    <tr style='border-bottom:solid #CCCCCC 1.0pt'><td style='font-family:monospace'>dynamicGroups</td><td>List</td><td>No</td><td>Dynamic Group Options</td><td>DynamicGroupsOption</td><td></td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- externalGroupName</td><td>String</td><td>No</td><td>External Group Name</td><td>ExternalServer</td><td>GroupName</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>- endpointIdentityGroupId</td><td>String</td><td>No</td><td>Endpoint Identity Group ID</td><td> generatedID</td><td></td></tr>
+    </table>
+  
+  version: 1.0.0
+  title: Guest Type
+
+tags:
+- name: guesttype
+
+
+paths:
+  /ers/config/ers/config/guesttype/email/{id}:
+    put:
+      tags: 
+      - guesttype
+      summary: Update guest type email by ID
+      description:
+        <p>This API allows the client to update a guest type email by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guesttype.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Additional Attributes
+          type: string
+          description: 
+              emailAddress
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/OperationAdditionalData'
+            
+      responses: 
+        204:
+          description: No Content
+
+  /ers/config/ers/config/guesttype/sms/{id}:
+    put:
+      tags: 
+      - guesttype
+      summary: Update guest type sms by ID
+      description:
+        <p>This API allows the client to update a guest type sms by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guesttype.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+        - in: header
+          name: Additional Attributes
+          type: string
+          description: 
+              phoneNumber, serviceProvider
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/OperationAdditionalData'
+            
+      responses: 
+        204:
+          description: No Content
+
+  /ers/config/guesttype/{id}:
+    get:
+      tags: 
+      - guesttype
+      summary: Get guest type by ID
+      description:
+        <p>This API allows the client to get a guest type by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guesttype.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/guesttype'
+            
+    put:
+      tags:
+      - guesttype
+      summary: Update guest type
+      description:  <p>This API allows the client to update a guest type.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guesttype.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk Support
+          type: string
+          description: 
+              Operation 'UpdateById' can be used within Bulk Request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/guesttype'
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'  
+    delete:
+      tags:
+      - guesttype
+      summary: Delete guest type
+      description:
+        <p>This API deletes a guest type.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guesttype.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: header
+          name: Bulk support
+          type: string
+          description: Operation 'DeleteById' can be used within Bulk Request
+      responses: 
+        204:
+          description: No Content  
+          
+  /ers/config/guesttype:
+    get:
+      tags: 
+      - guesttype
+      summary: Get all guest types
+      description:
+        <p>This API allows the client to get all the guest types.</p>
+        <p><h1>Filter:</h1> <h3>[name]</h3></p>
+        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> 
+        <p>DD-MON-YY (Example:13-SEP-18)</p>
+        <ul>
+        <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+        </ul>
+        <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>    
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guesttype.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+         
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+
+    post:
+      tags:
+      - guesttype
+      summary: Create guest type
+      description:
+        <p>This API creates a guest type.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- identity.guesttype.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+               The Token value from the GET X-CSRF-TOKEN fetch request
+        - in: body
+          name: request
+          schema:
+            $ref: '#/definitions/guesttype'
+      responses:
+        201:
+          description: Created
+             
+  /ers/config/guesttype/versioninfo:
+    get:
+      tags:
+      - guesttype
+      summary: Get guest type version information
+      description:
+        <p>This API helps to retrieve the version information related to the guest type.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+            
+definitions:
+  guesttype:
+    type: object
+    properties:
+      GuestType:
+        $ref: '#/definitions/GuestType'
+        
+  GuestType:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 9f03a151-8c01-11e6-996c-525400b48521
+      name:
+        type: string
+        example: Contractor (default)
+      description:
+        type: string
+        example: Default settings allow network access for up to a year.
+      isDefaultType:
+        type: boolean
+        example: true
+      accessTime:
+        type: object
+        properties:
+          fromFirstLogin:
+            type: boolean
+            example: false
+          maxAccountDuration:
+            type: integer
+            example: 365
+          durationTimeUnit:
+            type: string
+            example: DAYS
+          defaultDuration: 
+            type: integer
+            example: 90
+          allowAccessOnSpecificDaysTimes:
+            type: boolean
+            example: false
+          dayTimeLimits:
+            type: array
+            example: [{"startTime" : "09:00", "endTime": "17:00", "days" : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]}]
+            items:
+              properties:
+                name:
+                  type: string              
+      loginOptions:
+        type: object
+        properties:
+          limitSimultaneousLogins:
+            type: boolean
+            example: true
+          maxSimultaneousLogins:
+            type: integer
+            example: 3
+          failureAction:
+            type: string
+            example: Disconnect_Oldest_Connection
+          maxRegisteredDevices:
+            type: integer
+            example: 5
+          identityGroupId:
+            type: string
+            example: aa178bd0-8bff-11e6-996c-525400b48521
+          allowGuestPortalBypass:
+            type: boolean
+            example: false
+      expirationNotification:
+        type: object
+        properties:
+          enableNotification:
+            type: boolean
+            example: false
+          advanceNotificationDuration:
+            type: integer
+            example: 3
+          advanceNotificationUnits:
+            type: string
+            example: DAYS
+          sendEmailNotification:
+            type: boolean
+            example: false
+          emailText:
+            type: string
+            example: Your account is going to expire in 3 days. Please notify your sponsor to extend your account now to avoid any delays.
+          sendSmsNotification:
+            type: boolean
+            example: false
+          smsText:
+            type: string
+            example: Your account is going to expire in 3 days. Please notify your sponsor to extend your account now to avoid any delays.
+      sponsorGroups:    
+        type: array
+        example: ["GROUP_ACCOUNTS (default)", "ALL_ACCOUNTS (default)", "OWN_ACCOUNTS (default)"]
+        items:
+          properties:
+            name:
+              type: string
+      allowDynamicIdentityGroups:
+        type: boolean
+        example: false
+      dynamicGroups:
+        type: object
+        properties: 
+          endpointIdentityGroupId: 
+            type: string
+            example: 1e2700a0-8c00-11e6-996c-525400b48521
+          externalGroupName: 
+            type: string
+            example: ADasLDAP:CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9f03a151-8c01-11e6-996c-525400b48521
+          type:
+            type: string
+            example: application/json      
+
+  OperationAdditionalData:
+    type: object
+    properties:
+      OperationAdditionalData:
+        type: object
+        properties:
+          additionalData:
+            type: array
+            example: [{"name": "example additional attribute name", "value": "its value"}]
+            items:
+              properties:
+                name:
+                  type: string               
+  
+  patchRequest:
+    type: object
+    properties:
+      GuestType:
+        $ref: '#/definitions/patchRequestBody'	
+        
+  patchRequestBody:
+    type: object
+    properties:
+      any-resource-attribute:
+        type: string
+        example: some-updated-value
+      another-resource-attribute:
+        type: string
+        example: some-updated-value  
+  Update:
+    type: object
+    properties:
+      UpdatedFieldsList:
+        $ref: '#/definitions/UpdatedFieldsList'
+        
+  UpdatedFieldsList:
+    type: object
+    properties:
+      updatedField:
+         $ref: '#/definitions/UpdatedField'
+      field:
+        type: string
+        example: some other field
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new
+        
+  UpdatedField:
+    type: object
+    properties:
+      field:
+        type: string
+        example: field1
+      oldValue:
+        type: string
+        example: val_old
+      newValue:
+        type: string
+        example: val_new   
+
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 4
+      resources:
+        type: array
+        example: [{"id" : "9f03a151-8c01-11e6-996c-525400b48521", "name": "Contractor (default)", "description": "Default settings allow network access for up to a year.", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/guesttype/9f03a151-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "9eeda851-8c01-11e6-996c-525400b48521", "name": "Daily (default)", "description": "Default settings allow network access for just 1-5 days.", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/guesttype/9eeda851-8c01-11e6-996c-525400b48521", "type" : "application/json"}}, {"id" : "28bbb9f3-86ec-4296-ae9a-819005bdc0e7", "name": "SocialLogin (default)", "description": "Default settings for social login users to allow network access for just 1-5 days", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/guesttype/28bbb9f3-86ec-4296-ae9a-819005bdc0e7", "type" : "application/json"}}, {"id" : "9efd11a1-8c01-11e6-996c-525400b48521", "name": "Weekly (default)", "description": "Default settings allow network access for a couple of weeks.", "link" : {"rel" : "self" ,  "href" : "https://<ise-ip>:9060/ers/config/ers/config/guesttype/9efd11a1-8c01-11e6-996c-525400b48521", "type" : "application/json"}}]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "1.0"
+      supportedVersions:
+        type: string
+        example: "1.0"  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/guesttype/versioninfo
+      type:
+        type: string
+        example: application/json
+        

@@ -1,0 +1,73 @@
+generated: '2026-08-19'
+method: searched
+source: https://github.com/CiscoISE + registry metadata endpoints (pypi.org, galaxy.ansible.com, registry.terraform.io, proxy.golang.org)
+note: 'Cisco maintains the ISE client tooling in its own GitHub organisation, github.com/CiscoISE. All four entries below
+  are first-party. Currency is uneven: the Python SDK and the Ansible collection are current, while the Go SDK and the Terraform
+  provider have not shipped a release since February 2025 and the Terraform provider is still labelled beta after four years.'
+packages:
+- language: python
+  registry: pypi
+  name: ciscoisesdk
+  url: https://pypi.org/project/ciscoisesdk/
+  install: pip install ciscoisesdk
+  official: true
+  version: 2.4.5
+  published: '2026-06-22'
+  repo: https://github.com/CiscoISE/ciscoisesdk
+  docs: https://ciscoisesdk.readthedocs.io/en/latest/
+  note: Covers ERS and Open API surfaces, versioned per ISE release (api/v3_1_0 … api/v3_5_0 namespaces in the source tree).
+- language: ansible
+  registry: ansible-galaxy
+  name: cisco.ise
+  url: https://galaxy.ansible.com/ui/repo/published/cisco/ise/
+  install: ansible-galaxy collection install cisco.ise
+  official: true
+  version: 3.2.0
+  published: '2026-05-08'
+  repo: https://github.com/CiscoISE/ansible-ise
+  downloads: 352073
+  note: Requires the ISE API Gateway, ERS APIs and Open APIs to be enabled on the appliance. Built on ciscoisesdk.
+- language: go
+  registry: go-modules
+  name: github.com/CiscoISE/ciscoise-go-sdk
+  url: https://pkg.go.dev/github.com/CiscoISE/ciscoise-go-sdk
+  install: go get github.com/CiscoISE/ciscoise-go-sdk
+  official: true
+  version: v1.3.6
+  published: '2025-02-13'
+  repo: https://github.com/CiscoISE/ciscoise-go-sdk
+  note: No release in 18 months as of this probe; the repository was last pushed 2025-02-13. It backs the Terraform provider.
+- language: hcl
+  registry: terraform-registry
+  name: CiscoISE/ciscoise
+  url: https://registry.terraform.io/providers/CiscoISE/ciscoise/latest
+  install: terraform { required_providers { ciscoise = { source = "CiscoISE/ciscoise" } } }
+  official: true
+  version: 0.8.2-beta
+  published: '2025-02-14'
+  repo: https://github.com/CiscoISE/terraform-provider-ciscoise
+  note: Still pre-1.0 and explicitly beta. Note that apis.yml also carries a second, separately maintained Terraform provider
+    at github.com/CiscoDevNet/terraform-provider-ise — two first-party Terraform providers for the same product.
+- language: java
+  registry: cdn
+  name: ers-schema
+  url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/resources/ers-schema-3.1.0-397.jar
+  install: null
+  official: true
+  version: 3.1.0-397
+  published: null
+  note: ERS XSD schema jar offered as a direct download from the ISE developer docs Downloads page — not published to Maven
+    Central, so there is no registry metadata endpoint to date it. Version read from the pinned filename. A Java ERS demo
+    application (ers-demo-app.zip) sits beside it.
+summary:
+  total: 5
+  official: 5
+  registries:
+  - pypi
+  - ansible-galaxy
+  - go-modules
+  - terraform-registry
+  - cdn
+  stale_over_12_months:
+  - github.com/CiscoISE/ciscoise-go-sdk
+  - CiscoISE/ciscoise

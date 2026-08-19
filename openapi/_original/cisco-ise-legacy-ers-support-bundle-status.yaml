@@ -1,0 +1,227 @@
+swagger: '2.0'
+info:
+  description: |
+    Support Bundle Status API allows clients to query status of a triggered support bundle.
+    
+    <h2>Revision History</h2>
+    <table font-family:monospace> 
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Revision #</b></td><td><b>Resource Version</b></td><td><b>Cisco ISE Version</b></td><td><b>Description</b></td></tr>
+    <tr style='border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt'><td>0</td><td>1.0</td><td>2.7</td><td>Initial Cisco ISE Version</td><td></td><td></td></tr>
+    </table>
+    <br><br>
+    
+    <h2>Resource Definition</h2>
+    <table>
+    <tr valign=top style='border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt;background:#DEEDF7'><td><b>Attribute</b></td><td><b>Type</b></td><td><b>Required</b></td><td><b>Description</b></td><td><b>Example Values</b></td></tr>
+    <tr><td style='font-family:monospace'>name</td><td>String</td><td>Yes</td><td>Resource Name</td><td>ciscoise</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>id</td><td>String</td><td>No</td><td>Resource UUID, mandatory for update</td><td>ciscoise</td></tr>
+    <tr><td style='font-family:monospace'>description</td><td>String</td><td>No</td><td>Resource Description</td><td>Support Bundle Status api</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>fileName</td><td>String</td><td>No</td><td></td><td>ise-support-bundle-pk-ciscoise-admin-04-09-2021-15-07.tar.gpg</td></tr>
+    <tr><td style='font-family:monospace'>fileSize</td><td>Integer</td><td>No</td><td></td><td>1080924274</td></tr>
+    <tr valign=top style='background:#f8f8f8'><td style='font-family:monospace'>hostName</td><td>String</td><td>No</td><td></td><td>ciscoise</td></tr>
+    <tr><td style='font-family:monospace'>message</td><td>String</td><td>No</td><td></td><td>Support Bundle generation completed</td></tr> 
+    <tr style='background:#f8f8f8'><td style='font-family:monospace'>startTime</td><td>String</td><td>No</td><td></td><td>Fri Apr 09 15:07:55 IST 2021</td></tr>
+    <tr style = 'border-bottom:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75pt'><td style='font-family:monospace'>status</td><td>String</td><td>No</td><td></td><td>complete</td></tr>
+    </table>
+  
+  version: 1.0.0
+  title: Support Bundle Status
+
+tags:
+- name: supportbundlestatus
+
+
+paths:
+  /ers/config/supportbundlestatus/{id}:
+    get:
+      tags: 
+      - supportbundlestatus
+      summary: Get support bundle status by ID
+      description:
+        <p>This API allows the client to get a support bundle status by ID.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- supportbundle.supportbundlestatus.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+              Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/supportbundlestatus'
+
+  /ers/config/supportbundlestatus:
+    get:
+      tags: 
+      - supportbundlestatus
+      summary: Get all support bundle status
+      description:
+        <p>This API allows the client to get all the support bundle status.</p>
+      consumes:
+      - application/json
+      - application/xml
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+        - in: header
+          name: HTTP ERS-Media-Type Header
+          type: string
+          description: 
+              Example:- supportbundle.supportbundlestatus.1.0
+          required: false
+        - in: header
+          name: HTTP X-CSRF-TOKEN Header
+          type: string
+          description: 
+             Required Only if Enabled from GUI
+             Example:- fetch
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/search'  
+            
+  /ers/config/supportbundlestatus/versioninfo:
+    get:
+      tags:
+      - supportbundlestatus
+      summary: Get support bundle status version information
+      description:
+        <p>This API helps to retrieve the version information related to the support bundle status.</p>
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/VersionInfo'
+
+definitions:
+  supportbundlestatus:
+    type: object
+    properties:
+      SBStatus:
+        $ref: '#/definitions/SBStatus'
+        
+  SBStatus:
+    type: object
+    properties:
+      id:
+        type: string
+        example: ciscoise
+      name:
+        type: string
+        example: ciscoise
+      description:
+        type: string
+        example: Support Bundle Status api
+      fileName:
+        type: string
+        example: ise-support-bundle-pk-ciscoise-admin-04-09-2021-15-07.tar.gpg       
+      fileSize:
+        type: string
+        example: 1080924274
+      hostName:
+        type: string
+        example: ciscoise
+      message:
+        type: string
+        example: 	Support Bundle generation completed 
+      startTime:
+        type: string
+        example: Fri Apr 09 15:07:55 IST 2021
+      status:
+        type: string
+        example: 	complete
+      link:
+        type: object
+        properties:
+          rel:
+            type: string
+            example: self
+          href:
+            type: string
+            example: https://<ise-ip>:9060/ers/config/ers/config/supportbundlestatus/ciscoise
+          type:
+            type: string
+            example: application/json  
+            
+  search:
+    type: object
+    properties:
+      SearchResult:
+        $ref: '#/definitions/SearchResult'
+        
+  SearchResult:   
+    type: object
+    properties:
+      total:
+        type: integer
+        example: 1
+      resources:
+        type: array
+        example: [
+            {
+                "id": "ciscoise",
+                "name": "ciscoise",
+                "description": "Support Bundle Status api",
+                "link": {
+                    "rel": "self",
+                    "href": "https://<ise-ip>:9060/ers/config/supportbundlestatus/isenode5",
+                    "type": "application/json"
+                }
+            }
+        ]
+        items:
+          properties:
+            name:
+              type: string
+              
+  VersionInfo:
+    type: object
+    properties:
+      VersionInfo:
+        $ref: '#/definitions/version'
+        
+  version:
+    type: object
+    properties:
+      currentServerVersion:
+        type: string
+        example: "1.0"
+      supportedVersions:
+        type: string
+        example: "1.0"  
+      link:
+        $ref: '#/definitions/link1'
+        
+  link1:
+    type: object
+    properties:
+      rel:
+        type: string
+        example: self
+      href:
+        type: string
+        example: https://<ise-ip>:9060/ers/config/supportbundlestatus/versioninfo
+      type:
+        type: string
+        example: application/json
+

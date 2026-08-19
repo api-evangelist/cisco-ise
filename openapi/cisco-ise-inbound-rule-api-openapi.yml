@@ -1,0 +1,799 @@
+openapi: 3.2.0
+info:
+  title: Cisco ISE API - TrustSec Inbound Rule API
+  version: 1.0.0
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://172.23.118.207:443
+  description: Inferred Url
+tags:
+- name: Inbound Rule
+paths:
+  /api/v1/trustsec/inbound-rule:
+    get:
+      tags:
+      - Inbound Rule
+      summary: Inbound Rule - Get Inbound Rule List.
+      description: Inbound Rule - ISE uses ACI policy objects as conditions to determine which context goes to which SXP domain.
+      operationId: getIngressFilterList
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of CdpIngressFilterListResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CdpIngressFilterListResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+    post:
+      tags:
+      - Inbound Rule
+      summary: Inbound Rule - Create Inbound Rule.
+      description: 'Inbound Rule - Create Inbound Rule: <ul> <li> Filter configuration must include name and condition. </li> <li> Condition has hierarchical structure which define a set of conditions for which authoriztion policy rule could be match. </li> <li> Condition can be either reference to a stored Library condition, using model <b>ConditionReference</b> </li> or dynamically built conditions which are not stored in the conditions Library, using models <b>ConditionAttributes, ConditionAndBlock, ConditionOrBlock</b>. </li> </ul> '
+      operationId: createIngressFilterConfiguration
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CdpIngressFilter'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: list of CdpIngressFilterResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CdpIngressFilterResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/inbound-rule/preview:
+    post:
+      tags:
+      - Inbound Rule
+      summary: Inbound Rule - Preview the result of this Inbound Rule on the bindings data.
+      description: 'Inbound Rule - Preview Inbound Rule: <ul> <li> Filter configuration must include name and condition. </li> <li> Condition has hierarchical structure which define a set of conditions for which authoriztion policy rule could be match. </li> <li> Condition can be either reference to a stored Library condition, using model <b>ConditionReference</b> </li> or dynamically built conditions which are not stored in the conditions Library, using models <b>ConditionAttributes, ConditionAndBlock, ConditionOrBlock</b>. </li> </ul> '
+      operationId: getInboundRuleFilterPreview
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CdpIngressFilterWithPage'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: list of EgressFilterPreviewResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngressFilterPreviewResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/inbound-rule/preview/{filterId}:
+    post:
+      tags:
+      - Inbound Rule
+      summary: Inbound Rule - Preview the result of this Inbound Rule on the bindings data.
+      description: 'Inbound Rule - Preview Inbound Rule: <ul> <li> Filter configuration must include name and condition. </li> <li> Condition has hierarchical structure which define a set of conditions for which authoriztion policy rule could be match. </li> <li> Condition can be either reference to a stored Library condition, using model <b>ConditionReference</b> </li> or dynamically built conditions which are not stored in the conditions Library, using models <b>ConditionAttributes, ConditionAndBlock, ConditionOrBlock</b>. </li> </ul> '
+      operationId: getInboundRuleFilterPreviewById
+      parameters:
+      - name: filterId
+        in: path
+        description: Inbound / Outbound Rule id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CdpIngressFilterWithPage'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: list of EgressFilterPreviewResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngressFilterPreviewResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/inbound-rule/sxp-domain:
+    post:
+      tags:
+      - Inbound Rule
+      summary: List of SXP Domains for SGTs data
+      description: Get SXP Domains list for SGTs data
+      operationId: getIngressSxpDomains
+      parameters:
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputRequest'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: list of SxpDomainListResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SxpDomainListResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+  /api/v1/trustsec/inbound-rule/{filterId}:
+    get:
+      tags:
+      - Inbound Rule
+      summary: Inbound Rule - Get Inbound Rule attributes.
+      description: Inbound Rule - Get Inbound Ruler attributes.
+      operationId: getIngressFilterById
+      parameters:
+      - name: filterId
+        in: path
+        description: Inbound / Outbound Rule id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: list of CdpIngressFilterResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CdpIngressFilterResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+    put:
+      tags:
+      - Inbound Rule
+      summary: Inbound Rule - Update Inbound Rule.
+      description: Inbound Rule - Update Inbound Rule.
+      operationId: updateIngressFilterById
+      parameters:
+      - name: filterId
+        in: path
+        description: Inbound / Outbound Rule id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CdpIngressFilter'
+              exampleSetFlag: false
+      responses:
+        '200':
+          description: list of CdpIngressFilterResponseEntity objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CdpIngressFilterResponseEntity'
+                exampleSetFlag: false
+        '201':
+          description: Created
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CdpIngressFilterResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+    delete:
+      tags:
+      - Inbound Rule
+      summary: Inbound Rule - Delete Inbound Rule.
+      description: Inbound Rule - Delete Inbound Rule.
+      operationId: deleteIngressFilterById
+      parameters:
+      - name: filterId
+        in: path
+        description: Inbound / Outbound Rule id
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+      - name: X-Request-ID
+        in: header
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
+        required: false
+        schema:
+          type: string
+          exampleSetFlag: true
+      responses:
+        '200':
+          description: Response with success message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponseEntity'
+                exampleSetFlag: false
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponseEntity'
+                exampleSetFlag: false
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The specified resource was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                exampleSetFlag: false
+components:
+  schemas:
+    IngressFilterPreview:
+      title: IngressFilterPreview
+      type: object
+      properties:
+        ipAddress:
+          type: string
+          exampleSetFlag: true
+        learnedBy:
+          type: string
+          exampleSetFlag: true
+        learnedFrom:
+          type: string
+          exampleSetFlag: true
+        matchingRules:
+          type: array
+          description: matching rules used in the inbound rule destination configurations
+          example: '["Rule1","Rule2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        primarySgt:
+          type: string
+          description: Primary SGT name used in the Classification Rule
+          exampleSetFlag: true
+        secondarySgts:
+          type: array
+          description: Secondary SGT names used in the Classification Rule
+          example: '["sgt1","sgt2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        sgtDomains:
+          type: array
+          description: Sxp Domains used in the inbound rule destination configurations
+          example: '["sxpDomain1","sxpDomain2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        vn:
+          type: string
+          exampleSetFlag: true
+      description: Inbound Rule Preview details
+      exampleSetFlag: false
+    RuleCommon:
+      title: RuleCommon
+      required:
+      - name
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/Condition'
+          exampleSetFlag: true
+        default:
+          type: boolean
+          description: Indicates if this rule is the default one
+          example: false
+          exampleSetFlag: true
+        hitCounts:
+          type: integer
+          description: The amount of times the rule was matched
+          format: int32
+          readOnly: true
+          example: 2
+          exampleSetFlag: true
+        id:
+          type: string
+          description: The identifier of the rule
+          format: uuid
+          readOnly: true
+          example: d82952cb-b901-4b09-b363-5ebf39bdbaf9
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Rule name, [Valid characters are alphanumerics, underscore, hyphen, space, period, parentheses]
+          example: MyRuleName_1
+          exampleSetFlag: true
+        rank:
+          type: integer
+          description: The rank(priority) in relation to other rules. Lower rank is higher priority.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        state:
+          type: string
+          description: The state that the rule is in. A disabled rule cannot be matched.
+          example: enabled
+          exampleSetFlag: true
+          enum:
+          - disabled
+          - enabled
+          - monitor
+      description: Common attributes in rule authentication/authorization
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CdpIngressFilterWithPage:
+      title: CdpIngressFilterWithPage
+      type: object
+      properties:
+        PageNumber:
+          type: integer
+          description: Page Number
+          format: int32
+          example: 0
+          exampleSetFlag: true
+        PageSize:
+          type: integer
+          description: Page Size
+          format: int32
+          example: 50000
+          exampleSetFlag: true
+        cdpIngressFilter:
+          $ref: '#/components/schemas/CdpIngressFilter'
+          exampleSetFlag: true
+      description: Inbound Rule details with Page Info
+      exampleSetFlag: false
+    SxpDomainList:
+      title: SxpDomainList
+      required:
+      - sxpDomains
+      type: object
+      properties:
+        sxpDomains:
+          type: array
+          example: '["sxpdomain1","sxpdomain2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      exampleSetFlag: false
+    InputRequest:
+      title: InputRequest
+      type: object
+      properties:
+        applicationProfile:
+          type: string
+          example: applicationProfile1
+          exampleSetFlag: true
+        connectionName:
+          type: array
+          description: Connection name to be used to filter out the metadata
+          example: '["ACI1","ACI2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        epg:
+          type: string
+          example: epg1
+          exampleSetFlag: true
+        learnedBy:
+          type: string
+          example: dynamic
+          exampleSetFlag: true
+        learnedFrom:
+          type: string
+          example: 'true'
+          exampleSetFlag: true
+        mode:
+          type: string
+          example: dynamic
+          exampleSetFlag: true
+        psnsInvolved:
+          type: string
+          example: 'true'
+          exampleSetFlag: true
+        selectedEpg:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        sgt:
+          type: array
+          example: '["SGT1","SGT2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        sxpDomain:
+          type: string
+          example: sxpDomain1
+          exampleSetFlag: true
+        tenant:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
+        vn:
+          type: string
+          example: vn1
+          exampleSetFlag: true
+      description: Dictionary POST format
+      exampleSetFlag: false
+    CdpIngressFilterResponseEntity:
+      title: CdpIngressFilterResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/CdpIngressFilter'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+          exampleSetFlag: true
+      description: Response object containing success message
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    CdpIngressFilter:
+      title: CdpIngressFilter
+      type: object
+      properties:
+        mappingsCount:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        rule:
+          $ref: '#/components/schemas/RuleCommon'
+          exampleSetFlag: true
+        sxpDomains:
+          type: array
+          description: Sxp Domains used in the inbound rule destination configurations
+          example: '["sxpDomain1","sxpDomain2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Inbound Rule details
+      exampleSetFlag: false
+    IngressFilterPreviewResponseEntity:
+      title: IngressFilterPreviewResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/IngressFilterPreview'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CdpIngressFilterListResponseEntity:
+      title: CdpIngressFilterListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/CdpIngressFilter'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpDomainListResponseEntity:
+      title: SxpDomainListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/SxpDomainList'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false

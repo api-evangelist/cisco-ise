@@ -1,0 +1,2127 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Adminuser API
+  version: '1.0'
+  description: 'Operations tagged adminuser across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
+    cisco-ise-legacy-ers-admin-user.yaml. Each path carries the servers of the definition it was published in.'
+  x-provenance:
+    method: harvested
+    authored_by: Cisco
+    harvested_by: API Evangelist
+    harvested_on: '2026-08-19'
+    first_party: true
+    provider_published: true
+    source_host: pubhub.devnetcloud.com
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
+      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-admin-user.yaml, the provider's source document. Operations and schemas
+      are the provider's, unmodified; only the partition is ours.
+    derived_from: cisco-ise-legacy-ers-admin-user.yaml
+    operation_coverage: 13/25
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: adminuser
+paths:
+  /adminuser/:
+    get:
+      tags:
+      - adminuser
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[firstName, lastName, adminGroups, name, description, inactiveAccountNeverDisabled,
+          includeSystemAlarmsInEmail, email, enabled]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - name
+          - description
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuserListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/adminuserListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    post:
+      tags:
+      - adminuser
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.adminuser'
+            example:
+              AdminUser:
+                lastName: lastName
+                adminGroups: adminGroups
+                description: description
+                includeSystemAlarmsInEmail: false
+                enabled: true
+                changePassword: true
+                firstName: firstName
+                password: password
+                externalUser: false
+                name: name
+                inactiveAccountNeverDisabled: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                email: email@domain.com
+                customAttributes: {}
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /adminuser/{id}/remove:
+    put:
+      tags:
+      - adminuser
+      summary: RemoveFromAdmin
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.adminuser'
+            example:
+              AdminUser:
+                lastName: lastName
+                adminGroups: adminGroups
+                description: description
+                includeSystemAlarmsInEmail: false
+                enabled: true
+                changePassword: true
+                firstName: firstName
+                password: password
+                externalUser: false
+                name: name
+                inactiveAccountNeverDisabled: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                email: email@domain.com
+                customAttributes: {}
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /adminuser/name/{name}:
+    get:
+      tags:
+      - adminuser
+      summary: Get-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuserResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/adminuserResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - adminuser
+      summary: Update-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.adminuser'
+            example:
+              AdminUser:
+                lastName: lastName
+                adminGroups: adminGroups
+                description: description
+                includeSystemAlarmsInEmail: false
+                enabled: true
+                changePassword: true
+                firstName: firstName
+                password: password
+                externalUser: false
+                name: name
+                inactiveAccountNeverDisabled: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                email: email@domain.com
+                customAttributes: {}
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - adminuser
+      summary: Delete-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    patch:
+      tags:
+      - adminuser
+      summary: Patch-By-Name
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.adminuser'
+            example:
+              AdminUser:
+                lastName: lastName
+                adminGroups: adminGroups
+                description: description
+                includeSystemAlarmsInEmail: false
+                enabled: true
+                changePassword: true
+                firstName: firstName
+                password: password
+                externalUser: false
+                name: name
+                inactiveAccountNeverDisabled: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                email: email@domain.com
+                customAttributes: {}
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /adminuser/{id}:
+    get:
+      tags:
+      - adminuser
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuserResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/adminuserResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    put:
+      tags:
+      - adminuser
+      summary: Update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.adminuser'
+            example:
+              AdminUser:
+                lastName: lastName
+                adminGroups: adminGroups
+                description: description
+                includeSystemAlarmsInEmail: false
+                enabled: true
+                changePassword: true
+                firstName: firstName
+                password: password
+                externalUser: false
+                name: name
+                inactiveAccountNeverDisabled: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                email: email@domain.com
+                customAttributes: {}
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    delete:
+      tags:
+      - adminuser
+      summary: Delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+    patch:
+      tags:
+      - adminuser
+      summary: Patch
+      description: Update any attribute subset. Only attributes that sent will be affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.adminuser'
+            example:
+              AdminUser:
+                lastName: lastName
+                adminGroups: adminGroups
+                description: description
+                includeSystemAlarmsInEmail: false
+                enabled: true
+                changePassword: true
+                firstName: firstName
+                password: password
+                externalUser: false
+                name: name
+                inactiveAccountNeverDisabled: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                email: email@domain.com
+                customAttributes: {}
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /adminuser/setownpassword:
+    put:
+      tags:
+      - adminuser
+      summary: SetOwnPassword
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.adminuser'
+            example:
+              AdminUser:
+                lastName: lastName
+                adminGroups: adminGroups
+                description: description
+                includeSystemAlarmsInEmail: false
+                enabled: true
+                changePassword: true
+                firstName: firstName
+                password: password
+                externalUser: false
+                name: name
+                inactiveAccountNeverDisabled: false
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                email: email@domain.com
+                customAttributes: {}
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/adminuser/name/{name}:
+    get:
+      tags:
+      - adminuser
+      summary: Get admin user by name
+      description: <p>This API allows the client to get an admin user by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuser_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/adminuser_name'
+    put:
+      tags:
+      - adminuser
+      summary: Update admin user by name
+      description: <p>This API allows the client to update an admin user by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+    patch:
+      tags:
+      - adminuser
+      summary: Update part of the admin user configuration by name
+      description: <p>This API allows the client to patch an admin user by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuser'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+    delete:
+      tags:
+      - adminuser
+      summary: Delete admin user by name
+      description: <p>This API deletes an admin user by name.</p>
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/adminuser/{id}:
+    get:
+      tags:
+      - adminuser
+      summary: Get admin user by ID
+      description: <p>This API allows the client to get an admin user by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuser'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/adminuser'
+    patch:
+      tags:
+      - adminuser
+      summary: Update part of the admin user configuration by ID
+      description: <p>This API allows the client to patch an admin user by ID.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminuser'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+    put:
+      tags:
+      - adminuser
+      summary: Update admin user
+      description: <p>This API allows the client to update an admin user.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+    delete:
+      tags:
+      - adminuser
+      summary: Delete admin user
+      description: <p>This API deletes an admin user.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+  /ers/config/adminuser/{id}/remove:
+    put:
+      tags:
+      - adminuser
+      summary: Remove admin user from admin group
+      description: <p>This API allows the client to remove an admin user from an admin group.</p>
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+  /ers/config/adminuser/setownpassword:
+    put:
+      tags:
+      - adminuser
+      summary: Set own password
+      description: <p>This API allows the currently authenticated admin user to set their own password.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+  /ers/config/adminuser:
+    get:
+      tags:
+      - adminuser
+      summary: Get all admin users
+      description: '<p>This API allows the client to get all admin users.</p>
+
+        <p><h1>Filter:</h1>Filters can be used to filter admin users based on a set of attributes. This API currently provides
+        the following filters:</p>
+
+        <p><h3>[firstName, lastName, adminGroups, name, description, inactiveAccountNeverDisabled, includeSystemAlarmsInEmail,
+        email, enabled]</h3></p>
+
+        <p>To search admin users by using <b>toDate</b> column, follow the format: DD-MON-YY (Example: 13-SEP-18)</p>
+
+        <ul>
+
+        <li><p>Day or Year: GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
+
+        <li><p>Month: GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
+
+        <li><p>Date: GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
+
+        </ul>
+
+        <p><h1>Sorting:</h1><h3>[name, description]</h3></p>
+
+        '
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+    post:
+      tags:
+      - adminuser
+      summary: Create admin user
+      description: <p>This API creates an admin user.</p>
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.adminuser.1.3
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/adminuser'
+  /ers/config/adminuser/versioninfo:
+    get:
+      tags:
+      - adminuser
+      summary: Get admin user version information
+      description: <p>This API helps to retrieve the version information related to the admin user resource.</p>
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    AdminUser:
+      required:
+      - changePassword
+      - enabled
+      - name
+      properties:
+        changePassword:
+          title: changePassword
+          type: boolean
+          description: ''
+          example: null
+        email:
+          title: email
+          type: string
+          description: ''
+          example: null
+        includeSystemAlarmsInEmail:
+          title: includeSystemAlarmsInEmail
+          type: boolean
+          description: ''
+          example: null
+        inactiveAccountNeverDisabled:
+          title: inactiveAccountNeverDisabled
+          type: boolean
+          description: ''
+          example: null
+        enabled:
+          title: enabled
+          type: boolean
+          description: ''
+          example: null
+        externalUser:
+          title: externalUser
+          type: boolean
+          description: ''
+          example: null
+        customAttributes:
+          title: customAttributes
+          type: string
+          description: Key value map
+          example: null
+        firstName:
+          title: firstName
+          type: string
+          description: ''
+          example: null
+        adminGroups:
+          title: adminGroups
+          type: string
+          description: Admin groupNames
+          example: null
+        lastName:
+          title: lastName
+          type: string
+          description: ''
+          example: null
+        password:
+          title: password
+          type: string
+          description: ''
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        AdminUser:
+          lastName: lastName
+          adminGroups: adminGroups
+          description: description
+          includeSystemAlarmsInEmail: false
+          enabled: true
+          changePassword: true
+          firstName: firstName
+          password: password
+          externalUser: false
+          name: name
+          inactiveAccountNeverDisabled: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          email: email@domain.com
+          customAttributes: {}
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    identity.adminuser:
+      required:
+      - AdminUser
+      type: object
+      properties:
+        AdminUser:
+          $ref: '#/components/schemas/AdminUser'
+      example: null
+    adminuserListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/adminuserListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    adminuserResponse:
+      type: object
+      properties:
+        AdminUser:
+          $ref: '#/components/schemas/adminuserResponseEntity'
+      example:
+        AdminUser:
+          lastName: lastName
+          adminGroups: adminGroups
+          description: description
+          includeSystemAlarmsInEmail: false
+          enabled: true
+          changePassword: true
+          firstName: firstName
+          password: password
+          externalUser: false
+          name: name
+          inactiveAccountNeverDisabled: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          email: email@domain.com
+          customAttributes: {}
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    adminuserListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    adminuserResponseEntity:
+      properties:
+        changePassword:
+          title: changePassword
+          type: boolean
+          description: ''
+          example: null
+        email:
+          title: email
+          type: string
+          description: ''
+          example: null
+        includeSystemAlarmsInEmail:
+          title: includeSystemAlarmsInEmail
+          type: boolean
+          description: ''
+          example: null
+        inactiveAccountNeverDisabled:
+          title: inactiveAccountNeverDisabled
+          type: boolean
+          description: ''
+          example: null
+        enabled:
+          title: enabled
+          type: boolean
+          description: ''
+          example: null
+        externalUser:
+          title: externalUser
+          type: boolean
+          description: ''
+          example: null
+        customAttributes:
+          title: customAttributes
+          type: string
+          description: Key value map
+          example: null
+        firstName:
+          title: firstName
+          type: string
+          description: ''
+          example: null
+        adminGroups:
+          title: adminGroups
+          type: string
+          description: Admin groupNames
+          example: null
+        lastName:
+          title: lastName
+          type: string
+          description: ''
+          example: null
+        password:
+          title: password
+          type: string
+          description: ''
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    AdminUser_2:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Specifies the unique UUID of the admin user resource. Mandatory for update operations.
+          example: 7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
+        name:
+          type: string
+          description: Specifies the resource name of the admin user.
+          example: name
+        description:
+          type: string
+          description: Defines an optional description for the admin user resource.
+          example: description
+        enabled:
+          type: boolean
+          description: Indicates whether the admin user account is active and enabled.
+          example: true
+        email:
+          type: string
+          description: Specifies the email address of the admin user.
+          example: email@domain.com
+        password:
+          type: string
+          description: Specifies the password for the admin user account.
+          example: password
+        firstName:
+          type: string
+          description: Specifies the first name of the admin user.
+          example: firstName
+        lastName:
+          type: string
+          description: Specifies the last name of the admin user.
+          example: lastName
+        changePassword:
+          type: boolean
+          description: Indicates whether the admin user is required to change their password upon next login. Defaults to
+            true.
+          example: true
+        includeSystemAlarmsInEmail:
+          type: boolean
+          description: Indicates whether system alarms are included in email notifications sent to the admin user.
+          example: false
+        externalUser:
+          type: boolean
+          description: Indicates whether the admin user is an externally authenticated user.
+          example: false
+        inactiveAccountNeverDisabled:
+          type: boolean
+          description: Indicates whether the admin user account is exempt from automatic disabling due to inactivity.
+          example: false
+        adminGroups:
+          type: string
+          description: Specifies the admin group names to which the admin user belongs.
+          example: adminGroups
+        customAttributes:
+          type: object
+          description: Defines a key-value map of custom attributes associated with the admin user.
+          example: {}
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/adminuser/7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
+            type:
+              type: string
+              example: application/json
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    adminuser:
+      type: object
+      properties:
+        AdminUser:
+          $ref: '#/components/schemas/AdminUser_2'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    adminuser_name:
+      type: object
+      properties:
+        AdminUser:
+          $ref: '#/components/schemas/AdminUser_name'
+    AdminUser_name:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Specifies the unique UUID of the admin user resource.
+          example: 7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
+        name:
+          type: string
+          description: Specifies the resource name of the admin user.
+          example: name
+        description:
+          type: string
+          description: Defines an optional description for the admin user resource.
+          example: description
+        enabled:
+          type: boolean
+          description: Indicates whether the admin user account is active and enabled.
+          example: true
+        email:
+          type: string
+          description: Specifies the email address of the admin user.
+          example: email@domain.com
+        password:
+          type: string
+          description: Specifies the password for the admin user account.
+          example: password
+        firstName:
+          type: string
+          description: Specifies the first name of the admin user.
+          example: firstName
+        lastName:
+          type: string
+          description: Specifies the last name of the admin user.
+          example: lastName
+        changePassword:
+          type: boolean
+          description: Indicates whether the admin user is required to change their password upon next login. Defaults to
+            true.
+          example: true
+        includeSystemAlarmsInEmail:
+          type: boolean
+          description: Indicates whether system alarms are included in email notifications sent to the admin user.
+          example: false
+        externalUser:
+          type: boolean
+          description: Indicates whether the admin user is an externally authenticated user.
+          example: false
+        inactiveAccountNeverDisabled:
+          type: boolean
+          description: Indicates whether the admin user account is exempt from automatic disabling due to inactivity.
+          example: false
+        adminGroups:
+          type: string
+          description: Specifies the admin group names to which the admin user belongs.
+          example: adminGroups
+        customAttributes:
+          type: object
+          description: Defines a key-value map of custom attributes associated with the admin user.
+          example: {}
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/adminuser/name/name
+            type:
+              type: string
+              example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    patchRequest:
+      type: object
+      properties:
+        AdminUser:
+          $ref: '#/components/schemas/patchRequestBody'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 2
+        resources:
+          type: array
+          example:
+          - id: 7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
+            name: name1
+            description: description1
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/adminuser/7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
+              type: application/json
+          - id: 9bc9f6f8-e691-5500-bcg2-4bc4g9ee5bg2
+            name: name2
+            description: description2
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/adminuser/9bc9f6f8-e691-5500-bcg2-4bc4g9ee5bg2
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.3'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1,1.2,1.3
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/adminuser/versioninfo
+        type:
+          type: string
+          example: application/json
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-admin-user.yaml

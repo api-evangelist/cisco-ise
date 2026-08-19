@@ -1,21 +1,30 @@
 aid: cisco-ise
 name: Cisco Identity Services Engine
-description: Cisco Identity Services Engine (ISE) is Cisco's network access control and zero-trust policy platform,
-  handling 802.1X authentication, guest and BYOD onboarding, profiling, posture and TrustSec security-group policy.
-  It exposes the External RESTful Services (ERS) API, an OpenAPI-documented set of newer endpoints served from the
-  appliance itself, and pxGrid for security context exchange. Because the contract is served by each customer's
-  own appliance, there is no central anonymously fetchable specification.
+description: 'Cisco Identity Services Engine (ISE) is Cisco''s network access control and zero-trust policy platform: 802.1X
+  and RADIUS authentication, TACACS+ device administration, guest and BYOD onboarding, endpoint profiling, posture assessment,
+  and TrustSec security-group segmentation, all driven from a central policy service. It is deployed on-premises or in AWS,
+  Azure and OCI, so its APIs are served by each customer''s own appliance behind the Cisco ISE API Gateway rather than a shared
+  public host. The contracts themselves are public: Cisco publishes 103 machine-readable API descriptions covering 1,490 operations
+  on its DevNet documentation CDN — a consolidated 395-operation ERS Open API, 30 OpenAPI 3.0.x documents for the newer Open
+  API surface (Policy, TrustSec, Certificates, Deployment, Webhooks, Licensing, pxGrid Direct and more), a Monitoring (MnT)
+  OpenAPI, 69 legacy per-resource Swagger 2.0 references, and an outbound Mobile Device Management contract that ISE calls
+  on third-party MDM vendors. Authentication is HTTP Basic with ERS Admin and ERS Operator roles; API services are disabled
+  by default and enabled per node.'
 url: https://raw.githubusercontent.com/api-evangelist/cisco-ise/refs/heads/main/apis.yml
 type: Index
 access: 3rd-Party
 position: Consumer
+image: https://www.cisco.com/web/fw/i/logo-open-graph.gif
 x-type: company
 x-source: cisco-family-buildout:2026-08-19
 x-parent: cisco
 x-relationship: product
-x-contract-status: on-prem
-x-contract-note: The contract is served by each customer's own on-premises controller, so there is no central anonymously
-  fetchable specification. API Evangelist has not authored a substitute.
+x-contract-status: published-on-vendor-docs-cdn
+x-contract-note: Corrected 2026-08-19. The previous profile recorded 'no central anonymously fetchable specification' because
+  only the JS-rendered docs shell at developer.cisco.com was checked. Cisco in fact publishes all 103 ISE API descriptions
+  anonymously at pubhub.devnetcloud.com — its own DevNet documentation CDN — enumerable from that project's own config.json
+  manifest. What is customer-specific is the RUNTIME (each deployment's appliance), not the CONTRACT. All 103 documents are
+  harvested verbatim in openapi/_original/ with per-file SHA-256 and source URL.
 specificationVersion: '0.23'
 created: '2026-08-19'
 modified: '2026-08-19'
@@ -26,23 +35,1017 @@ tags:
 - Security
 - Policy
 - Enterprise
-apis: []
+- 802.1X
+- RADIUS
+- TACACS+
+- TrustSec
+- Guest Access
+- BYOD
+- Endpoint Profiling
+- Posture
+- Network Segmentation
+- NAC
+apis:
+- aid: cisco-ise:ers-open-api
+  name: Cisco ISE ERS Open API
+  description: ERS Open API — 395 operation(s) described by Cisco's published OpenAPI 3.0.1 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{server}:{port}/ers/config
+  tags:
+  - ERS
+  - Network Access
+  - Policy
+  - Identity
+  - Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-ers-open-api-ers-apis.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/ERS-Open-API/ERS_APIs.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:trustsec
+  name: Cisco ISE TrustSec API
+  description: TrustSec — 139 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - TrustSec
+  - Segmentation
+  - SGT
+  - Policy
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-trustsec.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/TrustSec.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:policy
+  name: Cisco ISE Policy API
+  description: Policy — 138 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Policy
+  - RADIUS
+  - TACACS+
+  - Authorization
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-policy.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/policy.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:exim
+  name: Cisco ISE Exim API
+  description: Exim — 29 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services Engine.
+    Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly by Cisco
+    on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Import
+  - Export
+  - Bulk Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-exim.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/exim.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:rbac-catalog
+  name: Cisco ISE RBAC Catalog API
+  description: RBAC Catalog — 28 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - RBAC
+  - Authorization
+  - Administration
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-rbac.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/rbac.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:deployment
+  name: Cisco ISE Deployment API
+  description: Deployment — 24 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Deployment
+  - Nodes
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-deployment.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/deployment.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:certificate
+  name: Cisco ISE Certificate API
+  description: Certificate — 22 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Certificates
+  - PKI
+  - Security
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-certificates.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/certificates.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:upgrade
+  name: Cisco ISE Upgrade API
+  description: Upgrade — 20 operation(s) described by Cisco's published OpenAPI 3.0.1 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{server}/v1/
+  tags:
+  - Upgrade
+  - Lifecycle
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-upgrade.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/upgrade.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:5g
+  name: Cisco ISE 5G API
+  description: 5G — 16 operation(s) described by Cisco's published OpenAPI 3.0.1 document for Cisco Identity Services Engine.
+    Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly by Cisco
+    on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{server}/v1/
+  tags:
+  - 5G
+  - Subscriber
+  - Network Access
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-5g.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/5G.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:alarms
+  name: Cisco ISE Alarms API
+  description: Alarms — 16 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Alarms
+  - Monitoring
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-alarms.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/alarms.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:prometheus-alertmanager
+  name: Cisco ISE Prometheus AlertManager API
+  description: Prometheus AlertManager — 16 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity
+    Services Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published
+    openly by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Prometheus
+  - Alerting
+  - Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-prometheus-alertmanager.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/prometheus-alertmanager.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:pxgrid-direct
+  name: Cisco ISE pxGrid Direct API
+  description: pxGrid Direct — 14 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - pxGrid
+  - Integration
+  - Context Exchange
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-pxgrid-direct.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/pxgrid-direct.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:webhooks
+  name: Cisco ISE Webhooks API
+  description: Webhooks — 13 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Webhooks
+  - Events
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-webhooks.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/webhooks.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:license
+  name: Cisco ISE License API
+  description: License — 11 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Licensing
+  - Smart Licensing
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-licensing.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/licensing.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:duo-identitysync
+  name: Cisco ISE Duo IdentitySync API
+  description: Duo IdentitySync — 10 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity
+    Services Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published
+    openly by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Duo
+  - MFA
+  - Identity Sync
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-duo-identity-sync.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/duo-identity-sync.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:endpoints
+  name: Cisco ISE Endpoints API
+  description: Endpoints — 10 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Endpoints
+  - Device Inventory
+  - Profiling
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-endpoints.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/endpoints.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:profiler
+  name: Cisco ISE Profiler API
+  description: Profiler — 10 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Profiling
+  - Device Classification
+  - Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-ise-profiler.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/ise-profiler.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:ipsec
+  name: Cisco ISE IPSec API
+  description: IPSec — 9 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services Engine.
+    Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly by Cisco
+    on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - IPsec
+  - Encryption
+  - Network Security
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-ipsec.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/ipsec.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:oidc
+  name: Cisco ISE OIDC API
+  description: OIDC — 9 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services Engine.
+    Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly by Cisco
+    on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - OIDC
+  - OpenID Connect
+  - Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-oidc.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/oidc.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:mfa
+  name: Cisco ISE MFA API
+  description: MFA — 8 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services Engine.
+    Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly by Cisco
+    on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - MFA
+  - Authentication
+  - Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-mfa.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/mfa.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:backup-and-restore
+  name: Cisco ISE Backup and Restore API
+  description: Backup and Restore — 6 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity
+    Services Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published
+    openly by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Backup
+  - Restore
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-backuprestore.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/BackupRestore.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:patch-and-hot-patch
+  name: Cisco ISE Patch and Hot Patch API
+  description: Patch and Hot Patch — 6 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity
+    Services Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published
+    openly by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Patching
+  - Upgrade
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-patch-hot-patch.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/patch-hot-patch.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:repository
+  name: Cisco ISE Repository API
+  description: Repository — 6 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Repository
+  - File Management
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-repository.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/Repository.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:custom-attributes
+  name: Cisco ISE Custom Attributes API
+  description: Custom Attributes — 5 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity
+    Services Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published
+    openly by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Custom Attributes
+  - Endpoints
+  - Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-custom-attributes.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/custom-attributes.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:data-connect
+  name: Cisco ISE Data Connect API
+  description: Data Connect — 5 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Data Connect
+  - Reporting
+  - Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-data-connect.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/data-connect.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:pxgrid-cloud
+  name: Cisco ISE pxGrid Cloud API
+  description: pxGrid Cloud — 5 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - pxGrid
+  - Cloud
+  - Context Exchange
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-pxgrid-cloud.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/pxgrid-cloud.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:sgt-reservation
+  name: Cisco ISE SGT Reservation API
+  description: SGT Reservation — 5 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - TrustSec
+  - SGT
+  - Segmentation
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-api-sgt-reservation.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/api-sgt-reservation.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:system-settings
+  name: Cisco ISE System Settings API
+  description: System Settings — 4 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - System Settings
+  - Configuration
+  - Administration
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-system-settings.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/System-Settings.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:endpoint-replication
+  name: Cisco ISE Endpoint Replication API
+  description: Endpoint Replication — 2 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity
+    Services Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published
+    openly by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Endpoints
+  - Replication
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-endpoint-replication.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/endpoint-replication.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:lsd-settings
+  name: Cisco ISE LSD Settings API
+  description: LSD Settings — 2 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - LSD
+  - Settings
+  - Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-lsd-settings.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/lsd-settings.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:task-service
+  name: Cisco ISE Task Service API
+  description: Task Service — 2 operation(s) described by Cisco's published OpenAPI 3.0.3 document for Cisco Identity Services
+    Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published openly
+    by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{ise-node}
+  tags:
+  - Tasks
+  - Jobs
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-open-api-task-service.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Open-API/task-service.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:monitoring-open-api
+  name: Cisco ISE Monitoring Open API
+  description: Monitoring Open API — 20 operation(s) described by Cisco's published OpenAPI 3.0.1 document for Cisco Identity
+    Services Engine. Served from each customer's own ISE appliance behind the ISE API Gateway; the contract itself is published
+    openly by Cisco on developer.cisco.com.
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{server}/admin/API/mnt
+  tags:
+  - Monitoring
+  - MnT
+  - Sessions
+  - Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-monitoring-open-api-monitoring-open-api.yaml
+  - type: OpenAPI Source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/endpoints/Monitoring-Open-API/monitoring-open-api.yaml
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:legacy-ers-api
+  name: Cisco ISE Legacy ERS API
+  description: 'The External RESTful Services (ERS) API for Cisco Identity Services Engine as Cisco still documents it per-resource:
+    69 separate Swagger 2.0 documents covering 476 operations across network devices, internal users, guest portals, identity
+    groups, TrustSec security groups, SXP, TACACS+ and support bundles. Superseded for new work by the consolidated ERS Open
+    API document, but still the reference Cisco publishes for each individual ERS resource.'
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{server}:{port}/ers/config
+  tags:
+  - ERS
+  - Legacy
+  - Network Access
+  - Identity
+  - Guest Access
+  - TrustSec
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-ldap.yaml
+    name: LDAP
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-aci-bindings.yaml
+    name: acibindings
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-aci-settings.yaml
+    name: acisettings
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-active-directory.yaml
+    name: activedirectory
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-active-directory-resource-reservation.yaml
+    name: activedirectoryresourcereservation
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-admin-user.yaml
+    name: adminuser
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-allowed-protocols.yaml
+    name: allowedprotocols
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-anc-endpoint.yaml
+    name: ancendpoint
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-anc-policy.yaml
+    name: ancpolicy
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-authorization-profile.yaml
+    name: authorizationprofile
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-byod-portal.yaml
+    name: byodportal
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-certificate-profile.yaml
+    name: certificateprofile
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-certificate-template.yaml
+    name: certificatetemplate
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-clear-threats-and-vulnerabilities.yaml
+    name: clearThreatsAndVulneribilities
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-pull-deployment-info.yaml
+    name: deploymentinfo
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-downloadable-acl.yaml
+    name: downloadableacl
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-egress-matrix-cell.yaml
+    name: egressmatrixcell
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-endpoint.yaml
+    name: endpoint
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-endpoint-certificate.yaml
+    name: endpointcert
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-endpoint-identity-group.yaml
+    name: endpointgroup
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-external-radius-server.yaml
+    name: externalradiusserver
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-filter-policy.yaml
+    name: filterpolicy
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-guest-location.yaml
+    name: guestlocation
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-guest-smtp-notification-configuration.yaml
+    name: guestsmtpnotificationsettings
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-guest-ssid.yaml
+    name: guestssid
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-guest-type.yaml
+    name: guesttype
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-guest-user.yaml
+    name: guestuser
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-hotspot-portal.yaml
+    name: hotspotportal
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-identity-groups.yaml
+    name: identitygroup
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-identity-sequence.yaml
+    name: idstoresequence
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-internal-user.yaml
+    name: internaluser
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-my-device-portal.yaml
+    name: mydeviceportal
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-network-device.yaml
+    name: networkdevice
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-network-device-group.yaml
+    name: networkdevicegroup
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-node-details.yaml
+    name: node
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-native-supplicant-profile.yaml
+    name: nspprofile
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-portal.yaml
+    name: portal
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-portal-global-setting.yaml
+    name: portalglobalsetting
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-portal-theme.yaml
+    name: portaltheme
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-profiler-profile.yaml
+    name: profilerprofile
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-pxgrid-node.yaml
+    name: pxgridnode
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-pxgrid-settings.yaml
+    name: pxgridsettings
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-radius-server-sequence.yaml
+    name: radiusserversequence
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-rest-id-store.yaml
+    name: restidstore
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-self-registered-portal.yaml
+    name: selfregportal
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-psn-node-details-with-radius-service.yaml
+    name: sessionservicenode
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-security-groups-acls.yaml
+    name: sgacl
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-ip-to-sgt-mapping.yaml
+    name: sgmapping
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-ip-to-sgt-mapping-group.yaml
+    name: sgmappinggroup
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-security-groups.yaml
+    name: sgt
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-security-groups-to-virtual-network.yaml
+    name: sgtvnvlan
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-sms-provider.yaml
+    name: smsprovider
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-sponsored-guest-portal.yaml
+    name: sponsoredguestportal
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-sponsor-group.yaml
+    name: sponsorgroup
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-sponsor-group-member.yaml
+    name: sponsorgroupmember
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-sponsor-portal.yaml
+    name: sponsorportal
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-support-bundle-trigger-configuration.yaml
+    name: supportbundle
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-support-bundle-download.yaml
+    name: supportbundledownload
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-support-bundle-status.yaml
+    name: supportbundlestatus
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-sxp-connections.yaml
+    name: sxpconnections
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-sxp-local-bindings.yaml
+    name: sxplocalbindings
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-sxp-vpns.yaml
+    name: sxpvpns
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-system-certificate.yaml
+    name: systemcertificate
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-tacacs-command-sets.yaml
+    name: tacacscommandsets
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-tacacs-external-servers.yaml
+    name: tacacsexternalservers
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-tacacs-profile.yaml
+    name: tacacsprofile
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-tacacs-server-sequence.yaml
+    name: tacacsserversequence
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-telemetry-information.yaml
+    name: telemetryinfo
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-legacy-ers-version-and-patch.yaml
+    name: versionandpatch
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- aid: cisco-ise:mobile-device-management
+  name: Cisco ISE Mobile Device Management API
+  description: 'The MDM integration contract for Cisco Identity Services Engine — 9 operations across two Swagger 2.0 documents
+    (version 3 and the older version 1/2 set). Unusually for this portfolio this is an OUTBOUND contract: ISE calls the third-party
+    MDM/EMM vendor to query device compliance and issue actions, so the MDM vendor implements it rather than Cisco. Cisco
+    documents a 200ms compliance-query response expectation.'
+  humanURL: https://developer.cisco.com/docs/identity-services-engine/latest/
+  baseURL: https://{mdm-server}/ciscoise/mdm
+  tags:
+  - MDM
+  - EMM
+  - Device Compliance
+  - Integration
+  - Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-mdm-mobile-device-management.yaml
+    name: Mobile Device Management — Version 3
+  - type: OpenAPI
+    url: openapi/_original/cisco-ise-mdm-older-versions.yaml
+    name: Mobile Device Management — Older Versions
+  - type: Documentation
+    url: https://developer.cisco.com/docs/identity-services-engine/latest/
 common:
-- type: Portal
-  url: https://developer.cisco.com/docs/identity-services-engine/
-- type: Documentation
-  url: https://developer.cisco.com/docs/identity-services-engine/
-- type: APIReference
-  url: https://developer.cisco.com/docs/identity-services-engine/
+- type: VulnerabilityDisclosure
+  url: security/cisco-ise-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/cisco-ise-domain-security.yml
 - type: ParentCompany
   url: https://apis.io/providers/cisco/
   name: Cisco
+  x-relationship: product
+  x-generated-by: cisco-family:2026-08-19
+- type: DeveloperPortal
+  url: https://developer.cisco.com/identity-services-engine/
+- type: Portal
+  url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- type: Documentation
+  url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- type: APIReference
+  url: https://developer.cisco.com/docs/identity-services-engine/latest/
+- type: GettingStarted
+  url: https://developer.cisco.com/docs/identity-services-engine/latest/setting-up/
+- type: Website
+  url: https://www.cisco.com/site/us/en/products/security/identity-services-engine/index.html
+- type: Blog
+  url: https://blogs.cisco.com/tag/cisco-ise
+- type: GitHubOrganization
+  url: https://github.com/CiscoISE
+- type: Support
+  url: https://community.cisco.com/t5/network-access-control/bd-p/discussions-network-access-control
+- type: Pricing
+  url: https://www.cisco.com/c/en/us/products/collateral/security/identity-services-engine/guide-c07-656177.html
+- type: TermsOfService
+  url: https://www.cisco.com/c/en/us/about/legal/terms-conditions.html
+- type: PrivacyPolicy
+  url: https://www.cisco.com/c/en/us/about/legal/privacy-full.html
 - type: Terraform
   url: https://github.com/CiscoDevNet/terraform-provider-ise
-- type: Portal
-  url: https://developer.cisco.com/
+- type: Terraform
+  url: https://github.com/CiscoISE/terraform-provider-ciscoise
+  name: CiscoISE Terraform provider
+- type: OpenAPI Index
+  url: openapi/cisco-ise-openapi-index.yml
+  name: Harvested OpenAPI index with provenance
+- type: Packages
+  url: packages/cisco-ise-packages.yml
+- type: SDKs
+  url: packages/cisco-ise-packages.yml
+  name: Cisco ISE first-party SDKs
+- type: Authentication
+  url: authentication/cisco-ise-authentication.yml
+- type: Authentication
+  url: https://developer.cisco.com/docs/identity-services-engine/latest/authentication/
+  name: Authentication documentation
+- type: Conventions
+  url: conventions/cisco-ise-conventions.yml
+- type: ErrorCatalog
+  url: errors/cisco-ise-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/cisco-ise-lifecycle.yml
+- type: Deprecation
+  url: https://developer.cisco.com/docs/identity-services-engine/latest/versioning/
+  name: API deprecation and sunset policy
+- type: ChangeLog
+  url: https://developer.cisco.com/docs/identity-services-engine/latest/changelog/
+- type: ChangeLog
+  url: changelog/cisco-ise-changelog.yml
+  name: Structured changelog artifact
+- type: RateLimits
+  url: rate-limits/cisco-ise-rate-limits.yml
+- type: Plans
+  url: plans/cisco-ise-plans-pricing.yml
+- type: Sandbox
+  url: sandbox/cisco-ise-sandbox.yml
+- type: Sandbox
+  url: https://developer.cisco.com/site/sandbox/
+  name: Cisco DevNet Sandbox
+- type: Conformance
+  url: conformance/cisco-ise-conformance.yml
+- type: DataModel
+  url: data-model/cisco-ise-data-model.yml
+- type: Webhooks
+  url: asyncapi/cisco-ise-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/cisco-ise-llms.txt
+- type: WellKnown
+  url: well-known/cisco-ise-well-known.yml
+- type: SecurityTxt
+  url: well-known/cisco-ise-security.txt
+- type: Security
+  url: https://sec.cloudapps.cisco.com/security/center/resources/security_vulnerability_policy.html
+  name: Cisco security vulnerability policy
+- type: TrustCenter
+  url: security/cisco-ise-trust-center.yml
+- type: Compliance
+  url: https://www.cisco.com/c/en/us/td/docs/security/ise/3-5/compatibility_doc/b_ise_sdt_35.html
+  name: 'Cisco ISE FIPS 140-2 validated cryptographic module (NIST CMVP certificate #4036)'
+- type: MCPCandidate
+  url: mcp/cisco-ise-mcp.yml
+  name: Derived candidate MCP tool set — Cisco publishes no first-party MCP server for ISE
+- type: Overlay
+  url: overlays/cisco-ise-ers-open-api-ers-apis-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-monitoring-open-api-monitoring-open-api-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-5g-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-alarms-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-api-sgt-reservation-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-backuprestore-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-certificates-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-custom-attributes-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-data-connect-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-deployment-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-duo-identity-sync-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-endpoint-replication-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-endpoints-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-exim-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-ipsec-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-ise-profiler-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-licensing-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-lsd-settings-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-mfa-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-oidc-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-patch-hot-patch-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-policy-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-prometheus-alertmanager-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-pxgrid-cloud-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-pxgrid-direct-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-rbac-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-repository-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-system-settings-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-task-service-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-trustsec-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-upgrade-overlay.yaml
+- type: Overlay
+  url: overlays/cisco-ise-open-api-webhooks-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-08-19'
+  status: enriched
+  artifacts_added: 163
+  pass: local-v1

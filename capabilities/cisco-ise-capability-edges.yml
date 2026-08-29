@@ -1,0 +1,736 @@
+slug: cisco-ise
+provider: Cisco Identity Services Engine
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 76
+edges:
+- tag: Network Access - Authentication Rules
+  spec_file: cisco-ise-network-access-authentication-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: Network Access - Create authentication rule.
+  reason: 'Cisco ISE network access control policy: authentication rules within policy sets govern how
+    identities are authenticated for network access — Identity & Access Management.'
+- tag: Network Access - Authorization Rules
+  spec_file: cisco-ise-network-access-authorization-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: Network Access - Create authorization rule.
+  reason: Authorization rule lifecycle within ISE network access policy sets — access control administration.
+- tag: Device Administration - Authorization Rules
+  spec_file: cisco-ise-device-administration-authorization-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.88
+  evidence: '"Device Admin - Create authorization rule." /api/v1/policy/device-admin/policy-set/{policyId}/authorization'
+  reason: Directly manages authorization rules controlling privileged administrative access to network
+    devices (TACACS+), which is access management.
+- tag: Network Access - Authorization Exception Rules
+  spec_file: cisco-ise-network-access-authorization-exception-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.88
+  evidence: Network Access - Create local authorization exception rule.
+  reason: Local authorization exception rules in the NAC policy set control access decisions; this is
+    access management, not a business-domain capability.
+- tag: Network Access - Authorization Global Exception Rules
+  spec_file: cisco-ise-network-access-authorization-global-exception-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.88
+  evidence: Network Access - Create global exception authorization rule.
+  reason: Global authorization exception rules govern network access authorization — Identity & Access
+    Management.
+- tag: Network Access - MFA Rules
+  spec_file: cisco-ise-network-access-mfa-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.88
+  evidence: Network Access - Create MFA rule.
+  reason: Multi-factor authentication rules within network access policy sets — authentication/access
+    management.
+- tag: internaluser
+  spec_file: cisco-ise-internaluser-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.88
+  evidence: GET /ers/config/internaluser/name/{name} Get internal user by name; schema InternalUser, identity.internaluser
+  reason: Full CRUD over internal user accounts in the ISE identity store — user account administration,
+    a core identity & access management activity.
+- tag: Admin Groups
+  spec_file: cisco-ise-admin-groups-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: GET /api/v1/rbac/admin-group  listAllAdminGroups  Retrieve all admin groups available in Cisco
+    ISE; schema OpenApiAdminGroup
+  reason: Full CRUD over RBAC administrator groups and external group mapping in ISE — role-based access
+    administration, squarely Identity & Access Management.
+- tag: Admin Users
+  spec_file: cisco-ise-admin-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: POST /api/v1/rbac/admin-user  createAdminUser  Create admin user in Cisco ISE; GET /api/v1/rbac/network-users  listAllNetworkUsers
+  reason: Lifecycle of administrative user accounts and RBAC network users on the policy platform. This
+    is privileged account/user administration (IAM), not HR employee records.
+- tag: Device Administration - Authorization Exception Rules
+  spec_file: cisco-ise-device-administration-authorization-exception-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: '"Device Admin - Create local authorization exception rule." on /api/v1/policy/device-admin/policy-set/{policyId}/exception,
+    schema RuleAuthorizationDeviceAdmin'
+  reason: Operations manage TACACS+ device-administration authorization exception rules — access-control
+    policy governing administrator access to network devices, i.e. identity & access management within
+    cybersecurity.
+- tag: Device Administration - Authorization Global Exception Rules
+  spec_file: cisco-ise-device-administration-authorization-global-exception-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: '"Device Admin - Create global exception authorization rule." with schema DeviceAdminAuthorizationRuleResponseEntity'
+  reason: CRUD over global authorization exception rules in the device-admin policy set — authorization/access
+    control administration, mapping to Identity & Access Management.
+- tag: Device Administration - Policy Sets
+  spec_file: cisco-ise-device-administration-policy-sets-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: '"Device Admin - Create a new policy set." /api/v1/policy/device-admin/policy-set, schema
+    PolicySet'
+  reason: Policy sets are the containers for device-administration authentication and authorization rules
+    — core access-control policy administration.
+- tag: Duo-Mfa
+  spec_file: cisco-ise-duo-mfa-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: '"Create a new Duo-MFA configuration"; "Verify the Auth and Admin API keys of the Duo Host"'
+  reason: Configuration of multi-factor authentication provider connections is squarely identity and access
+    management (authentication) capability.
+- tag: Network Access - Identity Stores
+  spec_file: cisco-ise-network-access-identity-stores-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: Return list of identity stores for authentication policy definition.
+  reason: Identity source/store selection for authentication policy is squarely Identity & Access Management.
+- tag: OIDC
+  spec_file: cisco-ise-oidc-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: '''Get the list of all attributes from Identity Provider'' / ''Get groups for the specified
+    OIDC Identity Provider'''
+  reason: Configuration of OpenID Connect identity providers, attribute and group retrieval, and portal
+    redirect URIs is identity federation — squarely Identity & Access Management.
+- tag: RBAC Policy
+  spec_file: cisco-ise-rbac-policy-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: listAllRbacPolicy 'Get all rbac policy available in Cisco ISE'; schema OpenApiRbacPolicyPermission
+  reason: Role-based access control policy and permission management is squarely identity and access management.
+- tag: enable-MFA
+  spec_file: cisco-ise-enable-mfa-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: PUT /api/v1/duo-mfa/enable  enableMFA  Enable MFA feature
+  reason: Enabling Duo multi-factor authentication on a network access control platform is identity and
+    access management configuration.
+- tag: guestuser
+  spec_file: cisco-ise-guestuser-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: POST /guestuser/ Create; PUT /guestuser/approve/{id}; PUT /guestuser/suspend/{id}; PUT /guestuser/resetpassword/{id};
+    schema identity.guestuser
+  reason: Operations create, approve, suspend, deny and reset passwords for guest user identities on a
+    network access control platform — lifecycle of user accounts and their network access, i.e. identity
+    & access management.
+- tag: identitygroups
+  spec_file: cisco-ise-identitygroups-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: '"Identity Groups API allows the client to search identity groups"; POST /ers/config/identitygroup
+    Create identity group'
+  reason: Explicitly manages identity groups (create, update, delete, search) used for network access
+    policy — identity & access management.
+- tag: ldap
+  spec_file: cisco-ise-ldap-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: POST /ldap/ Create; PUT /ldap/{id}/testbindprimary test-bind-primary; schema identitystores.ldap,
+    ERSLdap
+  reason: Configures and tests LDAP identity store connections used as authentication sources — external
+    directory federation within identity & access management.
+- tag: restidstore
+  spec_file: cisco-ise-restidstore-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: GET /ers/config/restidstore/name/{name}    Get REST ID store by name; schema ERSRestIDStore
+  reason: Lifecycle management of REST identity stores used by ISE to authenticate and authorise users
+    — squarely identity & access management.
+- tag: Device Administration - Authentication Rules
+  spec_file: cisco-ise-device-administration-authentication-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.82
+  evidence: POST /api/v1/policy/device-admin/policy-set/{policyId}/authentication  createDeviceAdminPolicyByIdAuthenticationRule  Device
+    Admin - Create authentication rule.
+  reason: CRUD over TACACS+ device-administration authentication policy rules (schema RuleAuthentication)
+    is authentication/authorisation policy management for privileged device access — Identity & Access
+    Management.
+- tag: Duo-IdentitySync
+  spec_file: cisco-ise-duo-identitysync-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.82
+  evidence: '"Initiate the Sync between the ActiveDirectory and the Mfa Provider"; schemas AdGroup, DuoUser,
+    SyncSchedule'
+  reason: Operations synchronise Active Directory users/groups into the Duo MFA provider — identity directory
+    synchronisation for authentication, i.e. identity & access management, not a generic data-sync utility.
+- tag: Device Admin - MFA Rules
+  spec_file: cisco-ise-device-admin-mfa-rules-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /api/v1/policy/device-admin/policy-set/{policyId}/mfa  createDeviceAdminPolicyByIdMfaRule  Device
+    Admin - Create MFA rule.
+  reason: Creation and maintenance of multi-factor authentication rules within device-administration policy
+    sets is directly Identity & Access Management (authentication policy for administrative access).
+- tag: Device Administration - Conditions
+  spec_file: cisco-ise-device-administration-conditions-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: '"Device Admin - Returns list of library conditions for authorization rules."'
+  reason: Library conditions are reusable predicates used in device-admin authentication and authorization
+    rules; they are components of the access-control policy engine.
+- tag: Device Administration - Identity Stores
+  spec_file: cisco-ise-device-administration-identity-stores-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: '"Device Admin - Return list of identity stores for authentication." schema IdentityStore'
+  reason: Enumerates identity stores used to authenticate device administrators — identity source/federation
+    configuration, squarely IAM.
+- tag: Network Access - Authorization Profiles
+  spec_file: cisco-ise-network-access-authorization-profiles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: Network Access - Returns list of authorization profiles.
+  reason: Authorization profiles are the access-permission results applied to network sessions; read-only
+    but clearly IAM-related. Thin surface (single GET) so lower confidence.
+- tag: Network Access - Policy Sets
+  spec_file: cisco-ise-network-access-policy-sets-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: GET /api/v1/policy/network-access/policy-set 'Network Access - List of policy sets.' / schema
+    PolicySet, Condition
+  reason: Policy sets drive 802.1X/RADIUS authentication and authorization decisions for network access
+    — access control policy administration, i.e. Identity & Access Management within Cybersecurity.
+- tag: activedirectory
+  spec_file: cisco-ise-activedirectory-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: PUT /activedirectory/{id}/join Join a domain; PUT /activedirectory/{id}/getUserGroups Get
+    user groups; PUT /activedirectory/{id}/isUserMemberOf Is user a member of groups
+  reason: Manages Active Directory join points, domains, user groups and group-membership checks used
+    as the identity source for network authentication — directory federation and access management.
+- tag: authorizationprofile
+  spec_file: cisco-ise-authorizationprofile-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /authorizationprofile/ Create; schema "policy.authorizationprofile", "AuthorizationProfile"
+  reason: Authorization profiles are the RADIUS authorization result objects that grant/limit network
+    access per session — squarely identity and access management configuration.
+- tag: endpointcertificate
+  spec_file: cisco-ise-endpointcertificate-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: Endpoint Certificate API allows the client to create endpoint certificates signed by the Cisco
+    ISE Internal CA
+  reason: Certificate issuance for endpoint authentication is identity/credential management within cybersecurity.
+- tag: externalradiusserver
+  spec_file: cisco-ise-externalradiusserver-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: 'schemas: ExternalRadiusServer, network.externalradiusserver'
+  reason: Configuration of external RADIUS servers for authentication proxying is federation/authentication
+    infrastructure — identity & access management.
+- tag: identitygroup
+  spec_file: cisco-ise-identitygroup-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: GET /identitygroup/ Get-All; POST /identitygroup/ Create; schema identity.identitygroup, IdentityGroup
+  reason: Manages identity groups used for access policy on a network access control platform — group/entitlement
+    administration under identity & access management.
+- tag: idstoresequence
+  spec_file: cisco-ise-idstoresequence-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /idstoresequence/ Create; schema identitystores.idstoresequence, IdStoreSequence
+  reason: Configures identity store sequences that determine which identity sources are consulted during
+    authentication — authentication/identity infrastructure configuration.
+- tag: is-MFA-Enabled
+  spec_file: cisco-ise-is-mfa-enabled-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: GET /api/v1/duo-mfa/status isMfaEnabled MFA feature enabled status; schema MfaEnabledStatus
+  reason: Reports whether multi-factor authentication (Duo MFA) is enabled — an authentication control
+    status, part of identity & access management, though it is a single read-only status endpoint.
+- tag: radiusserversequence
+  spec_file: cisco-ise-radiusserversequence-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: 'GET /radiusserversequence/ Get-All; schema RadiusServerSequence; vendor: "802.1X and RADIUS
+    authentication"'
+  reason: CRUD over RADIUS server sequences configures the authentication path for network access — identity
+    and access management infrastructure.
+- tag: Menu Access
+  spec_file: cisco-ise-menu-access-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.78
+  evidence: '"Get all the menu access created in Cisco ISE" under /api/v1/rbac/menu-access; schema MenuAccessPermission'
+  reason: RBAC permission objects controlling administrator access to product menus — access management,
+    though it is administrative authorisation config rather than enterprise IAM.
+- tag: sgacl
+  spec_file: cisco-ise-sgacl-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.78
+  evidence: '"Create security group ACL", "Get all security group ACLs", schema trustsec.sgacl'
+  reason: Manages TrustSec security-group access control lists that govern permitted traffic between segments
+    — clearly cybersecurity control configuration. Which L2 (access management vs security architecture/segmentation)
+    is genuinely ambiguous, so only L1 asserted.
+- tag: tacacscommandsets
+  spec_file: cisco-ise-tacacscommandsets-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.78
+  evidence: POST /tacacscommandsets/    Create; schema TacacsCommandSets, policy.tacacscommandsets
+  reason: TACACS+ command sets define which CLI commands an administrator is authorised to execute on
+    network devices — privileged access authorisation policy, i.e. Identity & Access Management.
+- tag: ADGroups
+  spec_file: cisco-ise-adgroups-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /api/v1/duo-identitysync/adgroups/{activeDirectory}  getAdgroups  Get the list of all
+    AD groups for the specified Active Directory
+  reason: Enumerates Active Directory groups for Duo identity synchronisation — directory/identity source
+    data used for access decisions, i.e. Identity & Access Management. Thin surface (one operation) so
+    confidence held at 0.75.
+- tag: Data Access
+  spec_file: cisco-ise-data-access-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /api/v1/rbac/data-access  listAllDataAccess  Get all data access available in Cisco ISE;
+    schema DataAccessPermission
+  reason: Despite the generic tag, the path is /api/v1/rbac/ and the schemas are DataAccessPermission
+    — this is role-based administrative permission management, i.e. Identity & Access Management, not
+    data governance.
+- tag: Device Administration - Command Sets
+  spec_file: cisco-ise-device-administration-command-sets-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: '"Device Admin - Return list of command sets." schema CommandSet'
+  reason: Command sets define which CLI commands an authenticated administrator may execute on devices
+    — a privileged-access authorization construct, hence IAM. Thin surface (single read op) lowers confidence.
+- tag: Device Administration - Shell Profiles
+  spec_file: cisco-ise-device-administration-shell-profiles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: '"Device Admin - Returns list of shell profiles." schema Profile'
+  reason: Shell profiles grant privilege levels/attributes to authenticated device administrators — privileged
+    access authorization, i.e. IAM.
+- tag: Network Access - Conditions
+  spec_file: cisco-ise-network-access-conditions-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: Network Access - Returns list of library conditions for Authorization rules scope.
+  reason: Reusable policy conditions consumed by authentication/authorization rules; supporting building
+    blocks of the access control policy engine.
+- tag: Security Group Management
+  spec_file: cisco-ise-security-group-management-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.75
+  evidence: GET /api/v1/trustsec/security-group getSecurityGroups 'Get Security Groups'; schema SecurityGroupResult
+  reason: TrustSec security groups (SGTs) are the segmentation/authorisation primitive of the platform;
+    genuinely ambiguous between identity-access and security architecture, so L1 only.
+- tag: Session
+  spec_file: cisco-ise-session-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: getAuthSessionList 'Get Authentication Session List'; getFullSDUsernameInfo 'Get Full SD username
+    Information'; getActiveSessionCount
+  reason: Monitoring and deletion of authenticated network access sessions by user, MAC and IP is access-management
+    operations, not a business capability.
+- tag: adminuser
+  spec_file: cisco-ise-adminuser-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /adminuser/ Create; PUT /adminuser/{id}/remove RemoveFromAdmin; PUT /adminuser/setownpassword
+    SetOwnPassword
+  reason: Lifecycle of administrative user accounts and their credentials on the policy platform — privileged
+    identity and access administration.
+- tag: ancpolicy
+  spec_file: cisco-ise-ancpolicy-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.75
+  evidence: POST /ers/config/ancpolicy "Create ANC policy"; schema "ErsAncPolicy"
+  reason: Adaptive Network Control policies in ISE define enforcement actions (quarantine/port bounce)
+    applied to endpoints on the network — a cybersecurity control surface. Ambiguous between access-control
+    enforcement and threat response, so only the L1 is asserted.
+- tag: certificateprofile
+  spec_file: cisco-ise-certificateprofile-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /ers/config/certificateprofile/{name} "Get certificate profile by name"; schema "CertificateProfile"
+  reason: Certificate authentication profiles define how X.509 credentials are mapped to identities for
+    authentication — identity and access management within the NAC platform.
+- tag: clearthreatsandvulneribilities
+  spec_file: cisco-ise-clearthreatsandvulneribilities-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.75
+  evidence: PUT /ers/config/threat/clearThreatsAndVulneribilities "Delete ThreatContext and Threat events
+    that are associated with given MacAddress"
+  reason: Operates on threat events and threat context attached to endpoints — clearing detected threat
+    state, i.e. threat detection and response handling rather than vulnerability remediation itself.
+- tag: endpointcert
+  spec_file: cisco-ise-endpointcert-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: PUT /endpointcert/certRequest    Create Certificate; schema ERSEndPointCert
+  reason: Issuing endpoint certificates from the internal CA is credential issuance for network authentication,
+    i.e. identity and access management.
+- tag: restidstoreattribute
+  spec_file: cisco-ise-restidstoreattribute-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /ers/config/restidstoreattribute/fetchAttributes    Get REST ID store user attributes
+  reason: Retrieval of user attributes from an identity store used for access decisions; an identity &
+    access management surface.
+- tag: restidstoregroup
+  spec_file: cisco-ise-restidstoregroup-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /ers/config/restidstoregroup/fetchGroups    Fetch REST ID store groups; schema ERSRestIDStoreGroups
+  reason: Group retrieval from an identity store used for policy/group-based authorisation — identity
+    & access management.
+- tag: sgmapping
+  spec_file: cisco-ise-sgmapping-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.75
+  evidence: '"Deploy IP to SGT mapping by ID", "Deploy all IP to SGT mappings", schema iptosgt'
+  reason: Creation and deployment of IP-to-Security-Group-Tag mappings is TrustSec segmentation policy
+    enforcement, a cybersecurity control. L2 left null as segmentation straddles access management and
+    security architecture.
+- tag: sgmappinggroup
+  spec_file: cisco-ise-sgmappinggroup-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.75
+  evidence: '"Deploy IP to SGT mapping group by ID", schemas iptosgtgroup, trustsec.sgmappinggroup'
+  reason: Grouped IP-to-SGT mapping management and deployment — TrustSec security-group segmentation configuration.
+    Cybersecurity at L1; specific L2 ambiguous.
+- tag: sgt
+  spec_file: cisco-ise-sgt-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.75
+  evidence: '"List of Inbound Outbound Rules for SGT data", schemas Sgt, trustsec.sgt, InboundOutboundRule'
+  reason: CRUD over Security Group Tags and their inbound/outbound rules — the core TrustSec segmentation
+    policy object. Cybersecurity control management; L2 not clearly determined.
+- tag: tacacsprofile
+  spec_file: cisco-ise-tacacsprofile-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: 'schemas: TacacsProfile, policy.tacacsprofile; vendor: "TACACS+ device administration"'
+  reason: TACACS+ profiles define the privilege/authorization shell granted to administrators on network
+    devices; CRUD over these profiles is access-control policy administration, i.e. Identity & Access
+    Management, not a business-domain object.
+- tag: AuthStatus
+  spec_file: cisco-ise-authstatus-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: GET /AuthStatus/MACAddress/{mac}/{duration}/{number}/{parameter}  getAuthStatus  Get Authentication
+    Status
+  reason: Retrieves the network authentication status of an endpoint identified by MAC address — this
+    is access/authentication state within Cisco ISE's NAC platform, squarely Identity & Access Management.
+- tag: Device Administration - Network Conditions
+  spec_file: cisco-ise-device-administration-network-conditions-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: '"Device Admin- Creates network condition." schema NetworkCondition'
+  reason: Network conditions constrain when device-admin access policy applies; part of the access-control
+    policy model rather than general network config.
+- tag: restidstoresettings
+  spec_file: cisco-ise-restidstoresettings-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: GET /ers/config/restidstoresettings    Get REST ID store settings; schema ERSRestIDStoreSettings
+  reason: Settings management for the REST identity store used in authentication/authorisation; identity
+    & access management, though the operations are configuration-level.
+- tag: sgtvnvlan
+  spec_file: cisco-ise-sgtvnvlan-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.72
+  evidence: '"Create security group to virtual network", schemas SgtVNVlanContainer, trustsec.sgtvnvlan'
+  reason: Binds security groups to virtual networks/VLANs — segmentation policy configuration on a zero-trust
+    NAC platform. L1 cybersecurity is safe; sub-capability ambiguous.
+- tag: sponsorgroup
+  spec_file: cisco-ise-sponsorgroup-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: schema identity.sponsorgroup; operations Create / UpdateById on /sponsorgroup/
+  reason: Sponsor groups define which internal identities may create and manage guest accounts and with
+    what privileges — identity and access administration on the NAC platform.
+- tag: tacacsserversequence
+  spec_file: cisco-ise-tacacsserversequence-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: 'schemas: TacacsServerSequence, policy.tacacsserversequence; operations Create/Update/Delete
+    /tacacsserversequence/'
+  reason: Configures the ordered set of TACACS+ authentication servers used for device administration
+    login — authentication/authorisation infrastructure, mapping to Identity & Access Management.
+- tag: ActiveDirectories
+  spec_file: cisco-ise-activedirectories-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /api/v1/duo-identitysync/activedirectories  getActiveDirectories  Get the list of all
+    configured Active Directories
+  reason: Lists the configured Active Directory identity stores used as authentication sources — identity
+    federation/directory configuration, i.e. Identity & Access Management. Read-only single operation,
+    hence moderate confidence.
+- tag: Certificates
+  spec_file: cisco-ise-certificates-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: POST /api/v1/certs/certificate-signing-request  generateCSR  Generate a Certificate Signing
+    Request (CSR); regenerateISERootCA  Regenerate entire internal CA certificate chain including root
+    CA
+  reason: PKI lifecycle operations — CSR generation, CA chain regeneration, system certificate import/export/renewal
+    — are cybersecurity control operations. Left at L1 because the surface spans credential issuance and
+    secure architecture rather than naming one sub-capability.
+- tag: Device Administration - Dictionary Attributes List
+  spec_file: cisco-ise-device-administration-dictionary-attributes-list-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '"Returns list of dictionary attributes for authorization." schema DictionaryAttribute'
+  reason: Read-only metadata of attributes usable in device-admin authentication/authorization policy;
+    supports access-control policy authoring, though it is largely reference data.
+- tag: Device Administration - Time/Date Conditions
+  spec_file: cisco-ise-device-administration-time-date-conditions-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '"Device Admin - Creates time/date condition." schema TimeAndDateCondition'
+  reason: Time/date conditions restrict when device-admin access policies apply; a component of the access-control
+    rule engine rather than any business scheduling function.
+- tag: Network Access - Security Groups
+  spec_file: cisco-ise-network-access-security-groups-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '''Return list of available security groups for authorization policy definition.'''
+  reason: TrustSec security groups are used to define authorization policy for network access; supports
+    access control administration. Single read-only lookup operation, so confidence moderate.
+- tag: Profiler Policy Management (Custom/Direct/ML -Rules)
+  spec_file: cisco-ise-profiler-policy-management-custom-direct-ml-rules-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: POST /api/v1/profiler/policy createPolicy Create policy; schemas ProfilePolicy, ProfileLabel,
+    Condition — endpoint profiling policies in a network access control platform
+  reason: Endpoint profiling policies classify devices to drive network access decisions — a cybersecurity
+    control capability. Sits between security governance/policy and identity-access enforcement, so only
+    the L1 is asserted.
+- tag: downloadableacl
+  spec_file: cisco-ise-downloadableacl-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /downloadableacl/ Create; schema "network.downloadableacl", "DownloadableAcl"
+  reason: Downloadable ACLs are the per-session access permissions pushed to network devices after authentication
+    — network access control, i.e. access management enforcement.
+- tag: egressmatrixcell
+  spec_file: cisco-ise-egressmatrixcell-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: PUT /ers/config/egressmatrixcell/clonecell/{id}/srcSgt/{srcSgtId}/dstSgt/{dstSgtId} "Clone
+    egress matrix cell"; schema "trustsec.egressmatrixcell"
+  reason: Manages source/destination security-group permission cells in the TrustSec egress policy matrix
+    — segmentation policy administration, clearly cybersecurity but spanning access control and segmentation
+    architecture.
+- tag: endpoint
+  spec_file: cisco-ise-endpoint-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: PUT /endpoint/{id}/deregister    DeRegister ... GET /endpoint/getrejectedendpoints
+  reason: Endpoint registration/rejection in ISE governs device admission to the network — access management.
+    Some overlap with IT asset/endpoint management, hence moderate confidence.
+- tag: endpoints
+  spec_file: cisco-ise-endpoints-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /api/v1/endpoint  list_1  Get all endpoints; GET /api/v1/endpoint/deviceType/summary  getDeviceTypeSummary
+  reason: Endpoint inventory/profiling used for network access authorisation in a zero-trust NAC platform;
+    maps to identity & access management, though partly IT asset visibility.
+- tag: guesttype
+  spec_file: cisco-ise-guesttype-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: 'schemas: GuestType, identity.guesttype; PUT /guesttype/email/{id}'
+  reason: Guest types define guest account lifecycle and access privileges in ISE guest onboarding — identity
+    & access management for guest users.
+- tag: hotspotportal
+  spec_file: cisco-ise-hotspotportal-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /hotspotportal/ Get-All; schema portal.hotspotportal, HotspotPortal
+  reason: CRUD over hotspot guest-access portal configuration within Cisco ISE's guest onboarding/network
+    access control function; closest fit is identity & access management, though the tag is purely portal
+    configuration so confidence is moderate.
+- tag: restidstoredeviceattribute
+  spec_file: cisco-ise-restidstoredeviceattribute-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /ers/config/restidstoredeviceattribute/fetchDeviceAttributes    Get REST ID store device
+    attributes
+  reason: Device attribute retrieval from the identity store feeding network access authorisation; identity
+    & access management on a NAC platform.

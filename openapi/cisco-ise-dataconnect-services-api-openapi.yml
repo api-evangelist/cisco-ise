@@ -226,28 +226,60 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    DataconnectResponse:
-      title: DataconnectResponse
+    Status:
+      title: Status
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/Status'
+        isEnabled:
+          type: boolean
+          example: true
           exampleSetFlag: true
-        version:
+        isPasswordChanged:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        passwordExpiresInDays:
+          type: integer
+          format: int32
+          example: 45
+          exampleSetFlag: true
+        passwordExpiresOn:
           type: string
-          example: 1.0.0
+          example: 15 December 2021 at 18:05 PST
           exampleSetFlag: true
       exampleSetFlag: false
-    OdbcDetailResponse:
-      title: OdbcDetailResponse
+    OdbcDetails:
+      title: OdbcDetails
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/OdbcDetails'
-          exampleSetFlag: true
-        version:
+        hostname:
           type: string
-          example: 1.0.0
+          example: isenode
+          exampleSetFlag: true
+        port:
+          type: integer
+          format: int32
+          example: 2484
+          exampleSetFlag: true
+        servicename:
+          type: string
+          example: cpm10
+          exampleSetFlag: true
+        username:
+          type: string
+          example: Admin
+          exampleSetFlag: true
+      exampleSetFlag: false
+    DataconnectPassword:
+      title: DataconnectPassword
+      required:
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 'Password for dataconnect user. Password must satisfy the following criteria - Contains at least one uppercase letter [A-Z], Contains at least one lowercase letter [a-z], Contains at least one digit [0-9], Contains at least one special character #$%&*+,-.:;=?^_~, Has at least 12 characters, Has not more than 30 characters'
+          example: YwBtG29anRDw
           exampleSetFlag: true
       exampleSetFlag: false
     Dataconnect:
@@ -271,6 +303,27 @@ components:
           type: integer
           format: int32
           example: 45
+          exampleSetFlag: true
+      exampleSetFlag: false
+    OdbcDetailResponse:
+      title: OdbcDetailResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/OdbcDetails'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
           exampleSetFlag: true
       exampleSetFlag: false
     ErrorResponse:
@@ -297,68 +350,15 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    DataconnectPassword:
-      title: DataconnectPassword
-      required:
-      - password
+    DataconnectResponse:
+      title: DataconnectResponse
       type: object
       properties:
-        password:
+        response:
+          $ref: '#/components/schemas/Status'
+          exampleSetFlag: true
+        version:
           type: string
-          description: 'Password for dataconnect user. Password must satisfy the following criteria - Contains at least one uppercase letter [A-Z], Contains at least one lowercase letter [a-z], Contains at least one digit [0-9], Contains at least one special character #$%&*+,-.:;=?^_~, Has at least 12 characters, Has not more than 30 characters'
-          example: YwBtG29anRDw
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Message:
-      title: Message
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-          exampleSetFlag: true
-      exampleSetFlag: false
-    OdbcDetails:
-      title: OdbcDetails
-      type: object
-      properties:
-        hostname:
-          type: string
-          example: isenode
-          exampleSetFlag: true
-        port:
-          type: integer
-          format: int32
-          example: 2484
-          exampleSetFlag: true
-        servicename:
-          type: string
-          example: cpm10
-          exampleSetFlag: true
-        username:
-          type: string
-          example: Admin
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Status:
-      title: Status
-      type: object
-      properties:
-        isEnabled:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        isPasswordChanged:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        passwordExpiresInDays:
-          type: integer
-          format: int32
-          example: 45
-          exampleSetFlag: true
-        passwordExpiresOn:
-          type: string
-          example: 15 December 2021 at 18:05 PST
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false

@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Systemcertificate API
   version: '1.0'
-  description: 'Operations tagged systemcertificate across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-system-certificate.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged systemcertificate across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-system-certificate.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-system-certificate.yaml, the provider's source document. Operations
-      and schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-system-certificate.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-system-certificate.yaml
     operation_coverage: 2/3
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: systemcertificate
 paths:
   /systemcertificate/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     post:
       tags:
       - systemcertificate
@@ -125,16 +132,6 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/systemcertificate:
     post:
       tags:
@@ -179,14 +176,29 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
-    ca.systemcertificate:
-      required:
-      - ERSSystemCertificate
+    link1:
       type: object
       properties:
-        ERSSystemCertificate:
-          $ref: '#/components/schemas/ERSSystemCertificate'
-      example: null
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/systemcertificate/versioninfo
+        type:
+          type: string
+          example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     ERSSystemCertificate:
       required:
       - nodeId
@@ -348,28 +360,6 @@ components:
             keyType: RSA OR ECDSA
             certificateSanIp: <<IP-ADDRESS>>
             friendlyName: HCL
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     ERSSystemCertificate_2:
       type: object
       properties:
@@ -447,34 +437,41 @@ components:
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
+    ca.systemcertificate:
+      required:
+      - ERSSystemCertificate
+      type: object
+      properties:
+        ERSSystemCertificate:
+          $ref: '#/components/schemas/ERSSystemCertificate'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     systemcertificate:
       type: object
       properties:
         ERSSystemCertificate:
           $ref: '#/components/schemas/ERSSystemCertificate_2'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/systemcertificate/versioninfo
-        type:
-          type: string
-          example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

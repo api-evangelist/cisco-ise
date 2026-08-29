@@ -564,6 +564,15 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    DisableResponse:
+      title: DisableResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'IPsec connection for node with hostname: node-1, and nadIp: 1.1.1.1 has been disabled'
+          exampleSetFlag: true
+      exampleSetFlag: false
     Link:
       title: Link
       type: object
@@ -584,87 +593,6 @@ components:
         type:
           type: string
           example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    DisableResponse:
-      title: DisableResponse
-      type: object
-      properties:
-        message:
-          type: string
-          example: 'IPsec connection for node with hostname: node-1, and nadIp: 1.1.1.1 has been disabled'
-          exampleSetFlag: true
-      exampleSetFlag: false
-    IPSecGetAllResponsePayload:
-      title: IPSecGetAllResponsePayload
-      type: object
-      properties:
-        nextPage:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-        previousPage:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/IPSecConfig'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    IPSecCertificate:
-      title: IPSecCertificate
-      type: object
-      properties:
-        friendlyName:
-          type: string
-          description: Friendly name of system certificate
-          exampleSetFlag: true
-        id:
-          type: string
-          description: ID of system certificate
-          exampleSetFlag: true
-      exampleSetFlag: false
-    TaskResponse:
-      title: TaskResponse
-      type: object
-      properties:
-        id:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    IPSecCertificateGetAllResponse:
-      title: IPSecCertificateGetAllResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/IPSecCertificate'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     IPSecConfig:
@@ -1054,56 +982,6 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    RemoveResponse:
-      title: RemoveResponse
-      type: object
-      properties:
-        message:
-          type: string
-          example: 'The IPsec connection for a node with hostname: node-1, and nadIp: 1.1.1.1 has been removed successfully.'
-          exampleSetFlag: true
-      exampleSetFlag: false
-    IPSecResponsePayload:
-      title: IPSecResponsePayload
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/IPSecResponse'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Operations:
-      title: Operations
-      type: object
-      properties:
-        ItemList:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/IPSecRequest'
-            exampleSetFlag: false
-        operation:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - Create
-          - Delete
-          - Disable
-          - Enable
-          - Update
-      exampleSetFlag: false
-    EnableResponse:
-      title: EnableResponse
-      type: object
-      properties:
-        message:
-          type: string
-          example: 'IPsec connection is initiated for node with hostname: node-1, and nadIp: 1.1.1.1'
-          exampleSetFlag: true
-      exampleSetFlag: false
     IPSecRequest:
       title: IPSecRequest
       type: object
@@ -1276,5 +1154,127 @@ components:
           type: string
           description: Remote Tunnel IP address
           example: 1.2.2.1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EnableResponse:
+      title: EnableResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'IPsec connection is initiated for node with hostname: node-1, and nadIp: 1.1.1.1'
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IPSecCertificate:
+      title: IPSecCertificate
+      type: object
+      properties:
+        friendlyName:
+          type: string
+          description: Friendly name of system certificate
+          exampleSetFlag: true
+        id:
+          type: string
+          description: ID of system certificate
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Operations:
+      title: Operations
+      type: object
+      properties:
+        ItemList:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/IPSecRequest'
+            exampleSetFlag: false
+        operation:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - Create
+          - Delete
+          - Disable
+          - Enable
+          - Update
+      exampleSetFlag: false
+    IPSecResponsePayload:
+      title: IPSecResponsePayload
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/IPSecResponse'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IPSecCertificateGetAllResponse:
+      title: IPSecCertificateGetAllResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/IPSecCertificate'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IPSecGetAllResponsePayload:
+      title: IPSecGetAllResponsePayload
+      type: object
+      properties:
+        nextPage:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        previousPage:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/IPSecConfig'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    TaskResponse:
+      title: TaskResponse
+      type: object
+      properties:
+        id:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    RemoveResponse:
+      title: RemoveResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'The IPsec connection for a node with hostname: node-1, and nadIp: 1.1.1.1 has been removed successfully.'
           exampleSetFlag: true
       exampleSetFlag: false

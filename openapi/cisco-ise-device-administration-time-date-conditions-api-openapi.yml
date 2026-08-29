@@ -281,66 +281,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    DatesRange:
-      title: DatesRange
-      required:
-      - endDate
-      - startDate
-      type: object
-      properties:
-        endDate:
-          type: string
-          example: '2022-05-10'
-          exampleSetFlag: true
-        startDate:
-          type: string
-          example: '2022-05-06'
-          exampleSetFlag: true
-      description: <p>Defines for which date/s TimeAndDate condition will be matched<br> Options are - Date range, for specific date, the same date should be used for start/end date <br> Default - no specific dates<br> In order to reset the dates to have no specific dates Date format - yyyy-mm-dd (MM = month, dd = day, yyyy = year)</p>
-      exampleSetFlag: false
-    TimeAndDateConditionListResponseEntity:
-      title: TimeAndDateConditionListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          example: '[{"name":"Time condition 1","conditionType":"TimeAndDateCondition","id":"ad947f38-7063-4da2-8723-652e0ca2ea41","isNegate":false,"description":"Optional description","hoursRange":{"startTime":"8:10","endTime":"15:10"},"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/time-condition/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}},{"name":"Time condition 2","id":"ad947f38-7063-4da2-8723-652e0ca2ea42","conditionType":"TimeAndDateCondition","isNegate":false,"description":"Optional description","DatesRange":{"startDate":"2025-05-06","endDate":"2025-05-10"},"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/time-condition/ad947f38-7063-4da2-8723-652e0ca2ea42","type":"application/json"}}]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/TimeAndDateCondition'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
     IdResponseEntity:
       title: IdResponseEntity
       required:
@@ -353,34 +293,6 @@ components:
           example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
           exampleSetFlag: true
       description: response object containing object ID
-      exampleSetFlag: false
-    TimeAndDateConditionResponseEntity:
-      title: TimeAndDateConditionResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/TimeAndDateCondition'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
       exampleSetFlag: false
     TimeAndDateCondition:
       title: TimeAndDateCondition
@@ -471,6 +383,64 @@ components:
             - Wednesday
       description: Condition based on time and date.
       exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    TimeAndDateConditionResponseEntity:
+      title: TimeAndDateConditionResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TimeAndDateCondition'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    TimeAndDateConditionListResponseEntity:
+      title: TimeAndDateConditionListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"name":"Time condition 1","conditionType":"TimeAndDateCondition","id":"ad947f38-7063-4da2-8723-652e0ca2ea41","isNegate":false,"description":"Optional description","hoursRange":{"startTime":"8:10","endTime":"15:10"},"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/time-condition/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}},{"name":"Time condition 2","id":"ad947f38-7063-4da2-8723-652e0ca2ea42","conditionType":"TimeAndDateCondition","isNegate":false,"description":"Optional description","DatesRange":{"startDate":"2025-05-06","endDate":"2025-05-10"},"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/time-condition/ad947f38-7063-4da2-8723-652e0ca2ea42","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/TimeAndDateCondition'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     HoursRange:
       title: HoursRange
       required:
@@ -487,6 +457,36 @@ components:
           example: 08:00
           exampleSetFlag: true
       description: <p>Defines for which hours a TimeAndDate condition will be matched<br> Time foramt - hh:mm  ( h = hour , mm = minutes ) <br> Default - All Day </p>
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    DatesRange:
+      title: DatesRange
+      required:
+      - endDate
+      - startDate
+      type: object
+      properties:
+        endDate:
+          type: string
+          example: '2022-05-10'
+          exampleSetFlag: true
+        startDate:
+          type: string
+          example: '2022-05-06'
+          exampleSetFlag: true
+      description: <p>Defines for which date/s TimeAndDate condition will be matched<br> Options are - Date range, for specific date, the same date should be used for start/end date <br> Default - no specific dates<br> In order to reset the dates to have no specific dates Date format - yyyy-mm-dd (MM = month, dd = day, yyyy = year)</p>
       exampleSetFlag: false
   securitySchemes:
     BasicAuth:

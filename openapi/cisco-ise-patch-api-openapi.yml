@@ -477,6 +477,54 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ServerErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Internal server Error.
+    RollbackPrecheckRequest:
+      type: object
+      properties:
+        upgradeType:
+          type: string
+          example: PATCH_ROLLBACK or PATCH_ROLLBACK_SEQUENTIAL
+        preChecks:
+          type: array
+          description: Array of prechecks that needs to be executed.
+          example:
+          - DEPLOYMENT_CHECK
+          - SYSTEM_CERT_CHECK
+          - ADMIN_CERT_CHECK
+          - SERVICES_CHECK
+          - PAN_FAILOVER_CHECK
+          - DNS_CHECK
+          items:
+            type: string
+        preCheckReportID:
+          type: string
+          example: 50bc7f99-057a-4d9f-aec4-20b7d4b89846
+        reTrigger:
+          type: boolean
+          example: false
+      required:
+      - upgradeType
+    UpgradeProceed:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListNodeProceed'
+        remainingUpgradeTime:
+          type: integer
+          example: 0
+        percentage:
+          type: integer
+          example: 100
+        status:
+          type: string
+          example: success
     ListNode:
       type: object
       properties:
@@ -489,18 +537,120 @@ components:
         status:
           type: string
           example: Success
-    NoContentMessage:
+    InvalidErrorMessage:
       type: object
       properties:
         message:
           type: string
-          example: No Content.
-    NotFoundErrorMessage:
+          example: Invalid Inputs. Check request parameters and retry.
+    PatchPrecheckRequest:
       type: object
       properties:
+        preChecks:
+          type: array
+          description: Array of prechecks that needs to be executed.
+          example:
+          - DEPLOYMENT_CHECK
+          - TRUST_CERT_CHECK
+          - SYSTEM_CERT_CHECK
+          - REPOSITORY_CHECK
+          - SERVICES_CHECK
+          - LICENSE_CHECK
+          items:
+            type: string
+        hostnames:
+          type: array
+          items:
+            type: string
+            description: Array of hostnames. Hostnames should be empty[] for FULL_PATCH and SEQUENTIAL_PATCH install
+            example:
+            - ise1.cisco.com
+            - ise2.cisco.com
+        upgradeType:
+          type: string
+          example: FULL_PATCH or SPLIT_PATCH or SEQUENTIAL_PATCH
+        repoName:
+          type: string
+          example: repo_name
+        patchBundleName:
+          type: string
+          example: ise-patchbundle-2.6.0.156-Patch1-20061206.SPA.x86_64.tar.gz
+        preCheckReportID:
+          type: string
+          example: 50bc7f99-057a-4d9f-aec4-20b7d4b89846
+        reTrigger:
+          type: boolean
+          example: false
+      required:
+      - upgradeType
+      - patchBundleName
+      - repoName
+    NodePatchList:
+      type: object
+      properties:
+        node:
+          type: string
+          description: ISE node name.
+          example: ise90.sn.test
+        patchVersions:
+          type: array
+          description: Array of objects, each object containing patch version and installed date.
+          items:
+            $ref: '#/components/schemas/Patch'
+    PatchListResponse:
+      type: object
+      properties:
+        iseVersion:
+          type: string
+          description: ISE node version.
+          example: 3.4.0.345
+        patchList:
+          type: array
+          description: Array of objects, each object containing  hostname and patch version numbers and installed dates.
+          items:
+            $ref: '#/components/schemas/NodePatchList'
+    UpgradeTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TaskIdResponse'
+        version:
+          type: string
+          example: 1.0.0
+    ListNodeProceed:
+      type: object
+      properties:
+        dbStatus:
+          type: string
+          example: UPGRADE_EXEC_COMPLETED
         message:
           type: string
-          example: Not Found.
+          example: Upgrade completed successfully
+        node:
+          type: string
+          example: ise1.sn.test
+        percentage:
+          type: integer
+          example: 100
+        progressMsg:
+          type: string
+          example: Upgrade completed successfully
+        status:
+          type: string
+          example: passed
+        upgradeTime:
+          type: integer
+          example: 127
+    TaskIdResponse:
+      type: object
+      properties:
+        preCheckReportID:
+          description: ID which can be used to track the status of task.
+          example: c4aa1432-be06-bf27-11eb-c208a1714b90
+          type: string
+        message:
+          type: string
+          example: Upgrade task has been initiated.
     UpgradeSummaryResponse:
       type: object
       properties:
@@ -516,30 +666,117 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UpgradeProceed'
-    PatchListResponse:
+    NotFoundErrorMessage:
       type: object
       properties:
+        message:
+          type: string
+          example: Not Found.
+    ForbiddenErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Forbidden.
+    NodesReport:
+      type: object
+      properties:
+        nodes-report:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeReportItem'
+    UpgradePrecheckResponse:
+      type: object
+      properties:
+        preChecks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrecheckType'
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+        nodecount:
+          type: integer
+          example: 1
+        isValid:
+          type: boolean
+          example: false
+        status:
+          type: string
+          example: valid
         iseVersion:
           type: string
-          description: ISE node version.
-          example: 3.4.0.345
-        patchList:
-          type: array
-          description: Array of objects, each object containing  hostname and patch version numbers and installed dates.
-          items:
-            $ref: '#/components/schemas/NodePatchList'
+          example: 3.4.0.451
+        patchNo:
+          type: integer
+          example: 99
+    PatchTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TaskIdResponse'
+        version:
+          type: string
+          example: 1.0.0
+    PatchRollbackVersionResponse:
+      type: object
+      properties:
+        currentReleaseVersion:
+          type: string
+          example: 3.2
+        currentPatchVersion:
+          type: string
+          example: P2
+        previousInstalledPatchVersion:
+          type: string
+          example: P1
+    NoContentMessage:
+      type: object
+      properties:
+        message:
+          type: string
+          example: No Content.
+    Patch:
+      type: object
+      properties:
+        patchNumber:
+          type: integer
+          description: Patch version number.
+          example: 3
+        installDate:
+          type: string
+          description: Date of patch installation.
+          example: Tue Jan 30 04:48:13 2024
     Message:
       type: object
       properties:
         message:
           type: string
           example: Repository (repo_name) does not exist. Please configure the repository from ISE UI to proceed
-    ServerErrorMessage:
+    ErrorResponse:
       type: object
       properties:
-        message:
+        response:
+          $ref: '#/components/schemas/Message'
+        version:
           type: string
-          example: Internal server Error.
+          example: 1.0.0
+    NodeReportItem:
+      type: object
+      properties:
+        Old Personas:
+          type: string
+        Role:
+          type: string
+        New Personas:
+          type: string
+        Hostname:
+          type: string
+      required:
+      - Old Personas
+      - Role
+      - New Personas
+      - Hostname
     PrecheckType:
       type: object
       properties:
@@ -583,244 +820,19 @@ components:
         status:
           type: string
           example: Success
-    UpgradePrecheckResponse:
-      type: object
-      properties:
-        preChecks:
-          type: array
-          items:
-            $ref: '#/components/schemas/PrecheckType'
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-        nodecount:
-          type: integer
-          example: 1
-        isValid:
-          type: boolean
-          example: false
-        status:
-          type: string
-          example: valid
-        iseVersion:
-          type: string
-          example: 3.4.0.451
-        patchNo:
-          type: integer
-          example: 99
-    ForbiddenErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Forbidden.
-    UpgradeProceed:
-      type: object
-      properties:
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ListNodeProceed'
-        remainingUpgradeTime:
-          type: integer
-          example: 0
-        percentage:
-          type: integer
-          example: 100
-        status:
-          type: string
-          example: success
-    InvalidErrorMessage:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Invalid Inputs. Check request parameters and retry.
-    PatchRollbackVersionResponse:
-      type: object
-      properties:
-        currentReleaseVersion:
-          type: string
-          example: 3.2
-        currentPatchVersion:
-          type: string
-          example: P2
-        previousInstalledPatchVersion:
-          type: string
-          example: P1
-    ListNodeProceed:
-      type: object
-      properties:
-        dbStatus:
-          type: string
-          example: UPGRADE_EXEC_COMPLETED
-        message:
-          type: string
-          example: Upgrade completed successfully
-        node:
-          type: string
-          example: ise1.sn.test
-        percentage:
-          type: integer
-          example: 100
-        progressMsg:
-          type: string
-          example: Upgrade completed successfully
-        status:
-          type: string
-          example: passed
-        upgradeTime:
-          type: integer
-          example: 127
-    NodesReport:
-      type: object
-      properties:
-        nodes-report:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeReportItem'
-    NodeReportItem:
-      type: object
-      properties:
-        Old Personas:
-          type: string
-        Role:
-          type: string
-        New Personas:
-          type: string
-        Hostname:
-          type: string
-      required:
-      - Old Personas
-      - Role
-      - New Personas
-      - Hostname
-    TaskIdResponse:
-      type: object
-      properties:
-        preCheckReportID:
-          description: ID which can be used to track the status of task.
-          example: c4aa1432-be06-bf27-11eb-c208a1714b90
-          type: string
-        message:
-          type: string
-          example: Upgrade task has been initiated.
-    PatchTaskResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/TaskIdResponse'
-        version:
-          type: string
-          example: 1.0.0
-    NodePatchList:
-      type: object
-      properties:
-        node:
-          type: string
-          description: ISE node name.
-          example: ise90.sn.test
-        patchVersions:
-          type: array
-          description: Array of objects, each object containing patch version and installed date.
-          items:
-            $ref: '#/components/schemas/Patch'
-    UpgradeTaskResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/TaskIdResponse'
-        version:
-          type: string
-          example: 1.0.0
-    ErrorResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    RollbackPrecheckRequest:
-      type: object
-      properties:
-        upgradeType:
-          type: string
-          example: PATCH_ROLLBACK or PATCH_ROLLBACK_SEQUENTIAL
-        preChecks:
-          type: array
-          description: Array of prechecks that needs to be executed.
-          example:
-          - DEPLOYMENT_CHECK
-          - SYSTEM_CERT_CHECK
-          - ADMIN_CERT_CHECK
-          - SERVICES_CHECK
-          - PAN_FAILOVER_CHECK
-          - DNS_CHECK
-          items:
-            type: string
-        preCheckReportID:
-          type: string
-          example: 50bc7f99-057a-4d9f-aec4-20b7d4b89846
-        reTrigger:
-          type: boolean
-          example: false
-      required:
-      - upgradeType
-    Patch:
-      type: object
-      properties:
-        patchNumber:
-          type: integer
-          description: Patch version number.
-          example: 3
-        installDate:
-          type: string
-          description: Date of patch installation.
-          example: Tue Jan 30 04:48:13 2024
-    PatchPrecheckRequest:
-      type: object
-      properties:
-        preChecks:
-          type: array
-          description: Array of prechecks that needs to be executed.
-          example:
-          - DEPLOYMENT_CHECK
-          - TRUST_CERT_CHECK
-          - SYSTEM_CERT_CHECK
-          - REPOSITORY_CHECK
-          - SERVICES_CHECK
-          - LICENSE_CHECK
-          items:
-            type: string
-        hostnames:
-          type: array
-          items:
-            type: string
-            description: Array of hostnames. Hostnames should be empty[] for FULL_PATCH and SEQUENTIAL_PATCH install
-            example:
-            - ise1.cisco.com
-            - ise2.cisco.com
-        upgradeType:
-          type: string
-          example: FULL_PATCH or SPLIT_PATCH or SEQUENTIAL_PATCH
-        repoName:
-          type: string
-          example: repo_name
-        patchBundleName:
-          type: string
-          example: ise-patchbundle-2.6.0.156-Patch1-20061206.SPA.x86_64.tar.gz
-        preCheckReportID:
-          type: string
-          example: 50bc7f99-057a-4d9f-aec4-20b7d4b89846
-        reTrigger:
-          type: boolean
-          example: false
-      required:
-      - upgradeType
-      - patchBundleName
-      - repoName
   parameters:
+    PreCheckID:
+      in: query
+      name: preCheckID
+      schema:
+        type: string
+    PrecheckName:
+      in: query
+      name: precheckName
+      description: Precheck name.
+      example: DEPLOYMENT_CHECK
+      schema:
+        type: string
     PrecheckReportID:
       in: query
       name: preCheckReportID
@@ -835,18 +847,6 @@ components:
       schema:
         type: string
       required: false
-    PrecheckName:
-      in: query
-      name: precheckName
-      description: Precheck name.
-      example: DEPLOYMENT_CHECK
-      schema:
-        type: string
-    PreCheckID:
-      in: query
-      name: preCheckID
-      schema:
-        type: string
   securitySchemes:
     BasicAuth:
       type: http

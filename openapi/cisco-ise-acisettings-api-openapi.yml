@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Acisettings API
   version: '1.0'
-  description: 'Operations tagged acisettings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-aci-settings.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged acisettings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-aci-settings.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-aci-settings.yaml, the provider's source document. Operations and schemas
-      are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-aci-settings.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-aci-settings.yaml
     operation_coverage: 4/7
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: acisettings
 paths:
   /acisettings/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - acisettings
@@ -103,6 +110,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /acisettings/testACIConnectivity:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -113,7 +121,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /acisettings/testACIConnectivity:
     put:
       tags:
       - acisettings
@@ -186,6 +193,7 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+  /acisettings/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -196,7 +204,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /acisettings/{id}:
     put:
       tags:
       - acisettings
@@ -298,16 +305,6 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/acisettings:
     get:
       tags:
@@ -422,42 +419,29 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
-    Link:
+    UpdatedField:
       type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    apic.acisettings:
-      required:
-      - AciSettings
-      type: object
-      properties:
-        AciSettings:
-          $ref: '#/components/schemas/AciSettings'
-      example: null
-    updatedField:
       properties:
         field:
           type: string
-          example: null
+          example: field1
         oldValue:
           type: string
-          example: null
+          example: val_old
         newValue:
           type: string
+          example: val_new
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
       example: null
     acisettingsResponse:
@@ -485,6 +469,171 @@ components:
           - default
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           enableAci: false
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    Result:
+      type: object
+      properties:
+        ACITestConnectionResult:
+          $ref: '#/components/schemas/ACITestConnectionResult'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    settings:
+      type: object
+      properties:
+        AciSettings:
+          $ref: '#/components/schemas/acisettings'
+    acisettings:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 29fb45ab-6a8e-4658-8a28-02521c258178
+        enableAci:
+          type: boolean
+          example: false
+        tenantName:
+          type: string
+          example: ISE
+        l3RouteNetwork:
+          type: string
+          example: L3_ROUTE
+        suffixToEpg:
+          type: string
+          example: SGT
+        suffixToSgt:
+          type: string
+          example: EPG
+        allSxpDomain:
+          type: boolean
+          example: false
+        specificSxpDomain:
+          type: boolean
+          example: true
+        specifixSxpDomainList:
+          type: array
+          items:
+            type: string
+            example: default
+        enableDataPlane:
+          type: boolean
+          example: false
+        untaggedPacketIepgName:
+          type: string
+          example: Untagged
+        defaultSgtName:
+          type: string
+          example: Unknown
+        enableElementsLimit:
+          type: boolean
+          example: false
+        maxNumIepgFromAci:
+          type: integer
+          example: 1000
+        maxNumSgtToAci:
+          type: integer
+          example: 500
+        aci50:
+          type: boolean
+          example: false
+        aci51:
+          type: boolean
+          example: false
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/acisettings/versioninfo
+        type:
+          type: string
+          example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     acisettingsResponseEntity:
       properties:
         enableAci:
@@ -618,27 +767,22 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    ERSResponse:
+    AciTestConnectivityEntity:
+      properties:
+        ACITestConnectionResult:
+          properties:
+            result:
+              type: boolean
+              example: null
+          example: null
+      example: null
+    apic.acisettings:
+      required:
+      - AciSettings
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        AciSettings:
+          $ref: '#/components/schemas/AciSettings'
       example: null
     AciSettings:
       required:
@@ -795,159 +939,12 @@ components:
           - default
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           enableAci: false
-    AciTestConnectivityEntity:
-      properties:
-        ACITestConnectionResult:
-          properties:
-            result:
-              type: boolean
-              example: null
-          example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    Result:
-      type: object
-      properties:
-        ACITestConnectionResult:
-          $ref: '#/components/schemas/ACITestConnectionResult'
-    settings:
-      type: object
-      properties:
-        AciSettings:
-          $ref: '#/components/schemas/acisettings'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    acisettings:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 29fb45ab-6a8e-4658-8a28-02521c258178
-        enableAci:
-          type: boolean
-          example: false
-        tenantName:
-          type: string
-          example: ISE
-        l3RouteNetwork:
-          type: string
-          example: L3_ROUTE
-        suffixToEpg:
-          type: string
-          example: SGT
-        suffixToSgt:
-          type: string
-          example: EPG
-        allSxpDomain:
-          type: boolean
-          example: false
-        specificSxpDomain:
-          type: boolean
-          example: true
-        specifixSxpDomainList:
-          type: array
-          items:
-            type: string
-            example: default
-        enableDataPlane:
-          type: boolean
-          example: false
-        untaggedPacketIepgName:
-          type: string
-          example: Untagged
-        defaultSgtName:
-          type: string
-          example: Unknown
-        enableElementsLimit:
-          type: boolean
-          example: false
-        maxNumIepgFromAci:
-          type: integer
-          example: 1000
-        maxNumSgtToAci:
-          type: integer
-          example: 500
-        aci50:
-          type: boolean
-          example: false
-        aci51:
-          type: boolean
-          example: false
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
     ACITestConnectionResult:
       type: object
       properties:
         result:
           type: boolean
           example: true
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/acisettings/versioninfo
-        type:
-          type: string
-          example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

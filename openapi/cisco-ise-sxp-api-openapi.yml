@@ -136,22 +136,23 @@ paths:
           description: Not Found
 components:
   schemas:
-    SxpFilterListResponseEntity:
-      title: SxpFilterListResponseEntity
+    InboundOutboundRule:
+      title: InboundOutboundRule
       required:
-      - response
-      - version
+      - id
+      - name
+      - ruleType
       type: object
       properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        version:
+        id:
           type: string
-          example: 1.0.0
+          format: uuid
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        ruleType:
+          type: string
           exampleSetFlag: true
       exampleSetFlag: false
     FilterList:
@@ -174,18 +175,21 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    SxpFilterList:
-      title: SxpFilterList
-      required:
-      - sxpFilters
+    SxpDomainResult:
+      title: SxpDomainResult
       type: object
       properties:
-        sxpFilters:
+        response:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/FilterList'
+            $ref: '#/components/schemas/SxpDomain'
             exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: SXP Domain Result
       exampleSetFlag: false
     Error:
       title: Error
@@ -204,41 +208,6 @@ components:
           example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false
-    SxpDomainResult:
-      title: SxpDomainResult
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SxpDomain'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: SXP Domain Result
-      exampleSetFlag: false
-    InboundOutboundRule:
-      title: InboundOutboundRule
-      required:
-      - id
-      - name
-      - ruleType
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          exampleSetFlag: true
-        name:
-          type: string
-          exampleSetFlag: true
-        ruleType:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
     SxpDomain:
       title: SxpDomain
       type: object
@@ -250,6 +219,24 @@ components:
         name:
           type: string
           example: sxpDomain1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpFilterListResponseEntity:
+      title: SxpFilterListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     AllSxpFilterListResponseEntity:
@@ -266,4 +253,17 @@ components:
           type: string
           example: 1.0.0
           exampleSetFlag: true
+      exampleSetFlag: false
+    SxpFilterList:
+      title: SxpFilterList
+      required:
+      - sxpFilters
+      type: object
+      properties:
+        sxpFilters:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterList'
+            exampleSetFlag: false
       exampleSetFlag: false

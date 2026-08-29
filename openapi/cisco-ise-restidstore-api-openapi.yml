@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Restidstore API
   version: '1.0'
-  description: 'Operations tagged restidstore across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged restidstore across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-rest-id-store.yaml, the provider's source document. Operations and
-      schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-rest-id-store.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-rest-id-store.yaml
     operation_coverage: 11/21
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: restidstore
 paths:
   /restidstore/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - restidstore
@@ -229,6 +236,7 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
+  /restidstore/name/{name}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -239,7 +247,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /restidstore/name/{name}:
     get:
       tags:
       - restidstore
@@ -605,6 +612,7 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+  /restidstore/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -615,7 +623,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /restidstore/{id}:
     get:
       tags:
       - restidstore
@@ -981,16 +988,6 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/restidstore/name/{name}:
     get:
       tags:
@@ -1267,10 +1264,7 @@ paths:
       tags:
       - restidstore
       summary: Get all REST ID stores
-      description: <p>This API allows the client to get all the REST ID stores.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p>
-        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
-        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
-        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name]</h3></p>
+      description: <p>This API allows the client to get all the REST ID stores.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name]</h3></p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -1336,23 +1330,30 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
-    Link:
+    UpdatedField:
       type: object
       properties:
-        rel:
+        field:
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
+          example: field1
+        oldValue:
           type: string
-          example: https://{server}:{port}/ers/config
-        type:
+          example: val_old
+        newValue:
           type: string
-          example: application/json
+          example: val_new
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
       example: null
     restidstoreResponse:
       type: object
@@ -1394,6 +1395,100 @@ components:
             sshKeysAttributeName: sshPublicKeys
             identifyDeviceCertificate: SAN
             regexType: CUSTOM
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    patchRequest:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/patchRequestBody'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    restidstoreListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/restidstoreListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     updatedField:
       properties:
         field:
@@ -1524,47 +1619,139 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    restidstoreListResponse:
+    link1:
       type: object
       properties:
-        SearchResult:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
+        type:
+          type: string
+          example: application/json
+    ERSRestIDStore_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: b1155994-b736-46af-9add-04bed3058e3a
+        name:
+          type: string
+          example: RestIdStore1
+        description:
+          type: string
+          example: Object that represents the restID store
+        enableRestIdStore:
+          type: boolean
+          example: false
+        ersRestIDStoreAttributes:
           type: object
           properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
+            usernameSuffix:
+              type: string
+              example: '@place.com'
+            rootUrl:
+              type: string
+              example: rootUrl
+            predefined:
+              type: string
+              example: Azure
+            headers:
               type: array
-              example: null
+              example:
+              - key: tenantID
+                value: tenantID_value
+              - key: clientID
+                value: clientID_value
+              - key: clientSecret
+                value: clientSecret_value
               items:
-                $ref: '#/components/schemas/restidstoreListResponseEntity'
+                properties:
+                  name:
+                    type: string
+    restidstoreListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
           example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    rest:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/ERSRestIDStore_2'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 79aac430-7cc8-11eb-ad58-005056926583
+            name: ISE_EST_Local_Host
+            description: example nd
             link:
               rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
     ERSRestIDStore:
       required:
       - name
@@ -1725,28 +1912,6 @@ components:
             sshKeysAttributeName: sshPublicKeys
             identifyDeviceCertificate: SAN
             regexType: CUSTOM
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     identitystores.restidstore:
       required:
       - ERSRestIDStore
@@ -1755,192 +1920,12 @@ components:
         ERSRestIDStore:
           $ref: '#/components/schemas/ERSRestIDStore'
       example: null
-    restidstoreListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    patchRequest:
-      type: object
-      properties:
-        ERSRestIDStore:
-          $ref: '#/components/schemas/patchRequestBody'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 79aac430-7cc8-11eb-ad58-005056926583
-            name: ISE_EST_Local_Host
-            description: example nd
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
     search:
       type: object
       properties:
         SearchResult:
           $ref: '#/components/schemas/SearchResult'
-    rest:
-      type: object
-      properties:
-        ERSRestIDStore:
-          $ref: '#/components/schemas/ERSRestIDStore_2'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    ERSRestIDStore_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: b1155994-b736-46af-9add-04bed3058e3a
-        name:
-          type: string
-          example: RestIdStore1
-        description:
-          type: string
-          example: Object that represents the restID store
-        enableRestIdStore:
-          type: boolean
-          example: false
-        ersRestIDStoreAttributes:
-          type: object
-          properties:
-            usernameSuffix:
-              type: string
-              example: '@place.com'
-            rootUrl:
-              type: string
-              example: rootUrl
-            predefined:
-              type: string
-              example: Azure
-            headers:
-              type: array
-              example:
-              - key: tenantID
-                value: tenantID_value
-              - key: clientID
-                value: clientID_value
-              - key: clientSecret
-                value: clientSecret_value
-              items:
-                properties:
-                  name:
-                    type: string
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
-        type:
-          type: string
-          example: application/json
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1950,6 +1935,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

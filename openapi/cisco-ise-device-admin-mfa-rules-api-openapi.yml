@@ -404,6 +404,117 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    MfaRuleListResponseEntity:
+      title: MfaRuleListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"mfaConnectionName":"Connection Name","mfaResultAction":"ACCEPT","mfaFailAction":"REJECT","rule":{"condition":{"conditionType":"ConditionAttributes","isNegate":false,"dictionaryName":"Network Access","attributeName":"Device IP Address","operator":"ipEquals","attributeValue":"10.0.10.0"},"default":false,"hitCounts":2,"id":"d82952cb-b901-4b09-b363-5ebf39bdbaf9","name":"MyRuleName_1","rank":1,"state":"enabled"},"link":{"href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{policy-id}}/mfa/d82952cb-b901-4b09-b363-5ebf39bdbaaa","rel":"self","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/RuleMfa'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+          exampleSetFlag: true
+      description: Response object containing success message
+      exampleSetFlag: false
     RuleCommon:
       title: RuleCommon
       required:
@@ -454,30 +565,6 @@ components:
           - monitor
       description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
     MfaRuleResponseEntity:
       title: MfaRuleResponseEntity
       required:
@@ -492,93 +579,6 @@ components:
           type: string
           example: 1.0.0
           exampleSetFlag: true
-      exampleSetFlag: false
-    MfaRuleListResponseEntity:
-      title: MfaRuleListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          example: '[{"mfaConnectionName":"Connection Name","mfaResultAction":"ACCEPT","mfaFailAction":"REJECT","rule":{"condition":{"conditionType":"ConditionAttributes","isNegate":false,"dictionaryName":"Network Access","attributeName":"Device IP Address","operator":"ipEquals","attributeValue":"10.0.10.0"},"default":false,"hitCounts":2,"id":"d82952cb-b901-4b09-b363-5ebf39bdbaf9","name":"MyRuleName_1","rank":1,"state":"enabled"},"link":{"href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{policy-id}}/mfa/d82952cb-b901-4b09-b363-5ebf39bdbaaa","rel":"self","type":"application/json"}}]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/RuleMfa'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    MessageResponseEntity:
-      title: MessageResponseEntity
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-          exampleSetFlag: true
-      description: Response object containing success message
-      exampleSetFlag: false
-    IdResponseEntity:
-      title: IdResponseEntity
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
-          exampleSetFlag: true
-      description: response object containing object ID
-      exampleSetFlag: false
-    Error:
-      title: Error
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Condition:
-      title: Condition
-      required:
-      - conditionType
-      type: object
-      properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
-          exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
-          exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
     RuleMfa:
       title: RuleMfa

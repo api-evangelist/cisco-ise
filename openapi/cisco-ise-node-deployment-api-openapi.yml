@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Deployment Node Deployment API
+  title: Node Deployment API
   description: APIs for the configuration, administration and monitoring of the nodes in a Cisco ISE cluster deployment.
   license:
     name: Apache 2.0
@@ -341,12 +341,41 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
+  parameters:
+    filtering:
+      name: filter
+      in: query
+      required: false
+      description: '<div> <style type="text/css" scoped> .apiServiceTable td, .apiServiceTable th { padding: 5px 10px !important; text-align: left; } </style> <span> <b>Simple filtering</b> is available through the filter query string parameter. The structure of a filter is a triplet of field operator and value, separated by dots. More than one filter can be sent. The logical operator common to all filter criteria is AND by default, and can be changed by using the <i>"filterType=or"</i> query string parameter. Each resource Data model description should specify if an attribute is a filtered field. </span> <br /> <table class="apiServiceTable"> <thead> <tr> <th>OPERATOR</th> <th>DESCRIPTION</th> </tr> </thead> <tbody> <tr> <td>EQ</td> <td>Equals</td> </tr> <tr> <td>NEQ</td> <td>Not Equals</td> </tr> <tr> <td>STARTSW</td> <td>Starts With</td> </tr> <tr> <td>NSTARTSW</td> <td>Not Starts With</td> </tr> <tr> <td>ENDSW</td> <td>Ends With</td> </tr> <tr> <td>NENDSW</td> <td>Not Ends With</td> </tr> <tr> <td>CONTAINS</td> <td>Contains</td> </tr> <tr> <td>NCONTAINS</td> <td>Not Contains</td> </tr> </tbody> </table> </div>'
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      allowReserved: true
+    filtertype:
+      name: filterType
+      in: query
+      description: The logical operator common to all filter criteria is AND by default, and can be changed by using this parameter.
+      required: false
+      schema:
+        type: string
+        enum:
+        - AND
+        - OR
+        default: AND
   schemas:
-    FQDN:
-      maxLength: 64
-      minLength: 1
-      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
+    NodeStatus:
       type: string
+      enum:
+      - Connected
+      - Disconnected
+      - InProgress
+      - ReplicationStopped
+      - RegistrationFailed
+      - NotInSync
+      - NotUpgraded
+      - NotApplicable
     DeploymentNodeResponse:
       type: object
       properties:
@@ -365,44 +394,6 @@ components:
         message:
           type: string
           example: Deployment task initiated. You can use the Task Service Status API to get the status of the task.
-    Services:
-      type: array
-      items:
-        type: string
-        enum:
-        - Session
-        - Profiler
-        - TC-NAC
-        - SXP
-        - DeviceAdmin
-        - PassiveIdentity
-        - pxGrid
-        - pxGridCloud
-    NodeUpdateRequest:
-      type: object
-      properties:
-        roles:
-          $ref: '#/components/schemas/Roles'
-        services:
-          $ref: '#/components/schemas/Services'
-      required:
-      - roles
-      - services
-      example: TBD
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
     DeploymentNode:
       type: object
       properties:
@@ -428,59 +419,6 @@ components:
       - ipAddress
       - services
       example: TBD
-    NodeStatus:
-      type: string
-      enum:
-      - Connected
-      - Disconnected
-      - InProgress
-      - ReplicationStopped
-      - RegistrationFailed
-      - NotInSync
-      - NotUpgraded
-      - NotApplicable
-    DeploymentTaskResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/DeploymentTask'
-        version:
-          type: string
-          example: 1.0.0
-    SuccessResponse:
-      type: object
-      properties:
-        success:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    IPAddress:
-      type: string
-      format: ipv4 | ipv6
-    DeploymentNodesResponse:
-      type: object
-      properties:
-        response:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentNode'
-          example: TBD
-        version:
-          type: string
-          example: 1.0.0
-    Roles:
-      type: array
-      items:
-        type: string
-        enum:
-        - PrimaryAdmin
-        - SecondaryAdmin
-        - PrimaryMonitoring
-        - SecondaryMonitoring
-        - PrimaryDedicatedMonitoring
-        - SecondaryDedicatedMonitoring
-        - Standalone
     NodeRegistrationRequest:
       type: object
       properties:
@@ -511,26 +449,88 @@ components:
       - roles
       - services
       example: TBD
-  parameters:
-    filtering:
-      name: filter
-      in: query
-      required: false
-      description: '<div> <style type="text/css" scoped> .apiServiceTable td, .apiServiceTable th { padding: 5px 10px !important; text-align: left; } </style> <span> <b>Simple filtering</b> is available through the filter query string parameter. The structure of a filter is a triplet of field operator and value, separated by dots. More than one filter can be sent. The logical operator common to all filter criteria is AND by default, and can be changed by using the <i>"filterType=or"</i> query string parameter. Each resource Data model description should specify if an attribute is a filtered field. </span> <br /> <table class="apiServiceTable"> <thead> <tr> <th>OPERATOR</th> <th>DESCRIPTION</th> </tr> </thead> <tbody> <tr> <td>EQ</td> <td>Equals</td> </tr> <tr> <td>NEQ</td> <td>Not Equals</td> </tr> <tr> <td>STARTSW</td> <td>Starts With</td> </tr> <tr> <td>NSTARTSW</td> <td>Not Starts With</td> </tr> <tr> <td>ENDSW</td> <td>Ends With</td> </tr> <tr> <td>NENDSW</td> <td>Not Ends With</td> </tr> <tr> <td>CONTAINS</td> <td>Contains</td> </tr> <tr> <td>NCONTAINS</td> <td>Not Contains</td> </tr> </tbody> </table> </div>'
-      schema:
-        type: array
-        items:
+    FQDN:
+      maxLength: 64
+      minLength: 1
+      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
+      type: string
+    DeploymentNodesResponse:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentNode'
+          example: TBD
+        version:
           type: string
-      style: form
-      allowReserved: true
-    filtertype:
-      name: filterType
-      in: query
-      description: The logical operator common to all filter criteria is AND by default, and can be changed by using this parameter.
-      required: false
-      schema:
+          example: 1.0.0
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+    DeploymentTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/DeploymentTask'
+        version:
+          type: string
+          example: 1.0.0
+    Roles:
+      type: array
+      items:
         type: string
         enum:
-        - AND
-        - OR
-        default: AND
+        - PrimaryAdmin
+        - SecondaryAdmin
+        - PrimaryMonitoring
+        - SecondaryMonitoring
+        - PrimaryDedicatedMonitoring
+        - SecondaryDedicatedMonitoring
+        - Standalone
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    Services:
+      type: array
+      items:
+        type: string
+        enum:
+        - Session
+        - Profiler
+        - TC-NAC
+        - SXP
+        - DeviceAdmin
+        - PassiveIdentity
+        - pxGrid
+        - pxGridCloud
+    NodeUpdateRequest:
+      type: object
+      properties:
+        roles:
+          $ref: '#/components/schemas/Roles'
+        services:
+          $ref: '#/components/schemas/Services'
+      required:
+      - roles
+      - services
+      example: TBD
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    IPAddress:
+      type: string
+      format: ipv4 | ipv6

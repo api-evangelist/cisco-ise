@@ -386,6 +386,23 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
+    RemoveAlarmRuleResponse:
+      title: RemoveAlarmRuleResponse
+      type: object
+      properties:
+        code:
+          type: integer
+          description: A status code indicating the result of the operation (e.g., 200 for success, 400 for a bad request).
+          format: int32
+          example: 200
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A brief message describing the result of the operation, such as confirmation of successful removal or an error message.
+          example: Alarm Removed Successfully
+          exampleSetFlag: true
+      description: Represents the response object for removing an alarm or alarms. This object provides details about the result of the operation, including a status code and a message.
+      exampleSetFlag: false
     DashboardNotification:
       title: DashboardNotification
       type: object
@@ -408,89 +425,38 @@ components:
           exampleSetFlag: true
       description: Configuration for suppression settings.
       exampleSetFlag: false
-    Message:
-      title: Message
-      type: object
-      properties:
-        data:
-          type: array
-          description: Optional data payload, like a list of items.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        message:
-          type: string
-          description: A string containing a brief message about the result of the operation, such as "Success" for successful operations or an error message for failures.
-          example: Success
-          exampleSetFlag: true
-      description: Represents a simple message object used in API responses. This object typically contains a single message string that provides information about the success, error, or status of an operation.
-      exampleSetFlag: false
-    DashboardNotificationResponse:
-      title: DashboardNotificationResponse
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: Status of the dashboard notification.
-          example: true
-          exampleSetFlag: true
-      description: Configuration for dashboard notifications.
-      exampleSetFlag: false
-    RemoveAlarmRuleResponseWrapper:
-      title: RemoveAlarmRuleResponseWrapper
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/RemoveAlarmRuleResponse'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or response format.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for removing an alarm rule. This object contains the result of the removal operation and the version of the API or response format being used.
-      exampleSetFlag: false
-    AlarmRuleTemplateWrapper:
-      title: AlarmRuleTemplateWrapper
-      type: object
-      properties:
-        template:
-          type: array
-          description: Runtime-populated list of alarm definitions
-          exampleSetFlag: true
-          items:
-            type: object
-            additionalProperties:
-              type: object
-              exampleSetFlag: false
-            exampleSetFlag: false
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for retrieving template for an alarm type ID.
-      exampleSetFlag: false
-    AlarmModificationRequest:
-      title: AlarmModificationRequest
-      required:
-      - description
-      - name
-      - severity
-      - suggestedAction
+    AlarmRuleUpdateResponse:
+      title: AlarmRuleUpdateResponse
       type: object
       properties:
         dashboardNotification:
-          type: boolean
-          description: Indicates whether dashboard notifications are enabled for this alarm rule.
-          example: true
+          $ref: '#/components/schemas/DashboardNotificationResponse'
           exampleSetFlag: true
-        description:
+        emailNotification:
+          $ref: '#/components/schemas/EmailNotificationResponse'
+          exampleSetFlag: true
+        id:
           type: string
-          description: A brief description of the alarm rule.
-          example: This alarm rule monitors critical posture violations in the system.
+          description: The unique identifier of the alarm rule.
+          example: 3f2504e0-4f89-11d3-9a0c-0305e82c3301
           exampleSetFlag: true
+        status:
+          type: string
+          description: The updated status of the alarm rule, indicating whether it is enabled or disabled.
+          example: Enabled
+          exampleSetFlag: true
+        suppression:
+          $ref: '#/components/schemas/SuppressionResponse'
+          exampleSetFlag: true
+        webhookNotification:
+          $ref: '#/components/schemas/WebhookNotificationResponse'
+          exampleSetFlag: true
+      description: Represents the response object for a alarm rule status update operation. This object includes the unique identifier of the alarm and its updated status.
+      exampleSetFlag: false
+    EmailNotificationResponse:
+      title: EmailNotificationResponse
+      type: object
+      properties:
         emailFrequency:
           type: integer
           description: The frequency at which email notifications are sent.
@@ -510,197 +476,27 @@ components:
           - Hours
           - Minutes
           - Seconds
-        emailNotification:
-          type: boolean
-          description: Indicates whether email notifications are enabled for this alarm rule.
-          example: true
-          exampleSetFlag: true
-        emailText:
-          type: string
-          description: Custom text to be included in email notifications when the alarm rule is triggered.
-          example: Notification email text for alarm.
-          exampleSetFlag: true
-        enabledSyslog:
-          type: boolean
-          description: Indicates whether syslog notifications are enabled for this alarm rule.
-          example: true
-          exampleSetFlag: true
-        filters:
-          type: object
-          additionalProperties:
-            type: array
-            exampleSetFlag: false
-            items:
-              type: string
-              exampleSetFlag: false
-          description: List of Filter conditions
-          exampleSetFlag: true
-        id:
-          type: string
-          description: The id of the alarm rule.
-          example: d530fe3b-53e5-49c0-8d2d-bb229a8d1e3c
-          exampleSetFlag: true
-        isUserDefined:
-          type: boolean
-          description: Indicates whether the alarm rule is user-defined or system-defined.
-          example: true
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the alarm rule.
-          example: Critical Posture Alarm
-          exampleSetFlag: true
-        receiverEmailAddress:
-          type: string
-          description: A list of email addresses to which notifications will be sent when the alarm rule is triggered.
-          example: abc@cisco.com, xyz@cisco.com
-          exampleSetFlag: true
-        senderMailAddress:
-          type: string
-          description: The email address from which notifications will be sent when the alarm rule is triggered.
-          exampleSetFlag: true
-        severity:
-          type: integer
-          description: The severity level of the alarm rule.
-          format: int32
-          example: 1
-          exampleSetFlag: true
-        status:
-          type: string
-          description: Indicates whether the alarm rule is Enabled, Disabled or Muted.
-          example: Enabled
-          exampleSetFlag: true
-        suggestedAction:
-          type: string
-          description: Suggested actions to be taken when the alarm rule is triggered.
-          example: Review the posture violations and take necessary actions.
-          exampleSetFlag: true
-        suppression:
-          $ref: '#/components/schemas/Suppression'
-          exampleSetFlag: true
-        thresholdInterval:
-          type: string
-          description: The interval at which the threshold condition is evaluated.
-          example: '5'
-          exampleSetFlag: true
-        thresholdLowerBound:
-          type: number
-          description: The threshold lower bound value.
-          format: bigdecimal
-          example: 1
-          exampleSetFlag: true
-        thresholdOn:
-          type: string
-          description: The specific field or metric on which the threshold condition is applied.
-          example: cpu_usage
-          exampleSetFlag: true
-        thresholdOperator:
-          type: string
-          description: The operator used for threshold evaluation, such as "greater than" or "less than."
-          example: Greater Than
-          exampleSetFlag: true
-        thresholdType:
-          type: string
-          description: The type of threshold condition, such as "static" or "dynamic."
-          example: Number
-          exampleSetFlag: true
-        thresholdUpperBound:
-          type: number
-          description: The threshold upper bound value.
-          format: bigdecimal
-          example: 99999
-          exampleSetFlag: true
-        thresholdValue:
-          type: number
-          description: The threshold value that, when exceeded, will trigger the alarm.
-          format: bigdecimal
-          example: 100
-          exampleSetFlag: true
-        webhookFrequency:
-          type: integer
-          description: The frequency at which webhook notifications are sent.
-          format: int32
-          example: 10
-          exampleSetFlag: true
-        webhookFrequencyEnabled:
-          type: boolean
-          description: Indicates whether the webhook frequency is enabled or disabled.
-          example: true
-          exampleSetFlag: true
-        webhookFrequencyUnit:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - Days
-          - Hours
-          - Minutes
-          - Seconds
-        webhookNotification:
-          type: boolean
-          description: Indicates whether webhook notifications are enabled for this alarm rule.
-          example: true
-          exampleSetFlag: true
-        webhookReceiver:
+        recipientEmail:
           type: array
-          description: Webhook ids to be associated with the alarm
+          description: List of recipient emails.
           exampleSetFlag: true
           items:
             type: string
             exampleSetFlag: false
-      description: Represents the request payload for creating or updating an alarm rule. This object contains various properties that define the alarm rule, including its unique identifier, name, description, category, severity, and other relevant settings.
-      exampleSetFlag: false
-    RemoveAlarmRuleResponse:
-      title: RemoveAlarmRuleResponse
-      type: object
-      properties:
-        code:
-          type: integer
-          description: A status code indicating the result of the operation (e.g., 200 for success, 400 for a bad request).
-          format: int32
-          example: 200
-          exampleSetFlag: true
-        message:
+        senderEmail:
           type: string
-          description: A brief message describing the result of the operation, such as confirmation of successful removal or an error message.
-          example: Alarm Removed Successfully
+          description: Email of the sender.
+          example: no-reply@cisco.com
           exampleSetFlag: true
-      description: Represents the response object for removing an alarm or alarms. This object provides details about the result of the operation, including a status code and a message.
+        syslog:
+          type: boolean
+          description: Syslog information for email notifications.
+          example: true
+          exampleSetFlag: true
+      description: Configuration for email notifications.
       exampleSetFlag: false
-    AlarmRuleUpdateResponseWrapper:
-      title: AlarmRuleUpdateResponseWrapper
-      type: object
-      properties:
-        alarmList:
-          type: array
-          description: A list of alarm rule, including details such as ID and status.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AlarmRuleUpdateResponse'
-            exampleSetFlag: false
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for operations that update the status of alarm rule. This wrapper includes a list of webhook configurations with their updated statuses and the API version information.
-      exampleSetFlag: false
-    AlarmRuleResponseWrapper1:
-      title: AlarmRuleResponseWrapper1
-      type: object
-      properties:
-        alarmRule:
-          type: object
-          description: Runtime-populated alarm rule details
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or response format.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for retrieving the details of a single alarm rule. This object contains the alarm rule details along with the version of the API or response format being used.
-      exampleSetFlag: false
-    WebhookNotificationResponse:
-      title: WebhookNotificationResponse
+    WebhookNotification:
+      title: WebhookNotification
       type: object
       properties:
         receiver:
@@ -731,60 +527,52 @@ components:
           - Seconds
       description: Configuration for webhook notifications.
       exampleSetFlag: false
-    EmailNotification:
-      title: EmailNotification
+    AlarmRuleUpdateResponseWrapper:
+      title: AlarmRuleUpdateResponseWrapper
       type: object
       properties:
-        emailFrequency:
-          type: integer
-          description: The frequency at which email notifications are sent.
-          format: int32
-          example: 10
-          exampleSetFlag: true
-        emailFrequencyEnabled:
-          type: boolean
-          description: Indicates whether the email frequency is enabled or disabled.
-          example: true
-          exampleSetFlag: true
-        emailFrequencyUnit:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - Days
-          - Hours
-          - Minutes
-          - Seconds
-        recipientEmail:
-          type: string
-          description: A list of email addresses to which notifications will be sent when the alarm rule is triggered.
-          example: abc@cisco.com, xyz@cisco.com
-          exampleSetFlag: true
-        senderEmail:
-          type: string
-          description: Email of the sender.
-          exampleSetFlag: true
-        syslog:
-          type: boolean
-          description: Syslog information for email notifications.
-          example: true
-          exampleSetFlag: true
-      description: Configuration for email notifications.
-      exampleSetFlag: false
-    AlarmIdsRequest:
-      title: AlarmIdsRequest
-      required:
-      - ids
-      type: object
-      properties:
-        ids:
+        alarmList:
           type: array
-          description: List of alarm IDs to be removed.
-          example: '["alarmId1","alarmId2","alarmId3"]'
+          description: A list of alarm rule, including details such as ID and status.
           exampleSetFlag: true
           items:
-            type: string
+            $ref: '#/components/schemas/AlarmRuleUpdateResponse'
             exampleSetFlag: false
-      description: Represents the request payload for operations that involve specifying a list of alarm IDs. This is typically used for removing multiple alarms in a single operation.
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for operations that update the status of alarm rule. This wrapper includes a list of webhook configurations with their updated statuses and the API version information.
+      exampleSetFlag: false
+    AlarmRuleUpdateRequest:
+      title: AlarmRuleUpdateRequest
+      required:
+      - id
+      type: object
+      properties:
+        dashboardNotification:
+          $ref: '#/components/schemas/DashboardNotification'
+          exampleSetFlag: true
+        emailNotification:
+          $ref: '#/components/schemas/EmailNotification'
+          exampleSetFlag: true
+        id:
+          type: string
+          description: The ID of the alarm rule.
+          exampleSetFlag: true
+        status:
+          type: string
+          description: The status to update for the alarm rule.
+          example: Enabled
+          exampleSetFlag: true
+        suppression:
+          $ref: '#/components/schemas/Suppression'
+          exampleSetFlag: true
+        webhookNotification:
+          $ref: '#/components/schemas/WebhookNotification'
+          exampleSetFlag: true
+      description: Represents the request payload for updating the status of an alarm rule, including notification settings.
       exampleSetFlag: false
     AlarmRuleRequest:
       title: AlarmRuleRequest
@@ -964,8 +752,221 @@ components:
             exampleSetFlag: false
       description: Represents the request payload for creating or updating an alarm rule. This object contains various properties that define the alarm rule, including its unique identifier, name, description, category, severity, and other relevant settings.
       exampleSetFlag: false
-    WebhookNotification:
-      title: WebhookNotification
+    DashboardNotificationResponse:
+      title: DashboardNotificationResponse
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: Status of the dashboard notification.
+          example: true
+          exampleSetFlag: true
+      description: Configuration for dashboard notifications.
+      exampleSetFlag: false
+    SuppressionResponse:
+      title: SuppressionResponse
+      type: object
+      properties:
+        suppressFor:
+          type: object
+          description: Suppression time left.
+          exampleSetFlag: true
+      description: Configuration for suppression settings.
+      exampleSetFlag: false
+    AlarmModificationRequest:
+      title: AlarmModificationRequest
+      required:
+      - description
+      - name
+      - severity
+      - suggestedAction
+      type: object
+      properties:
+        dashboardNotification:
+          type: boolean
+          description: Indicates whether dashboard notifications are enabled for this alarm rule.
+          example: true
+          exampleSetFlag: true
+        description:
+          type: string
+          description: A brief description of the alarm rule.
+          example: This alarm rule monitors critical posture violations in the system.
+          exampleSetFlag: true
+        emailFrequency:
+          type: integer
+          description: The frequency at which email notifications are sent.
+          format: int32
+          example: 10
+          exampleSetFlag: true
+        emailFrequencyEnabled:
+          type: boolean
+          description: Indicates whether the email frequency is enabled or disabled.
+          example: true
+          exampleSetFlag: true
+        emailFrequencyUnit:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - Days
+          - Hours
+          - Minutes
+          - Seconds
+        emailNotification:
+          type: boolean
+          description: Indicates whether email notifications are enabled for this alarm rule.
+          example: true
+          exampleSetFlag: true
+        emailText:
+          type: string
+          description: Custom text to be included in email notifications when the alarm rule is triggered.
+          example: Notification email text for alarm.
+          exampleSetFlag: true
+        enabledSyslog:
+          type: boolean
+          description: Indicates whether syslog notifications are enabled for this alarm rule.
+          example: true
+          exampleSetFlag: true
+        filters:
+          type: object
+          additionalProperties:
+            type: array
+            exampleSetFlag: false
+            items:
+              type: string
+              exampleSetFlag: false
+          description: List of Filter conditions
+          exampleSetFlag: true
+        id:
+          type: string
+          description: The id of the alarm rule.
+          example: d530fe3b-53e5-49c0-8d2d-bb229a8d1e3c
+          exampleSetFlag: true
+        isUserDefined:
+          type: boolean
+          description: Indicates whether the alarm rule is user-defined or system-defined.
+          example: true
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the alarm rule.
+          example: Critical Posture Alarm
+          exampleSetFlag: true
+        receiverEmailAddress:
+          type: string
+          description: A list of email addresses to which notifications will be sent when the alarm rule is triggered.
+          example: abc@cisco.com, xyz@cisco.com
+          exampleSetFlag: true
+        senderMailAddress:
+          type: string
+          description: The email address from which notifications will be sent when the alarm rule is triggered.
+          exampleSetFlag: true
+        severity:
+          type: integer
+          description: The severity level of the alarm rule.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        status:
+          type: string
+          description: Indicates whether the alarm rule is Enabled, Disabled or Muted.
+          example: Enabled
+          exampleSetFlag: true
+        suggestedAction:
+          type: string
+          description: Suggested actions to be taken when the alarm rule is triggered.
+          example: Review the posture violations and take necessary actions.
+          exampleSetFlag: true
+        suppression:
+          $ref: '#/components/schemas/Suppression'
+          exampleSetFlag: true
+        thresholdInterval:
+          type: string
+          description: The interval at which the threshold condition is evaluated.
+          example: '5'
+          exampleSetFlag: true
+        thresholdLowerBound:
+          type: number
+          description: The threshold lower bound value.
+          format: bigdecimal
+          example: 1
+          exampleSetFlag: true
+        thresholdOn:
+          type: string
+          description: The specific field or metric on which the threshold condition is applied.
+          example: cpu_usage
+          exampleSetFlag: true
+        thresholdOperator:
+          type: string
+          description: The operator used for threshold evaluation, such as "greater than" or "less than."
+          example: Greater Than
+          exampleSetFlag: true
+        thresholdType:
+          type: string
+          description: The type of threshold condition, such as "static" or "dynamic."
+          example: Number
+          exampleSetFlag: true
+        thresholdUpperBound:
+          type: number
+          description: The threshold upper bound value.
+          format: bigdecimal
+          example: 99999
+          exampleSetFlag: true
+        thresholdValue:
+          type: number
+          description: The threshold value that, when exceeded, will trigger the alarm.
+          format: bigdecimal
+          example: 100
+          exampleSetFlag: true
+        webhookFrequency:
+          type: integer
+          description: The frequency at which webhook notifications are sent.
+          format: int32
+          example: 10
+          exampleSetFlag: true
+        webhookFrequencyEnabled:
+          type: boolean
+          description: Indicates whether the webhook frequency is enabled or disabled.
+          example: true
+          exampleSetFlag: true
+        webhookFrequencyUnit:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - Days
+          - Hours
+          - Minutes
+          - Seconds
+        webhookNotification:
+          type: boolean
+          description: Indicates whether webhook notifications are enabled for this alarm rule.
+          example: true
+          exampleSetFlag: true
+        webhookReceiver:
+          type: array
+          description: Webhook ids to be associated with the alarm
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Represents the request payload for creating or updating an alarm rule. This object contains various properties that define the alarm rule, including its unique identifier, name, description, category, severity, and other relevant settings.
+      exampleSetFlag: false
+    AlarmRuleResponseWrapper1:
+      title: AlarmRuleResponseWrapper1
+      type: object
+      properties:
+        alarmRule:
+          type: object
+          description: Runtime-populated alarm rule details
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving the details of a single alarm rule. This object contains the alarm rule details along with the version of the API or response format being used.
+      exampleSetFlag: false
+    WebhookNotificationResponse:
+      title: WebhookNotificationResponse
       type: object
       properties:
         receiver:
@@ -996,18 +997,22 @@ components:
           - Seconds
       description: Configuration for webhook notifications.
       exampleSetFlag: false
-    SuppressionResponse:
-      title: SuppressionResponse
+    RemoveAlarmRuleResponseWrapper:
+      title: RemoveAlarmRuleResponseWrapper
       type: object
       properties:
-        suppressFor:
-          type: object
-          description: Suppression time left.
+        response:
+          $ref: '#/components/schemas/RemoveAlarmRuleResponse'
           exampleSetFlag: true
-      description: Configuration for suppression settings.
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for removing an alarm rule. This object contains the result of the removal operation and the version of the API or response format being used.
       exampleSetFlag: false
-    EmailNotificationResponse:
-      title: EmailNotificationResponse
+    EmailNotification:
+      title: EmailNotification
       type: object
       properties:
         emailFrequency:
@@ -1030,16 +1035,13 @@ components:
           - Minutes
           - Seconds
         recipientEmail:
-          type: array
-          description: List of recipient emails.
+          type: string
+          description: A list of email addresses to which notifications will be sent when the alarm rule is triggered.
+          example: abc@cisco.com, xyz@cisco.com
           exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
         senderEmail:
           type: string
           description: Email of the sender.
-          example: no-reply@cisco.com
           exampleSetFlag: true
         syslog:
           type: boolean
@@ -1047,6 +1049,75 @@ components:
           example: true
           exampleSetFlag: true
       description: Configuration for email notifications.
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
+      exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        data:
+          type: array
+          description: Optional data payload, like a list of items.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A string containing a brief message about the result of the operation, such as "Success" for successful operations or an error message for failures.
+          example: Success
+          exampleSetFlag: true
+      description: Represents a simple message object used in API responses. This object typically contains a single message string that provides information about the success, error, or status of an operation.
+      exampleSetFlag: false
+    AlarmRuleTemplateWrapper:
+      title: AlarmRuleTemplateWrapper
+      type: object
+      properties:
+        template:
+          type: array
+          description: Runtime-populated list of alarm definitions
+          exampleSetFlag: true
+          items:
+            type: object
+            additionalProperties:
+              type: object
+              exampleSetFlag: false
+            exampleSetFlag: false
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving template for an alarm type ID.
+      exampleSetFlag: false
+    AlarmIdsRequest:
+      title: AlarmIdsRequest
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          type: array
+          description: List of alarm IDs to be removed.
+          example: '["alarmId1","alarmId2","alarmId3"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Represents the request payload for operations that involve specifying a list of alarm IDs. This is typically used for removing multiple alarms in a single operation.
       exampleSetFlag: false
     AlarmRuleListResponseWrapper:
       title: AlarmRuleListResponseWrapper
@@ -1068,75 +1139,4 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       description: Represents the response wrapper for retrieving a list of alarm rules. This object contains an array of alarm rule details and the version of the API or response format being used.
-      exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
-      exampleSetFlag: false
-    AlarmRuleUpdateRequest:
-      title: AlarmRuleUpdateRequest
-      required:
-      - id
-      type: object
-      properties:
-        dashboardNotification:
-          $ref: '#/components/schemas/DashboardNotification'
-          exampleSetFlag: true
-        emailNotification:
-          $ref: '#/components/schemas/EmailNotification'
-          exampleSetFlag: true
-        id:
-          type: string
-          description: The ID of the alarm rule.
-          exampleSetFlag: true
-        status:
-          type: string
-          description: The status to update for the alarm rule.
-          example: Enabled
-          exampleSetFlag: true
-        suppression:
-          $ref: '#/components/schemas/Suppression'
-          exampleSetFlag: true
-        webhookNotification:
-          $ref: '#/components/schemas/WebhookNotification'
-          exampleSetFlag: true
-      description: Represents the request payload for updating the status of an alarm rule, including notification settings.
-      exampleSetFlag: false
-    AlarmRuleUpdateResponse:
-      title: AlarmRuleUpdateResponse
-      type: object
-      properties:
-        dashboardNotification:
-          $ref: '#/components/schemas/DashboardNotificationResponse'
-          exampleSetFlag: true
-        emailNotification:
-          $ref: '#/components/schemas/EmailNotificationResponse'
-          exampleSetFlag: true
-        id:
-          type: string
-          description: The unique identifier of the alarm rule.
-          example: 3f2504e0-4f89-11d3-9a0c-0305e82c3301
-          exampleSetFlag: true
-        status:
-          type: string
-          description: The updated status of the alarm rule, indicating whether it is enabled or disabled.
-          example: Enabled
-          exampleSetFlag: true
-        suppression:
-          $ref: '#/components/schemas/SuppressionResponse'
-          exampleSetFlag: true
-        webhookNotification:
-          $ref: '#/components/schemas/WebhookNotificationResponse'
-          exampleSetFlag: true
-      description: Represents the response object for a alarm rule status update operation. This object includes the unique identifier of the alarm and its updated status.
       exampleSetFlag: false

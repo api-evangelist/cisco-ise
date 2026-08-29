@@ -2,9 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Adresourcereservation API
   version: '1.0'
-  description: 'Operations tagged adresourcereservation across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-active-directory-resource-reservation.yaml. Each path carries the servers of the definition it was
-    published in.'
+  description: 'Operations tagged adresourcereservation across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-active-directory-resource-reservation.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -13,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-active-directory-resource-reservation.yaml, the provider's source document.
-      Operations and schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-active-directory-resource-reservation.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-active-directory-resource-reservation.yaml
     operation_coverage: 5/9
   x-evidence:
@@ -38,6 +34,16 @@ tags:
 - name: adresourcereservation
 paths:
   /adresourcereservation/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - adresourcereservation
@@ -106,6 +112,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /adresourcereservation/name/{name}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -116,7 +123,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /adresourcereservation/name/{name}:
     get:
       tags:
       - adresourcereservation
@@ -190,6 +196,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /adresourcereservation/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -200,7 +207,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /adresourcereservation/{id}:
     get:
       tags:
       - adresourcereservation
@@ -359,23 +365,12 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/adresourcereservation/{id}:
     get:
       tags:
       - adresourcereservation
       summary: Fetch AD resource reservation details by ID.
-      description: <p>This API fetches the AD resource reservation details by ID. The ID can be retrieved with the Get All
-        operation.p>
+      description: <p>This API fetches the AD resource reservation details by ID. The ID can be retrieved with the Get All operation.p>
       parameters:
       - name: id
         in: path
@@ -409,8 +404,7 @@ paths:
       tags:
       - adresourcereservation
       summary: Update AD resource reservation by ID.
-      description: <p>This API fetches the AD resource reservation details by ID. The ID can be retrieved with the Get All
-        operation.</p>
+      description: <p>This API fetches the AD resource reservation details by ID. The ID can be retrieved with the Get All operation.</p>
       parameters:
       - name: id
         in: path
@@ -467,8 +461,7 @@ paths:
       tags:
       - adresourcereservation
       summary: Get Active Directory resource reservation by name
-      description: <p>This API allows the client to get Active Directory resource reservation by node name. This API also
-        allows the client to fetch join point details by Name. The node Name can be retrieved with the Get All operation.</p>
+      description: <p>This API allows the client to get Active Directory resource reservation by node name. This API also allows the client to fetch join point details by Name. The node Name can be retrieved with the Get All operation.</p>
       parameters:
       - name: name
         in: path
@@ -501,8 +494,7 @@ paths:
       tags:
       - adresourcereservation
       summary: Get Active Directory Resource Reservation information
-      description: <p>This API helps to retrieve the revision version information related to the active directory Resource
-        Reservation  API.</p>
+      description: <p>This API helps to retrieve the revision version information related to the active directory Resource Reservation  API.</p>
       responses:
         200:
           description: OK
@@ -512,86 +504,27 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
-    Link:
+    link1:
       type: object
       properties:
         rel:
           type: string
           example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
         href:
           type: string
-          example: https://{server}:{port}/ers/config
+          example: https://<ise-ip>:9060/ers/config/adresourcereservation/versioninfo
         type:
           type: string
           example: application/json
-      example: null
-    adresourcereservationResponseEntity:
+    ERSADResourceReservation_2:
+      type: object
       properties:
         node:
-          title: node
           type: string
-          description: PSN name
-          example: null
+          example: node 1.com
         joinPointNames:
-          title: joinPointNames
           type: string
-          description: Selected Join Points in PSN
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    adresourcereservationListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
+          example: jp1,jp2,jp3
     ERSADResourceReservation:
       required:
       - name
@@ -626,35 +559,25 @@ components:
         ERSADResourceReservation:
           node: node1.com
           joinPointNames: jp1,jp2,jp3
-    identitystores.adresourcereservation:
-      required:
-      - ERSADResourceReservation
-      type: object
+    adresourcereservationListResponseEntity:
       properties:
-        ERSADResourceReservation:
-          $ref: '#/components/schemas/ERSADResourceReservation'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
+        id:
+          title: id
           type: string
-          example: Operation
-        messages:
-          type: array
+          description: Id description
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     UpdatedFieldsResponse:
       type: object
@@ -669,15 +592,24 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
-    adresourcereservationResponse:
+    Link:
       type: object
       properties:
-        ERSADResourceReservation:
-          $ref: '#/components/schemas/adresourcereservationResponseEntity'
-      example:
-        ERSADResourceReservation:
-          node: node1.com
-          joinPointNames: jp1,jp2,jp3
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     adresourcereservationListResponse:
       type: object
       properties:
@@ -719,20 +651,36 @@ components:
               type: application/xml
             description: description2
             id: id2
-    ERSADResourceReservation_2:
-      type: object
+    adresourcereservationResponseEntity:
       properties:
         node:
+          title: node
           type: string
-          example: node 1.com
+          description: PSN name
+          example: null
         joinPointNames:
+          title: joinPointNames
           type: string
-          example: jp1,jp2,jp3
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+          description: Selected Join Points in PSN
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     version:
       type: object
       properties:
@@ -744,28 +692,63 @@ components:
           example: 1.0,1.1,1.2
         link:
           $ref: '#/components/schemas/link1'
-    link1:
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    identitystores.adresourcereservation:
+      required:
+      - ERSADResourceReservation
       type: object
       properties:
-        rel:
+        ERSADResourceReservation:
+          $ref: '#/components/schemas/ERSADResourceReservation'
+      example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    ERSResponse:
+      type: object
+      properties:
+        operation:
           type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/adresourcereservation/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    adresourcereservationResponse:
+      type: object
+      properties:
+        ERSADResourceReservation:
+          $ref: '#/components/schemas/adresourcereservationResponseEntity'
+      example:
+        ERSADResourceReservation:
+          node: node1.com
+          joinPointNames: jp1,jp2,jp3
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -775,6 +758,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

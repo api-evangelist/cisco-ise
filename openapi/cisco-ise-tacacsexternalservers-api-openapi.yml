@@ -551,6 +551,19 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     Link:
       type: object
       properties:
@@ -568,78 +581,6 @@ components:
         type:
           type: string
           example: application/json
-      example: null
-    tacacsexternalserversResponseEntity:
-      properties:
-        hostIP:
-          title: hostIP
-          type: string
-          description: The server IPV4 address
-          example: null
-        connectionPort:
-          title: connectionPort
-          type: number
-          description: The port to connect the server
-          example: null
-        singleConnect:
-          title: singleConnect
-          type: boolean
-          description: define the use of single connection
-          example: null
-        sharedSecret:
-          title: sharedSecret
-          type: string
-          description: The server shared secret
-          example: null
-        timeout:
-          title: timeout
-          type: number
-          description: The server timeout
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    tacacsexternalserversResponse:
-      type: object
-      properties:
-        TacacsExternalServer:
-          $ref: '#/components/schemas/tacacsexternalserversResponseEntity'
-      example:
-        TacacsExternalServer:
-          hostIP: 1.1.1.1
-          name: TacacsExternalServer1
-          description: TacacsExternalServerForSDK
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          connectionPort: 49
-          sharedSecret: SharedSecret
-          singleConnect: true
-          timeout: 20
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
       example: null
     TacacsExternalServer:
       required:
@@ -697,40 +638,40 @@ components:
           sharedSecret: SharedSecret
           singleConnect: true
           timeout: 20
-    ERSResponse:
+    tacacsexternalserversResponse:
       type: object
       properties:
-        operation:
+        TacacsExternalServer:
+          $ref: '#/components/schemas/tacacsexternalserversResponseEntity'
+      example:
+        TacacsExternalServer:
+          hostIP: 1.1.1.1
+          name: TacacsExternalServer1
+          description: TacacsExternalServerForSDK
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          connectionPort: 49
+          sharedSecret: SharedSecret
+          singleConnect: true
+          timeout: 20
+    tacacsexternalserversListResponseEntity:
+      properties:
+        id:
+          title: id
           type: string
-          example: Operation
-        messages:
-          type: array
+          description: Id description
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        name:
+          title: name
+          type: string
+          description: name description
           example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     tacacsexternalserversListResponse:
       type: object
@@ -773,26 +714,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    tacacsexternalserversListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     policy.tacacsexternalservers:
       required:
       - TacacsExternalServer
@@ -801,16 +722,86 @@ components:
         TacacsExternalServer:
           $ref: '#/components/schemas/TacacsExternalServer'
       example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    tacacsexternalserversResponseEntity:
+      properties:
+        hostIP:
+          title: hostIP
+          type: string
+          description: The server IPV4 address
+          example: null
+        connectionPort:
+          title: connectionPort
+          type: number
+          description: The port to connect the server
+          example: null
+        singleConnect:
+          title: singleConnect
+          type: boolean
+          description: define the use of single connection
+          example: null
+        sharedSecret:
+          title: sharedSecret
+          type: string
+          description: The server shared secret
+          example: null
+        timeout:
+          title: timeout
+          type: number
+          description: The server timeout
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -820,6 +811,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

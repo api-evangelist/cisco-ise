@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Ancendpoint API
   version: '1.0'
-  description: 'Operations tagged ancendpoint across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-anc-endpoint.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged ancendpoint across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-anc-endpoint.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-anc-endpoint.yaml, the provider's source document. Operations and schemas
-      are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-anc-endpoint.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-anc-endpoint.yaml
     operation_coverage: 7/11
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: ancendpoint
 paths:
   /ancendpoint/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - ancendpoint
@@ -131,6 +138,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /ancendpoint/apply:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -141,7 +149,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /ancendpoint/apply:
     put:
       tags:
       - ancendpoint
@@ -213,6 +220,7 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+  /ancendpoint/clear:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -223,7 +231,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /ancendpoint/clear:
     put:
       tags:
       - ancendpoint
@@ -302,6 +309,7 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+  /ancendpoint/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -312,7 +320,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /ancendpoint/{id}:
     get:
       tags:
       - ancendpoint
@@ -386,16 +393,6 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/ancendpoint/{id}:
     get:
       tags:
@@ -470,8 +467,7 @@ paths:
       tags:
       - ancendpoint
       summary: Get all ANC endpoints
-      description: <p>This API allows the client to get all the ANC endpoints.</p> <p><h1>Filter:</h1><h3>[MAC address]</h3></p>
-        <p>You can use MAC address as a filter for the endpoints. For example:</p> <p font-family:monospace>https://<ISE node>/ers/config/ancendpoint/?filter=name.CONTAINS.00:00:01:00:00:0B</p>
+      description: <p>This API allows the client to get all the ANC endpoints.</p> <p><h1>Filter:</h1><h3>[MAC address]</h3></p> <p>You can use MAC address as a filter for the endpoints. For example:</p> <p font-family:monospace>https://<ISE node>/ers/config/ancendpoint/?filter=name.CONTAINS.00:00:01:00:00:0B</p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -587,6 +583,58 @@ paths:
                 $ref: '#/components/schemas/monitorbulkrequest'
 components:
   schemas:
+    monitorbulkrequest:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/monitorbulkrequest1'
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    ErsAncEndpoint:
+      required:
+      - macAddress
+      - policyName
+      properties:
+        macAddress:
+          title: macAddress
+          type: string
+          description: MAC address of the endpoint
+          example: null
+        policyName:
+          title: policyName
+          type: string
+          description: Policy name for applying to the endpoint
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        ErsAncEndpoint:
+          macAddress: 00:11:22:33:44:55
+          policyName: policy1
     Link:
       type: object
       properties:
@@ -605,6 +653,27 @@ components:
           type: string
           example: application/json
       example: null
+    getall:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/getall1'
+    bulkrequest:
+      type: object
+      properties:
+        ErsAncEndpointBulkRequest:
+          $ref: '#/components/schemas/bulkrequest1'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     updatedField:
       properties:
         field:
@@ -616,6 +685,135 @@ components:
         newValue:
           type: string
           example: null
+      example: null
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/ancendpoint/versioninfo
+        type:
+          type: string
+          example: application/xml
+    bulkrequest1:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: xml
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    ancendpointid:
+      type: object
+      properties:
+        ErsAncEndpoint:
+          $ref: '#/components/schemas/ancendpointid1'
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    ancendpointid1:
+      type: object
+      properties:
+        id:
+          type: string
+          example: e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+        macAddress:
+          type: string
+          example: 00:11:22:33:44:55
+        policyName:
+          type: string
+          example: portbounce
+        link:
+          $ref: '#/components/schemas/link2'
+    getall1:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 3
+        resources:
+          type: array
+          example:
+          - id: e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ancendpoint/e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+              type: application/json
+          - id: da9b6184-5fc2-4820-bd73-915e9705f858
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ancendpoint/da9b6184-5fc2-4820-bd73-915e9705f858
+              type: application/json
+          - id: a89d0e7d-76d9-4b6d-8a38-bac70ac31ad0
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ancendpoint/a89d0e7d-76d9-4b6d-8a38-bac70ac31ad0
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    ancendpointResponse:
+      type: object
+      properties:
+        ErsAncEndpoint:
+          $ref: '#/components/schemas/ancendpointResponseEntity'
+      example:
+        ErsAncEndpoint:
+          macAddress: 00:11:22:33:44:55
+          policyName: policy1
+    ancendpointapply:
+      type: object
+      properties:
+        OperationAdditionalData:
+          $ref: '#/components/schemas/ancendpointapply1'
+    ancendpointListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     ancendpointListResponse:
       type: object
@@ -658,35 +856,30 @@ components:
               type: application/xml
             description: description2
             id: id2
-    ancendpointResponse:
+    link2:
       type: object
       properties:
-        ErsAncEndpoint:
-          $ref: '#/components/schemas/ancendpointResponseEntity'
-      example:
-        ErsAncEndpoint:
-          macAddress: 00:11:22:33:44:55
-          policyName: policy1
-    ancendpointListResponseEntity:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/ancendpoint/e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+        type:
+          type: string
+          example: application/xml
+    ancendpointapply1:
+      type: object
       properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
+        additionalData:
+          type: array
+          example:
+          - name: example additional attribute name
+            value: its value
+          items:
+            properties:
+              name:
+                type: string
     anc.ancendpoint:
       required:
       - ErsAncEndpoint
@@ -695,134 +888,6 @@ components:
         ErsAncEndpoint:
           $ref: '#/components/schemas/ErsAncEndpoint'
       example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    ErsAncEndpoint:
-      required:
-      - macAddress
-      - policyName
-      properties:
-        macAddress:
-          title: macAddress
-          type: string
-          description: MAC address of the endpoint
-          example: null
-        policyName:
-          title: policyName
-          type: string
-          description: Policy name for applying to the endpoint
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-      example:
-        ErsAncEndpoint:
-          macAddress: 00:11:22:33:44:55
-          policyName: policy1
-    ancendpointResponseEntity:
-      properties:
-        macAddress:
-          title: macAddress
-          type: string
-          description: MAC address of the endpoint
-          example: null
-        policyName:
-          title: policyName
-          type: string
-          description: Policy name for applying to the endpoint
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    bulkrequest:
-      type: object
-      properties:
-        ErsAncEndpointBulkRequest:
-          $ref: '#/components/schemas/bulkrequest1'
-    ancendpointid:
-      type: object
-      properties:
-        ErsAncEndpoint:
-          $ref: '#/components/schemas/ancendpointid1'
-    bulkrequest1:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: xml
-    monitorbulkrequest:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/monitorbulkrequest1'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
     monitorbulkrequest1:
       type: object
       properties:
@@ -874,115 +939,37 @@ components:
             properties:
               name:
                 type: string
-    ancendpointapply:
-      type: object
+    ancendpointResponseEntity:
       properties:
-        OperationAdditionalData:
-          $ref: '#/components/schemas/ancendpointapply1'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    ancendpointid1:
-      type: object
-      properties:
-        id:
-          type: string
-          example: e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
         macAddress:
+          title: macAddress
           type: string
-          example: 00:11:22:33:44:55
+          description: MAC address of the endpoint
+          example: null
         policyName:
+          title: policyName
           type: string
-          example: portbounce
+          description: Policy name for applying to the endpoint
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
         link:
-          $ref: '#/components/schemas/link2'
-    getall1:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 3
-        resources:
-          type: array
-          example:
-          - id: e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ancendpoint/e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
-              type: application/json
-          - id: da9b6184-5fc2-4820-bd73-915e9705f858
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ancendpoint/da9b6184-5fc2-4820-bd73-915e9705f858
-              type: application/json
-          - id: a89d0e7d-76d9-4b6d-8a38-bac70ac31ad0
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ancendpoint/a89d0e7d-76d9-4b6d-8a38-bac70ac31ad0
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    getall:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/getall1'
-    ancendpointapply1:
-      type: object
-      properties:
-        additionalData:
-          type: array
-          example:
-          - name: example additional attribute name
-            value: its value
-          items:
-            properties:
-              name:
-                type: string
-    link2:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/ancendpoint/e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
-        type:
-          type: string
-          example: application/xml
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/ancendpoint/versioninfo
-        type:
-          type: string
-          example: application/xml
+          $ref: '#/components/schemas/Link'
+      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -992,6 +979,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

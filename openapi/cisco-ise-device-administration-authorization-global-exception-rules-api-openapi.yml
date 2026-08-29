@@ -343,6 +343,159 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    DeviceAdminAuthorizationRuleListResponseEntity:
+      title: DeviceAdminAuthorizationRuleListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"profile":"Default Shell Profile","rule":{"condition":{"conditionType":"ConditionAttributes","dictionaryName":"Network Access","attributeName":"EapAuthentication","operator":"equals","attributeValue":"EAP-TLS","isNegate":false},"default":false,"hitCounts":2,"id":"d82952cb-b901-4b09-b363-5ebf39bdbaf9","name":"MyRuleName_1","rank":1,"state":"enabled"},"commands":["DenyAllCommands"],"link":{"href":"https://{{ISE_IP}}/api/v1/policy/device-admin/policy-set/{{policy-id]}}/authorization/d82952cb-b901-4b09-b363-5ebf39bdbaf9","rel":"self","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/RuleAuthorizationDeviceAdmin'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+          exampleSetFlag: true
+      description: Response object containing success message
+      exampleSetFlag: false
+    RuleAuthorizationDeviceAdmin:
+      title: RuleAuthorizationDeviceAdmin
+      required:
+      - rule
+      type: object
+      properties:
+        commands:
+          type: array
+          description: Command sets enforce the specified list of commands that can be executed by a device administrator
+          example: '["DenyAllCommands"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        profile:
+          type: string
+          description: Device admin profiles control the initial login session of the device administrator
+          example: Default Shell Profile
+          exampleSetFlag: true
+        rule:
+          $ref: '#/components/schemas/RuleCommon'
+          exampleSetFlag: true
+      description: Authorization rule for device admin
+      exampleSetFlag: false
+    DeviceAdminAuthorizationRuleResponseEntity:
+      title: DeviceAdminAuthorizationRuleResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/RuleAuthorizationDeviceAdmin'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     RuleCommon:
       title: RuleCommon
       required:
@@ -392,159 +545,6 @@ components:
           - enabled
           - monitor
       description: Common attributes in rule authentication/authorization
-      exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    MessageResponseEntity:
-      title: MessageResponseEntity
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-          exampleSetFlag: true
-      description: Response object containing success message
-      exampleSetFlag: false
-    IdResponseEntity:
-      title: IdResponseEntity
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
-          exampleSetFlag: true
-      description: response object containing object ID
-      exampleSetFlag: false
-    Error:
-      title: Error
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Condition:
-      title: Condition
-      required:
-      - conditionType
-      type: object
-      properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
-          exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
-          exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
-      exampleSetFlag: false
-    DeviceAdminAuthorizationRuleListResponseEntity:
-      title: DeviceAdminAuthorizationRuleListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          example: '[{"profile":"Default Shell Profile","rule":{"condition":{"conditionType":"ConditionAttributes","dictionaryName":"Network Access","attributeName":"EapAuthentication","operator":"equals","attributeValue":"EAP-TLS","isNegate":false},"default":false,"hitCounts":2,"id":"d82952cb-b901-4b09-b363-5ebf39bdbaf9","name":"MyRuleName_1","rank":1,"state":"enabled"},"commands":["DenyAllCommands"],"link":{"href":"https://{{ISE_IP}}/api/v1/policy/device-admin/policy-set/{{policy-id]}}/authorization/d82952cb-b901-4b09-b363-5ebf39bdbaf9","rel":"self","type":"application/json"}}]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/RuleAuthorizationDeviceAdmin'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    DeviceAdminAuthorizationRuleResponseEntity:
-      title: DeviceAdminAuthorizationRuleResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/RuleAuthorizationDeviceAdmin'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    RuleAuthorizationDeviceAdmin:
-      title: RuleAuthorizationDeviceAdmin
-      required:
-      - rule
-      type: object
-      properties:
-        commands:
-          type: array
-          description: Command sets enforce the specified list of commands that can be executed by a device administrator
-          example: '["DenyAllCommands"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-        profile:
-          type: string
-          description: Device admin profiles control the initial login session of the device administrator
-          example: Default Shell Profile
-          exampleSetFlag: true
-        rule:
-          $ref: '#/components/schemas/RuleCommon'
-          exampleSetFlag: true
-      description: Authorization rule for device admin
       exampleSetFlag: false
   securitySchemes:
     BasicAuth:

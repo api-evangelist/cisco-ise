@@ -333,19 +333,37 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    NodeGroupNodesResponse:
+    Hostname:
+      type: object
+      properties:
+        hostname:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+    Description:
+      maxLength: 256
+      minLength: 1
+      pattern: '[a-zA-Z][a-zA-Z0-9\\-_ ]*'
+      type: string
+    NodeGroupsResponse:
       type: object
       properties:
         response:
           type: array
           items:
-            $ref: '#/components/schemas/Hostname'
-          example:
-          - hostname: isenode1
-          - hostname: isenode2
+            $ref: '#/components/schemas/NodeGroupConfig'
+          example: TBD
         version:
           type: string
           example: 1.0.0
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
     NodeGroupConfig:
       type: object
       properties:
@@ -397,14 +415,11 @@ components:
           example: TBD
       required:
       - name
-    NodeGroupsResponse:
+    ErrorResponse:
       type: object
       properties:
-        response:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeGroupConfig'
-          example: TBD
+        error:
+          $ref: '#/components/schemas/Message'
         version:
           type: string
           example: 1.0.0
@@ -418,23 +433,6 @@ components:
         version:
           type: string
           example: 1.0.0
-    Hostname:
-      type: object
-      properties:
-        hostname:
-          pattern: '[a-zA-Z][\w\-]*'
-          maxLength: 64
-          minLength: 1
-          type: string
-          example: isenode
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
     SuccessResponse:
       type: object
       properties:
@@ -443,14 +441,16 @@ components:
         version:
           type: string
           example: 1.0.0
-    Description:
-      maxLength: 256
-      minLength: 1
-      pattern: '[a-zA-Z][a-zA-Z0-9\\-_ ]*'
-      type: string
-    Message:
+    NodeGroupNodesResponse:
       type: object
       properties:
-        message:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hostname'
+          example:
+          - hostname: isenode1
+          - hostname: isenode2
+        version:
           type: string
-          example: Success
+          example: 1.0.0

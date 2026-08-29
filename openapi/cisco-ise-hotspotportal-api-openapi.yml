@@ -672,24 +672,6 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
 components:
   schemas:
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
     HotspotPortal:
       required:
       - name
@@ -1037,25 +1019,36 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
-    portal.hotspotportal:
-      required:
-      - HotspotPortal
+    UpdatedFieldsResponse:
       type: object
       properties:
-        HotspotPortal:
-          $ref: '#/components/schemas/HotspotPortal'
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
       example: null
-    updatedField:
+    Link:
+      type: object
       properties:
-        field:
+        rel:
           type: string
-          example: null
-        oldValue:
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
           type: string
-          example: null
-        newValue:
+          example: https://{server}:{port}/ers/config
+        type:
           type: string
-          example: null
+          example: application/json
       example: null
     hotspotportalListResponseEntity:
       properties:
@@ -1076,69 +1069,6 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
-      example: null
-    hotspotportalListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/hotspotportalListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     hotspotportalResponse:
       type: object
@@ -1485,29 +1415,90 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    UpdatedFieldsResponse:
+    hotspotportalListResponse:
       type: object
       properties:
-        UpdatedFieldsList:
+        SearchResult:
           type: object
           properties:
-            updatedField:
+            total:
+              type: integer
+              example: '2'
+            resources:
               type: array
               example: null
               items:
-                $ref: '#/components/schemas/updatedField'
+                $ref: '#/components/schemas/hotspotportalListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    portal.hotspotportal:
+      required:
+      - HotspotPortal
+      type: object
+      properties:
+        HotspotPortal:
+          $ref: '#/components/schemas/HotspotPortal'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
           example: null
       example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1517,6 +1508,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

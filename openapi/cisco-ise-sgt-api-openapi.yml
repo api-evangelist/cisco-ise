@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Sgt API
   version: '1.0'
-  description: 'Operations tagged sgt across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-open-api-trustsec.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged sgt across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-open-api-trustsec.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas
-      are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-ers-open-api-ers-apis.yaml
     operation_coverage: 5/6
   x-evidence:
@@ -39,6 +36,16 @@ tags:
 - name: sgt
 paths:
   /sgt/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - sgt
@@ -208,6 +215,7 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
+  /sgt/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -218,7 +226,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /sgt/{id}:
     get:
       tags:
       - sgt
@@ -443,17 +450,10 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /api/v1/trustsec/rule/sgt:
+    servers:
+    - url: https://172.23.118.207:443
+      description: Inferred Url
     get:
       tags:
       - sgt
@@ -463,8 +463,7 @@ paths:
       parameters:
       - name: X-Request-ID
         in: header
-        description: The request ID header consists of the request ID which is returned in the response headers and also appears
-          in the API service logs.
+        description: The request ID header consists of the request ID which is returned in the response headers and also appears in the API service logs.
         required: false
         schema:
           type: string
@@ -495,145 +494,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
                 exampleSetFlag: false
-    servers:
-    - url: https://172.23.118.207:443
-      description: Inferred Url
 components:
   schemas:
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    sgtListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    trustsec.sgt:
+    SgtFilterListResponseEntity:
+      title: SgtFilterListResponseEntity
       required:
-      - Sgt
+      - response
+      - version
       type: object
       properties:
-        Sgt:
-          $ref: '#/components/schemas/Sgt'
-      example: null
-    sgtListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sgtListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    sgtResponse:
-      type: object
-      properties:
-        Sgt:
-          $ref: '#/components/schemas/sgtResponseEntity'
-      example:
-        Sgt:
-          propogateToApic: false
-          defaultSGACLs: []
-          name: name
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          value: 2
-    ERSResponse:
-      type: object
-      properties:
-        operation:
+        response:
+          $ref: '#/components/schemas/SgtFilterList'
+          exampleSetFlag: true
+        version:
           type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     sgtResponseEntity:
       properties:
         value:
@@ -673,6 +550,96 @@ components:
           title: description
           type: string
           description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    FilterList:
+      title: FilterList
+      required:
+      - inboundOutboundRules
+      - sgtName
+      type: object
+      properties:
+        inboundOutboundRules:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/InboundOutboundRule'
+            exampleSetFlag: false
+        sgtName:
+          type: string
+          exampleSetFlag: true
+        sxpName:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    InboundOutboundRule:
+      title: InboundOutboundRule
+      required:
+      - id
+      - name
+      - ruleType
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        ruleType:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    sgtListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
           example: null
         link:
           $ref: '#/components/schemas/Link'
@@ -728,39 +695,6 @@ components:
           description: description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           value: 2
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    FilterList:
-      title: FilterList
-      required:
-      - inboundOutboundRules
-      - sgtName
-      type: object
-      properties:
-        inboundOutboundRules:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/InboundOutboundRule'
-            exampleSetFlag: false
-        sgtName:
-          type: string
-          exampleSetFlag: true
-        sxpName:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
     Error:
       title: Error
       required:
@@ -778,21 +712,67 @@ components:
           example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false
-    SgtFilterListResponseEntity:
-      title: SgtFilterListResponseEntity
-      required:
-      - response
-      - version
+    sgtListResponse:
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/SgtFilterList'
-          exampleSetFlag: true
-        version:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sgtListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    updatedField:
+      properties:
+        field:
           type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    trustsec.sgt:
+      required:
+      - Sgt
+      type: object
+      properties:
+        Sgt:
+          $ref: '#/components/schemas/Sgt'
+      example: null
     SgtFilterList:
       title: SgtFilterList
       required:
@@ -806,35 +786,42 @@ components:
             $ref: '#/components/schemas/FilterList'
             exampleSetFlag: false
       exampleSetFlag: false
-    InboundOutboundRule:
-      title: InboundOutboundRule
-      required:
-      - id
-      - name
-      - ruleType
+    ERSResponse:
       type: object
       properties:
-        id:
+        operation:
           type: string
-          format: uuid
-          exampleSetFlag: true
-        name:
-          type: string
-          exampleSetFlag: true
-        ruleType:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sgtResponse:
+      type: object
+      properties:
+        Sgt:
+          $ref: '#/components/schemas/sgtResponseEntity'
+      example:
+        Sgt:
+          propogateToApic: false
+          defaultSGACLs: []
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          value: 2
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -844,6 +831,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

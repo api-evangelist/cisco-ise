@@ -392,23 +392,36 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    Error:
-      title: Error
-      required:
-      - code
-      - message
+    MfaGetAllInfo:
+      title: MfaGetAllInfo
       type: object
       properties:
-        code:
+        apiHostName:
           type: string
-          description: Error code
-          example: '400'
+          description: Duo API HostName
+          example: api-xxxxxx.duosecurity.com
           exampleSetFlag: true
-        message:
+        identitySync:
           type: string
-          description: Error message
-          example: Bad Request
+          description: Name of the Identity Sync configuration
+          example: ADSync
           exampleSetFlag: true
+        name:
+          type: string
+          description: Name of the Duo-MFA configuration
+          example: DuoConnection
+          exampleSetFlag: true
+        provider:
+          type: string
+          description: Name of the Mfa provider
+          example: Duo
+          exampleSetFlag: true
+        type:
+          type: string
+          description: Protocol type for which Mfa can be used
+          example: VPN,TACACS
+          exampleSetFlag: true
+      description: List of Duo-MFA configurations
       exampleSetFlag: false
     Api:
       title: Api
@@ -448,36 +461,55 @@ components:
           exampleSetFlag: true
       description: Duo-MFA configuration information
       exampleSetFlag: false
-    MfaGetAllInfo:
-      title: MfaGetAllInfo
+    MfaGetAllResponse:
+      title: MfaGetAllResponse
       type: object
       properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MfaGetAllInfo'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: List of all Duo-MFA configurations
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          description: Error message
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AccountConfigurations:
+      title: AccountConfigurations
+      type: object
+      properties:
+        adminApi:
+          $ref: '#/components/schemas/Api'
+          exampleSetFlag: true
         apiHostName:
           type: string
           description: Duo API HostName
           example: api-xxxxxx.duosecurity.com
           exampleSetFlag: true
-        identitySync:
-          type: string
-          description: Name of the Identity Sync configuration
-          example: ADSync
+        authenticationApi:
+          $ref: '#/components/schemas/Api'
           exampleSetFlag: true
-        name:
-          type: string
-          description: Name of the Duo-MFA configuration
-          example: DuoConnection
-          exampleSetFlag: true
-        provider:
-          type: string
-          description: Name of the Mfa provider
-          example: Duo
-          exampleSetFlag: true
-        type:
-          type: string
-          description: Protocol type for which Mfa can be used
-          example: VPN,TACACS
-          exampleSetFlag: true
-      description: List of Duo-MFA configurations
       exampleSetFlag: false
     MfaInfoMfa:
       title: MfaInfoMfa
@@ -507,36 +539,4 @@ components:
           example: VPN,TACACS
           exampleSetFlag: true
       description: Duo-MFA information
-      exampleSetFlag: false
-    MfaGetAllResponse:
-      title: MfaGetAllResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/MfaGetAllInfo'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: List of all Duo-MFA configurations
-      exampleSetFlag: false
-    AccountConfigurations:
-      title: AccountConfigurations
-      type: object
-      properties:
-        adminApi:
-          $ref: '#/components/schemas/Api'
-          exampleSetFlag: true
-        apiHostName:
-          type: string
-          description: Duo API HostName
-          example: api-xxxxxx.duosecurity.com
-          exampleSetFlag: true
-        authenticationApi:
-          $ref: '#/components/schemas/Api'
-          exampleSetFlag: true
       exampleSetFlag: false

@@ -404,81 +404,23 @@ components:
           exampleSetFlag: true
       description: Schema for the response containing external user data, including status code, message, and a list of network users.
       exampleSetFlag: false
-    AdminUserResponse:
-      title: AdminUserResponse
+    BaseResponse:
+      title: BaseResponse
       required:
-      - statusCode
+      - code
+      - message
       type: object
       properties:
-        adminUserList:
-          type: array
-          description: A list of admin users.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AdminUserData'
-            exampleSetFlag: false
-        message:
-          type: string
-          description: A descriptive message related to the response.
-          exampleSetFlag: true
-        statusCode:
+        code:
           type: integer
-          description: The status code of the response.
+          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
           format: int32
           exampleSetFlag: true
-      description: Response schema for admin user data, including the status code, message, and a list of admin user data.
-      exampleSetFlag: false
-    TaskResponse:
-      title: TaskResponse
-      type: object
-      properties:
-        id:
+        message:
           type: string
+          description: A message detailing the response, indicating success or failure.
           exampleSetFlag: true
-      exampleSetFlag: false
-    AdminUserData:
-      title: AdminUserData
-      required:
-      - name
-      type: object
-      properties:
-        description:
-          type: string
-          description: Description or role of the admin user.
-          exampleSetFlag: true
-        emailAddr:
-          type: string
-          description: Email address of the admin user.
-          exampleSetFlag: true
-        firstName:
-          type: string
-          description: First name of the admin user.
-          exampleSetFlag: true
-        id:
-          type: string
-          description: Unique identifier for the admin user.
-          exampleSetFlag: true
-        lastName:
-          type: string
-          description: Last name of the admin user.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Name of the admin user.
-          exampleSetFlag: true
-        rbacGroupNames:
-          type: array
-          description: List of RBAC group names the admin user belongs to.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        statusEnabled:
-          type: boolean
-          description: Indicates whether the admin user's account is enabled.
-          example: false
-          exampleSetFlag: true
-      description: Schema for admin user data, representing key information such as user details, email, and RBAC group memberships.
+      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
       exampleSetFlag: false
     Error:
       title: Error
@@ -497,26 +439,6 @@ components:
           description: A description of the error encountered.
           exampleSetFlag: true
       description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
-      exampleSetFlag: false
-    AdminUserDetailsResponse:
-      title: AdminUserDetailsResponse
-      required:
-      - statusCode
-      type: object
-      properties:
-        adminUserDetails:
-          $ref: '#/components/schemas/OpenApiAdminUser'
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A message providing more information about the response.
-          exampleSetFlag: true
-        statusCode:
-          type: integer
-          description: The status code of the response.
-          format: int32
-          exampleSetFlag: true
-      description: Response schema for retrieving detailed information about a specific admin user.
       exampleSetFlag: false
     NetworkUser:
       title: NetworkUser
@@ -561,23 +483,29 @@ components:
           exampleSetFlag: true
       description: Schema representing a Network User. It includes details like name, email, password, and status. These users are typically restricted to specific network access.
       exampleSetFlag: false
-    BaseResponse:
-      title: BaseResponse
+    AdminUserResponse:
+      title: AdminUserResponse
       required:
-      - code
-      - message
+      - statusCode
       type: object
       properties:
-        code:
-          type: integer
-          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
-          format: int32
+        adminUserList:
+          type: array
+          description: A list of admin users.
           exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AdminUserData'
+            exampleSetFlag: false
         message:
           type: string
-          description: A message detailing the response, indicating success or failure.
+          description: A descriptive message related to the response.
           exampleSetFlag: true
-      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
+        statusCode:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+      description: Response schema for admin user data, including the status code, message, and a list of admin user data.
       exampleSetFlag: false
     OpenApiAdminUser:
       title: OpenApiAdminUser
@@ -647,4 +575,76 @@ components:
           example: false
           exampleSetFlag: true
       description: Schema representing an Admin User in the system. This includes attributes like user details, access control, and system-related settings.
+      exampleSetFlag: false
+    AdminUserData:
+      title: AdminUserData
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description or role of the admin user.
+          exampleSetFlag: true
+        emailAddr:
+          type: string
+          description: Email address of the admin user.
+          exampleSetFlag: true
+        firstName:
+          type: string
+          description: First name of the admin user.
+          exampleSetFlag: true
+        id:
+          type: string
+          description: Unique identifier for the admin user.
+          exampleSetFlag: true
+        lastName:
+          type: string
+          description: Last name of the admin user.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Name of the admin user.
+          exampleSetFlag: true
+        rbacGroupNames:
+          type: array
+          description: List of RBAC group names the admin user belongs to.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        statusEnabled:
+          type: boolean
+          description: Indicates whether the admin user's account is enabled.
+          example: false
+          exampleSetFlag: true
+      description: Schema for admin user data, representing key information such as user details, email, and RBAC group memberships.
+      exampleSetFlag: false
+    TaskResponse:
+      title: TaskResponse
+      type: object
+      properties:
+        id:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AdminUserDetailsResponse:
+      title: AdminUserDetailsResponse
+      required:
+      - statusCode
+      type: object
+      properties:
+        adminUserDetails:
+          $ref: '#/components/schemas/OpenApiAdminUser'
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message providing more information about the response.
+          exampleSetFlag: true
+        statusCode:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+      description: Response schema for retrieving detailed information about a specific admin user.
       exampleSetFlag: false

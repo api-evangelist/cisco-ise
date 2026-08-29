@@ -557,6 +557,77 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
 components:
   schemas:
+    tacacsserversequenceListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/tacacsserversequenceListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    tacacsserversequenceResponse:
+      type: object
+      properties:
+        TacacsServerSequence:
+          $ref: '#/components/schemas/tacacsserversequenceResponseEntity'
+      example:
+        TacacsServerSequence:
+          prefixStrip: false
+          localAccounting: false
+          suffixStrip: false
+          remoteAccounting: true
+          serverList: TacacsExternalServer1,TacacsExternalServer2
+          name: TacacsServerSequence1
+          description: TacacsServerSequenceForSDK
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          prefixDelimiter: \
+          suffixDelimiter: '@'
     Link:
       type: object
       properties:
@@ -630,47 +701,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    tacacsserversequenceListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/tacacsserversequenceListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
     updatedField:
       properties:
         field:
@@ -682,6 +712,14 @@ components:
         newValue:
           type: string
           example: null
+      example: null
+    policy.tacacsserversequence:
+      required:
+      - TacacsServerSequence
+      type: object
+      properties:
+        TacacsServerSequence:
+          $ref: '#/components/schemas/TacacsServerSequence'
       example: null
     tacacsserversequenceListResponseEntity:
       properties:
@@ -725,23 +763,6 @@ components:
                 example: code
             example: null
       example: null
-    tacacsserversequenceResponse:
-      type: object
-      properties:
-        TacacsServerSequence:
-          $ref: '#/components/schemas/tacacsserversequenceResponseEntity'
-      example:
-        TacacsServerSequence:
-          prefixStrip: false
-          localAccounting: false
-          suffixStrip: false
-          remoteAccounting: true
-          serverList: TacacsExternalServer1,TacacsExternalServer2
-          name: TacacsServerSequence1
-          description: TacacsServerSequenceForSDK
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          prefixDelimiter: \
-          suffixDelimiter: '@'
     TacacsServerSequence:
       required:
       - name
@@ -809,27 +830,6 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           prefixDelimiter: \
           suffixDelimiter: '@'
-    policy.tacacsserversequence:
-      required:
-      - TacacsServerSequence
-      type: object
-      properties:
-        TacacsServerSequence:
-          $ref: '#/components/schemas/TacacsServerSequence'
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
   parameters:
     ppage:
       name: page

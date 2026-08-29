@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Pxgridsettings API
   version: '1.0'
-  description: 'Operations tagged pxgridsettings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-pxgrid-settings.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged pxgridsettings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-pxgrid-settings.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-pxgrid-settings.yaml, the provider's source document. Operations and
-      schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-pxgrid-settings.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-pxgrid-settings.yaml
     operation_coverage: 2/3
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: pxgridsettings
 paths:
   /pxgridsettings/autoapprove:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     put:
       tags:
       - pxgridsettings
@@ -115,16 +122,6 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/pxgridsettings/autoapprove:
     put:
       tags:
@@ -169,18 +166,51 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
-    updatedField:
+    link1:
+      type: object
       properties:
-        field:
+        rel:
           type: string
-          example: null
-        oldValue:
+          example: self
+        href:
           type: string
-          example: null
-        newValue:
+          example: https://<ise-ip>:9060/ers/config/pxgridsettings/versioninfo
+        type:
           type: string
+          example: application/json
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
       example: null
+    PxgridSettings_2:
+      type: object
+      properties:
+        autoApproveCertBasedAccounts:
+          type: boolean
+          example: true
+        allowPasswordBasedAccounts:
+          type: boolean
+          example: false
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     pxgrid.pxgridsettings:
       required:
       - PxgridSettings
@@ -188,28 +218,6 @@ components:
       properties:
         PxgridSettings:
           $ref: '#/components/schemas/PxgridSettings'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     PxgridSettings:
       required:
@@ -245,17 +253,21 @@ components:
         PxgridSettings:
           allowPasswordBasedAccounts: false
           autoApproveCertBasedAccounts: true
-    UpdatedFieldsResponse:
+    VersionInfo:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
           example: null
       example: null
     settings:
@@ -263,43 +275,28 @@ components:
       properties:
         PxgridSettings:
           $ref: '#/components/schemas/PxgridSettings_2'
-    VersionInfo:
+    ERSResponse:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
+        operation:
           type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    PxgridSettings_2:
-      type: object
-      properties:
-        autoApproveCertBasedAccounts:
-          type: boolean
-          example: true
-        allowPasswordBasedAccounts:
-          type: boolean
-          example: false
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/pxgridsettings/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

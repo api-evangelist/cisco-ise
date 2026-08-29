@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Networkdevice API
   version: '1.0'
-  description: 'Operations tagged networkdevice across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-network-device.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged networkdevice across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-network-device.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-network-device.yaml, the provider's source document. Operations and
-      schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-network-device.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-network-device.yaml
     operation_coverage: 13/23
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: networkdevice
 paths:
   /networkdevice/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - networkdevice
@@ -254,6 +261,7 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
+  /networkdevice/name/{name}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -264,7 +272,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /networkdevice/name/{name}:
     get:
       tags:
       - networkdevice
@@ -676,6 +683,7 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+  /networkdevice/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -686,7 +694,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /networkdevice/{id}:
     get:
       tags:
       - networkdevice
@@ -1098,25 +1105,12 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/networkdevice/name/{name}:
     get:
       tags:
       - networkdevice
       summary: Get network device by name
-      description: <p>This API allows the client to get a network device by name. The password of the network device radiusSharedSecret
-        and secondRadiusSharedSecret will be in plain text if the "Show Password in Plaintext" checkbox is checked in the
-        Security Settings page (Administration > Security Settings) of the Cisco ISE GUI. If the "Show Password in Plaintext"
-        checkbox is unchecked in the Security Settings page, the password will be masked.</p>
+      description: <p>This API allows the client to get a network device by name. The password of the network device radiusSharedSecret and secondRadiusSharedSecret will be in plain text if the "Show Password in Plaintext" checkbox is checked in the Security Settings page (Administration > Security Settings) of the Cisco ISE GUI. If the "Show Password in Plaintext" checkbox is unchecked in the Security Settings page, the password will be masked.</p>
       parameters:
       - name: name
         in: path
@@ -1259,10 +1253,7 @@ paths:
       tags:
       - networkdevice
       summary: Get network device by ID
-      description: <p>This API allows the client to get a network device by ID. The password of the network device radiusSharedSecret
-        and secondRadiusSharedSecret will be in plain text if the "Show Password in Plaintext" checkbox is checked in the
-        Security Settings page (Administration > Security Settings) of the Cisco ISE GUI. If the "Show Password in Plaintext"
-        checkbox is unchecked in the Security Settings page, the password will be masked.</p>
+      description: <p>This API allows the client to get a network device by ID. The password of the network device radiusSharedSecret and secondRadiusSharedSecret will be in plain text if the "Show Password in Plaintext" checkbox is checked in the Security Settings page (Administration > Security Settings) of the Cisco ISE GUI. If the "Show Password in Plaintext" checkbox is unchecked in the Security Settings page, the password will be masked.</p>
       parameters:
       - name: id
         in: path
@@ -1405,11 +1396,7 @@ paths:
       tags:
       - networkdevice
       summary: Get all network devices
-      description: <p>This API allows the client to get all the network devices.</p> <p><h1>Filter:</h1> <h3>[ipaddress, name,
-        description, location, type]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p>
-        <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
-        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
-        </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
+      description: <p>This API allows the client to get all the network devices.</p> <p><h1>Filter:</h1> <h3>[ipaddress, name, description, location, type]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -1522,6 +1509,31 @@ paths:
                 $ref: '#/components/schemas/bulkstatus'
 components:
   schemas:
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     Link:
       type: object
       properties:
@@ -1540,6 +1552,312 @@ components:
           type: string
           example: application/json
       example: null
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    patchRequest:
+      type: object
+      properties:
+        NetworkDevice:
+          $ref: '#/components/schemas/patchRequestBody'
+    bulkrequest:
+      type: object
+      properties:
+        NetworkDeviceBulkRequest:
+          $ref: '#/components/schemas/NetworkDeviceBulkRequest'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    network:
+      type: object
+      properties:
+        NetworkDevice:
+          $ref: '#/components/schemas/NetworkDevice_2'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/networkdevice/versioninfo
+        type:
+          type: string
+          example: application/json
+    NetworkDeviceBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.network.networkdevice.1.1+xml
+    networkdeviceListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    network_name:
+      type: object
+      properties:
+        NetworkDevice:
+          $ref: '#/components/schemas/NetworkDevice_name'
+    NetworkDevice_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 79aac430-7cc8-11eb-ad58-005056926583
+        name:
+          type: string
+          example: ISE_EST_Local_Host
+        description:
+          type: string
+          example: example nd
+        authenticationSettings:
+          type: object
+          properties:
+            networkProtocol:
+              type: string
+              example: RADIUS
+            radiusSharedSecret:
+              type: string
+              example: VHEGKOCCUHYB
+            sendMAOnAllResponses:
+              type: string
+              example: false
+            enableKeyWrap:
+              type: boolean
+              example: true
+            dtlsRequired:
+              type: boolean
+              example: true
+            enableMultiSecret:
+              type: boolean
+              example: true
+            keyEncryptionKey:
+              type: string
+              example: 1234567890123456
+            messageAuthenticatorCodeKey:
+              type: string
+              example: 12345678901234567890
+            keyInputFormat:
+              type: string
+              example: ASCII
+        snmpsettings:
+          type: object
+          properties:
+            version:
+              type: string
+              example: ONE
+            roCommunity:
+              type: string
+              example: aaa
+            pollingInterval:
+              type: integer
+              example: 3600
+            linkTrapQuery:
+              type: boolean
+              example: true
+            macTrapQuery:
+              type: boolean
+              example: true
+            originatingPolicyServicesNode:
+              type: string
+              example: Auto
+        tacacsTlsSettings:
+          type: object
+          properties:
+            connectModeOptions:
+              type: string
+              example: ON_DRAFT_COMPLIANT
+            enableSanIpValidation:
+              type: string
+              example: true
+            enableTls:
+              type: string
+              example: true
+            sanValues:
+              type: string
+              example: {}
+        trustsecsettings:
+          type: object
+          properties:
+            deviceAuthenticationSettings:
+              type: object
+              properties:
+                sgaDeviceId:
+                  type: string
+                  example: networkDevice1
+                sgaDevicePassword:
+                  type: string
+                  example: aaa
+            sgaNotificationAndUpdates:
+              type: object
+              properties:
+                downlaodEnvironmentDataEveryXSeconds:
+                  type: integer
+                  example: 86400
+                downlaodPeerAuthorizationPolicyEveryXSeconds:
+                  type: integer
+                  example: 86400
+                reAuthenticationEveryXSeconds:
+                  type: integer
+                  example: 86400
+                downloadSGACLListsEveryXSeconds:
+                  type: integer
+                  example: 86400
+                otherSGADevicesToTrustThisDevice:
+                  type: boolean
+                  example: false
+                sendConfigurationToDevice:
+                  type: boolean
+                  example: false
+                sendConfigurationToDeviceUsing:
+                  type: string
+                  example: ENABLE_USING_COA
+                coaSourceHost:
+                  type: string
+                  example: IseNodeName
+            deviceConfigurationDeployment:
+              type: object
+              properties:
+                includeWhenDeployingSGTUpdates:
+                  type: boolean
+                  example: true
+                enableModePassword:
+                  type: string
+                  example: aaa
+                execModePassword:
+                  type: string
+                  example: aaa
+                execModeUsername:
+                  type: string
+                  example: aaa
+            pushIdSupport:
+              type: boolean
+              example: false
+        tacacsSettings:
+          type: object
+          properties:
+            sharedSecret:
+              type: string
+              example: aaa
+            connectModeOptions:
+              type: string
+              example: ON_LEGACY
+            previousSharedSecret:
+              type: string
+              example: previousSecretSecret
+            previousSharedSecretExpiry:
+              type: object
+              example: 1624447717
+        profileName:
+          type: string
+          example: Cisco
+        coaPort:
+          type: integer
+          example: 0
+        dtlsDnsName:
+          type: string
+          example: ISE213.il.com
+        NetworkDeviceIPList:
+          type: array
+          example:
+          - ipaddress: 127.0.0.1
+            mask: 32
+          items:
+            properties:
+              name:
+                type: string
+        NetworkDeviceGroupList:
+          type: array
+          example:
+          - Location#All Locations
+          - Device Type#All Device Types
+          items:
+            properties:
+              name:
+                type: string
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
+            type:
+              type: string
+              example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
     NetworkDevice:
       required:
       - coaPort
@@ -1716,8 +2034,7 @@ components:
             authProtocol:
               title: authProtocol
               type: string
-              description: SNMP Authentication protocol. Allowed values:MD5,SHA,SHA2. Required for snmp version 3 and securityLevel
-                [AUTH,PRIV]
+              description: SNMP Authentication protocol. Allowed values:MD5,SHA,SHA2. Required for snmp version 3 and securityLevel [AUTH,PRIV]
               example: null
             authPassword:
               title: authPassword
@@ -1960,6 +2277,74 @@ components:
             connectModeOptions: ON_LEGACY
             sharedSecret: sharedSecret
             previousSharedSecretExpiry: 1778155404
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    networkdeviceListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/networkdeviceListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
     networkdeviceResponseEntity:
       properties:
         authenticationSettings:
@@ -2121,8 +2506,7 @@ components:
             authProtocol:
               title: authProtocol
               type: string
-              description: SNMP Authentication protocol. Allowed values:MD5,SHA,SHA2. Required for snmp version 3 and securityLevel
-                [AUTH,PRIV]
+              description: SNMP Authentication protocol. Allowed values:MD5,SHA,SHA2. Required for snmp version 3 and securityLevel [AUTH,PRIV]
               example: null
             authPassword:
               title: authPassword
@@ -2308,407 +2692,80 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    networkdeviceListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    network.networkdevice:
-      required:
-      - NetworkDevice
+    SearchResult:
       type: object
       properties:
-        NetworkDevice:
-          $ref: '#/components/schemas/NetworkDevice'
-      example: null
-    networkdeviceListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/networkdeviceListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    networkdeviceResponse:
-      type: object
-      properties:
-        NetworkDevice:
-          $ref: '#/components/schemas/networkdeviceResponseEntity'
-      example:
-        NetworkDevice:
-          profileName: Cisco
-          dtlsDnsName: ISE213.il.com
-          NetworkDeviceGroupList:
-          - Location#All Locations
-          - Device Type#All Device Types
-          description: example nd
-          trustsecsettings:
-            sgaNotificationAndUpdates:
-              downlaodEnvironmentDataEveryXSeconds: 86400
-              reAuthenticationEveryXSeconds: 86400
-              otherSGADevicesToTrustThisDevice: false
-              sendConfigurationToDevice: false
-              downloadSGACLListsEveryXSeconds: 86400
-              downlaodPeerAuthorizationPolicyEveryXSeconds: 86400
-              sendConfigurationToDeviceUsing: ENABLE_USING_COA
-              coaSourceHost: IseNodeName
-            pushIdSupport: 'false'
-            deviceAuthenticationSettings:
-              sgaDeviceId: networkDevice1
-              sgaDevicePassword: samplePwd
-            deviceConfigurationDeployment:
-              execModePassword: samplePwd
-              execModeUsername: aaa
-              includeWhenDeployingSGTUpdates: true
-              enableModePassword: samplePwd
-          snmpsettings:
-            originatingPolicyServicesNode: Auto
-            pollingInterval: 3600
-            roCommunity: aaa
-            version: ONE
-            linkTrapQuery: true
-            macTrapQuery: true
-          authenticationSettings:
-            keyInputFormat: ASCII
-            sendMAOnAllResponses: false
-            enableKeyWrap: true
-            messageAuthenticatorCodeKey: '12345678901234567890'
-            dtlsRequired: true
-            radiusSharedSecret: sharedSecret
-            keyEncryptionKey: '1234567890123456'
-          NetworkDeviceIPList:
-          - ipaddress: 1.1.1.1
-            mask: 32
-          name: networkDevice1
-          tacacsTlsSettings:
-            enableTls: true
-            enableSanIpValidation: true
-            connectModeOptions: ON_DRAFT_COMPLIANT
-            sanValues: {}
-          coaPort: 1700
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          tacacsSettings:
-            previousSharedSecret: previousSecretSecret
-            connectModeOptions: ON_LEGACY
-            sharedSecret: sharedSecret
-            previousSharedSecretExpiry: 1778155404
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    NetworkDevice_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 79aac430-7cc8-11eb-ad58-005056926583
-        name:
-          type: string
-          example: ISE_EST_Local_Host
-        description:
-          type: string
-          example: example nd
-        authenticationSettings:
-          type: object
-          properties:
-            networkProtocol:
-              type: string
-              example: RADIUS
-            radiusSharedSecret:
-              type: string
-              example: VHEGKOCCUHYB
-            sendMAOnAllResponses:
-              type: string
-              example: false
-            enableKeyWrap:
-              type: boolean
-              example: true
-            dtlsRequired:
-              type: boolean
-              example: true
-            enableMultiSecret:
-              type: boolean
-              example: true
-            keyEncryptionKey:
-              type: string
-              example: 1234567890123456
-            messageAuthenticatorCodeKey:
-              type: string
-              example: 12345678901234567890
-            keyInputFormat:
-              type: string
-              example: ASCII
-        snmpsettings:
-          type: object
-          properties:
-            version:
-              type: string
-              example: ONE
-            roCommunity:
-              type: string
-              example: aaa
-            pollingInterval:
-              type: integer
-              example: 3600
-            linkTrapQuery:
-              type: boolean
-              example: true
-            macTrapQuery:
-              type: boolean
-              example: true
-            originatingPolicyServicesNode:
-              type: string
-              example: Auto
-        tacacsTlsSettings:
-          type: object
-          properties:
-            connectModeOptions:
-              type: string
-              example: ON_DRAFT_COMPLIANT
-            enableSanIpValidation:
-              type: string
-              example: true
-            enableTls:
-              type: string
-              example: true
-            sanValues:
-              type: string
-              example: {}
-        trustsecsettings:
-          type: object
-          properties:
-            deviceAuthenticationSettings:
-              type: object
-              properties:
-                sgaDeviceId:
-                  type: string
-                  example: networkDevice1
-                sgaDevicePassword:
-                  type: string
-                  example: aaa
-            sgaNotificationAndUpdates:
-              type: object
-              properties:
-                downlaodEnvironmentDataEveryXSeconds:
-                  type: integer
-                  example: 86400
-                downlaodPeerAuthorizationPolicyEveryXSeconds:
-                  type: integer
-                  example: 86400
-                reAuthenticationEveryXSeconds:
-                  type: integer
-                  example: 86400
-                downloadSGACLListsEveryXSeconds:
-                  type: integer
-                  example: 86400
-                otherSGADevicesToTrustThisDevice:
-                  type: boolean
-                  example: false
-                sendConfigurationToDevice:
-                  type: boolean
-                  example: false
-                sendConfigurationToDeviceUsing:
-                  type: string
-                  example: ENABLE_USING_COA
-                coaSourceHost:
-                  type: string
-                  example: IseNodeName
-            deviceConfigurationDeployment:
-              type: object
-              properties:
-                includeWhenDeployingSGTUpdates:
-                  type: boolean
-                  example: true
-                enableModePassword:
-                  type: string
-                  example: aaa
-                execModePassword:
-                  type: string
-                  example: aaa
-                execModeUsername:
-                  type: string
-                  example: aaa
-            pushIdSupport:
-              type: boolean
-              example: false
-        tacacsSettings:
-          type: object
-          properties:
-            sharedSecret:
-              type: string
-              example: aaa
-            connectModeOptions:
-              type: string
-              example: ON_LEGACY
-            previousSharedSecret:
-              type: string
-              example: previousSecretSecret
-            previousSharedSecretExpiry:
-              type: object
-              example: 1624447717
-        profileName:
-          type: string
-          example: Cisco
-        coaPort:
+        total:
           type: integer
-          example: 0
-        dtlsDnsName:
-          type: string
-          example: ISE213.il.com
-        NetworkDeviceIPList:
+          example: 1
+        resources:
           type: array
           example:
-          - ipaddress: 127.0.0.1
-            mask: 32
+          - id: 79aac430-7cc8-11eb-ad58-005056926583
+            name: ISE_EST_Local_Host
+            description: example nd
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
+              type: application/json
           items:
             properties:
               name:
                 type: string
-        NetworkDeviceGroupList:
-          type: array
-          example:
-          - Location#All Locations
-          - Device Type#All Device Types
-          items:
-            properties:
-              name:
-                type: string
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
-            type:
-              type: string
-              example: application/json
-    patchRequestBody:
+    BulkStatus:
       type: object
       properties:
-        any-resource-attribute:
+        bulkId:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: 1615791703003
+        mediaType:
           type: string
-          example: some-updated-value
-    bulkrequest:
-      type: object
-      properties:
-        NetworkDeviceBulkRequest:
-          $ref: '#/components/schemas/NetworkDeviceBulkRequest'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    NetworkDeviceBulkRequest:
-      type: object
-      properties:
+          example: ''
+        executionStatus:
+          type: string
+          example: COMPLETED
         operationType:
           type: string
           example: create
-        resourceMediaType:
+        startTime:
           type: string
-          example: vnd.com.cisco.ise.network.networkdevice.1.1+xml
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+          example: Mon Mar 15 07:01:43 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
     NetworkDevice_name:
       type: object
       properties:
@@ -2898,164 +2955,83 @@ components:
             type:
               type: string
               example: application/json
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 79aac430-7cc8-11eb-ad58-005056926583
-            name: ISE_EST_Local_Host
-            description: example nd
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    patchRequest:
+    networkdeviceResponse:
       type: object
       properties:
         NetworkDevice:
-          $ref: '#/components/schemas/patchRequestBody'
-    UpdatedFieldsList:
+          $ref: '#/components/schemas/networkdeviceResponseEntity'
+      example:
+        NetworkDevice:
+          profileName: Cisco
+          dtlsDnsName: ISE213.il.com
+          NetworkDeviceGroupList:
+          - Location#All Locations
+          - Device Type#All Device Types
+          description: example nd
+          trustsecsettings:
+            sgaNotificationAndUpdates:
+              downlaodEnvironmentDataEveryXSeconds: 86400
+              reAuthenticationEveryXSeconds: 86400
+              otherSGADevicesToTrustThisDevice: false
+              sendConfigurationToDevice: false
+              downloadSGACLListsEveryXSeconds: 86400
+              downlaodPeerAuthorizationPolicyEveryXSeconds: 86400
+              sendConfigurationToDeviceUsing: ENABLE_USING_COA
+              coaSourceHost: IseNodeName
+            pushIdSupport: 'false'
+            deviceAuthenticationSettings:
+              sgaDeviceId: networkDevice1
+              sgaDevicePassword: samplePwd
+            deviceConfigurationDeployment:
+              execModePassword: samplePwd
+              execModeUsername: aaa
+              includeWhenDeployingSGTUpdates: true
+              enableModePassword: samplePwd
+          snmpsettings:
+            originatingPolicyServicesNode: Auto
+            pollingInterval: 3600
+            roCommunity: aaa
+            version: ONE
+            linkTrapQuery: true
+            macTrapQuery: true
+          authenticationSettings:
+            keyInputFormat: ASCII
+            sendMAOnAllResponses: false
+            enableKeyWrap: true
+            messageAuthenticatorCodeKey: '12345678901234567890'
+            dtlsRequired: true
+            radiusSharedSecret: sharedSecret
+            keyEncryptionKey: '1234567890123456'
+          NetworkDeviceIPList:
+          - ipaddress: 1.1.1.1
+            mask: 32
+          name: networkDevice1
+          tacacsTlsSettings:
+            enableTls: true
+            enableSanIpValidation: true
+            connectModeOptions: ON_DRAFT_COMPLIANT
+            sanValues: {}
+          coaPort: 1700
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          tacacsSettings:
+            previousSharedSecret: previousSecretSecret
+            connectModeOptions: ON_LEGACY
+            sharedSecret: sharedSecret
+            previousSharedSecretExpiry: 1778155404
+    network.networkdevice:
+      required:
+      - NetworkDevice
       type: object
       properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
-    BulkStatus:
-      type: object
-      properties:
-        bulkId:
-          type: string
-          example: 1615791703003
-        mediaType:
-          type: string
-          example: ''
-        executionStatus:
-          type: string
-          example: COMPLETED
-        operationType:
-          type: string
-          example: create
-        startTime:
-          type: string
-          example: Mon Mar 15 07:01:43 UTC 2021
-        resourcesCount:
-          type: integer
-          example: 5
-        successCount:
-          type: integer
-          example: 5
-        failCount:
-          type: integer
-          example: 0
-        resourcesStatus:
-          type: array
-          example:
-          - id: '1234454324'
-            name: resource1
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '2343242342'
-            name: resource2
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '4564566456'
-            name: resource3
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '6544566455'
-            name: resource4
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          items:
-            properties:
-              name:
-                type: string
+        NetworkDevice:
+          $ref: '#/components/schemas/NetworkDevice'
+      example: null
     search:
       type: object
       properties:
         SearchResult:
           $ref: '#/components/schemas/SearchResult'
-    network_name:
-      type: object
-      properties:
-        NetworkDevice:
-          $ref: '#/components/schemas/NetworkDevice_name'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.1'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    network:
-      type: object
-      properties:
-        NetworkDevice:
-          $ref: '#/components/schemas/NetworkDevice_2'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/networkdevice/versioninfo
-        type:
-          type: string
-          example: application/json
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -3065,6 +3041,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

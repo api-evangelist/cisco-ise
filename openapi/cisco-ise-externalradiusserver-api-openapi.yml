@@ -572,6 +572,82 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    externalradiusserverListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/externalradiusserverListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    externalradiusserverResponse:
+      type: object
+      properties:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/externalradiusserverResponseEntity'
+      example:
+        ExternalRadiusServer:
+          proxyTimeout: 300
+          authenticatorKey: '20202020202020202020'
+          hostIP: 1.1.1.1
+          enableKeyWrap: true
+          description: example external radius server
+          encryptionKey: '1616161616161616'
+          msgAuthIsRequiredOnResponse: true
+          timeout: 5
+          accountingPort: 1813
+          keyInputFormat: ASCII
+          retries: 3
+          name: externalRadiusServer1
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          sharedSecret: sharedSecret
+          authenticationPort: 1812
     Link:
       type: object
       properties:
@@ -589,6 +665,26 @@ components:
         type:
           type: string
           example: application/json
+      example: null
+    externalradiusserverListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     ExternalRadiusServer:
       required:
@@ -695,40 +791,6 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           sharedSecret: sharedSecret
           authenticationPort: 1812
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
     externalradiusserverResponseEntity:
       properties:
         hostIP:
@@ -809,89 +871,18 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    externalradiusserverListResponseEntity:
+    updatedField:
       properties:
-        id:
-          title: id
+        field:
           type: string
-          description: Id description
           example: null
-        name:
-          title: name
+        oldValue:
           type: string
-          description: name description
           example: null
-        description:
-          title: description
+        newValue:
           type: string
-          description: description
           example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
-    externalradiusserverResponse:
-      type: object
-      properties:
-        ExternalRadiusServer:
-          $ref: '#/components/schemas/externalradiusserverResponseEntity'
-      example:
-        ExternalRadiusServer:
-          proxyTimeout: 300
-          authenticatorKey: '20202020202020202020'
-          hostIP: 1.1.1.1
-          enableKeyWrap: true
-          description: example external radius server
-          encryptionKey: '1616161616161616'
-          msgAuthIsRequiredOnResponse: true
-          timeout: 5
-          accountingPort: 1813
-          keyInputFormat: ASCII
-          retries: 3
-          name: externalRadiusServer1
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          sharedSecret: sharedSecret
-          authenticationPort: 1812
-    externalradiusserverListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/externalradiusserverListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
     network.externalradiusserver:
       required:
       - ExternalRadiusServer
@@ -900,29 +891,29 @@ components:
         ExternalRadiusServer:
           $ref: '#/components/schemas/ExternalRadiusServer'
       example: null
-    UpdatedFieldsResponse:
+    ERSResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
           example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -932,6 +923,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

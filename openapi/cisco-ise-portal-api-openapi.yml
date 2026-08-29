@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Portal API
   version: '1.0'
-  description: 'Operations tagged portal across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-portal.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged portal across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-portal.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-portal.yaml, the provider's source document. Operations and schemas
-      are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-portal.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-portal.yaml
     operation_coverage: 3/5
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: portal
 paths:
   /portal/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - portal
@@ -133,6 +140,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /portal/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -143,7 +151,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /portal/{id}:
     get:
       tags:
       - portal
@@ -217,16 +224,6 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/portal/{id}:
     get:
       tags:
@@ -265,11 +262,7 @@ paths:
       tags:
       - portal
       summary: Get all portals
-      description: <p>This API allows the client to get all the portals.</p> <p><h1>Filter:</h1> <h3>[name, description]</h3></p>
-        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
-        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
-        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
-        description]</h3></p>
+      description: <p>This API allows the client to get all the portals.</p> <p><h1>Filter:</h1> <h3>[name, description]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -307,6 +300,28 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/portal/versioninfo
+        type:
+          type: string
+          example: application/json
+    portalResponse:
+      type: object
+      properties:
+        ERSPortal:
+          $ref: '#/components/schemas/portalResponseEntity'
+      example:
+        ERSPortal:
+          name: portal1
+          description: example portal
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     Link:
       type: object
       properties:
@@ -366,16 +381,26 @@ components:
               type: application/xml
             description: description2
             id: id2
-    portalResponse:
-      type: object
+    portalListResponseEntity:
       properties:
-        ERSPortal:
-          $ref: '#/components/schemas/portalResponseEntity'
-      example:
-        ERSPortal:
-          name: portal1
-          description: example portal
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     portalResponseEntity:
       properties:
         allowSponsorToChangeOwnPassword:
@@ -454,48 +479,17 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    portalListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
+    version:
       type: object
       properties:
-        operation:
+        currentServerVersion:
           type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
+          example: '2.0'
+        supportedVersions:
+          type: string
+          example: '2.0'
+        link:
+          $ref: '#/components/schemas/link1'
     ERSPortal:
       type: object
       properties:
@@ -523,11 +517,6 @@ components:
             type:
               type: string
               example: application/json
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
     SearchResult:
       type: object
       properties:
@@ -539,8 +528,7 @@ components:
           example:
           - id: 3c83785b-c7f7-42bc-ab26-a281da5620a6
             name: Sponsor Portal (default)
-            description: Default portal used by sponsors to create and manage accounts for authorized visitors to securely
-              access the network
+            description: Default portal used by sponsors to create and manage accounts for authorized visitors to securely access the network
             link:
               rel: self
               href: https://<ise-ip>:9060/ers/config/portal/3c83785b-c7f7-42bc-ab26-a281da5620a6
@@ -554,8 +542,7 @@ components:
               type: application/json
           - id: 7508caf2-4014-4cdc-ac01-fb1066a66a36
             name: Self-Registered Guest Portal (default)
-            description: Guests may create their own accounts and be assigned a username and password, or use their social
-              login to access the network
+            description: Guests may create their own accounts and be assigned a username and password, or use their social login to access the network
             link:
               rel: self
               href: https://<ise-ip>:9060/ers/config/portal/7508caf2-4014-4cdc-ac01-fb1066a66a36
@@ -569,8 +556,7 @@ components:
               type: application/json
           - id: b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
             name: Hotspot Guest Portal (default)
-            description: Guests do not require username and password credentials to access the network, but you can optionally
-              require an access code
+            description: Guests do not require username and password credentials to access the network, but you can optionally require an access code
             link:
               rel: self
               href: https://<ise-ip>:9060/ers/config/portal/b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
@@ -579,39 +565,43 @@ components:
             properties:
               name:
                 type: string
-    search:
+    VersionInfo:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '2.0'
-        supportedVersions:
-          type: string
-          example: '2.0'
-        link:
-          $ref: '#/components/schemas/link1'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     portal:
       type: object
       properties:
         ERSPortal:
           $ref: '#/components/schemas/ERSPortal'
-    link1:
+    search:
       type: object
       properties:
-        rel:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    ERSResponse:
+      type: object
+      properties:
+        operation:
           type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/portal/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
   parameters:
     ppage:
       name: page

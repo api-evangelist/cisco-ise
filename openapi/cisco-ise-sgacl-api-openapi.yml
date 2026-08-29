@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Sgacl API
   version: '1.0'
-  description: 'Operations tagged sgacl across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-security-groups-acls.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged sgacl across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-security-groups-acls.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-security-groups-acls.yaml, the provider's source document. Operations
-      and schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-security-groups-acls.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-security-groups-acls.yaml
     operation_coverage: 8/13
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: sgacl
 paths:
   /sgacl/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - sgacl
@@ -210,6 +217,7 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
+  /sgacl/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -220,7 +228,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /sgacl/{id}:
     get:
       tags:
       - sgacl
@@ -447,16 +454,6 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/sgacl/{id}:
     get:
       tags:
@@ -575,11 +572,7 @@ paths:
       tags:
       - sgacl
       summary: Get all security group ACLs
-      description: <p>This API allows the client to get all the security group ACLs.</p> <p><h1>Filter:</h1> <h3>[ipVersion,
-        name, description]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY
-        (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET
-        /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
-        </ul> <p><h1>Sorting:</h1> <h3>[ipVersion, name, description]</h3></p>
+      description: <p>This API allows the client to get all the security group ACLs.</p> <p><h1>Filter:</h1> <h3>[ipVersion, name, description]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[ipVersion, name, description]</h3></p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -697,6 +690,31 @@ paths:
                 $ref: '#/components/schemas/bulkstatus'
 components:
   schemas:
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     Link:
       type: object
       properties:
@@ -715,18 +733,21 @@ components:
           type: string
           example: application/json
       example: null
-    updatedField:
+    Update:
+      type: object
       properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    sgacl:
+      type: object
+      properties:
+        Sgacl:
+          $ref: '#/components/schemas/Sgacl_2'
+    bulkrequest:
+      type: object
+      properties:
+        SgaclBulkRequest:
+          $ref: '#/components/schemas/SgaclBulkRequest'
     Sgacl:
       required:
       - ipVersion
@@ -755,9 +776,7 @@ components:
         sgAclType:
           title: sgAclType
           type: string
-          description: SGACL type -  Trustsec or Traffic Steering.<br/>To use it as filter, the values should be 'TRAFFIC_STEERING'
-            or 'TRUSTSEC'. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=sgAclType.eq.TRUSTSEC' or
-            '[ERSObjectURL]?filter=sgAclType.eq.TRAFFIC_STEERING'
+          description: SGACL type -  Trustsec or Traffic Steering.<br/>To use it as filter, the values should be 'TRAFFIC_STEERING' or 'TRUSTSEC'. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=sgAclType.eq.TRUSTSEC' or '[ERSObjectURL]?filter=sgAclType.eq.TRAFFIC_STEERING'
           example: null
         validateAclContent:
           title: validateAclContent
@@ -794,29 +813,60 @@ components:
           readOnly: false
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           aclcontent: Permit IP
-    sgaclResponse:
+    version:
       type: object
       properties:
-        Sgacl:
-          $ref: '#/components/schemas/sgaclResponseEntity'
-      example:
-        Sgacl:
-          ipVersion: IPV4
-          sgAclType: TRUSTSEC
-          validateAclContent: false
-          name: name
-          description: description
-          readOnly: false
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          aclcontent: Permit IP
-    trustsec.sgacl:
-      required:
-      - Sgacl
+        currentServerVersion:
+          type: string
+          example: '1.2'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1,1.2
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
       type: object
       properties:
-        Sgacl:
-          $ref: '#/components/schemas/Sgacl'
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
       example: null
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sgacl/versioninfo
+        type:
+          type: string
+          example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     ERSResponse:
       type: object
       properties:
@@ -839,67 +889,11 @@ components:
                 example: code
             example: null
       example: null
-    sgaclListResponse:
+    bulkstatus:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sgaclListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    sgaclListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
     sgaclResponseEntity:
       properties:
         aclcontent:
@@ -925,9 +919,7 @@ components:
         sgAclType:
           title: sgAclType
           type: string
-          description: SGACL type -  Trustsec or Traffic Steering.<br/>To use it as filter, the values should be 'TRAFFIC_STEERING'
-            or 'TRUSTSEC'. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=sgAclType.eq.TRUSTSEC' or
-            '[ERSObjectURL]?filter=sgAclType.eq.TRAFFIC_STEERING'
+          description: SGACL type -  Trustsec or Traffic Steering.<br/>To use it as filter, the values should be 'TRAFFIC_STEERING' or 'TRUSTSEC'. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=sgAclType.eq.TRUSTSEC' or '[ERSObjectURL]?filter=sgAclType.eq.TRAFFIC_STEERING'
           example: null
         validateAclContent:
           title: validateAclContent
@@ -957,43 +949,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    bulkrequest:
-      type: object
-      properties:
-        SgaclBulkRequest:
-          $ref: '#/components/schemas/SgaclBulkRequest'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    SgaclBulkRequest:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: vnd.com.cisco.ise.trustsec.sgacl.1.0+xml
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
     SearchResult:
       type: object
       properties:
@@ -1035,25 +990,6 @@ components:
             properties:
               name:
                 type: string
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
     BulkStatus:
       type: object
       properties:
@@ -1108,22 +1044,70 @@ components:
             properties:
               name:
                 type: string
-    search:
+    sgaclListResponse:
       type: object
       properties:
         SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    version:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sgaclListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    trustsec.sgacl:
+      required:
+      - Sgacl
       type: object
       properties:
-        currentServerVersion:
-          type: string
-          example: '1.2'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1,1.2
-        link:
-          $ref: '#/components/schemas/link1'
+        Sgacl:
+          $ref: '#/components/schemas/Sgacl'
+      example: null
+    sgaclResponse:
+      type: object
+      properties:
+        Sgacl:
+          $ref: '#/components/schemas/sgaclResponseEntity'
+      example:
+        Sgacl:
+          ipVersion: IPV4
+          sgAclType: TRUSTSEC
+          validateAclContent: false
+          name: name
+          description: description
+          readOnly: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          aclcontent: Permit IP
     Sgacl_2:
       type: object
       properties:
@@ -1160,45 +1144,41 @@ components:
             type:
               type: string
               example: application/json
-    UpdatedField:
+    SgaclBulkRequest:
       type: object
       properties:
-        field:
+        operationType:
           type: string
-          example: field1
-        oldValue:
+          example: create
+        resourceMediaType:
           type: string
-          example: val_old
-        newValue:
+          example: vnd.com.cisco.ise.trustsec.sgacl.1.0+xml
+    sgaclListResponseEntity:
+      properties:
+        id:
+          title: id
           type: string
-          example: val_new
-    sgacl:
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    search:
       type: object
       properties:
-        Sgacl:
-          $ref: '#/components/schemas/Sgacl_2'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/sgacl/versioninfo
-        type:
-          type: string
-          example: application/json
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1208,6 +1188,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

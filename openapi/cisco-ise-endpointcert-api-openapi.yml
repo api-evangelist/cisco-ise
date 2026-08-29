@@ -114,25 +114,18 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
 components:
   schemas:
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    ca.endpointcert:
-      required:
-      - ERSEndPointCert
+    UpdatedFieldsResponse:
       type: object
       properties:
-        ERSEndPointCert:
-          $ref: '#/components/schemas/ERSEndPointCert'
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
       example: null
     ERSEndPointCert:
       required:
@@ -184,6 +177,26 @@ components:
             san: 11-22-33-44-55-66
             cn: userName [or] machineName
           format: PKCS8 [or] PKCS8_CHAIN [or] PKCS12 [or] PKCS12_CHAIN
+    ca.endpointcert:
+      required:
+      - ERSEndPointCert
+      type: object
+      properties:
+        ERSEndPointCert:
+          $ref: '#/components/schemas/ERSEndPointCert'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -205,19 +218,6 @@ components:
                 type: string
                 example: code
             example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
       example: null
   securitySchemes:
     HTTPBasicAuthentication:

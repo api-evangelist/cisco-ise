@@ -478,23 +478,18 @@ paths:
                 example: null
 components:
   schemas:
-    Link:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
       example: null
     sponsorgroupListResponseEntity:
       properties:
@@ -516,50 +511,32 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    sponsorgroupResponse:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    identity.sponsorgroup:
+      required:
+      - SponsorGroup
       type: object
       properties:
         SponsorGroup:
-          $ref: '#/components/schemas/sponsorgroupResponseEntity'
-      example:
-        SponsorGroup:
-          guestTypes:
-          - Contractor (default)
-          - Daily (default)
-          - Weekly (default)
-          isDefaultGroup: false
-          isEnabled: true
-          name: name
-          managePermission: ALLACCOUNTS
-          description: description
-          createPermissions:
-            canImportMultipleAccounts: true
-            canCreateRandomAccounts: true
-            canSpecifyUsernamePrefix: false
-            startDateFutureLimitDays: 10
-            importBatchSizeLimit: 20
-            defaultUsernamePrefix: ''
-            canSetFutureStartDate: false
-            randomBatchSizeLimit: 30
-          locations:
-          - San Jose
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          memberGroups:
-          - ALL_ACCOUNTS (default)
-          autoNotification: false
-          otherPermissions:
-            canDeleteGuestAccounts: false
-            canResetGuestPasswords: false
-            canViewGuestPasswords: false
-            canUpdateGuestContactInfo: false
-            canSuspendGuestAccounts: false
-            canExtendGuestAccounts: false
-            canSendSmsNotifications: false
-            requireSuspensionReason: false
-            canReinstateSuspendedAccounts: false
-            canApproveSelfregGuests: false
-            canAccessViaRest: false
-            limitApprovalToSponsorsGuests: false
+          $ref: '#/components/schemas/SponsorGroup'
+      example: null
     updatedField:
       properties:
         field:
@@ -572,14 +549,47 @@ components:
           type: string
           example: null
       example: null
-    identity.sponsorgroup:
-      required:
-      - SponsorGroup
+    sponsorgroupListResponse:
       type: object
       properties:
-        SponsorGroup:
-          $ref: '#/components/schemas/SponsorGroup'
-      example: null
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sponsorgroupListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     sponsorgroupResponseEntity:
       properties:
         isEnabled:
@@ -983,70 +993,51 @@ components:
             canApproveSelfregGuests: false
             canAccessViaRest: false
             limitApprovalToSponsorsGuests: false
-    sponsorgroupListResponse:
+    sponsorgroupResponse:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sponsorgroupListResponseEntity'
-          example: null
+        SponsorGroup:
+          $ref: '#/components/schemas/sponsorgroupResponseEntity'
       example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
+        SponsorGroup:
+          guestTypes:
+          - Contractor (default)
+          - Daily (default)
+          - Weekly (default)
+          isDefaultGroup: false
+          isEnabled: true
+          name: name
+          managePermission: ALLACCOUNTS
+          description: description
+          createPermissions:
+            canImportMultipleAccounts: true
+            canCreateRandomAccounts: true
+            canSpecifyUsernamePrefix: false
+            startDateFutureLimitDays: 10
+            importBatchSizeLimit: 20
+            defaultUsernamePrefix: ''
+            canSetFutureStartDate: false
+            randomBatchSizeLimit: 30
+          locations:
+          - San Jose
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          memberGroups:
+          - ALL_ACCOUNTS (default)
+          autoNotification: false
+          otherPermissions:
+            canDeleteGuestAccounts: false
+            canResetGuestPasswords: false
+            canViewGuestPasswords: false
+            canUpdateGuestContactInfo: false
+            canSuspendGuestAccounts: false
+            canExtendGuestAccounts: false
+            canSendSmsNotifications: false
+            requireSuspensionReason: false
+            canReinstateSuspendedAccounts: false
+            canApproveSelfregGuests: false
+            canAccessViaRest: false
+            limitApprovalToSponsorsGuests: false
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1056,6 +1047,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

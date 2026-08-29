@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Supportbundledownload API
   version: '1.0'
-  description: 'Operations tagged supportbundledownload across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-support-bundle-download.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged supportbundledownload across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-support-bundle-download.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-support-bundle-download.yaml, the provider's source document. Operations
-      and schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-support-bundle-download.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-support-bundle-download.yaml
     operation_coverage: 2/3
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: supportbundledownload
 paths:
   /supportbundledownload/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     put:
       tags:
       - supportbundledownload
@@ -114,16 +121,6 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/supportbundledownload:
     put:
       tags:
@@ -168,6 +165,24 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/supportbundledownload/versioninfo
+        type:
+          type: string
+          example: application/json
+    ErsSupportBundleDownload_2:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: filename
     ErsSupportBundleDownload:
       required:
       - fileName
@@ -195,6 +210,48 @@ components:
       example:
         ErsSupportBundleDownload:
           fileName: Support bundle file name to be picked for download
+    supportbundle:
+      type: object
+      properties:
+        ErsSupportBundleDownload:
+          $ref: '#/components/schemas/ErsSupportBundleDownload_2'
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    supportbundle.supportbundledownload:
+      required:
+      - ErsSupportBundleDownload
+      type: object
+      properties:
+        ErsSupportBundleDownload:
+          $ref: '#/components/schemas/ErsSupportBundleDownload'
+      example: null
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     updatedField:
       properties:
         field:
@@ -229,66 +286,6 @@ components:
                 example: code
             example: null
       example: null
-    supportbundle.supportbundledownload:
-      required:
-      - ErsSupportBundleDownload
-      type: object
-      properties:
-        ErsSupportBundleDownload:
-          $ref: '#/components/schemas/ErsSupportBundleDownload'
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    ErsSupportBundleDownload_2:
-      type: object
-      properties:
-        fileName:
-          type: string
-          example: filename
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    supportbundle:
-      type: object
-      properties:
-        ErsSupportBundleDownload:
-          $ref: '#/components/schemas/ErsSupportBundleDownload_2'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/supportbundledownload/versioninfo
-        type:
-          type: string
-          example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -571,6 +571,19 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
     Link:
       title: Link
       required:
@@ -595,18 +608,20 @@ components:
           example: application/json
           exampleSetFlag: true
       exampleSetFlag: false
-    IdResponseEntity:
-      title: IdResponseEntity
+    LibraryConditionResponseEntity:
+      title: LibraryConditionResponseEntity
       required:
-      - id
+      - response
+      - version
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+        response:
+          $ref: '#/components/schemas/Condition'
           exampleSetFlag: true
-      description: response object containing object ID
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
       exampleSetFlag: false
     Error:
       title: Error
@@ -665,21 +680,6 @@ components:
           items:
             $ref: '#/components/schemas/Condition'
             exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    LibraryConditionResponseEntity:
-      title: LibraryConditionResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Condition'
-          exampleSetFlag: true
         version:
           type: string
           example: 1.0.0

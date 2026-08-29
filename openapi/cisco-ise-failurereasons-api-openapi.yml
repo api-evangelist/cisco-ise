@@ -56,6 +56,32 @@ paths:
       - FailureReasons
 components:
   schemas:
+    FailureReasonList:
+      description: List of failure reasons
+      type: object
+      xml:
+        name: failureReasonList
+      properties:
+        failureReason:
+          type: array
+          items:
+            $ref: '#/components/schemas/FailureReason'
+    FailureReason:
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            attribute: true
+        code:
+          type: string
+          example: 100001 AUTHMGR-5-FAIL Authorization failed for client
+        cause:
+          type: string
+          example: This may or may not be indicating a violation
+        resolution:
+          type: string
+          example: Please review and resolve according to your organization's policy
     mnt-rest-result:
       type: object
       additionalProperties: true
@@ -90,32 +116,6 @@ components:
         status:
           type: string
           example: SERVER_ERROR
-    FailureReasonList:
-      description: List of failure reasons
-      type: object
-      xml:
-        name: failureReasonList
-      properties:
-        failureReason:
-          type: array
-          items:
-            $ref: '#/components/schemas/FailureReason'
-    FailureReason:
-      type: object
-      properties:
-        id:
-          type: string
-          xml:
-            attribute: true
-        code:
-          type: string
-          example: 100001 AUTHMGR-5-FAIL Authorization failed for client
-        cause:
-          type: string
-          example: This may or may not be indicating a violation
-        resolution:
-          type: string
-          example: Please review and resolve according to your organization's policy
   securitySchemes:
     basicAuth:
       type: http

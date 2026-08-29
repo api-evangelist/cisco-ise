@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Certificatetemplate API
   version: '1.0'
-  description: 'Operations tagged certificatetemplate across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-certificate-template.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged certificatetemplate across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-certificate-template.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-certificate-template.yaml, the provider's source document. Operations
-      and schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-certificate-template.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-certificate-template.yaml
     operation_coverage: 4/7
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: certificatetemplate
 paths:
   /certificatetemplate/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - certificatetemplate
@@ -105,6 +112,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /certificatetemplate/name/{name}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -115,7 +123,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /certificatetemplate/name/{name}:
     get:
       tags:
       - certificatetemplate
@@ -189,6 +196,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /certificatetemplate/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -199,7 +207,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /certificatetemplate/{id}:
     get:
       tags:
       - certificatetemplate
@@ -273,16 +280,6 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/certificatetemplate/{name}:
     get:
       tags:
@@ -398,6 +395,52 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/certificatetemplate/versioninfo
+        type:
+          type: string
+          example: application/xml
+    getall1:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 3
+        resources:
+          type: array
+          example:
+          - id: 3e38b378-ccea-5a56-e053-59e447ab5775
+            name: CA_SERVICE_Certificate_Template
+            description: This template will be used when other network service using ISE as a CA
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/certificatetemplate/3e38b378-ccea-5a56-e053-59e447ab5775
+              type: application/json
+          - id: 3e38b378-ccf4-5a56-e053-59e447ab5775
+            name: pxGrid_Certificate_Template
+            description: This template will be used when we generate a pxGrid certificate from the Certificate Provisioning Portal
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/certificatetemplate/3e38b378-ccf4-5a56-e053-59e447ab5775
+              type: application/json
+          - id: 0ca8f1b6-500d-560b-e053-75189a0ab0d1
+            name: EAP_Authentication_Certificate_Template
+            description: This template will be used to issue certificates for EAP Authentication
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/certificatetemplate/0ca8f1b6-500d-560b-e053-75189a0ab0d1
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
     Link:
       type: object
       properties:
@@ -416,19 +459,32 @@ components:
           type: string
           example: application/json
       example: null
-    certificatetemplateResponse:
+    getbyname1:
+      type: object
+      properties:
+        id:
+          type: string
+          example: da095377-dce8-486e-933a-6ea788bbf51a
+        name:
+          type: string
+          example: Certificate_Template_Name
+        description:
+          type: string
+          example: ERS Example certificate template
+        keySize:
+          type: integer
+          example: 2048
+        validityPeriod:
+          type: integer
+          example: 730
+        raprofile:
+          type: string
+          example: ISE Internal CA
+    getbyname:
       type: object
       properties:
         ERSCertificateTemplate:
-          $ref: '#/components/schemas/certificatetemplateResponseEntity'
-      example:
-        ERSCertificateTemplate:
-          validityPeriod: 730
-          raprofile: ISE Internal CA
-          keySize: 2048
-          name: Certificate_Template_Name
-          description: 'ERS Example certificate template '
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          $ref: '#/components/schemas/getbyname1'
     certificatetemplateResponseEntity:
       properties:
         raprofile:
@@ -464,48 +520,35 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    ERSResponse:
+    getall:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    certificatetemplateListResponseEntity:
+        SearchResult:
+          $ref: '#/components/schemas/getall1'
+    certificatetemplateResponse:
+      type: object
       properties:
-        id:
-          title: id
+        ERSCertificateTemplate:
+          $ref: '#/components/schemas/certificatetemplateResponseEntity'
+      example:
+        ERSCertificateTemplate:
+          validityPeriod: 730
+          raprofile: ISE Internal CA
+          keySize: 2048
+          name: Certificate_Template_Name
+          description: 'ERS Example certificate template '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    version:
+      type: object
+      properties:
+        currentServerVersion:
           type: string
-          description: Id description
-          example: null
-        name:
-          title: name
+          example: '1.0'
+        supportedVersions:
           type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
+          example: '1.0'
         link:
-          $ref: '#/components/schemas/Link'
-      example: null
+          $ref: '#/components/schemas/link1'
     certificatetemplateListResponse:
       type: object
       properties:
@@ -547,110 +590,54 @@ components:
               type: application/xml
             description: description2
             id: id2
-    getbyname:
-      type: object
-      properties:
-        ERSCertificateTemplate:
-          $ref: '#/components/schemas/getbyname1'
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    getbyname1:
-      type: object
+    certificatetemplateListResponseEntity:
       properties:
         id:
+          title: id
           type: string
-          example: da095377-dce8-486e-933a-6ea788bbf51a
+          description: Id description
+          example: null
         name:
+          title: name
           type: string
-          example: Certificate_Template_Name
+          description: name description
+          example: null
         description:
+          title: description
           type: string
-          example: ERS Example certificate template
-        keySize:
-          type: integer
-          example: 2048
-        validityPeriod:
-          type: integer
-          example: 730
-        raprofile:
-          type: string
-          example: ISE Internal CA
-    getall1:
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
       type: object
       properties:
-        total:
-          type: integer
-          example: 3
-        resources:
+        operation:
+          type: string
+          example: Operation
+        messages:
           type: array
-          example:
-          - id: 3e38b378-ccea-5a56-e053-59e447ab5775
-            name: CA_SERVICE_Certificate_Template
-            description: This template will be used when other network service using ISE as a CA
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/certificatetemplate/3e38b378-ccea-5a56-e053-59e447ab5775
-              type: application/json
-          - id: 3e38b378-ccf4-5a56-e053-59e447ab5775
-            name: pxGrid_Certificate_Template
-            description: This template will be used when we generate a pxGrid certificate from the Certificate Provisioning
-              Portal
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/certificatetemplate/3e38b378-ccf4-5a56-e053-59e447ab5775
-              type: application/json
-          - id: 0ca8f1b6-500d-560b-e053-75189a0ab0d1
-            name: EAP_Authentication_Certificate_Template
-            description: This template will be used to issue certificates for EAP Authentication
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/certificatetemplate/0ca8f1b6-500d-560b-e053-75189a0ab0d1
-              type: application/json
+          example: null
           items:
             properties:
-              name:
+              title:
                 type: string
-    getall:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/getall1'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/certificatetemplate/versioninfo
-        type:
-          type: string
-          example: application/xml
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -660,6 +647,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

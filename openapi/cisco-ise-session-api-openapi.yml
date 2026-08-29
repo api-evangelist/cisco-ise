@@ -415,80 +415,6 @@ paths:
       - Session
 components:
   schemas:
-    SimpleActiveSession:
-      description: Active session
-      type: object
-      additionalProperties: true
-      properties:
-        user_name:
-          type: string
-          example: jdoe
-        calling_station_id:
-          type: string
-          example: 00-14-22-01-23-45
-        orig_calling_station_id:
-          type: string
-          example: 00-14-22-01-23-45
-        nas_ip_address:
-          type: string
-          example: 192.168.1.1
-        nas_ipv6_address:
-          type: string
-          example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-        acct_session_id:
-          type: string
-          example: session123
-        audit_session_id:
-          type: string
-          example: audit123
-        cpmsession_id:
-          type: string
-          example: cpm123
-        server:
-          type: string
-          example: server1
-        framed_ip_address:
-          type: string
-          example: 192.168.1.100
-        device_ip_address:
-          type: string
-          example: 192.168.1.101
-        framed_ipv6_address:
-          $ref: '#/components/schemas/framed_ipv6_address'
-    mnt-rest-result:
-      type: object
-      additionalProperties: true
-      properties:
-        http-code:
-          type: integer
-          example: 500
-        cpm-code:
-          type: integer
-          example: 34110
-        description:
-          type: string
-          example: Server has encountered error while processing the REST request
-        module-name:
-          type: string
-          example: MnT
-        internal-error-info:
-          type: string
-          example: This host is not a MnT node. MnT REST APIs can not be executed on this node.
-        requested-operation:
-          type: string
-          example: Get By Type
-        resource-id:
-          type: string
-          example: dummy
-        resource-name:
-          type: string
-          example: dummy
-        resource-type:
-          type: string
-          example: ActiveCount
-        status:
-          type: string
-          example: SERVER_ERROR
     SimpleActiveSessionList:
       type: object
       description: List of active sessions
@@ -504,6 +430,12 @@ components:
           example: 10
           xml:
             attribute: true
+    sessionCount:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 32348
     SessionParameters:
       description: Session parameters
       type: object
@@ -660,23 +592,46 @@ components:
           type: string
       xml:
         name: sessionParameters
-    sessionCount:
+    SimpleActiveSession:
+      description: Active session
       type: object
+      additionalProperties: true
       properties:
-        count:
-          type: integer
-          example: 32348
-    framed_ipv6_address:
-      description: IPv6 address
-      type: object
-      properties:
-        ipv6_address:
-          type: array
-          items:
-            type: string
-          example:
-          - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-          - 2001:0db8:85a3:0000:0000:8a2e:0370:7335
+        user_name:
+          type: string
+          example: jdoe
+        calling_station_id:
+          type: string
+          example: 00-14-22-01-23-45
+        orig_calling_station_id:
+          type: string
+          example: 00-14-22-01-23-45
+        nas_ip_address:
+          type: string
+          example: 192.168.1.1
+        nas_ipv6_address:
+          type: string
+          example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+        acct_session_id:
+          type: string
+          example: session123
+        audit_session_id:
+          type: string
+          example: audit123
+        cpmsession_id:
+          type: string
+          example: cpm123
+        server:
+          type: string
+          example: server1
+        framed_ip_address:
+          type: string
+          example: 192.168.1.100
+        device_ip_address:
+          type: string
+          example: 192.168.1.101
+        framed_ipv6_address:
+          $ref: '#/components/schemas/framed_ipv6_address'
     RadActiveSessionList:
       type: object
       xml:
@@ -731,6 +686,40 @@ components:
           example: 0
           xml:
             attribute: true
+    mnt-rest-result:
+      type: object
+      additionalProperties: true
+      properties:
+        http-code:
+          type: integer
+          example: 500
+        cpm-code:
+          type: integer
+          example: 34110
+        description:
+          type: string
+          example: Server has encountered error while processing the REST request
+        module-name:
+          type: string
+          example: MnT
+        internal-error-info:
+          type: string
+          example: This host is not a MnT node. MnT REST APIs can not be executed on this node.
+        requested-operation:
+          type: string
+          example: Get By Type
+        resource-id:
+          type: string
+          example: dummy
+        resource-name:
+          type: string
+          example: dummy
+        resource-type:
+          type: string
+          example: ActiveCount
+        status:
+          type: string
+          example: SERVER_ERROR
     RESTMntRadSess:
       type: object
       additionalProperties: true
@@ -837,6 +826,17 @@ components:
           type: string
         session_start_time:
           type: string
+    framed_ipv6_address:
+      description: IPv6 address
+      type: object
+      properties:
+        ipv6_address:
+          type: array
+          items:
+            type: string
+          example:
+          - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+          - 2001:0db8:85a3:0000:0000:8a2e:0370:7335
   securitySchemes:
     basicAuth:
       type: http

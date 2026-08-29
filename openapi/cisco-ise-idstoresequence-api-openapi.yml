@@ -557,6 +557,89 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
 components:
   schemas:
+    idstoresequenceListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+        idSeqItem:
+          properties:
+            idstore:
+              type: string
+              example: null
+            order:
+              type: string
+              example: null
+          example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    idstoresequenceListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/idstoresequenceListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     Link:
       type: object
       properties:
@@ -666,18 +749,6 @@ components:
           breakOnStoreFail: false
           description: 'ERS Example Id sequence '
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
     idstoresequenceResponse:
       type: object
       properties:
@@ -695,55 +766,18 @@ components:
           breakOnStoreFail: false
           description: 'ERS Example Id sequence '
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    identitystores.idstoresequence:
-      required:
-      - IdStoreSequence
-      type: object
+    updatedField:
       properties:
-        IdStoreSequence:
-          $ref: '#/components/schemas/IdStoreSequence'
-      example: null
-    idstoresequenceListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/idstoresequenceListResponseEntity'
+        field:
+          type: string
           example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -766,58 +800,15 @@ components:
                 example: code
             example: null
       example: null
-    idstoresequenceListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-        idSeqItem:
-          properties:
-            idstore:
-              type: string
-              example: null
-            order:
-              type: string
-              example: null
-          example: null
-      example: null
-    UpdatedFieldsResponse:
+    identitystores.idstoresequence:
+      required:
+      - IdStoreSequence
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
+        IdStoreSequence:
+          $ref: '#/components/schemas/IdStoreSequence'
       example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -827,6 +818,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

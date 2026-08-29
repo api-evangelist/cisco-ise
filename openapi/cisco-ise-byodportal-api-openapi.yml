@@ -532,6 +532,19 @@ paths:
                 example: null
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     Link:
       type: object
       properties:
@@ -621,6 +634,14 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
+    portal.byodportal:
+      required:
+      - BYODPortal
+      type: object
+      properties:
+        BYODPortal:
+          $ref: '#/components/schemas/BYODPortal'
+      example: null
     updatedField:
       properties:
         field:
@@ -633,13 +654,25 @@ components:
           type: string
           example: null
       example: null
-    portal.byodportal:
-      required:
-      - BYODPortal
-      type: object
+    byodportalListResponseEntity:
       properties:
-        BYODPortal:
-          $ref: '#/components/schemas/BYODPortal'
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     BYODPortal:
       required:
@@ -1300,48 +1333,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    byodportalListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     byodportalListResponse:
       type: object
       properties:
@@ -1383,29 +1374,29 @@ components:
               type: application/xml
             description: description2
             id: id2
-    UpdatedFieldsResponse:
+    ERSResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
           example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1415,6 +1406,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

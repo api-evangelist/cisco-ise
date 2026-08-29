@@ -237,6 +237,148 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    OperationNotExecuted:
+      title: OperationNotExecuted
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 405
+        message:
+          type: string
+          example: Cancel can't be executed as there is no running backup.
+    BackupRestoreTask:
+      title: BackupRestoreTask
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id which can be used to track the status of backup / restore of config DB.
+          example: a1714b90-be06-11eb-bf27-c208c4aa1432
+        message:
+          type: string
+          example: Config DB backup task initiated. Please use Task Service status API to get the status of the backup job
+    ConfigBackup:
+      title: ConfigBackup
+      required:
+      - backupEncryptionKey
+      - backupName
+      - repositoryName
+      type: object
+      properties:
+        backupEncryptionKey:
+          type: string
+          description: The encyption key for the backed up file. Encryption key must satisfy the following criteria - Contains at least one uppercase letter [A-Z], Contains at least one lowercase letter [a-z], Contains at least one digit [0-9], Contain only [A-Z][a-z][0-9]_#, Has at least 8 characters, Has not more than 15 characters, Must not contain 'CcIiSsCco', Must not begin with
+          example: Qwerty123
+        backupName:
+          type: string
+          description: The backup file will get saved with this name.
+          example: backup_name
+        repositoryName:
+          type: string
+          description: Name of the configured repository where the generated backup file will get copied.
+          example: repo_name
+    BackupRestoreTaskResponse:
+      title: BackupRestoreTaskResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/BackupRestoreTask'
+        version:
+          type: string
+          example: 1.0.0
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+        message:
+          type: string
+          example: Invalid repository name
+    ConfigScheduleStatusResponse:
+      title: ConfigScheduleStatusResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ConfigScheduleStatus'
+        version:
+          type: string
+          example: 1.0.0
+    ScheduleConfigBackupRequest:
+      title: ScheduleConfigBackupRequest
+      required:
+      - backupEncryptionKey
+      - backupName
+      - frequency
+      - repositoryName
+      - startDate
+      - time
+      type: object
+      properties:
+        backupDescription:
+          type: string
+          description: Description of the backup.
+          example: backup description like configuration backup daily
+        backupEncryptionKey:
+          type: string
+          description: The encyption key for the backed up file. Encryption key must satisfy the following criteria - Contains at least one uppercase letter [A-Z], Contains at least one lowercase letter [a-z], Contains at least one digit [0-9], Contain only [A-Z][a-z][0-9]_#, Has at least 8 characters, Has not more than 15 characters, Must not contain 'CcIiSsCco', Must not begin with
+          example: Qwerty123
+        backupName:
+          type: string
+          description: The backup file will get saved with this name.
+          example: backup_name
+        endDate:
+          type: string
+          description: End date of the scheduled backup job. Allowed format MM/DD/YYYY. End date is not required in case of ONE_TIME frequency.
+          example: 05/13/2021
+        frequency:
+          type: string
+          enum:
+          - DAILY
+          - MONTHLY
+          - ONCE
+          - WEEKLY
+        monthDay:
+          type: string
+          description: Day of month you want backup to be performed on when scheduled frequency is MONTHLY. Allowed values - from 1 to 28.
+          example: '5'
+        repositoryName:
+          type: string
+          description: Name of the configured repository where the generated backup file will get copied.
+          example: repo_name
+        startDate:
+          type: string
+          description: Start date for scheduling the backup job. Allowed format MM/DD/YYYY.
+          example: 05/13/2021
+        status:
+          type: string
+          enum:
+          - DISABLE
+          - ENABLE
+        time:
+          type: string
+          description: Time at which backup job get scheduled. example- 12:00 AM
+          example: 09:30 PM
+        weekDay:
+          type: string
+          enum:
+          - FRI
+          - MON
+          - SAT
+          - SUN
+          - THU
+          - TUE
+          - WED
     ConfigScheduleStatus:
       title: ConfigScheduleStatus
       type: object
@@ -321,148 +463,15 @@ components:
           enum:
           - CONFIGURATION_DB
           - OPERATIONAL_DB
-    OperationNotExecuted:
-      title: OperationNotExecuted
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 405
-        message:
-          type: string
-          example: Cancel can't be executed as there is no running backup.
-    BackupRestoreTaskResponse:
-      title: BackupRestoreTaskResponse
+    CancelBackupResponse:
+      title: CancelBackupResponse
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/BackupRestoreTask'
+          $ref: '#/components/schemas/ConfigBackupStatus'
         version:
           type: string
           example: 1.0.0
-    BackupRestoreTask:
-      title: BackupRestoreTask
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id which can be used to track the status of backup / restore of config DB.
-          example: a1714b90-be06-11eb-bf27-c208c4aa1432
-        message:
-          type: string
-          example: Config DB backup task initiated. Please use Task Service status API to get the status of the backup job
-    ConfigScheduleStatusResponse:
-      title: ConfigScheduleStatusResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ConfigScheduleStatus'
-        version:
-          type: string
-          example: 1.0.0
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-        message:
-          type: string
-          example: Invalid repository name
-    ConfigBackup:
-      title: ConfigBackup
-      required:
-      - backupEncryptionKey
-      - backupName
-      - repositoryName
-      type: object
-      properties:
-        backupEncryptionKey:
-          type: string
-          description: The encyption key for the backed up file. Encryption key must satisfy the following criteria - Contains at least one uppercase letter [A-Z], Contains at least one lowercase letter [a-z], Contains at least one digit [0-9], Contain only [A-Z][a-z][0-9]_#, Has at least 8 characters, Has not more than 15 characters, Must not contain 'CcIiSsCco', Must not begin with
-          example: Qwerty123
-        backupName:
-          type: string
-          description: The backup file will get saved with this name.
-          example: backup_name
-        repositoryName:
-          type: string
-          description: Name of the configured repository where the generated backup file will get copied.
-          example: repo_name
-    ScheduleConfigBackupRequest:
-      title: ScheduleConfigBackupRequest
-      required:
-      - backupEncryptionKey
-      - backupName
-      - frequency
-      - repositoryName
-      - startDate
-      - time
-      type: object
-      properties:
-        backupDescription:
-          type: string
-          description: Description of the backup.
-          example: backup description like configuration backup daily
-        backupEncryptionKey:
-          type: string
-          description: The encyption key for the backed up file. Encryption key must satisfy the following criteria - Contains at least one uppercase letter [A-Z], Contains at least one lowercase letter [a-z], Contains at least one digit [0-9], Contain only [A-Z][a-z][0-9]_#, Has at least 8 characters, Has not more than 15 characters, Must not contain 'CcIiSsCco', Must not begin with
-          example: Qwerty123
-        backupName:
-          type: string
-          description: The backup file will get saved with this name.
-          example: backup_name
-        endDate:
-          type: string
-          description: End date of the scheduled backup job. Allowed format MM/DD/YYYY. End date is not required in case of ONE_TIME frequency.
-          example: 05/13/2021
-        frequency:
-          type: string
-          enum:
-          - DAILY
-          - MONTHLY
-          - ONCE
-          - WEEKLY
-        monthDay:
-          type: string
-          description: Day of month you want backup to be performed on when scheduled frequency is MONTHLY. Allowed values - from 1 to 28.
-          example: '5'
-        repositoryName:
-          type: string
-          description: Name of the configured repository where the generated backup file will get copied.
-          example: repo_name
-        startDate:
-          type: string
-          description: Start date for scheduling the backup job. Allowed format MM/DD/YYYY.
-          example: 05/13/2021
-        status:
-          type: string
-          enum:
-          - DISABLE
-          - ENABLE
-        time:
-          type: string
-          description: Time at which backup job get scheduled. example- 12:00 AM
-          example: 09:30 PM
-        weekDay:
-          type: string
-          enum:
-          - FRI
-          - MON
-          - SAT
-          - SUN
-          - THU
-          - TUE
-          - WED
     ConfigRestore:
       title: ConfigRestore
       required:
@@ -488,12 +497,3 @@ components:
           type: string
           description: Determines whether the ADE-OS configure is restored. Possible values true, false
           example: 'true'
-    CancelBackupResponse:
-      title: CancelBackupResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ConfigBackupStatus'
-        version:
-          type: string
-          example: 1.0.0

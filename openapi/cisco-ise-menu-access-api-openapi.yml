@@ -291,6 +291,131 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    MenuAccessRequest:
+      title: MenuAccessRequest
+      required:
+      - menuAccessPrivileges
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: A brief description of the menu access request.
+          exampleSetFlag: true
+        menuAccessPrivileges:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MenuAccessPermission'
+            exampleSetFlag: false
+        name:
+          type: string
+          description: The name of the menu access request.
+          exampleSetFlag: true
+      description: Request schema for creating or updating menu access, including its name, description, and privileges.
+      exampleSetFlag: false
+    MenuAccessPermission:
+      title: MenuAccessPermission
+      type: object
+      properties:
+        childPermissions:
+          type: array
+          description: A list of child permissions that are part of this permission.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MenuAccessPermission'
+            exampleSetFlag: false
+        id:
+          type: string
+          description: A unique identifier for the permission.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the permission.
+          exampleSetFlag: true
+        permission:
+          type: string
+          description: A string representing the type of permission, such as 'read', 'write', etc.
+          exampleSetFlag: true
+      description: Represents a menu access permission, including its own properties and any child permissions it might have.
+      exampleSetFlag: false
+    BaseResponse:
+      title: BaseResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message detailing the response, indicating success or failure.
+          exampleSetFlag: true
+      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The error code associated with the response. A non-zero code typically indicates an error.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A description of the error encountered.
+          exampleSetFlag: true
+      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
+      exampleSetFlag: false
+    MenuAccessResponse:
+      title: MenuAccessResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+        menuAccessList:
+          type: array
+          description: A list of menu access entries.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MenuAccessData'
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A descriptive message related to the response.
+          exampleSetFlag: true
+      description: Response schema for menu access data, including the status code, message, and a list of menu access entries.
+      exampleSetFlag: false
+    MenuAccessData:
+      title: MenuAccessData
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: A brief description of the menu access.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the menu access entry.
+          exampleSetFlag: true
+      description: Schema representing data about a menu access entry, including its name and description.
+      exampleSetFlag: false
     MenuAccessByNameResponse:
       title: MenuAccessByNameResponse
       required:
@@ -323,129 +448,4 @@ components:
           description: The name of the menu for which the access details are being requested.
           exampleSetFlag: true
       description: Response schema for retrieving menu access details by name, including its privileges and a status code/message.
-      exampleSetFlag: false
-    MenuAccessResponse:
-      title: MenuAccessResponse
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The status code of the response.
-          format: int32
-          exampleSetFlag: true
-        menuAccessList:
-          type: array
-          description: A list of menu access entries.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/MenuAccessData'
-            exampleSetFlag: false
-        message:
-          type: string
-          description: A descriptive message related to the response.
-          exampleSetFlag: true
-      description: Response schema for menu access data, including the status code, message, and a list of menu access entries.
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The error code associated with the response. A non-zero code typically indicates an error.
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A description of the error encountered.
-          exampleSetFlag: true
-      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
-      exampleSetFlag: false
-    MenuAccessPermission:
-      title: MenuAccessPermission
-      type: object
-      properties:
-        childPermissions:
-          type: array
-          description: A list of child permissions that are part of this permission.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/MenuAccessPermission'
-            exampleSetFlag: false
-        id:
-          type: string
-          description: A unique identifier for the permission.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the permission.
-          exampleSetFlag: true
-        permission:
-          type: string
-          description: A string representing the type of permission, such as 'read', 'write', etc.
-          exampleSetFlag: true
-      description: Represents a menu access permission, including its own properties and any child permissions it might have.
-      exampleSetFlag: false
-    MenuAccessData:
-      title: MenuAccessData
-      required:
-      - name
-      type: object
-      properties:
-        description:
-          type: string
-          description: A brief description of the menu access.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the menu access entry.
-          exampleSetFlag: true
-      description: Schema representing data about a menu access entry, including its name and description.
-      exampleSetFlag: false
-    BaseResponse:
-      title: BaseResponse
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A message detailing the response, indicating success or failure.
-          exampleSetFlag: true
-      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
-      exampleSetFlag: false
-    MenuAccessRequest:
-      title: MenuAccessRequest
-      required:
-      - menuAccessPrivileges
-      - name
-      type: object
-      properties:
-        description:
-          type: string
-          description: A brief description of the menu access request.
-          exampleSetFlag: true
-        menuAccessPrivileges:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/MenuAccessPermission'
-            exampleSetFlag: false
-        name:
-          type: string
-          description: The name of the menu access request.
-          exampleSetFlag: true
-      description: Request schema for creating or updating menu access, including its name, description, and privileges.
       exampleSetFlag: false

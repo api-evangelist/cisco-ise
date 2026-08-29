@@ -405,6 +405,108 @@ components:
           exampleSetFlag: true
       description: Represents the response wrapper for retrieving a single alarm instance.
       exampleSetFlag: false
+    AlarmInstancePagedResponseWrapper:
+      title: AlarmInstancePagedResponseWrapper
+      type: object
+      properties:
+        instances:
+          type: array
+          description: List of alarm instances
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AlarmInstance'
+            exampleSetFlag: false
+        pageNumber:
+          type: integer
+          description: The current page number of the paginated response.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        pageSize:
+          type: integer
+          description: The number of items per page in the paginated response.
+          format: int32
+          example: 10
+          exampleSetFlag: true
+        totalPages:
+          type: integer
+          description: The total number of pages available based on the page size.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        totalRecords:
+          type: integer
+          description: The total number of alarm instances available.
+          format: int64
+          example: 50
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving a single alarm instance.
+      exampleSetFlag: false
+    AlarmInstancePaginatedResponseWrapper:
+      title: AlarmInstancePaginatedResponseWrapper
+      type: object
+      properties:
+        criticalSeverity:
+          type: integer
+          description: The total number of critical severity.
+          format: int64
+          example: 30
+          exampleSetFlag: true
+        infoSeverity:
+          type: integer
+          description: The total number of info severity.
+          format: int64
+          example: 59
+          exampleSetFlag: true
+        instances:
+          type: array
+          description: List of alarm instances
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AlarmInstance'
+            exampleSetFlag: false
+        pageNumber:
+          type: integer
+          description: The current page number of the paginated response.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        pageSize:
+          type: integer
+          description: The number of items per page in the paginated response.
+          format: int32
+          example: 10
+          exampleSetFlag: true
+        totalPages:
+          type: integer
+          description: The total number of pages available based on the page size.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        totalRecords:
+          type: integer
+          description: The total number of alarm instances available.
+          format: int64
+          example: 50
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+        warningSeverity:
+          type: integer
+          description: The total number of warning severity.
+          format: int64
+          example: 40
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving a list of alarm instances.
+      exampleSetFlag: false
     AcknowledgeInstancesResponse:
       title: AcknowledgeInstancesResponse
       required:
@@ -425,25 +527,21 @@ components:
           exampleSetFlag: true
       description: Represents the response for acknowledging alarm instances.
       exampleSetFlag: false
-    AcknowledgeAlarmsByIdsResponse:
-      title: AcknowledgeAlarmsByIdsResponse
+    AcknowledgeAlarmsByIdsRequest:
+      title: AcknowledgeAlarmsByIdsRequest
       required:
-      - acknowledgedCount
-      - version
+      - alarmIds
       type: object
       properties:
-        acknowledgedCount:
-          type: integer
-          description: Total number of alarm instances that were successfully acknowledged across all alarm IDs.
-          format: int32
-          example: 5
+        alarmIds:
+          type: array
+          description: List of alarm IDs to acknowledge all instances for.
+          example: '["550e8400-e29b-41d4-a716-446655440000","660f9400-f29c-51d5-b817-556755550111"]'
           exampleSetFlag: true
-        version:
-          type: string
-          description: Version of the API.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response for acknowledging alarm instances by alarm IDs.
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Represents the request payload for acknowledging alarm instances by alarm IDs.
       exampleSetFlag: false
     AlarmInstance:
       title: AlarmInstance
@@ -510,6 +608,58 @@ components:
           exampleSetFlag: true
       description: Represents an alarm instance that has been triggered in the system.
       exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        data:
+          type: array
+          description: Optional data payload, like a list of items.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A string containing a brief message about the result of the operation, such as "Success" for successful operations or an error message for failures.
+          example: Success
+          exampleSetFlag: true
+      description: Represents a simple message object used in API responses. This object typically contains a single message string that provides information about the success, error, or status of an operation.
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
+      exampleSetFlag: false
+    AcknowledgeAlarmsByIdsResponse:
+      title: AcknowledgeAlarmsByIdsResponse
+      required:
+      - acknowledgedCount
+      - version
+      type: object
+      properties:
+        acknowledgedCount:
+          type: integer
+          description: Total number of alarm instances that were successfully acknowledged across all alarm IDs.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        version:
+          type: string
+          description: Version of the API.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response for acknowledging alarm instances by alarm IDs.
+      exampleSetFlag: false
     AcknowledgeInstancesRequest:
       title: AcknowledgeInstancesRequest
       required:
@@ -525,20 +675,6 @@ components:
             type: string
             exampleSetFlag: false
       description: Represents the request payload for acknowledging alarm instances.
-      exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
       exampleSetFlag: false
     AlarmSummary:
       title: AlarmSummary
@@ -589,140 +725,4 @@ components:
           example: Review the posture violations and take necessary actions.
           exampleSetFlag: true
       description: Represents a summary of alarm occurrences grouped by alarm ID.
-      exampleSetFlag: false
-    AcknowledgeAlarmsByIdsRequest:
-      title: AcknowledgeAlarmsByIdsRequest
-      required:
-      - alarmIds
-      type: object
-      properties:
-        alarmIds:
-          type: array
-          description: List of alarm IDs to acknowledge all instances for.
-          example: '["550e8400-e29b-41d4-a716-446655440000","660f9400-f29c-51d5-b817-556755550111"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      description: Represents the request payload for acknowledging alarm instances by alarm IDs.
-      exampleSetFlag: false
-    AlarmInstancePaginatedResponseWrapper:
-      title: AlarmInstancePaginatedResponseWrapper
-      type: object
-      properties:
-        criticalSeverity:
-          type: integer
-          description: The total number of critical severity.
-          format: int64
-          example: 30
-          exampleSetFlag: true
-        infoSeverity:
-          type: integer
-          description: The total number of info severity.
-          format: int64
-          example: 59
-          exampleSetFlag: true
-        instances:
-          type: array
-          description: List of alarm instances
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AlarmInstance'
-            exampleSetFlag: false
-        pageNumber:
-          type: integer
-          description: The current page number of the paginated response.
-          format: int32
-          example: 1
-          exampleSetFlag: true
-        pageSize:
-          type: integer
-          description: The number of items per page in the paginated response.
-          format: int32
-          example: 10
-          exampleSetFlag: true
-        totalPages:
-          type: integer
-          description: The total number of pages available based on the page size.
-          format: int32
-          example: 5
-          exampleSetFlag: true
-        totalRecords:
-          type: integer
-          description: The total number of alarm instances available.
-          format: int64
-          example: 50
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or response format.
-          example: 1.0.0
-          exampleSetFlag: true
-        warningSeverity:
-          type: integer
-          description: The total number of warning severity.
-          format: int64
-          example: 40
-          exampleSetFlag: true
-      description: Represents the response wrapper for retrieving a list of alarm instances.
-      exampleSetFlag: false
-    AlarmInstancePagedResponseWrapper:
-      title: AlarmInstancePagedResponseWrapper
-      type: object
-      properties:
-        instances:
-          type: array
-          description: List of alarm instances
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AlarmInstance'
-            exampleSetFlag: false
-        pageNumber:
-          type: integer
-          description: The current page number of the paginated response.
-          format: int32
-          example: 1
-          exampleSetFlag: true
-        pageSize:
-          type: integer
-          description: The number of items per page in the paginated response.
-          format: int32
-          example: 10
-          exampleSetFlag: true
-        totalPages:
-          type: integer
-          description: The total number of pages available based on the page size.
-          format: int32
-          example: 5
-          exampleSetFlag: true
-        totalRecords:
-          type: integer
-          description: The total number of alarm instances available.
-          format: int64
-          example: 50
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or response format.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for retrieving a single alarm instance.
-      exampleSetFlag: false
-    Message:
-      title: Message
-      type: object
-      properties:
-        data:
-          type: array
-          description: Optional data payload, like a list of items.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        message:
-          type: string
-          description: A string containing a brief message about the result of the operation, such as "Success" for successful operations or an error message for failures.
-          example: Success
-          exampleSetFlag: true
-      description: Represents a simple message object used in API responses. This object typically contains a single message string that provides information about the success, error, or status of an operation.
       exampleSetFlag: false

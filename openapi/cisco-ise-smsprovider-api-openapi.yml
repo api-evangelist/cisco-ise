@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Smsprovider API
   version: '1.0'
-  description: 'Operations tagged smsprovider across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-sms-provider.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged smsprovider across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-sms-provider.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas
-      are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-ers-open-api-ers-apis.yaml
     operation_coverage: 2/4
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: smsprovider
 paths:
   /smsprovider/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - smsprovider
@@ -133,6 +140,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /smsprovider/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -143,7 +151,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /smsprovider/{id}:
     get:
       tags:
       - smsprovider
@@ -217,26 +224,12 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/smsprovider:
     get:
       tags:
       - smsprovider
       summary: Get all SMS providers
-      description: <p>This API allows the client to get all the SMS providers.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p>
-        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
-        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
-        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
-        description]</h3></p>
+      description: <p>This API allows the client to get all the SMS providers.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -274,6 +267,38 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/smsprovider/versioninfo
+        type:
+          type: string
+          example: application/json
+    smsproviderResponseEntity:
+      properties:
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     Link:
       type: object
       properties:
@@ -292,35 +317,17 @@ components:
           type: string
           example: application/json
       example: null
-    smsproviderListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    smsproviderResponse:
+    version:
       type: object
       properties:
-        SmsProviderIdentification:
-          $ref: '#/components/schemas/smsproviderResponseEntity'
-      example:
-        SmsProviderIdentification:
-          name: name
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     smsproviderListResponse:
       type: object
       properties:
@@ -362,6 +369,64 @@ components:
               type: application/xml
             description: description2
             id: id2
+    smsproviderResponse:
+      type: object
+      properties:
+        SmsProviderIdentification:
+          $ref: '#/components/schemas/smsproviderResponseEntity'
+      example:
+        SmsProviderIdentification:
+          name: name
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: '  b1155994-b736-46af-9add-04bed3058e3a'
+            name: name
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/smsprovider/b1155994-b736-46af-9add-04bed3058e3a
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    smsproviderListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -384,78 +449,6 @@ components:
                 example: code
             example: null
       example: null
-    smsproviderResponseEntity:
-      properties:
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: '  b1155994-b736-46af-9add-04bed3058e3a'
-            name: name
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/smsprovider/b1155994-b736-46af-9add-04bed3058e3a
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/smsprovider/versioninfo
-        type:
-          type: string
-          example: application/json
   parameters:
     ppage:
       name: page

@@ -492,6 +492,19 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     Link:
       type: object
       properties:
@@ -510,16 +523,56 @@ components:
           type: string
           example: application/json
       example: null
-    portalthemeResponse:
-      type: object
+    PortalTheme:
+      required:
+      - name
+      - themeData
       properties:
-        PortalTheme:
-          $ref: '#/components/schemas/portalthemeResponseEntity'
+        themeData:
+          title: themeData
+          type: string
+          description: Portal Theme for all portals.
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
       example:
         PortalTheme:
           themeData: Base 64 encoded string of CSS file
           name: name
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    portalthemeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     portalthemeResponseEntity:
       properties:
         themeData:
@@ -557,47 +610,13 @@ components:
           type: string
           example: null
       example: null
-    portalthemeListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
+    portal.portaltheme:
+      required:
+      - PortalTheme
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        PortalTheme:
+          $ref: '#/components/schemas/PortalTheme'
       example: null
     portalthemeListResponse:
       type: object
@@ -640,67 +659,39 @@ components:
               type: application/xml
             description: description2
             id: id2
-    PortalTheme:
-      required:
-      - name
-      - themeData
+    ERSResponse:
+      type: object
       properties:
-        themeData:
-          title: themeData
+        operation:
           type: string
-          description: Portal Theme for all portals.
+          example: Operation
+        messages:
+          type: array
           example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    portalthemeResponse:
+      type: object
+      properties:
+        PortalTheme:
+          $ref: '#/components/schemas/portalthemeResponseEntity'
       example:
         PortalTheme:
           themeData: Base 64 encoded string of CSS file
           name: name
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    portal.portaltheme:
-      required:
-      - PortalTheme
-      type: object
-      properties:
-        PortalTheme:
-          $ref: '#/components/schemas/PortalTheme'
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -710,6 +701,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

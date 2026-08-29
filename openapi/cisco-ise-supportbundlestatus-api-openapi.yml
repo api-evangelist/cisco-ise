@@ -190,6 +190,61 @@ components:
           type: string
           example: application/json
       example: null
+    supportbundlestatusResponse:
+      type: object
+      properties:
+        SBStatus:
+          $ref: '#/components/schemas/supportbundlestatusResponseEntity'
+      example:
+        SBStatus:
+          hostName: TestNode
+          fileName: ise-support-bundle-pk-TestNode-admin-05-31-2019-06-37.tar.gpg
+          fileSize: 535703
+          startTime: Fri May 31 06:37:31 UTC 2019
+          id: TestNode
+          message: Support Bundle generation completed
+          status: complete
+    supportbundlestatusListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/supportbundlestatusListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     supportbundlestatusListResponseEntity:
       properties:
         id:
@@ -209,42 +264,6 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
-      example: null
-    supportbundlestatusResponse:
-      type: object
-      properties:
-        SBStatus:
-          $ref: '#/components/schemas/supportbundlestatusResponseEntity'
-      example:
-        SBStatus:
-          hostName: TestNode
-          fileName: ise-support-bundle-pk-TestNode-admin-05-31-2019-06-37.tar.gpg
-          fileSize: 535703
-          startTime: Fri May 31 06:37:31 UTC 2019
-          id: TestNode
-          message: Support Bundle generation completed
-          status: complete
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     supportbundlestatusResponseEntity:
       properties:
@@ -296,57 +315,29 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    supportbundlestatusListResponse:
+    ERSResponse:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/supportbundlestatusListResponseEntity'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
           example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -356,6 +347,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Egressmatrixcell API
   version: '1.0'
-  description: 'Operations tagged egressmatrixcell across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-egress-matrix-cell.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged egressmatrixcell across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-egress-matrix-cell.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-egress-matrix-cell.yaml, the provider's source document. Operations
-      and schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-egress-matrix-cell.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-egress-matrix-cell.yaml
     operation_coverage: 11/19
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: egressmatrixcell
 paths:
   /egressmatrixcell/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - egressmatrixcell
@@ -211,6 +218,7 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
+  /egressmatrixcell/status/{status}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -221,7 +229,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /egressmatrixcell/status/{status}:
     put:
       tags:
       - egressmatrixcell
@@ -284,6 +291,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /egressmatrixcell/clonecell/{id}/srcSgt/{srcSgtId}/dstSgt/{dstSgtId}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -294,7 +302,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /egressmatrixcell/clonecell/{id}/srcSgt/{srcSgtId}/dstSgt/{dstSgtId}:
     put:
       tags:
       - egressmatrixcell
@@ -388,6 +395,7 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+  /egressmatrixcell/clearallmatrixcells:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -398,7 +406,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /egressmatrixcell/clearallmatrixcells:
     put:
       tags:
       - egressmatrixcell
@@ -454,6 +461,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /egressmatrixcell/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -464,7 +472,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /egressmatrixcell/{id}:
     get:
       tags:
       - egressmatrixcell
@@ -692,16 +699,6 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/egressmatrixcell/clearallmatrixcells:
     put:
       tags:
@@ -915,11 +912,7 @@ paths:
       tags:
       - egressmatrixcell
       summary: Get all egress matrix cell
-      description: <p>This API allows the client to get all the egress matrix cell.</p> <p><h1>Filter:</h1> <h3>[sgtSrcValue,
-        matrixStatus, description, sgtSrcName, sgtDstName, sgtDstValue]</h3></p> <p>To search guest users by using <b>toDate</b>
-        column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li>
-        <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li>
-        </ul> <p><h1>Sorting:</h1> <h3>[description, sgtSrcName, sgtDstName, sgtDstValue]</h3></p>
+      description: <p>This API allows the client to get all the egress matrix cell.</p> <p><h1>Filter:</h1> <h3>[sgtSrcValue, matrixStatus, description, sgtSrcName, sgtDstName, sgtDstValue]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[description, sgtSrcName, sgtDstName, sgtDstValue]</h3></p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -1032,6 +1025,31 @@ paths:
                 $ref: '#/components/schemas/bulkstatus'
 components:
   schemas:
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     Link:
       type: object
       properties:
@@ -1050,6 +1068,16 @@ components:
           type: string
           example: application/json
       example: null
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    bulkrequest:
+      type: object
+      properties:
+        EgressMatrixCellBulkRequest:
+          $ref: '#/components/schemas/EgressMatrixCellBulkRequest'
     egressmatrixcellListResponse:
       type: object
       properties:
@@ -1091,6 +1119,79 @@ components:
               type: application/xml
             description: description2
             id: id2
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/egressmatrixcell/versioninfo
+        type:
+          type: string
+          example: application/json
+    OperationResult:
+      type: object
+      properties:
+        OperationResult:
+          type: object
+          properties:
+            resultValue:
+              type: array
+              example:
+              - value: DdsAASDs%$##@ssds12
+                name: password
+              items:
+                properties:
+                  name:
+                    type: string
+    EgressMatrixCellBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.trustsec.egressmatrixcell.1.0+xml
     egressmatrixcellResponse:
       type: object
       properties:
@@ -1107,117 +1208,58 @@ components:
           - 1ebbc100-7a26-11e4-bc43-000c29ed7428
           - 2ebbc100-7a26-11e4-bc43-000c29ed7428
           defaultRule: PERMIT_IP
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    OperationResultEntity:
-      properties:
-        OperationResult:
-          properties:
-            resultValue:
-              type: array
-              example: null
-              items:
-                properties:
-                  Value:
-                    type: integer
-                    example: null
-                  name:
-                    type: string
-                    example: null
-                example: null
-          example: null
-      example: null
-    egressmatrixcellListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    trustsec.egressmatrixcell:
-      required:
-      - EgressMatrixCell
+    VersionInfo:
       type: object
       properties:
-        EgressMatrixCell:
-          $ref: '#/components/schemas/EgressMatrixCell'
-      example: null
-    egressmatrixcellResponseEntity:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    EgressMatrixCell_2:
+      type: object
       properties:
-        defaultRule:
-          title: defaultRule
-          type: string
-          description: allowed values:NONE,DENY_IP,PERMIT_IP
-          example: null
-        destinationSgtId:
-          title: destinationSgtId
-          type: string
-          description: ''
-          example: null
-        matrixCellStatus:
-          title: matrixCellStatus
-          type: string
-          description: Allowed values:DISABLED,ENABLED,MONITOR
-          example: null
-        sgacls:
-          title: sgacls
-          type: array
-          description: ''
-          example: null
-          items:
-            example: null
-        sourceSgtId:
-          title: sourceSgtId
-          type: string
-          description: ''
-          example: null
-        matrixId:
-          title: matrixId
-          type: string
-          description: Default value is Production Matrix Id, when no value is provided during creation.<br/>To use it as
-            filter, the values should be an UUID of a Matrix. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=matrixId.eq.ccf9a6ea-153b-4056-b8f4-0dc17eca4d30'
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
         id:
-          title: id
           type: string
-          description: Id
-          example: null
+          example: 92c1a900-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: ANY-ANY
         description:
-          title: description
           type: string
-          description: Description
-          example: null
+          example: Default egress rule
+        sourceSgtId:
+          type: string
+          example: 92bb1950-8c01-11e6-996c-525400b48521
+        destinationSgtId:
+          type: string
+          example: 92bb1950-8c01-11e6-996c-525400b48521
+        matrixCellStatus:
+          type: string
+          example: ENABLED
+        defaultRule:
+          type: string
+          example: PERMIT_IP
+        sgacls:
+          type: array
+          example:
+          - 92951ac0-8c01-11e6-996c-525400b48521
+          items:
+            properties:
+              name:
+                type: string
+        matrixId:
+          type: string
+          example: f47ac10b-58cc-4372-a567-0e02b2c3d479
         link:
-          $ref: '#/components/schemas/Link'
-      example: null
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/egressmatrixcell/92c1a900-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
     ERSResponse:
       type: object
       properties:
@@ -1240,6 +1282,39 @@ components:
                 example: code
             example: null
       example: null
+    trustsec.egressmatrixcell:
+      required:
+      - EgressMatrixCell
+      type: object
+      properties:
+        EgressMatrixCell:
+          $ref: '#/components/schemas/EgressMatrixCell'
+      example: null
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 92c1a900-8c01-11e6-996c-525400b48521
+            name: ANY-ANY
+            description: Default egress rule
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/egressmatrixcell/92c1a900-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
     EgressMatrixCell:
       required:
       - defaultRule
@@ -1277,8 +1352,7 @@ components:
         matrixId:
           title: matrixId
           type: string
-          description: Default value is Production Matrix Id, when no value is provided during creation.<br/>To use it as
-            filter, the values should be an UUID of a Matrix. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=matrixId.eq.ccf9a6ea-153b-4056-b8f4-0dc17eca4d30'
+          description: Default value is Production Matrix Id, when no value is provided during creation.<br/>To use it as filter, the values should be an UUID of a Matrix. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=matrixId.eq.ccf9a6ea-153b-4056-b8f4-0dc17eca4d30'
           example: null
         name:
           title: name
@@ -1306,87 +1380,24 @@ components:
           - 1ebbc100-7a26-11e4-bc43-000c29ed7428
           - 2ebbc100-7a26-11e4-bc43-000c29ed7428
           defaultRule: PERMIT_IP
-    UpdatedFieldsResponse:
-      type: object
+    OperationResultEntity:
       properties:
-        UpdatedFieldsList:
-          type: object
+        OperationResult:
           properties:
-            updatedField:
+            resultValue:
               type: array
               example: null
               items:
-                $ref: '#/components/schemas/updatedField'
+                properties:
+                  Value:
+                    type: integer
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
           example: null
       example: null
-    bulkrequest:
-      type: object
-      properties:
-        EgressMatrixCellBulkRequest:
-          $ref: '#/components/schemas/EgressMatrixCellBulkRequest'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    egressmatrixcell:
-      type: object
-      properties:
-        EgressMatrixCell:
-          $ref: '#/components/schemas/EgressMatrixCell_2'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 92c1a900-8c01-11e6-996c-525400b48521
-            name: ANY-ANY
-            description: Default egress rule
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/egressmatrixcell/92c1a900-8c01-11e6-996c-525400b48521
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    EgressMatrixCellBulkRequest:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: vnd.com.cisco.ise.trustsec.egressmatrixcell.1.0+xml
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
     BulkStatus:
       type: object
       properties:
@@ -1441,118 +1452,89 @@ components:
             properties:
               name:
                 type: string
+    egressmatrixcellResponseEntity:
+      properties:
+        defaultRule:
+          title: defaultRule
+          type: string
+          description: allowed values:NONE,DENY_IP,PERMIT_IP
+          example: null
+        destinationSgtId:
+          title: destinationSgtId
+          type: string
+          description: ''
+          example: null
+        matrixCellStatus:
+          title: matrixCellStatus
+          type: string
+          description: Allowed values:DISABLED,ENABLED,MONITOR
+          example: null
+        sgacls:
+          title: sgacls
+          type: array
+          description: ''
+          example: null
+          items:
+            example: null
+        sourceSgtId:
+          title: sourceSgtId
+          type: string
+          description: ''
+          example: null
+        matrixId:
+          title: matrixId
+          type: string
+          description: Default value is Production Matrix Id, when no value is provided during creation.<br/>To use it as filter, the values should be an UUID of a Matrix. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=matrixId.eq.ccf9a6ea-153b-4056-b8f4-0dc17eca4d30'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    egressmatrixcell:
+      type: object
+      properties:
+        EgressMatrixCell:
+          $ref: '#/components/schemas/EgressMatrixCell_2'
     search:
       type: object
       properties:
         SearchResult:
           $ref: '#/components/schemas/SearchResult'
-    OperationResult:
-      type: object
-      properties:
-        OperationResult:
-          type: object
-          properties:
-            resultValue:
-              type: array
-              example:
-              - value: DdsAASDs%$##@ssds12
-                name: password
-              items:
-                properties:
-                  name:
-                    type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.1'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    EgressMatrixCell_2:
-      type: object
+    egressmatrixcellListResponseEntity:
       properties:
         id:
+          title: id
           type: string
-          example: 92c1a900-8c01-11e6-996c-525400b48521
+          description: Id description
+          example: null
         name:
+          title: name
           type: string
-          example: ANY-ANY
+          description: name description
+          example: null
         description:
+          title: description
           type: string
-          example: Default egress rule
-        sourceSgtId:
-          type: string
-          example: 92bb1950-8c01-11e6-996c-525400b48521
-        destinationSgtId:
-          type: string
-          example: 92bb1950-8c01-11e6-996c-525400b48521
-        matrixCellStatus:
-          type: string
-          example: ENABLED
-        defaultRule:
-          type: string
-          example: PERMIT_IP
-        sgacls:
-          type: array
-          example:
-          - 92951ac0-8c01-11e6-996c-525400b48521
-          items:
-            properties:
-              name:
-                type: string
-        matrixId:
-          type: string
-          example: f47ac10b-58cc-4372-a567-0e02b2c3d479
+          description: description
+          example: null
         link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/egressmatrixcell/92c1a900-8c01-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/egressmatrixcell/versioninfo
-        type:
-          type: string
-          example: application/json
+          $ref: '#/components/schemas/Link'
+      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1562,6 +1544,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

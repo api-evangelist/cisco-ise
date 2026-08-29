@@ -326,6 +326,34 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    PolicySetResponseEntity:
+      title: PolicySetResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/PolicySet'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
     Link:
       title: Link
       required:
@@ -350,30 +378,67 @@ components:
           example: application/json
           exampleSetFlag: true
       exampleSetFlag: false
-    MessageResponseEntity:
-      title: MessageResponseEntity
-      required:
-      - message
+    Error:
+      title: Error
       type: object
       properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
         message:
           type: string
-          example: Success
+          example: Bad Request
           exampleSetFlag: true
-      description: Response object containing success message
       exampleSetFlag: false
-    IdResponseEntity:
-      title: IdResponseEntity
+    PolicySetListResponseEntity:
+      title: PolicySetListResponseEntity
       required:
-      - id
+      - response
+      - version
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+        response:
+          type: array
+          example: '[{"default":false,"id":"793f55af-ad78-4021-bbdc-6286724394f8","name":"New Policy Set 1","description":null,"hitCounts":0,"rank":0,"state":"enabled","condition":{"link":null,"conditionType":"ConditionReference","isNegate":false,"name":"Switch_Local_Web_Authentication","id":"19d968b0-ebcb-4cdd-98e3-fe02e5521266","description":"A condition to match authentication requests for Local Web Authentication from Cisco Catalyst Switches"},"serviceName":"Default Network Access","isProxy":false,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/793f55af-ad78-4021-bbdc-6286724394f8","type":"application/json"}}]'
           exampleSetFlag: true
-      description: response object containing object ID
+          items:
+            $ref: '#/components/schemas/PolicySet'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
     PolicySet:
       title: PolicySet
@@ -445,82 +510,17 @@ components:
           - monitor
       description: Policy set structure
       exampleSetFlag: false
-    Error:
-      title: Error
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
       type: object
       properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
         message:
           type: string
-          example: Bad Request
+          example: Success
           exampleSetFlag: true
-      exampleSetFlag: false
-    Condition:
-      title: Condition
-      required:
-      - conditionType
-      type: object
-      properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
-          exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
-          exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
-      exampleSetFlag: false
-    PolicySetResponseEntity:
-      title: PolicySetResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/PolicySet'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    PolicySetListResponseEntity:
-      title: PolicySetListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          example: '[{"default":false,"id":"793f55af-ad78-4021-bbdc-6286724394f8","name":"New Policy Set 1","description":null,"hitCounts":0,"rank":0,"state":"enabled","condition":{"link":null,"conditionType":"ConditionReference","isNegate":false,"name":"Switch_Local_Web_Authentication","id":"19d968b0-ebcb-4cdd-98e3-fe02e5521266","description":"A condition to match authentication requests for Local Web Authentication from Cisco Catalyst Switches"},"serviceName":"Default Network Access","isProxy":false,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/793f55af-ad78-4021-bbdc-6286724394f8","type":"application/json"}}]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/PolicySet'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
+      description: Response object containing success message
       exampleSetFlag: false
   securitySchemes:
     BasicAuth:

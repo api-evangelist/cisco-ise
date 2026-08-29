@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Acibindings API
   version: '1.0'
-  description: 'Operations tagged acibindings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-aci-bindings.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged acibindings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-aci-bindings.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-aci-bindings.yaml, the provider's source document. Operations and schemas
-      are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-aci-bindings.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-aci-bindings.yaml
     operation_coverage: 2/3
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: acibindings
 paths:
   /acibindings/getall:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - acibindings
@@ -113,25 +120,12 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/acibindings/getall:
     get:
       tags:
       - acibindings
       summary: Get all binding information
-      description: <p>This API allows clients to retrieve all the bindings that were sent to Cisco ISE by ACI or received
-        on ACI from Cisco ISE.The binding information will be identical to the information on ACI bindings page in the Cisco
-        ISE UI. Filtering will be based on one attribute only, such as ip/sgt/vn/psn/learnedFrom/learnedBy with CONTAINS mode
-        of search.</p>
+      description: <p>This API allows clients to retrieve all the bindings that were sent to Cisco ISE by ACI or received on ACI from Cisco ISE.The binding information will be identical to the information on ACI bindings page in the Cisco ISE UI. Filtering will be based on one attribute only, such as ip/sgt/vn/psn/learnedFrom/learnedBy with CONTAINS mode of search.</p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -171,46 +165,18 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
-    Link:
+    link1:
       type: object
       properties:
         rel:
           type: string
           example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
         href:
           type: string
-          example: https://{server}:{port}/ers/config
+          example: https://<ise-ip>:9060/ers/config/acibindings/versioninfo
         type:
           type: string
-          example: application/json
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
+          example: application/xml
     acibindingsResponseEntity:
       properties:
         ip:
@@ -261,6 +227,29 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    bindings:
+      type: object
+      properties:
+        ACIBindings:
+          $ref: '#/components/schemas/acibindings'
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     acibindingsArrayListResponseEntity:
       properties:
         ArrayList:
@@ -269,6 +258,22 @@ components:
           items:
             $ref: '#/components/schemas/acibindingsResponseEntity'
       example: null
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     acibindings:
       type: object
       properties:
@@ -290,49 +295,29 @@ components:
         learnedBy:
           type: string
           example: STATIC
-    VersionInfo:
+    ERSResponse:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    bindings:
-      type: object
-      properties:
-        ACIBindings:
-          $ref: '#/components/schemas/acibindings'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
+        operation:
           type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/acibindings/versioninfo
-        type:
-          type: string
-          example: application/xml
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -342,6 +327,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

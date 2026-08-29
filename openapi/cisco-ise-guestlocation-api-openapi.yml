@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Guestlocation API
   version: '1.0'
-  description: 'Operations tagged guestlocation across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-guest-location.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged guestlocation across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-guest-location.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-guest-location.yaml, the provider's source document. Operations and
-      schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-guest-location.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-guest-location.yaml
     operation_coverage: 3/5
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: guestlocation
 paths:
   /guestlocation/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - guestlocation
@@ -133,6 +140,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /guestlocation/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -143,7 +151,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /guestlocation/{id}:
     get:
       tags:
       - guestlocation
@@ -217,16 +224,6 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/guestlocation/{id}:
     get:
       tags:
@@ -265,11 +262,7 @@ paths:
       tags:
       - guestlocation
       summary: Get all guest locations
-      description: <p>This API allows the client to get all the guest locations.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p>
-        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
-        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
-        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
-        description]</h3></p>
+      description: <p>This API allows the client to get all the guest locations.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -307,6 +300,38 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guestlocation/versioninfo
+        type:
+          type: string
+          example: application/json
+    guestlocationResponseEntity:
+      properties:
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     Link:
       type: object
       properties:
@@ -325,6 +350,67 @@ components:
           type: string
           example: application/json
       example: null
+    guestlocationListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    guestlocationResponse:
+      type: object
+      properties:
+        LocationIdentification:
+          $ref: '#/components/schemas/guestlocationResponseEntity'
+      example:
+        LocationIdentification:
+          name: name
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    LocationIdentification:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9f083530-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: name
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/guestlocation/9ecb5340-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     guestlocationListResponse:
       type: object
       properties:
@@ -366,35 +452,40 @@ components:
               type: application/xml
             description: description2
             id: id2
-    guestlocationResponseEntity:
+    SearchResult:
+      type: object
       properties:
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    guestlocationResponse:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 9f083530-8c01-11e6-996c-525400b48521
+            name: San Jose
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guestlocation/9f083530-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    guestlocation:
       type: object
       properties:
         LocationIdentification:
-          $ref: '#/components/schemas/guestlocationResponseEntity'
-      example:
-        LocationIdentification:
-          name: name
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          $ref: '#/components/schemas/LocationIdentification'
     ERSResponse:
       type: object
       properties:
@@ -417,104 +508,6 @@ components:
                 example: code
             example: null
       example: null
-    guestlocationListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 9f083530-8c01-11e6-996c-525400b48521
-            name: San Jose
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guestlocation/9f083530-8c01-11e6-996c-525400b48521
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    guestlocation:
-      type: object
-      properties:
-        LocationIdentification:
-          $ref: '#/components/schemas/LocationIdentification'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    LocationIdentification:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 9f083530-8c01-11e6-996c-525400b48521
-        name:
-          type: string
-          example: name
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/guestlocation/9ecb5340-8c01-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/guestlocation/versioninfo
-        type:
-          type: string
-          example: application/json
   parameters:
     ppage:
       name: page

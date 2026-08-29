@@ -147,45 +147,23 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    Link:
-      title: Link
+    DictionaryListResponseEntity:
+      title: DictionaryListResponseEntity
       required:
-      - href
+      - response
+      - version
       type: object
       properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+        response:
+          type: array
+          example: '[{"dictionaryAttrType":"ENTITY_ATTR","id":"12345678-f0e7-456b-a2d1-876543320b11","name":"my dictionary","description":"a dictionary description","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/dictionaries/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}}]'
           exampleSetFlag: true
-        rel:
+          items:
+            $ref: '#/components/schemas/Dictionary'
+            exampleSetFlag: false
+        version:
           type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     Dictionary:
@@ -232,22 +210,44 @@ components:
           exampleSetFlag: true
       description: Dictionary POST format
       exampleSetFlag: false
-    DictionaryListResponseEntity:
-      title: DictionaryListResponseEntity
+    Link:
+      title: Link
       required:
-      - response
-      - version
+      - href
       type: object
       properties:
-        response:
-          type: array
-          example: '[{"dictionaryAttrType":"ENTITY_ATTR","id":"12345678-f0e7-456b-a2d1-876543320b11","name":"my dictionary","description":"a dictionary description","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/dictionaries/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}}]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Dictionary'
-            exampleSetFlag: false
-        version:
+        href:
           type: string
-          example: 1.0.0
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false

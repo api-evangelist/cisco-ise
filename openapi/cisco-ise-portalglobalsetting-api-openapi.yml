@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Portalglobalsetting API
   version: '1.0'
-  description: 'Operations tagged portalglobalsetting across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-portal-global-setting.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged portalglobalsetting across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-portal-global-setting.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-portal-global-setting.yaml, the provider's source document. Operations
-      and schemas are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-legacy-ers-portal-global-setting.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-legacy-ers-portal-global-setting.yaml
     operation_coverage: 4/7
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: portalglobalsetting
 paths:
   /portalglobalsetting/:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - portalglobalsetting
@@ -133,6 +140,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /portalglobalsetting/{id}:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -143,7 +151,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /portalglobalsetting/{id}:
     get:
       tags:
       - portalglobalsetting
@@ -301,16 +308,6 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/portalglobalsetting/{id}:
     get:
       tags:
@@ -394,11 +391,7 @@ paths:
       tags:
       - portalglobalsetting
       summary: Get all portal global settings
-      description: <p>This API allows the client to get all the portal global settings.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p>
-        <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p>
-        <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li>
-        <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name,
-        description]</h3></p>
+      description: <p>This API allows the client to get all the portal global settings.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -436,6 +429,51 @@ paths:
                 $ref: '#/components/schemas/VersionInfo'
 components:
   schemas:
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    portalglobalsettingListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     Link:
       type: object
       properties:
@@ -454,18 +492,36 @@ components:
           type: string
           example: application/json
       example: null
-    updatedField:
+    Update:
+      type: object
       properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
         field:
           type: string
-          example: null
+          example: some other field
         oldValue:
           type: string
-          example: null
+          example: val_old
         newValue:
           type: string
-          example: null
-      example: null
+          example: val_new
     portalglobalsettingResponseEntity:
       properties:
         customization:
@@ -491,14 +547,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    portalglobalsettingResponse:
-      type: object
-      properties:
-        PortalCustomizationGlobalSetting:
-          $ref: '#/components/schemas/portalglobalsettingResponseEntity'
-      example:
-        PortalCustomizationGlobalSetting:
-          customization: HTML
     portalglobalsettingListResponse:
       type: object
       properties:
@@ -540,34 +588,30 @@ components:
               type: application/xml
             description: description2
             id: id2
-    portalglobalsettingListResponseEntity:
+    updatedField:
       properties:
-        id:
-          title: id
+        field:
           type: string
-          description: Id description
           example: null
-        name:
-          title: name
+        oldValue:
           type: string
-          description: name description
           example: null
-        description:
-          title: description
+        newValue:
           type: string
-          description: description
           example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
-    portal.portalglobalsetting:
-      required:
-      - PortalCustomizationGlobalSetting
+    link1:
       type: object
       properties:
-        PortalCustomizationGlobalSetting:
-          $ref: '#/components/schemas/PortalCustomizationGlobalSetting'
-      example: null
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/portalglobalsetting/versioninfo
+        type:
+          type: string
+          example: application/json
     PortalCustomizationGlobalSetting:
       required:
       - customization
@@ -595,6 +639,19 @@ components:
       example:
         PortalCustomizationGlobalSetting:
           customization: HTML
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    portalglobalsettingResponse:
+      type: object
+      properties:
+        PortalCustomizationGlobalSetting:
+          $ref: '#/components/schemas/portalglobalsettingResponseEntity'
+      example:
+        PortalCustomizationGlobalSetting:
+          customization: HTML
     ERSResponse:
       type: object
       properties:
@@ -617,34 +674,19 @@ components:
                 example: code
             example: null
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
     PortalCustomization:
       type: object
       properties:
         PortalCustomizationGlobalSetting:
           $ref: '#/components/schemas/PortalCustomizationGlobalSetting_2'
-    VersionInfo:
+    portal.portalglobalsetting:
+      required:
+      - PortalCustomizationGlobalSetting
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+        PortalCustomizationGlobalSetting:
+          $ref: '#/components/schemas/PortalCustomizationGlobalSetting'
+      example: null
     SearchResult:
       type: object
       properties:
@@ -663,25 +705,6 @@ components:
             properties:
               name:
                 type: string
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     PortalCustomizationGlobalSetting_2:
       type: object
       properties:
@@ -703,51 +726,12 @@ components:
             type:
               type: string
               example: application/json
-    version:
+    search:
       type: object
       properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/portalglobalsetting/versioninfo
-        type:
-          type: string
-          example: application/json
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -757,6 +741,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

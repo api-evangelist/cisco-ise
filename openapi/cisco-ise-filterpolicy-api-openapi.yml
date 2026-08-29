@@ -467,6 +467,59 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
 components:
   schemas:
+    filterpolicyResponseEntity:
+      properties:
+        subnet:
+          title: subnet
+          type: string
+          description: subnet for filter policy (hostname is not supported). At least one of subnet or sgt or vn should be defined
+          example: null
+        sgt:
+          title: sgt
+          type: string
+          description: SGT name or ID. At least one of subnet or sgt or vn should be defined
+          example: null
+        vn:
+          title: vn
+          type: string
+          description: Virtual Network. At least one of subnet or sgt or vn should be defined
+          example: null
+        domains:
+          title: domains
+          type: string
+          description: List of SXP Domains, separated with comma.
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     Link:
       type: object
       properties:
@@ -496,14 +549,6 @@ components:
           sgt: sgt
           vn: virtualNetwork
           domains: Sxp Vpn Name
-    sxp.filterpolicy:
-      required:
-      - ERSFilterPolicy
-      type: object
-      properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/ERSFilterPolicy'
-      example: null
     updatedField:
       properties:
         field:
@@ -515,6 +560,28 @@ components:
         newValue:
           type: string
           example: null
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     filterpolicyListResponseEntity:
       properties:
@@ -581,67 +648,13 @@ components:
           sgt: sgt
           vn: virtualNetwork
           domains: Sxp Vpn Name
-    ERSResponse:
+    sxp.filterpolicy:
+      required:
+      - ERSFilterPolicy
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    filterpolicyResponseEntity:
-      properties:
-        subnet:
-          title: subnet
-          type: string
-          description: subnet for filter policy (hostname is not supported). At least one of subnet or sgt or vn should be defined
-          example: null
-        sgt:
-          title: sgt
-          type: string
-          description: SGT name or ID. At least one of subnet or sgt or vn should be defined
-          example: null
-        vn:
-          title: vn
-          type: string
-          description: Virtual Network. At least one of subnet or sgt or vn should be defined
-          example: null
-        domains:
-          title: domains
-          type: string
-          description: List of SXP Domains, separated with comma.
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/ERSFilterPolicy'
       example: null
     filterpolicyListResponse:
       type: object
@@ -684,29 +697,7 @@ components:
               type: application/xml
             description: description2
             id: id2
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -716,6 +707,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

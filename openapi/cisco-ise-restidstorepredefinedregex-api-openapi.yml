@@ -2,8 +2,7 @@ openapi: 3.2.0
 info:
   title: Cisco Ise Restidstorepredefinedregex API
   version: '1.0'
-  description: 'Operations tagged restidstorepredefinedregex across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml,
-    cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged restidstorepredefinedregex across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,10 +11,8 @@ info:
     first_party: true
     provider_published: true
     source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet
-      project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas
-      are the provider's, unmodified; only the partition is ours.
+    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
+    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
     derived_from: cisco-ise-ers-open-api-ers-apis.yaml
     operation_coverage: 2/3
   x-evidence:
@@ -37,6 +34,16 @@ tags:
 - name: restidstorepredefinedregex
 paths:
   /restidstorepredefinedregex/fetchSanPredefinedregexs:
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
     get:
       tags:
       - restidstorepredefinedregex
@@ -103,6 +110,7 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+  /restidstorepredefinedregex/fetchSnfPredefinedregexs:
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -113,7 +121,6 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
-  /restidstorepredefinedregex/fetchSnfPredefinedregexs:
     get:
       tags:
       - restidstorepredefinedregex
@@ -180,16 +187,6 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
   /ers/config/restidstorepredefinedregex/fetchPredefinedregexs:
     get:
       tags:
@@ -205,80 +202,6 @@ paths:
                 $ref: '#/components/schemas/ersRestIDStoreAdvanceSettings'
 components:
   schemas:
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    restidstorepredefinedregexResponseEntity:
-      properties:
-        predefinedRegexs:
-          title: predefinedRegexs
-          type: object
-          description: List of Predefined Regex and its Value
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    restidstorepredefinedregexResponse:
-      type: object
-      properties:
-        ERSRestIDStorePredefinedRegex:
-          $ref: '#/components/schemas/restidstorepredefinedregexResponseEntity'
-      example:
-        ERSRestIDStorePredefinedRegex:
-          predefinedRegexs:
-            ^CN=([^,]+), OU=([^,]+), O=([^,]+)$: CN=ExampleSubjectName, OU=exampleOU, O=exampleO
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     ersRestIDStoreAdvanceSettings:
       type: object
       properties:
@@ -310,6 +233,80 @@ components:
             properties:
               name:
                 type: string
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    restidstorepredefinedregexResponse:
+      type: object
+      properties:
+        ERSRestIDStorePredefinedRegex:
+          $ref: '#/components/schemas/restidstorepredefinedregexResponseEntity'
+      example:
+        ERSRestIDStorePredefinedRegex:
+          predefinedRegexs:
+            ^CN=([^,]+), OU=([^,]+), O=([^,]+)$: CN=ExampleSubjectName, OU=exampleOU, O=exampleO
+    restidstorepredefinedregexResponseEntity:
+      properties:
+        predefinedRegexs:
+          title: predefinedRegexs
+          type: object
+          description: List of Predefined Regex and its Value
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

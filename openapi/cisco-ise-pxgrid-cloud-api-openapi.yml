@@ -227,40 +227,58 @@ components:
           example: us-west-2
           exampleSetFlag: true
       exampleSetFlag: false
-    EnrollmentDetails:
-      title: EnrollmentDetails
+    HostConfigInfo:
+      title: HostConfigInfo
       type: object
       properties:
-        accounts:
+        ipAddress:
+          type: string
+          description: IP address of the host.
+          example: 10.104.240.60
+          exampleSetFlag: true
+      description: Details of the ISE node on which pxGrid Cloud has to be enabled.
+      exampleSetFlag: false
+    ActivationUrlDetailsResponse:
+      title: ActivationUrlDetailsResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ActivationUrlDetails'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: API version.
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        arguments:
           type: array
+          description: List of error arguments which can be used to replace dynamic fields when API fails.
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/EnrollmentAccount'
+            type: string
             exampleSetFlag: false
-        responseType:
+        code:
           type: string
-          description: If there is a single cloud account associated with the user, then this value will be `TOKEN` and `data` attribute will have the token information. If there are multiple accounts associated, then this value will be `SELECT_TOKEN` and `accounts` attribute will have the list of accounts.
+          description: Unique error code when an API fails.
+          example: pxcloud.unenroll.conflict.error
           exampleSetFlag: true
-          enum:
-          - SELECT_TENANT
-          - TOKEN
-        status:
+        message:
           type: string
+          description: Error message when an API fails.
+          example: ISE is already un-enrolled from cloud.
           exampleSetFlag: true
-          enum:
-          - activated
-          - authorization_pending
-          - registered
-      exampleSetFlag: false
-    ActivationUrlDetails:
-      title: ActivationUrlDetails
-      type: object
-      properties:
-        url:
-          type: string
-          description: Activation URL.
-          example: https://id.cisco.com/activate?user_code=FQPJQLLM
-          exampleSetFlag: true
+      description: Error details
       exampleSetFlag: false
     EnrolledDeviceDetails:
       title: EnrolledDeviceDetails
@@ -301,6 +319,71 @@ components:
           example: us-west-2
           exampleSetFlag: true
       exampleSetFlag: false
+    EnrollmentDetails:
+      title: EnrollmentDetails
+      type: object
+      properties:
+        accounts:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/EnrollmentAccount'
+            exampleSetFlag: false
+        responseType:
+          type: string
+          description: If there is a single cloud account associated with the user, then this value will be `TOKEN` and `data` attribute will have the token information. If there are multiple accounts associated, then this value will be `SELECT_TOKEN` and `accounts` attribute will have the list of accounts.
+          exampleSetFlag: true
+          enum:
+          - SELECT_TENANT
+          - TOKEN
+        status:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - activated
+          - authorization_pending
+          - registered
+      exampleSetFlag: false
+    ActivationUrlDetails:
+      title: ActivationUrlDetails
+      type: object
+      properties:
+        url:
+          type: string
+          description: Activation URL.
+          example: https://id.cisco.com/activate?user_code=FQPJQLLM
+          exampleSetFlag: true
+      exampleSetFlag: false
+    DeviceRegistrationInfo:
+      title: DeviceRegistrationInfo
+      required:
+      - hostConfigInfo
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Account identifier.
+          example: 599f76ed-6bd6-4182-9cd9-06d9c15a14dc
+          exampleSetFlag: true
+        description:
+          type: string
+          description: Description for the registered device.
+          example: ise-777
+          exampleSetFlag: true
+        hostConfigInfo:
+          $ref: '#/components/schemas/HostConfigInfo'
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Name of the device while will be registered
+          example: ise-777
+          exampleSetFlag: true
+        region:
+          type: string
+          description: Selected region name in which device has to be registered.
+          example: us-west-2
+          exampleSetFlag: true
+      exampleSetFlag: false
     EnrollmentDetailsResponse:
       title: EnrollmentDetailsResponse
       required:
@@ -336,32 +419,6 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        arguments:
-          type: array
-          description: List of error arguments which can be used to replace dynamic fields when API fails.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        code:
-          type: string
-          description: Unique error code when an API fails.
-          example: pxcloud.unenroll.conflict.error
-          exampleSetFlag: true
-        message:
-          type: string
-          description: Error message when an API fails.
-          example: ISE is already un-enrolled from cloud.
-          exampleSetFlag: true
-      description: Error details
-      exampleSetFlag: false
     EnrolledDeviceDetailsResponse:
       title: EnrolledDeviceDetailsResponse
       required:
@@ -378,36 +435,6 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    DeviceRegistrationInfo:
-      title: DeviceRegistrationInfo
-      required:
-      - hostConfigInfo
-      type: object
-      properties:
-        accountId:
-          type: string
-          description: Account identifier.
-          example: 599f76ed-6bd6-4182-9cd9-06d9c15a14dc
-          exampleSetFlag: true
-        description:
-          type: string
-          description: Description for the registered device.
-          example: ise-777
-          exampleSetFlag: true
-        hostConfigInfo:
-          $ref: '#/components/schemas/HostConfigInfo'
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Name of the device while will be registered
-          example: ise-777
-          exampleSetFlag: true
-        region:
-          type: string
-          description: Selected region name in which device has to be registered.
-          example: us-west-2
-          exampleSetFlag: true
-      exampleSetFlag: false
     EnrollmentAccount:
       title: EnrollmentAccount
       type: object
@@ -422,31 +449,4 @@ components:
           description: Account name.
           example: Production Account
           exampleSetFlag: true
-      exampleSetFlag: false
-    ActivationUrlDetailsResponse:
-      title: ActivationUrlDetailsResponse
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ActivationUrlDetails'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: API version.
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    HostConfigInfo:
-      title: HostConfigInfo
-      type: object
-      properties:
-        ipAddress:
-          type: string
-          description: IP address of the host.
-          example: 10.104.240.60
-          exampleSetFlag: true
-      description: Details of the ISE node on which pxGrid Cloud has to be enabled.
       exampleSetFlag: false

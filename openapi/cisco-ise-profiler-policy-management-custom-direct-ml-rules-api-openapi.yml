@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Cisco ISE API - Profiler Profiler Policy Management (Custom/Direct/ML -Rules) Profiler Policy Management (Custom/Direct/ML -Rules) API
+  title: Cisco ISE API - Profiler Profiler Policy Management…
   version: 1.0.0
   x-provenance:
     method: harvested
@@ -441,28 +441,14 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    ProfilePolicyWithId:
-      title: ProfilePolicyWithId
+    BaseProfilePolicy:
+      title: BaseProfilePolicy
       required:
-      - policyId
       - profilingType
       type: object
       properties:
-        condition:
-          $ref: '#/components/schemas/Condition'
-          exampleSetFlag: true
-        matchedEndpoints:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        name:
-          type: string
-          exampleSetFlag: true
         policyId:
           type: string
-          exampleSetFlag: true
-        profileLabel:
-          $ref: '#/components/schemas/ProfileLabel'
           exampleSetFlag: true
         profilingType:
           type: string
@@ -471,38 +457,6 @@ components:
           - CUSTOM
           - DIRECT
           - ML
-        rulePriority:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        status:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    InlineResponse200:
-      title: InlineResponse200
-      type: object
-      properties:
-        message:
-          type: string
-          example: File export successful
-          exampleSetFlag: true
       exampleSetFlag: false
     Condition:
       title: Condition
@@ -548,34 +502,20 @@ components:
             type: string
             exampleSetFlag: false
       exampleSetFlag: false
-    DuplicateCheckResponseMessage:
-      title: DuplicateCheckResponseMessage
-      type: object
-      properties:
-        isDuplicate:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-        matchedPolicy:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    BaseProfilePolicy:
-      title: BaseProfilePolicy
+    Error:
+      title: Error
       required:
-      - profilingType
+      - code
+      - message
       type: object
       properties:
-        policyId:
+        code:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        message:
           type: string
           exampleSetFlag: true
-        profilingType:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - CUSTOM
-          - DIRECT
-          - ML
       exampleSetFlag: false
     ProfilePolicy:
       title: ProfilePolicy
@@ -608,6 +548,81 @@ components:
           example: false
           exampleSetFlag: true
       exampleSetFlag: false
+    ProfilePolicyWithId:
+      title: ProfilePolicyWithId
+      required:
+      - policyId
+      - profilingType
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/Condition'
+          exampleSetFlag: true
+        matchedEndpoints:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        policyId:
+          type: string
+          exampleSetFlag: true
+        profileLabel:
+          $ref: '#/components/schemas/ProfileLabel'
+          exampleSetFlag: true
+        profilingType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CUSTOM
+          - DIRECT
+          - ML
+        rulePriority:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        status:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    InlineResponse200:
+      title: InlineResponse200
+      type: object
+      properties:
+        message:
+          type: string
+          example: File export successful
+          exampleSetFlag: true
+      exampleSetFlag: false
+    PolicyAndStatus:
+      title: PolicyAndStatus
+      required:
+      - policyId
+      - status
+      type: object
+      properties:
+        policyId:
+          type: string
+          exampleSetFlag: true
+        status:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    DuplicateCheckResponseMessage:
+      title: DuplicateCheckResponseMessage
+      type: object
+      properties:
+        isDuplicate:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        matchedPolicy:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
     ProfileLabel:
       title: ProfileLabel
       type: object
@@ -636,19 +651,4 @@ components:
           items:
             type: string
             exampleSetFlag: false
-      exampleSetFlag: false
-    PolicyAndStatus:
-      title: PolicyAndStatus
-      required:
-      - policyId
-      - status
-      type: object
-      properties:
-        policyId:
-          type: string
-          exampleSetFlag: true
-        status:
-          type: boolean
-          example: false
-          exampleSetFlag: true
       exampleSetFlag: false

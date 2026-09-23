@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Tacacscommandsets API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Tacacscommandsets API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged tacacscommandsets across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-tacacs-command-sets.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: tacacscommandsets
 paths:
@@ -98,6 +86,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacscommandsets
+      x-operation-id-source: derived
     post:
       tags:
       - tacacscommandsets
@@ -173,6 +165,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postTacacscommandsets
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /tacacscommandsets/name/{name}:
     get:
       tags:
@@ -245,6 +251,20 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacscommandsetsNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /tacacscommandsets/{id}:
     get:
       tags:
@@ -317,6 +337,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacscommandsetsById
+      x-operation-id-source: derived
     put:
       tags:
       - tacacscommandsets
@@ -410,6 +434,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putTacacscommandsetsById
+      x-operation-id-source: derived
     delete:
       tags:
       - tacacscommandsets
@@ -470,6 +498,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteTacacscommandsetsById
+      x-operation-id-source: derived
     patch:
       tags:
       - tacacscommandsets
@@ -561,110 +593,292 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchTacacscommandsetsById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/tacacscommandsets/name/{name}:
+    get:
+      tags:
+      - tacacscommandsets
+      summary: Get TACACS command sets by name
+      description: This API allows the client to get TACACS command sets by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacscommandsets.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacscommandsets_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacscommandsets_name'
+      operationId: getErsConfigTacacscommandsetsNameByName
+      x-operation-id-source: derived
+  /ers/config/tacacscommandsets/{id}:
+    get:
+      tags:
+      - tacacscommandsets
+      summary: Get TACACS command sets by ID
+      description: This API allows the client to get TACACS command sets by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacscommandsets.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacscommandsets'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacscommandsets'
+      operationId: getErsConfigTacacscommandsetsById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - tacacscommandsets
+      summary: Update part of the TACACS command set configuration by ID
+      description: Update any attribute subset of the TACACS command set configuration. Only the attributes sent are affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacscommandsets.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacscommandsets'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacscommandsets'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigTacacscommandsetsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - tacacscommandsets
+      summary: Update TACACS command sets
+      description: This API allows the client to update TACACS command sets.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacscommandsets.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tacacscommandsets'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/tacacscommandsets'
+      operationId: putErsConfigTacacscommandsetsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - tacacscommandsets
+      summary: Delete TACACS command sets
+      description: This API deletes TACACS command sets.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacscommandsets.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigTacacscommandsetsById
+      x-operation-id-source: derived
+  /ers/config/tacacscommandsets:
+    get:
+      tags:
+      - tacacscommandsets
+      summary: Get all TACACS command sets
+      description: This API allows the client to get all the TACACS command sets.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacscommandsets.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigTacacscommandsets
+      x-operation-id-source: derived
+    post:
+      tags:
+      - tacacscommandsets
+      summary: Create TACACS command sets
+      description: This API creates TACACS command sets.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacscommandsets.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tacacscommandsets'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/tacacscommandsets'
+      operationId: postErsConfigTacacscommandsets
+      x-operation-id-source: derived
+  /ers/config/tacacscommandsets/versioninfo:
+    get:
+      tags:
+      - tacacscommandsets
+      summary: Get TACACS command sets version information
+      description: This API helps to retrieve the version information related to the TACACS command sets.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigTacacscommandsetsVersioninfo
+      x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    tacacscommandsetsListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    tacacscommandsetsResponseEntity:
-      properties:
-        permitUnmatched:
-          title: permitUnmatched
-          type: boolean
-          description: ''
-          example: null
-        commands:
-          properties:
-            commandList:
-              title: commandList
-              type: array
-              description: List of Commands
-              example: null
-              items:
-                properties:
-                  grant:
-                    title: grant
-                    type: object
-                    description: 'Required if list of commands contains at least one command. Allowed values: PERMIT, DENY, DENY_ALWAYS'
-                    example: null
-                  command:
-                    title: command
-                    type: string
-                    description: Required if list of commands contains at least one command.
-                    example: null
-                  arguments:
-                    title: arguments
-                    type: string
-                    description: Required if list of commands contains at least one command, but can be empty string
-                    example: null
-                example: null
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     tacacscommandsetsListResponse:
       type: object
       properties:
@@ -714,25 +928,6 @@ components:
         TacacsCommandSets:
           $ref: '#/components/schemas/TacacsCommandSets'
       example: null
-    tacacscommandsetsResponse:
-      type: object
-      properties:
-        TacacsCommandSets:
-          $ref: '#/components/schemas/tacacscommandsetsResponseEntity'
-      example:
-        TacacsCommandSets:
-          name: name
-          permitUnmatched: false
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          commands:
-            commandList:
-            - arguments: value
-              grant: PERMIT
-              command: create
-            - arguments: value1 value2
-              grant: DENY
-              command: attr
     TacacsCommandSets:
       required:
       - name
@@ -797,17 +992,108 @@ components:
             - arguments: value1 value2
               grant: DENY
               command: attr
-    updatedField:
+    tacacscommandsetsResponse:
+      type: object
       properties:
-        field:
-          type: string
+        TacacsCommandSets:
+          $ref: '#/components/schemas/tacacscommandsetsResponseEntity'
+      example:
+        TacacsCommandSets:
+          name: name
+          permitUnmatched: false
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          commands:
+            commandList:
+            - arguments: value
+              grant: PERMIT
+              command: create
+            - arguments: value1 value2
+              grant: DENY
+              command: attr
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-        oldValue:
-          type: string
+      example: null
+    tacacscommandsetsResponseEntity:
+      properties:
+        permitUnmatched:
+          title: permitUnmatched
+          type: boolean
+          description: ''
           example: null
-        newValue:
-          type: string
+        commands:
+          properties:
+            commandList:
+              title: commandList
+              type: array
+              description: List of Commands
+              example: null
+              items:
+                properties:
+                  grant:
+                    title: grant
+                    type: object
+                    description: 'Required if list of commands contains at least one command. Allowed values: PERMIT, DENY, DENY_ALWAYS'
+                    example: null
+                  command:
+                    title: command
+                    type: string
+                    description: Required if list of commands contains at least one command.
+                    example: null
+                  arguments:
+                    title: arguments
+                    type: string
+                    description: Required if list of commands contains at least one command, but can be empty string
+                    example: null
+                example: null
           example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    tacacscommandsetsListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     ERSResponse:
       type: object
@@ -831,26 +1117,234 @@ components:
                 example: code
             example: null
       example: null
-  parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    patchRequest:
+      type: object
+      properties:
+        TacacsCommandSets:
+          $ref: '#/components/schemas/patchRequestBody'
+    TacacsCommandSets_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0cef7990-6120-11ea-bffb-7a82c56e81f0
+        name:
+          type: string
+          example: DenyAllCommands
+        description:
+          type: string
+          example: Default Command Set
+        permitUnmatched:
+          type: boolean
+          example: false
+        commands:
+          type: object
+          properties:
+            commandList:
+              type: array
+              example:
+              - grant: PERMIT
+                command: create
+                arguments: value
+              - grant: DENY
+                command: attr
+                arguments: value1 value2
+              items:
+                properties:
+                  name:
+                    type: string
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacscommandsets/name/DenyAllCommands
+            type:
+              type: string
+              example: application/json
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/tacacscommandsets/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    TacacsCommandSets_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0cef7990-6120-11ea-bffb-7a82c56e81f0
+        name:
+          type: string
+          example: DenyAllCommands
+        description:
+          type: string
+          example: Default Command Set
+        permitUnmatched:
+          type: boolean
+          example: false
+        commands:
+          type: object
+          properties:
+            commandList:
+              type: array
+              example:
+              - grant: PERMIT
+                command: create
+                arguments: value
+              - grant: DENY
+                command: attr
+                arguments: value1 value2
+              items:
+                properties:
+                  name:
+                    type: string
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacscommandsets/0cef7990-6120-11ea-bffb-7a82c56e81f0
+            type:
+              type: string
+              example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 0cef7990-6120-11ea-bffb-7a82c56e81f0
+            name: DenyAllCommands
+            description: Default Command Set
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacscommandsets/0cef7990-6120-11ea-bffb-7a82c56e81f0
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    tacacscommandsets_name:
+      type: object
+      properties:
+        TacacsCommandSets:
+          $ref: '#/components/schemas/TacacsCommandSets_name'
+    tacacscommandsets:
+      type: object
+      properties:
+        TacacsCommandSets:
+          $ref: '#/components/schemas/TacacsCommandSets_2'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-tacacs-command-sets.yaml

@@ -27,7 +27,7 @@ tags:
 paths:
   /deployment/pan-ha:
     get:
-      summary: Get the current configuration of the PAN HA.
+      summary: Get the current configuration of the PAN HA
       operationId: getPANHaStatus
       description: In a high availability configuration, the primary PAN is in active state. The secondary PAN (backup PAN) is in standby state, which means that it receives all the configuration updates from the primary PAN, but is not active in the Cisco ISE cluster. You can configure Cisco ISE to automatically promote the secondary PAN when the primary PAN becomes unavailable.
       tags:
@@ -46,9 +46,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      summary: Enable, update or disable PAN failover configuration.
+      summary: Enable, update or disable PAN failover configuration
       operationId: updatePanHA
-      description: To deploy the auto-failover feature, you must have at least three nodes, where two of the nodes assume the Administration persona, and one node acts as the health check node. A health check node is a non-administration node and can be a Policy Service, Monitoring, or pxGrid node, or any combination of these. If the PANs are in different data centers, you must have a health check node for each PAN. <br> All the fields are mandatory to enable PanHA. <br> Values of failedAttempts, pollingInterval, primaryHealthCheckNode, and secondaryHealthCheckNode are not considered when the isEnable value is "false" in the request body.
+      description: 'To deploy the auto-failover feature, you must have at least three nodes, where two of the nodes assume the Administration persona, and one node acts as the health check node. A health check node is a non-administration node and can be a Policy Service, Monitoring, or pxGrid node, or any combination of these. If the PANs are in different data centers, you must have a health check node for each PAN.
+
+        All the fields are mandatory to enable PanHA.
+
+        Values of failedAttempts, pollingInterval, primaryHealthCheckNode, and secondaryHealthCheckNode are not considered when the isEnable value is "false" in the request body.'
       tags:
       - PAN HA
       requestBody:
@@ -78,38 +82,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    PanHAResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/PanHA'
-          example: TBD
-        version:
-          type: string
-          example: 1.0.0
-    Hostname:
-      type: object
-      properties:
-        hostname:
-          pattern: '[a-zA-Z][\w\-]*'
-          maxLength: 64
-          minLength: 1
-          type: string
-          example: isenode
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
     PanHA:
       type: object
       properties:
@@ -162,3 +134,35 @@ components:
         version:
           type: string
           example: 1.0.0
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    PanHAResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/PanHA'
+          example: TBD
+        version:
+          type: string
+          example: 1.0.0
+    Hostname:
+      type: object
+      properties:
+        hostname:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success

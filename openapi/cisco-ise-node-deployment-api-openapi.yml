@@ -27,11 +27,9 @@ tags:
 paths:
   /deployment/primary:
     post:
-      summary: Promote a standalone node to a primary PAN.
+      summary: Promote a standalone node to a primary PAN
       operationId: makePrimary
-      description: 'This API promotes the standalone node on which the API is invoked to the primary Policy Administration node (PAN).
-
-        '
+      description: This API promotes the standalone node on which the API is invoked to the primary Policy Administration node (PAN).
       tags:
       - Node Deployment
       responses:
@@ -49,11 +47,9 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /deployment/standalone:
     post:
-      summary: Change a primary PAN to a standalone node.
+      summary: Change a primary PAN to a standalone node
       operationId: makeStandalone
-      description: 'This API changes the primary PAN in a single node cluster on which the API is invoked, to a standalone node.
-
-        '
+      description: This API changes the primary PAN in a single node cluster on which the API is invoked, to a standalone node.
       tags:
       - Node Deployment
       responses:
@@ -73,15 +69,15 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /deployment/node/:
     get:
-      summary: Retrieve the list of all the nodes that are deployed in the cluster.
+      summary: Retrieve the list of all the nodes that are deployed in the cluster
       operationId: getDeploymentNodes
-      description: 'The API lists all the nodes that are deployed in the cluster.<br>
+      description: 'The API lists all the nodes that are deployed in the cluster.
 
-        Returns basic information about each of the deployed nodes in the cluster like hostname, status, roles, and services. <br>
 
-        Supports filtering on FQDN, hostname, IP address, roles, services and node status.
+        Returns basic information about each of the deployed nodes in the cluster like hostname, status, roles, and services.
 
-        '
+
+        Supports filtering on FQDN, hostname, IP address, roles, services and node status.'
       tags:
       - Node Deployment
       parameters:
@@ -111,9 +107,7 @@ paths:
     post:
       summary: Register a standalone node to the cluster
       operationId: registerNode
-      description: 'This API registers a Cisco ISE node to form a multi-node deployment.
-
-        '
+      description: This API registers a Cisco ISE node to form a multi-node deployment.
       tags:
       - Node Deployment
       requestBody:
@@ -141,11 +135,9 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /deployment/node/{hostname}:
     get:
-      summary: Retrieve details of a deployed node.
+      summary: Retrieve details of a deployed node
       operationId: getNodeDetails
-      description: 'This API retrieves detailed information of the deployed node.
-
-        '
+      description: This API retrieves detailed information of the deployed node.
       tags:
       - Node Deployment
       parameters:
@@ -179,9 +171,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      summary: Replace the existing configuration of the Cisco ISE node with the configuration provided.
+      summary: Replace the existing configuration of the Cisco ISE node with the configuration…
       operationId: updateDeploymentNode
-      description: "This API updates the configuration of the Cisco ISE node with the configuration provided. \n"
+      description: This API updates the configuration of the Cisco ISE node with the configuration provided.
       tags:
       - Node Deployment
       parameters:
@@ -226,13 +218,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
-      summary: Remove a deployed node from a cluster.
+      summary: Remove a deployed node from a cluster
       operationId: deleteDeploymentNode
-      description: 'The deregistered node becomes a standalone Cisco ISE node.<br>
+      description: 'The deregistered node becomes a standalone Cisco ISE node.
 
-        It retains the last configuration that it received from the primary PAN and assumes the default roles and services of a standalone node.
 
-        '
+        It retains the last configuration that it received from the primary PAN and assumes the default roles and services of a standalone node.'
       tags:
       - Node Deployment
       parameters:
@@ -279,7 +270,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /deployment/sync-node/{hostname}:
     post:
-      summary: Trigger manual synchronization of the node.
+      summary: Trigger manual synchronization of the node
       operationId: syncNode
       description: Performing a manual synchronization involves a reload of the target node, but not the primary PAN.
       tags:
@@ -318,11 +309,9 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /deployment/promote:
     post:
-      summary: Promote the secondary PAN in a multi-node cluster to the role of primary PAN.
+      summary: Promote the secondary PAN in a multi-node cluster to the role of primary PAN
       operationId: promoteNode
-      description: 'Execute this API in the secondary PAN in the cluster to promote the node to primary PAN.  Ensure that the API Gateway setting is enabled in the secondary PAN.
-
-        '
+      description: Execute this API in the secondary PAN in the cluster to promote the node to primary PAN. Ensure that the API Gateway setting is enabled in the secondary PAN.
       tags:
       - Node Deployment
       responses:
@@ -341,49 +330,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
-  parameters:
-    filtering:
-      name: filter
-      in: query
-      required: false
-      description: '<div> <style type="text/css" scoped> .apiServiceTable td, .apiServiceTable th { padding: 5px 10px !important; text-align: left; } </style> <span> <b>Simple filtering</b> is available through the filter query string parameter. The structure of a filter is a triplet of field operator and value, separated by dots. More than one filter can be sent. The logical operator common to all filter criteria is AND by default, and can be changed by using the <i>"filterType=or"</i> query string parameter. Each resource Data model description should specify if an attribute is a filtered field. </span> <br /> <table class="apiServiceTable"> <thead> <tr> <th>OPERATOR</th> <th>DESCRIPTION</th> </tr> </thead> <tbody> <tr> <td>EQ</td> <td>Equals</td> </tr> <tr> <td>NEQ</td> <td>Not Equals</td> </tr> <tr> <td>STARTSW</td> <td>Starts With</td> </tr> <tr> <td>NSTARTSW</td> <td>Not Starts With</td> </tr> <tr> <td>ENDSW</td> <td>Ends With</td> </tr> <tr> <td>NENDSW</td> <td>Not Ends With</td> </tr> <tr> <td>CONTAINS</td> <td>Contains</td> </tr> <tr> <td>NCONTAINS</td> <td>Not Contains</td> </tr> </tbody> </table> </div>'
-      schema:
-        type: array
-        items:
-          type: string
-      style: form
-      allowReserved: true
-    filtertype:
-      name: filterType
-      in: query
-      description: The logical operator common to all filter criteria is AND by default, and can be changed by using this parameter.
-      required: false
-      schema:
-        type: string
-        enum:
-        - AND
-        - OR
-        default: AND
   schemas:
-    NodeStatus:
-      type: string
-      enum:
-      - Connected
-      - Disconnected
-      - InProgress
-      - ReplicationStopped
-      - RegistrationFailed
-      - NotInSync
-      - NotUpgraded
-      - NotApplicable
-    DeploymentNodeResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/DeploymentNode'
-        version:
-          type: string
-          example: 1.0.0
     DeploymentTask:
       type: object
       properties:
@@ -394,6 +341,69 @@ components:
         message:
           type: string
           example: Deployment task initiated. You can use the Task Service Status API to get the status of the task.
+    FQDN:
+      maxLength: 64
+      minLength: 1
+      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
+      type: string
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    Roles:
+      type: array
+      items:
+        type: string
+        enum:
+        - PrimaryAdmin
+        - SecondaryAdmin
+        - PrimaryMonitoring
+        - SecondaryMonitoring
+        - PrimaryDedicatedMonitoring
+        - SecondaryDedicatedMonitoring
+        - Standalone
+    NodeUpdateRequest:
+      type: object
+      properties:
+        roles:
+          $ref: '#/components/schemas/Roles'
+        services:
+          $ref: '#/components/schemas/Services'
+      required:
+      - roles
+      - services
+      example: TBD
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    DeploymentNodesResponse:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentNode'
+          example: TBD
+        version:
+          type: string
+          example: 1.0.0
+    DeploymentNodeResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/DeploymentNode'
+        version:
+          type: string
+          example: 1.0.0
     DeploymentNode:
       type: object
       properties:
@@ -419,6 +429,9 @@ components:
       - ipAddress
       - services
       example: TBD
+    IPAddress:
+      type: string
+      format: ipv4 | ipv6
     NodeRegistrationRequest:
       type: object
       properties:
@@ -449,19 +462,11 @@ components:
       - roles
       - services
       example: TBD
-    FQDN:
-      maxLength: 64
-      minLength: 1
-      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
-      type: string
-    DeploymentNodesResponse:
+    DeploymentTaskResponse:
       type: object
       properties:
         response:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentNode'
-          example: TBD
+          $ref: '#/components/schemas/DeploymentTask'
         version:
           type: string
           example: 1.0.0
@@ -471,34 +476,17 @@ components:
         message:
           type: string
           example: Success
-    DeploymentTaskResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/DeploymentTask'
-        version:
-          type: string
-          example: 1.0.0
-    Roles:
-      type: array
-      items:
-        type: string
-        enum:
-        - PrimaryAdmin
-        - SecondaryAdmin
-        - PrimaryMonitoring
-        - SecondaryMonitoring
-        - PrimaryDedicatedMonitoring
-        - SecondaryDedicatedMonitoring
-        - Standalone
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
+    NodeStatus:
+      type: string
+      enum:
+      - Connected
+      - Disconnected
+      - InProgress
+      - ReplicationStopped
+      - RegistrationFailed
+      - NotInSync
+      - NotUpgraded
+      - NotApplicable
     Services:
       type: array
       items:
@@ -512,25 +500,26 @@ components:
         - PassiveIdentity
         - pxGrid
         - pxGridCloud
-    NodeUpdateRequest:
-      type: object
-      properties:
-        roles:
-          $ref: '#/components/schemas/Roles'
-        services:
-          $ref: '#/components/schemas/Services'
-      required:
-      - roles
-      - services
-      example: TBD
-    SuccessResponse:
-      type: object
-      properties:
-        success:
-          $ref: '#/components/schemas/Message'
-        version:
+  parameters:
+    filtering:
+      name: filter
+      in: query
+      required: false
+      description: '<div> <style type="text/css" scoped> .apiServiceTable td, .apiServiceTable th { padding: 5px 10px !important; text-align: left; } </style> <span> <b>Simple filtering</b> is available through the filter query string parameter. The structure of a filter is a triplet of field operator and value, separated by dots. More than one filter can be sent. The logical operator common to all filter criteria is AND by default, and can be changed by using the <i>"filterType=or"</i> query string parameter. Each resource Data model description should specify if an attribute is a filtered field. </span> <br /> <table class="apiServiceTable"> <thead> <tr> <th>OPERATOR</th> <th>DESCRIPTION</th> </tr> </thead> <tbody> <tr> <td>EQ</td> <td>Equals</td> </tr> <tr> <td>NEQ</td> <td>Not Equals</td> </tr> <tr> <td>STARTSW</td> <td>Starts With</td> </tr> <tr> <td>NSTARTSW</td> <td>Not Starts With</td> </tr> <tr> <td>ENDSW</td> <td>Ends With</td> </tr> <tr> <td>NENDSW</td> <td>Not Ends With</td> </tr> <tr> <td>CONTAINS</td> <td>Contains</td> </tr> <tr> <td>NCONTAINS</td> <td>Not Contains</td> </tr> </tbody> </table> </div>'
+      schema:
+        type: array
+        items:
           type: string
-          example: 1.0.0
-    IPAddress:
-      type: string
-      format: ipv4 | ipv6
+      style: form
+      allowReserved: true
+    filtertype:
+      name: filterType
+      in: query
+      description: The logical operator common to all filter criteria is AND by default, and can be changed by using this parameter.
+      required: false
+      schema:
+        type: string
+        enum:
+        - AND
+        - OR
+        default: AND

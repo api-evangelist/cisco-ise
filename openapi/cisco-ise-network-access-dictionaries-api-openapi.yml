@@ -26,7 +26,7 @@ paths:
     get:
       tags:
       - Network Access - Dictionaries
-      summary: Network Access - Returns a list of Dictionaries.
+      summary: Network Access - Returns a list of Dictionaries
       description: Get all Dictionaries.
       operationId: getNetworkAccessDictionaries
       parameters:
@@ -68,7 +68,7 @@ paths:
     post:
       tags:
       - Network Access - Dictionaries
-      summary: Network Access - Create a new Dictionary.
+      summary: Network Access - Create a new Dictionary
       description: Network Access - Create a new Dictionary.
       operationId: postNetworkAccessDictionaries
       parameters:
@@ -127,7 +127,6 @@ paths:
       tags:
       - Network Access - Dictionaries
       summary: GET a dictionary by name
-      description: GET a dictionary by name
       operationId: getNetworkAccessDictionary
       parameters:
       - name: name
@@ -176,7 +175,7 @@ paths:
     put:
       tags:
       - Network Access - Dictionaries
-      summary: Network Access - Update a Dictionary.
+      summary: Network Access - Update a Dictionary
       description: Network Access - Update a Dictionary.
       operationId: putNetworkAccessDictionariesByName
       parameters:
@@ -234,7 +233,7 @@ paths:
     delete:
       tags:
       - Network Access - Dictionaries
-      summary: Network Access - Delete a Dictionary.
+      summary: Network Access - Delete a Dictionary
       description: Network Access - Delete a Dictionary.
       operationId: deleteNetworkAccessDictionariesByName
       parameters:
@@ -285,6 +284,25 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    DictionaryListResponseEntity:
+      title: DictionaryListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"dictionaryAttrType":"ENTITY_ATTR","id":"12345678-f0e7-456b-a2d1-876543320b11","name":"my dictionary","description":"a dictionary description","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/dictionaries/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Dictionary'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     Dictionary:
       title: Dictionary
       required:
@@ -329,6 +347,21 @@ components:
           exampleSetFlag: true
       description: Dictionary POST format
       exampleSetFlag: false
+    DictionaryResponseEntity:
+      title: DictionaryResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Dictionary'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     Link:
       title: Link
       required:
@@ -351,40 +384,6 @@ components:
         type:
           type: string
           example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    DictionaryListResponseEntity:
-      title: DictionaryListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          example: '[{"dictionaryAttrType":"ENTITY_ATTR","id":"12345678-f0e7-456b-a2d1-876543320b11","name":"my dictionary","description":"a dictionary description","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/dictionaries/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}}]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Dictionary'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    DictionaryResponseEntity:
-      title: DictionaryResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Dictionary'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     Error:

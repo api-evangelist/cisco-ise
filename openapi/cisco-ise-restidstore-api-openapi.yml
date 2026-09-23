@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Restidstore API
-  version: '1.0'
-  description: 'Operations tagged restidstore across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-rest-id-store.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-legacy-ers-rest-id-store.yaml
-    operation_coverage: 11/21
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged restidstore across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -34,16 +31,6 @@ tags:
 - name: restidstore
 paths:
   /restidstore/:
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
     get:
       tags:
       - restidstore
@@ -138,6 +125,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getRestidstore
+      x-operation-id-source: derived
     post:
       tags:
       - restidstore
@@ -236,7 +225,8 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
-  /restidstore/name/{name}:
+      operationId: postRestidstore
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -247,6 +237,7 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /restidstore/name/{name}:
     get:
       tags:
       - restidstore
@@ -320,6 +311,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getRestidstoreNameByName
+      x-operation-id-source: derived
     put:
       tags:
       - restidstore
@@ -436,6 +429,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+      operationId: putRestidstoreNameByName
+      x-operation-id-source: derived
     delete:
       tags:
       - restidstore
@@ -498,6 +493,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: deleteRestidstoreNameByName
+      x-operation-id-source: derived
     patch:
       tags:
       - restidstore
@@ -612,7 +609,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /restidstore/{id}:
+      operationId: patchRestidstoreNameByName
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -623,6 +621,7 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /restidstore/{id}:
     get:
       tags:
       - restidstore
@@ -696,6 +695,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getRestidstoreById
+      x-operation-id-source: derived
     put:
       tags:
       - restidstore
@@ -812,6 +813,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+      operationId: putRestidstoreById
+      x-operation-id-source: derived
     delete:
       tags:
       - restidstore
@@ -874,6 +877,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: deleteRestidstoreById
+      x-operation-id-source: derived
     patch:
       tags:
       - restidstore
@@ -988,12 +993,24 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+      operationId: patchRestidstoreById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /ers/config/restidstore/name/{name}:
     get:
       tags:
       - restidstore
       summary: Get REST ID store by name
-      description: <p>This API allows the client to get a REST ID store by name.</p>
+      description: This API allows the client to get a REST ID store by name.
       parameters:
       - name: name
         in: path
@@ -1021,11 +1038,13 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/rest'
+      operationId: getErsConfigRestidstoreNameByName
+      x-operation-id-source: derived
     patch:
       tags:
       - restidstore
       summary: Update part of the REST ID Store by name
-      description: <p>Update any attribute subset of the REST ID Store. Only the attributes sent are affected.</p>
+      description: Update any attribute subset of the REST ID Store. Only the attributes sent are affected.
       parameters:
       - name: name
         in: path
@@ -1056,11 +1075,13 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigRestidstoreNameByName
+      x-operation-id-source: derived
     put:
       tags:
       - restidstore
       summary: Update REST ID store by name
-      description: <p>This API allows the client to update a REST ID store by name.</p>
+      description: This API allows the client to update a REST ID store by name.
       parameters:
       - name: name
         in: path
@@ -1096,11 +1117,13 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/rest'
+      operationId: putErsConfigRestidstoreNameByName
+      x-operation-id-source: derived
     delete:
       tags:
       - restidstore
       summary: Delete REST ID store by name
-      description: <p>This API deletes a REST ID store by name.</p>
+      description: This API deletes a REST ID store by name.
       parameters:
       - name: name
         in: path
@@ -1121,12 +1144,14 @@ paths:
       responses:
         204:
           description: No Content
+      operationId: deleteErsConfigRestidstoreNameByName
+      x-operation-id-source: derived
   /ers/config/restidstore/{id}:
     get:
       tags:
       - restidstore
       summary: Get REST ID store by ID
-      description: <p>This API allows the client to get a REST ID store by ID.</p>
+      description: This API allows the client to get a REST ID store by ID.
       parameters:
       - name: id
         in: path
@@ -1154,11 +1179,13 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/rest'
+      operationId: getErsConfigRestidstoreById
+      x-operation-id-source: derived
     patch:
       tags:
       - restidstore
       summary: Update part of the REST ID Store by ID
-      description: <p>Update any attribute subset of the REST ID Store. Only the attributes sent are affected.</p>
+      description: Update any attribute subset of the REST ID Store. Only the attributes sent are affected.
       parameters:
       - name: id
         in: path
@@ -1189,11 +1216,13 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigRestidstoreById
+      x-operation-id-source: derived
     put:
       tags:
       - restidstore
       summary: Update REST ID store
-      description: <p>This API allows the client to update a REST ID store.</p>
+      description: This API allows the client to update a REST ID store.
       parameters:
       - name: id
         in: path
@@ -1234,11 +1263,13 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/rest'
+      operationId: putErsConfigRestidstoreById
+      x-operation-id-source: derived
     delete:
       tags:
       - restidstore
       summary: Delete REST ID store
-      description: <p>This API deletes a REST ID store.</p>
+      description: This API deletes a REST ID store.
       parameters:
       - name: id
         in: path
@@ -1259,12 +1290,41 @@ paths:
       responses:
         204:
           description: No Content
+      operationId: deleteErsConfigRestidstoreById
+      x-operation-id-source: derived
   /ers/config/restidstore:
     get:
       tags:
       - restidstore
       summary: Get all REST ID stores
-      description: <p>This API allows the client to get all the REST ID stores.</p> <p><h1>Filter:</h1> <h3>[name]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name]</h3></p>
+      description: 'This API allows the client to get all the REST ID stores.
+
+
+        Filter:
+
+
+        [name]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [name]'
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -1287,11 +1347,13 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/search'
+      operationId: getErsConfigRestidstore
+      x-operation-id-source: derived
     post:
       tags:
       - restidstore
       summary: Create REST ID store
-      description: <p>This API creates a REST ID store.</p>
+      description: This API creates a REST ID store.
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -1315,12 +1377,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/rest'
+      operationId: postErsConfigRestidstore
+      x-operation-id-source: derived
   /ers/config/restidstore/versioninfo:
     get:
       tags:
       - restidstore
       summary: Get REST ID store version information
-      description: <p>This API helps to retrieve the version information related to the REST ID store.</p>
+      description: This API helps to retrieve the version information related to the REST ID store.
       responses:
         200:
           description: OK
@@ -1328,33 +1392,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigRestidstoreVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     restidstoreResponse:
       type: object
       properties:
@@ -1395,59 +1436,6 @@ components:
             sshKeysAttributeName: sshPublicKeys
             identifyDeviceCertificate: SAN
             regexType: CUSTOM
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequest:
-      type: object
-      properties:
-        ERSRestIDStore:
-          $ref: '#/components/schemas/patchRequestBody'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
     restidstoreListResponse:
       type: object
       properties:
@@ -1489,18 +1477,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
     restidstoreResponseEntity:
       properties:
         ersRestIDStoreAttributes:
@@ -1619,139 +1595,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
-        type:
-          type: string
-          example: application/json
-    ERSRestIDStore_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: b1155994-b736-46af-9add-04bed3058e3a
-        name:
-          type: string
-          example: RestIdStore1
-        description:
-          type: string
-          example: Object that represents the restID store
-        enableRestIdStore:
-          type: boolean
-          example: false
-        ersRestIDStoreAttributes:
-          type: object
-          properties:
-            usernameSuffix:
-              type: string
-              example: '@place.com'
-            rootUrl:
-              type: string
-              example: rootUrl
-            predefined:
-              type: string
-              example: Azure
-            headers:
-              type: array
-              example:
-              - key: tenantID
-                value: tenantID_value
-              - key: clientID
-                value: clientID_value
-              - key: clientSecret
-                value: clientSecret_value
-              items:
-                properties:
-                  name:
-                    type: string
-    restidstoreListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    rest:
-      type: object
-      properties:
-        ERSRestIDStore:
-          $ref: '#/components/schemas/ERSRestIDStore_2'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 79aac430-7cc8-11eb-ad58-005056926583
-            name: ISE_EST_Local_Host
-            description: example nd
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
     ERSRestIDStore:
       required:
       - name
@@ -1912,6 +1755,19 @@ components:
             sshKeysAttributeName: sshPublicKeys
             identifyDeviceCertificate: SAN
             regexType: CUSTOM
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     identitystores.restidstore:
       required:
       - ERSRestIDStore
@@ -1920,21 +1776,222 @@ components:
         ERSRestIDStore:
           $ref: '#/components/schemas/ERSRestIDStore'
       example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    restidstoreListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    patchRequest:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/patchRequestBody'
+    rest:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/ERSRestIDStore_2'
     search:
       type: object
       properties:
         SearchResult:
           $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    ERSRestIDStore_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: b1155994-b736-46af-9add-04bed3058e3a
+        name:
+          type: string
+          example: RestIdStore1
+        description:
+          type: string
+          example: Object that represents the restID store
+        enableRestIdStore:
+          type: boolean
+          example: false
+        ersRestIDStoreAttributes:
+          type: object
+          properties:
+            usernameSuffix:
+              type: string
+              example: '@place.com'
+            rootUrl:
+              type: string
+              example: rootUrl
+            predefined:
+              type: string
+              example: Azure
+            headers:
+              type: array
+              example:
+              - key: tenantID
+                value: tenantID_value
+              - key: clientID
+                value: clientID_value
+              - key: clientSecret
+                value: clientSecret_value
+              items:
+                properties:
+                  name:
+                    type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 79aac430-7cc8-11eb-ad58-005056926583
+            name: ISE_EST_Local_Host
+            description: example nd
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1944,6 +2001,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

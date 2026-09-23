@@ -353,7 +353,7 @@ paths:
     get:
       tags:
       - pxGrid Direct
-      summary: sync Now Status for  Connector information
+      summary: sync Now Status for Connector information
       description: pxGrid Direct - Get connectorConfig information based on ConnectorName
       operationId: getConnectorConfigSyncNowStatus
       parameters:
@@ -515,6 +515,66 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    PxGridDirectDictionaryReference:
+      title: PxGridDirectDictionaryReference
+      type: object
+      properties:
+        PxGridDirectDictionaryReferenceType:
+          type: string
+          description: interval Units
+          exampleSetFlag: true
+          enum:
+          - AUTHORIZATION_PROFILE
+          - LIBRARY_CONDITION
+          - POLICYSET_CONDITION
+        attributeName:
+          type: string
+          exampleSetFlag: true
+        dictionaryName:
+          type: string
+          exampleSetFlag: true
+        referenceName:
+          type: string
+          exampleSetFlag: true
+      description: ConnectorConfig information format
+      exampleSetFlag: false
+    AttributeMapping:
+      title: AttributeMapping
+      type: object
+      properties:
+        coaSignificance:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        dictionaryAttribute:
+          type: string
+          example: securityTag
+          exampleSetFlag: true
+        includeInDictionary:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        jsonAttribute:
+          type: string
+          example: u_segmentation_group_tag
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ConnectorConfigGetAllResponse:
+      title: ConnectorConfigGetAllResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/ConnectorConfigInfo'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: ConnectorConfig information format
+      exampleSetFlag: false
     SyncConnectorConfigInfoConnector:
       title: SyncConnectorConfigInfoConnector
       type: object
@@ -538,58 +598,38 @@ components:
           exampleSetFlag: true
       description: connectorName
       exampleSetFlag: false
-    ConnectorConfigInfoConnectorUrl:
-      title: ConnectorConfigInfoConnectorUrl
+    ConnectorConfigInfoConnectorAttributes:
+      title: ConnectorConfigInfoConnectorAttributes
       type: object
       properties:
-        authenticationType:
+        attributeMapping:
+          type: array
+          description: <p>List of feature names</p>
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMapping'
+            exampleSetFlag: false
+        correlationIdentifier:
           type: string
-          description: authentication Type list
+          description: uniqueness to identify
+          example: u_macaddress
           exampleSetFlag: true
-          enum:
-          - apikey
-          - basic
-        bulkUrl:
+        topLevelObject:
           type: string
-          description: bulkUrl
-          example: http://cmdb/cmdb-random/1
+          description: root level of json
+          example: result
           exampleSetFlag: true
-        incrementalUrl:
+        uniqueIdentifier:
           type: string
-          description: incrementalUrl
-          example: http://cmdb/cmdb-random/1?afterDate=Feb15
+          description: uniqueness to identify
+          example: sys_id
           exampleSetFlag: true
-        password:
+        versionIdentifier:
           type: string
-          description: password
-          example: test
+          description: version uniqueness to identify
+          example: sys_updated_on
           exampleSetFlag: true
-        userName:
-          type: string
-          description: userName
-          example: test
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AttributeMapping:
-      title: AttributeMapping
-      type: object
-      properties:
-        coaSignificance:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-        dictionaryAttribute:
-          type: string
-          example: securityTag
-          exampleSetFlag: true
-        includeInDictionary:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        jsonAttribute:
-          type: string
-          example: u_segmentation_group_tag
-          exampleSetFlag: true
+      description: connectorName
       exampleSetFlag: false
     Schedule:
       title: Schedule
@@ -615,55 +655,20 @@ components:
           example: '2025-02-10T09:00:00'
           exampleSetFlag: true
       exampleSetFlag: false
-    TestConnectorRequest:
-      title: TestConnectorRequest
+    Group:
+      title: Group
       type: object
       properties:
-        authType:
+        GroupName:
           type: string
-          description: authentication Type list
+          example: admingroupName
+          exampleSetFlag: true
+        GroupPermission:
+          type: string
           exampleSetFlag: true
           enum:
-          - apikey
-          - basic
-          - oauth2
-        authValues:
-          $ref: '#/components/schemas/TestConnectorRequestAuthValues'
-          exampleSetFlag: true
-        connectorName:
-          type: string
-          description: connectorName
-          example: SNOW_CMDB
-          exampleSetFlag: true
-        flexibleUrl:
-          $ref: '#/components/schemas/ConnectorConfigInfoConnectorFlexibleUrl'
-          exampleSetFlag: true
-        incrementalUrl:
-          type: string
-          description: incrementalUrl
-          example: http://cmdb/cmdb-random/2
-          exampleSetFlag: true
-        responseParsing:
-          type: string
-          description: uniqueness to identify
-          example: result
-          exampleSetFlag: true
-        skipCertificateValidations:
-          type: boolean
-          description: skipCertificateValidations
-          example: false
-          exampleSetFlag: true
-        uniqueID:
-          type: string
-          description: uniqueness to identify
-          example: u_macaddress
-          exampleSetFlag: true
-        url:
-          type: string
-          description: bulkUrl
-          example: http://cmdb/cmdb-random/1
-          exampleSetFlag: true
-      description: Request  to test Connector
+          - read
+          - write
       exampleSetFlag: false
     ApiKeyProperties:
       title: ApiKeyProperties
@@ -699,110 +704,6 @@ components:
           exampleSetFlag: true
       description: api key auth properties
       exampleSetFlag: false
-    SyncConnectorConfigResInfoConnector:
-      title: SyncConnectorConfigResInfoConnector
-      type: object
-      properties:
-        connectorName:
-          type: string
-          description: connectorName
-          example: SNOW_CMDB
-          exampleSetFlag: true
-        syncStatus:
-          type: string
-          description: description
-          example: INPROGRESS or QUEUED or SYNC COMPLETED or ERRORED
-          exampleSetFlag: true
-      description: connectorName
-      exampleSetFlag: false
-    TestConnectorResponse:
-      title: TestConnectorResponse
-      type: object
-      properties:
-        connectorName:
-          type: string
-          description: connectorName
-          example: SNOW_CMDB
-          exampleSetFlag: true
-        data:
-          type: string
-          description: Response data
-          example: JSON-object
-          exampleSetFlag: true
-        error:
-          type: string
-          description: error
-          example: error
-          exampleSetFlag: true
-        skipCertificateValidations:
-          type: boolean
-          description: skipCertificateValidations
-          example: false
-          exampleSetFlag: true
-        status:
-          type: string
-          description: status of the request
-          example: success
-          exampleSetFlag: true
-        uniqueID:
-          type: string
-          description: uniqueness to identify
-          example: u_macaddress
-          exampleSetFlag: true
-      description: Request  to test Connector
-      exampleSetFlag: false
-    ConnectorConfigGetResponse:
-      title: ConnectorConfigGetResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ConnectorConfigInfo'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: ConnectorConfig information format
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
-    PxGridDirectDictionaryReference:
-      title: PxGridDirectDictionaryReference
-      type: object
-      properties:
-        PxGridDirectDictionaryReferenceType:
-          type: string
-          description: interval Units
-          exampleSetFlag: true
-          enum:
-          - AUTHORIZATION_PROFILE
-          - LIBRARY_CONDITION
-          - POLICYSET_CONDITION
-        attributeName:
-          type: string
-          exampleSetFlag: true
-        dictionaryName:
-          type: string
-          exampleSetFlag: true
-        referenceName:
-          type: string
-          exampleSetFlag: true
-      description: ConnectorConfig information format
-      exampleSetFlag: false
     SyncConnectorConfigResInfo:
       title: SyncConnectorConfigResInfo
       type: object
@@ -811,17 +712,6 @@ components:
           $ref: '#/components/schemas/SyncConnectorConfigResInfoConnector'
           exampleSetFlag: true
       description: ConnectorConfig information format
-      exampleSetFlag: false
-    FetchUrlAdditionalHeaders:
-      title: FetchUrlAdditionalHeaders
-      type: object
-      properties:
-        name:
-          type: string
-          exampleSetFlag: true
-        value:
-          type: string
-          exampleSetFlag: true
       exampleSetFlag: false
     ConnectorConfigInfoConnector:
       title: ConnectorConfigInfoConnector
@@ -896,57 +786,101 @@ components:
           exampleSetFlag: true
       description: connectorName
       exampleSetFlag: false
-    SyncNowConfigGetResponse:
-      title: SyncNowConfigGetResponse
+    FetchUrl:
+      title: FetchUrl
+      required:
+      - authenticationType
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/SyncConnectorConfigResInfo'
+        additionalHeaders:
+          type: array
           exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: ConnectorConfig information format
-      exampleSetFlag: false
-    PxGridDirectDictionaryReferenceResponse:
-      title: PxGridDirectDictionaryReferenceResponse
-      type: object
-      properties:
-        response:
-          type: object
-          additionalProperties:
-            type: array
+          items:
+            $ref: '#/components/schemas/FetchUrlAdditionalHeaders'
             exampleSetFlag: false
-            items:
-              $ref: '#/components/schemas/PxGridDirectDictionaryReference'
-              exampleSetFlag: false
+        apiKeyProperties:
+          $ref: '#/components/schemas/ApiKeyProperties'
           exampleSetFlag: true
-        version:
+        authenticationType:
           type: string
-          example: 1.0.0
+          description: authentication Type list
+          example: apikey
           exampleSetFlag: true
-      description: ConnectorConfig information format
+          enum:
+          - apikey
+          - basic
+          - oauth2
+        basicAuthProperties:
+          $ref: '#/components/schemas/BasicAuthProperties'
+          exampleSetFlag: true
+        method:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - DELETE
+          - GET
+          - POST
+          - PUT
+        oauthProperties:
+          $ref: '#/components/schemas/OAuthProperties'
+          exampleSetFlag: true
+        url:
+          type: string
+          description: the url to fetch
+          example: http://cmdb/cmdb-random/1
+          exampleSetFlag: true
       exampleSetFlag: false
-    SyncConnectorConfigInfo:
-      title: SyncConnectorConfigInfo
+    TestConnectorResponse:
+      title: TestConnectorResponse
       type: object
       properties:
-        connector:
-          $ref: '#/components/schemas/SyncConnectorConfigInfoConnector'
+        connectorName:
+          type: string
+          description: connectorName
+          example: SNOW_CMDB
           exampleSetFlag: true
-      description: SyncConnectorConfigInfo information format
+        data:
+          type: string
+          description: Response data
+          example: JSON-object
+          exampleSetFlag: true
+        error:
+          type: string
+          description: error
+          example: error
+          exampleSetFlag: true
+        skipCertificateValidations:
+          type: boolean
+          description: skipCertificateValidations
+          example: false
+          exampleSetFlag: true
+        status:
+          type: string
+          description: status of the request
+          example: success
+          exampleSetFlag: true
+        uniqueID:
+          type: string
+          description: uniqueness to identify
+          example: u_macaddress
+          exampleSetFlag: true
+      description: Request  to test Connector
       exampleSetFlag: false
-    ConnectorConfigInfoConnectorFlexibleUrl:
-      title: ConnectorConfigInfoConnectorFlexibleUrl
+    SyncConnectorConfigResInfoConnector:
+      title: SyncConnectorConfigResInfoConnector
       type: object
       properties:
-        bulk:
-          $ref: '#/components/schemas/FetchUrl'
+        connectorName:
+          type: string
+          description: connectorName
+          example: SNOW_CMDB
           exampleSetFlag: true
-        incremental:
-          $ref: '#/components/schemas/FetchUrl'
+        syncStatus:
+          type: string
+          description: description
+          example: INPROGRESS or QUEUED or SYNC COMPLETED or ERRORED
           exampleSetFlag: true
+      description: connectorName
       exampleSetFlag: false
     OAuthProperties:
       title: OAuthProperties
@@ -993,20 +927,126 @@ components:
           exampleSetFlag: true
       description: OAuth properties
       exampleSetFlag: false
-    Group:
-      title: Group
+    ConnectorConfigGetResponse:
+      title: ConnectorConfigGetResponse
       type: object
       properties:
-        GroupName:
-          type: string
-          example: admingroupName
+        response:
+          $ref: '#/components/schemas/ConnectorConfigInfo'
           exampleSetFlag: true
-        GroupPermission:
+        version:
           type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: ConnectorConfig information format
+      exampleSetFlag: false
+    BasicAuthProperties:
+      title: BasicAuthProperties
+      type: object
+      properties:
+        password:
+          type: string
+          description: password
+          example: test
+          exampleSetFlag: true
+        requestBody:
+          type: string
+          description: request body that will be templated
+          example: key={{ KEY }}
+          exampleSetFlag: true
+        userName:
+          type: string
+          description: userName
+          example: test
+          exampleSetFlag: true
+      description: basic auth properties
+      exampleSetFlag: false
+    ConnectorConfigInfoConnectorUrl:
+      title: ConnectorConfigInfoConnectorUrl
+      type: object
+      properties:
+        authenticationType:
+          type: string
+          description: authentication Type list
           exampleSetFlag: true
           enum:
-          - read
-          - write
+          - apikey
+          - basic
+        bulkUrl:
+          type: string
+          description: bulkUrl
+          example: http://cmdb/cmdb-random/1
+          exampleSetFlag: true
+        incrementalUrl:
+          type: string
+          description: incrementalUrl
+          example: http://cmdb/cmdb-random/1?afterDate=Feb15
+          exampleSetFlag: true
+        password:
+          type: string
+          description: password
+          example: test
+          exampleSetFlag: true
+        userName:
+          type: string
+          description: userName
+          example: test
+          exampleSetFlag: true
+      exampleSetFlag: false
+    PxGridDirectDictionaryReferenceResponse:
+      title: PxGridDirectDictionaryReferenceResponse
+      type: object
+      properties:
+        response:
+          type: object
+          additionalProperties:
+            type: array
+            exampleSetFlag: false
+            items:
+              $ref: '#/components/schemas/PxGridDirectDictionaryReference'
+              exampleSetFlag: false
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: ConnectorConfig information format
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    FetchUrlAdditionalHeaders:
+      title: FetchUrlAdditionalHeaders
+      type: object
+      properties:
+        name:
+          type: string
+          exampleSetFlag: true
+        value:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SyncConnectorConfigInfo:
+      title: SyncConnectorConfigInfo
+      type: object
+      properties:
+        connector:
+          $ref: '#/components/schemas/SyncConnectorConfigInfoConnector'
+          exampleSetFlag: true
+      description: SyncConnectorConfigInfo information format
       exampleSetFlag: false
     TestConnectorRequestAuthValues:
       title: TestConnectorRequestAuthValues
@@ -1074,126 +1114,86 @@ components:
           exampleSetFlag: true
       description: Request  to test Connector
       exampleSetFlag: false
+    TestConnectorRequest:
+      title: TestConnectorRequest
+      type: object
+      properties:
+        authType:
+          type: string
+          description: authentication Type list
+          exampleSetFlag: true
+          enum:
+          - apikey
+          - basic
+          - oauth2
+        authValues:
+          $ref: '#/components/schemas/TestConnectorRequestAuthValues'
+          exampleSetFlag: true
+        connectorName:
+          type: string
+          description: connectorName
+          example: SNOW_CMDB
+          exampleSetFlag: true
+        flexibleUrl:
+          $ref: '#/components/schemas/ConnectorConfigInfoConnectorFlexibleUrl'
+          exampleSetFlag: true
+        incrementalUrl:
+          type: string
+          description: incrementalUrl
+          example: http://cmdb/cmdb-random/2
+          exampleSetFlag: true
+        responseParsing:
+          type: string
+          description: uniqueness to identify
+          example: result
+          exampleSetFlag: true
+        skipCertificateValidations:
+          type: boolean
+          description: skipCertificateValidations
+          example: false
+          exampleSetFlag: true
+        uniqueID:
+          type: string
+          description: uniqueness to identify
+          example: u_macaddress
+          exampleSetFlag: true
+        url:
+          type: string
+          description: bulkUrl
+          example: http://cmdb/cmdb-random/1
+          exampleSetFlag: true
+      description: Request  to test Connector
+      exampleSetFlag: false
+    ConnectorConfigInfoConnectorFlexibleUrl:
+      title: ConnectorConfigInfoConnectorFlexibleUrl
+      type: object
+      properties:
+        bulk:
+          $ref: '#/components/schemas/FetchUrl'
+          exampleSetFlag: true
+        incremental:
+          $ref: '#/components/schemas/FetchUrl'
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SyncNowConfigGetResponse:
+      title: SyncNowConfigGetResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/SyncConnectorConfigResInfo'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: ConnectorConfig information format
+      exampleSetFlag: false
     ConnectorConfigInfo:
       title: ConnectorConfigInfo
       type: object
       properties:
         connector:
           $ref: '#/components/schemas/ConnectorConfigInfoConnector'
-          exampleSetFlag: true
-      description: ConnectorConfig information format
-      exampleSetFlag: false
-    FetchUrl:
-      title: FetchUrl
-      required:
-      - authenticationType
-      type: object
-      properties:
-        additionalHeaders:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/FetchUrlAdditionalHeaders'
-            exampleSetFlag: false
-        apiKeyProperties:
-          $ref: '#/components/schemas/ApiKeyProperties'
-          exampleSetFlag: true
-        authenticationType:
-          type: string
-          description: authentication Type list
-          example: apikey
-          exampleSetFlag: true
-          enum:
-          - apikey
-          - basic
-          - oauth2
-        basicAuthProperties:
-          $ref: '#/components/schemas/BasicAuthProperties'
-          exampleSetFlag: true
-        method:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - DELETE
-          - GET
-          - POST
-          - PUT
-        oauthProperties:
-          $ref: '#/components/schemas/OAuthProperties'
-          exampleSetFlag: true
-        url:
-          type: string
-          description: the url to fetch
-          example: http://cmdb/cmdb-random/1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    BasicAuthProperties:
-      title: BasicAuthProperties
-      type: object
-      properties:
-        password:
-          type: string
-          description: password
-          example: test
-          exampleSetFlag: true
-        requestBody:
-          type: string
-          description: request body that will be templated
-          example: key={{ KEY }}
-          exampleSetFlag: true
-        userName:
-          type: string
-          description: userName
-          example: test
-          exampleSetFlag: true
-      description: basic auth properties
-      exampleSetFlag: false
-    ConnectorConfigInfoConnectorAttributes:
-      title: ConnectorConfigInfoConnectorAttributes
-      type: object
-      properties:
-        attributeMapping:
-          type: array
-          description: <p>List of feature names</p>
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AttributeMapping'
-            exampleSetFlag: false
-        correlationIdentifier:
-          type: string
-          description: uniqueness to identify
-          example: u_macaddress
-          exampleSetFlag: true
-        topLevelObject:
-          type: string
-          description: root level of json
-          example: result
-          exampleSetFlag: true
-        uniqueIdentifier:
-          type: string
-          description: uniqueness to identify
-          example: sys_id
-          exampleSetFlag: true
-        versionIdentifier:
-          type: string
-          description: version uniqueness to identify
-          example: sys_updated_on
-          exampleSetFlag: true
-      description: connectorName
-      exampleSetFlag: false
-    ConnectorConfigGetAllResponse:
-      title: ConnectorConfigGetAllResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/ConnectorConfigInfo'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
           exampleSetFlag: true
       description: ConnectorConfig information format
       exampleSetFlag: false

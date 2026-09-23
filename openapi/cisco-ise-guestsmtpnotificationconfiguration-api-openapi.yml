@@ -1,0 +1,375 @@
+openapi: 3.2.0
+info:
+  description: Guest SMTP notification configuration API is a global setting for enabling email notifications within guest application.
+  version: 1.0.0
+  title: Guest SMTP Notification Configuration…
+tags:
+- name: guestsmtpnotificationconfiguration
+paths:
+  /ers/config/guestsmtpnotificationsettings/{id}:
+    get:
+      tags:
+      - guestsmtpnotificationconfiguration
+      summary: Get guest SMTP notification configuration by ID
+      description: This API allows the client to get a guest SMTP notification configuration by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestsmtpnotificationsettings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guestsmtp'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guestsmtp'
+      operationId: getErsConfigGuestsmtpnotificationsettingsById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - guestsmtpnotificationconfiguration
+      summary: Update part of the guest SMTP notification configuration by ID
+      description: This API allows the user to update part of the guest SMTP notification configuration by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestsmtpnotificationsettings.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guestsmtp'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guestsmtp'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigGuestsmtpnotificationsettingsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - guestsmtpnotificationconfiguration
+      summary: Update SMTP notification configuration
+      description: This API allows the client to update a SMTP configuration setting.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestsmtpnotificationsettings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/guestsmtp'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/guestsmtp'
+      operationId: putErsConfigGuestsmtpnotificationsettingsById
+      x-operation-id-source: derived
+  /ers/config/guestsmtpnotificationsettings:
+    get:
+      tags:
+      - guestsmtpnotificationconfiguration
+      summary: Get all guest SMTP notification configurations
+      description: 'This API allows the client to get all the guest SMTP notification configurations.
+
+
+        Filter:
+
+
+        [name]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [name, description]'
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestsmtpnotificationsettings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigGuestsmtpnotificationsettings
+      x-operation-id-source: derived
+    post:
+      tags:
+      - guestsmtpnotificationconfiguration
+      summary: Create guest SMTP notification configuration
+      description: This API creates a guest SMTP notification configuration.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestsmtpnotificationsettings.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/guestsmtp'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/guestsmtp'
+      operationId: postErsConfigGuestsmtpnotificationsettings
+      x-operation-id-source: derived
+  /ers/config/guestsmtpnotificationsettings/versioninfo:
+    get:
+      tags:
+      - guestsmtpnotificationconfiguration
+      summary: Get guest smtp notification configuration version information
+      description: This API helps to retrieve the version information related to the guest smtp notification configuration.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigGuestsmtpnotificationsettingsVersioninfo
+      x-operation-id-source: derived
+components:
+  schemas:
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    guestsmtp:
+      type: object
+      properties:
+        ERSGuestSmtpNotificationSettings:
+          $ref: '#/components/schemas/ERSGuestSmtpNotificationSettings'
+    patchRequest:
+      type: object
+      properties:
+        ERSGuestSmtpNotificationSettings:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guestsmtpnotificationsettings/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 9ecb5340-8c01-11e6-996c-525400b48521
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guestsmtpnotificationsettings/9ecb5340-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    ERSGuestSmtpNotificationSettings:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9ecb5340-8c01-11e6-996c-525400b48521
+        smtpServer:
+          type: string
+          example: ''
+        notificationEnabled:
+          type: boolean
+          example: true
+        useDefaultFromAddress:
+          type: boolean
+          example: false
+        defaultFromAddress:
+          type: string
+          example: donotreply@example.com
+        smtpPort:
+          type: string
+          example: 25
+        connectionTimeout:
+          type: string
+          example: 60
+        useTLSorSSLEncryption:
+          type: boolean
+          example: false
+        usePasswordAuthentication:
+          type: boolean
+          example: false
+        userName:
+          type: string
+          example: ''
+        password:
+          type: string
+          example: ''
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/guestsmtpnotificationsettings/9ecb5340-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json

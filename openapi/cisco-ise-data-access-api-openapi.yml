@@ -295,6 +295,29 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    DataAccessRequest:
+      title: DataAccessRequest
+      required:
+      - dataAccessPrivileges
+      type: object
+      properties:
+        dataAccessPrivileges:
+          type: array
+          description: A list of data access privileges associated with this request.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/DataAccessPermission'
+            exampleSetFlag: false
+        description:
+          type: string
+          description: A description of the data access request.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the data access request.
+          exampleSetFlag: true
+      description: Represents a request for data access, including the name, description, and associated privileges.
+      exampleSetFlag: false
     DataAccessPermission:
       title: DataAccessPermission
       type: object
@@ -320,28 +343,21 @@ components:
           exampleSetFlag: true
       description: Represents a single data access permission, with potential child permissions for hierarchical structure.
       exampleSetFlag: false
-    DataAccessRequest:
-      title: DataAccessRequest
+    DataAccess:
+      title: DataAccess
       required:
-      - dataAccessPrivileges
+      - name
       type: object
       properties:
-        dataAccessPrivileges:
-          type: array
-          description: A list of data access privileges associated with this request.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/DataAccessPermission'
-            exampleSetFlag: false
         description:
           type: string
-          description: A description of the data access request.
+          description: A description of the data access.
           exampleSetFlag: true
         name:
           type: string
-          description: The name of the data access request.
+          description: The name of the data access.
           exampleSetFlag: true
-      description: Represents a request for data access, including the name, description, and associated privileges.
+      description: Represents a simple data access object with name and description fields.
       exampleSetFlag: false
     BaseResponse:
       title: BaseResponse
@@ -361,8 +377,8 @@ components:
           exampleSetFlag: true
       description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
       exampleSetFlag: false
-    Error:
-      title: Error
+    DataAccessResponse:
+      title: DataAccessResponse
       required:
       - code
       - message
@@ -370,14 +386,21 @@ components:
       properties:
         code:
           type: integer
-          description: The error code associated with the response. A non-zero code typically indicates an error.
+          description: The status code of the response, indicating success or failure.
           format: int32
           exampleSetFlag: true
+        dataAccessList:
+          type: array
+          description: A list of `DataAccess` objects representing the available data access permissions.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/DataAccess'
+            exampleSetFlag: false
         message:
           type: string
-          description: A description of the error encountered.
+          description: A message providing more details about the response.
           exampleSetFlag: true
-      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
+      description: Response schema for retrieving a list of data access objects, including status code and message.
       exampleSetFlag: false
     DataAccessByNameResponse:
       title: DataAccessByNameResponse
@@ -412,8 +435,8 @@ components:
           exampleSetFlag: true
       description: Response schema for retrieving data access by its name, with associated privileges and description.
       exampleSetFlag: false
-    DataAccessResponse:
-      title: DataAccessResponse
+    Error:
+      title: Error
       required:
       - code
       - message
@@ -421,35 +444,12 @@ components:
       properties:
         code:
           type: integer
-          description: The status code of the response, indicating success or failure.
+          description: The error code associated with the response. A non-zero code typically indicates an error.
           format: int32
           exampleSetFlag: true
-        dataAccessList:
-          type: array
-          description: A list of `DataAccess` objects representing the available data access permissions.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/DataAccess'
-            exampleSetFlag: false
         message:
           type: string
-          description: A message providing more details about the response.
+          description: A description of the error encountered.
           exampleSetFlag: true
-      description: Response schema for retrieving a list of data access objects, including status code and message.
-      exampleSetFlag: false
-    DataAccess:
-      title: DataAccess
-      required:
-      - name
-      type: object
-      properties:
-        description:
-          type: string
-          description: A description of the data access.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the data access.
-          exampleSetFlag: true
-      description: Represents a simple data access object with name and description fields.
+      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
       exampleSetFlag: false

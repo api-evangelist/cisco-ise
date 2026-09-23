@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Nspprofile API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Nspprofile API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged nspprofile across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-native-supplicant-profile.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: nspprofile
 paths:
@@ -98,6 +86,20 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getNspprofile
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /nspprofile/{id}:
     get:
       tags:
@@ -170,6 +172,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getNspprofileById
+      x-operation-id-source: derived
     put:
       tags:
       - nspprofile
@@ -260,6 +266,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putNspprofileById
+      x-operation-id-source: derived
     delete:
       tags:
       - nspprofile
@@ -320,8 +330,232 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteNspprofileById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/nspprofile/{id}:
+    get:
+      tags:
+      - nspprofile
+      summary: Get native supplicant profile by ID
+      description: This API allows the client to get a native supplicant profile by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- provisioning.nspprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/native'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/native'
+      operationId: getErsConfigNspprofileById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - nspprofile
+      summary: Update part of the native supplicant profile configuration by ID
+      description: This API allows the user to update part of the native supplicant profile configuration by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- provisioning.nspprofile.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/native'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/native'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigNspprofileById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - nspprofile
+      summary: Update native supplicant profile
+      description: This API allows the client to update a native supplicant profile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- provisioning.nspprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/native'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/native'
+      operationId: putErsConfigNspprofileById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - nspprofile
+      summary: Delete native supplicant profile
+      description: This API deletes a native supplicant profile.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- provisioning.nspprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigNspprofileById
+      x-operation-id-source: derived
+  /ers/config/nspprofile:
+    get:
+      tags:
+      - nspprofile
+      summary: Get all native supplicant profiles
+      description: This API allows the client to get all the native supplicant profiles.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- provisioning.nspprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigNspprofile
+      x-operation-id-source: derived
+  /ers/config/nspprofile/versioninfo:
+    get:
+      tags:
+      - nspprofile
+      summary: Get native supplicant profile version information
+      description: This API helps to retrieve the version information related to the native supplicant profile.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigNspprofileVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
+    provisioning.nspprofile:
+      required:
+      - ERSNSPProfile
+      type: object
+      properties:
+        ERSNSPProfile:
+          $ref: '#/components/schemas/ERSNSPProfile'
+      example: null
+    nspprofileResponse:
+      type: object
+      properties:
+        ERSNSPProfile:
+          $ref: '#/components/schemas/nspprofileResponseEntity'
+      example:
+        ERSNSPProfile:
+          name: NSPProfile
+          description: 'ERS example Native supplicant profile '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          wirelessProfiles:
+          - actionType: UPDATE
+            previousSsid: ssid1
+            allowedProtocol: TLS
+            ssid: ssid1
+            certificateTemplateId: '123456789'
     ERSNSPProfile:
       required:
       - name
@@ -398,32 +632,6 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    provisioning.nspprofile:
-      required:
-      - ERSNSPProfile
-      type: object
-      properties:
-        ERSNSPProfile:
-          $ref: '#/components/schemas/ERSNSPProfile'
-      example: null
     nspprofileListResponseEntity:
       properties:
         id:
@@ -444,6 +652,99 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    nspprofileListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/nspprofileListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     nspprofileResponseEntity:
       properties:
         wirelessProfiles:
@@ -497,107 +798,153 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    updatedField:
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
       properties:
         field:
           type: string
-          example: null
+          example: field1
         oldValue:
           type: string
-          example: null
+          example: val_old
         newValue:
           type: string
-          example: null
-      example: null
-    nspprofileListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/nspprofileListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    nspprofileResponse:
+          example: val_new
+    patchRequest:
       type: object
       properties:
         ERSNSPProfile:
-          $ref: '#/components/schemas/nspprofileResponseEntity'
-      example:
-        ERSNSPProfile:
-          name: NSPProfile
-          description: 'ERS example Native supplicant profile '
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          wirelessProfiles:
-          - actionType: UPDATE
-            previousSsid: ssid1
-            allowedProtocol: TLS
-            ssid: ssid1
-            certificateTemplateId: '123456789'
-    ERSResponse:
+          $ref: '#/components/schemas/patchRequestBody'
+    native:
       type: object
       properties:
-        operation:
+        ERSNSPProfile:
+          $ref: '#/components/schemas/ERSNSPProfile_2'
+    ERSNSPProfile_2:
+      type: object
+      properties:
+        id:
           type: string
-          example: Operation
-        messages:
+          example: b8ce01e6-b150-4d4e-9698-40e48d5e0197
+        name:
+          type: string
+          example: Cisco-ISE-NSP
+        description:
+          type: string
+          example: Pre-configured Native Supplicant Profile. The SSID Will Need To Be Customized For Your Environment
+        wirelessProfiles:
           type: array
-          example: null
+          example:
+          - ssid: ISE
+            allowedProtocol: TLS
+            certificateTemplateId: 0ca8f1b6-500d-560b-e053-75189a0ab0d1
+            actionType: UPDATE
+            previousSsid: ssid1
           items:
             properties:
-              title:
+              name:
                 type: string
-                example: title
-              type:
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/nspprofile/b8ce01e6-b150-4d4e-9698-40e48d5e0197
+            type:
+              type: string
+              example: application/json
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: <ise-ip>/ers/config/nspprofile/versioninfo
+        type:
+          type: string
+          example: application/json
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 2
+        resources:
+          type: array
+          example:
+          - id: 67a6ca50-edc9-4236-ada4-225559ed54d6
+            name: Cisco-ISE-Chrome-NSP
+            description: Pre-configured Native Supplicant Profile For Chrome OS
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/nspprofile/67a6ca50-edc9-4236-ada4-225559ed54d6
+              type: application/json
+          - id: b8ce01e6-b150-4d4e-9698-40e48d5e0197
+            name: Cisco-ISE-NSP
+            description: Pre-configured Native Supplicant Profile. The SSID Will Need To Be Customized For Your Environment
+            link:
+              rel: self
+              href: https://<ise-ip>/ers/config/nspprofile/b8ce01e6-b150-4d4e-9698-40e48d5e0197
+              type: application/json
+          items:
+            properties:
+              name:
                 type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -607,7 +954,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-native-supplicant-profile.yaml

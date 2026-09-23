@@ -26,7 +26,7 @@ paths:
     get:
       tags:
       - Network Access - Policy Sets
-      summary: Network Access - List of policy sets.
+      summary: Network Access - List of policy sets
       description: Get all network access policy sets.
       operationId: getNetworkAccessPolicySetList
       parameters:
@@ -68,8 +68,17 @@ paths:
     post:
       tags:
       - Network Access - Policy Sets
-      summary: Network Access - Create a new policy set.
-      description: 'Network Access - Create a new policy set: <ul> <li> Policy must include name , service identifier (either server sequence or allowed protocol) and a condition. </li> <li> Condition has hierarchical structure which define a set of condition for which policy could be match. </li> <li> Condition can be either reference to a stored Library condition, using model <b>ConditionReference</b>, or, dynamically built conditions which are not stored in the conditions Library, using models <b>ConditionAttributes, ConditionAndBlock, ConditionOrBlock</b>.</li> </ul> '
+      summary: Network Access - Create a new policy set
+      description: 'Network Access - Create a new policy set:
+
+
+        Policy must include name , service identifier (either server sequence or allowed protocol) and a condition.
+
+
+        Condition has hierarchical structure which define a set of condition for which policy could be match.
+
+
+        Condition can be either reference to a stored Library condition, using model ConditionReference, or, dynamically built conditions which are not stored in the conditions Library, using models ConditionAttributes, ConditionAndBlock, ConditionOrBlock.'
       operationId: createNetworkAccessPolicySet
       parameters:
       - name: X-Request-ID
@@ -120,7 +129,6 @@ paths:
       tags:
       - Network Access - Policy Sets
       summary: Network Access - Reset HitCount for PolicySets
-      description: Network Access - Reset HitCount for PolicySets
       operationId: resetHitCountsNetworkAccessPolicySets
       parameters:
       - name: X-Request-ID
@@ -164,7 +172,7 @@ paths:
     get:
       tags:
       - Network Access - Policy Sets
-      summary: Network Access - Get policy set attributes.
+      summary: Network Access - Get policy set attributes
       description: Network Access - Get policy set attributes.
       operationId: getNetworkAccessPolicySetById
       parameters:
@@ -215,7 +223,7 @@ paths:
     put:
       tags:
       - Network Access - Policy Sets
-      summary: Network Access - Update a policy set.
+      summary: Network Access - Update a policy set
       description: Network Access - Update a policy set.
       operationId: updateNetworkAccessPolicySetById
       parameters:
@@ -274,7 +282,7 @@ paths:
     delete:
       tags:
       - Network Access - Policy Sets
-      summary: Network Access - Delete a policy set.
+      summary: Network Access - Delete a policy set
       description: Network Access - Delete a policy set.
       operationId: deleteNetworkAccessPolicySetById
       parameters:
@@ -326,120 +334,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    PolicySetResponseEntity:
-      title: PolicySetResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/PolicySet'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    IdResponseEntity:
-      title: IdResponseEntity
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
-          exampleSetFlag: true
-      description: response object containing object ID
-      exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
-    PolicySetListResponseEntity:
-      title: PolicySetListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          example: '[{"default":false,"id":"793f55af-ad78-4021-bbdc-6286724394f8","name":"New Policy Set 1","description":null,"hitCounts":0,"rank":0,"state":"enabled","condition":{"link":null,"conditionType":"ConditionReference","isNegate":false,"name":"Switch_Local_Web_Authentication","id":"19d968b0-ebcb-4cdd-98e3-fe02e5521266","description":"A condition to match authentication requests for Local Web Authentication from Cisco Catalyst Switches"},"serviceName":"Default Network Access","isProxy":false,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/793f55af-ad78-4021-bbdc-6286724394f8","type":"application/json"}}]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/PolicySet'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Condition:
-      title: Condition
-      required:
-      - conditionType
-      type: object
-      properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
-          exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
-          exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
-      exampleSetFlag: false
     PolicySet:
       title: PolicySet
       required:
@@ -509,6 +403,120 @@ components:
           - enabled
           - monitor
       description: Policy set structure
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    PolicySetResponseEntity:
+      title: PolicySetResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/PolicySet'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    PolicySetListResponseEntity:
+      title: PolicySetListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"default":false,"id":"793f55af-ad78-4021-bbdc-6286724394f8","name":"New Policy Set 1","description":null,"hitCounts":0,"rank":0,"state":"enabled","condition":{"link":null,"conditionType":"ConditionReference","isNegate":false,"name":"Switch_Local_Web_Authentication","id":"19d968b0-ebcb-4cdd-98e3-fe02e5521266","description":"A condition to match authentication requests for Local Web Authentication from Cisco Catalyst Switches"},"serviceName":"Default Network Access","isProxy":false,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/793f55af-ad78-4021-bbdc-6286724394f8","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/PolicySet'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
       exampleSetFlag: false
     MessageResponseEntity:
       title: MessageResponseEntity

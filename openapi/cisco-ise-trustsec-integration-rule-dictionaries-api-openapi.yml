@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Cisco ISE API - TrustSec Trustsec Integration Rule - Dictionaries API
+  title: Cisco ISE API - TrustSec Trustsec Integration Rule…
   version: 1.0.0
   x-provenance:
     method: harvested
@@ -26,7 +26,7 @@ paths:
     get:
       tags:
       - Trustsec Integration Rule - Dictionaries
-      summary: Trustsec Integraion Rule - Returns a list of Dictionaries.
+      summary: Trustsec Integraion Rule - Returns a list of Dictionaries
       description: Get all Dictionaries.
       operationId: getCommonPolicyClassificationDictionaries
       parameters:
@@ -67,7 +67,7 @@ paths:
     get:
       tags:
       - Trustsec Integration Rule - Dictionaries
-      summary: Trustsec Integration Rule - Returns a list of Dictionaries.
+      summary: Trustsec Integration Rule - Returns a list of Dictionaries
       description: Get all Dictionaries.
       operationId: getCommonPolicyIngressDictionaries
       parameters:
@@ -108,7 +108,7 @@ paths:
     get:
       tags:
       - Trustsec Integration Rule - Dictionaries
-      summary: Trustsec Integraion Rule - Returns a list of Dictionaries.
+      summary: Trustsec Integraion Rule - Returns a list of Dictionaries
       description: Get all Dictionaries.
       operationId: getCommonPolicyEgressDictionaries
       parameters:
@@ -147,23 +147,21 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    DictionaryListResponseEntity:
-      title: DictionaryListResponseEntity
+    Error:
+      title: Error
       required:
-      - response
-      - version
+      - code
+      - message
       type: object
       properties:
-        response:
-          type: array
-          example: '[{"dictionaryAttrType":"ENTITY_ATTR","id":"12345678-f0e7-456b-a2d1-876543320b11","name":"my dictionary","description":"a dictionary description","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/dictionaries/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}}]'
+        code:
+          type: integer
+          format: int32
+          example: 400
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Dictionary'
-            exampleSetFlag: false
-        version:
+        message:
           type: string
-          example: 1.0.0
+          example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false
     Dictionary:
@@ -234,20 +232,22 @@ components:
           example: application/json
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
+    DictionaryListResponseEntity:
+      title: DictionaryListResponseEntity
       required:
-      - code
-      - message
+      - response
+      - version
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
+        response:
+          type: array
+          example: '[{"dictionaryAttrType":"ENTITY_ATTR","id":"12345678-f0e7-456b-a2d1-876543320b11","name":"my dictionary","description":"a dictionary description","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/dictionaries/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}}]'
           exampleSetFlag: true
-        message:
+          items:
+            $ref: '#/components/schemas/Dictionary'
+            exampleSetFlag: false
+        version:
           type: string
-          example: Some error occurred
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false

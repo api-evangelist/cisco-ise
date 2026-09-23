@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Networkdevicegroup API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Networkdevicegroup API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged networkdevicegroup across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-network-device-group.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: networkdevicegroup
 paths:
@@ -126,6 +114,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getNetworkdevicegroup
+      x-operation-id-source: derived
     post:
       tags:
       - networkdevicegroup
@@ -193,6 +185,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postNetworkdevicegroup
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /networkdevicegroup/name/{name}:
     get:
       tags:
@@ -265,6 +271,20 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getNetworkdevicegroupNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /networkdevicegroup/{id}:
     get:
       tags:
@@ -337,6 +357,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getNetworkdevicegroupById
+      x-operation-id-source: derived
     put:
       tags:
       - networkdevicegroup
@@ -422,6 +446,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putNetworkdevicegroupById
+      x-operation-id-source: derived
     delete:
       tags:
       - networkdevicegroup
@@ -482,6 +510,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteNetworkdevicegroupById
+      x-operation-id-source: derived
     patch:
       tags:
       - networkdevicegroup
@@ -565,19 +597,358 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchNetworkdevicegroupById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/networkdevicegroup/name/{name}:
+    get:
+      tags:
+      - networkdevicegroup
+      summary: Get network device group by name
+      description: This API allows the client to get a network device group by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.networkdevicegroup.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: <table> <tr><td>NDG GetByName</td><td></td><td></td></tr> <tr><td>NDG Name</td><td>(Required):</td><td>(:) colon is used as a seperator instead of (#) in the NDG name. For example, if the name is a#b#c it should appear in the request URL as a:b:c</td></tr> </table>
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/networkgroup_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/networkgroup_name'
+      operationId: getErsConfigNetworkdevicegroupNameByName
+      x-operation-id-source: derived
+  /ers/config/networkdevicegroup/{id}:
+    get:
+      tags:
+      - networkdevicegroup
+      summary: Get network device group by ID
+      description: This API allows the client to get a network device group by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.networkdevicegroup.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/networkgroup'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/networkgroup'
+      operationId: getErsConfigNetworkdevicegroupById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - networkdevicegroup
+      summary: Update part of the network device group configuration by ID
+      description: This API allows the user to update part of the network device group configuration by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.networkdevicegroup.1.1
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/networkgroup'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/networkgroup'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigNetworkdevicegroupById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - networkdevicegroup
+      summary: Update network device group
+      description: This API allows the client to update a network device group.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.networkdevicegroup.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/networkgroup'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/networkgroup'
+      operationId: putErsConfigNetworkdevicegroupById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - networkdevicegroup
+      summary: Delete network device group
+      description: This API deletes a network device group.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.networkdevicegroup.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigNetworkdevicegroupById
+      x-operation-id-source: derived
+  /ers/config/networkdevicegroup:
+    get:
+      tags:
+      - networkdevicegroup
+      summary: Get all network device groups
+      description: 'This API allows the client to get all the network device groups.
+
+
+        Filter:
+
+
+        [name, description, type]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [name, description]'
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.networkdevicegroup.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigNetworkdevicegroup
+      x-operation-id-source: derived
+    post:
+      tags:
+      - networkdevicegroup
+      summary: Create network device group
+      description: This API creates a network device group.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.networkdevicegroup.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/networkgroup'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/networkgroup'
+      operationId: postErsConfigNetworkdevicegroup
+      x-operation-id-source: derived
+  /ers/config/networkdevicegroup/versioninfo:
+    get:
+      tags:
+      - networkdevicegroup
+      summary: Get network device group version information
+      description: This API helps to retrieve the version information related to the network device group.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigNetworkdevicegroupVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    networkdevicegroupResponse:
+    networkdevicegroupListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    networkdevicegroupResponseEntity:
+      properties:
+        othername:
+          title: othername
+          type: string
+          description: This field holds the Network Device Group Hierarchy (A.K.A NDG Type)
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    network.networkdevicegroup:
+      required:
+      - NetworkDeviceGroup
       type: object
       properties:
         NetworkDeviceGroup:
-          $ref: '#/components/schemas/networkdevicegroupResponseEntity'
-      example:
-        NetworkDeviceGroup:
-          othername: Location
-          name: Location#Group name
-          description: Group description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          $ref: '#/components/schemas/NetworkDeviceGroup'
+      example: null
     networkdevicegroupListResponse:
       type: object
       properties:
@@ -619,6 +990,17 @@ components:
               type: application/xml
             description: description2
             id: id2
+    networkdevicegroupResponse:
+      type: object
+      properties:
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/networkdevicegroupResponseEntity'
+      example:
+        NetworkDeviceGroup:
+          othername: Location
+          name: Location#Group name
+          description: Group description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -630,6 +1012,58 @@ components:
               example: null
               items:
                 $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
           example: null
       example: null
     NetworkDeviceGroup:
@@ -663,121 +1097,197 @@ components:
           name: Location#Group name
           description: Group description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    Link:
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    NetworkDeviceGroup_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 70c79c30-8bff-11e6-996c-525400b48521
+        name:
+          type: string
+          example: Device Type#All Device Types
+        description:
+          type: string
+          example: All Device Types
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/networkdevicegroup/name/Device Type#All Device Types
+            type:
+              type: string
+              example: application/json
+        othername:
+          type: string
+          example: Device Type
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    patchRequest:
+      type: object
+      properties:
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
       type: object
       properties:
         rel:
           type: string
           example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
         href:
           type: string
-          example: https://{server}:{port}/ers/config
+          example: https://<ise-ip>:9060/ers/config/networkdevicegroup/versioninfo
         type:
           type: string
           example: application/json
-      example: null
-    networkdevicegroupListResponseEntity:
+    UpdatedFieldsList:
+      type: object
       properties:
-        id:
-          title: id
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
           type: string
-          description: Id description
-          example: null
-        name:
-          title: name
+          example: some other field
+        oldValue:
           type: string
-          description: name description
-          example: null
-        description:
-          title: description
+          example: val_old
+        newValue:
           type: string
-          description: description
-          example: null
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
         link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    network.networkdevicegroup:
-      required:
-      - NetworkDeviceGroup
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 5
+        resources:
+          type: array
+          example:
+          - id: 70c79c30-8bff-11e6-996c-525400b48521
+            name: Device Type#All Device Types
+            description: All Device Types
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/networkdevicegroup/70c79c30-8bff-11e6-996c-525400b48521
+              type: application/json
+          - id: 70d4bb90-8bff-11e6-996c-525400b48521
+            name: IPSEC#Is IPSEC Device
+            description: Is this a RADIUS over IPSEC Device
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/networkdevicegroup/70d4bb90-8bff-11e6-996c-525400b48521
+              type: application/json
+          - id: 70f40360-8bff-11e6-996c-525400b48521
+            name: IPSEC#Is IPSEC Device#No
+            description: Device is not IPSEC Type
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/networkdevicegroup/70f40360-8bff-11e6-996c-525400b48521
+              type: application/json
+          - id: 70e07b60-8bff-11e6-996c-525400b48521
+            name: IPSEC#Is IPSEC Device#Yes
+            description: Device is IPSEC Type
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/networkdevicegroup/70e07b60-8bff-11e6-996c-525400b48521
+              type: application/json
+          - id: 70836740-8bff-11e6-996c-525400b48521
+            name: Location#All Locations
+            description: All Locations
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/networkdevicegroup/70836740-8bff-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    networkgroup:
       type: object
       properties:
         NetworkDeviceGroup:
-          $ref: '#/components/schemas/NetworkDeviceGroup'
-      example: null
-    networkdevicegroupResponseEntity:
-      properties:
-        othername:
-          title: othername
-          type: string
-          description: This field holds the Network Device Group Hierarchy (A.K.A NDG Type)
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    ERSResponse:
+          $ref: '#/components/schemas/NetworkDeviceGroup_2'
+    NetworkDeviceGroup_2:
       type: object
       properties:
-        operation:
+        id:
           type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
+          example: 70c79c30-8bff-11e6-996c-525400b48521
+        name:
+          type: string
+          example: Device Type#All Device Types
+        description:
+          type: string
+          example: All Device Types
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/networkdevicegroup/70c79c30-8bff-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+        othername:
+          type: string
+          example: Device Type
+    networkgroup_name:
+      type: object
+      properties:
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/NetworkDeviceGroup_name'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -787,7 +1297,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-network-device-group.yaml

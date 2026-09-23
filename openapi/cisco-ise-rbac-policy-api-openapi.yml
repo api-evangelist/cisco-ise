@@ -199,6 +199,34 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    OpenApiRbacPolicy:
+      title: OpenApiRbacPolicy
+      required:
+      - adminGroups
+      - policyName
+      type: object
+      properties:
+        Permission:
+          $ref: '#/components/schemas/OpenApiRbacPolicyPermission'
+          exampleSetFlag: true
+        adminGroups:
+          type: array
+          description: A list of admin groups that are associated with this RBAC policy.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        enabled:
+          type: boolean
+          description: Indicates whether the RBAC policy is enabled or disabled.
+          example: false
+          exampleSetFlag: true
+        policyName:
+          type: string
+          description: The name of the RBAC policy.
+          exampleSetFlag: true
+      description: Represents an RBAC (Role-Based Access Control) policy, including the policy's name, enabled status, and associated admin groups.
+      exampleSetFlag: false
     BaseResponse:
       title: BaseResponse
       required:
@@ -216,24 +244,6 @@ components:
           description: A message detailing the response, indicating success or failure.
           exampleSetFlag: true
       description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The error code associated with the response. A non-zero code typically indicates an error.
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A description of the error encountered.
-          exampleSetFlag: true
-      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
       exampleSetFlag: false
     RbacPolicyResponse:
       title: RbacPolicyResponse
@@ -276,31 +286,21 @@ components:
           exampleSetFlag: true
       description: Defines a permission within the RBAC policy.
       exampleSetFlag: false
-    OpenApiRbacPolicy:
-      title: OpenApiRbacPolicy
+    Error:
+      title: Error
       required:
-      - adminGroups
-      - policyName
+      - code
+      - message
       type: object
       properties:
-        Permission:
-          $ref: '#/components/schemas/OpenApiRbacPolicyPermission'
+        code:
+          type: integer
+          description: The error code associated with the response. A non-zero code typically indicates an error.
+          format: int32
           exampleSetFlag: true
-        adminGroups:
-          type: array
-          description: A list of admin groups that are associated with this RBAC policy.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        enabled:
-          type: boolean
-          description: Indicates whether the RBAC policy is enabled or disabled.
-          example: false
-          exampleSetFlag: true
-        policyName:
+        message:
           type: string
-          description: The name of the RBAC policy.
+          description: A description of the error encountered.
           exampleSetFlag: true
-      description: Represents an RBAC (Role-Based Access Control) policy, including the policy's name, enabled status, and associated admin groups.
+      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
       exampleSetFlag: false

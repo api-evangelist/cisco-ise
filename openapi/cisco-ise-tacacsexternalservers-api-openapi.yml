@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Tacacsexternalservers API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Tacacsexternalservers API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged tacacsexternalservers across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-tacacs-external-servers.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: tacacsexternalservers
 paths:
@@ -98,6 +86,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsexternalservers
+      x-operation-id-source: derived
     post:
       tags:
       - tacacsexternalservers
@@ -169,6 +161,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postTacacsexternalservers
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /tacacsexternalservers/name/{name}:
     get:
       tags:
@@ -241,6 +247,20 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsexternalserversNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /tacacsexternalservers/{id}:
     get:
       tags:
@@ -313,6 +333,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsexternalserversById
+      x-operation-id-source: derived
     put:
       tags:
       - tacacsexternalservers
@@ -402,6 +426,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putTacacsexternalserversById
+      x-operation-id-source: derived
     delete:
       tags:
       - tacacsexternalservers
@@ -462,6 +490,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteTacacsexternalserversById
+      x-operation-id-source: derived
     patch:
       tags:
       - tacacsexternalservers
@@ -549,8 +581,367 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchTacacsexternalserversById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/tacacsexternalservers/name/{name}:
+    get:
+      tags:
+      - tacacsexternalservers
+      summary: Get TACACS external servers by name
+      description: This API allows the client to get TACACS external servers by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsexternalservers.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsexternalservers_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsexternalservers_name'
+      operationId: getErsConfigTacacsexternalserversNameByName
+      x-operation-id-source: derived
+  /ers/config/tacacsexternalservers/{id}:
+    get:
+      tags:
+      - tacacsexternalservers
+      summary: Get TACACS external servers by ID
+      description: This API allows the client to get TACACS external servers by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsexternalservers.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsexternalservers'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsexternalservers'
+      operationId: getErsConfigTacacsexternalserversById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - tacacsexternalservers
+      summary: Update part of the TACACS external servers by ID
+      description: Update any attribute subset of the TACACS external servers configuration. Only the attributes sent are affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsexternalservers.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsexternalservers'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsexternalservers'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigTacacsexternalserversById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - tacacsexternalservers
+      summary: Update TACACS external servers
+      description: This API allows the client to update TACACS external servers.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsexternalservers.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tacacsexternalservers'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/tacacsexternalservers'
+      operationId: putErsConfigTacacsexternalserversById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - tacacsexternalservers
+      summary: Delete TACACS external servers
+      description: This API deletes TACACS external servers.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsexternalservers.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigTacacsexternalserversById
+      x-operation-id-source: derived
+  /ers/config/tacacsexternalservers:
+    get:
+      tags:
+      - tacacsexternalservers
+      summary: Get all TACACS external servers
+      description: This API allows the client to get all the TACACS external servers.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsexternalservers.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigTacacsexternalservers
+      x-operation-id-source: derived
+    post:
+      tags:
+      - tacacsexternalservers
+      summary: Create TACACS external servers
+      description: This API creates TACACS external servers.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsexternalservers.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tacacsexternalservers'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/tacacsexternalservers'
+      operationId: postErsConfigTacacsexternalservers
+      x-operation-id-source: derived
+  /ers/config/tacacsexternalservers/versioninfo:
+    get:
+      tags:
+      - tacacsexternalservers
+      summary: Get TACACS external servers version information
+      description: This API helps to retrieve the version information related to the TACACS external servers.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigTacacsexternalserversVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
+    policy.tacacsexternalservers:
+      required:
+      - TacacsExternalServer
+      type: object
+      properties:
+        TacacsExternalServer:
+          $ref: '#/components/schemas/TacacsExternalServer'
+      example: null
+    tacacsexternalserversListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/tacacsexternalserversListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    tacacsexternalserversResponseEntity:
+      properties:
+        hostIP:
+          title: hostIP
+          type: string
+          description: The server IPV4 address
+          example: null
+        connectionPort:
+          title: connectionPort
+          type: number
+          description: The port to connect the server
+          example: null
+        singleConnect:
+          title: singleConnect
+          type: boolean
+          description: define the use of single connection
+          example: null
+        sharedSecret:
+          title: sharedSecret
+          type: string
+          description: The server shared secret
+          example: null
+        timeout:
+          title: timeout
+          type: number
+          description: The server timeout
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -564,23 +955,47 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
-    Link:
+    tacacsexternalserversListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
       type: object
       properties:
-        rel:
+        operation:
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     TacacsExternalServer:
       required:
@@ -638,6 +1053,24 @@ components:
           sharedSecret: SharedSecret
           singleConnect: true
           timeout: 20
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     tacacsexternalserversResponse:
       type: object
       properties:
@@ -653,75 +1086,6 @@ components:
           sharedSecret: SharedSecret
           singleConnect: true
           timeout: 20
-    tacacsexternalserversListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    tacacsexternalserversListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/tacacsexternalserversListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    policy.tacacsexternalservers:
-      required:
-      - TacacsExternalServer
-      type: object
-      properties:
-        TacacsExternalServer:
-          $ref: '#/components/schemas/TacacsExternalServer'
-      example: null
     updatedField:
       properties:
         field:
@@ -734,83 +1098,193 @@ components:
           type: string
           example: null
       example: null
-    tacacsexternalserversResponseEntity:
-      properties:
-        hostIP:
-          title: hostIP
-          type: string
-          description: The server IPV4 address
-          example: null
-        connectionPort:
-          title: connectionPort
-          type: number
-          description: The port to connect the server
-          example: null
-        singleConnect:
-          title: singleConnect
-          type: boolean
-          description: define the use of single connection
-          example: null
-        sharedSecret:
-          title: sharedSecret
-          type: string
-          description: The server shared secret
-          example: null
-        timeout:
-          title: timeout
-          type: number
-          description: The server timeout
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
+    patchRequestBody:
       type: object
       properties:
-        operation:
+        any-resource-attribute:
           type: string
-          example: Operation
-        messages:
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    patchRequest:
+      type: object
+      properties:
+        TacacsExternalServer:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    TacacsExternalServer_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1af3d6e2-cc3b-4603-b80f-6827768335ab
+        name:
+          type: string
+          example: TacacsExternalServer1
+        description:
+          type: string
+          example: TacacsExternalServerForSDK
+        hostIP:
+          type: string
+          example: 1.1.1.1
+        connectionPort:
+          type: integer
+          example: 49
+        singleConnect:
+          type: boolean
+          example: true
+        sharedSecret:
+          type: string
+          example: sharedSecret
+        timeout:
+          type: integer
+          example: 20
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsexternalservers/name/TacacsExternalServer1
+            type:
+              type: string
+              example: application/json
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/tacacsexternalservers/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
           type: array
-          example: null
+          example:
+          - id: "\t1af3d6e2-cc3b-4603-b80f-6827768335ab"
+            name: TacacsExternalServer1
+            description: TacacsExternalServerForSDK
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacsexternalservers/1af3d6e2-cc3b-4603-b80f-6827768335ab
+              type: application/json
           items:
             properties:
-              title:
+              name:
                 type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
+    TacacsExternalServer_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1af3d6e2-cc3b-4603-b80f-6827768335ab
+        name:
+          type: string
+          example: TacacsExternalServer1
+        description:
+          type: string
+          example: TacacsExternalServerForSDK
+        hostIP:
+          type: string
+          example: 1.1.1.1
+        connectionPort:
+          type: integer
+          example: 49
+        singleConnect:
+          type: boolean
+          example: true
+        sharedSecret:
+          type: string
+          example: sharedSecret
+        timeout:
+          type: integer
+          example: 20
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsexternalservers/1af3d6e2-cc3b-4603-b80f-6827768335ab
+            type:
+              type: string
+              example: application/json
+    tacacsexternalservers_name:
+      type: object
+      properties:
+        TacacsExternalServer:
+          $ref: '#/components/schemas/TacacsExternalServer_name'
+    tacacsexternalservers:
+      type: object
+      properties:
+        TacacsExternalServer:
+          $ref: '#/components/schemas/TacacsExternalServer_2'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -820,7 +1294,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-tacacs-external-servers.yaml

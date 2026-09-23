@@ -1,0 +1,3322 @@
+openapi: 3.2.0
+info:
+  title: Cisco Ise Guestuser API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged guestuser across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-guest-user.yaml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://{server}:{port}/ers/config
+  description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+  variables:
+    server:
+      description: The host where the API is rooted
+      default: localhost
+    port:
+      description: The port no for CTS APIs is 9063 and for other APIs it is 443
+      default: '443'
+tags:
+- name: Guest User
+paths:
+  /guestuser/:
+    get:
+      tags:
+      - Guest User
+      summary: Get-All
+      parameters:
+      - name: filter
+        in: query
+        description: Filter Supported Fields:[lastName, sponsor, creationTime, personBeingVisited, toDate, userName, firstName, emailAddress, phoneNumber, groupTag, name, company, guestType, status]
+        required: false
+        allowReserved: true
+        schema:
+          type: string
+          example: toDate.CONTAINS.SEP
+      - $ref: '#/components/parameters/ppage'
+      - $ref: '#/components/parameters/psize'
+      - name: sortdsc
+        in: query
+        description: Sorting Supported Fields:[firstName, lastName, emailAddress, name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - firstName
+          - lastName
+          - emailAddress
+          - name
+          - description
+      - name: sortasc
+        in: query
+        description: Sorting Supported Fields:[firstName, lastName, emailAddress, name, description]
+        required: false
+        allowReserved: true
+        schema:
+          example: null
+          enum:
+          - firstName
+          - lastName
+          - emailAddress
+          - name
+          - description
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guestuserListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guestuserListResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getGuestuser
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Guest User
+      summary: Create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.guestuser'
+            example:
+              GuestUser:
+                sponsorUserName: Mr Spons
+                guestAccessInfo:
+                  fromDate: 07/29/2014 14:44
+                  toDate: 10/29/2014 17:30
+                  location: San Jose
+                  validDays: 90
+                customFields:
+                  another key: and its value
+                  some key: some value
+                portalId: '23423432523'
+                name: guestUser
+                description: 'ERS Example user '
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                guestInfo:
+                  emailAddress: email@some.uri.com
+                  password: asdlkj324ew
+                  phoneNumber: '+13211239034'
+                  smsServiceProvider: GLobal Default
+                  userName: DS3ewdsa34wWE
+                  enabled: true
+                guestType: Contractor
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postGuestuser
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/deny/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: deny
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserDenyById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/suspend/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: suspendById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalDataEntity'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserSuspendById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/approve/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: approve
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserApproveById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/name/{name}:
+    get:
+      tags:
+      - Guest User
+      summary: Get-By-Name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guestuserResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guestuserResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getGuestuserNameByName
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Guest User
+      summary: UpdateByName
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.guestuser'
+            example:
+              GuestUser:
+                sponsorUserName: Mr Spons
+                guestAccessInfo:
+                  fromDate: 07/29/2014 14:44
+                  toDate: 10/29/2014 17:30
+                  location: San Jose
+                  validDays: 90
+                customFields:
+                  another key: and its value
+                  some key: some value
+                portalId: '23423432523'
+                name: guestUser
+                description: 'ERS Example user '
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                guestInfo:
+                  emailAddress: email@some.uri.com
+                  password: asdlkj324ew
+                  phoneNumber: '+13211239034'
+                  smsServiceProvider: GLobal Default
+                  userName: DS3ewdsa34wWE
+                  enabled: true
+                guestType: Contractor
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserNameByName
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Guest User
+      summary: DeleteByName
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteGuestuserNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/sms/{id}/portalId/{portalId}:
+    put:
+      tags:
+      - Guest User
+      summary: sms
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      - name: portalId
+        in: path
+        required: true
+        schema:
+          title: portalId
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserSmsByIdPortalIdByPortalId
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/changeSponsorPassword/{portalId}:
+    put:
+      tags:
+      - Guest User
+      summary: changeSponsorPassword
+      parameters:
+      - name: portalId
+        in: path
+        required: true
+        schema:
+          title: portalId
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalDataEntity'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserChangeSponsorPasswordByPortalId
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/resetpassword/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: resetpassword
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResultEntity'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationResultEntity'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserResetpasswordById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/email/{id}/portalId/{portalId}:
+    put:
+      tags:
+      - Guest User
+      summary: email
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      - name: portalId
+        in: path
+        required: true
+        schema:
+          title: portalId
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.guestuser'
+            example:
+              GuestUser:
+                sponsorUserName: Mr Spons
+                guestAccessInfo:
+                  fromDate: 07/29/2014 14:44
+                  toDate: 10/29/2014 17:30
+                  location: San Jose
+                  validDays: 90
+                customFields:
+                  another key: and its value
+                  some key: some value
+                portalId: '23423432523'
+                name: guestUser
+                description: 'ERS Example user '
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                guestInfo:
+                  emailAddress: email@some.uri.com
+                  password: asdlkj324ew
+                  phoneNumber: '+13211239034'
+                  smsServiceProvider: GLobal Default
+                  userName: DS3ewdsa34wWE
+                  enabled: true
+                guestType: Contractor
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserEmailByIdPortalIdByPortalId
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/reinstate/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: reinstateById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserReinstateById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/reinstate/name/{name}:
+    put:
+      tags:
+      - Guest User
+      summary: reinstateByName
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserReinstateNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/suspend/name/{name}:
+    put:
+      tags:
+      - Guest User
+      summary: suspendByName
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          title: name
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserSuspendNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /guestuser/{id}:
+    get:
+      tags:
+      - Guest User
+      summary: Get-By-Id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guestuserResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guestuserResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getGuestuserById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Guest User
+      summary: UpdateById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/identity.guestuser'
+            example:
+              GuestUser:
+                sponsorUserName: Mr Spons
+                guestAccessInfo:
+                  fromDate: 07/29/2014 14:44
+                  toDate: 10/29/2014 17:30
+                  location: San Jose
+                  validDays: 90
+                customFields:
+                  another key: and its value
+                  some key: some value
+                portalId: '23423432523'
+                name: guestUser
+                description: 'ERS Example user '
+                id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+                guestInfo:
+                  emailAddress: email@some.uri.com
+                  password: asdlkj324ew
+                  phoneNumber: '+13211239034'
+                  smsServiceProvider: GLobal Default
+                  userName: DS3ewdsa34wWE
+                  enabled: true
+                guestType: Contractor
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdatedFieldsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '500':
+          description: Internal Server Error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuestuserById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Guest User
+      summary: DeleteById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          title: id
+          type: string
+          example: null
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+        '406':
+          description: Not Acceptable
+        '415':
+          description: UnSupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERSResponse'
+            text/html:
+              schema:
+                type: string
+                example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteGuestuserById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/guestuser/approve/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: Approve guest user by ID
+      description: This API allows the client to approve a guest user by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'approve' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: putErsConfigGuestuserApproveById
+      x-operation-id-source: derived
+  /ers/config/guestuser/changeSponsorPassword/{portalId}:
+    put:
+      tags:
+      - Guest User
+      summary: Change sponsor password
+      description: This API allows the client to change the sponsor password.
+      parameters:
+      - name: portalId
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'changeSponsorPassword' can be used within Bulk Request
+        schema:
+          type: string
+      - in: header
+        name: Additional Attributes
+        description: currentPassword, newPassword
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+      operationId: putErsConfigGuestuserChangeSponsorPasswordByPortalId
+      x-operation-id-source: derived
+  /ers/config/guestuser/suspend/name/{name}:
+    put:
+      tags:
+      - Guest User
+      summary: Suspend guest user by name
+      description: This API allows the client to suspend a guest user by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'suspendByName' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: putErsConfigGuestuserSuspendNameByName
+      x-operation-id-source: derived
+  /ers/config/guestuser/reinstate/name/{name}:
+    put:
+      tags:
+      - Guest User
+      summary: Reinstate guest user by name
+      description: This API allows the client to reinstate a guest user by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'reinstateByName' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: putErsConfigGuestuserReinstateNameByName
+      x-operation-id-source: derived
+  /ers/config/guestuser/name/{name}:
+    put:
+      tags:
+      - Guest User
+      summary: Update guest user by name
+      description: This API allows the client to update a guest user by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'UpdateByName' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/guestuser_name'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/guestuser_name'
+      operationId: putErsConfigGuestuserNameByName
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Guest User
+      summary: Delete guest user
+      description: This API deletes a guest user.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk support
+        description: Operation 'DeleteByName' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigGuestuserNameByName
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Guest User
+      summary: Get guest user by name
+      description: This API allows the client to get a guest user by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guestuser_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guestuser_name'
+      operationId: getErsConfigGuestuserNameByName
+      x-operation-id-source: derived
+  /ers/config/guestuser/resetpassword/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: Reset guest user password
+      description: This API allows the client to reset the guest user password.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'resetpassword' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResult'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationResult'
+      operationId: putErsConfigGuestuserResetpasswordById
+      x-operation-id-source: derived
+  /ers/config/guestuser/reinstate/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: Reinstate guest user by ID
+      description: This API allows the client to reinstate a guest user by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'reinstateById' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: putErsConfigGuestuserReinstateById
+      x-operation-id-source: derived
+  /ers/config/guestuser/email/{id}/portalId/{portalId}:
+    put:
+      tags:
+      - Guest User
+      summary: Update guest user email by ID
+      description: This API allows the client to update a guest user email by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: portalId
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Additional Attributes
+        description: senderEmail
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'email' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+      operationId: putErsConfigGuestuserEmailByIdPortalIdByPortalId
+      x-operation-id-source: derived
+  /ers/config/guestuser/sms/{id}/portalId/{portalId}:
+    put:
+      tags:
+      - Guest User
+      summary: Update guest user sms by ID
+      description: This API allows the client to update a guest user sms by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: portalId
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'sms' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: putErsConfigGuestuserSmsByIdPortalIdByPortalId
+      x-operation-id-source: derived
+  /ers/config/guestuser/deny/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: Deny guest user by ID
+      description: This API allows the client to deny a guest user by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'deny' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: putErsConfigGuestuserDenyById
+      x-operation-id-source: derived
+  /ers/config/guestuser/{id}:
+    get:
+      tags:
+      - Guest User
+      summary: Get guest user by ID
+      description: This API allows the client to get a guest user by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guestuser'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guestuser'
+      operationId: getErsConfigGuestuserById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - Guest User
+      summary: Update part of the guest user by ID
+      description: This API allows the user to update part of the guest user by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guestuser'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guestuser'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigGuestuserById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Guest User
+      summary: Update guest user by ID
+      description: This API allows the client to update a guest user by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'UpdateById' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/guestuser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/guestuser'
+      operationId: putErsConfigGuestuserById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Guest User
+      summary: Delete guest user by ID
+      description: This API deletes a guest user by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk support
+        description: Operation 'DeleteById' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigGuestuserById
+      x-operation-id-source: derived
+  /ers/config/guestuser:
+    get:
+      tags:
+      - Guest User
+      summary: Get all guest users
+      description: 'This API allows the client to get all the guest users.
+
+
+        Filter:
+
+
+        [lastName, sponsor, creationTime, personBeingVisited, toDate, userName, firstName, emailAddress, phoneNumber, groupTag, name, company, guestType, status]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [firstName, lastName, emailAddress, name, description]'
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigGuestuser
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Guest User
+      summary: Create guest user
+      description: This API creates a guest user.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk support
+        description: Operation 'Create' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/guestuser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/guestuser'
+      operationId: postErsConfigGuestuser
+      x-operation-id-source: derived
+  /ers/config/guestuser/suspend/{id}:
+    put:
+      tags:
+      - Guest User
+      summary: Suspend guest user by ID
+      description: This API allows the client to suspend a guest user by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guestuser.2.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Additional Attributes
+        description: reason
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'suspendById' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+      operationId: putErsConfigGuestuserSuspendById
+      x-operation-id-source: derived
+  /ers/config/guestuser/versioninfo:
+    get:
+      tags:
+      - Guest User
+      summary: Get guest user version information
+      description: This API helps to retrieve the version information related to the guest user.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigGuestuserVersioninfo
+      x-operation-id-source: derived
+  /ers/config/guestuser/bulk/submit:
+    put:
+      tags:
+      - Guest User
+      summary: Submit bulk request
+      description: This API allows the client to submit the bulk request.
+      responses:
+        202:
+          description: Accepted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/bulkrequest'
+      operationId: putErsConfigGuestuserBulkSubmit
+      x-operation-id-source: derived
+  /ers/config/guestuser/bulk/{bulkid}:
+    get:
+      tags:
+      - Guest User
+      summary: Monitor bulk request
+      description: This API allows the client to monitor the bulk request.
+      parameters:
+      - name: bulkid
+        in: path
+        required: true
+        description: 'The bulk ID is a dynamically generated value.<br>For example :- ‘615360357673’
+
+          '
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/bulkstatus'
+      operationId: getErsConfigGuestuserBulkByBulkid
+      x-operation-id-source: derived
+components:
+  schemas:
+    guestuserListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/guestuserListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    identity.guestuser:
+      required:
+      - GuestUser
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/GuestUser'
+      example: null
+    OperationAdditionalDataEntity:
+      properties:
+        OperationAdditionalData:
+          properties:
+            additionalData:
+              type: array
+              example: null
+              items:
+                properties:
+                  value:
+                    type: string
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    OperationResultEntity:
+      properties:
+        OperationResult:
+          properties:
+            resultValue:
+              type: array
+              example: null
+              items:
+                properties:
+                  Value:
+                    type: integer
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    guestuserResponse:
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/guestuserResponseEntity'
+      example:
+        GuestUser:
+          sponsorUserName: Mr Spons
+          guestAccessInfo:
+            fromDate: 07/29/2014 14:44
+            toDate: 10/29/2014 17:30
+            location: San Jose
+            validDays: 90
+          customFields:
+            another key: and its value
+            some key: some value
+          portalId: '23423432523'
+          name: guestUser
+          description: 'ERS Example user '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          guestInfo:
+            emailAddress: email@some.uri.com
+            password: asdlkj324ew
+            phoneNumber: '+13211239034'
+            smsServiceProvider: GLobal Default
+            userName: DS3ewdsa34wWE
+            enabled: true
+          guestType: Contractor
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    GuestUser:
+      required:
+      - name
+      - portalId
+      properties:
+        customFields:
+          title: customFields
+          type: object
+          description: Key value map
+          example: null
+        guestType:
+          title: guestType
+          type: string
+          description: ''
+          example: null
+        status:
+          title: status
+          type: string
+          description: This field is applicable only for Get operation not applicable for Create and Update operations.
+          example: null
+        reasonForVisit:
+          title: reasonForVisit
+          type: string
+          description: ''
+          example: null
+        personBeingVisited:
+          title: personBeingVisited
+          type: string
+          description: ''
+          example: null
+        sponsorUserName:
+          title: sponsorUserName
+          type: string
+          description: This field is applicable for Get and Create operations not applicable for Update operation.
+          example: null
+        sponsorUserId:
+          title: sponsorUserId
+          type: string
+          description: This field is applicable only for Get operation not applicable for Create and Update operations.
+          example: null
+        statusReason:
+          title: statusReason
+          type: string
+          description: ''
+          example: null
+        portalId:
+          title: portalId
+          type: string
+          description: This field is applicable only for Create and Update operations not applicable for Get operation.<br/>Portal ID will be used to fetch configuration from Portal if missing from the Payload. For example Notification Language will be fetched from Portal if missing.
+          example: null
+        guestAccessInfo:
+          required:
+          - validDays
+          properties:
+            validDays:
+              title: validDays
+              type: object
+              description: Number of days guest user is valid. To validate validDays property, ISE consider only date(not time) between fromDate and toDate properites.
+              example: null
+            fromDate:
+              title: fromDate
+              type: string
+              description: ''
+              example: null
+            toDate:
+              title: toDate
+              type: string
+              description: ''
+              example: null
+            location:
+              title: location
+              type: string
+              description: ''
+              example: null
+            ssid:
+              title: ssid
+              type: string
+              description: ''
+              example: null
+            groupTag:
+              title: groupTag
+              type: string
+              description: ''
+              example: null
+          example: null
+        guestInfo:
+          required:
+          - enabled
+          - password
+          properties:
+            emailAddress:
+              title: emailAddress
+              type: string
+              description: ''
+              example: null
+            enabled:
+              title: enabled
+              type: boolean
+              description: This field is only for Get operation not applicable for Create, Update operations.
+              example: null
+            password:
+              title: password
+              type: string
+              description: ''
+              example: null
+            phoneNumber:
+              title: phoneNumber
+              type: string
+              description: Phone number should be E.164 format.
+              example: null
+            smsServiceProvider:
+              title: smsServiceProvider
+              type: string
+              description: ''
+              example: null
+            userName:
+              title: userName
+              type: string
+              description: This field is applicable for Get and Create operations not applicable for Update operation.<br/>If account needs be created with mobile number, please provide mobile number here
+              example: null
+            firstName:
+              title: firstName
+              type: string
+              description: ''
+              example: null
+            lastName:
+              title: lastName
+              type: string
+              description: ''
+              example: null
+            company:
+              title: company
+              type: string
+              description: ''
+              example: null
+            creationTime:
+              title: creationTime
+              type: string
+              description: ''
+              example: null
+            notificationLanguage:
+              title: notificationLanguage
+              type: string
+              description: ''
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        GuestUser:
+          sponsorUserName: Mr Spons
+          guestAccessInfo:
+            fromDate: 07/29/2014 14:44
+            toDate: 10/29/2014 17:30
+            location: San Jose
+            validDays: 90
+          customFields:
+            another key: and its value
+            some key: some value
+          portalId: '23423432523'
+          name: guestUser
+          description: 'ERS Example user '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          guestInfo:
+            emailAddress: email@some.uri.com
+            password: asdlkj324ew
+            phoneNumber: '+13211239034'
+            smsServiceProvider: GLobal Default
+            userName: DS3ewdsa34wWE
+            enabled: true
+          guestType: Contractor
+    guestuserResponseEntity:
+      properties:
+        customFields:
+          title: customFields
+          type: object
+          description: Key value map
+          example: null
+        guestType:
+          title: guestType
+          type: string
+          description: ''
+          example: null
+        status:
+          title: status
+          type: string
+          description: This field is applicable only for Get operation not applicable for Create and Update operations.
+          example: null
+        reasonForVisit:
+          title: reasonForVisit
+          type: string
+          description: ''
+          example: null
+        personBeingVisited:
+          title: personBeingVisited
+          type: string
+          description: ''
+          example: null
+        sponsorUserName:
+          title: sponsorUserName
+          type: string
+          description: This field is applicable for Get and Create operations not applicable for Update operation.
+          example: null
+        sponsorUserId:
+          title: sponsorUserId
+          type: string
+          description: This field is applicable only for Get operation not applicable for Create and Update operations.
+          example: null
+        statusReason:
+          title: statusReason
+          type: string
+          description: ''
+          example: null
+        portalId:
+          title: portalId
+          type: string
+          description: This field is applicable only for Create and Update operations not applicable for Get operation.<br/>Portal ID will be used to fetch configuration from Portal if missing from the Payload. For example Notification Language will be fetched from Portal if missing.
+          example: null
+        guestAccessInfo:
+          properties:
+            validDays:
+              title: validDays
+              type: object
+              description: Number of days guest user is valid. To validate validDays property, ISE consider only date(not time) between fromDate and toDate properites.
+              example: null
+            fromDate:
+              title: fromDate
+              type: string
+              description: ''
+              example: null
+            toDate:
+              title: toDate
+              type: string
+              description: ''
+              example: null
+            location:
+              title: location
+              type: string
+              description: ''
+              example: null
+            ssid:
+              title: ssid
+              type: string
+              description: ''
+              example: null
+            groupTag:
+              title: groupTag
+              type: string
+              description: ''
+              example: null
+          example: null
+        guestInfo:
+          properties:
+            emailAddress:
+              title: emailAddress
+              type: string
+              description: ''
+              example: null
+            enabled:
+              title: enabled
+              type: boolean
+              description: This field is only for Get operation not applicable for Create, Update operations.
+              example: null
+            password:
+              title: password
+              type: string
+              description: ''
+              example: null
+            phoneNumber:
+              title: phoneNumber
+              type: string
+              description: Phone number should be E.164 format.
+              example: null
+            smsServiceProvider:
+              title: smsServiceProvider
+              type: string
+              description: ''
+              example: null
+            userName:
+              title: userName
+              type: string
+              description: This field is applicable for Get and Create operations not applicable for Update operation.<br/>If account needs be created with mobile number, please provide mobile number here
+              example: null
+            firstName:
+              title: firstName
+              type: string
+              description: ''
+              example: null
+            lastName:
+              title: lastName
+              type: string
+              description: ''
+              example: null
+            company:
+              title: company
+              type: string
+              description: ''
+              example: null
+            creationTime:
+              title: creationTime
+              type: string
+              description: ''
+              example: null
+            notificationLanguage:
+              title: notificationLanguage
+              type: string
+              description: ''
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    guestuserListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: ab6deded-fcc2-47ff-8577-0014737c8fcf
+            name: guestUser
+            description: ERS Example user
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guestuser/ab6deded-fcc2-47ff-8577-0014737c8fcf
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guestuser/versioninfo
+        type:
+          type: string
+          example: application/json
+    GuestUser_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+        name:
+          type: string
+          example: guestUser
+        description:
+          type: string
+          example: ERS Example user
+        guestType:
+          type: string
+          example: Contractor
+        sponsorUserName:
+          type: string
+          example: Mr Spons
+        guestInfo:
+          type: object
+          properties:
+            userName:
+              type: string
+              example: DS3ewdsa34wWE
+            emailAddress:
+              type: string
+              example: email@some.uri.com
+            phoneNumber:
+              type: string
+              example: '+13211239034'
+            password:
+              type: string
+              example: asdlkj324ew
+            enabled:
+              type: boolean
+              example: true
+            smsServiceProvider:
+              type: string
+              example: Global Default
+        guestAccessInfo:
+          type: object
+          properties:
+            validDays:
+              type: integer
+              example: 90
+            fromDate:
+              type: string
+              example: 07/29/2014 14:44
+            toDate:
+              type: string
+              example: 10/29/2014 17:30
+            location:
+              type: string
+              example: San Jose
+        portalId:
+          type: string
+          example: 23423432523
+        customFields:
+          type: object
+          properties:
+            another key:
+              type: string
+              example: and its value
+            some key:
+              type: string
+              example: some value
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/guestuser/name/guestUser
+            type:
+              type: string
+              example: application/json
+    guestuser_name:
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/GuestUser_name'
+    patchRequest:
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    BulkStatus:
+      type: object
+      properties:
+        bulkId:
+          type: string
+          example: 1615360357673
+        mediaType:
+          type: string
+          example: ''
+        executionStatus:
+          type: string
+          example: COMPLETED
+        operationType:
+          type: string
+          example: create
+        startTime:
+          type: string
+          example: Wed Mar 10 07:12:37 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
+    bulkrequest:
+      type: object
+      properties:
+        GuestUserBulkRequest:
+          $ref: '#/components/schemas/GuestUserBulkRequest'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '2.0'
+        supportedVersions:
+          type: string
+          example: '2.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    guestuser:
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/GuestUser_2'
+    GuestUser_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+        name:
+          type: string
+          example: guestUser
+        description:
+          type: string
+          example: ERS Example user
+        guestType:
+          type: string
+          example: Contractor
+        sponsorUserName:
+          type: string
+          example: Mr Spons
+        guestInfo:
+          type: object
+          properties:
+            userName:
+              type: string
+              example: DS3ewdsa34wWE
+            emailAddress:
+              type: string
+              example: email@some.uri.com
+            phoneNumber:
+              type: string
+              example: '+13211239034'
+            password:
+              type: string
+              example: asdlkj324ew
+            enabled:
+              type: boolean
+              example: true
+            smsServiceProvider:
+              type: string
+              example: Global Default
+        guestAccessInfo:
+          type: object
+          properties:
+            validDays:
+              type: integer
+              example: 90
+            fromDate:
+              type: string
+              example: 07/29/2014 14:44
+            toDate:
+              type: string
+              example: 10/29/2014 17:30
+            location:
+              type: string
+              example: San Jose
+        portalId:
+          type: string
+          example: 23423432523
+        customFields:
+          type: object
+          properties:
+            another key:
+              type: string
+              example: and its value
+            some key:
+              type: string
+              example: some value
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/guestuser/ab6deded-fcc2-47ff-8577-0014737c8fcf
+            type:
+              type: string
+              example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    OperationAdditionalData:
+      type: object
+      properties:
+        OperationAdditionalData:
+          type: object
+          properties:
+            additionalData:
+              type: array
+              example:
+              - name: example additional attribute name
+                value: its value
+              items:
+                properties:
+                  name:
+                    type: string
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    GuestUserBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.identity.guestuser.2.0+xml
+    OperationResult:
+      type: object
+      properties:
+        OperationResult:
+          type: object
+          properties:
+            resultValue:
+              type: array
+              example:
+              - value: DdsAASDs%$##@ssds12
+                name: password
+              items:
+                properties:
+                  name:
+                    type: string
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+  securitySchemes:
+    HTTPBasicAuthentication:
+      type: http
+      scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-guest-user.yaml

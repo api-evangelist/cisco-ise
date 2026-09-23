@@ -27,7 +27,7 @@ paths:
       tags:
       - Admin Groups
       summary: Retrieve all admin groups available in Cisco ISE
-      description: Get admin groups API will be used to view Cisco ISE  network admin groups
+      description: Get admin groups API will be used to view Cisco ISE network admin groups
       operationId: listAllAdminGroups
       parameters:
       - name: page
@@ -114,7 +114,34 @@ paths:
       tags:
       - Admin Groups
       summary: Create admin group in Cisco ISE
-      description: Post admin group API will be used to create Cisco ISE network admin group <ul> <li><strong>name</strong> - Admin group name.</li> <li><strong>description</strong> - Admin group description.</li> <li><strong>isExternal</strong> -</li> <ul> <li>If <strong>isExternal</strong> is set to true <ul> <li>It is mandatory to pass values in externalGroups array for AD group association.</li> </ul> </li> <li>If <strong>isExternal</strong> is set to false <ul> <li>External group association is not allowed.</li> </ul> </li> </ul> <li><strong>externalGroups</strong> - An array of external AD groups associated with the admin group.</li> <li><strong>rbacUsers</strong> - An array of admin users associated with the admin group.</li> </ul>
+      description: 'Post admin group API will be used to create Cisco ISE network admin group
+
+
+        name - Admin group name.
+
+
+        description - Admin group description.
+
+
+        isExternal -
+
+
+        If isExternal is set to true
+
+
+        It is mandatory to pass values in externalGroups array for AD group association.
+
+
+        If isExternal is set to false
+
+
+        External group association is not allowed.
+
+
+        externalGroups - An array of external AD groups associated with the admin group.
+
+
+        rbacUsers - An array of admin users associated with the admin group.'
       operationId: createAdminGroup
       requestBody:
         content:
@@ -254,7 +281,48 @@ paths:
       tags:
       - Admin Groups
       summary: Update details of an admin group created in Cisco ISE
-      description: Put admin group API will be used to update requested Cisco ISE network admin group <h3>Request Header</h3> <ul> <li><strong>name</strong> - The name of the admin group to be edited.</li> </ul> <h3>Request Body</h3> <ul> <li><strong>name</strong> - The updated admin group name.</li> <li><strong>description</strong> - The updated admin group description.</li> <li><strong>isExternal</strong> -</li> <ul> <li>If <strong>isExternal</strong> is set to true <ul> <li>All fields (name, description, externalGroups, rbacUsers) can be updated.</li> </ul> </li> <li>If <strong>isExternal</strong> is set to false <ul> <li>All fields except externalGroups (name, description, rbacUsers) can be updated.</li> </ul> </li> <li>If the admin group being edited is part of the system admin group <ul> <li>name and description cannot be edited.</li> </ul> </li> </ul> <li><strong>externalGroups</strong> - An array of external AD groups associated with the admin group.</li> <li><strong>rbacUsers</strong> - An array of admin users associated with the admin group.</li> </ul>
+      description: 'Put admin group API will be used to update requested Cisco ISE network admin group
+
+        Request Header
+
+
+        name - The name of the admin group to be edited.
+
+
+        Request Body
+
+
+        name - The updated admin group name.
+
+
+        description - The updated admin group description.
+
+
+        isExternal -
+
+
+        If isExternal is set to true
+
+
+        All fields (name, description, externalGroups, rbacUsers) can be updated.
+
+
+        If isExternal is set to false
+
+
+        All fields except externalGroups (name, description, rbacUsers) can be updated.
+
+
+        If the admin group being edited is part of the system admin group
+
+
+        name and description cannot be edited.
+
+
+        externalGroups - An array of external AD groups associated with the admin group.
+
+
+        rbacUsers - An array of admin users associated with the admin group.'
       operationId: updateAdminGroup
       parameters:
       - name: name
@@ -383,92 +451,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    SingleAdminGroupRbacUsers:
-      title: SingleAdminGroupRbacUsers
-      type: object
-      properties:
-        email:
-          type: string
-          description: The email address of the user.
-          exampleSetFlag: true
-        firstName:
-          type: string
-          description: The first name of the user.
-          exampleSetFlag: true
-        isEnabled:
-          type: boolean
-          description: Indicates whether the user is enabled or not.
-          example: false
-          exampleSetFlag: true
-        lastName:
-          type: string
-          description: The last name of the user.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the user.
-          exampleSetFlag: true
-      exampleSetFlag: false
-    BaseResponse:
-      title: BaseResponse
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A message detailing the response, indicating success or failure.
-          exampleSetFlag: true
-      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
-      exampleSetFlag: false
-    AdminGroupResponse:
-      title: AdminGroupResponse
-      required:
-      - statusCode
-      type: object
-      properties:
-        adminGroupList:
-          type: array
-          description: A list of admin groups.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AdminGroupData'
-            exampleSetFlag: false
-        message:
-          type: string
-          description: A descriptive message related to the response.
-          exampleSetFlag: true
-        statusCode:
-          type: integer
-          description: The status code of the response.
-          format: int32
-          exampleSetFlag: true
-      description: Response schema for admin group data, including the status code, message, and a list of admin group data.
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The error code associated with the response. A non-zero code typically indicates an error.
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A description of the error encountered.
-          exampleSetFlag: true
-      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
-      exampleSetFlag: false
     SingleAdminGroup:
       title: SingleAdminGroup
       required:
@@ -508,6 +490,76 @@ components:
             exampleSetFlag: false
       description: Schema representing a single admin group, including its name, description, external affiliation, and associated users.
       exampleSetFlag: false
+    ResetExternalGroupNames:
+      title: ResetExternalGroupNames
+      required:
+      - names
+      type: object
+      properties:
+        names:
+          type: array
+          description: List of external group names to be reset.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Schema for resetting the names of external groups.
+      exampleSetFlag: false
+    ExternalGroupResponse:
+      title: ExternalGroupResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+        externalGroups:
+          type: array
+          description: List of external groups associated with the identity source.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        externalIdentitySoruce:
+          type: string
+          description: The source of external identity information, if applicable.
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A descriptive message related to the response.
+          exampleSetFlag: true
+      description: Response schema for external group information, including status code and external group details.
+      exampleSetFlag: false
+    SingleAdminGroupRbacUsers:
+      title: SingleAdminGroupRbacUsers
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email address of the user.
+          exampleSetFlag: true
+        firstName:
+          type: string
+          description: The first name of the user.
+          exampleSetFlag: true
+        isEnabled:
+          type: boolean
+          description: Indicates whether the user is enabled or not.
+          example: false
+          exampleSetFlag: true
+        lastName:
+          type: string
+          description: The last name of the user.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the user.
+          exampleSetFlag: true
+      exampleSetFlag: false
     AdminGroupData:
       title: AdminGroupData
       required:
@@ -528,6 +580,30 @@ components:
           description: The name of the admin group.
           exampleSetFlag: true
       description: Schema representing data about an admin group, including its name, description, and the count of external groups associated with it.
+      exampleSetFlag: false
+    AdminGroupResponse:
+      title: AdminGroupResponse
+      required:
+      - statusCode
+      type: object
+      properties:
+        adminGroupList:
+          type: array
+          description: A list of admin groups.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AdminGroupData'
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A descriptive message related to the response.
+          exampleSetFlag: true
+        statusCode:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+      description: Response schema for admin group data, including the status code, message, and a list of admin group data.
       exampleSetFlag: false
     OpenApiAdminGroup:
       title: OpenApiAdminGroup
@@ -564,8 +640,8 @@ components:
             exampleSetFlag: false
       description: Schema representing an Admin Group, detailing the group's name, description, external affiliation, and associated users.
       exampleSetFlag: false
-    ExternalGroupResponse:
-      title: ExternalGroupResponse
+    BaseResponse:
+      title: BaseResponse
       required:
       - code
       - message
@@ -573,38 +649,30 @@ components:
       properties:
         code:
           type: integer
-          description: The status code of the response.
+          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
           format: int32
-          exampleSetFlag: true
-        externalGroups:
-          type: array
-          description: List of external groups associated with the identity source.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        externalIdentitySoruce:
-          type: string
-          description: The source of external identity information, if applicable.
           exampleSetFlag: true
         message:
           type: string
-          description: A descriptive message related to the response.
+          description: A message detailing the response, indicating success or failure.
           exampleSetFlag: true
-      description: Response schema for external group information, including status code and external group details.
+      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
       exampleSetFlag: false
-    ResetExternalGroupNames:
-      title: ResetExternalGroupNames
+    Error:
+      title: Error
       required:
-      - names
+      - code
+      - message
       type: object
       properties:
-        names:
-          type: array
-          description: List of external group names to be reset.
+        code:
+          type: integer
+          description: The error code associated with the response. A non-zero code typically indicates an error.
+          format: int32
           exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      description: Schema for resetting the names of external groups.
+        message:
+          type: string
+          description: A description of the error encountered.
+          exampleSetFlag: true
+      description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
       exampleSetFlag: false

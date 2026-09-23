@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Activedirectory API
-  version: '1.0'
-  description: 'Operations tagged activedirectory across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-active-directory.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-active-directory.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-legacy-ers-active-directory.yaml
-    operation_coverage: 17/33
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged activedirectory across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-active-directory.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -31,22 +28,12 @@ servers:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
 tags:
-- name: activedirectory
+- name: Active Directory
 paths:
   /activedirectory/:
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
     get:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get all join points
       parameters:
       - name: filter
@@ -138,9 +125,11 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getActivedirectory
+      x-operation-id-source: derived
     post:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Create join point
       parameters: []
       requestBody:
@@ -281,7 +270,8 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/passiveIdSettings:
+      operationId: postActivedirectory
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -292,9 +282,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/passiveIdSettings:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Updates passive ID settings
       parameters:
       - name: id
@@ -453,7 +444,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/addGroups:
+      operationId: putActivedirectoryByIdPassiveIdSettings
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -464,9 +456,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/addGroups:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Load groups from domain
       parameters:
       - name: id
@@ -618,7 +611,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/getUserGroups:
+      operationId: putActivedirectoryByIdAddGroups
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -629,9 +623,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/getUserGroups:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get user groups
       parameters:
       - name: id
@@ -710,7 +705,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/name/{name}:
+      operationId: putActivedirectoryByIdGetUserGroups
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -721,9 +717,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/name/{name}:
     get:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get-By-Name
       parameters:
       - name: name
@@ -794,7 +791,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/getTrustedDomains:
+      operationId: getActivedirectoryNameByName
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -805,9 +803,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/getTrustedDomains:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get trusted domains
       parameters:
       - name: id
@@ -884,7 +883,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/leaveAllNodes:
+      operationId: putActivedirectoryByIdGetTrustedDomains
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -895,9 +895,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/leaveAllNodes:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Leave a domain with all nodes
       parameters:
       - name: id
@@ -1049,7 +1050,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/join:
+      operationId: putActivedirectoryByIdLeaveAllNodes
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -1060,9 +1062,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/join:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Join a domain
       parameters:
       - name: id
@@ -1214,7 +1217,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/joinAllNodes:
+      operationId: putActivedirectoryByIdJoin
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -1225,9 +1229,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/joinAllNodes:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Join a domain with all nodes
       parameters:
       - name: id
@@ -1379,7 +1384,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/getDomainUsers:
+      operationId: putActivedirectoryByIdJoinAllNodes
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -1390,9 +1396,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/getDomainUsers:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get domain users
       parameters:
       - name: id
@@ -1551,7 +1558,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/isUserMemberOf:
+      operationId: putActivedirectoryByIdGetDomainUsers
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -1562,9 +1570,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/isUserMemberOf:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Is user a member of groups
       parameters:
       - name: id
@@ -1643,7 +1652,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/getGroupsByDomain:
+      operationId: putActivedirectoryByIdIsUserMemberOf
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -1654,9 +1664,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/getGroupsByDomain:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get groups by domain
       parameters:
       - name: id
@@ -1735,7 +1746,8 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}:
+      operationId: putActivedirectoryByIdGetGroupsByDomain
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -1746,9 +1758,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}:
     get:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get join point details
       parameters:
       - name: id
@@ -1819,9 +1832,11 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getActivedirectoryById
+      x-operation-id-source: derived
     delete:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Delete join point
       parameters:
       - name: id
@@ -1881,7 +1896,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-  /activedirectory/{id}/leave:
+      operationId: deleteActivedirectoryById
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -1892,9 +1908,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /activedirectory/{id}/leave:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Leave a domain
       parameters:
       - name: id
@@ -2046,12 +2063,24 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+      operationId: putActivedirectoryByIdLeave
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /ers/config/activedirectory/{id}/getDomainUsers:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get all domain users
-      description: <p>This API retrieves all domain users.</p>
+      description: This API retrieves all domain users.
       parameters:
       - name: id
         in: path
@@ -2092,12 +2121,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdGetDomainUsers
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/passiveIdSettings:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Update passive ID settings
-      description: <p>This API updates passive ID settings.</p>
+      description: This API updates passive ID settings.
       parameters:
       - name: id
         in: path
@@ -2131,12 +2162,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdPassiveIdSettings
+      x-operation-id-source: derived
   /ers/config/activedirectory/name/{name}:
     get:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get Active Directory by name
-      description: <p>This API allows the client to get Active Directory by name. This API also allows the client to fetch join point details by Name. The Name can be retrieved with the Get All operation.The Groups field contains an array of groups that are retrieved from AD-allowed domains for authentication. The Groups field contains an empty array if no such groups exist.</p>
+      description: This API allows the client to get Active Directory by name. This API also allows the client to fetch join point details by Name. The Name can be retrieved with the Get All operation.The Groups field contains an array of groups that are retrieved from AD-allowed domains for authentication. The Groups field contains an empty array if no such groups exist.
       parameters:
       - name: name
         in: path
@@ -2164,12 +2197,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/getbyname'
+      operationId: getErsConfigActivedirectoryNameByName
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/getUserGroups:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: List groups of which given user is member
-      description: <p>This API allows the client to get groups of which a given user is a member.</p>
+      description: This API allows the client to get groups of which a given user is a member.
       parameters:
       - name: id
         in: path
@@ -2215,12 +2250,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdGetUserGroups
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/addGroups:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Reload domain groups configuration from Active Directory into Cisco ISE
-      description: <p>This API loads domain groups configuration from Active Directory into Cisco ISE. Name is a required field - this is the name of the join point for domain access. Domain is a required field - this is the AD domain from where the updated groups are retrieved from.</p>
+      description: This API loads domain groups configuration from Active Directory into Cisco ISE. Name is a required field - this is the name of the join point for domain access. Domain is a required field - this is the AD domain from where the updated groups are retrieved from.
       parameters:
       - name: id
         in: path
@@ -2254,12 +2291,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/activedirectory'
+      operationId: putErsConfigActivedirectoryByIdAddGroups
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/leave:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Make Cisco ISE node leave Active Directory domain
-      description: <p>This API makes a Cisco ISE node to leave an Active Directory domain.</p>
+      description: This API makes a Cisco ISE node to leave an Active Directory domain.
       parameters:
       - name: id
         in: path
@@ -2298,12 +2337,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdLeave
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/isUserMemberOf:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Verify if user is member of given groups
-      description: <p>This API verifies if the user is a member of the given groups.</p>
+      description: This API verifies if the user is a member of the given groups.
       parameters:
       - name: id
         in: path
@@ -2349,12 +2390,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdIsUserMemberOf
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/getTrustedDomains:
     put:
       tags:
-      - activedirectory
-      summary: Get list of domains that are accessible through given join point via trust relationships
-      description: <p>This API gets the list of domains that are accessible through the given join point via trust relationships.</p>
+      - Active Directory
+      summary: Get list of domains that are accessible through given join point via trust…
+      description: This API gets the list of domains that are accessible through the given join point via trust relationships.
       parameters:
       - name: id
         in: path
@@ -2387,12 +2430,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ERSDomains'
+      operationId: putErsConfigActivedirectoryByIdGetTrustedDomains
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/joinAllNodes:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Join all Cisco ISE Nodes to Active Directory domain
-      description: <p>This API joins all Cisco ISE Nodes to an Active Directory domain.</p>
+      description: This API joins all Cisco ISE Nodes to an Active Directory domain.
       parameters:
       - name: id
         in: path
@@ -2431,12 +2476,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdJoinAllNodes
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/leaveAllNodes:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Make all Cisco ISE nodes leave Active Directory domain
-      description: <p>This API joins makes all Cisco ISE nodes leave an Active Directory domain.</p>
+      description: This API joins makes all Cisco ISE nodes leave an Active Directory domain.
       parameters:
       - name: id
         in: path
@@ -2475,12 +2522,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdLeaveAllNodes
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/getGroupsByDomain:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: List the groups of given domain
-      description: <p>This API lists the groups of the given domain.</p>
+      description: This API lists the groups of the given domain.
       parameters:
       - name: id
         in: path
@@ -2526,12 +2575,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdGetGroupsByDomain
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}:
     get:
       tags:
-      - activedirectory
-      summary: Fetch join point details by ID.
-      description: <p>This API fetchs the join point details by ID. The ID can be retrieved with the Get All operation. Fetch join point details by ID. The ID can be retrieved with the Get All operation. The Groups field contains an array of groups that are retrieved from AD-allowed domains for authentication. The Groups field contains an empty array if no such groups exist.</p>
+      - Active Directory
+      summary: Fetch join point details by ID
+      description: This API fetchs the join point details by ID. The ID can be retrieved with the Get All operation. Fetch join point details by ID. The ID can be retrieved with the Get All operation. The Groups field contains an array of groups that are retrieved from AD-allowed domains for authentication. The Groups field contains an empty array if no such groups exist.
       parameters:
       - name: id
         in: path
@@ -2564,11 +2615,13 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/activedirectory'
+      operationId: getErsConfigActivedirectoryById
+      x-operation-id-source: derived
     delete:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Delete AD join point from Cisco ISE
-      description: <p>This API deletes an AD join point from Cisco ISE.</p>
+      description: This API deletes an AD join point from Cisco ISE.
       parameters:
       - name: id
         in: path
@@ -2599,12 +2652,14 @@ paths:
       responses:
         204:
           description: No Content
+      operationId: deleteErsConfigActivedirectoryById
+      x-operation-id-source: derived
   /ers/config/activedirectory/{id}/join:
     put:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Join Cisco ISE node to Active Directory domain
-      description: <p>This API joins a Cisco ISE node to an Active Directory domain.</p>
+      description: This API joins a Cisco ISE node to an Active Directory domain.
       parameters:
       - name: id
         in: path
@@ -2643,12 +2698,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/additional'
+      operationId: putErsConfigActivedirectoryByIdJoin
+      x-operation-id-source: derived
   /ers/config/activedirectory:
     post:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Create AD join point in Cisco ISE
-      description: <p>This API creates an AD join point in Cisco ISE.</p>
+      description: This API creates an AD join point in Cisco ISE.
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -2682,11 +2739,13 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/activedirectory'
+      operationId: postErsConfigActivedirectory
+      x-operation-id-source: derived
     get:
       tags:
-      - activedirectory
+      - Active Directory
       summary: List all join points for Active Directory domains in Cisco ISE
-      description: <p>This API lists all the join points for Active Directory domains in Cisco ISE.</p>
+      description: This API lists all the join points for Active Directory domains in Cisco ISE.
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -2714,12 +2773,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/search'
+      operationId: getErsConfigActivedirectory
+      x-operation-id-source: derived
   /ers/config/activedirectory/versioninfo:
     get:
       tags:
-      - activedirectory
+      - Active Directory
       summary: Get Active Directory version information
-      description: <p>This API helps to retrieve the version information related to the active directory.</p>
+      description: This API helps to retrieve the version information related to the active directory.
       responses:
         200:
           description: OK
@@ -2727,334 +2788,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigActivedirectoryVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    ERSActiveDirectory_name:
-      type: object
-      properties:
-        id:
-          type: string
-          example: af1cd190-7d71-11eb-b02e-ead13cf60dcb
-        name:
-          type: string
-          example: Company_users
-        description:
-          type: string
-          example: Group of Active company users
-        domain:
-          type: string
-          example: cisco.com
-        enableDomainWhiteList:
-          type: boolean
-          example: true
-        adGroups:
-          type: object
-          properties:
-            groups:
-              type: array
-              example:
-              - name: dcloud.cisco.com/Users/device-admins
-                sid: S-1-5-21-3064548688-3193819538-1298560677-1276
-              - name: dcloud.cisco.com/Users/Domain Computers
-                sid: S-1-5-21-3064548688-3193819538-1298560677-515
-              - name: dcloud.cisco.com/Users/Domain Users
-                sid: S-1-5-21-3064548688-3193819538-1298560677-513
-              items:
-                properties:
-                  name:
-                    type: string
-        advancedsettings:
-          type: object
-          properties:
-            enablePassChange:
-              type: boolean
-              example: true
-            enablePasswordlessAuth:
-              type: boolean
-              example: false
-            enableMachineAuth:
-              type: boolean
-              example: true
-            enableMachineAccess:
-              type: boolean
-              example: true
-            agingTime:
-              type: integer
-              example: 5
-            enableDialinPermissionCheck:
-              type: boolean
-              example: false
-            enableCallbackForDialinClient:
-              type: boolean
-              example: false
-            plaintextAuth:
-              type: boolean
-              example: false
-            enableFailedAuthProtection:
-              type: boolean
-              example: false
-            authProtectionType:
-              type: string
-              example: WIRELESS
-            failedAuthThreshold:
-              type: integer
-              example: 5
-            identityNotInAdBehaviour:
-              type: string
-              example: SEARCH_JOINED_FOREST
-            unreachableDomainsBehaviour:
-              type: string
-              example: PROCEED
-            enableRewrites:
-              type: boolean
-              example: false
-            rewriteRules:
-              type: array
-              example:
-              - rowId: 0
-                rewriteMatch: exampleMatch0
-                rewriteResult: exampleResult0
-              - rowId: 1
-                rewriteMatch: exampleMatch1
-                rewriteResult: exampleResult1
-              - rowId: 2
-                rewriteMatch: exampleMatch2
-                rewriteResult: exampleResult2
-              - rowId: 3
-                rewriteMatch: exampleMatch3
-                rewriteResult: exampleResult3
-              items:
-                properties:
-                  name:
-                    type: string
-            firstName:
-              type: string
-              example: givenName
-            department:
-              type: string
-              example: department
-            lastName:
-              type: string
-              example: sn
-            organizationalUnit:
-              type: string
-              example: company
-            jobTitle:
-              type: string
-              example: title
-            locality:
-              type: string
-              example: l
-            email:
-              type: string
-              example: mail
-            stateOrProvince:
-              type: string
-              example: st
-            telephone:
-              type: string
-              example: telephoneNumber
-            country:
-              type: string
-              example: co
-            streetAddress:
-              type: string
-              example: streetAddress
-            schema:
-              type: string
-              example: ACTIVE_DIRECTORY
-        adAttributes:
-          type: object
-          properties:
-            attributes:
-              type: array
-              example:
-              - name: name1
-                type: STRING
-                defaultValue: defaultString
-                internalName: internalName1
-              - name: name2
-                type: IP
-                defaultValue: 1.1.1.1
-                internalName: internalName2
-              - name: name3
-                type: BOOLEAN
-                defaultValue: 'true'
-                internalName: internalName3
-              - name: name4
-                type: INT
-                defaultValue: '5'
-                internalName: internalName4
-              - name: name5
-                type: OCTET_STRING
-                defaultValue: defaultOctetString
-                internalName: internalName5
-              items:
-                properties:
-                  name:
-                    type: string
-        adScopesNames:
-          type: string
-          example: Default_Scope
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/activedirectory/name/Company_users
-            type:
-              type: string
-              example: application/json
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    getbyname:
-      type: object
-      properties:
-        ERSActiveDirectory:
-          $ref: '#/components/schemas/ERSActiveDirectory_name'
-    ERSGroups:
-      type: object
-      properties:
-        ERSActiveDirectory:
-          $ref: '#/components/schemas/ERSActiveDirectoryGroups'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: 1.2
-        supportedVersions:
-          type: string
-          example: 1.0,1.1,1.2
-        link:
-          $ref: '#/components/schemas/link1'
-    activedirectoryListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/activedirectory/versioninfo
-        type:
-          type: string
-          example: application/json
-    domain-response:
-      type: object
-      properties:
-        ERSActiveDirectoryUsers:
-          type: object
-          properties:
-            users:
-              type: array
-              items:
-                $ref: '#/components/schemas/domain-response1'
-    additionalData1:
-      type: object
-      properties:
-        name:
-          type: string
-          example: example additional attribute name
-        value:
-          type: string
-          example: its value
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    additional:
-      type: object
-      properties:
-        OperationAdditionalData:
-          $ref: '#/components/schemas/OperationAdditionalData'
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     activedirectoryResponseEntity:
       properties:
         domain:
@@ -3324,72 +3061,133 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    ERSDomains:
+    identitystores.activedirectory:
+      required:
+      - ERSActiveDirectory
       type: object
       properties:
-        ERSActiveDirectoryDomains:
-          $ref: '#/components/schemas/ERSActiveDirectoryDomains'
-    ERSActiveDirectoryGroups:
+        ERSActiveDirectory:
+          $ref: '#/components/schemas/ERSActiveDirectory'
+      example: null
+    activedirectoryListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    activedirectoryResponse:
       type: object
       properties:
-        groups:
-          type: array
-          example:
-          - groupName: operators
-            sid: r1.dom/S-1-5-32-548
-            type: GLOBAL
-          - groupName: office users
-            sid: r1.dom/S-1-5-33-326
-            type: DOMAIN LOCAL
-          items:
-            properties:
-              name:
-                type: string
-    SearchResult:
-      type: object
+        ERSActiveDirectory:
+          $ref: '#/components/schemas/activedirectoryResponseEntity'
+      example:
+        ERSActiveDirectory:
+          adScopesNames: Default_Scope
+          enableDomainAllowedList: true
+          advancedSettings:
+            authProtectionType: WIRELESS
+            schema: ACTIVE_DIRECTORY
+            lastName: sn
+            country: co
+            enableFailedAuthProtection: false
+            jobTitle: title
+            agingTime: 5
+            identityNotInAdBehaviour: SEARCH_JOINED_FOREST
+            department: department
+            unreachableDomainsBehaviour: PROCEED
+            email: mail
+            organizationalUnit: company
+            enableDialinPermissionCheck: false
+            enablePassChange: false
+            plaintextAuth: false
+            locality: l
+            enableMachineAccess: true
+            enableRewrites: false
+            telephone: telephoneNumber
+            enableCallbackForDialinClient: false
+            enableAuthorizationFlow: false
+            sshKeysAttributeName: sshPublicKey
+            firstName: givenName
+            stateOrProvince: st
+            failedAuthThreshold: 5
+            streetAddress: streetAddress
+            enableMachineAuth: true
+            enableSessionStitching: false
+            rewriteRules:
+            - rewriteMatch: exampleMatch0
+              rewriteResult: exampleResult0
+              rowId: 0
+            - rewriteMatch: exampleMatch1
+              rewriteResult: exampleResult1
+              rowId: 1
+            - rewriteMatch: exampleMatch2
+              rewriteResult: exampleResult2
+              rowId: 2
+            - rewriteMatch: exampleMatch3
+              rewriteResult: exampleResult3
+              rowId: 3
+          domain: cisco.com
+          name: Company_users
+          description: Group of Active company users
+          adgroups:
+            groups:
+            - name: cisco.com/operators
+              type: GLOBAL
+              sid: S-1-5-32-548
+            - name: cisco.com/office users
+              type: DOMAIN LOCAL
+              sid: S-1-5-33-326
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          adAttributes:
+            attributes:
+            - internalName: internalName1
+              defaultValue: defaultString
+              name: name1
+              type: STRING
+            - internalName: internalName2
+              defaultValue: 1.1.1.1
+              name: name2
+              type: IP
+            - internalName: internalName3
+              defaultValue: 'true'
+              name: name3
+              type: BOOLEAN
+            - internalName: internalName4
+              defaultValue: '5'
+              name: name4
+              type: INT
+            - internalName: internalName5
+              defaultValue: defaultOctetString
+              name: name5
+              type: OCTET_STRING
+    OperationAdditionalDataEntity:
       properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: af1cd190-7d71-11eb-b02e-ead13cf60dcb
-            name: Company_users
-            description: Example
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/activedirectory/af1cd190-7d71-11eb-b02e-ead13cf60dcb
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    ersActiveDirectoryDomainsResponse:
-      properties:
-        ERSActiveDirectoryDomains:
+        OperationAdditionalData:
           properties:
-            domains:
-              title: domains
+            additionalData:
               type: array
-              description: List of Domains
               example: null
               items:
                 properties:
-                  dnsName:
-                    title: dnsName
+                  value:
                     type: string
-                    description: ''
                     example: null
-                  forest:
-                    title: forest
+                  name:
                     type: string
-                    description: ''
-                    example: null
-                  unusableReason:
-                    title: unusableReason
-                    type: string
-                    description: ''
                     example: null
                 example: null
           example: null
@@ -3784,6 +3582,19 @@ components:
               type: application/xml
             description: description2
             id: id2
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     ersActiveDirectoryGroupsResponse:
       properties:
         ERSActiveDirectoryGroups:
@@ -3813,30 +3624,410 @@ components:
                 example: null
           example: null
       example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    ersActiveDirectoryDomainsResponse:
+      properties:
+        ERSActiveDirectoryDomains:
+          properties:
+            domains:
+              title: domains
+              type: array
+              description: List of Domains
+              example: null
+              items:
+                properties:
+                  dnsName:
+                    title: dnsName
+                    type: string
+                    description: ''
+                    example: null
+                  forest:
+                    title: forest
+                    type: string
+                    description: ''
+                    example: null
+                  unusableReason:
+                    title: unusableReason
+                    type: string
+                    description: ''
+                    example: null
+                example: null
+          example: null
+      example: null
+    additionalData1:
+      type: object
+      properties:
+        name:
+          type: string
+          example: example additional attribute name
+        value:
+          type: string
+          example: its value
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: af1cd190-7d71-11eb-b02e-ead13cf60dcb
+            name: Company_users
+            description: Example
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/activedirectory/af1cd190-7d71-11eb-b02e-ead13cf60dcb
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    ERSDomains:
+      type: object
+      properties:
+        ERSActiveDirectoryDomains:
+          $ref: '#/components/schemas/ERSActiveDirectoryDomains'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/activedirectory/versioninfo
+        type:
+          type: string
+          example: application/json
+    additionalData:
+      type: array
+      items:
+        $ref: '#/components/schemas/additionalData1'
+    additional:
+      type: object
+      properties:
+        OperationAdditionalData:
+          $ref: '#/components/schemas/OperationAdditionalData'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    ERSActiveDirectory_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: af1cd190-7d71-11eb-b02e-ead13cf60dcb
+        name:
+          type: string
+          example: Company_users
+        description:
+          type: string
+          example: Group of Active company users
+        domain:
+          type: string
+          example: cisco.com
+        enableDomainWhiteList:
+          type: boolean
+          example: true
+        adGroups:
+          type: object
+          properties:
+            groups:
+              type: array
+              example:
+              - name: dcloud.cisco.com/Users/device-admins
+                sid: S-1-5-21-3064548688-3193819538-1298560677-1276
+              - name: dcloud.cisco.com/Users/Domain Computers
+                sid: S-1-5-21-3064548688-3193819538-1298560677-515
+              - name: dcloud.cisco.com/Users/Domain Users
+                sid: S-1-5-21-3064548688-3193819538-1298560677-513
+              items:
+                properties:
+                  name:
+                    type: string
+        advancedsettings:
+          type: object
+          properties:
+            enablePassChange:
+              type: boolean
+              example: true
+            enablePasswordlessAuth:
+              type: boolean
+              example: false
+            enableMachineAuth:
+              type: boolean
+              example: true
+            enableMachineAccess:
+              type: boolean
+              example: true
+            agingTime:
+              type: integer
+              example: 5
+            enableDialinPermissionCheck:
+              type: boolean
+              example: false
+            enableCallbackForDialinClient:
+              type: boolean
+              example: false
+            plaintextAuth:
+              type: boolean
+              example: false
+            enableFailedAuthProtection:
+              type: boolean
+              example: false
+            authProtectionType:
+              type: string
+              example: WIRELESS
+            failedAuthThreshold:
+              type: integer
+              example: 5
+            identityNotInAdBehaviour:
+              type: string
+              example: SEARCH_JOINED_FOREST
+            unreachableDomainsBehaviour:
+              type: string
+              example: PROCEED
+            enableRewrites:
+              type: boolean
+              example: false
+            rewriteRules:
+              type: array
+              example:
+              - rowId: 0
+                rewriteMatch: exampleMatch0
+                rewriteResult: exampleResult0
+              - rowId: 1
+                rewriteMatch: exampleMatch1
+                rewriteResult: exampleResult1
+              - rowId: 2
+                rewriteMatch: exampleMatch2
+                rewriteResult: exampleResult2
+              - rowId: 3
+                rewriteMatch: exampleMatch3
+                rewriteResult: exampleResult3
+              items:
+                properties:
+                  name:
+                    type: string
+            firstName:
+              type: string
+              example: givenName
+            department:
+              type: string
+              example: department
+            lastName:
+              type: string
+              example: sn
+            organizationalUnit:
+              type: string
+              example: company
+            jobTitle:
+              type: string
+              example: title
+            locality:
+              type: string
+              example: l
+            email:
+              type: string
+              example: mail
+            stateOrProvince:
+              type: string
+              example: st
+            telephone:
+              type: string
+              example: telephoneNumber
+            country:
+              type: string
+              example: co
+            streetAddress:
+              type: string
+              example: streetAddress
+            schema:
+              type: string
+              example: ACTIVE_DIRECTORY
+        adAttributes:
+          type: object
+          properties:
+            attributes:
+              type: array
+              example:
+              - name: name1
+                type: STRING
+                defaultValue: defaultString
+                internalName: internalName1
+              - name: name2
+                type: IP
+                defaultValue: 1.1.1.1
+                internalName: internalName2
+              - name: name3
+                type: BOOLEAN
+                defaultValue: 'true'
+                internalName: internalName3
+              - name: name4
+                type: INT
+                defaultValue: '5'
+                internalName: internalName4
+              - name: name5
+                type: OCTET_STRING
+                defaultValue: defaultOctetString
+                internalName: internalName5
+              items:
+                properties:
+                  name:
+                    type: string
+        adScopesNames:
+          type: string
+          example: Default_Scope
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/activedirectory/name/Company_users
+            type:
+              type: string
+              example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: 1.2
+        supportedVersions:
+          type: string
+          example: 1.0,1.1,1.2
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    domain-response:
+      type: object
+      properties:
+        ERSActiveDirectoryUsers:
+          type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/domain-response1'
+    ERSActiveDirectoryDomains:
+      type: object
+      properties:
+        domains:
+          type: array
+          example:
+          - dnsName: R1.cisco.com
+            forest: cisco.com
+            unusableReason: ''
+          - dnsName: R2.R1.cisco.com
+            forest: cisco.com
+            unusableReason: ''
+          items:
+            properties:
+              name:
+                type: string
+    OperationAdditionalData:
+      type: object
+      properties:
+        additionalData:
+          $ref: '#/components/schemas/additionalData'
+    activedirectory:
+      type: object
+      properties:
+        ERSActiveDirectory:
+          $ref: '#/components/schemas/ERSActiveDirectory_2'
     domain-response1:
       type: object
       properties:
         name:
           type: string
           example: user1
-    OperationAdditionalDataEntity:
+    ERSActiveDirectoryGroups:
+      type: object
       properties:
-        OperationAdditionalData:
-          properties:
-            additionalData:
-              type: array
-              example: null
-              items:
-                properties:
-                  value:
-                    type: string
-                    example: null
-                  name:
-                    type: string
-                    example: null
-                example: null
-          example: null
-      example: null
+        groups:
+          type: array
+          example:
+          - groupName: operators
+            sid: r1.dom/S-1-5-32-548
+            type: GLOBAL
+          - groupName: office users
+            sid: r1.dom/S-1-5-33-326
+            type: DOMAIN LOCAL
+          items:
+            properties:
+              name:
+                type: string
+    getbyname:
+      type: object
+      properties:
+        ERSActiveDirectory:
+          $ref: '#/components/schemas/ERSActiveDirectory_name'
+    ERSGroups:
+      type: object
+      properties:
+        ERSActiveDirectory:
+          $ref: '#/components/schemas/ERSActiveDirectoryGroups'
     ERSActiveDirectory_2:
       type: object
       properties:
@@ -4016,144 +4207,7 @@ components:
             type:
               type: string
               example: application/json
-    activedirectory:
-      type: object
-      properties:
-        ERSActiveDirectory:
-          $ref: '#/components/schemas/ERSActiveDirectory_2'
-    activedirectoryResponse:
-      type: object
-      properties:
-        ERSActiveDirectory:
-          $ref: '#/components/schemas/activedirectoryResponseEntity'
-      example:
-        ERSActiveDirectory:
-          adScopesNames: Default_Scope
-          enableDomainAllowedList: true
-          advancedSettings:
-            authProtectionType: WIRELESS
-            schema: ACTIVE_DIRECTORY
-            lastName: sn
-            country: co
-            enableFailedAuthProtection: false
-            jobTitle: title
-            agingTime: 5
-            identityNotInAdBehaviour: SEARCH_JOINED_FOREST
-            department: department
-            unreachableDomainsBehaviour: PROCEED
-            email: mail
-            organizationalUnit: company
-            enableDialinPermissionCheck: false
-            enablePassChange: false
-            plaintextAuth: false
-            locality: l
-            enableMachineAccess: true
-            enableRewrites: false
-            telephone: telephoneNumber
-            enableCallbackForDialinClient: false
-            enableAuthorizationFlow: false
-            sshKeysAttributeName: sshPublicKey
-            firstName: givenName
-            stateOrProvince: st
-            failedAuthThreshold: 5
-            streetAddress: streetAddress
-            enableMachineAuth: true
-            enableSessionStitching: false
-            rewriteRules:
-            - rewriteMatch: exampleMatch0
-              rewriteResult: exampleResult0
-              rowId: 0
-            - rewriteMatch: exampleMatch1
-              rewriteResult: exampleResult1
-              rowId: 1
-            - rewriteMatch: exampleMatch2
-              rewriteResult: exampleResult2
-              rowId: 2
-            - rewriteMatch: exampleMatch3
-              rewriteResult: exampleResult3
-              rowId: 3
-          domain: cisco.com
-          name: Company_users
-          description: Group of Active company users
-          adgroups:
-            groups:
-            - name: cisco.com/operators
-              type: GLOBAL
-              sid: S-1-5-32-548
-            - name: cisco.com/office users
-              type: DOMAIN LOCAL
-              sid: S-1-5-33-326
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          adAttributes:
-            attributes:
-            - internalName: internalName1
-              defaultValue: defaultString
-              name: name1
-              type: STRING
-            - internalName: internalName2
-              defaultValue: 1.1.1.1
-              name: name2
-              type: IP
-            - internalName: internalName3
-              defaultValue: 'true'
-              name: name3
-              type: BOOLEAN
-            - internalName: internalName4
-              defaultValue: '5'
-              name: name4
-              type: INT
-            - internalName: internalName5
-              defaultValue: defaultOctetString
-              name: name5
-              type: OCTET_STRING
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    OperationAdditionalData:
-      type: object
-      properties:
-        additionalData:
-          $ref: '#/components/schemas/additionalData'
-    identitystores.activedirectory:
-      required:
-      - ERSActiveDirectory
-      type: object
-      properties:
-        ERSActiveDirectory:
-          $ref: '#/components/schemas/ERSActiveDirectory'
-      example: null
-    ERSActiveDirectoryDomains:
-      type: object
-      properties:
-        domains:
-          type: array
-          example:
-          - dnsName: R1.cisco.com
-            forest: cisco.com
-            unusableReason: ''
-          - dnsName: R2.R1.cisco.com
-            forest: cisco.com
-            unusableReason: ''
-          items:
-            properties:
-              name:
-                type: string
-    additionalData:
-      type: array
-      items:
-        $ref: '#/components/schemas/additionalData1'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -4163,6 +4217,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Mdm Action API
-  version: '1.0'
-  description: 'Operations tagged mdm-action across 2 of this provider''s published API definitions: cisco-ise-mdm-mobile-device-management.yaml, cisco-ise-mdm-older-versions.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-mdm-mobile-device-management.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-mdm-mobile-device-management.yaml
-    operation_coverage: 1/2
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged mdm-action across 2 of this provider''s published API definitions: cisco-ise-mdm-mobile-device-management.yaml, cisco-ise-mdm-older-versions.yaml. Each path carries the servers of the definition it was published in.'
 tags:
 - name: mdm-action
 paths:
@@ -60,6 +57,8 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/mdm-action-request'
+      operationId: post<mdmServer>ByApiPathActionActionType=<action type>
+      x-operation-id-source: derived
   /<mdm-server-ip>/{api_path}/action/actionType=<action type>:
     post:
       tags:
@@ -92,35 +91,19 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/mdm-action'
+      operationId: post<mdmServerIp>ByApiPathActionActionType=<action type>
+      x-operation-id-source: derived
 components:
   schemas:
-    mdm-action:
+    mdm-action-request:
       type: object
       properties:
-        name:
-          type: string
-          example: action
-        api_version:
-          type: integer
-          example: 2
-        deviceList:
+        identifier:
           type: object
           properties:
-            device:
-              type: object
-              properties:
-                macaddress:
-                  type: string
-                  example: '000000000000'
-                result:
-                  type: object
-                  properties:
-                    action_status:
-                      type: boolean
-                      example: true
-                    failure_reason:
-                      type: string
-                      example: something not compliant
+            guid:
+              type: string
+              example: '000000000000'
     mdm-action-response:
       type: object
       properties:
@@ -148,15 +131,33 @@ components:
                     failure_reason:
                       type: string
                       example: something not compliant
-    mdm-action-request:
+    mdm-action:
       type: object
       properties:
-        identifier:
+        name:
+          type: string
+          example: action
+        api_version:
+          type: integer
+          example: 2
+        deviceList:
           type: object
           properties:
-            guid:
-              type: string
-              example: '000000000000'
+            device:
+              type: object
+              properties:
+                macaddress:
+                  type: string
+                  example: '000000000000'
+                result:
+                  type: object
+                  properties:
+                    action_status:
+                      type: boolean
+                      example: true
+                    failure_reason:
+                      type: string
+                      example: something not compliant
 x-refined-from:
 - cisco-ise-mdm-mobile-device-management.yaml
 - cisco-ise-mdm-older-versions.yaml

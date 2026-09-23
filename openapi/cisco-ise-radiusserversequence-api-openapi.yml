@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Radiusserversequence API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Radiusserversequence API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged radiusserversequence across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-radius-server-sequence.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: radiusserversequence
 paths:
@@ -98,6 +86,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getRadiusserversequence
+      x-operation-id-source: derived
     post:
       tags:
       - radiusserversequence
@@ -198,6 +190,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postRadiusserversequence
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /radiusserversequence/{id}:
     get:
       tags:
@@ -270,6 +276,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getRadiusserversequenceById
+      x-operation-id-source: derived
     put:
       tags:
       - radiusserversequence
@@ -388,6 +398,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putRadiusserversequenceById
+      x-operation-id-source: derived
     delete:
       tags:
       - radiusserversequence
@@ -448,6 +462,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteRadiusserversequenceById
+      x-operation-id-source: derived
     patch:
       tags:
       - radiusserversequence
@@ -564,39 +582,238 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchRadiusserversequenceById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/radiusserversequence/{id}:
+    get:
+      tags:
+      - radiusserversequence
+      summary: Get RADIUS server sequence by ID
+      description: This API allows the client to get a RADIUS server sequence by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.radiusserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/radius'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/radius'
+      operationId: getErsConfigRadiusserversequenceById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - radiusserversequence
+      summary: Update part of the RADIUS server sequence by ID
+      description: Update any attribute subset of the RADIUS server sequence. Only the attributes sent are affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.radiusserversequence.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/radius'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/radius'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigRadiusserversequenceById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - radiusserversequence
+      summary: Update RADIUS server sequence
+      description: This API allows the client to update a RADIUS server sequence.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.radiusserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/radius'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/radius'
+      operationId: putErsConfigRadiusserversequenceById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - radiusserversequence
+      summary: Delete RADIUS server sequence
+      description: This API deletes a RADIUS server sequence.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.radiusserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No content
+      operationId: deleteErsConfigRadiusserversequenceById
+      x-operation-id-source: derived
+  /ers/config/radiusserversequence:
+    get:
+      tags:
+      - radiusserversequence
+      summary: Get all RADIUS server sequences
+      description: This API allows the client to get all the RADIUS server sequences.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.radiusserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigRadiusserversequence
+      x-operation-id-source: derived
+    post:
+      tags:
+      - radiusserversequence
+      summary: Create RADIUS server sequence
+      description: This API creates a RADIUS server sequence.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.radiusserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/radius'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/radius'
+      operationId: postErsConfigRadiusserversequence
+      x-operation-id-source: derived
+  /ers/config/radiusserversequence/versioninfo:
+    get:
+      tags:
+      - radiusserversequence
+      summary: Get RADIUS server sequence version information
+      description: This API helps to retrieve the version information related to the RADIUS server sequence.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigRadiusserversequenceVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
     radiusserversequenceResponseEntity:
       properties:
         stripPrefix:
@@ -695,26 +912,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    network.radiusserversequence:
-      required:
-      - RadiusServerSequence
-      type: object
-      properties:
-        RadiusServerSequence:
-          $ref: '#/components/schemas/RadiusServerSequence'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
     radiusserversequenceResponse:
       type: object
       properties:
@@ -759,47 +956,6 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           stripSuffix: false
           useAttrSetOnRequest: false
-    radiusserversequenceListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/radiusserversequenceListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
     RadiusServerSequence:
       required:
       - name
@@ -936,6 +1092,47 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           stripSuffix: false
           useAttrSetOnRequest: false
+    radiusserversequenceListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    network.radiusserversequence:
+      required:
+      - RadiusServerSequence
+      type: object
+      properties:
+        RadiusServerSequence:
+          $ref: '#/components/schemas/RadiusServerSequence'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -958,36 +1155,275 @@ components:
                 example: code
             example: null
       example: null
-    radiusserversequenceListResponseEntity:
+    radiusserversequenceListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/radiusserversequenceListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    RadiusServerSequence_2:
+      type: object
       properties:
         id:
-          title: id
           type: string
-          description: Id description
-          example: null
+          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
         name:
-          title: name
           type: string
-          description: name description
-          example: null
+          example: name
         description:
-          title: description
           type: string
-          description: description
-          example: null
+          example: description
+        stripPrefix:
+          type: boolean
+          example: false
+        stripSuffix:
+          type: boolean
+          example: false
+        prefixSeparator:
+          type: string
+          example: \
+        suffixSeparator:
+          type: string
+          example: '@'
+        remoteAccounting:
+          type: boolean
+          example: true
+        localAccounting:
+          type: boolean
+          example: false
+        useAttrSetOnRequest:
+          type: boolean
+          example: false
+        useAttrSetBeforeAcc:
+          type: boolean
+          example: false
+        continueAuthorzPolicy:
+          type: boolean
+          example: false
+        RadiusServerList:
+          type: array
+          example:
+          - externalRadiusServer1
+          - externalRadiusServer2
+          items:
+            properties:
+              name:
+                type: string
+        OnRequestAttrManipulatorList:
+          type: array
+          example:
+          - action: ADD
+            dictionaryName: Cisco
+            attributeName: cisco-prev-hop-ip
+            value: test1
+            changedVal: test2
+          - action: UPDATE
+            dictionaryName: Cisco
+            attributeName: Cisco:cisco-ppp-vj-slot-comp
+            value: '12'
+            changedVal: '13'
+          items:
+            properties:
+              name:
+                type: string
+        BeforeAcceptAttrManipulatorsList:
+          type: array
+          example:
+          - action: ADD
+            dictionaryName: Cisco
+            attributeName: cisco-prev-hop-ip
+            value: test1
+            changedVal: test2
+          - action: UPDATE
+            dictionaryName: Cisco
+            attributeName: Cisco:cisco-ppp-vj-slot-comp
+            value: '12'
+            changedVal: '13'
+          items:
+            properties:
+              name:
+                type: string
         link:
-          $ref: '#/components/schemas/Link'
-      example: null
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/radiusserversequence/ab6deded-fcc2-47ff-8577-0014737c8fcf
+            type:
+              type: string
+              example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    patchRequest:
+      type: object
+      properties:
+        RadiusServerSequence:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/radiusserversequence/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    radius:
+      type: object
+      properties:
+        RadiusServerSequence:
+          $ref: '#/components/schemas/RadiusServerSequence_2'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: ab6deded-fcc2-47ff-8577-0014737c8fcf
+            name: name
+            description: description
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/radiusserversequence/ab6deded-fcc2-47ff-8577-0014737c8fcf
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -997,7 +1433,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-radius-server-sequence.yaml

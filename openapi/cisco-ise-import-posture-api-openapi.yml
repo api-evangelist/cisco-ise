@@ -57,7 +57,7 @@ paths:
       tags:
       - Import-Posture
       summary: Complete import setup from repository
-      description: 'Simplified import API that retrieves the file from a repository and performs the import.  **What this API does:** 1. Retrieves the ZIP file from the specified repository 2. Auto-configure import details with default values (replace mode) 3. Allows optional policy-specific other condition mappings 4. Executes the import process  **Request Parameters:** - `fileName` (REQUIRED): Name of the file in the repository - `repoName` (REQUIRED): Repository name where the file is located - `encryptionKey` (OPTIONAL): Encryption key if the file is encrypted - `policyConditionMappings` (OPTIONAL): Array of policy-to-condition mappings  **Returns:** Success response with the import execution status.  **Note:** To check the detailed response, use the `/import/posture/status` endpoint. '
+      description: 'Simplified import API that retrieves the file from a repository and performs the import. **What this API does:** 1. Retrieves the ZIP file from the specified repository 2. Auto-configure import details with default values (replace mode) 3. Allows optional policy-specific other condition mappings 4. Executes the import process **Request Parameters:** - `fileName` (REQUIRED): Name of the file in the repository - `repoName` (REQUIRED): Repository name where the file is located - `encryptionKey` (OPTIONAL): Encryption key if the file is encrypted - `policyConditionMappings` (OPTIONAL): Array of policy-to-condition mappings **Returns:** Success response with the import execution status. **Note:** To check the detailed response, use the `/import/posture/status` endpoint.'
       operationId: executeCompleteImportWithFile
       requestBody:
         content:
@@ -897,498 +897,6 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    ConditionConflict:
-      title: ConditionConflict
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/ConflictAction'
-          exampleSetFlag: true
-        attributeConflicts:
-          type: array
-          description: Names of attributes that are in conflict for this condition.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        condition:
-          type: array
-          description: List of conflicting condition objects.
-          exampleSetFlag: true
-          items:
-            type: object
-            additionalProperties:
-              type: object
-              exampleSetFlag: false
-            exampleSetFlag: false
-        id:
-          type: string
-          description: Condition ID with conflict
-          exampleSetFlag: true
-        isValidate:
-          type: boolean
-          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
-          example: false
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Condition name
-          exampleSetFlag: true
-        policy:
-          type: array
-          description: List of policies and requirements where the condition is used.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/PolicyWithRequirements'
-            exampleSetFlag: false
-      description: Conflict details for a posture condition.
-      exampleSetFlag: false
-    UploadProgressResponseEvents:
-      title: UploadProgressResponseEvents
-      type: object
-      properties:
-        message:
-          type: string
-          description: Additional message about the upload status
-          exampleSetFlag: true
-        status:
-          type: string
-          description: Current status of upload
-          exampleSetFlag: true
-      description: Single upload progress event.
-      exampleSetFlag: false
-    RemediationConflict:
-      title: RemediationConflict
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/ConflictAction'
-          exampleSetFlag: true
-        attributeConflicts:
-          type: array
-          description: Names of attributes that are in conflict for this remediation.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        id:
-          type: string
-          description: Remediation ID
-          exampleSetFlag: true
-        isValidate:
-          type: boolean
-          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
-          example: false
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Remediation name
-          exampleSetFlag: true
-        policy:
-          type: array
-          description: List of policies and requirements where the remediation is used.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/PolicyWithRequirements'
-            exampleSetFlag: false
-        remediation:
-          type: array
-          description: List of conflicting remediation objects.
-          exampleSetFlag: true
-          items:
-            type: object
-            additionalProperties:
-              type: object
-              exampleSetFlag: false
-            exampleSetFlag: false
-      description: Conflict details for a remediation object.
-      exampleSetFlag: false
-    CompleteImportRequest:
-      title: CompleteImportRequest
-      required:
-      - fileName
-      - repoName
-      type: object
-      properties:
-        encryptionKey:
-          type: string
-          description: Optional encryption key for secure import
-          exampleSetFlag: true
-        fileName:
-          type: string
-          description: Name of the file in the repository to import
-          exampleSetFlag: true
-        policyConditionMappings:
-          type: array
-          description: Array of policy to other condition mappings
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/CompleteImportRequestPolicyConditionMappings'
-            exampleSetFlag: false
-        repoName:
-          type: string
-          description: Repository name where the import file is located
-          exampleSetFlag: true
-      description: Request body for the complete posture policy import from repository API.
-      exampleSetFlag: false
-    StepStatusResponse:
-      title: StepStatusResponse
-      type: object
-      properties:
-        importMethod:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - replace
-          - update
-        maxStep:
-          type: integer
-          description: Total number of steps in the import process
-          format: int32
-          example: 5
-          exampleSetFlag: true
-        step:
-          type: integer
-          description: Current step number in the import process
-          format: int32
-          example: 1
-          exampleSetFlag: true
-      description: Response model representing the current step in the import process.
-      exampleSetFlag: false
-    ConflictAction:
-      title: ConflictAction
-      required:
-      - type
-      type: object
-      properties:
-        name:
-          type: string
-          description: New name when `type` is `copy` (omit for `override`)
-          exampleSetFlag: true
-        type:
-          type: string
-          description: Action type. Use `override` to replace, `copy` to duplicate.
-          exampleSetFlag: true
-          enum:
-          - copy
-          - override
-      description: Action that should be taken to resolve a conflict.
-      exampleSetFlag: false
-    RequirementReference:
-      title: RequirementReference
-      type: object
-      properties:
-        id:
-          type: string
-          description: Requirement ID
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Requirement name
-          exampleSetFlag: true
-      description: Lightweight reference to a requirement used in conflict responses.
-      exampleSetFlag: false
-    ImportDetailsRequest:
-      title: ImportDetailsRequest
-      required:
-      - fileName
-      - importFrom
-      - importMethod
-      type: object
-      properties:
-        encryptionKey:
-          type: string
-          description: Encryption key for secure import
-          exampleSetFlag: true
-        fileName:
-          type: string
-          description: File name to import
-          exampleSetFlag: true
-        importFrom:
-          type: string
-          description: Source of import - local file or repository
-          exampleSetFlag: true
-          enum:
-          - local
-          - repository
-        importMethod:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - replace
-          - update
-        message:
-          type: string
-          description: Error or informational message about the import
-          exampleSetFlag: true
-        repoName:
-          type: string
-          description: Repository name (required when importFrom is 'repository')
-          exampleSetFlag: true
-      description: Request body containing details and options for an import operation.
-      exampleSetFlag: false
-    UploadProgressResponse:
-      title: UploadProgressResponse
-      type: object
-      properties:
-        events:
-          type: array
-          description: Ordered list of events describing the progress of the upload.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/UploadProgressResponseEvents'
-            exampleSetFlag: false
-      description: Response containing upload progress events.
-      exampleSetFlag: false
-    RequirementConflict:
-      title: RequirementConflict
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/ConflictAction'
-          exampleSetFlag: true
-        attributeConflicts:
-          type: array
-          description: Names of attributes that are in conflict for this requirement.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        id:
-          type: string
-          description: Requirement ID
-          exampleSetFlag: true
-        isValidate:
-          type: boolean
-          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
-          example: false
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Requirement name
-          exampleSetFlag: true
-        policy:
-          type: array
-          description: List of policies where this requirement is used.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/PolicyReference'
-            exampleSetFlag: false
-        requirement:
-          type: array
-          description: Array of requirement objects with dynamic properties
-          exampleSetFlag: true
-          items:
-            type: object
-            exampleSetFlag: false
-      description: Conflict details for a requirement object.
-      exampleSetFlag: false
-    PolicyWithRequirements:
-      title: PolicyWithRequirements
-      type: object
-      properties:
-        id:
-          type: string
-          description: Policy ID
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Policy name
-          exampleSetFlag: true
-        requirement:
-          type: array
-          description: List of requirements under this policy
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/RequirementReference'
-            exampleSetFlag: false
-      description: Policy object that includes a list of associated requirements.
-      exampleSetFlag: false
-    ConditionMapping:
-      title: ConditionMapping
-      type: object
-      properties:
-        additionalRuleId:
-          type: string
-          description: Additional rule ID
-          exampleSetFlag: true
-        conditionObjects:
-          type: array
-          description: Array of condition mapping objects with dynamic properties
-          exampleSetFlag: true
-          items:
-            type: object
-            exampleSetFlag: false
-        id:
-          type: string
-          description: Mapping ID
-          exampleSetFlag: true
-        mappingType:
-          type: string
-          description: Mapping type
-          exampleSetFlag: true
-        operator:
-          type: string
-          description: Operator used in the mapping
-          exampleSetFlag: true
-        policy:
-          $ref: '#/components/schemas/PolicyReference'
-          exampleSetFlag: true
-      description: Mapping definition between a policy and external conditions.
-      exampleSetFlag: false
-    EntityValidationResponse:
-      title: EntityValidationResponse
-      required:
-      - message
-      - name
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message for the UI
-          example: Invalid import method specified
-          exampleSetFlag: true
-        name:
-          type: string
-          description: name of the field that validation failed for
-          example: default_policy
-          exampleSetFlag: true
-      description: Validation error entry for an individual entity.
-      exampleSetFlag: false
-    CompleteImportRequestPolicyConditionMappings:
-      title: CompleteImportRequestPolicyConditionMappings
-      required:
-      - otherConditions
-      - policyName
-      type: object
-      properties:
-        otherConditions:
-          type: string
-          description: Other conditions associated with this policy
-          exampleSetFlag: true
-        policyName:
-          type: string
-          description: Name of the policy
-          exampleSetFlag: true
-      description: Mapping between a posture policy and additional conditions.
-      exampleSetFlag: false
-    ImportSummaryItem:
-      title: ImportSummaryItem
-      required:
-      - id
-      - name
-      - status
-      type: object
-      properties:
-        errorMessage:
-          type: string
-          description: Error message if status is error (optional)
-          example: Network issue
-          exampleSetFlag: true
-        id:
-          type: integer
-          description: Unique identifier for the import item
-          format: int32
-          example: 1
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Name of the import item
-          example: ABC Policy
-          exampleSetFlag: true
-        status:
-          type: string
-          description: Status of the individual import item
-          example: completed
-          exampleSetFlag: true
-          enum:
-          - completed
-          - error
-      description: Summary item for individual import operation
-      exampleSetFlag: false
-    PolicyConflictResolution:
-      title: PolicyConflictResolution
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/ConflictAction'
-          exampleSetFlag: true
-        attributeConflicts:
-          type: array
-          description: Names of attributes that are in conflict for this policy.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        id:
-          type: string
-          description: Policy ID
-          exampleSetFlag: true
-        isValidate:
-          type: boolean
-          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
-          example: false
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Policy name
-          exampleSetFlag: true
-        policy:
-          type: array
-          description: Array of policy objects with dynamic properties
-          exampleSetFlag: true
-          items:
-            type: object
-            additionalProperties:
-              type: object
-              exampleSetFlag: false
-            exampleSetFlag: false
-      description: Resolution request payload for a policy conflict.
-      exampleSetFlag: false
-    ImportExecutionResponse:
-      title: ImportExecutionResponse
-      required:
-      - status
-      type: object
-      properties:
-        failureCount:
-          type: integer
-          description: Number of failed import items (present when status is error)
-          format: int32
-          example: 3
-          exampleSetFlag: true
-        importSummary:
-          type: array
-          description: Detailed summary of all import items (present when status is error)
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/ImportSummaryItem'
-            exampleSetFlag: false
-        progress:
-          type: integer
-          description: Progress percentage (only present when status is in-progress)
-          format: int32
-          example: 60
-          exampleSetFlag: true
-        status:
-          type: string
-          description: Status of the import operation
-          example: in-progress
-          exampleSetFlag: true
-          enum:
-          - completed
-          - error
-          - in-progress
-          - passed
-          - rolled-back
-        totalCount:
-          type: integer
-          description: Total number of import items (present when status is error)
-          format: int32
-          example: 5
-          exampleSetFlag: true
-      description: Response for import execution covering both in-progress and completed states
-      exampleSetFlag: false
     ConditionConflictResolution:
       title: ConditionConflictResolution
       type: object
@@ -1438,8 +946,385 @@ components:
             exampleSetFlag: false
       description: Resolution request payload for a condition conflict.
       exampleSetFlag: false
-    PolicyReference:
-      title: PolicyReference
+    ImportDetailsRequest:
+      title: ImportDetailsRequest
+      required:
+      - fileName
+      - importFrom
+      - importMethod
+      type: object
+      properties:
+        encryptionKey:
+          type: string
+          description: Encryption key for secure import
+          exampleSetFlag: true
+        fileName:
+          type: string
+          description: File name to import
+          exampleSetFlag: true
+        importFrom:
+          type: string
+          description: Source of import - local file or repository
+          exampleSetFlag: true
+          enum:
+          - local
+          - repository
+        importMethod:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - replace
+          - update
+        message:
+          type: string
+          description: Error or informational message about the import
+          exampleSetFlag: true
+        repoName:
+          type: string
+          description: Repository name (required when importFrom is 'repository')
+          exampleSetFlag: true
+      description: Request body containing details and options for an import operation.
+      exampleSetFlag: false
+    ConditionMapping:
+      title: ConditionMapping
+      type: object
+      properties:
+        additionalRuleId:
+          type: string
+          description: Additional rule ID
+          exampleSetFlag: true
+        conditionObjects:
+          type: array
+          description: Array of condition mapping objects with dynamic properties
+          exampleSetFlag: true
+          items:
+            type: object
+            exampleSetFlag: false
+        id:
+          type: string
+          description: Mapping ID
+          exampleSetFlag: true
+        mappingType:
+          type: string
+          description: Mapping type
+          exampleSetFlag: true
+        operator:
+          type: string
+          description: Operator used in the mapping
+          exampleSetFlag: true
+        policy:
+          $ref: '#/components/schemas/PolicyReference'
+          exampleSetFlag: true
+      description: Mapping definition between a policy and external conditions.
+      exampleSetFlag: false
+    RequirementConflictResolution:
+      title: RequirementConflictResolution
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/ConflictAction'
+          exampleSetFlag: true
+        attributeConflicts:
+          type: array
+          description: Names of attributes that are in conflict for this requirement.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        id:
+          type: string
+          description: Requirement ID
+          exampleSetFlag: true
+        isValidate:
+          type: boolean
+          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Requirement name
+          exampleSetFlag: true
+        policy:
+          type: array
+          description: Array of policy objects with dynamic properties
+          exampleSetFlag: true
+          items:
+            type: object
+            additionalProperties:
+              type: object
+              exampleSetFlag: false
+            exampleSetFlag: false
+        requirement:
+          type: array
+          description: Array of requirement objects with dynamic properties
+          exampleSetFlag: true
+          items:
+            type: object
+            additionalProperties:
+              type: object
+              exampleSetFlag: false
+            exampleSetFlag: false
+      description: Resolution request payload for a requirement conflict.
+      exampleSetFlag: false
+    RemediationConflict:
+      title: RemediationConflict
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/ConflictAction'
+          exampleSetFlag: true
+        attributeConflicts:
+          type: array
+          description: Names of attributes that are in conflict for this remediation.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        id:
+          type: string
+          description: Remediation ID
+          exampleSetFlag: true
+        isValidate:
+          type: boolean
+          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Remediation name
+          exampleSetFlag: true
+        policy:
+          type: array
+          description: List of policies and requirements where the remediation is used.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/PolicyWithRequirements'
+            exampleSetFlag: false
+        remediation:
+          type: array
+          description: List of conflicting remediation objects.
+          exampleSetFlag: true
+          items:
+            type: object
+            additionalProperties:
+              type: object
+              exampleSetFlag: false
+            exampleSetFlag: false
+      description: Conflict details for a remediation object.
+      exampleSetFlag: false
+    PolicyConflictResolution:
+      title: PolicyConflictResolution
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/ConflictAction'
+          exampleSetFlag: true
+        attributeConflicts:
+          type: array
+          description: Names of attributes that are in conflict for this policy.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        id:
+          type: string
+          description: Policy ID
+          exampleSetFlag: true
+        isValidate:
+          type: boolean
+          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Policy name
+          exampleSetFlag: true
+        policy:
+          type: array
+          description: Array of policy objects with dynamic properties
+          exampleSetFlag: true
+          items:
+            type: object
+            additionalProperties:
+              type: object
+              exampleSetFlag: false
+            exampleSetFlag: false
+      description: Resolution request payload for a policy conflict.
+      exampleSetFlag: false
+    StepStatusResponse:
+      title: StepStatusResponse
+      type: object
+      properties:
+        importMethod:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - replace
+          - update
+        maxStep:
+          type: integer
+          description: Total number of steps in the import process
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        step:
+          type: integer
+          description: Current step number in the import process
+          format: int32
+          example: 1
+          exampleSetFlag: true
+      description: Response model representing the current step in the import process.
+      exampleSetFlag: false
+    RequirementConflict:
+      title: RequirementConflict
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/ConflictAction'
+          exampleSetFlag: true
+        attributeConflicts:
+          type: array
+          description: Names of attributes that are in conflict for this requirement.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        id:
+          type: string
+          description: Requirement ID
+          exampleSetFlag: true
+        isValidate:
+          type: boolean
+          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Requirement name
+          exampleSetFlag: true
+        policy:
+          type: array
+          description: List of policies where this requirement is used.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/PolicyReference'
+            exampleSetFlag: false
+        requirement:
+          type: array
+          description: Array of requirement objects with dynamic properties
+          exampleSetFlag: true
+          items:
+            type: object
+            exampleSetFlag: false
+      description: Conflict details for a requirement object.
+      exampleSetFlag: false
+    CompleteImportRequestPolicyConditionMappings:
+      title: CompleteImportRequestPolicyConditionMappings
+      required:
+      - otherConditions
+      - policyName
+      type: object
+      properties:
+        otherConditions:
+          type: string
+          description: Other conditions associated with this policy
+          exampleSetFlag: true
+        policyName:
+          type: string
+          description: Name of the policy
+          exampleSetFlag: true
+      description: Mapping between a posture policy and additional conditions.
+      exampleSetFlag: false
+    RemediationConflictResolution:
+      title: RemediationConflictResolution
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/ConflictAction'
+          exampleSetFlag: true
+        attributeConflicts:
+          type: array
+          description: Names of attributes that are in conflict for this remediation.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        id:
+          type: string
+          description: Remediation ID
+          exampleSetFlag: true
+        isValidate:
+          type: boolean
+          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Remediation name
+          exampleSetFlag: true
+        policy:
+          type: array
+          description: Array of policy objects with dynamic properties
+          exampleSetFlag: true
+          items:
+            type: object
+            additionalProperties:
+              type: object
+              exampleSetFlag: false
+            exampleSetFlag: false
+        remediation:
+          type: array
+          description: Array of remediation objects with dynamic properties
+          exampleSetFlag: true
+          items:
+            type: object
+            additionalProperties:
+              type: object
+              exampleSetFlag: false
+            exampleSetFlag: false
+      description: Resolution request payload for a remediation conflict.
+      exampleSetFlag: false
+    FileValidationResponse:
+      title: FileValidationResponse
+      required:
+      - message
+      - status
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message for the UI
+          example: Invalid import method specified
+          exampleSetFlag: true
+        status:
+          type: integer
+          description: HTTP status code
+          format: int32
+          example: 400
+          exampleSetFlag: true
+      description: Standard validation response for file-related operations.
+      exampleSetFlag: false
+    EntityValidationResponse:
+      title: EntityValidationResponse
+      required:
+      - message
+      - name
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message for the UI
+          example: Invalid import method specified
+          exampleSetFlag: true
+        name:
+          type: string
+          description: name of the field that validation failed for
+          example: default_policy
+          exampleSetFlag: true
+      description: Validation error entry for an individual entity.
+      exampleSetFlag: false
+    PolicyWithRequirements:
+      title: PolicyWithRequirements
       type: object
       properties:
         id:
@@ -1450,7 +1335,14 @@ components:
           type: string
           description: Policy name
           exampleSetFlag: true
-      description: Lightweight reference to a policy used in conflict responses.
+        requirement:
+          type: array
+          description: List of requirements under this policy
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/RequirementReference'
+            exampleSetFlag: false
+      description: Policy object that includes a list of associated requirements.
       exampleSetFlag: false
     PolicyWithRules:
       title: PolicyWithRules
@@ -1529,57 +1421,89 @@ components:
           exampleSetFlag: true
       description: Posture policy along with its rules and related attributes.
       exampleSetFlag: false
-    RequirementConflictResolution:
-      title: RequirementConflictResolution
+    ImportSummaryItem:
+      title: ImportSummaryItem
+      required:
+      - id
+      - name
+      - status
       type: object
       properties:
-        action:
-          $ref: '#/components/schemas/ConflictAction'
+        errorMessage:
+          type: string
+          description: Error message if status is error (optional)
+          example: Network issue
           exampleSetFlag: true
-        attributeConflicts:
-          type: array
-          description: Names of attributes that are in conflict for this requirement.
+        id:
+          type: integer
+          description: Unique identifier for the import item
+          format: int32
+          example: 1
           exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
+        name:
+          type: string
+          description: Name of the import item
+          example: ABC Policy
+          exampleSetFlag: true
+        status:
+          type: string
+          description: Status of the individual import item
+          example: completed
+          exampleSetFlag: true
+          enum:
+          - completed
+          - error
+      description: Summary item for individual import operation
+      exampleSetFlag: false
+    PolicyReference:
+      title: PolicyReference
+      type: object
+      properties:
+        id:
+          type: string
+          description: Policy ID
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Policy name
+          exampleSetFlag: true
+      description: Lightweight reference to a policy used in conflict responses.
+      exampleSetFlag: false
+    ConflictAction:
+      title: ConflictAction
+      required:
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          description: New name when `type` is `copy` (omit for `override`)
+          exampleSetFlag: true
+        type:
+          type: string
+          description: Action type. Use `override` to replace, `copy` to duplicate.
+          exampleSetFlag: true
+          enum:
+          - copy
+          - override
+      description: Action that should be taken to resolve a conflict.
+      exampleSetFlag: false
+    RequirementReference:
+      title: RequirementReference
+      type: object
+      properties:
         id:
           type: string
           description: Requirement ID
-          exampleSetFlag: true
-        isValidate:
-          type: boolean
-          description: 'A flag which specifies whether to enable or disable validation during conflict resolution. When true, validation is performed. When false, validation is skipped. '
-          example: false
           exampleSetFlag: true
         name:
           type: string
           description: Requirement name
           exampleSetFlag: true
-        policy:
-          type: array
-          description: Array of policy objects with dynamic properties
-          exampleSetFlag: true
-          items:
-            type: object
-            additionalProperties:
-              type: object
-              exampleSetFlag: false
-            exampleSetFlag: false
-        requirement:
-          type: array
-          description: Array of requirement objects with dynamic properties
-          exampleSetFlag: true
-          items:
-            type: object
-            additionalProperties:
-              type: object
-              exampleSetFlag: false
-            exampleSetFlag: false
-      description: Resolution request payload for a requirement conflict.
+      description: Lightweight reference to a requirement used in conflict responses.
       exampleSetFlag: false
-    RemediationConflictResolution:
-      title: RemediationConflictResolution
+    ConditionConflict:
+      title: ConditionConflict
       type: object
       properties:
         action:
@@ -1587,14 +1511,24 @@ components:
           exampleSetFlag: true
         attributeConflicts:
           type: array
-          description: Names of attributes that are in conflict for this remediation.
+          description: Names of attributes that are in conflict for this condition.
           exampleSetFlag: true
           items:
             type: string
             exampleSetFlag: false
+        condition:
+          type: array
+          description: List of conflicting condition objects.
+          exampleSetFlag: true
+          items:
+            type: object
+            additionalProperties:
+              type: object
+              exampleSetFlag: false
+            exampleSetFlag: false
         id:
           type: string
-          description: Remediation ID
+          description: Condition ID with conflict
           exampleSetFlag: true
         isValidate:
           type: boolean
@@ -1603,29 +1537,71 @@ components:
           exampleSetFlag: true
         name:
           type: string
-          description: Remediation name
+          description: Condition name
           exampleSetFlag: true
         policy:
           type: array
-          description: Array of policy objects with dynamic properties
+          description: List of policies and requirements where the condition is used.
           exampleSetFlag: true
           items:
-            type: object
-            additionalProperties:
-              type: object
-              exampleSetFlag: false
+            $ref: '#/components/schemas/PolicyWithRequirements'
             exampleSetFlag: false
-        remediation:
+      description: Conflict details for a posture condition.
+      exampleSetFlag: false
+    CompleteImportRequest:
+      title: CompleteImportRequest
+      required:
+      - fileName
+      - repoName
+      type: object
+      properties:
+        encryptionKey:
+          type: string
+          description: Optional encryption key for secure import
+          exampleSetFlag: true
+        fileName:
+          type: string
+          description: Name of the file in the repository to import
+          exampleSetFlag: true
+        policyConditionMappings:
           type: array
-          description: Array of remediation objects with dynamic properties
+          description: Array of policy to other condition mappings
           exampleSetFlag: true
           items:
-            type: object
-            additionalProperties:
-              type: object
-              exampleSetFlag: false
+            $ref: '#/components/schemas/CompleteImportRequestPolicyConditionMappings'
             exampleSetFlag: false
-      description: Resolution request payload for a remediation conflict.
+        repoName:
+          type: string
+          description: Repository name where the import file is located
+          exampleSetFlag: true
+      description: Request body for the complete posture policy import from repository API.
+      exampleSetFlag: false
+    UploadProgressResponse:
+      title: UploadProgressResponse
+      type: object
+      properties:
+        events:
+          type: array
+          description: Ordered list of events describing the progress of the upload.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/UploadProgressResponseEvents'
+            exampleSetFlag: false
+      description: Response containing upload progress events.
+      exampleSetFlag: false
+    UploadProgressResponseEvents:
+      title: UploadProgressResponseEvents
+      type: object
+      properties:
+        message:
+          type: string
+          description: Additional message about the upload status
+          exampleSetFlag: true
+        status:
+          type: string
+          description: Current status of upload
+          exampleSetFlag: true
+      description: Single upload progress event.
       exampleSetFlag: false
     PolicyConflict:
       title: PolicyConflict
@@ -1663,23 +1639,47 @@ components:
             exampleSetFlag: false
       description: Conflict details for a posture policy object.
       exampleSetFlag: false
-    FileValidationResponse:
-      title: FileValidationResponse
+    ImportExecutionResponse:
+      title: ImportExecutionResponse
       required:
-      - message
       - status
       type: object
       properties:
-        message:
-          type: string
-          description: Error message for the UI
-          example: Invalid import method specified
+        failureCount:
+          type: integer
+          description: Number of failed import items (present when status is error)
+          format: int32
+          example: 3
+          exampleSetFlag: true
+        importSummary:
+          type: array
+          description: Detailed summary of all import items (present when status is error)
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/ImportSummaryItem'
+            exampleSetFlag: false
+        progress:
+          type: integer
+          description: Progress percentage (only present when status is in-progress)
+          format: int32
+          example: 60
           exampleSetFlag: true
         status:
-          type: integer
-          description: HTTP status code
-          format: int32
-          example: 400
+          type: string
+          description: Status of the import operation
+          example: in-progress
           exampleSetFlag: true
-      description: Standard validation response for file-related operations.
+          enum:
+          - completed
+          - error
+          - in-progress
+          - passed
+          - rolled-back
+        totalCount:
+          type: integer
+          description: Total number of import items (present when status is error)
+          format: int32
+          example: 5
+          exampleSetFlag: true
+      description: Response for import execution covering both in-progress and completed states
       exampleSetFlag: false

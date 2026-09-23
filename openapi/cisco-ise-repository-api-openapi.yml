@@ -25,7 +25,7 @@ paths:
       tags:
       - Repository
       summary: Get list of repositories
-      description: 'This will get the full list of repository definitions on the system. '
+      description: This will get the full list of repository definitions on the system.
       operationId: getRepositories
       responses:
         '200':
@@ -52,7 +52,7 @@ paths:
       tags:
       - Repository
       summary: Create a new repository
-      description: 'Create a new repository in the system. The name provided for the repository must be unique. '
+      description: Create a new repository in the system. The name provided for the repository must be unique.
       operationId: createRepository
       requestBody:
         content:
@@ -99,7 +99,7 @@ paths:
       tags:
       - Repository
       summary: Get a specific repository
-      description: 'Get a specific repository identified by the name passed in the URL. '
+      description: Get a specific repository identified by the name passed in the URL.
       operationId: getRepository
       parameters:
       - name: repositoryName
@@ -144,7 +144,7 @@ paths:
       tags:
       - Repository
       summary: Update the definition of a specific repository
-      description: 'Update the definition of a specific repository, providing ALL parameters for the repository. '
+      description: Update the definition of a specific repository, providing ALL parameters for the repository.
       operationId: updateRepository
       parameters:
       - name: repositoryName
@@ -200,7 +200,7 @@ paths:
       tags:
       - Repository
       summary: Delete a specific repository
-      description: 'Long description TBD '
+      description: Long description TBD
       operationId: deleteRepository
       parameters:
       - name: repositoryName
@@ -248,7 +248,7 @@ paths:
       tags:
       - Repository
       summary: Get list of files in a repository
-      description: 'This will get the full list of files present in the named repository. '
+      description: This will get the full list of files present in the named repository.
       operationId: getRepositoryFiles
       parameters:
       - name: repositoryName
@@ -295,6 +295,24 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    SuccessResponse:
+      title: SuccessResponse
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
     RepositoryFilenameListResponse:
       title: RepositoryFilenameListResponse
       type: object
@@ -315,20 +333,22 @@ components:
         version:
           type: string
           example: 1.0.0
+    RepositoryListResponse:
+      title: RepositoryListResponse
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/Repository'
+        version:
+          type: string
+          example: 1.0.0
     Message:
       title: Message
       type: object
       properties:
         message:
-          type: string
-          example: 1.0.0
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-        version:
           type: string
           example: 1.0.0
     Repository:
@@ -353,23 +373,3 @@ components:
           - NFS
           - SFTP
           - TFTP
-    SuccessResponse:
-      title: SuccessResponse
-      type: object
-      properties:
-        success:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    RepositoryListResponse:
-      title: RepositoryListResponse
-      type: object
-      properties:
-        response:
-          type: array
-          items:
-            $ref: '#/components/schemas/Repository'
-        version:
-          type: string
-          example: 1.0.0

@@ -27,10 +27,8 @@ tags:
 paths:
   /node/{hostname}/interface:
     get:
-      summary: Get the list of interfaces on a node in a cluster.
-      description: 'This API retrieves the list of interfaces on a node in a cluster.
-
-        '
+      summary: Get the list of interfaces on a node in a cluster
+      description: This API retrieves the list of interfaces on a node in a cluster.
       tags:
       - Node Services
       operationId: getInterfaces
@@ -66,10 +64,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /node/{hostname}/sxp-interface:
     get:
-      summary: Get the interface configured for SXP.
-      description: 'This API retrieves the SXP interface.
-
-        '
+      summary: Get the interface configured for SXP
+      description: This API retrieves the SXP interface.
       tags:
       - Node Services
       operationId: getSxpInterface
@@ -110,10 +106,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      summary: Configure the interface for use with SXP.
-      description: 'This API configures the SXP interface.
-
-        '
+      summary: Configure the interface for use with SXP
+      description: This API configures the SXP interface.
       tags:
       - Node Services
       operationId: setSxpInterface
@@ -161,10 +155,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /profile/{hostname}:
     get:
-      summary: Retrieve the profiler probe configuration of a PSN.
-      description: 'This API retrieves the profiler probe configuration of a PSN.
-
-        '
+      summary: Retrieve the profiler probe configuration of a PSN
+      description: This API retrieves the profiler probe configuration of a PSN.
       tags:
       - Node Services
       operationId: getProfilerProbeConfig
@@ -199,8 +191,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      summary: Update the profiler probe configuration of a PSN.
-      description: "This API updates the profiler probe configuration of a PSN. \n"
+      summary: Update the profiler probe configuration of a PSN
+      description: This API updates the profiler probe configuration of a PSN.
       operationId: setProfilerProbeConfig
       tags:
       - Node Services
@@ -242,13 +234,81 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    PxGridProbe:
-      description: The pxGrid probe fetches attributes of MAC address or IP address as a subscriber from the pxGrid queue.
-      type: array
-      minItems: 0
-      maxItems: 0
-      items:
-        type: object
+    DnsProbe:
+      description: The DNS probe performs a DNS lookup for the FQDN.
+      properties:
+        timeout:
+          type: integer
+          default: 2
+          example: 2
+      example: TBD
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    NetflowProbe:
+      description: The NetFlow probe collects the NetFlow packets that are sent to it from routers.
+      properties:
+        interface:
+          type: string
+          default: GigabitEthernet0
+          example: GigabitEthernet0
+        port:
+          $ref: '#/components/schemas/Port'
+          default: 9996
+      example: TBD
+    ProfilingConfigurationResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ProfilingConfiguration'
+        version:
+          type: string
+          example: TBD
+    SnmpTrapProbe:
+      description: The SNMP trap probe receives linkup, linkdown, and MAC notification traps from network devices.
+      properties:
+        linkTrapQuery:
+          type: boolean
+          default: true
+          example: true
+        macTrapQuery:
+          type: boolean
+          default: true
+          example: true
+        interface:
+          type: string
+          default: GigabitEthernet0
+          example: GigabitEthernet0
+        port:
+          $ref: '#/components/schemas/Port'
+          default: 162
+      example: TBD
+    InterfacesResponse:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interface'
+          example: TBD
+        version:
+          type: string
+          example: 1.0.0
+    DhcpProbe:
+      description: The DHCP probe listens for DHCP packets from IP helpers.
+      properties:
+        interface:
+          type: string
+          example: GigabitEthernet0
+        port:
+          $ref: '#/components/schemas/Port'
+          default: 67
+      example: TBD
     ProfilingConfiguration:
       type: object
       properties:
@@ -293,39 +353,20 @@ components:
           default: 1
           example: 1
       example: TBD
-    InterfacesResponse:
-      type: object
+    RadiusProbe:
+      description: The RADIUS probe collects RADIUS session attributes as well as CDP, LLDP, DHCP, HTTP, and MDM attributes from IOS Sensors.
+      type: array
+      minItems: 0
+      maxItems: 0
+      items:
+        type: object
+    DhcpSpanProbe:
+      description: The DHCP SPAN probe collects DHCP packets.
       properties:
-        response:
-          type: array
-          items:
-            $ref: '#/components/schemas/Interface'
-          example: TBD
-        version:
-          type: string
-          example: 1.0.0
-    Port:
-      type: integer
-      minimum: 0
-      maximum: 65535
-    SnmpTrapProbe:
-      description: The SNMP trap probe receives linkup, linkdown, and MAC notification traps from network devices.
-      properties:
-        linkTrapQuery:
-          type: boolean
-          default: true
-          example: true
-        macTrapQuery:
-          type: boolean
-          default: true
-          example: true
         interface:
           type: string
           default: GigabitEthernet0
           example: GigabitEthernet0
-        port:
-          $ref: '#/components/schemas/Port'
-          default: 162
       example: TBD
     HttpProbe:
       description: The HTTP probe receives and parses HTTP packets.
@@ -335,41 +376,6 @@ components:
           default: GigabitEthernet0
           example: GigabitEthernet0
       example: TBD
-    NetflowProbe:
-      description: The NetFlow probe collects the NetFlow packets that are sent to it from routers.
-      properties:
-        interface:
-          type: string
-          default: GigabitEthernet0
-          example: GigabitEthernet0
-        port:
-          $ref: '#/components/schemas/Port'
-          default: 9996
-      example: TBD
-    SuccessResponse:
-      type: object
-      properties:
-        success:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    Interface:
-      type: object
-      properties:
-        interface:
-          type: string
-          example: GigabitEthernet 0
-      required:
-      - interface
-    ProfilingConfigurationResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ProfilingConfiguration'
-        version:
-          type: string
-          example: TBD
     SnmpQueryProbe:
       description: The SNMP query probe collects details from network devices such as interface, CDP, LLDP, and ARP.
       properties:
@@ -386,53 +392,13 @@ components:
           default: 30
           example: 30
       example: TBD
-    DhcpProbe:
-      description: The DHCP probe listens for DHCP packets from IP helpers.
-      properties:
-        interface:
-          type: string
-          example: GigabitEthernet0
-        port:
-          $ref: '#/components/schemas/Port'
-          default: 67
-      example: TBD
-    DhcpSpanProbe:
-      description: The DHCP SPAN probe collects DHCP packets.
-      properties:
-        interface:
-          type: string
-          default: GigabitEthernet0
-          example: GigabitEthernet0
-      example: TBD
-    RadiusProbe:
-      description: The RADIUS probe collects RADIUS session attributes as well as CDP, LLDP, DHCP, HTTP, and MDM attributes from IOS Sensors.
+    PxGridProbe:
+      description: The pxGrid probe fetches attributes of MAC address or IP address as a subscriber from the pxGrid queue.
       type: array
       minItems: 0
       maxItems: 0
       items:
         type: object
-    DnsProbe:
-      description: The DNS probe performs a DNS lookup for the FQDN.
-      properties:
-        timeout:
-          type: integer
-          default: 2
-          example: 2
-      example: TBD
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
     NmapProbe:
       description: The NMAP probe scans endpoints for open ports and OS.
       type: array
@@ -440,6 +406,24 @@ components:
       maxItems: 0
       items:
         type: object
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    Port:
+      type: integer
+      minimum: 0
+      maximum: 65535
     InterfaceResponse:
       type: object
       properties:
@@ -448,3 +432,11 @@ components:
         version:
           type: string
           example: 1.0.0
+    Interface:
+      type: object
+      properties:
+        interface:
+          type: string
+          example: GigabitEthernet 0
+      required:
+      - interface

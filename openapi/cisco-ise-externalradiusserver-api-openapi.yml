@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Externalradiusserver API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Externalradiusserver API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged externalradiusserver across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-external-radius-server.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: externalradiusserver
 paths:
@@ -98,6 +86,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getExternalradiusserver
+      x-operation-id-source: derived
     post:
       tags:
       - externalradiusserver
@@ -176,6 +168,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postExternalradiusserver
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /externalradiusserver/name/{name}:
     get:
       tags:
@@ -248,6 +254,20 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getExternalradiusserverNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /externalradiusserver/{id}:
     get:
       tags:
@@ -320,6 +340,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getExternalradiusserverById
+      x-operation-id-source: derived
     put:
       tags:
       - externalradiusserver
@@ -416,6 +440,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putExternalradiusserverById
+      x-operation-id-source: derived
     delete:
       tags:
       - externalradiusserver
@@ -476,6 +504,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteExternalradiusserverById
+      x-operation-id-source: derived
     patch:
       tags:
       - externalradiusserver
@@ -570,21 +602,97 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchExternalradiusserverById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/externalradiusserver:
+    get:
+      tags:
+      - externalradiusserver
+      summary: Get all external RADIUS servers
+      description: This API allows the client to get all the external RADIUS servers.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.externalradiusserver.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigExternalradiusserver
+      x-operation-id-source: derived
+    post:
+      tags:
+      - externalradiusserver
+      summary: Create external RADIUS server
+      description: This API creates an external RADIUS server.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.externalradiusserver.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/radius'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/radius'
+      operationId: postErsConfigExternalradiusserver
+      x-operation-id-source: derived
+  /ers/config/externalradiusserver/versioninfo:
+    get:
+      tags:
+      - externalradiusserver
+      summary: Get external RADIUS server version information
+      description: This API helps to retrieve the version information related to the external RADIUS server.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigExternalradiusserverVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     externalradiusserverListResponse:
       type: object
       properties:
@@ -648,23 +756,93 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           sharedSecret: sharedSecret
           authenticationPort: 1812
-    Link:
+    network.externalradiusserver:
+      required:
+      - ExternalRadiusServer
       type: object
       properties:
-        rel:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/ExternalRadiusServer'
+      example: null
+    externalradiusserverResponseEntity:
+      properties:
+        hostIP:
+          title: hostIP
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
+          description: The IP of the host - must be a valid IPV4 address
+          example: null
+        sharedSecret:
+          title: sharedSecret
           type: string
-          example: https://{server}:{port}/ers/config
-        type:
+          description: Shared secret maximum length is 128 characters
+          example: null
+        enableKeyWrap:
+          title: enableKeyWrap
+          type: boolean
+          description: KeyWrap may only be enabled if it is supported on the device. When running in FIPS mode this option should be enabled for such devices
+          example: null
+        encryptionKey:
+          title: encryptionKey
           type: string
-          example: application/json
+          description: The encryptionKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 16 ASCII characters or 32 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')
+          example: null
+        authenticatorKey:
+          title: authenticatorKey
+          type: string
+          description: The authenticatorKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 20 ASCII characters or 40 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')
+          example: null
+        keyInputFormat:
+          title: keyInputFormat
+          type: string
+          description: 'Specifies the format of the input for fields ''encryptionKey'' and ''authenticatorKey''. Allowed Values: ASCII or HEXADECIMAL'
+          example: null
+        authenticationPort:
+          title: authenticationPort
+          type: object
+          description: Valid Range 1 to 65535
+          example: null
+        accountingPort:
+          title: accountingPort
+          type: object
+          description: Valid Range 1 to 65535
+          example: null
+        timeout:
+          title: timeout
+          type: object
+          description: Valid Range 1 to 120
+          example: null
+        retries:
+          title: retries
+          type: object
+          description: Valid Range 1 to 9
+          example: null
+        proxyTimeout:
+          title: proxyTimeout
+          type: object
+          description: Valid Range 1 to 600
+          example: null
+        msgAuthIsRequiredOnResponse:
+          title: msgAuthIsRequiredOnResponse
+          type: boolean
+          description: Should ISE validate the existence of Message-Authenticator on responses from the eternal RADIUS server
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     externalradiusserverListResponseEntity:
       properties:
@@ -791,105 +969,18 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           sharedSecret: sharedSecret
           authenticationPort: 1812
-    externalradiusserverResponseEntity:
-      properties:
-        hostIP:
-          title: hostIP
-          type: string
-          description: The IP of the host - must be a valid IPV4 address
-          example: null
-        sharedSecret:
-          title: sharedSecret
-          type: string
-          description: Shared secret maximum length is 128 characters
-          example: null
-        enableKeyWrap:
-          title: enableKeyWrap
-          type: boolean
-          description: KeyWrap may only be enabled if it is supported on the device. When running in FIPS mode this option should be enabled for such devices
-          example: null
-        encryptionKey:
-          title: encryptionKey
-          type: string
-          description: The encryptionKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 16 ASCII characters or 32 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')
-          example: null
-        authenticatorKey:
-          title: authenticatorKey
-          type: string
-          description: The authenticatorKey is required only if enableKeyWrap is true, otherwise it must be ignored or empty. The maximum length is 20 ASCII characters or 40 HEXADECIMAL characters (depend on selection in field 'keyInputFormat')
-          example: null
-        keyInputFormat:
-          title: keyInputFormat
-          type: string
-          description: 'Specifies the format of the input for fields ''encryptionKey'' and ''authenticatorKey''. Allowed Values: ASCII or HEXADECIMAL'
-          example: null
-        authenticationPort:
-          title: authenticationPort
-          type: object
-          description: Valid Range 1 to 65535
-          example: null
-        accountingPort:
-          title: accountingPort
-          type: object
-          description: Valid Range 1 to 65535
-          example: null
-        timeout:
-          title: timeout
-          type: object
-          description: Valid Range 1 to 120
-          example: null
-        retries:
-          title: retries
-          type: object
-          description: Valid Range 1 to 9
-          example: null
-        proxyTimeout:
-          title: proxyTimeout
-          type: object
-          description: Valid Range 1 to 600
-          example: null
-        msgAuthIsRequiredOnResponse:
-          title: msgAuthIsRequiredOnResponse
-          type: boolean
-          description: Should ISE validate the existence of Message-Authenticator on responses from the eternal RADIUS server
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    network.externalradiusserver:
-      required:
-      - ExternalRadiusServer
+    UpdatedFieldsResponse:
       type: object
       properties:
-        ExternalRadiusServer:
-          $ref: '#/components/schemas/ExternalRadiusServer'
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
       example: null
     ERSResponse:
       type: object
@@ -913,16 +1004,207 @@ components:
                 example: code
             example: null
       example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    patchRequest:
+      type: object
+      properties:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/externalradiusserver/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    ExternalRadiusServer_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: da095377-dce8-486e-933a-6ea788bbf51a
+        name:
+          type: string
+          example: externalRadiusServer1
+        description:
+          type: string
+          example: example external radius server
+        hostIP:
+          type: string
+          example: 1.1.1.1
+        sharedSecret:
+          type: string
+          example: sharedSecret
+        enableKeyWrap:
+          type: boolean
+          example: true
+        encryptionKey:
+          type: string
+          example: 1616161616161616
+        authenticatorKey:
+          type: string
+          example: 20202020202020202020
+        keyInputFormat:
+          type: string
+          example: ASCII
+        authenticationPort:
+          type: integer
+          example: 1812
+        accountingPort:
+          type: integer
+          example: 1813
+        timeout:
+          type: integer
+          example: 5
+        retries:
+          type: integer
+          example: 3
+        proxyTimeout:
+          type: integer
+          example: 300
+        msgAuthIsRequiredOnResponse:
+          type: boolean
+          example: true
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: 1.1
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    radius:
+      type: object
+      properties:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/ExternalRadiusServer_2'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 2
+        resources:
+          type: array
+          example:
+          - id: id1
+            name: name1
+            description: description1
+          - id: id2
+            name: name2
+            description: description2
+          items:
+            properties:
+              name:
+                type: string
+        nextPage:
+          type: array
+          example:
+          - rel: next
+            href: link-to-next-page
+            type: application/xml
+          items:
+            properties:
+              name:
+                type: string
+        previousPage:
+          type: array
+          example:
+          - rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          items:
+            properties:
+              name:
+                type: string
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -932,7 +1214,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-external-radius-server.yaml

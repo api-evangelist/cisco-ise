@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Tacacsprofile API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Tacacsprofile API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged tacacsprofile across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-tacacs-profile.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: tacacsprofile
 paths:
@@ -98,6 +86,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsprofile
+      x-operation-id-source: derived
     post:
       tags:
       - tacacsprofile
@@ -169,6 +161,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postTacacsprofile
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /tacacsprofile/name/{name}:
     get:
       tags:
@@ -241,6 +247,20 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsprofileNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /tacacsprofile/{id}:
     get:
       tags:
@@ -313,6 +333,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsprofileById
+      x-operation-id-source: derived
     put:
       tags:
       - tacacsprofile
@@ -402,6 +426,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putTacacsprofileById
+      x-operation-id-source: derived
     delete:
       tags:
       - tacacsprofile
@@ -462,6 +490,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteTacacsprofileById
+      x-operation-id-source: derived
     patch:
       tags:
       - tacacsprofile
@@ -549,21 +581,273 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchTacacsprofileById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/tacacsprofile/name/{name}:
+    get:
+      tags:
+      - tacacsprofile
+      summary: Get TACACS profile by name
+      description: This API allows the client to get a TACACS profile by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsprofile_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsprofile_name'
+      operationId: getErsConfigTacacsprofileNameByName
+      x-operation-id-source: derived
+  /ers/config/tacacsprofile/{id}:
+    get:
+      tags:
+      - tacacsprofile
+      summary: Get TACACS profile by ID
+      description: This API allows the client to get a TACACS profile by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsprofile'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsprofile'
+      operationId: getErsConfigTacacsprofileById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - tacacsprofile
+      summary: Update part of the TACACS profile by ID
+      description: Update any attribute subset of the TACACS profile configuration. Only the attributes sent are affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsprofile.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsprofile'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsprofile'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigTacacsprofileById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - tacacsprofile
+      summary: Update TACACS profile
+      description: This API allows the client to update a TACACS profile.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tacacsprofile'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/tacacsprofile'
+      operationId: putErsConfigTacacsprofileById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - tacacsprofile
+      summary: Delete TACACS profile
+      description: This API deletes a TACACS profile.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigTacacsprofileById
+      x-operation-id-source: derived
+  /ers/config/tacacsprofile:
+    get:
+      tags:
+      - tacacsprofile
+      summary: Get all TACACS eprofiles
+      description: This API allows the client to get all the TACACS profiles.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigTacacsprofile
+      x-operation-id-source: derived
+    post:
+      tags:
+      - tacacsprofile
+      summary: Create TACACS profile
+      description: This API creates a TACACS profile.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsprofile.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tacacsprofile'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/tacacsprofile'
+      operationId: postErsConfigTacacsprofile
+      x-operation-id-source: derived
+  /ers/config/tacacsprofile/versioninfo:
+    get:
+      tags:
+      - tacacsprofile
+      summary: Get TACACS profile version information
+      description: This API helps to retrieve the version information related to the TACACS profile.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigTacacsprofileVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     tacacsprofileListResponse:
       type: object
       properties:
@@ -605,70 +889,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    tacacsprofileResponseEntity:
-      properties:
-        sessionAttributes:
-          properties:
-            sessionAttributeList:
-              title: sessionAttributeList
-              type: array
-              description: List of SessionAttributes.
-              example: null
-              items:
-                properties:
-                  type:
-                    title: type
-                    type: object
-                    description: 'Required if list of attributes contains at least one attribute. Allowed values: MANDATORY, OPTIONAL'
-                    example: null
-                  name:
-                    title: name
-                    type: string
-                    description: Required if list of attributes contains at least one attribute.
-                    example: null
-                  value:
-                    title: value
-                    type: string
-                    description: Required if list of attributes contains at least one attribute, but can be empty string
-                    example: null
-                example: null
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     policy.tacacsprofile:
       required:
       - TacacsProfile
@@ -676,26 +896,6 @@ components:
       properties:
         TacacsProfile:
           $ref: '#/components/schemas/TacacsProfile'
-      example: null
-    tacacsprofileListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     TacacsProfile:
       required:
@@ -752,17 +952,25 @@ components:
             - name: attr1
               type: MANDATORY
               value: value
-    updatedField:
+    tacacsprofileListResponseEntity:
       properties:
-        field:
+        id:
+          title: id
           type: string
+          description: Id description
           example: null
-        oldValue:
+        name:
+          title: name
           type: string
+          description: name description
           example: null
-        newValue:
+        description:
+          title: description
           type: string
+          description: description
           example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     tacacsprofileResponse:
       type: object
@@ -779,6 +987,65 @@ components:
             - name: attr1
               type: MANDATORY
               value: value
+    tacacsprofileResponseEntity:
+      properties:
+        sessionAttributes:
+          properties:
+            sessionAttributeList:
+              title: sessionAttributeList
+              type: array
+              description: List of SessionAttributes.
+              example: null
+              items:
+                properties:
+                  type:
+                    title: type
+                    type: object
+                    description: 'Required if list of attributes contains at least one attribute. Allowed values: MANDATORY, OPTIONAL'
+                    example: null
+                  name:
+                    title: name
+                    type: string
+                    description: Required if list of attributes contains at least one attribute.
+                    example: null
+                  value:
+                    title: value
+                    type: string
+                    description: Required if list of attributes contains at least one attribute, but can be empty string
+                    example: null
+                example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -801,16 +1068,240 @@ components:
                 example: code
             example: null
       example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    TacacsProfile_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 93d7ee70-92b5-11eb-a39d-96858bc78604
+        name:
+          type: string
+          example: Default Shell Profile
+        description:
+          type: string
+          example: Default Shell Profile
+        sessionAttributes:
+          type: object
+          properties:
+            sessionAttributeList:
+              type: array
+              example:
+              - type: MANDATORY
+                name: attr1
+                value: value
+              items:
+                properties:
+                  name:
+                    type: string
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsprofile/93d7ee70-92b5-11eb-a39d-96858bc78604
+            type:
+              type: string
+              example: application/json
+    patchRequest:
+      type: object
+      properties:
+        TacacsProfile:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/tacacsprofile/versioninfo
+        type:
+          type: string
+          example: application/json
+    tacacsprofile_name:
+      type: object
+      properties:
+        TacacsProfile:
+          $ref: '#/components/schemas/TacacsProfile_name'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 4
+        resources:
+          type: array
+          example:
+          - id: 93d7ee70-92b5-11eb-a39d-96858bc78604
+            name: Default Shell Profile
+            description: Default Shell Profile
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacsprofile/93d7ee70-92b5-11eb-a39d-96858bc78604
+              type: application/json
+          - id: 907402f0-92b5-11eb-a39d-96858bc78604
+            name: Deny All Shell Profile
+            description: Deny All Shell Profile
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacsprofile/907402f0-92b5-11eb-a39d-96858bc78604
+              type: application/json
+          - id: 906b0240-92b5-11eb-a39d-96858bc78604
+            name: WLC ALL
+            description: WLC ALL
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacsprofile/906b0240-92b5-11eb-a39d-96858bc78604
+              type: application/json
+          - id: 906fbd30-92b5-11eb-a39d-96858bc78604
+            name: WLC MONITOR
+            description: WLC MONITOR
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacsprofile/906fbd30-92b5-11eb-a39d-96858bc78604
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    tacacsprofile:
+      type: object
+      properties:
+        TacacsProfile:
+          $ref: '#/components/schemas/TacacsProfile_2'
+    TacacsProfile_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 93d7ee70-92b5-11eb-a39d-96858bc78604
+        name:
+          type: string
+          example: Default Shell Profile
+        description:
+          type: string
+          example: Default Shell Profile
+        sessionAttributes:
+          type: object
+          properties:
+            sessionAttributeList:
+              type: array
+              example:
+              - type: MANDATORY
+                name: attr1
+                value: value
+              items:
+                properties:
+                  name:
+                    type: string
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsprofile/name/Default Shell Profile
+            type:
+              type: string
+              example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -820,7 +1311,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-tacacs-profile.yaml

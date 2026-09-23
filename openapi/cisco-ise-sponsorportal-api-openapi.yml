@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Sponsorportal API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Sponsorportal API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged sponsorportal across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-sponsor-portal.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: sponsorportal
 paths:
@@ -126,6 +114,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getSponsorportal
+      x-operation-id-source: derived
     post:
       tags:
       - sponsorportal
@@ -269,6 +261,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postSponsorportal
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /sponsorportal/{portal-id}:
     get:
       tags:
@@ -341,6 +347,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getSponsorportalByPortalId
+      x-operation-id-source: derived
     put:
       tags:
       - sponsorportal
@@ -502,6 +512,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putSponsorportalByPortalId
+      x-operation-id-source: derived
     delete:
       tags:
       - sponsorportal
@@ -562,47 +576,342 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteSponsorportalByPortalId
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/sponsorportal/{portal-id}:
+    get:
+      tags:
+      - sponsorportal
+      summary: Get sponsor portal by ID
+      description: This API allows the client to get a sponsor portal by ID.
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- portal.sponsorportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sponsorportal'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/sponsorportal'
+      operationId: getErsConfigSponsorportalByPortalId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - sponsorportal
+      summary: Update sponsor portal by ID
+      description: This API allows the client to update a sponsor portal by ID.
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:-   portal.sponsorportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'UpdateById' can be used within Bulk Request
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sponsorportal'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/sponsorportal'
+      operationId: putErsConfigSponsorportalByPortalId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - sponsorportal
+      summary: Delete sponsor portal by ID
+      description: This API deletes a sponsor portal by ID.
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value.<br>For example :- ‘b7e7d773-7bb3-442b-a50b-42837c12248a’
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- portal.sponsorportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'DeleteById' can be used within Bulk Request
+        required: false
+        schema:
+          type: string
+      responses:
+        204:
+          description: No content
+      operationId: deleteErsConfigSponsorportalByPortalId
+      x-operation-id-source: derived
+  /ers/config/sponsorportal:
+    get:
+      tags:
+      - sponsorportal
+      summary: Get all sponsor portals
+      description: 'This API allows the client to get all the sponsor portals.
+
+
+        Filter:
+
+
+        [name, description]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [name, description]'
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- portal.sponsorportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigSponsorportal
+      x-operation-id-source: derived
+    post:
+      tags:
+      - sponsorportal
+      summary: Create sponsor portal
+      description: This API creates a sponsor portal.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- portal.sponsorportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Create' can be used within Bulk Request
+        required: false
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sponsorportal'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/sponsorportal'
+      operationId: postErsConfigSponsorportal
+      x-operation-id-source: derived
+  /ers/config/sponsorportal/versioninfo:
+    get:
+      tags:
+      - sponsorportal
+      summary: Get sponsor portal version information
+      description: This API helps to retrieve the version information related to the sponsor portal.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigSponsorportalVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    portal.sponsorportal:
-      required:
-      - SponsorPortal
+    sponsorportalResponse:
       type: object
       properties:
         SponsorPortal:
-          $ref: '#/components/schemas/SponsorPortal'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
+          $ref: '#/components/schemas/sponsorportalResponseEntity'
+      example:
+        SponsorPortal:
+          portalType: SPONSOR
+          settings:
+            loginPageSettings:
+              maxFailedAttemptsBeforeRateLimit: 5
+              allowGuestToChangePassword: false
+              requireAccessCode: false
+              allowGuestToCreateAccounts: true
+              includeAup: false
+              allowAlternateGuestPortal: false
+              socialConfigs: []
+              timeBetweenLoginsDuringRateLimit: 2
+              allowShowGuestForm: false
+              allowForgotPassword: true
+              allowGuestToUseSocialAccounts: false
+              requireAupAcceptance: false
+              requireAupScrolling: false
+              aupDisplay: ASLINK
+            supportInfoSettings:
+              includePolicyServer: true
+              includeFailureCode: true
+              includeMacAddr: true
+              includeBrowserUserAgent: true
+              includeSupportInfoPage: false
+              includeIpAddress: true
+              emptyFieldDisplay: HIDE
+            aupSettings:
+              requireAccessCode: false
+              requireScrolling: true
+              includeAup: false
+              useDiffAupForEmployees: false
+              displayFrequency: FIRSTLOGIN
+              skipAupForEmployees: false
+            postLoginBannerSettings:
+              includePostAccessBanner: true
+            portalSettings:
+              allowedInterfaces:
+              - eth0
+              - bond0
+              fqdn: Fully Qualified Domain Name
+              authenticationMethod: Identity Source
+              availableSsids:
+              - ssid1
+              - ssid2
+              certificateGroupTag: Default Portal Certificate Group
+              idleTimeout: 10
+              alwaysUsedLanguage: English
+              displayLang: USEBROWSERLOCALE
+              fallbackLanguage: English
+              httpsPort: 8443
+            sponsorChangePasswordSettings:
+              allowSponsorToChangePwd: false
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          customizations:
+            globalCustomizations:
+              bannerImage:
+                data: base 64 encoded value of image
+              contactText: 'Contact Information '
+              bannerTitle: Banner Title
+              desktopLogoImage:
+                data: base 64 encoded value of image
+              mobileLogoImage:
+                data: base 64 encoded value of image
+              footerElement: Footer Element
+            portalTweakSettings:
+              pageBackgroundColor: Color code from GUI
+              pageLabelAndTextColor: Label and Text color from GUI
+              bannerColor: Banner Color from GUI
+              bannerTextColor: Banner Text color code from GUI
+            pageCustomizations:
+              data:
+              - value: Contact Support
+                key: ui_contact_link
+            language:
+              viewLanguage: English
+            portalTheme:
+              themeData: Base 64 encoded string of Theme CSS file
+              name: ThemeName
+              id: themeId
     SponsorPortal:
       required:
       - name
@@ -1000,17 +1309,74 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
-    updatedField:
+    portal.sponsorportal:
+      required:
+      - SponsorPortal
+      type: object
       properties:
-        field:
-          type: string
+        SponsorPortal:
+          $ref: '#/components/schemas/SponsorPortal'
+      example: null
+    sponsorportalListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sponsorportalListResponseEntity'
           example: null
-        oldValue:
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    sponsorportalListResponseEntity:
+      properties:
+        id:
+          title: id
           type: string
+          description: Id description
           example: null
-        newValue:
+        name:
+          title: name
           type: string
+          description: name description
           example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     sponsorportalResponseEntity:
       properties:
@@ -1320,47 +1686,19 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    sponsorportalListResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        SearchResult:
+        UpdatedFieldsList:
           type: object
           properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
+            updatedField:
               type: array
               example: null
               items:
-                $ref: '#/components/schemas/sponsorportalListResponseEntity'
+                $ref: '#/components/schemas/updatedField'
           example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -1383,123 +1721,332 @@ components:
                 example: code
             example: null
       example: null
-    sponsorportalResponse:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    sponsorportal:
       type: object
       properties:
         SponsorPortal:
-          $ref: '#/components/schemas/sponsorportalResponseEntity'
-      example:
-        SponsorPortal:
-          portalType: SPONSOR
-          settings:
-            loginPageSettings:
-              maxFailedAttemptsBeforeRateLimit: 5
-              allowGuestToChangePassword: false
-              requireAccessCode: false
-              allowGuestToCreateAccounts: true
-              includeAup: false
-              allowAlternateGuestPortal: false
-              socialConfigs: []
-              timeBetweenLoginsDuringRateLimit: 2
-              allowShowGuestForm: false
-              allowForgotPassword: true
-              allowGuestToUseSocialAccounts: false
-              requireAupAcceptance: false
-              requireAupScrolling: false
-              aupDisplay: ASLINK
-            supportInfoSettings:
-              includePolicyServer: true
-              includeFailureCode: true
-              includeMacAddr: true
-              includeBrowserUserAgent: true
-              includeSupportInfoPage: false
-              includeIpAddress: true
-              emptyFieldDisplay: HIDE
-            aupSettings:
-              requireAccessCode: false
-              requireScrolling: true
-              includeAup: false
-              useDiffAupForEmployees: false
-              displayFrequency: FIRSTLOGIN
-              skipAupForEmployees: false
-            postLoginBannerSettings:
-              includePostAccessBanner: true
-            portalSettings:
-              allowedInterfaces:
-              - eth0
-              - bond0
-              fqdn: Fully Qualified Domain Name
-              authenticationMethod: Identity Source
-              availableSsids:
-              - ssid1
-              - ssid2
-              certificateGroupTag: Default Portal Certificate Group
-              idleTimeout: 10
-              alwaysUsedLanguage: English
-              displayLang: USEBROWSERLOCALE
-              fallbackLanguage: English
-              httpsPort: 8443
-            sponsorChangePasswordSettings:
-              allowSponsorToChangePwd: false
-          name: name
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          customizations:
-            globalCustomizations:
-              bannerImage:
-                data: base 64 encoded value of image
-              contactText: 'Contact Information '
-              bannerTitle: Banner Title
-              desktopLogoImage:
-                data: base 64 encoded value of image
-              mobileLogoImage:
-                data: base 64 encoded value of image
-              footerElement: Footer Element
-            portalTweakSettings:
-              pageBackgroundColor: Color code from GUI
-              pageLabelAndTextColor: Label and Text color from GUI
-              bannerColor: Banner Color from GUI
-              bannerTextColor: Banner Text color code from GUI
-            pageCustomizations:
-              data:
-              - value: Contact Support
-                key: ui_contact_link
-            language:
-              viewLanguage: English
-            portalTheme:
-              themeData: Base 64 encoded string of Theme CSS file
-              name: ThemeName
-              id: themeId
-    sponsorportalListResponseEntity:
+          $ref: '#/components/schemas/SponsorPortal_2'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sponsorportal/versioninfo
+        type:
+          type: string
+          example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 04cd708b-feef-4c75-bf3e-2d2a9c302da2
+            name: Sponsor Portal (default)
+            description: Default portal used by sponsors to create and manage accounts for authorized visitors to securely access the network
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/sponsorportal/04cd708b-feef-4c75-bf3e-2d2a9c302da2
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    SponsorPortal_2:
+      type: object
       properties:
         id:
-          title: id
           type: string
-          description: Id description
-          example: null
+          example: 04cd708b-feef-4c75-bf3e-2d2a9c302da2
         name:
-          title: name
           type: string
-          description: name description
-          example: null
+          example: Sponsor Portal (default)
         description:
-          title: description
           type: string
-          description: description
-          example: null
+          example: Default portal used by sponsors to create and manage accounts for authorized visitors to securely access the network
+        portalType:
+          type: string
+          example: SPONSOR
+        portalTestUrl:
+          type: string
+          example: https://<ise-ip>:8445/portal/PortalSetup.action?portal=04cd708b-feef-4c75-bf3e-2d2a9c302da2
+        settings:
+          type: object
+          properties:
+            portalSettings:
+              type: object
+              properties:
+                httpsPort:
+                  type: integer
+                  example: 8445
+                allowedInterfaces:
+                  type: string
+                  example:
+                  - eth0
+                  - bond0
+                certificateGroupTag:
+                  type: string
+                  example: Default Portal Certificate Group
+                authenticationMethod:
+                  type: string
+                  example: 92e50f80-8c01-11e6-996c-525400b48521
+                idleTimeout:
+                  type: integer
+                  example: 10
+                displayLang:
+                  type: string
+                  example: USEBROWSERLOCALE
+                fallbackLanguage:
+                  type: string
+                  example: English
+                availableSsids:
+                  type: string
+                  example: []
+            loginPageSettings:
+              type: object
+              properties:
+                maxFailedAttemptsBeforeRateLimit:
+                  type: integer
+                  example: 5
+                timeBetweenLoginsDuringRateLimit:
+                  type: integer
+                  example: 2
+                includeAup:
+                  type: boolean
+                  example: false
+                requireAupScrolling:
+                  type: boolean
+                  example: false
+                socialConfigs:
+                  type: string
+                  example: []
+            aupSettings:
+              type: object
+              properties:
+                includeAup:
+                  type: boolean
+                  example: true
+                requireScrolling:
+                  type: boolean
+                  example: false
+                displayFrequency:
+                  type: string
+                  example: FIRSTLOGIN
+            sponsorChangePasswordSettings:
+              type: object
+              properties:
+                allowSponsorToChangePwd:
+                  type: boolean
+                  example: false
+            postAccessBannerSettings:
+              type: object
+              properties:
+                includePostAccessBanner:
+                  type: boolean
+                  example: false
+            supportInfoSettings:
+              type: object
+              properties:
+                includeSupportInfoPage:
+                  type: boolean
+                  example: false
+                includeMacAddr:
+                  type: boolean
+                  example: true
+                includeIpAddress:
+                  type: boolean
+                  example: true
+                includeBrowserUserAgent:
+                  type: boolean
+                  example: true
+                includePolicyServer:
+                  type: boolean
+                  example: true
+                includeFailureCode:
+                  type: boolean
+                  example: true
+                emptyFieldDisplay:
+                  type: string
+                  example: HIDE
+        customizations:
+          type: object
+          properties:
+            portalTheme:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 9eb421c0-8c01-11e6-996c-525400b48521
+                name:
+                  type: string
+                  example: Default Blue theme
+                themeData:
+                  type: string
+                  example: Base 64 encoded string of Theme CSS file
+            portalTweakSettings:
+              type: object
+              properties:
+                bannerColor:
+                  type: string
+                  example: Banner Color from GUI
+                bannerTextColor:
+                  type: string
+                  example: Banner Text color code from GUI
+                pageBackgroundColor:
+                  type: string
+                  example: Color code from GUI
+                pageLabelAndTextColor:
+                  type: string
+                  example: Label and Text color from GUI
+            language:
+              type: object
+              properties:
+                viewLanguage:
+                  type: string
+                  example: English
+            globalCustomizations:
+              type: object
+              properties:
+                mobileLogoImage:
+                  type: object
+                  properties:
+                    data:
+                      type: string
+                      example: base 64 encoded value of image
+                desktopLogoImage:
+                  type: object
+                  properties:
+                    data:
+                      type: string
+                      example: base 64 encoded value of image
+                bannerImage:
+                  type: object
+                  properties:
+                    data:
+                      type: string
+                      example: base 64 encoded value of image
+                bannerTitle:
+                  type: string
+                  example: Sponsor Portal
+                contactText:
+                  type: string
+                  example: Contact Support
+                footerElement:
+                  type: string
+                  example: Footer Element
+            pageCustomizations:
+              type: object
+              properties:
+                data:
+                  type: array
+                  example:
+                  - key: ui_contact_ip_address_label
+                    value: SVAgYWRkcmVzczo=
+                  items:
+                    properties:
+                      name:
+                        type: string
         link:
-          $ref: '#/components/schemas/Link'
-      example: null
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/sponsorportal/04cd708b-feef-4c75-bf3e-2d2a9c302da2
+            type:
+              type: string
+              example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1509,7 +2056,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-sponsor-portal.yaml

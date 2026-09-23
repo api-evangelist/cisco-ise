@@ -27,7 +27,7 @@ paths:
       tags:
       - Patching
       summary: List installed hot patches
-      description: 'List all the installed hot patches in the system. '
+      description: List all the installed hot patches in the system.
       operationId: listInstalledHotpatches
       parameters:
       - name: X-Request-ID
@@ -64,8 +64,8 @@ paths:
     post:
       tags:
       - Patching
-      summary: Trigger hotpatch installation on Cisco ISE node.
-      description: 'Triggers hot patch installation on the Cisco ISE node. A task ID is returned which  can be used to monitor the progress of the hot patch installation process.  As hot patch installation triggers the Cisco ISE to restart, the task API becomes  unavailable for a certain period of time. For installation of hotpatch on  secondary nodes, request needs to be sent to individual node instead of the Primary Administration Node. '
+      summary: Trigger hotpatch installation on Cisco ISE node
+      description: Triggers hot patch installation on the Cisco ISE node. A task ID is returned which can be used to monitor the progress of the hot patch installation process. As hot patch installation triggers the Cisco ISE to restart, the task API becomes unavailable for a certain period of time. For installation of hotpatch on secondary nodes, request needs to be sent to individual node instead of the Primary Administration Node.
       operationId: installHotpatch
       parameters:
       - name: X-Request-ID
@@ -131,8 +131,8 @@ paths:
     post:
       tags:
       - Patching
-      summary: Rollback hotpatch from the Cisco ISE node.
-      description: 'Triggers hot patch rollback on the Cisco ISE node. A task ID is returned which  can be used to monitor the progress of the hot patch rollback process.  As hot patch rollback triggers the Cisco ISE to restart, the task API becomes  unavailable for a certain period of time. For rollback of hotpatch on secondary nodes , request needs to be sent on individual node instead of the Primary Administration Node. '
+      summary: Rollback hotpatch from the Cisco ISE node
+      description: Triggers hot patch rollback on the Cisco ISE node. A task ID is returned which can be used to monitor the progress of the hot patch rollback process. As hot patch rollback triggers the Cisco ISE to restart, the task API becomes unavailable for a certain period of time. For rollback of hotpatch on secondary nodes , request needs to be sent on individual node instead of the Primary Administration Node.
       operationId: rollbackHotpatch
       parameters:
       - name: X-Request-ID
@@ -199,7 +199,7 @@ paths:
       tags:
       - Patching
       summary: List installed patches
-      description: 'List all the installed patches in the system, with the patch number for rollback. '
+      description: List all the installed patches in the system, with the patch number for rollback.
       operationId: listInstalledPatches
       parameters:
       - name: X-Request-ID
@@ -236,8 +236,8 @@ paths:
     post:
       tags:
       - Patching
-      summary: Trigger patch installation on the Cisco ISE node.
-      description: 'Triggers patch installation on the Cisco ISE node. A task ID is returned which can be used to monitor the progress of the patch installation process. As the patch   installation triggers the Cisco ISE to restart, the task API becomes unavailable for  a certain period of time. For installation of patch on secondary nodes, request needs  to be sent to individual node instead of the Primary Administration Node. '
+      summary: Trigger patch installation on the Cisco ISE node
+      description: Triggers patch installation on the Cisco ISE node. A task ID is returned which can be used to monitor the progress of the patch installation process. As the patch installation triggers the Cisco ISE to restart, the task API becomes unavailable for a certain period of time. For installation of patch on secondary nodes, request needs to be sent to individual node instead of the Primary Administration Node.
       operationId: installPatch
       parameters:
       - name: X-Request-ID
@@ -303,8 +303,8 @@ paths:
     post:
       tags:
       - Patching
-      summary: Removes patch from the Cisco ISE node.
-      description: 'Triggers patch rollback on the Cisco ISE node. A task ID is returned which can be used to monitor the progress of the patch rollback process. As the patch   rollback triggers the Cisco ISE to restart, the task API becomes unavailable for  a certain period of time. For rollback of patch on secondary nodes , request needs to sent on individual node instead of the Primary Administration Node. '
+      summary: Removes patch from the Cisco ISE node
+      description: Triggers patch rollback on the Cisco ISE node. A task ID is returned which can be used to monitor the progress of the patch rollback process. As the patch rollback triggers the Cisco ISE to restart, the task API becomes unavailable for a certain period of time. For rollback of patch on secondary nodes , request needs to sent on individual node instead of the Primary Administration Node.
       operationId: rollbackPatch
       parameters:
       - name: X-Request-ID
@@ -368,6 +368,78 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    Hotpatch:
+      title: Hotpatch
+      type: object
+      properties:
+        hotpatchName:
+          type: string
+          exampleSetFlag: true
+        installDate:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    HotpatchListResponse:
+      title: HotpatchListResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Hotpatch'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    PatchRollbackRequest:
+      title: PatchRollbackRequest
+      required:
+      - patchNumber
+      type: object
+      properties:
+        patchNumber:
+          type: integer
+          format: int32
+          example: 1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    TaskIdResponse:
+      title: TaskIdResponse
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID which can be used to track the status of install / rollback of patch and hotpatch.
+          example: a1714b90-be06-11eb-bf27-c208c4aa1432
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Patch install task has been initiated. Please use Task Service status API to get the status of the patch install job
+          exampleSetFlag: true
+      exampleSetFlag: false
+    PatchTaskResponse:
+      title: PatchTaskResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TaskIdResponse'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     Patch:
       title: Patch
       type: object
@@ -380,15 +452,24 @@ components:
           format: int32
           exampleSetFlag: true
       exampleSetFlag: false
-    Hotpatch:
-      title: Hotpatch
+    HotpatchInstallRequest:
+      title: HotpatchInstallRequest
+      required:
+      - hotpatchName
+      - repositoryName
       type: object
       properties:
         hotpatchName:
           type: string
+          example: ise-apply-CSCxx99999_3.1.0.518_patch1-SPA.tar.gz
           exampleSetFlag: true
-        installDate:
+        isDirectoryListed:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        repositoryName:
           type: string
+          example: repo_name
           exampleSetFlag: true
       exampleSetFlag: false
     PatchListResponse:
@@ -404,26 +485,6 @@ components:
           items:
             $ref: '#/components/schemas/Patch'
             exampleSetFlag: false
-      exampleSetFlag: false
-    PatchInstallRequest:
-      title: PatchInstallRequest
-      required:
-      - patchName
-      - repositoryName
-      type: object
-      properties:
-        isDirectoryListed:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        patchName:
-          type: string
-          example: ise-patchbundle-3.1.0.518-Patch1-21061111.SPA.x86_64.tar.gz
-          exampleSetFlag: true
-        repositoryName:
-          type: string
-          example: repo_name
-          exampleSetFlag: true
       exampleSetFlag: false
     HotpatchRollbackRequest:
       title: HotpatchRollbackRequest
@@ -454,84 +515,23 @@ components:
           example: Repository (repo_name) does not exist. Please configure the repository from Cisco ISE UI to proceed
           exampleSetFlag: true
       exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Message'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    HotpatchInstallRequest:
-      title: HotpatchInstallRequest
+    PatchInstallRequest:
+      title: PatchInstallRequest
       required:
-      - hotpatchName
+      - patchName
       - repositoryName
       type: object
       properties:
-        hotpatchName:
-          type: string
-          example: ise-apply-CSCxx99999_3.1.0.518_patch1-SPA.tar.gz
-          exampleSetFlag: true
         isDirectoryListed:
           type: boolean
           example: true
           exampleSetFlag: true
+        patchName:
+          type: string
+          example: ise-patchbundle-3.1.0.518-Patch1-21061111.SPA.x86_64.tar.gz
+          exampleSetFlag: true
         repositoryName:
           type: string
           example: repo_name
-          exampleSetFlag: true
-      exampleSetFlag: false
-    PatchRollbackRequest:
-      title: PatchRollbackRequest
-      required:
-      - patchNumber
-      type: object
-      properties:
-        patchNumber:
-          type: integer
-          format: int32
-          example: 1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    TaskIdResponse:
-      title: TaskIdResponse
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID which can be used to track the status of install / rollback of patch and hotpatch.
-          example: a1714b90-be06-11eb-bf27-c208c4aa1432
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Patch install task has been initiated. Please use Task Service status API to get the status of the patch install job
-          exampleSetFlag: true
-      exampleSetFlag: false
-    HotpatchListResponse:
-      title: HotpatchListResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Hotpatch'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    PatchTaskResponse:
-      title: PatchTaskResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/TaskIdResponse'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false

@@ -53,8 +53,19 @@ paths:
     post:
       tags:
       - Outbound Rule
-      summary: Outbound Rule - Create Outbound Rule.
-      description: 'Outbound Rule - Create Outbound Rule: <ul> <li> Filter configuration must include name and condition. </li> <li> Condition has hierarchical structure which define a set of conditions for which authoriztion policy rule could be match. </li> <li> Condition can be either reference to a stored Library condition, using model <b>ConditionReference</b> </li> or dynamically built conditions which are not stored in the conditions Library, using models <b>ConditionAttributes, ConditionAndBlock, ConditionOrBlock</b>. </li> </ul> '
+      summary: Outbound Rule - Create Outbound Rule
+      description: 'Outbound Rule - Create Outbound Rule:
+
+
+        Filter configuration must include name and condition.
+
+
+        Condition has hierarchical structure which define a set of conditions for which authoriztion policy rule could be match.
+
+
+        Condition can be either reference to a stored Library condition, using model ConditionReference
+
+        or dynamically built conditions which are not stored in the conditions Library, using models ConditionAttributes, ConditionAndBlock, ConditionOrBlock.'
       operationId: createEgressFilter
       parameters:
       - name: X-Request-ID
@@ -187,7 +198,7 @@ paths:
     get:
       tags:
       - Outbound Rule
-      summary: Outbound Rule - Get Outbound Rule attributes.
+      summary: Outbound Rule - Get Outbound Rule attributes
       description: Outbound Rule - Get Outbound Rule attributes.
       operationId: getEgressFilterById
       parameters:
@@ -224,7 +235,7 @@ paths:
     put:
       tags:
       - Outbound Rule
-      summary: Outbound Rule - Update Outbound Rule.
+      summary: Outbound Rule - Update Outbound Rule
       description: Outbound Rule - Update Outbound Rule.
       operationId: updateEgressFilterById
       parameters:
@@ -264,7 +275,7 @@ paths:
     delete:
       tags:
       - Outbound Rule
-      summary: Outbound Rule - Delete Outbound Rule.
+      summary: Outbound Rule - Delete Outbound Rule
       description: Outbound Rule - Delete Outbound Rule.
       operationId: deleteEgressFilterById
       parameters:
@@ -295,6 +306,94 @@ paths:
           description: Forbidden
 components:
   schemas:
+    OutboundRuleContract:
+      title: OutboundRuleContract
+      required:
+      - connectionName
+      - l3out
+      - sgt
+      - tn
+      type: object
+      properties:
+        connectionName:
+          type: string
+          example: ACI1
+          exampleSetFlag: true
+        consumed:
+          $ref: '#/components/schemas/Consumed'
+          exampleSetFlag: true
+        l3out:
+          type: string
+          example: out1
+          exampleSetFlag: true
+        provided:
+          $ref: '#/components/schemas/Provided'
+          exampleSetFlag: true
+        sgt:
+          type: string
+          example: sgt1
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    OutboundRuleWithPage:
+      title: OutboundRuleWithPage
+      type: object
+      properties:
+        PageNumber:
+          type: integer
+          description: Page Number
+          format: int32
+          example: 0
+          exampleSetFlag: true
+        PageSize:
+          type: integer
+          description: Page Size
+          format: int32
+          example: 50000
+          exampleSetFlag: true
+        nameBeforeEdit:
+          type: string
+          description: Name of the rule before edit
+          example: rule1
+          exampleSetFlag: true
+        outboundRule:
+          $ref: '#/components/schemas/EgressFilter'
+          exampleSetFlag: true
+      description: Outbound Rule details with Page Info
+      exampleSetFlag: false
     EgressFilterDestination:
       title: EgressFilterDestination
       type: object
@@ -334,124 +433,6 @@ components:
           example: vn1
           exampleSetFlag: true
       exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Consumed:
-      title: Consumed
-      type: object
-      properties:
-        contractIfs:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        contracts:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      exampleSetFlag: false
-    Provided:
-      title: Provided
-      type: object
-      properties:
-        contracts:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      exampleSetFlag: false
-    OutboundRuleContract:
-      title: OutboundRuleContract
-      required:
-      - connectionName
-      - l3out
-      - sgt
-      - tn
-      type: object
-      properties:
-        connectionName:
-          type: string
-          example: ACI1
-          exampleSetFlag: true
-        consumed:
-          $ref: '#/components/schemas/Consumed'
-          exampleSetFlag: true
-        l3out:
-          type: string
-          example: out1
-          exampleSetFlag: true
-        provided:
-          $ref: '#/components/schemas/Provided'
-          exampleSetFlag: true
-        sgt:
-          type: string
-          example: sgt1
-          exampleSetFlag: true
-        tn:
-          type: string
-          example: tn1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    EgressFilterPreviewResponseEntity:
-      title: EgressFilterPreviewResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/EgressFilterPreview'
-            exampleSetFlag: false
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
-      exampleSetFlag: false
     EgressFilterResponse:
       title: EgressFilterResponse
       type: object
@@ -463,85 +444,70 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    Condition:
-      title: Condition
-      required:
-      - conditionType
+    EgressFilterBatch:
+      title: EgressFilterBatch
       type: object
       properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
-          exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
-          exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
-      exampleSetFlag: false
-    EgressFilterSummaryResponse:
-      title: EgressFilterSummaryResponse
-      type: object
-      properties:
-        response:
+        creates:
           type: array
           exampleSetFlag: true
           items:
             $ref: '#/components/schemas/EgressFilter'
             exampleSetFlag: false
-        version:
-          type: string
+        deletes:
+          type: array
           exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        updates:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/EgressFilter'
+            exampleSetFlag: false
+      description: Outbound Rule batch configuration
       exampleSetFlag: false
-    EgressFilter:
-      title: EgressFilter
+    EgressFilterPreview:
+      title: EgressFilterPreview
       type: object
       properties:
-        contracts:
+        ipAddress:
+          type: string
+          exampleSetFlag: true
+        learnedBy:
+          type: string
+          exampleSetFlag: true
+        learnedFrom:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/OutboundRuleContract'
+            type: string
             exampleSetFlag: false
-        destinations:
+        matchingRules:
           type: array
+          description: matching rules used in the inbound rule destination configurations
+          example: '["Rule1","Rule2"]'
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/EgressFilterDestination'
+            type: string
             exampleSetFlag: false
-        enabled:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-        id:
+        primarySgt:
           type: string
-          readOnly: true
+          description: Primary SGT name used in the Outbound Rule
           exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
+        sgtDomains:
+          type: array
+          description: Sxp Domains used in the inbound rule destination configurations
+          example: '["sxpDomain1","sxpDomain2"]'
           exampleSetFlag: true
-        name:
+          items:
+            type: string
+            exampleSetFlag: false
+        vn:
           type: string
-          example: rule1
           exampleSetFlag: true
-        rule:
-          $ref: '#/components/schemas/RuleCommon'
-          exampleSetFlag: true
-      description: Outbound Rule
+      description: Outbound Rule Preview details
       exampleSetFlag: false
     RuleCommon:
       title: RuleCommon
@@ -593,94 +559,139 @@ components:
           - monitor
       description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    EgressFilterBatch:
-      title: EgressFilterBatch
+    Consumed:
+      title: Consumed
       type: object
       properties:
-        creates:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/EgressFilter'
-            exampleSetFlag: false
-        deletes:
+        contractIfs:
           type: array
           exampleSetFlag: true
           items:
             type: string
             exampleSetFlag: false
-        updates:
+        contracts:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/EgressFilter'
+            type: string
             exampleSetFlag: false
-      description: Outbound Rule batch configuration
       exampleSetFlag: false
-    OutboundRuleWithPage:
-      title: OutboundRuleWithPage
+    EgressFilter:
+      title: EgressFilter
       type: object
       properties:
-        PageNumber:
-          type: integer
-          description: Page Number
-          format: int32
-          example: 0
+        contracts:
+          type: array
           exampleSetFlag: true
-        PageSize:
-          type: integer
-          description: Page Size
-          format: int32
-          example: 50000
+          items:
+            $ref: '#/components/schemas/OutboundRuleContract'
+            exampleSetFlag: false
+        destinations:
+          type: array
           exampleSetFlag: true
-        nameBeforeEdit:
+          items:
+            $ref: '#/components/schemas/EgressFilterDestination'
+            exampleSetFlag: false
+        enabled:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        id:
           type: string
-          description: Name of the rule before edit
+          readOnly: true
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        name:
+          type: string
           example: rule1
           exampleSetFlag: true
-        outboundRule:
-          $ref: '#/components/schemas/EgressFilter'
+        rule:
+          $ref: '#/components/schemas/RuleCommon'
           exampleSetFlag: true
-      description: Outbound Rule details with Page Info
+      description: Outbound Rule
       exampleSetFlag: false
-    EgressFilterPreview:
-      title: EgressFilterPreview
+    Link:
+      title: Link
+      required:
+      - href
       type: object
       properties:
-        ipAddress:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EgressFilterPreviewResponseEntity:
+      title: EgressFilterPreviewResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/EgressFilterPreview'
+            exampleSetFlag: false
+        version:
           type: string
           exampleSetFlag: true
-        learnedBy:
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EgressFilterSummaryResponse:
+      title: EgressFilterSummaryResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/EgressFilter'
+            exampleSetFlag: false
+        version:
           type: string
           exampleSetFlag: true
-        learnedFrom:
+      exampleSetFlag: false
+    Provided:
+      title: Provided
+      type: object
+      properties:
+        contracts:
           type: array
           exampleSetFlag: true
           items:
             type: string
             exampleSetFlag: false
-        matchingRules:
-          type: array
-          description: matching rules used in the inbound rule destination configurations
-          example: '["Rule1","Rule2"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        primarySgt:
-          type: string
-          description: Primary SGT name used in the Outbound Rule
-          exampleSetFlag: true
-        sgtDomains:
-          type: array
-          description: Sxp Domains used in the inbound rule destination configurations
-          example: '["sxpDomain1","sxpDomain2"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        vn:
-          type: string
-          exampleSetFlag: true
-      description: Outbound Rule Preview details
       exampleSetFlag: false

@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Tacacsserversequence API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Tacacsserversequence API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged tacacsserversequence across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-tacacs-server-sequence.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: tacacsserversequence
 paths:
@@ -98,6 +86,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsserversequence
+      x-operation-id-source: derived
     post:
       tags:
       - tacacsserversequence
@@ -171,6 +163,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postTacacsserversequence
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /tacacsserversequence/name/{name}:
     get:
       tags:
@@ -243,6 +249,20 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsserversequenceNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /tacacsserversequence/{id}:
     get:
       tags:
@@ -315,6 +335,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getTacacsserversequenceById
+      x-operation-id-source: derived
     put:
       tags:
       - tacacsserversequence
@@ -406,6 +430,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putTacacsserversequenceById
+      x-operation-id-source: derived
     delete:
       tags:
       - tacacsserversequence
@@ -466,6 +494,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteTacacsserversequenceById
+      x-operation-id-source: derived
     patch:
       tags:
       - tacacsserversequence
@@ -555,96 +587,294 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchTacacsserversequenceById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/tacacsserversequence/name/{name}:
+    get:
+      tags:
+      - tacacsserversequence
+      summary: Get TACACS server sequence by name
+      description: This API allows the client to get a TACACS server sequence by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsserversequence_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsserversequence_name'
+      operationId: getErsConfigTacacsserversequenceNameByName
+      x-operation-id-source: derived
+  /ers/config/tacacsexternalservers/{id}:
+    get:
+      tags:
+      - tacacsserversequence
+      summary: Get TACACS server sequence by ID
+      description: This API allows the client to get a TACACS server sequence by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsserversequence'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsserversequence'
+      operationId: getErsConfigTacacsexternalserversById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - tacacsserversequence
+      summary: Update part of the TACACS server sequence by ID
+      description: Update any attribute subset of the TACACS server sequence configuration. Only the attributes sent are affected.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsserversequence.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tacacsserversequence'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/tacacsserversequence'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigTacacsexternalserversById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - tacacsserversequence
+      summary: Update TACACS server sequence
+      description: This API allows the client to update a TACACS server sequence.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tacacsserversequence'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/tacacsserversequence'
+      operationId: putErsConfigTacacsexternalserversById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - tacacsserversequence
+      summary: Delete TACACS server sequence
+      description: This API deletes a TACACS server sequence.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigTacacsexternalserversById
+      x-operation-id-source: derived
+  /ers/config/tacacsserversequence:
+    get:
+      tags:
+      - tacacsserversequence
+      summary: Get all TACACS server sequences
+      description: This API allows the client to get all the TACACS server sequences.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigTacacsserversequence
+      x-operation-id-source: derived
+    post:
+      tags:
+      - tacacsserversequence
+      summary: Create TACACS server sequence
+      description: This API creates a TACACS server sequence.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- policy.tacacsserversequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tacacsserversequence'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/tacacsserversequence'
+      operationId: postErsConfigTacacsserversequence
+      x-operation-id-source: derived
+  /ers/config/tacacsserversequence/versioninfo:
+    get:
+      tags:
+      - tacacsserversequence
+      summary: Get TACACS server sequence version information
+      description: This API helps to retrieve the version information related to the TACACS server sequence.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigTacacsserversequenceVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    tacacsserversequenceListResponse:
+    ERSResponse:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/tacacsserversequenceListResponseEntity'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
           example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    tacacsserversequenceResponse:
-      type: object
-      properties:
-        TacacsServerSequence:
-          $ref: '#/components/schemas/tacacsserversequenceResponseEntity'
-      example:
-        TacacsServerSequence:
-          prefixStrip: false
-          localAccounting: false
-          suffixStrip: false
-          remoteAccounting: true
-          serverList: TacacsExternalServer1,TacacsExternalServer2
-          name: TacacsServerSequence1
-          description: TacacsServerSequenceForSDK
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          prefixDelimiter: \
-          suffixDelimiter: '@'
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     tacacsserversequenceResponseEntity:
       properties:
@@ -700,68 +930,6 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    policy.tacacsserversequence:
-      required:
-      - TacacsServerSequence
-      type: object
-      properties:
-        TacacsServerSequence:
-          $ref: '#/components/schemas/TacacsServerSequence'
-      example: null
-    tacacsserversequenceListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     TacacsServerSequence:
       required:
@@ -830,6 +998,333 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           prefixDelimiter: \
           suffixDelimiter: '@'
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    tacacsserversequenceListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/tacacsserversequenceListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    policy.tacacsserversequence:
+      required:
+      - TacacsServerSequence
+      type: object
+      properties:
+        TacacsServerSequence:
+          $ref: '#/components/schemas/TacacsServerSequence'
+      example: null
+    tacacsserversequenceListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    tacacsserversequenceResponse:
+      type: object
+      properties:
+        TacacsServerSequence:
+          $ref: '#/components/schemas/tacacsserversequenceResponseEntity'
+      example:
+        TacacsServerSequence:
+          prefixStrip: false
+          localAccounting: false
+          suffixStrip: false
+          remoteAccounting: true
+          serverList: TacacsExternalServer1,TacacsExternalServer2
+          name: TacacsServerSequence1
+          description: TacacsServerSequenceForSDK
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          prefixDelimiter: \
+          suffixDelimiter: '@'
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    patchRequest:
+      type: object
+      properties:
+        TacacsServerSequence:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/tacacsserversequence/versioninfo
+        type:
+          type: string
+          example: application/json
+    TacacsServerSequence_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1af3d6e2-cc3b-4603-b80f-6827768335ab
+        name:
+          type: string
+          example: TacacsServerSequence1
+        description:
+          type: string
+          example: TacacsServerSequenceForSDK
+        serverList:
+          type: string
+          example: TacacsExternalServer1,TacacsExternalServer2
+        localAccounting:
+          type: boolean
+          example: false
+        remoteAccounting:
+          type: boolean
+          example: true
+        prefixStrip:
+          type: boolean
+          example: false
+        prefixDelimiter:
+          type: string
+          example: \
+        suffixStrip:
+          type: boolean
+          example: false
+        suffixDelimiter:
+          type: string
+          example: '@'
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsserversequence/name/TacacsServerSequence1
+            type:
+              type: string
+              example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    tacacsserversequence_name:
+      type: object
+      properties:
+        TacacsServerSequence:
+          $ref: '#/components/schemas/TacacsServerSequence_name'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    TacacsServerSequence_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1af3d6e2-cc3b-4603-b80f-6827768335ab
+        name:
+          type: string
+          example: TacacsServerSequence1
+        description:
+          type: string
+          example: TacacsServerSequenceForSDK
+        serverList:
+          type: string
+          example: TacacsExternalServer1,TacacsExternalServer2
+        localAccounting:
+          type: boolean
+          example: false
+        remoteAccounting:
+          type: boolean
+          example: true
+        prefixStrip:
+          type: boolean
+          example: false
+        prefixDelimiter:
+          type: string
+          example: \
+        suffixStrip:
+          type: boolean
+          example: false
+        suffixDelimiter:
+          type: string
+          example: '@'
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsserversequence/1af3d6e2-cc3b-4603-b80f-6827768335ab
+            type:
+              type: string
+              example: application/json
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 1af3d6e2-cc3b-4603-b80f-6827768335ab
+            name: TacacsServerSequence1
+            description: TacacsServerSequenceForSDK
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacsserversequence/1af3d6e2-cc3b-4603-b80f-6827768335ab
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    tacacsserversequence:
+      type: object
+      properties:
+        TacacsServerSequence:
+          $ref: '#/components/schemas/TacacsServerSequence_2'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
     ppage:
       name: page
@@ -853,3 +1348,6 @@ components:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-tacacs-server-sequence.yaml

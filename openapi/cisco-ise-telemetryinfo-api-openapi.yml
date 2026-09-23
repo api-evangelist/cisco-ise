@@ -106,6 +106,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getTelemetryinfo
+      x-operation-id-source: derived
   /telemetryinfo/{id}:
     get:
       tags:
@@ -178,25 +180,31 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getTelemetryinfoById
+      x-operation-id-source: derived
 components:
   schemas:
-    Link:
+    ERSResponse:
       type: object
       properties:
-        rel:
+        operation:
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     telemetryinfoResponseEntity:
       properties:
@@ -249,26 +257,6 @@ components:
           udiSN: Primary PAN Serial Number
           ccoId: Cisco Customer Account Id
           status: Telemetry Status
-    telemetryinfoListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     telemetryinfoListResponse:
       type: object
       properties:
@@ -310,38 +298,45 @@ components:
               type: application/xml
             description: description2
             id: id2
-    ERSResponse:
+    telemetryinfoListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    Link:
       type: object
       properties:
-        operation:
+        rel:
           type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -351,6 +346,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Systemcertificate API
-  version: '1.0'
-  description: 'Operations tagged systemcertificate across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-system-certificate.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-system-certificate.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-legacy-ers-system-certificate.yaml
-    operation_coverage: 2/3
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged systemcertificate across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-system-certificate.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -34,16 +31,6 @@ tags:
 - name: systemcertificate
 paths:
   /systemcertificate/:
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
     post:
       tags:
       - systemcertificate
@@ -132,12 +119,24 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
+      operationId: postSystemcertificate
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /ers/config/systemcertificate:
     post:
       tags:
       - systemcertificate
       summary: Create system certificate
-      description: <p>This API allows the client to create a system certificate.</p>
+      description: This API allows the client to create a system certificate.
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -161,12 +160,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/systemcertificate'
+      operationId: postErsConfigSystemcertificate
+      x-operation-id-source: derived
   /ers/config/systemcertificate/versioninfo:
     get:
       tags:
       - systemcertificate
       summary: Get system certificate version information
-      description: <p>This API helps to retrieve the version information related to the system certificate.</p>
+      description: This API helps to retrieve the version information related to the system certificate.
       responses:
         200:
           description: OK
@@ -174,31 +175,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigSystemcertificateVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    link1:
+    ca.systemcertificate:
+      required:
+      - ERSSystemCertificate
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/systemcertificate/versioninfo
-        type:
-          type: string
-          example: application/json
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+        ERSSystemCertificate:
+          $ref: '#/components/schemas/ERSSystemCertificate'
+      example: null
     ERSSystemCertificate:
       required:
       - nodeId
@@ -360,6 +348,38 @@ components:
             keyType: RSA OR ECDSA
             certificateSanIp: <<IP-ADDRESS>>
             friendlyName: HCL
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    systemcertificate:
+      type: object
+      properties:
+        ERSSystemCertificate:
+          $ref: '#/components/schemas/ERSSystemCertificate_2'
     ERSSystemCertificate_2:
       type: object
       properties:
@@ -432,46 +452,29 @@ components:
             certificateSanUri:
               type: string
               example: URI
-    VersionInfo:
+    version:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    ca.systemcertificate:
-      required:
-      - ERSSystemCertificate
-      type: object
-      properties:
-        ERSSystemCertificate:
-          $ref: '#/components/schemas/ERSSystemCertificate'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
+        currentServerVersion:
           type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    systemcertificate:
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    link1:
       type: object
       properties:
-        ERSSystemCertificate:
-          $ref: '#/components/schemas/ERSSystemCertificate_2'
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/systemcertificate/versioninfo
+        type:
+          type: string
+          example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

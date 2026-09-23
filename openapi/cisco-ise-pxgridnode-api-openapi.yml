@@ -105,6 +105,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getPxgridnode
+      x-operation-id-source: derived
   /pxgridnode/name/{name}:
     get:
       tags:
@@ -184,6 +186,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getPxgridnodeNameByName
+      x-operation-id-source: derived
     delete:
       tags:
       - pxgridnode
@@ -251,6 +255,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: deletePxgridnodeNameByName
+      x-operation-id-source: derived
   /pxgridnode/name/{name}/approve:
     put:
       tags:
@@ -319,6 +325,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: putPxgridnodeNameByNameApprove
+      x-operation-id-source: derived
   /pxgridnode/{id}:
     get:
       tags:
@@ -398,81 +406,10 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getPxgridnodeById
+      x-operation-id-source: derived
 components:
   schemas:
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    pxgridnodeResponseEntity:
-      properties:
-        status:
-          title: status
-          type: string
-          description: Status
-          example: null
-        groups:
-          title: groups
-          type: string
-          description: Groups
-          example: null
-        authMethod:
-          title: authMethod
-          type: string
-          description: Authentication method
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    pxgridnodeListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     pxgridnodeListResponse:
       type: object
       properties:
@@ -514,6 +451,61 @@ components:
               type: application/xml
             description: description2
             id: id2
+    pxgridnodeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    pxgridnodeResponseEntity:
+      properties:
+        status:
+          title: status
+          type: string
+          description: Status
+          example: null
+        groups:
+          title: groups
+          type: string
+          description: Groups
+          example: null
+        authMethod:
+          title: authMethod
+          type: string
+          description: Authentication method
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     pxgridnodeResponse:
       type: object
       properties:
@@ -549,16 +541,25 @@ components:
                 example: code
             example: null
       example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -568,6 +569,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

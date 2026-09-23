@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Portal API
-  version: '1.0'
-  description: 'Operations tagged portal across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-portal.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-portal.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-legacy-ers-portal.yaml
-    operation_coverage: 3/5
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged portal across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-portal.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -31,22 +28,12 @@ servers:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
 tags:
-- name: portal
+- name: Portal
 paths:
   /portal/:
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
     get:
       tags:
-      - portal
+      - Portal
       summary: Get-All
       parameters:
       - name: filter
@@ -140,7 +127,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-  /portal/{id}:
+      operationId: getPortal
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -151,9 +139,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /portal/{id}:
     get:
       tags:
-      - portal
+      - Portal
       summary: Get-By-Id
       parameters:
       - name: id
@@ -224,12 +213,24 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getPortalById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /ers/config/portal/{id}:
     get:
       tags:
-      - portal
+      - Portal
       summary: Get portal by ID
-      description: <p>This API allows the client to get a portal by ID.</p>
+      description: This API allows the client to get a portal by ID.
       parameters:
       - name: id
         in: path
@@ -257,12 +258,41 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/portal'
+      operationId: getErsConfigPortalById
+      x-operation-id-source: derived
   /ers/config/portal:
     get:
       tags:
-      - portal
+      - Portal
       summary: Get all portals
-      description: <p>This API allows the client to get all the portals.</p> <p><h1>Filter:</h1> <h3>[name, description]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
+      description: 'This API allows the client to get all the portals.
+
+
+        Filter:
+
+
+        [name, description]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [name, description]'
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -285,12 +315,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/search'
+      operationId: getErsConfigPortal
+      x-operation-id-source: derived
   /ers/config/portal/versioninfo:
     get:
       tags:
-      - portal
+      - Portal
       summary: Get portal version information
-      description: <p>This API helps to retrieve the version information realted to the portal.</p>
+      description: This API helps to retrieve the version information realted to the portal.
       responses:
         200:
           description: OK
@@ -298,20 +330,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigPortalVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/portal/versioninfo
-        type:
-          type: string
-          example: application/json
     portalResponse:
       type: object
       properties:
@@ -322,65 +344,6 @@ components:
           name: portal1
           description: example portal
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    portalListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/portalListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
     portalListResponseEntity:
       properties:
         id:
@@ -479,6 +442,109 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    portalListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/portalListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    portal:
+      type: object
+      properties:
+        ERSPortal:
+          $ref: '#/components/schemas/ERSPortal'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/portal/versioninfo
+        type:
+          type: string
+          example: application/json
     version:
       type: object
       properties:
@@ -490,33 +556,6 @@ components:
           example: '2.0'
         link:
           $ref: '#/components/schemas/link1'
-    ERSPortal:
-      type: object
-      properties:
-        id:
-          type: string
-          example: bc5524ea-b1e5-47ed-a907-5304821da916
-        name:
-          type: string
-          example: ISE Portal (default)
-        description:
-          type: string
-          example: Ise Portal for saml based feature purpose
-        portalType:
-          type: string
-          example: GUEST
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/portal/bc5524ea-b1e5-47ed-a907-5304821da916
-            type:
-              type: string
-              example: application/json
     SearchResult:
       type: object
       properties:
@@ -565,43 +604,38 @@ components:
             properties:
               name:
                 type: string
+    ERSPortal:
+      type: object
+      properties:
+        id:
+          type: string
+          example: bc5524ea-b1e5-47ed-a907-5304821da916
+        name:
+          type: string
+          example: ISE Portal (default)
+        description:
+          type: string
+          example: Ise Portal for saml based feature purpose
+        portalType:
+          type: string
+          example: GUEST
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/portal/bc5524ea-b1e5-47ed-a907-5304821da916
+            type:
+              type: string
+              example: application/json
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    portal:
-      type: object
-      properties:
-        ERSPortal:
-          $ref: '#/components/schemas/ERSPortal'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
   parameters:
     ppage:
       name: page

@@ -126,6 +126,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getIdentitygroup
+      x-operation-id-source: derived
     post:
       tags:
       - identitygroup
@@ -193,6 +195,8 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      operationId: postIdentitygroup
+      x-operation-id-source: derived
   /identitygroup/name/{name}:
     get:
       tags:
@@ -265,6 +269,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getIdentitygroupNameByName
+      x-operation-id-source: derived
   /identitygroup/{id}:
     get:
       tags:
@@ -337,6 +343,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getIdentitygroupById
+      x-operation-id-source: derived
     put:
       tags:
       - identitygroup
@@ -422,6 +430,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      operationId: putIdentitygroupById
+      x-operation-id-source: derived
     delete:
       tags:
       - identitygroup
@@ -482,6 +492,8 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: deleteIdentitygroupById
+      x-operation-id-source: derived
     patch:
       tags:
       - identitygroup
@@ -565,78 +577,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      operationId: patchIdentitygroupById
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    identitygroupResponse:
-      type: object
-      properties:
-        IdentityGroup:
-          $ref: '#/components/schemas/identitygroupResponseEntity'
-      example:
-        IdentityGroup:
-          parent: parent
-          name: name
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    identity.identitygroup:
-      required:
-      - IdentityGroup
-      type: object
-      properties:
-        IdentityGroup:
-          $ref: '#/components/schemas/IdentityGroup'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    identitygroupListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     identitygroupListResponse:
       type: object
       properties:
@@ -678,16 +622,45 @@ components:
               type: application/xml
             description: description2
             id: id2
-    updatedField:
+    identity.identitygroup:
+      required:
+      - IdentityGroup
+      type: object
       properties:
-        field:
+        IdentityGroup:
+          $ref: '#/components/schemas/IdentityGroup'
+      example: null
+    identitygroupListResponseEntity:
+      properties:
+        id:
+          title: id
           type: string
+          description: Id description
           example: null
-        oldValue:
+        name:
+          title: name
           type: string
+          description: name description
           example: null
-        newValue:
+        description:
+          title: description
           type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
       example: null
     IdentityGroup:
@@ -720,6 +693,28 @@ components:
           name: name
           description: description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     identitygroupResponseEntity:
       properties:
         parent:
@@ -745,38 +740,48 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    ERSResponse:
+    Link:
       type: object
       properties:
-        operation:
+        rel:
           type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    identitygroupResponse:
+      type: object
+      properties:
+        IdentityGroup:
+          $ref: '#/components/schemas/identitygroupResponseEntity'
+      example:
+        IdentityGroup:
+          parent: parent
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -786,6 +791,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

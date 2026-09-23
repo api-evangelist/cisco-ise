@@ -448,6 +448,113 @@ components:
           example: vn1
           exampleSetFlag: true
       exampleSetFlag: false
+    FetchEpgRequest:
+      title: FetchEpgRequest
+      required:
+      - hostname
+      - name
+      - username
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Auth Domain
+          example: Default
+          exampleSetFlag: true
+        hostname:
+          type: string
+          description: ACI hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          description: ID if connection is already created
+          exampleSetFlag: true
+        name:
+          type: string
+          description: ACI name
+          example: ACI1
+          exampleSetFlag: true
+        nameConversion:
+          $ref: '#/components/schemas/NameConversion'
+          exampleSetFlag: true
+        password:
+          type: string
+          description: Password
+          example: password1
+          exampleSetFlag: true
+        username:
+          type: string
+          description: Username
+          example: user1
+          exampleSetFlag: true
+        validateCertificate:
+          type: boolean
+          description: ValidationCertificate
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SelectedEpgApplicationProfileBelongsTo:
+      title: SelectedEpgApplicationProfileBelongsTo
+      type: object
+      properties:
+        connectionName:
+          type: string
+          example: ACI1
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
+        vn:
+          type: string
+          example: vn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AciConnectionAccessInfo:
+      title: AciConnectionAccessInfo
+      required:
+      - hostname
+      - name
+      - username
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Auth Domain
+          example: Default
+          exampleSetFlag: true
+        hostname:
+          type: string
+          description: ACI hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          description: ID if connection is already created
+          exampleSetFlag: true
+        name:
+          type: string
+          description: ACI name
+          example: ACI1
+          exampleSetFlag: true
+        password:
+          type: string
+          description: Password
+          example: password1
+          exampleSetFlag: true
+        username:
+          type: string
+          description: Username
+          example: user1
+          exampleSetFlag: true
+        validateCertificate:
+          type: boolean
+          description: ValidationCertificate
+          example: false
+          exampleSetFlag: true
+      description: ACI connection configuration
+      exampleSetFlag: false
     EpgListResponse:
       title: EpgListResponse
       type: object
@@ -462,18 +569,125 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    SelectedEpgSecurityGroupResponse:
-      title: SelectedEpgSecurityGroupResponse
+    SelectedEpgApplicationProfileResponse:
+      title: SelectedEpgApplicationProfileResponse
       type: object
       properties:
         response:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/SelectedEpgSecurityGroup'
+            $ref: '#/components/schemas/SelectedEpgApplicationProfile'
             exampleSetFlag: false
         version:
           type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SelectedEpgTenantResponse:
+      title: SelectedEpgTenantResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SelectedEpgTenant'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SelectedEpgTenantBelongsTo:
+      title: SelectedEpgTenantBelongsTo
+      type: object
+      properties:
+        connectionName:
+          type: string
+          example: ACI1
+          exampleSetFlag: true
+        vn:
+          type: string
+          example: vn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SelectedEpgTenant:
+      title: SelectedEpgTenant
+      type: object
+      properties:
+        details:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SelectedEpgTenantBelongsTo'
+            exampleSetFlag: false
+        tn:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SelectedEpgSecurityGroup:
+      title: SelectedEpgSecurityGroup
+      type: object
+      properties:
+        details:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SelectedEpgSecurityGroupBelongsTo'
+            exampleSetFlag: false
+        sgtName:
+          type: string
+          example: sgt1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    L3OutsResponse:
+      title: L3OutsResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/L3Out'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    L3Out:
+      title: L3Out
+      type: object
+      properties:
+        l3out:
+          type: string
+          example: l3out1
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
+        vn:
+          type: string
+          example: vn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SelectedEpgVirtualNetworkBelongsTo:
+      title: SelectedEpgVirtualNetworkBelongsTo
+      type: object
+      properties:
+        connectionName:
+          type: string
+          example: ACI1
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tenant1
           exampleSetFlag: true
       exampleSetFlag: false
     StringListResponse:
@@ -485,20 +699,6 @@ components:
           exampleSetFlag: true
           items:
             type: string
-            exampleSetFlag: false
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    SelectedEpgVirtualNetworkResponse:
-      title: SelectedEpgVirtualNetworkResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SelectedEpgVirtualNetwork'
             exampleSetFlag: false
         version:
           type: string
@@ -527,18 +727,33 @@ components:
           - VN
       description: Attribute conversion configuration
       exampleSetFlag: false
-    SelectedEpgEpgResponse:
-      title: SelectedEpgEpgResponse
+    SelectedEpgSecurityGroupResponse:
+      title: SelectedEpgSecurityGroupResponse
       type: object
       properties:
         response:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/SelectedEpgEpg'
+            $ref: '#/components/schemas/SelectedEpgSecurityGroup'
             exampleSetFlag: false
         version:
           type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SelectedEpgVirtualNetwork:
+      title: SelectedEpgVirtualNetwork
+      type: object
+      properties:
+        details:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SelectedEpgVirtualNetworkBelongsTo'
+            exampleSetFlag: false
+        vn:
+          type: string
+          example: aci1
           exampleSetFlag: true
       exampleSetFlag: false
     SelectedEpgEpgBelongsTo:
@@ -564,34 +779,6 @@ components:
         tn:
           type: string
           example: tenant1
-          exampleSetFlag: true
-        vn:
-          type: string
-          example: vn1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    SelectedEpgTenant:
-      title: SelectedEpgTenant
-      type: object
-      properties:
-        details:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SelectedEpgTenantBelongsTo'
-            exampleSetFlag: false
-        tn:
-          type: string
-          example: tenant1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    SelectedEpgTenantBelongsTo:
-      title: SelectedEpgTenantBelongsTo
-      type: object
-      properties:
-        connectionName:
-          type: string
-          example: ACI1
           exampleSetFlag: true
         vn:
           type: string
@@ -638,104 +825,6 @@ components:
           - AFFIX
           - ATTRIBUTE
       description: Name conversion configuration
-      exampleSetFlag: false
-    SelectedEpgApplicationProfileResponse:
-      title: SelectedEpgApplicationProfileResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SelectedEpgApplicationProfile'
-            exampleSetFlag: false
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    SelectedEpgSecurityGroupBelongsTo:
-      title: SelectedEpgSecurityGroupBelongsTo
-      type: object
-      properties:
-        ap:
-          type: string
-          example: ap1
-          exampleSetFlag: true
-        connectionName:
-          type: string
-          example: ACI1
-          exampleSetFlag: true
-        epg:
-          type: string
-          example: epg1
-          exampleSetFlag: true
-        tn:
-          type: string
-          example: tenant1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    L3Out:
-      title: L3Out
-      type: object
-      properties:
-        l3out:
-          type: string
-          example: l3out1
-          exampleSetFlag: true
-        tn:
-          type: string
-          example: tenant1
-          exampleSetFlag: true
-        vn:
-          type: string
-          example: vn1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    FetchEpgRequest:
-      title: FetchEpgRequest
-      required:
-      - hostname
-      - name
-      - username
-      type: object
-      properties:
-        domain:
-          type: string
-          description: Auth Domain
-          example: Default
-          exampleSetFlag: true
-        hostname:
-          type: string
-          description: ACI hostname or IP address
-          example: 10.0.0.1
-          exampleSetFlag: true
-        id:
-          type: string
-          description: ID if connection is already created
-          exampleSetFlag: true
-        name:
-          type: string
-          description: ACI name
-          example: ACI1
-          exampleSetFlag: true
-        nameConversion:
-          $ref: '#/components/schemas/NameConversion'
-          exampleSetFlag: true
-        password:
-          type: string
-          description: Password
-          example: password1
-          exampleSetFlag: true
-        username:
-          type: string
-          description: Username
-          example: user1
-          exampleSetFlag: true
-        validateCertificate:
-          type: boolean
-          description: ValidationCertificate
-          example: false
-          exampleSetFlag: true
       exampleSetFlag: false
     SelectedEpgApplicationProfile:
       title: SelectedEpgApplicationProfile
@@ -820,139 +909,50 @@ components:
             exampleSetFlag: false
       description: Filter parameters for selected EPGs API
       exampleSetFlag: false
-    AciConnectionAccessInfo:
-      title: AciConnectionAccessInfo
-      required:
-      - hostname
-      - name
-      - username
-      type: object
-      properties:
-        domain:
-          type: string
-          description: Auth Domain
-          example: Default
-          exampleSetFlag: true
-        hostname:
-          type: string
-          description: ACI hostname or IP address
-          example: 10.0.0.1
-          exampleSetFlag: true
-        id:
-          type: string
-          description: ID if connection is already created
-          exampleSetFlag: true
-        name:
-          type: string
-          description: ACI name
-          example: ACI1
-          exampleSetFlag: true
-        password:
-          type: string
-          description: Password
-          example: password1
-          exampleSetFlag: true
-        username:
-          type: string
-          description: Username
-          example: user1
-          exampleSetFlag: true
-        validateCertificate:
-          type: boolean
-          description: ValidationCertificate
-          example: false
-          exampleSetFlag: true
-      description: ACI connection configuration
-      exampleSetFlag: false
-    SelectedEpgTenantResponse:
-      title: SelectedEpgTenantResponse
-      required:
-      - response
-      - version
+    SelectedEpgEpgResponse:
+      title: SelectedEpgEpgResponse
       type: object
       properties:
         response:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/SelectedEpgTenant'
+            $ref: '#/components/schemas/SelectedEpgEpg'
             exampleSetFlag: false
         version:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    SelectedEpgSecurityGroup:
-      title: SelectedEpgSecurityGroup
+    SelectedEpgSecurityGroupBelongsTo:
+      title: SelectedEpgSecurityGroupBelongsTo
       type: object
       properties:
-        details:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SelectedEpgSecurityGroupBelongsTo'
-            exampleSetFlag: false
-        sgtName:
+        ap:
           type: string
-          example: sgt1
+          example: ap1
           exampleSetFlag: true
-      exampleSetFlag: false
-    SelectedEpgApplicationProfileBelongsTo:
-      title: SelectedEpgApplicationProfileBelongsTo
-      type: object
-      properties:
         connectionName:
           type: string
           example: ACI1
           exampleSetFlag: true
-        tn:
+        epg:
           type: string
-          example: tenant1
-          exampleSetFlag: true
-        vn:
-          type: string
-          example: vn1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    SelectedEpgVirtualNetworkBelongsTo:
-      title: SelectedEpgVirtualNetworkBelongsTo
-      type: object
-      properties:
-        connectionName:
-          type: string
-          example: ACI1
+          example: epg1
           exampleSetFlag: true
         tn:
           type: string
           example: tenant1
           exampleSetFlag: true
       exampleSetFlag: false
-    SelectedEpgVirtualNetwork:
-      title: SelectedEpgVirtualNetwork
-      type: object
-      properties:
-        details:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SelectedEpgVirtualNetworkBelongsTo'
-            exampleSetFlag: false
-        vn:
-          type: string
-          example: aci1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    L3OutsResponse:
-      title: L3OutsResponse
-      required:
-      - response
-      - version
+    SelectedEpgVirtualNetworkResponse:
+      title: SelectedEpgVirtualNetworkResponse
       type: object
       properties:
         response:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/L3Out'
+            $ref: '#/components/schemas/SelectedEpgVirtualNetwork'
             exampleSetFlag: false
         version:
           type: string

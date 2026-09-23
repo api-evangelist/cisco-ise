@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Downloadableacl API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Downloadableacl API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged downloadableacl across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-downloadable-acl.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: downloadableacl
 paths:
@@ -106,6 +94,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getDownloadableacl
+      x-operation-id-source: derived
     post:
       tags:
       - downloadableacl
@@ -174,6 +166,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postDownloadableacl
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /downloadableacl/{id}:
     get:
       tags:
@@ -246,6 +252,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getDownloadableaclById
+      x-operation-id-source: derived
     put:
       tags:
       - downloadableacl
@@ -332,6 +342,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putDownloadableaclById
+      x-operation-id-source: derived
     delete:
       tags:
       - downloadableacl
@@ -392,6 +406,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteDownloadableaclById
+      x-operation-id-source: derived
     patch:
       tags:
       - downloadableacl
@@ -476,21 +494,364 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchDownloadableaclById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/downloadableacl/{id}:
+    get:
+      tags:
+      - downloadableacl
+      summary: Get downloadable ACL by ID
+      description: This API allows the client to get a downloadable ACL by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.downloadableacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/downloadable'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/downloadable'
+      operationId: getErsConfigDownloadableaclById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - downloadableacl
+      summary: Update part of the downloadable ACL by ID
+      description: This API allows the user to update part of the downloadable ACL by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.downloadableacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Generation ID is a read-only attribute. Hence any values that would be sent in the request would be ignored.
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/downloadable'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/downloadable'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigDownloadableaclById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - downloadableacl
+      summary: Update downloadable ACL
+      description: This API allows the client to update a downloadable ACL.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:-   network.downloadableacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Update' can be used within Bulk Request
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Generation Id is a read Only attribute hence any values that would be sent in the request would be ignored.
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/downloadable'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/downloadable'
+      operationId: putErsConfigDownloadableaclById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - downloadableacl
+      summary: Delete downloadable ACL
+      description: This API deletes a downloadable ACL.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.downloadableacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No content
+      operationId: deleteErsConfigDownloadableaclById
+      x-operation-id-source: derived
+  /ers/config/downloadableacl:
+    get:
+      tags:
+      - downloadableacl
+      summary: Get all downloadable ACLs
+      description: This API allows the client to get all downloadable ACLs.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.downloadableacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigDownloadableacl
+      x-operation-id-source: derived
+    post:
+      tags:
+      - downloadableacl
+      summary: Create downloadable ACL
+      description: This API creates a downloadable ACL.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- network.downloadableacl.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Create' can be used within Bulk Request
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Generation Id is a read Only attribute hence any values that would be sent in the request would be ignored.value '-1' , value will be auto generated according trustsec settings ranges only for , it can be Create opration.
+        required: false
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/downloadable'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/downloadable'
+      operationId: postErsConfigDownloadableacl
+      x-operation-id-source: derived
+  /ers/config/downloadableacl/versioninfo:
+    get:
+      tags:
+      - downloadableacl
+      summary: Get downloadable ACL version information
+      description: This API helps to retrieve the version information related to the downloadable ACL.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigDownloadableaclVersioninfo
+      x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
-    UpdatedFieldsResponse:
+    downloadableaclListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    network.downloadableacl:
+      required:
+      - DownloadableAcl
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
+        DownloadableAcl:
+          $ref: '#/components/schemas/DownloadableAcl'
       example: null
+    DownloadableAcl:
+      required:
+      - dacl
+      - name
+      properties:
+        dacl:
+          title: dacl
+          type: string
+          description: The DACL Content
+          example: null
+        daclType:
+          title: daclType
+          type: string
+          description: 'Allowed values: IPV4, IPV6, IP_AGNOSTIC'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        DownloadableAcl:
+          name: name
+          dacl: permit ip any any
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          daclType: IPV4
+    downloadableaclResponse:
+      type: object
+      properties:
+        DownloadableAcl:
+          $ref: '#/components/schemas/downloadableaclResponseEntity'
+      example:
+        DownloadableAcl:
+          name: name
+          dacl: permit ip any any
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          daclType: IPV4
     Link:
       type: object
       properties:
@@ -509,13 +870,70 @@ components:
           type: string
           example: application/json
       example: null
-    network.downloadableacl:
-      required:
-      - DownloadableAcl
+    UpdatedFieldsResponse:
       type: object
       properties:
-        DownloadableAcl:
-          $ref: '#/components/schemas/DownloadableAcl'
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    downloadableaclResponseEntity:
+      properties:
+        dacl:
+          title: dacl
+          type: string
+          description: The DACL Content
+          example: null
+        daclType:
+          title: daclType
+          type: string
+          description: 'Allowed values: IPV4, IPV6, IP_AGNOSTIC'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     downloadableaclListResponse:
       type: object
@@ -570,147 +988,175 @@ components:
           type: string
           example: null
       example: null
-    downloadableaclResponse:
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    downloadable:
       type: object
       properties:
         DownloadableAcl:
-          $ref: '#/components/schemas/downloadableaclResponseEntity'
-      example:
-        DownloadableAcl:
-          name: name
-          dacl: permit ip any any
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          daclType: IPV4
-    downloadableaclResponseEntity:
+          $ref: '#/components/schemas/DownloadableAcl_2'
+    patchRequest:
+      type: object
       properties:
+        DownloadableAcl:
+          $ref: '#/components/schemas/patchRequestBody'
+    DownloadableAcl_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: c1e0e9e0-717f-11eb-9fb2-b6cb23d38630
+        name:
+          type: string
+          example: multiline_acl
+        description:
+          type: string
+          example: "this is my \n multiline \n ACL."
         dacl:
-          title: dacl
           type: string
-          description: The DACL Content
-          example: null
+          example: "permit udp any eq bootpc any eq bootps\n permit tcp any host <ise-ip> eq www\n permit tcp any host <ise-ip> eq 443\n permit tcp any host <ise-ip> eq 8443\n permit tcp any host <ise-ip> eq 8905\n permit icmp any any"
         daclType:
-          title: daclType
           type: string
-          description: 'Allowed values: IPV4, IPV6, IP_AGNOSTIC'
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    downloadableaclListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
+          example: IPV4
+        link1:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/downloadableacl/c1e09e0-717f-11eb-9fb2-b6cb23d38630
+            href:
+              type: string
+              example: link
+            type:
+              type: string
+              example: application/json
+    search:
       type: object
       properties:
-        operation:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
           type: string
-          example: Operation
-        messages:
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/downloadableacl/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: 1.1
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 5
+        resources:
           type: array
-          example: null
+          example:
+          - id: 9825aa40-8c01-11e6-996c-525400b48521
+            name: DENY_ALL_IPV4_TRAFFIC
+            description: Deny all ipv4 traffic
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/downloadableacl/9825aa40-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 32f29720-b838-11ea-8502-005056871e13
+            name: DENY_ALL_IPV6_TRAFFIC
+            description: Deny all ipv6 traffic
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/downloadableacl/32f29720-b838-11ea-8502-005056871e13
+              type: application/json
+          - id: 982498d0-8c01-11e6-996c-525400b48521
+            name: PERMIT_ALL_IPV4_TRAFFIC
+            description: Allow all ipv4 Traffic
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/downloadableacl/982498d0-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 32f0c260-b838-11ea-8502-005056871e13
+            name: PERMIT_ALL_IPV6_TRAFFIC
+            description: Allow all ipv6 Traffic
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/downloadableacl/32f0c260-b838-11ea-8502-005056871e13
+              type: application/json
+          - id: c1e0e9e0-717f-11eb-9fb2-b6cb23d38630
+            name: multiline_acl
+            description: 'this is my
+
+              multiline
+
+              ACL'
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/downloadableacl/c1e0e9e0-717f-11eb-9fb2-b6cb23d38630
+              type: application/json
           items:
             properties:
-              title:
+              name:
                 type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    DownloadableAcl:
-      required:
-      - dacl
-      - name
+    VersionInfo:
+      type: object
       properties:
-        dacl:
-          title: dacl
-          type: string
-          description: The DACL Content
-          example: null
-        daclType:
-          title: daclType
-          type: string
-          description: 'Allowed values: IPV4, IPV6, IP_AGNOSTIC'
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-      example:
-        DownloadableAcl:
-          name: name
-          dacl: permit ip any any
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          daclType: IPV4
-  parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-downloadable-acl.yaml

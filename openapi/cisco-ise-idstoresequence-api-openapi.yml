@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Idstoresequence API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Idstoresequence API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged idstoresequence across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-identity-sequence.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: idstoresequence
 paths:
@@ -98,6 +86,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getIdstoresequence
+      x-operation-id-source: derived
     post:
       tags:
       - idstoresequence
@@ -171,6 +163,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postIdstoresequence
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /idstoresequence/name/{name}:
     get:
       tags:
@@ -243,6 +249,20 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getIdstoresequenceNameByName
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /idstoresequence/{id}:
     get:
       tags:
@@ -315,6 +335,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getIdstoresequenceById
+      x-operation-id-source: derived
     put:
       tags:
       - idstoresequence
@@ -406,6 +430,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putIdstoresequenceById
+      x-operation-id-source: derived
     delete:
       tags:
       - idstoresequence
@@ -466,6 +494,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteIdstoresequenceById
+      x-operation-id-source: derived
     patch:
       tags:
       - idstoresequence
@@ -555,8 +587,335 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: patchIdstoresequenceById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/idstoresequence/name/{name}:
+    get:
+      tags:
+      - idstoresequence
+      summary: Get identity sequence by name
+      description: This API allows the client to get an identity sequence by name.
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.idstoresequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/identitysequence_name'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/identitysequence_name'
+      operationId: getErsConfigIdstoresequenceNameByName
+      x-operation-id-source: derived
+  /ers/config/idstoresequence/{id}:
+    get:
+      tags:
+      - idstoresequence
+      summary: Get identity sequence by ID
+      description: This API allows the client to get an identity sequence by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.idstoresequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idstoresequence'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/idstoresequence'
+      operationId: getErsConfigIdstoresequenceById
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - idstoresequence
+      summary: Update part of the identity store sequence by ID
+      description: This API allows the user to update part of the identity store sequence by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identitystores.idstoresequence.1.0
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/idstoresequence'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/idstoresequence'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/patchRequest'
+      operationId: patchErsConfigIdstoresequenceById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - idstoresequence
+      summary: Update identity sequence
+      description: This API allows the client to update an identity sequence.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.idstoresequence.1.1
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Additional Information
+        description: Partial update is not supported
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/idstoresequence'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/idstoresequence'
+      operationId: putErsConfigIdstoresequenceById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - idstoresequence
+      summary: Delete identity sequence
+      description: This API deletes an identity sequence.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.idstoresequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigIdstoresequenceById
+      x-operation-id-source: derived
+  /ers/config/idstoresequence:
+    get:
+      tags:
+      - idstoresequence
+      summary: Get all identity sequences
+      description: This API allows the client to get all the identity sequences.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.idstoresequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigIdstoresequence
+      x-operation-id-source: derived
+    post:
+      tags:
+      - idstoresequence
+      summary: Create identity sequence
+      description: This API creates an identity sequence.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.idstoresequence.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/idstoresequence'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/idstoresequence'
+      operationId: postErsConfigIdstoresequence
+      x-operation-id-source: derived
+  /ers/config/idstoresequence/versioninfo:
+    get:
+      tags:
+      - idstoresequence
+      summary: Get identity sequence version information
+      description: This API helps to retrieve the version information related to the identity sequence.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigIdstoresequenceVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
+    identitystores.idstoresequence:
+      required:
+      - IdStoreSequence
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/IdStoreSequence'
+      example: null
+    IdStoreSequence:
+      required:
+      - breakOnStoreFail
+      - certificateAuthenticationProfile
+      - idSeqItem
+      - name
+      properties:
+        breakOnStoreFail:
+          title: breakOnStoreFail
+          type: boolean
+          description: Do not access other stores in the sequence If a selected identity store cannot be accessed for authentication
+          example: null
+        certificateAuthenticationProfile:
+          title: certificateAuthenticationProfile
+          type: string
+          description: Certificate Authentication Profile, empty if doesn't exist
+          example: null
+        idSeqItem:
+          title: idSeqItem
+          type: string
+          description: list of id stores comprised of id store name and order
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        IdStoreSequence:
+          certificateAuthenticationProfile: Preloaded_Certificate_Profile
+          idSeqItem:
+          - idstore: Internal Users
+            order: 1
+          - idstore: Guest Users
+            order: 2
+          name: idSeq1
+          breakOnStoreFail: false
+          description: 'ERS Example Id sequence '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     idstoresequenceListResponseEntity:
       properties:
         id:
@@ -585,6 +944,48 @@ components:
               type: string
               example: null
           example: null
+      example: null
+    idstoresequenceResponseEntity:
+      properties:
+        breakOnStoreFail:
+          title: breakOnStoreFail
+          type: boolean
+          description: Do not access other stores in the sequence If a selected identity store cannot be accessed for authentication
+          example: null
+        certificateAuthenticationProfile:
+          title: certificateAuthenticationProfile
+          type: string
+          description: Certificate Authentication Profile, empty if doesn't exist
+          example: null
+        idSeqItem:
+          type: array
+          example: null
+          items:
+            properties:
+              idstore:
+                type: string
+                example: null
+              order:
+                type: string
+                example: null
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     UpdatedFieldsResponse:
       type: object
@@ -640,144 +1041,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    idstoresequenceResponseEntity:
-      properties:
-        breakOnStoreFail:
-          title: breakOnStoreFail
-          type: boolean
-          description: Do not access other stores in the sequence If a selected identity store cannot be accessed for authentication
-          example: null
-        certificateAuthenticationProfile:
-          title: certificateAuthenticationProfile
-          type: string
-          description: Certificate Authentication Profile, empty if doesn't exist
-          example: null
-        idSeqItem:
-          type: array
-          example: null
-          items:
-            properties:
-              idstore:
-                type: string
-                example: null
-              order:
-                type: string
-                example: null
-            example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    IdStoreSequence:
-      required:
-      - breakOnStoreFail
-      - certificateAuthenticationProfile
-      - idSeqItem
-      - name
-      properties:
-        breakOnStoreFail:
-          title: breakOnStoreFail
-          type: boolean
-          description: Do not access other stores in the sequence If a selected identity store cannot be accessed for authentication
-          example: null
-        certificateAuthenticationProfile:
-          title: certificateAuthenticationProfile
-          type: string
-          description: Certificate Authentication Profile, empty if doesn't exist
-          example: null
-        idSeqItem:
-          title: idSeqItem
-          type: string
-          description: list of id stores comprised of id store name and order
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-      example:
-        IdStoreSequence:
-          certificateAuthenticationProfile: Preloaded_Certificate_Profile
-          idSeqItem:
-          - idstore: Internal Users
-            order: 1
-          - idstore: Guest Users
-            order: 2
-          name: idSeq1
-          breakOnStoreFail: false
-          description: 'ERS Example Id sequence '
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    idstoresequenceResponse:
-      type: object
-      properties:
-        IdStoreSequence:
-          $ref: '#/components/schemas/idstoresequenceResponseEntity'
-      example:
-        IdStoreSequence:
-          certificateAuthenticationProfile: Preloaded_Certificate_Profile
-          idSeqItem:
-          - idstore: Internal Users
-            order: 1
-          - idstore: Guest Users
-            order: 2
-          name: idSeq1
-          breakOnStoreFail: false
-          description: 'ERS Example Id sequence '
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
     ERSResponse:
       type: object
       properties:
@@ -800,24 +1063,276 @@ components:
                 example: code
             example: null
       example: null
-    identitystores.idstoresequence:
-      required:
-      - IdStoreSequence
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    idstoresequenceResponse:
       type: object
       properties:
         IdStoreSequence:
-          $ref: '#/components/schemas/IdStoreSequence'
-      example: null
+          $ref: '#/components/schemas/idstoresequenceResponseEntity'
+      example:
+        IdStoreSequence:
+          certificateAuthenticationProfile: Preloaded_Certificate_Profile
+          idSeqItem:
+          - idstore: Internal Users
+            order: 1
+          - idstore: Guest Users
+            order: 2
+          name: idSeq1
+          breakOnStoreFail: false
+          description: 'ERS Example Id sequence '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    idstoresequence:
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/IdStoreSequence_2'
+    IdStoreSequence_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 93246270-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: All_User_ID_Store
+        description:
+          type: string
+          example: A built-in Identity Sequence to include all User Identity Stores
+        idSeqItem:
+          type: array
+          example:
+          - idstore: Internal Users
+            order: 1
+          - idstore: All_AD_Join_Points
+            order: 2
+          - idstore: Guest Users
+            order: 3
+          items:
+            properties:
+              name:
+                type: string
+        certificateAuthenticationProfile:
+          type: string
+          example: Preloaded_Certificate_Profile
+        breakOnStoreFail:
+          type: boolean
+          example: false
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/idstoresequence/93246270-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    patchRequest:
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: <ise-ip>/ers/config/idstoresequence/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    IdStoreSequence_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 93246270-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: All_User_ID_Store
+        description:
+          type: string
+          example: A built-in Identity Sequence to include all User Identity Stores
+        idSeqItem:
+          type: array
+          example:
+          - idstore: Internal Users
+            order: 1
+          - idstore: All_AD_Join_Points
+            order: 2
+          - idstore: Guest Users
+            order: 3
+          items:
+            properties:
+              name:
+                type: string
+        certificateAuthenticationProfile:
+          type: string
+          example: Preloaded_Certificate_Profile
+        breakOnStoreFail:
+          type: boolean
+          example: false
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/idstoresequence/name/All_User_ID_Store
+            type:
+              type: string
+              example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 5
+        resources:
+          type: array
+          example:
+          - id: 93246270-8c01-11e6-996c-525400b48521
+            name: All_User_ID_Stores
+            description: A built-in Identity Sequence to include all User Identity Stores
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/idstoresequence/93246270-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 9c6fb000-8c01-11e6-996c-525400b48521
+            name: Certificate_Request_Sequence
+            description: A built-in Identity Sequence for Certificate Request APIs
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/idstoresequence/9c6fb000-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 92e50f80-8c01-11e6-996c-525400b48521
+            name: Guest_Portal_Sequence
+            description: A built-in Identity Sequence for the Guest Portal
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/idstoresequence/92e50f80-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 930fa1f0-8c01-11e6-996c-525400b48521
+            name: MyDevices_Portal_Sequence
+            description: A built-in Identity Sequence for the My Devices Portal
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/idstoresequence/930fa1f0-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 92faba60-8c01-11e6-996c-525400b48521
+            name: Sponsor_Portal_Sequence
+            description: A built-in Identity Sequence for the Sponsor Portal
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/idstoresequence/92faba60-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    identitysequence_name:
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/IdStoreSequence_name'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -827,7 +1342,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-identity-sequence.yaml

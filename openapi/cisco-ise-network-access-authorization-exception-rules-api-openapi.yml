@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Cisco ISE API - Policy Network Access - Authorization Exception Rules API
+  title: Cisco ISE API - Policy Network Access - Authorization…
   version: 1.0.0
   x-provenance:
     method: harvested
@@ -26,7 +26,7 @@ paths:
     get:
       tags:
       - Network Access - Authorization Exception Rules
-      summary: Network Access - Get local exception rules.
+      summary: Network Access - Get local exception rules
       description: Network Access - Get local exception rules.
       operationId: getNetworkAccessPolicyByIdLocalExceptionRuleList
       parameters:
@@ -77,8 +77,19 @@ paths:
     post:
       tags:
       - Network Access - Authorization Exception Rules
-      summary: Network Access - Create local authorization exception rule.
-      description: 'Network Access - Create local authorization exception rule: <ul> <li> Rule must include name and condition. </li> <li> Condition has hierarchical structure which define a set of conditions for which authoriztion policy rule could be match. </li> <li> Condition can be either reference to a stored Library condition, using model <b>ConditionReference</b> </li> or dynamically built conditions which are not stored in the conditions Library, using models <b>ConditionAttributes, ConditionAndBlock, ConditionOrBlock</b>. </li> </ul> '
+      summary: Network Access - Create local authorization exception rule
+      description: 'Network Access - Create local authorization exception rule:
+
+
+        Rule must include name and condition.
+
+
+        Condition has hierarchical structure which define a set of conditions for which authoriztion policy rule could be match.
+
+
+        Condition can be either reference to a stored Library condition, using model ConditionReference
+
+        or dynamically built conditions which are not stored in the conditions Library, using models ConditionAttributes, ConditionAndBlock, ConditionOrBlock.'
       operationId: createNetworkAccessPolicyByIdLocalExceptionRule
       parameters:
       - name: policyId
@@ -143,7 +154,6 @@ paths:
       tags:
       - Network Access - Authorization Exception Rules
       summary: Network Access - Reset HitCount for local exceptions
-      description: Network Access - Reset HitCount for local exceptions
       operationId: resetHitCountsNetworkAccessPolicyByIdLocalExceptions
       parameters:
       - name: policyId
@@ -196,7 +206,7 @@ paths:
     get:
       tags:
       - Network Access - Authorization Exception Rules
-      summary: Network Access - Get local exception rule attributes.
+      summary: Network Access - Get local exception rule attributes
       description: Network Access - Get local exception rule attributes.
       operationId: getNetworkAccessPolicyByIdLocalExceptionRuleById
       parameters:
@@ -256,7 +266,7 @@ paths:
     put:
       tags:
       - Network Access - Authorization Exception Rules
-      summary: Network Access - Update local exception rule.
+      summary: Network Access - Update local exception rule
       description: Network Access - Update local exception rule.
       operationId: updateNetworkAccessPolicyByIdLocalExceptionRuleById
       parameters:
@@ -331,7 +341,7 @@ paths:
     delete:
       tags:
       - Network Access - Authorization Exception Rules
-      summary: Network Access - Delete local exception rule.
+      summary: Network Access - Delete local exception rule
       description: Network Access - Delete local exception rule.
       operationId: deleteNetworkAccessPolicyByIdLocalExceptionRuleById
       parameters:
@@ -404,98 +414,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    IdResponseEntity:
-      title: IdResponseEntity
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
-          exampleSetFlag: true
-      description: response object containing object ID
-      exampleSetFlag: false
-    NetworkAccessAuthorizationRuleResponseEntity:
-      title: NetworkAccessAuthorizationRuleResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    RuleAuthorizationNetworkAccess:
-      title: RuleAuthorizationNetworkAccess
-      required:
-      - rule
-      type: object
-      properties:
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-        profile:
-          type: array
-          description: The authorization profile/s
-          example: '["PermitAccess","NSP_Onboard"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        rule:
-          $ref: '#/components/schemas/RuleCommon'
-          exampleSetFlag: true
-        securityGroup:
-          type: string
-          description: Security group used in authorization policies
-          example: BYOD
-          exampleSetFlag: true
-      description: Authorization rule for network access
-      exampleSetFlag: false
-    Error:
-      title: Error
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
     Condition:
       title: Condition
       required:
@@ -526,17 +444,64 @@ components:
           exampleSetFlag: true
       description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
-    MessageResponseEntity:
-      title: MessageResponseEntity
+    RuleAuthorizationNetworkAccess:
+      title: RuleAuthorizationNetworkAccess
       required:
-      - message
+      - rule
       type: object
       properties:
-        message:
-          type: string
-          example: Success
+        link:
+          $ref: '#/components/schemas/Link'
           exampleSetFlag: true
-      description: Response object containing success message
+        profile:
+          type: array
+          description: The authorization profile/s
+          example: '["PermitAccess","NSP_Onboard"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        rule:
+          $ref: '#/components/schemas/RuleCommon'
+          exampleSetFlag: true
+        securityGroup:
+          type: string
+          description: Security group used in authorization policies
+          example: BYOD
+          exampleSetFlag: true
+      description: Authorization rule for network access
+      exampleSetFlag: false
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    NetworkAccessAuthorizationRuleListResponseEntity:
+      title: NetworkAccessAuthorizationRuleListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          example: '[{"rule":{"default":true,"id":"c841b537-45fb-4c3a-a1ae-baeb3e4c4271","hitCounts":0,"rank":1,"state":"enabled","condition":null,"profile":["DenyAccess"],"securityGroup":null,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/network-access/policy-set/{{policy-id}}/authorization/c841b537-45fb-4c3a-a1ae-baeb3e4c4271","type":"application/json"}}},{"rule":{"default":false,"id":"c841b537-45fb-4c3a-a1ae-baeb3e4c427a","name":"Authorization Rule 1","hitCounts":0,"rank":0,"state":"enabled","condition":{"conditionType":"ConditionAttributes","isNegate":false,"dictionaryName":"Network Access","attributeName":"Device IP Address","operator":"ipEquals","attributeValue":"10.0.10.0"}},"profile":["PermitAccess"],"securityGroup":"BYOD","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/network-access/policy-set/{{policy-id}}/authorization/c841b537-45fb-4c3a-a1ae-baeb3e4c427a","type":"application/json"}}]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
       exampleSetFlag: false
     RuleCommon:
       title: RuleCommon
@@ -588,24 +553,69 @@ components:
           - monitor
       description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    NetworkAccessAuthorizationRuleListResponseEntity:
-      title: NetworkAccessAuthorizationRuleListResponseEntity
+    NetworkAccessAuthorizationRuleResponseEntity:
+      title: NetworkAccessAuthorizationRuleResponseEntity
       required:
       - response
       - version
       type: object
       properties:
         response:
-          type: array
-          example: '[{"rule":{"default":true,"id":"c841b537-45fb-4c3a-a1ae-baeb3e4c4271","hitCounts":0,"rank":1,"state":"enabled","condition":null,"profile":["DenyAccess"],"securityGroup":null,"link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/network-access/policy-set/{{policy-id}}/authorization/c841b537-45fb-4c3a-a1ae-baeb3e4c4271","type":"application/json"}}},{"rule":{"default":false,"id":"c841b537-45fb-4c3a-a1ae-baeb3e4c427a","name":"Authorization Rule 1","hitCounts":0,"rank":0,"state":"enabled","condition":{"conditionType":"ConditionAttributes","isNegate":false,"dictionaryName":"Network Access","attributeName":"Device IP Address","operator":"ipEquals","attributeValue":"10.0.10.0"}},"profile":["PermitAccess"],"securityGroup":"BYOD","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/network-access/policy-set/{{policy-id}}/authorization/c841b537-45fb-4c3a-a1ae-baeb3e4c427a","type":"application/json"}}]'
+          $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
-            exampleSetFlag: false
         version:
           type: string
           example: 1.0.0
           exampleSetFlag: true
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+          exampleSetFlag: true
+      description: Response object containing success message
       exampleSetFlag: false
   securitySchemes:
     BasicAuth:

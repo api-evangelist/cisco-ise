@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Byodportal API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Byodportal API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged byodportal across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-byod-portal.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: byodportal
 paths:
@@ -126,6 +114,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getByodportal
+      x-operation-id-source: derived
     post:
       tags:
       - byodportal
@@ -253,6 +245,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postByodportal
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /byodportal/{portal-id}:
     get:
       tags:
@@ -325,6 +331,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getByodportalByPortalId
+      x-operation-id-source: derived
     put:
       tags:
       - byodportal
@@ -470,6 +480,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putByodportalByPortalId
+      x-operation-id-source: derived
     delete:
       tags:
       - byodportal
@@ -530,38 +544,282 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteByodportalByPortalId
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/byodportal/{portal-id}:
+    get:
+      tags:
+      - byodportal
+      summary: Get BYOD portal by ID
+      description: This API allows the client to get a BYOD portal by ID.
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value. For example : ‘b7e7d773-7bb3-442b-a50b-42837c12248a''.
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- portal.byodportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/portal'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/portal'
+      operationId: getErsConfigByodportalByPortalId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - byodportal
+      summary: Update BYOD portal by ID
+      description: This API allows the client to update a BYOD portal by ID.
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value. For example : ‘b7e7d773-7bb3-442b-a50b-42837c12248a''.
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:-   portal.byodportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'UpdateById' can be used within Bulk Request
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/portal'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/portal'
+      operationId: putErsConfigByodportalByPortalId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - byodportal
+      summary: Delete BYOD portal by ID
+      description: This API deletes a BYOD portal by ID.
+      parameters:
+      - name: portal-id
+        in: path
+        required: true
+        description: 'The portal ID is a dynamically generated value. For example : ‘b7e7d773-7bb3-442b-a50b-42837c12248a''.
+
+          '
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- portal.byodportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'DeleteById' can be used within Bulk Request
+        required: false
+        schema:
+          type: string
+      responses:
+        204:
+          description: No content
+      operationId: deleteErsConfigByodportalByPortalId
+      x-operation-id-source: derived
+  /ers/config/byodportal:
+    post:
+      tags:
+      - byodportal
+      summary: Create BYOD portal
+      description: This API creates a BYOD portal.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- portal.byodportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'Create' can be used within Bulk Request
+        required: false
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/portal'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/portal'
+      operationId: postErsConfigByodportal
+      x-operation-id-source: derived
+    get:
+      tags:
+      - byodportal
+      summary: Get all BYOD portals
+      description: 'This API allows the client to get all the BYOD portals.
+
+
+        Filter:
+
+
+        [name, description]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [name, description]'
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- portal.byodportal.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigByodportal
+      x-operation-id-source: derived
+  /ers/config/byodportal/versioninfo:
+    get:
+      tags:
+      - byodportal
+      summary: Get BYOD portal version information
+      description: This API helps to retrieve the version information related to the BYOD portal.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigByodportalVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
+    portal.byodportal:
+      required:
+      - BYODPortal
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
+        BYODPortal:
+          $ref: '#/components/schemas/BYODPortal'
       example: null
-    Link:
-      type: object
+    byodportalListResponseEntity:
       properties:
-        rel:
+        id:
+          title: id
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
+          description: Id description
+          example: null
+        name:
+          title: name
           type: string
-          example: https://{server}:{port}/ers/config
-        type:
+          description: name description
+          example: null
+        description:
+          title: description
           type: string
-          example: application/json
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     byodportalResponse:
       type: object
@@ -634,45 +892,59 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
-    portal.byodportal:
-      required:
-      - BYODPortal
+    byodportalListResponse:
       type: object
       properties:
-        BYODPortal:
-          $ref: '#/components/schemas/BYODPortal'
-      example: null
-    updatedField:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/byodportalListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    UpdatedFieldsResponse:
+      type: object
       properties:
-        field:
-          type: string
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    byodportalListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     BYODPortal:
       required:
@@ -1040,6 +1312,58 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     byodportalResponseEntity:
       properties:
         portalTestUrl:
@@ -1333,79 +1657,298 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    byodportalListResponse:
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    search:
       type: object
       properties:
         SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    portal:
+      type: object
+      properties:
+        BYODPortal:
+          $ref: '#/components/schemas/BYODPortal_2'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/byodportal/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    BYODPortal_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9a9b910c-54d3-44a4-a3c3-dd007c171599
+        name:
+          type: string
+          example: BYOD Portal (default)
+        description:
+          type: string
+          example: Default portal and user experience used when employees register a personal device on the network
+        portalType:
+          type: string
+          example: BYOD
+        portalTestUrl:
+          type: string
+          example: https://<ise-ip>:8443/portal/PortalSetup.action?portal=9a9b910c-54d3-44a4-a3c3-dd007c171599
+        settings:
           type: object
           properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/byodportalListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    ERSResponse:
+            portalSettings:
+              type: object
+              properties:
+                httpsPort:
+                  type: integer
+                  example: 8443
+                allowedInterfaces:
+                  type: string
+                  example:
+                  - eth0
+                  - bond0
+                certificateGroupTag:
+                  type: string
+                  example: Default Portal Certificate Group
+                displayLang:
+                  type: string
+                  example: USEBROWSERLOCALE
+                fallbackLanguage:
+                  type: string
+                  example: English
+                alwaysUsedLanguage:
+                  type: string
+                  example: English
+            byodSettings:
+              type: object
+              properties:
+                byodWelcomeSettings:
+                  type: object
+                  properties:
+                    enableBYOD:
+                      type: boolean
+                      example: true
+                    enableGuestAccess:
+                      type: boolean
+                      example: false
+                    requireMDM:
+                      type: boolean
+                      example: false
+                    includeAup:
+                      type: boolean
+                      example: true
+                    aupDisplay:
+                      type: string
+                      example: ONPAGE
+                    requireAupAcceptance:
+                      type: boolean
+                      example: false
+                    requireScrolling:
+                      type: boolean
+                      example: false
+                byodRegistrationSettings:
+                  type: object
+                  properties:
+                    showDeviceID:
+                      type: boolean
+                      example: true
+                    endPointIdentityGroupId:
+                      type: string
+                      example: aa13bb40-8bff-11e6-996c-525400b48521
+                byodRegistrationSuccessSettings:
+                  properties:
+                    successRedirect:
+                      type: string
+                      example: AUTHSUCCESSPAGE
+                    redirectUrl:
+                      type: string
+                      example: Redirect URL
+            supportInfoSettings:
+              type: object
+              properties:
+                includeSupportInfoPage:
+                  type: boolean
+                  example: false
+                includeMacAddr:
+                  type: boolean
+                  example: true
+                includeIpAddress:
+                  type: boolean
+                  example: true
+                includeBrowserUserAgent:
+                  type: boolean
+                  example: true
+                includePolicyServer:
+                  type: boolean
+                  example: true
+                includeFailureCode:
+                  type: boolean
+                  example: true
+                emptyFieldDisplay:
+                  type: string
+                  example: HIDE
+        customizations:
+          type: object
+          properties:
+            portalTheme:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 9eb421c0-8c01-11e6-996c-525400b48521
+                name:
+                  type: string
+                  example: Default Blue theme
+                themeData:
+                  type: string
+                  example: Base 64 encoded string of Theme CSS file
+            portalTweakSettings:
+              type: object
+              properties:
+                bannerColor:
+                  type: string
+                  example: Banner Color from GUI
+                bannerTextColor:
+                  type: string
+                  example: Banner Text color code from GUI
+                pageBackgroundColor:
+                  type: string
+                  example: Color code from GUI
+                pageLabelAndTextColor:
+                  type: string
+                  example: Label and Text color from GUI
+            language:
+              type: object
+              properties:
+                viewLanguage:
+                  type: string
+                  example: English
+            globalCustomizations:
+              type: object
+              properties:
+                mobileLogoImage:
+                  type: object
+                  properties:
+                    data:
+                      type: string
+                      example: base 64 encoded value of image
+                desktopLogoImage:
+                  type: object
+                  properties:
+                    data:
+                      type: string
+                      example: base 64 encoded value of image
+                bannerImage:
+                  type: object
+                  properties:
+                    data:
+                      type: string
+                      example: base 64 encoded value of image
+                bannerTitle:
+                  type: string
+                  example: BYOD Portal
+                contactText:
+                  type: string
+                  example: Contact Support
+                footerElement:
+                  type: string
+                  example: Footer Element
+            pageCustomizations:
+              type: object
+              properties:
+                data:
+                  type: array
+                  example:
+                  - key: ui_contact_ip_address_label
+                    value: SVAgYWRkcmVzczo=
+                  items:
+                    properties:
+                      name:
+                        type: string
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/byodportal/9a9b910c-54d3-44a4-a3c3-dd007c171599
+            type:
+              type: string
+              example: application/json
+    SearchResult:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
+        total:
+          type: integer
+          example: 1
+        resources:
           type: array
-          example: null
+          example:
+          - id: 9a9b910c-54d3-44a4-a3c3-dd007c171599
+            name: BYOD Portal (default)
+            description: Default portal and user experience used when employees register a personal device on the network
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/byodportal/9a9b910c-54d3-44a4-a3c3-dd007c171599
+              type: application/json
           items:
             properties:
-              title:
+              name:
                 type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1415,7 +1958,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-byod-portal.yaml

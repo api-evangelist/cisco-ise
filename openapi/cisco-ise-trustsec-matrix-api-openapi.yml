@@ -26,7 +26,7 @@ paths:
     get:
       tags:
       - Trustsec Matrix
-      summary: Get list of policy matrices configured.
+      summary: Get list of policy matrices configured
       description: Get list of policy matrices configured.
       operationId: getTrustsecMatrices
       parameters:
@@ -85,7 +85,6 @@ paths:
       tags:
       - Trustsec Matrix
       summary: Create a matrix in the ISE under Trustsec Policy
-      description: Create a matrix in the ISE under Trustsec Policy
       operationId: createTrustsecMatrix
       parameters:
       - name: X-Request-ID
@@ -140,7 +139,7 @@ paths:
     get:
       tags:
       - Trustsec Matrix
-      summary: Get the details of the given policy Matrix ID.
+      summary: Get the details of the given policy Matrix ID
       description: Get the details of the given Matrix ID.
       operationId: getTrustsecMatrix
       parameters:
@@ -190,7 +189,6 @@ paths:
       tags:
       - Trustsec Matrix
       summary: Update the given Trustsec matrix in the ISE
-      description: Update the given Trustsec matrix in the ISE
       operationId: updateTrustsecMatrix
       parameters:
       - name: matrixUuid
@@ -371,7 +369,7 @@ paths:
     get:
       tags:
       - Trustsec Matrix
-      summary: Get the details of the given matrix cell of the given matrix.
+      summary: Get the details of the given matrix cell of the given matrix
       description: Get the policy detail of the given Matrix cell.
       operationId: getTrustsecMatrixCellDetail
       parameters:
@@ -430,7 +428,7 @@ paths:
     put:
       tags:
       - Trustsec Matrix
-      summary: Assign Network device groups to the given Matrix. This operation will assign all the network-devices from the given network-device-groups to the Matrix. Either NAD or NDG can be assigned to the Matrix. This operation will trigger policy CoA to the applicable network-devices.
+      summary: Assign Network device groups to the given Matrix.
       description: Assign Network device groups to the given Matrix. This operation will assign all the network-devices from the given network-device-groups to the Matrix.
       operationId: assignNdgsToMatrix
       parameters:
@@ -488,7 +486,7 @@ paths:
     put:
       tags:
       - Trustsec Matrix
-      summary: Assign NADs to the given Matrix. Once the NAD assignment is successful, it will send CoA to the respective NADs. Either NAD or NDG can be assigned to the Matrix.
+      summary: Assign NADs to the given Matrix.
       description: Assign NADs to the given Matrix. Once the NAD assignment is successful, it will send CoA to the respective NADs. Either NAD or NDG can be assigned to the Matrix.
       operationId: assignNadsToMatrix
       parameters:
@@ -544,34 +542,110 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    AssignNadsRequest:
-      title: AssignNadsRequest
+    SuccessResponse:
+      title: SuccessResponse
       type: object
       properties:
-        nadList:
+        success:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MatrixUpdate:
+      title: MatrixUpdate
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description of the Matrix
+          example: This is a production Matrix
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Name of the given Matrix
+          example: production
+          exampleSetFlag: true
+      description: Request object for updating the Matrix
+      exampleSetFlag: false
+    AssignNdgsRequest:
+      title: AssignNdgsRequest
+      type: object
+      properties:
+        ndgList:
           type: array
           exampleSetFlag: true
           items:
             type: string
             format: uuid
             exampleSetFlag: false
-      description: Request object for assigning list of network-devices to a policy matrix
+      description: Request object for assigning list of network-device-groups to a policy matrix
       exampleSetFlag: false
-    MatrixCellsResponse:
-      title: MatrixCellsResponse
+    CreateMatrixPostResponse:
+      title: CreateMatrixPostResponse
       type: object
       properties:
         response:
-          type: array
+          $ref: '#/components/schemas/MatrixDetailObj'
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/MatrixCell'
-            exampleSetFlag: false
         version:
           type: string
           example: 1.0.0
           exampleSetFlag: true
-      description: Matrix cells response
+      description: Create Matrix response format
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CreateMatrixPostRequest:
+      title: CreateMatrixPostRequest
+      type: object
+      properties:
+        copyPolicyFrom:
+          type: string
+          description: Policy Name from which the trustsec policies needs to be copied. The default value is empty means it will create a new Matrix without any policies.
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        defconLevel:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - DEFCON1_CRITICAL
+          - DEFCON2_SEVERE
+          - DEFCON3_SUBSTANTIAL
+          - DEFCON4_MODERATE
+          - DEFCON5_NORMAL
+        description:
+          type: string
+          description: Description of the Matrix
+          example: This is a production Matrix
+          exampleSetFlag: true
+        matrixPolicyType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - TRAFFIC_STEERING_POLICY
+          - TRUSTSEC_POLICY
+        name:
+          type: string
+          description: Name of the given Matrix
+          example: production
+          exampleSetFlag: true
+      description: Request object for creating a new Matrix
       exampleSetFlag: false
     MatrixCellDetailObj:
       title: MatrixCellDetailObj
@@ -608,46 +682,30 @@ components:
           exampleSetFlag: true
       description: POJO for capturing the Matrix cell details.
       exampleSetFlag: false
-    MatrixUpdate:
-      title: MatrixUpdate
-      required:
-      - name
+    MatrixCellDetailResponse:
+      title: MatrixCellDetailResponse
       type: object
       properties:
-        description:
-          type: string
-          description: Description of the Matrix
-          example: This is a production Matrix
+        response:
+          $ref: '#/components/schemas/MatrixCellDetailObj'
           exampleSetFlag: true
-        name:
+        version:
           type: string
-          description: Name of the given Matrix
-          example: production
+          example: 1.0.0
           exampleSetFlag: true
-      description: Request object for updating the Matrix
+      description: Matrix cell detail response
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
+    MultiMatrixListResponse:
+      title: MultiMatrixListResponse
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
+        response:
+          type: array
           exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Message:
-      title: Message
-      type: object
-      properties:
-        message:
+          items:
+            $ref: '#/components/schemas/MatrixObj'
+            exampleSetFlag: false
+        version:
           type: string
           example: 1.0.0
           exampleSetFlag: true
@@ -711,72 +769,6 @@ components:
           exampleSetFlag: true
       description: POJO for capturig the matrix details
       exampleSetFlag: false
-    AssignNdgsRequest:
-      title: AssignNdgsRequest
-      type: object
-      properties:
-        ndgList:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            format: uuid
-            exampleSetFlag: false
-      description: Request object for assigning list of network-device-groups to a policy matrix
-      exampleSetFlag: false
-    MatrixCellDetailResponse:
-      title: MatrixCellDetailResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/MatrixCellDetailObj'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Matrix cell detail response
-      exampleSetFlag: false
-    CreateMatrixPostResponse:
-      title: CreateMatrixPostResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/MatrixDetailObj'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Create Matrix response format
-      exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    MultiMatrixListResponse:
-      title: MultiMatrixListResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/MatrixObj'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
     MatrixObj:
       title: MatrixObj
       type: object
@@ -839,55 +831,6 @@ components:
           - STAGING
       description: POJO for capturig the matrix details
       exampleSetFlag: false
-    CreateMatrixPostRequest:
-      title: CreateMatrixPostRequest
-      type: object
-      properties:
-        copyPolicyFrom:
-          type: string
-          description: Policy Name from which the trustsec policies needs to be copied. The default value is empty means it will create a new Matrix without any policies.
-          format: uuid
-          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
-          exampleSetFlag: true
-        defconLevel:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - DEFCON1_CRITICAL
-          - DEFCON2_SEVERE
-          - DEFCON3_SUBSTANTIAL
-          - DEFCON4_MODERATE
-          - DEFCON5_NORMAL
-        description:
-          type: string
-          description: Description of the Matrix
-          example: This is a production Matrix
-          exampleSetFlag: true
-        matrixPolicyType:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - TRAFFIC_STEERING_POLICY
-          - TRUSTSEC_POLICY
-        name:
-          type: string
-          description: Name of the given Matrix
-          example: production
-          exampleSetFlag: true
-      description: Request object for creating a new Matrix
-      exampleSetFlag: false
-    SuccessResponse:
-      title: SuccessResponse
-      type: object
-      properties:
-        success:
-          $ref: '#/components/schemas/Message'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
     MatrixCell:
       title: MatrixCell
       type: object
@@ -933,5 +876,60 @@ components:
         version:
           type: string
           example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MatrixCellsResponse:
+      title: MatrixCellsResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MatrixCell'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Matrix cells response
+      exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        message:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AssignNadsRequest:
+      title: AssignNadsRequest
+      type: object
+      properties:
+        nadList:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            format: uuid
+            exampleSetFlag: false
+      description: Request object for assigning list of network-devices to a policy matrix
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false

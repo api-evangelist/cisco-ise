@@ -114,7 +114,10 @@ paths:
       tags:
       - Admin Users
       summary: Create admin user in Cisco ISE
-      description: Post admin users API will be used to create Cisco ISE administrators <ul> <li><strong>rbacGroups</strong> - ISE UI doesn't allow Read Only Admin group to be passed as Admin group in Admin user creation. Associating this Admin group will make Admin user read only. To make user as read only , enable readonly field as true.</li> <ul>
+      description: 'Post admin users API will be used to create Cisco ISE administrators
+
+
+        rbacGroups - ISE UI doesn''t allow Read Only Admin group to be passed as Admin group in Admin user creation. Associating this Admin group will make Admin user read only. To make user as read only , enable readonly field as true.'
       operationId: createAdminUser
       requestBody:
         content:
@@ -245,7 +248,10 @@ paths:
       tags:
       - Admin Users
       summary: Update details of an admin user in Cisco ISE
-      description: Put admin user API will be used to update details of  Cisco ISE administrators <ul> <li><strong>rbacGroups</strong> - ISE UI doesn't allow Read Only Admin group to be passed as Admin group in Admin user updation. Associating this Admin group will make Admin user read only. To make user as read only , enable readonly field as true.</li> <ul>
+      description: 'Put admin user API will be used to update details of Cisco ISE administrators
+
+
+        rbacGroups - ISE UI doesn''t allow Read Only Admin group to be passed as Admin group in Admin user updation. Associating this Admin group will make Admin user read only. To make user as read only , enable readonly field as true.'
       operationId: updateAdminUser
       parameters:
       - name: name
@@ -374,6 +380,145 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    AdminUserDetailsResponse:
+      title: AdminUserDetailsResponse
+      required:
+      - statusCode
+      type: object
+      properties:
+        adminUserDetails:
+          $ref: '#/components/schemas/OpenApiAdminUser'
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message providing more information about the response.
+          exampleSetFlag: true
+        statusCode:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+      description: Response schema for retrieving detailed information about a specific admin user.
+      exampleSetFlag: false
+    AdminUserResponse:
+      title: AdminUserResponse
+      required:
+      - statusCode
+      type: object
+      properties:
+        adminUserList:
+          type: array
+          description: A list of admin users.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AdminUserData'
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A descriptive message related to the response.
+          exampleSetFlag: true
+        statusCode:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+      description: Response schema for admin user data, including the status code, message, and a list of admin user data.
+      exampleSetFlag: false
+    AdminUserData:
+      title: AdminUserData
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: Description or role of the admin user.
+          exampleSetFlag: true
+        emailAddr:
+          type: string
+          description: Email address of the admin user.
+          exampleSetFlag: true
+        firstName:
+          type: string
+          description: First name of the admin user.
+          exampleSetFlag: true
+        id:
+          type: string
+          description: Unique identifier for the admin user.
+          exampleSetFlag: true
+        lastName:
+          type: string
+          description: Last name of the admin user.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Name of the admin user.
+          exampleSetFlag: true
+        rbacGroupNames:
+          type: array
+          description: List of RBAC group names the admin user belongs to.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        statusEnabled:
+          type: boolean
+          description: Indicates whether the admin user's account is enabled.
+          example: false
+          exampleSetFlag: true
+      description: Schema for admin user data, representing key information such as user details, email, and RBAC group memberships.
+      exampleSetFlag: false
+    TaskResponse:
+      title: TaskResponse
+      type: object
+      properties:
+        id:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    NetworkUser:
+      title: NetworkUser
+      required:
+      - name
+      type: object
+      properties:
+        changePasswordOnNextLogin:
+          type: boolean
+          description: Indicates if the user should change their password on the next login.
+          example: false
+          exampleSetFlag: true
+        description:
+          type: string
+          description: A description of the network user.
+          exampleSetFlag: true
+        email:
+          type: string
+          description: Email address of the network user.
+          exampleSetFlag: true
+        firstName:
+          type: string
+          description: The first name of the network user.
+          exampleSetFlag: true
+        inactiveAccountNeverDisabled:
+          type: boolean
+          description: Indicates if inactive accounts are never disabled.
+          example: false
+          exampleSetFlag: true
+        lastName:
+          type: string
+          description: The last name of the network user.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the network user.
+          exampleSetFlag: true
+        status:
+          type: boolean
+          description: Indicates whether the user account is active or not.
+          example: false
+          exampleSetFlag: true
+      description: Schema representing a Network User. It includes details like name, email, password, and status. These users are typically restricted to specific network access.
+      exampleSetFlag: false
     ExternalUserResponse:
       title: ExternalUserResponse
       required:
@@ -439,73 +584,6 @@ components:
           description: A description of the error encountered.
           exampleSetFlag: true
       description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
-      exampleSetFlag: false
-    NetworkUser:
-      title: NetworkUser
-      required:
-      - name
-      type: object
-      properties:
-        changePasswordOnNextLogin:
-          type: boolean
-          description: Indicates if the user should change their password on the next login.
-          example: false
-          exampleSetFlag: true
-        description:
-          type: string
-          description: A description of the network user.
-          exampleSetFlag: true
-        email:
-          type: string
-          description: Email address of the network user.
-          exampleSetFlag: true
-        firstName:
-          type: string
-          description: The first name of the network user.
-          exampleSetFlag: true
-        inactiveAccountNeverDisabled:
-          type: boolean
-          description: Indicates if inactive accounts are never disabled.
-          example: false
-          exampleSetFlag: true
-        lastName:
-          type: string
-          description: The last name of the network user.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the network user.
-          exampleSetFlag: true
-        status:
-          type: boolean
-          description: Indicates whether the user account is active or not.
-          example: false
-          exampleSetFlag: true
-      description: Schema representing a Network User. It includes details like name, email, password, and status. These users are typically restricted to specific network access.
-      exampleSetFlag: false
-    AdminUserResponse:
-      title: AdminUserResponse
-      required:
-      - statusCode
-      type: object
-      properties:
-        adminUserList:
-          type: array
-          description: A list of admin users.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AdminUserData'
-            exampleSetFlag: false
-        message:
-          type: string
-          description: A descriptive message related to the response.
-          exampleSetFlag: true
-        statusCode:
-          type: integer
-          description: The status code of the response.
-          format: int32
-          exampleSetFlag: true
-      description: Response schema for admin user data, including the status code, message, and a list of admin user data.
       exampleSetFlag: false
     OpenApiAdminUser:
       title: OpenApiAdminUser
@@ -575,76 +653,4 @@ components:
           example: false
           exampleSetFlag: true
       description: Schema representing an Admin User in the system. This includes attributes like user details, access control, and system-related settings.
-      exampleSetFlag: false
-    AdminUserData:
-      title: AdminUserData
-      required:
-      - name
-      type: object
-      properties:
-        description:
-          type: string
-          description: Description or role of the admin user.
-          exampleSetFlag: true
-        emailAddr:
-          type: string
-          description: Email address of the admin user.
-          exampleSetFlag: true
-        firstName:
-          type: string
-          description: First name of the admin user.
-          exampleSetFlag: true
-        id:
-          type: string
-          description: Unique identifier for the admin user.
-          exampleSetFlag: true
-        lastName:
-          type: string
-          description: Last name of the admin user.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Name of the admin user.
-          exampleSetFlag: true
-        rbacGroupNames:
-          type: array
-          description: List of RBAC group names the admin user belongs to.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        statusEnabled:
-          type: boolean
-          description: Indicates whether the admin user's account is enabled.
-          example: false
-          exampleSetFlag: true
-      description: Schema for admin user data, representing key information such as user details, email, and RBAC group memberships.
-      exampleSetFlag: false
-    TaskResponse:
-      title: TaskResponse
-      type: object
-      properties:
-        id:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AdminUserDetailsResponse:
-      title: AdminUserDetailsResponse
-      required:
-      - statusCode
-      type: object
-      properties:
-        adminUserDetails:
-          $ref: '#/components/schemas/OpenApiAdminUser'
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A message providing more information about the response.
-          exampleSetFlag: true
-        statusCode:
-          type: integer
-          description: The status code of the response.
-          format: int32
-          exampleSetFlag: true
-      description: Response schema for retrieving detailed information about a specific admin user.
       exampleSetFlag: false

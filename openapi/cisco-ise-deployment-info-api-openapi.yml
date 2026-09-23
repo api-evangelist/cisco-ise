@@ -29,12 +29,12 @@ servers:
 security:
 - HTTPBasicAuthentication: []
 tags:
-- name: deploymentinfo
+- name: Deployment Info
 paths:
   /deploymentinfo/getAllInfo:
     get:
       tags:
-      - deploymentinfo
+      - Deployment Info
       summary: GetAllInfo
       parameters:
       - $ref: '#/components/parameters/ppage'
@@ -98,26 +98,29 @@ paths:
               schema:
                 type: string
                 example: null
+      operationId: getDeploymentinfoGetAllInfo
+      x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
     deploymentinfoResponseEntity:
       properties:
         networkAccessInfo:
@@ -863,25 +866,24 @@ components:
                 example: code
             example: null
       example: null
-  parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

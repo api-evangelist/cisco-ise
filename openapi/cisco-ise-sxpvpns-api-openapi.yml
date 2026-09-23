@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Sxpvpns API
-  version: '1.0'
-  description: 'Operations tagged sxpvpns across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-sxp-vpns.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-sxp-vpns.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-legacy-ers-sxp-vpns.yaml
-    operation_coverage: 7/11
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged sxpvpns across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-sxp-vpns.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -34,16 +31,6 @@ tags:
 - name: sxpvpns
 paths:
   /sxpvpns/:
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
     get:
       tags:
       - sxpvpns
@@ -140,6 +127,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getSxpvpns
+      x-operation-id-source: derived
     post:
       tags:
       - sxpvpns
@@ -206,7 +195,8 @@ paths:
           description: Internal Server Error
       security:
       - HTTPBasicAuthentication: []
-  /sxpvpns/{id}:
+      operationId: postSxpvpns
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -217,6 +207,7 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /sxpvpns/{id}:
     get:
       tags:
       - sxpvpns
@@ -290,6 +281,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getSxpvpnsById
+      x-operation-id-source: derived
     delete:
       tags:
       - sxpvpns
@@ -352,12 +345,24 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: deleteSxpvpnsById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /ers/config/sxpvpns/{id}:
     get:
       tags:
       - sxpvpns
       summary: Get SXP VPN by ID
-      description: <p>This API allows the client to get a SXP VPN by ID.</p>
+      description: This API allows the client to get a SXP VPN by ID.
       parameters:
       - name: id
         in: path
@@ -385,11 +390,13 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/sxpvpns'
+      operationId: getErsConfigSxpvpnsById
+      x-operation-id-source: derived
     delete:
       tags:
       - sxpvpns
       summary: Delete SXP VPN
-      description: <p>This API deletes a SXP VPN.</p>
+      description: This API deletes a SXP VPN.
       parameters:
       - name: id
         in: path
@@ -410,12 +417,41 @@ paths:
       responses:
         204:
           description: No Content
+      operationId: deleteErsConfigSxpvpnsById
+      x-operation-id-source: derived
   /ers/config/sxpvpns:
     get:
       tags:
       - sxpvpns
       summary: Get all SXP VPNs
-      description: <p>This API allows the client to get all the SXP VPNs.</p> <p><h1>Filter:</h1> <h3>[name, description]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul> <p><h1>Sorting:</h1> <h3>[name, description]</h3></p>
+      description: 'This API allows the client to get all the SXP VPNs.
+
+
+        Filter:
+
+
+        [name, description]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [name, description]'
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -438,11 +474,13 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/search'
+      operationId: getErsConfigSxpvpns
+      x-operation-id-source: derived
     post:
       tags:
       - sxpvpns
       summary: Create SXP VPN
-      description: <p>This API creates a SXP VPN.</p>
+      description: This API creates a SXP VPN.
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -471,12 +509,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/sxpvpns'
+      operationId: postErsConfigSxpvpns
+      x-operation-id-source: derived
   /ers/config/sxpvpns/versioninfo:
     get:
       tags:
       - sxpvpns
       summary: Get SXP VPNs version information
-      description: <p>This API helps to retrieve the version information related to the SXP VPNs.</p>
+      description: This API helps to retrieve the version information related to the SXP VPNs.
       responses:
         200:
           description: OK
@@ -484,12 +524,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigSxpvpnsVersioninfo
+      x-operation-id-source: derived
   /ers/config/sxpvpns/submit:
     put:
       tags:
       - sxpvpns
       summary: Submit bulk request
-      description: <p>This API allows the client to submit the bulk request.</p>
+      description: This API allows the client to submit the bulk request.
       responses:
         202:
           description: Accepted
@@ -501,12 +543,14 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/bulkrequest'
+      operationId: putErsConfigSxpvpnsSubmit
+      x-operation-id-source: derived
   /ers/config/sxpvpns/bulk/{bulkid}:
     get:
       tags:
       - sxpvpns
       summary: Monitor bulk request
-      description: <p>This API allows the client to monitor the bulk request.</p>
+      description: This API allows the client to monitor the bulk request.
       parameters:
       - name: bulkid
         in: path
@@ -526,42 +570,38 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/bulkstatus'
+      operationId: getErsConfigSxpvpnsBulkByBulkid
+      x-operation-id-source: derived
 components:
   schemas:
-    Link:
-      type: object
+    sxpvpnsListResponseEntity:
       properties:
-        rel:
+        id:
+          title: id
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
+          description: Id description
+          example: null
+        name:
+          title: name
           type: string
-          example: https://{server}:{port}/ers/config
-        type:
+          description: name description
+          example: null
+        description:
+          title: description
           type: string
-          example: application/json
-      example: null
-    bulkrequest:
-      type: object
-      properties:
-        VpnBulkRequest:
-          $ref: '#/components/schemas/VpnBulkRequest'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
+          description: description
+          example: null
         link:
-          $ref: '#/components/schemas/link1'
+          $ref: '#/components/schemas/Link'
+      example: null
+    sxp.sxpvpns:
+      required:
+      - ERSSxpVpn
+      type: object
+      properties:
+        ERSSxpVpn:
+          $ref: '#/components/schemas/ERSSxpVpn'
+      example: null
     ERSSxpVpn:
       required:
       - sxpVpnName
@@ -589,43 +629,72 @@ components:
       example:
         ERSSxpVpn:
           sxpVpnName: SxpVpn1
-    sxpvpnsListResponseEntity:
+    sxpvpnsResponseEntity:
       properties:
-        id:
-          title: id
+        sxpVpnName:
+          title: sxpVpnName
           type: string
-          description: Id description
+          description: ''
           example: null
         name:
           title: name
           type: string
-          description: name description
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
           example: null
         description:
           title: description
           type: string
-          description: description
+          description: Description
           example: null
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    link1:
+    sxpvpnsListResponse:
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/sxpvpns/versioninfo
-        type:
-          type: string
-          example: application/json
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sxpvpnsListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     ERSResponse:
       type: object
       properties:
@@ -648,63 +717,59 @@ components:
                 example: code
             example: null
       example: null
-    sxpvpns:
+    sxpvpnsResponse:
       type: object
       properties:
         ERSSxpVpn:
-          $ref: '#/components/schemas/ERSSxpVpn_2'
-    sxp.sxpvpns:
-      required:
-      - ERSSxpVpn
+          $ref: '#/components/schemas/sxpvpnsResponseEntity'
+      example:
+        ERSSxpVpn:
+          sxpVpnName: SxpVpn1
+    Link:
       type: object
       properties:
-        ERSSxpVpn:
-          $ref: '#/components/schemas/ERSSxpVpn'
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sxpvpns/versioninfo
+        type:
+          type: string
+          example: application/json
     bulkstatus:
       type: object
       properties:
         BulkStatus:
           $ref: '#/components/schemas/BulkStatus'
-    ERSSxpVpn_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ef36ca16-0cf7-4806-b2a9-6f547cfe4805
-        sxpVpnName:
-          type: string
-          example: default
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/sxpvpns/ef36ca16-0cf7-4806-b2a9-6f547cfe4805
-            type:
-              type: string
-              example: application/json
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: ef36ca16-0cf7-4806-b2a9-6f547cfe4805
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/sxpvpns/ef36ca16-0cf7-4806-b2a9-6f547cfe4805
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
     BulkStatus:
       type: object
       properties:
@@ -759,85 +824,22 @@ components:
             properties:
               name:
                 type: string
-    sxpvpnsResponse:
+    bulkrequest:
       type: object
       properties:
-        ERSSxpVpn:
-          $ref: '#/components/schemas/sxpvpnsResponseEntity'
-      example:
-        ERSSxpVpn:
-          sxpVpnName: SxpVpn1
-    sxpvpnsListResponse:
+        VpnBulkRequest:
+          $ref: '#/components/schemas/VpnBulkRequest'
+    version:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sxpvpnsListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    sxpvpnsResponseEntity:
-      properties:
-        sxpVpnName:
-          title: sxpVpnName
+        currentServerVersion:
           type: string
-          description: ''
-          example: null
-        name:
-          title: name
+          example: '1.0'
+        supportedVersions:
           type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
+          example: '1.0'
         link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+          $ref: '#/components/schemas/link1'
     VpnBulkRequest:
       type: object
       properties:
@@ -847,16 +849,51 @@ components:
         resourceMediaType:
           type: string
           example: vnd.com.cisco.ise.sxp.sxpvpns.1.0+xml
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: ef36ca16-0cf7-4806-b2a9-6f547cfe4805
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/sxpvpns/ef36ca16-0cf7-4806-b2a9-6f547cfe4805
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    ERSSxpVpn_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ef36ca16-0cf7-4806-b2a9-6f547cfe4805
+        sxpVpnName:
+          type: string
+          example: default
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sxpvpns/ef36ca16-0cf7-4806-b2a9-6f547cfe4805
+            type:
+              type: string
+              example: application/json
+    sxpvpns:
+      type: object
+      properties:
+        ERSSxpVpn:
+          $ref: '#/components/schemas/ERSSxpVpn_2'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -866,6 +903,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

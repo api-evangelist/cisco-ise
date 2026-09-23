@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Node API
-  version: '1.0'
-  description: 'Operations tagged node across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-node-details.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-node-details.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-legacy-ers-node-details.yaml
-    operation_coverage: 4/7
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged node across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-node-details.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -31,22 +28,12 @@ servers:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
 tags:
-- name: node
+- name: Node
 paths:
   /node/:
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
     get:
       tags:
-      - node
+      - Node
       summary: Get-All
       parameters:
       - name: filter
@@ -120,7 +107,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-  /node/name/{name}:
+      operationId: getNode
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -131,9 +119,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /node/name/{name}:
     get:
       tags:
-      - node
+      - Node
       summary: Get-By-Name
       parameters:
       - name: name
@@ -204,7 +193,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-  /node/{id}:
+      operationId: getNodeNameByName
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -215,9 +205,10 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /node/{id}:
     get:
       tags:
-      - node
+      - Node
       summary: Get-By-Id
       parameters:
       - name: id
@@ -288,12 +279,24 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getNodeById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /ers/config/node/name/{name}:
     get:
       tags:
-      - node
+      - Node
       summary: Get node details by name
-      description: <p>This API allows the client to get node details by name.</p>
+      description: This API allows the client to get node details by name.
       parameters:
       - name: name
         in: path
@@ -321,12 +324,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/nodedetails_name'
+      operationId: getErsConfigNodeNameByName
+      x-operation-id-source: derived
   /ers/config/node/{id}:
     get:
       tags:
-      - node
+      - Node
       summary: Get node details by ID
-      description: <p>This API allows the client to get node details by ID.</p>
+      description: This API allows the client to get node details by ID.
       parameters:
       - name: id
         in: path
@@ -354,12 +359,35 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/node'
+      operationId: getErsConfigNodeById
+      x-operation-id-source: derived
   /ers/config/node:
     get:
       tags:
-      - node
+      - Node
       summary: Get all node details
-      description: <p>This API allows the client to get all the node details.</p> <p><h1>Filter:</h1> <h3>[nodeservicetypes]</h3></p> <p>To search guest users by using <b>toDate</b> column,follow the format:</p> <p>DD-MON-YY (Example:13-SEP-18)</p> <ul> <li><p>Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13</p></li> <li><p>Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP</p></li> <li><p>Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18</p></li> </ul>
+      description: 'This API allows the client to get all the node details.
+
+
+        Filter:
+
+
+        [nodeservicetypes]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18'
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -382,12 +410,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/search'
+      operationId: getErsConfigNode
+      x-operation-id-source: derived
   /ers/config/node/versioninfo:
     get:
       tags:
-      - node
+      - Node
       summary: Get node details version information
-      description: <p>This API helps to retrieve the version information realted to the node details.</p>
+      description: This API helps to retrieve the version information realted to the node details.
       responses:
         200:
           description: OK
@@ -395,20 +425,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigNodeVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    link1:
+    nodeListResponse:
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/node/versioninfo
-        type:
-          type: string
-          example: application/json
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/nodeListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     nodeListResponseEntity:
       properties:
         id:
@@ -429,128 +490,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    node:
-      type: object
-      properties:
-        Node:
-          $ref: '#/components/schemas/Node'
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    Node_name:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
-        name:
-          type: string
-          example: TestNode
-        gateWay:
-          type: string
-          example: 10.0.10.11
-        userName:
-          type: string
-          example: Testuser
-        passWord:
-          type: string
-          example: TestPassword
-        displayName:
-          type: string
-          example: TestNode
-        inDeployment:
-          type: boolean
-          example: true
-        otherPapFqdn:
-          type: string
-          example: OtherTestNode
-        ipAddresses:
-          type: array
-          example:
-          - 10.0.0.1
-          - 10.0.0.2
-          items:
-            properties:
-              name:
-                type: string
-        ipAddress:
-          type: string
-          example: 10.0.0.3
-        sxpIpAddress:
-          type: string
-          example: 10.10.10.1
-        nodeServiceTypes:
-          type: string
-          example: DEVICE ADMIN
-        fqdn:
-          type: string
-          example: test.ers.cisco.com
-        papNode:
-          type: boolean
-          example: true
-        primaryPapNode:
-          type: boolean
-          example: true
-        pxGridNode:
-          type: boolean
-          example: true
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/node/name/TestNode
-            type:
-              type: string
-              example: application/json
-    nodeResponse:
-      type: object
-      properties:
-        Node:
-          $ref: '#/components/schemas/nodeResponseEntity'
-      example:
-        Node:
-          passWord: TestPassword
-          ipV6Addresses:
-          - 2001:db8::1
-          - fe80::1
-          otherPapFqdn: OtherTestNode
-          inDeployment: true
-          fqdn: test.ers.cisco.com
-          displayName: TestNode
-          ipAddress: 10.0.0.3
-          nodeServiceTypes: DEVICE ADMIN
-          userName: Testuser
-          papNode: true
-          pxGridNode: true
-          ipV6Address: 2001:db8::1
-          secIpV6Address: 2001:db8::2
-          name: TestNode
-          sxpIpAddress: 10.10.10.1
-          ipAddresses:
-          - 10.0.0.1
-          - 10.0.0.2
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          gateWay: 10.0.10.11
-          primaryPapNode: true
     nodeResponseEntity:
       properties:
         gateWay:
@@ -656,11 +595,167 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    nodedetails_name:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    nodeResponse:
       type: object
       properties:
         Node:
-          $ref: '#/components/schemas/Node_name'
+          $ref: '#/components/schemas/nodeResponseEntity'
+      example:
+        Node:
+          passWord: TestPassword
+          ipV6Addresses:
+          - 2001:db8::1
+          - fe80::1
+          otherPapFqdn: OtherTestNode
+          inDeployment: true
+          fqdn: test.ers.cisco.com
+          displayName: TestNode
+          ipAddress: 10.0.0.3
+          nodeServiceTypes: DEVICE ADMIN
+          userName: Testuser
+          papNode: true
+          pxGridNode: true
+          ipV6Address: 2001:db8::1
+          secIpV6Address: 2001:db8::2
+          name: TestNode
+          sxpIpAddress: 10.10.10.1
+          ipAddresses:
+          - 10.0.0.1
+          - 10.0.0.2
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          gateWay: 10.0.10.11
+          primaryPapNode: true
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    node:
+      type: object
+      properties:
+        Node:
+          $ref: '#/components/schemas/Node'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    Node_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+        name:
+          type: string
+          example: TestNode
+        gateWay:
+          type: string
+          example: 10.0.10.11
+        userName:
+          type: string
+          example: Testuser
+        passWord:
+          type: string
+          example: TestPassword
+        displayName:
+          type: string
+          example: TestNode
+        inDeployment:
+          type: boolean
+          example: true
+        otherPapFqdn:
+          type: string
+          example: OtherTestNode
+        ipAddresses:
+          type: array
+          example:
+          - 10.0.0.1
+          - 10.0.0.2
+          items:
+            properties:
+              name:
+                type: string
+        ipAddress:
+          type: string
+          example: 10.0.0.3
+        sxpIpAddress:
+          type: string
+          example: 10.10.10.1
+        nodeServiceTypes:
+          type: string
+          example: DEVICE ADMIN
+        fqdn:
+          type: string
+          example: test.ers.cisco.com
+        papNode:
+          type: boolean
+          example: true
+        primaryPapNode:
+          type: boolean
+          example: true
+        pxGridNode:
+          type: boolean
+          example: true
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/node/name/TestNode
+            type:
+              type: string
+              example: application/json
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/node/versioninfo
+        type:
+          type: string
+          example: application/json
     version:
       type: object
       properties:
@@ -765,74 +860,11 @@ components:
             type:
               type: string
               example: application/json
-    search:
+    nodedetails_name:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    nodeListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/nodeListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+        Node:
+          $ref: '#/components/schemas/Node_name'
   parameters:
     ppage:
       name: page

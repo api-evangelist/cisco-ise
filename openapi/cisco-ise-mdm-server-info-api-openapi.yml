@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Mdm Server Info API
-  version: '1.0'
-  description: 'Operations tagged mdm-server-info across 2 of this provider''s published API definitions: cisco-ise-mdm-mobile-device-management.yaml, cisco-ise-mdm-older-versions.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-mdm-mobile-device-management.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-mdm-mobile-device-management.yaml
-    operation_coverage: 1/2
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged mdm-server-info across 2 of this provider''s published API definitions: cisco-ise-mdm-mobile-device-management.yaml, cisco-ise-mdm-older-versions.yaml. Each path carries the servers of the definition it was published in.'
 tags:
 - name: mdm-server-info
 paths:
@@ -28,7 +25,16 @@ paths:
       tags:
       - mdm-server-info
       summary: Get the MDM server information
-      description: 'This API (available since version 2) is used for initially adding an MDM vendor in the Cisco ISE server. This is similar to the version 1 and version 2 APIs, except that in addition it provides information about the API version used by Cisco ISE as a URL query parameter.<br><br><b>NOTE</b>: The URL required for sending the MDM Server Info api request is fixed because the API path (obtained from the REST webservice response for the MDM Server Info API) is not yet known to Cisco ISE.<br><br>Base API for version 3 remains similar. In the response it is mandatory for the partner MDM server to share the vendor, product_name & product_version for version 3 and above.<br><br> Example: https://mdm-server/ciscoise/mdminfo/?ise_api_version={max_ise_supported_api_version}'
+      description: 'This API (available since version 2) is used for initially adding an MDM vendor in the Cisco ISE server. This is similar to the version 1 and version 2 APIs, except that in addition it provides information about the API version used by Cisco ISE as a URL query parameter.
+
+
+        NOTE: The URL required for sending the MDM Server Info api request is fixed because the API path (obtained from the REST webservice response for the MDM Server Info API) is not yet known to Cisco ISE.
+
+
+        Base API for version 3 remains similar. In the response it is mandatory for the partner MDM server to share the vendor, product_name & product_version for version 3 and above.
+
+
+        Example: https://mdm-server/ciscoise/mdminfo/?ise_api_version={max_ise_supported_api_version}'
       parameters:
       - name: ise_api_version
         in: query
@@ -47,12 +53,26 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/mdm-server-info'
+      operationId: get<mdmServer>CiscoiseMdminfo
+      x-operation-id-source: derived
   /<mdm-server-ip>/ciscoise/mdminfo/:
     get:
       tags:
       - mdm-server-info
       summary: Get the MDM server information
-      description: 'This API (available since version 2) is used for initially adding an MDM vendor in the Cisco ISE server. This is similar to the version 1 API, except that in addition it provides information about the API version used by Cisco ISE as a URL query parameter.<br><br><b>NOTE</b>: The URL required for sending the MDM Server Info api request is fixed because the API path (obtained from the REST webservice response for the MDM Server Info API) is not yet known to Cisco ISE.<br><br> <table> <tr><td><b>Version</b></td><td><b>URL</b></td><tr> <tr><td>1</td><td>https://mdm-server/ciscoise/mdminfo</td></tr> <tr><td>2</td><td>https://mdm-server/ciscoise/mdminfo/?ise_api_version={max_ise_supported_api_version}</td></tr> </table>'
+      description: 'This API (available since version 2) is used for initially adding an MDM vendor in the Cisco ISE server. This is similar to the version 1 API, except that in addition it provides information about the API version used by Cisco ISE as a URL query parameter.
+
+
+        NOTE: The URL required for sending the MDM Server Info api request is fixed because the API path (obtained from the REST webservice response for the MDM Server Info API) is not yet known to Cisco ISE.
+
+
+        VersionURL
+
+
+        1https://mdm-server/ciscoise/mdminfo
+
+
+        2https://mdm-server/ciscoise/mdminfo/?ise_api_version={max_ise_supported_api_version}'
       parameters:
       - name: ise_api_version
         in: query
@@ -71,6 +91,8 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/mdm-server-info_2'
+      operationId: get<mdmServerIp>CiscoiseMdminfo
+      x-operation-id-source: derived
 components:
   schemas:
     mdm-server-info:

@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Mdm Device Attributes API
-  version: '1.0'
-  description: 'Operations tagged mdm-device-attributes across 2 of this provider''s published API definitions: cisco-ise-mdm-mobile-device-management.yaml, cisco-ise-mdm-older-versions.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-mdm-older-versions.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-mdm-older-versions.yaml
-    operation_coverage: 2/3
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged mdm-device-attributes across 2 of this provider''s published API definitions: cisco-ise-mdm-mobile-device-management.yaml, cisco-ise-mdm-older-versions.yaml. Each path carries the servers of the definition it was published in.'
 tags:
 - name: mdm-device-attributes
 paths:
@@ -28,7 +25,16 @@ paths:
       tags:
       - mdm-device-attributes
       summary: Get the device attributes from the MDM server
-      description: 'This API is used for query device attributes. We can give a query category such as  GUID, Hostname, MAC address, compliance status,  User, and the Attribute filter.<br><br>The maximum number of devices returned is the value of “query_max_size” returned from “mdm server info API” (API #1), default is 5000. The Cisco ISE initial call of this API will pass paging info “0”. If MDM have more than ''query_max_size'' number of devices to return, it can design its own paging scheme, just return the paging_info in its response, which will be part of the URL in next call from Cisco ISE. If paging info is “0” in response, or it doesn’t return paging info in its response, means all record has been returned, then Cisco ISE will not make further calls for the query.<br><br>Similar to earlier version API is used to get device attributes particularly compliance data based on GUID (MDM ID), it is the key identity of the device managed by vendor .  Vendor is expected to have unique id for each device it is managing, GUID is expected to be less than 128 bytes in size.  Previously in v1/v2 MAC Address, UDID, IMEI, MEID were available as unique identifiers.  With v3, GUID & hostname are additional identifiers added to the list. MDM.DaysSinceLastCheckin - Number of days since a user last checked in or synched a device with MDM server, from 1 to 365 days.<br><br> Example: https://mdm-server/ciscoise/mdmapi/v3/devices/?paging=<paging>&querycriteria=<Query Criteria category>value=<Query Criteria value>&filter=<Attribute filter>'
+      description: 'This API is used for query device attributes. We can give a query category such as GUID, Hostname, MAC address, compliance status, User, and the Attribute filter.
+
+
+        The maximum number of devices returned is the value of “query_max_size” returned from “mdm server info API” (API #1), default is 5000. The Cisco ISE initial call of this API will pass paging info “0”. If MDM have more than ''query_max_size'' number of devices to return, it can design its own paging scheme, just return the paging_info in its response, which will be part of the URL in next call from Cisco ISE. If paging info is “0” in response, or it doesn’t return paging info in its response, means all record has been returned, then Cisco ISE will not make further calls for the query.
+
+
+        Similar to earlier version API is used to get device attributes particularly compliance data based on GUID (MDM ID), it is the key identity of the device managed by vendor . Vendor is expected to have unique id for each device it is managing, GUID is expected to be less than 128 bytes in size. Previously in v1/v2 MAC Address, UDID, IMEI, MEID were available as unique identifiers. With v3, GUID & hostname are additional identifiers added to the list. MDM.DaysSinceLastCheckin - Number of days since a user last checked in or synched a device with MDM server, from 1 to 365 days.
+
+
+        Example: https://mdm-server/ciscoise/mdmapi/v3/devices/?paging=&querycriteria=value=&filter='
       parameters:
       - name: api_path
         in: path
@@ -78,12 +84,26 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/mdm-device-attributes-response'
+      operationId: get<mdmServer>ByApiPathDevices
+      x-operation-id-source: derived
   /<mdm-server-ip>/{api_path}/devices/:
     get:
       tags:
       - mdm-device-attributes
       summary: Get the device attributes from the MDM server
-      description: 'This API is used for query device attributes. We can give a query category such as MAC address, compliance status,  User, and the Attribute filter.<br><br>The maximum number of devices returned is the value of “query_max_size” returned from “mdm server info API” (API #1), default is 5000. The Cisco ISE initial call of this API will pass paging info “0”. If MDM have more than ''query_max_size'' number of devices to return, it can design its own paging scheme, just return the paging_info in its response, which will be part of the URL in next call from Cisco ISE. If paging info is “0” in response, or it doesn’t return paging info in its response, means all record has been returned, then Cisco ISE will not make further calls for the query.<br><br> <table> <tr><td><b>Version</b></td><td><b>URL</b></td><tr> <tr><td>1</td><td>/devices/{paging}/{Query Criteria Category}/{value}/{Attribute filter}</td></tr> <tr><td>2</td><td>/devices/?paging={paging}&querycriteria={Query Criteria category}&value={Query Criteria value}&filter={Attribute filter}</td></tr> </table>'
+      description: 'This API is used for query device attributes. We can give a query category such as MAC address, compliance status, User, and the Attribute filter.
+
+
+        The maximum number of devices returned is the value of “query_max_size” returned from “mdm server info API” (API #1), default is 5000. The Cisco ISE initial call of this API will pass paging info “0”. If MDM have more than ''query_max_size'' number of devices to return, it can design its own paging scheme, just return the paging_info in its response, which will be part of the URL in next call from Cisco ISE. If paging info is “0” in response, or it doesn’t return paging info in its response, means all record has been returned, then Cisco ISE will not make further calls for the query.
+
+
+        VersionURL
+
+
+        1/devices/{paging}/{Query Criteria Category}/{value}/{Attribute filter}
+
+
+        2/devices/?paging={paging}&querycriteria={Query Criteria category}&value={Query Criteria value}&filter={Attribute filter}'
       parameters:
       - name: api_path
         in: path
@@ -133,12 +153,23 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/mdm-device-attributes-response_2'
+      operationId: get<mdmServerIp>ByApiPathDevices
+      x-operation-id-source: derived
   /<mdm-server-ip>/{api_path}/batchdevices/:
     post:
       tags:
       - mdm-device-attributes
       summary: Send the device attributes to the MDM server
-      description: This “POST” version of query API is functional equivalent API from “GET” version. “POST” version allows passing multiple values of a particular query criterion. For example, if query criterion is macaddress, then it can pass a list of mac addresses for the query.<br><br> <table> <tr><td><b>Version</b></td><td><b>URL</b></td><tr> <tr><td>1</td><td>/devices/{paging}/{Query Criteria Category}/{value}/{Attribute filter}</td></tr> <tr><td>2</td><td>/devices/?paging={paging}&querycriteria={Query Criteria category}&value={Query Criteria value}&filter={Attribute filter}</td></tr> </table>
+      description: 'This “POST” version of query API is functional equivalent API from “GET” version. “POST” version allows passing multiple values of a particular query criterion. For example, if query criterion is macaddress, then it can pass a list of mac addresses for the query.
+
+
+        VersionURL
+
+
+        1/devices/{paging}/{Query Criteria Category}/{value}/{Attribute filter}
+
+
+        2/devices/?paging={paging}&querycriteria={Query Criteria category}&value={Query Criteria value}&filter={Attribute filter}'
       parameters:
       - name: api_path
         in: path
@@ -188,6 +219,8 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/mdm-device-attributes-request'
+      operationId: post<mdmServerIp>ByApiPathBatchdevices
+      x-operation-id-source: derived
 components:
   schemas:
     mdm-device-attributes-response:

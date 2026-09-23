@@ -1,21 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ISE ERS Guesttype API
-  version: 3.1.0
-  x-provenance:
-    method: harvested
-    authored_by: Cisco
-    harvested_by: API Evangelist
-    harvested_on: '2026-08-19'
-    first_party: true
-    provider_published: true
-    source_host: pubhub.devnetcloud.com
-    note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  title: Cisco Ise Guesttype API
+  x-refined-note:
+  - x-evidence differs across the merged source definitions and was not carried
+  - x-provenance differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged guesttype across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-guest-type.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -26,8 +16,6 @@ servers:
     port:
       description: The port no for CTS APIs is 9063 and for other APIs it is 443
       default: '443'
-security:
-- HTTPBasicAuthentication: []
 tags:
 - name: guesttype
 paths:
@@ -126,6 +114,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getGuesttype
+      x-operation-id-source: derived
     post:
       tags:
       - guesttype
@@ -226,6 +218,20 @@ paths:
                 example: null
         '500':
           description: Internal Server Error
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: postGuesttype
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /guesttype/email/{id}:
     put:
       tags:
@@ -338,6 +344,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuesttypeEmailById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /guesttype/sms/{id}:
     put:
       tags:
@@ -450,6 +470,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuesttypeSmsById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /guesttype/{id}:
     get:
       tags:
@@ -522,6 +556,10 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: getGuesttypeById
+      x-operation-id-source: derived
     put:
       tags:
       - guesttype
@@ -640,6 +678,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSResponse'
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: putGuesttypeById
+      x-operation-id-source: derived
     delete:
       tags:
       - guesttype
@@ -700,253 +742,320 @@ paths:
               schema:
                 type: string
                 example: null
+      security:
+      - HTTPBasicAuthentication: []
+      operationId: deleteGuesttypeById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
+  /ers/config/ers/config/guesttype/email/{id}:
+    put:
+      tags:
+      - guesttype
+      summary: Update guest type email by ID
+      description: This API allows the client to update a guest type email by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guesttype.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Additional Attributes
+        description: emailAddress
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+      operationId: putErsConfigErsConfigGuesttypeEmailById
+      x-operation-id-source: derived
+  /ers/config/ers/config/guesttype/sms/{id}:
+    put:
+      tags:
+      - guesttype
+      summary: Update guest type sms by ID
+      description: This API allows the client to update a guest type sms by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guesttype.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      - in: header
+        name: Additional Attributes
+        description: phoneNumber, serviceProvider
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/OperationAdditionalData'
+      operationId: putErsConfigErsConfigGuesttypeSmsById
+      x-operation-id-source: derived
+  /ers/config/guesttype/{id}:
+    get:
+      tags:
+      - guesttype
+      summary: Get guest type by ID
+      description: This API allows the client to get a guest type by ID.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guesttype.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/guesttype'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/guesttype'
+      operationId: getErsConfigGuesttypeById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - guesttype
+      summary: Update guest type
+      description: This API allows the client to update a guest type.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guesttype.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk Support
+        description: Operation 'UpdateById' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Update'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/guesttype'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/guesttype'
+      operationId: putErsConfigGuesttypeById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - guesttype
+      summary: Delete guest type
+      description: This API deletes a guest type.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guesttype.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      - in: header
+        name: Bulk support
+        description: Operation 'DeleteById' can be used within Bulk Request
+        schema:
+          type: string
+      responses:
+        204:
+          description: No Content
+      operationId: deleteErsConfigGuesttypeById
+      x-operation-id-source: derived
+  /ers/config/guesttype:
+    get:
+      tags:
+      - guesttype
+      summary: Get all guest types
+      description: 'This API allows the client to get all the guest types.
+
+
+        Filter:
+
+
+        [name]
+
+
+        To search guest users by using toDate column,follow the format:
+
+
+        DD-MON-YY (Example:13-SEP-18)
+
+
+        Day or Year:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13
+
+
+        Month:GET /ers/config/guestuser/?filter=toDate.CONTAINS.SEP
+
+
+        Date:GET /ers/config/guestuser/?filter=toDate.CONTAINS.13-SEP-18
+
+
+        Sorting:
+
+
+        [name, description]'
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guesttype.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: Required Only if Enabled from GUI Example:- fetch
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/search'
+      operationId: getErsConfigGuesttype
+      x-operation-id-source: derived
+    post:
+      tags:
+      - guesttype
+      summary: Create guest type
+      description: This API creates a guest type.
+      parameters:
+      - in: header
+        name: HTTP ERS-Media-Type Header
+        description: Example:- identity.guesttype.1.0
+        required: false
+        schema:
+          type: string
+      - in: header
+        name: HTTP X-CSRF-TOKEN Header
+        description: The Token value from the GET X-CSRF-TOKEN fetch request
+        schema:
+          type: string
+      responses:
+        201:
+          description: Created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/guesttype'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/guesttype'
+      operationId: postErsConfigGuesttype
+      x-operation-id-source: derived
+  /ers/config/guesttype/versioninfo:
+    get:
+      tags:
+      - guesttype
+      summary: Get guest type version information
+      description: This API helps to retrieve the version information related to the guest type.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigGuesttypeVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    guesttypeListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/guesttypeListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    guesttypeListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    guesttypeResponseEntity:
-      properties:
-        accessTime:
-          properties:
-            allowAccessOnSpecificDaysTimes:
-              title: allowAccessOnSpecificDaysTimes
-              type: boolean
-              description: Enable Specific Day Time Limits
-              example: null
-            defaultDuration:
-              title: defaultDuration
-              type: number
-              description: ''
-              example: null
-            durationTimeUnit:
-              title: durationTimeUnit
-              type: string
-              description: Allowed values are Days or Hours or Minutes
-              example: null
-            fromFirstLogin:
-              title: fromFirstLogin
-              type: boolean
-              description: When Account Duration starts from first login or specified date
-              example: null
-            maxAccountDuration:
-              title: maxAccountDuration
-              type: number
-              description: Maximum value of Account Duration
-              example: null
-            dayTimeLimits:
-              title: dayTimeLimits
-              type: array
-              description: List of Time Ranges for account access
-              example: null
-              items:
-                properties:
-                  dayTimeLimit:
-                    title: dayTimeLimit
-                    type: object
-                    description: Time Ranges for account access
-                    example: null
-                example: null
-          example: null
-        allowDynamicIdentityGroups:
-          title: allowDynamicIdentityGroups
-          type: boolean
-          description: Enable the DynamicGroups Option
-          example: null
-        dynamicGroups:
-          title: dynamicGroups
-          type: array
-          description: List of Dynamic Groups
-          example: null
-          items:
-            properties:
-              externalGroupName:
-                title: externalGroupName
-                type: string
-                description: List of External Group Names
-                example: null
-              identityGroupId:
-                title: identityGroupId
-                type: string
-                description: ID of Guest Identity Group
-                example: null
-            example: null
-        loginOptions:
-          properties:
-            allowGuestPortalBypass:
-              title: allowGuestPortalBypass
-              type: boolean
-              description: ''
-              example: null
-            failureAction:
-              title: failureAction
-              type: string
-              description: When Guest Exceeds limit this action will be invoked, Allowed values are Disconnect_Oldest_Connection or Disconnect_Newest_Connection
-              example: null
-            identityGroupId:
-              title: identityGroupId
-              type: string
-              description: ID of Guest Identity Group
-              example: null
-            limitSimultaneousLogins:
-              title: limitSimultaneousLogins
-              type: boolean
-              description: Enable Simultaneous Logins
-              example: null
-            maxRegisteredDevices:
-              title: maxRegisteredDevices
-              type: number
-              description: Maximum devices guests can register
-              example: null
-            maxSimultaneousLogins:
-              title: maxSimultaneousLogins
-              type: number
-              description: Number of Simultaneous Logins
-              example: null
-          example: null
-        expirationNotification:
-          properties:
-            advanceNotificationDuration:
-              title: advanceNotificationDuration
-              type: number
-              description: Send Account Expiration Notification Duration before ( Days, Hours, Minutes )
-              example: null
-            advanceNotificationUnits:
-              title: advanceNotificationUnits
-              type: string
-              description: Allowed values are Days, Hours, Minutes
-              example: null
-            enableNotification:
-              title: enableNotification
-              type: boolean
-              description: Enable Notification settings
-              example: null
-            sendEmailNotification:
-              title: sendEmailNotification
-              type: boolean
-              description: Enable Email Notification
-              example: null
-            sendSmsNotification:
-              title: sendSmsNotification
-              type: number
-              description: Maximum devices guests can register
-              example: null
-          example: null
-        sponsorGroups:
-          title: sponsorGroups
-          type: array
-          description: List of Sponsor Groups
-          example: null
-          items:
-            type: string
-            example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     guesttypeResponse:
       type: object
       properties:
@@ -991,18 +1100,47 @@ components:
             defaultDuration: 90
             allowAccessOnSpecificDaysTimes: false
             fromFirstLogin: true
-    updatedField:
+    guesttypeListResponse:
+      type: object
       properties:
-        field:
-          type: string
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/guesttypeListResponseEntity'
           example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     GuestType:
       required:
       - name
@@ -1196,6 +1334,192 @@ components:
             defaultDuration: 90
             allowAccessOnSpecificDaysTimes: false
             fromFirstLogin: true
+    guesttypeResponseEntity:
+      properties:
+        accessTime:
+          properties:
+            allowAccessOnSpecificDaysTimes:
+              title: allowAccessOnSpecificDaysTimes
+              type: boolean
+              description: Enable Specific Day Time Limits
+              example: null
+            defaultDuration:
+              title: defaultDuration
+              type: number
+              description: ''
+              example: null
+            durationTimeUnit:
+              title: durationTimeUnit
+              type: string
+              description: Allowed values are Days or Hours or Minutes
+              example: null
+            fromFirstLogin:
+              title: fromFirstLogin
+              type: boolean
+              description: When Account Duration starts from first login or specified date
+              example: null
+            maxAccountDuration:
+              title: maxAccountDuration
+              type: number
+              description: Maximum value of Account Duration
+              example: null
+            dayTimeLimits:
+              title: dayTimeLimits
+              type: array
+              description: List of Time Ranges for account access
+              example: null
+              items:
+                properties:
+                  dayTimeLimit:
+                    title: dayTimeLimit
+                    type: object
+                    description: Time Ranges for account access
+                    example: null
+                example: null
+          example: null
+        allowDynamicIdentityGroups:
+          title: allowDynamicIdentityGroups
+          type: boolean
+          description: Enable the DynamicGroups Option
+          example: null
+        dynamicGroups:
+          title: dynamicGroups
+          type: array
+          description: List of Dynamic Groups
+          example: null
+          items:
+            properties:
+              externalGroupName:
+                title: externalGroupName
+                type: string
+                description: List of External Group Names
+                example: null
+              identityGroupId:
+                title: identityGroupId
+                type: string
+                description: ID of Guest Identity Group
+                example: null
+            example: null
+        loginOptions:
+          properties:
+            allowGuestPortalBypass:
+              title: allowGuestPortalBypass
+              type: boolean
+              description: ''
+              example: null
+            failureAction:
+              title: failureAction
+              type: string
+              description: When Guest Exceeds limit this action will be invoked, Allowed values are Disconnect_Oldest_Connection or Disconnect_Newest_Connection
+              example: null
+            identityGroupId:
+              title: identityGroupId
+              type: string
+              description: ID of Guest Identity Group
+              example: null
+            limitSimultaneousLogins:
+              title: limitSimultaneousLogins
+              type: boolean
+              description: Enable Simultaneous Logins
+              example: null
+            maxRegisteredDevices:
+              title: maxRegisteredDevices
+              type: number
+              description: Maximum devices guests can register
+              example: null
+            maxSimultaneousLogins:
+              title: maxSimultaneousLogins
+              type: number
+              description: Number of Simultaneous Logins
+              example: null
+          example: null
+        expirationNotification:
+          properties:
+            advanceNotificationDuration:
+              title: advanceNotificationDuration
+              type: number
+              description: Send Account Expiration Notification Duration before ( Days, Hours, Minutes )
+              example: null
+            advanceNotificationUnits:
+              title: advanceNotificationUnits
+              type: string
+              description: Allowed values are Days, Hours, Minutes
+              example: null
+            enableNotification:
+              title: enableNotification
+              type: boolean
+              description: Enable Notification settings
+              example: null
+            sendEmailNotification:
+              title: sendEmailNotification
+              type: boolean
+              description: Enable Email Notification
+              example: null
+            sendSmsNotification:
+              title: sendSmsNotification
+              type: number
+              description: Maximum devices guests can register
+              example: null
+          example: null
+        sponsorGroups:
+          title: sponsorGroups
+          type: array
+          description: List of Sponsor Groups
+          example: null
+          items:
+            type: string
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    guesttypeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -1218,6 +1542,36 @@ components:
                 example: code
             example: null
       example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     identity.guesttype:
       required:
       - GuestType
@@ -1226,16 +1580,259 @@ components:
         GuestType:
           $ref: '#/components/schemas/GuestType'
       example: null
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    GuestType_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9f03a151-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: Contractor (default)
+        description:
+          type: string
+          example: Default settings allow network access for up to a year.
+        isDefaultType:
+          type: boolean
+          example: true
+        accessTime:
+          type: object
+          properties:
+            fromFirstLogin:
+              type: boolean
+              example: false
+            maxAccountDuration:
+              type: integer
+              example: 365
+            durationTimeUnit:
+              type: string
+              example: DAYS
+            defaultDuration:
+              type: integer
+              example: 90
+            allowAccessOnSpecificDaysTimes:
+              type: boolean
+              example: false
+            dayTimeLimits:
+              type: array
+              example:
+              - startTime: 09:00
+                endTime: '17:00'
+                days:
+                - Monday
+                - Tuesday
+                - Wednesday
+                - Thursday
+                - Friday
+              items:
+                properties:
+                  name:
+                    type: string
+        loginOptions:
+          type: object
+          properties:
+            limitSimultaneousLogins:
+              type: boolean
+              example: true
+            maxSimultaneousLogins:
+              type: integer
+              example: 3
+            failureAction:
+              type: string
+              example: Disconnect_Oldest_Connection
+            maxRegisteredDevices:
+              type: integer
+              example: 5
+            identityGroupId:
+              type: string
+              example: aa178bd0-8bff-11e6-996c-525400b48521
+            allowGuestPortalBypass:
+              type: boolean
+              example: false
+        expirationNotification:
+          type: object
+          properties:
+            enableNotification:
+              type: boolean
+              example: false
+            advanceNotificationDuration:
+              type: integer
+              example: 3
+            advanceNotificationUnits:
+              type: string
+              example: DAYS
+            sendEmailNotification:
+              type: boolean
+              example: false
+            emailText:
+              type: string
+              example: Your account is going to expire in 3 days. Please notify your sponsor to extend your account now to avoid any delays.
+            sendSmsNotification:
+              type: boolean
+              example: false
+            smsText:
+              type: string
+              example: Your account is going to expire in 3 days. Please notify your sponsor to extend your account now to avoid any delays.
+        sponsorGroups:
+          type: array
+          example:
+          - GROUP_ACCOUNTS (default)
+          - ALL_ACCOUNTS (default)
+          - OWN_ACCOUNTS (default)
+          items:
+            properties:
+              name:
+                type: string
+        allowDynamicIdentityGroups:
+          type: boolean
+          example: false
+        dynamicGroups:
+          type: object
+          properties:
+            endpointIdentityGroupId:
+              type: string
+              example: 1e2700a0-8c00-11e6-996c-525400b48521
+            externalGroupName:
+              type: string
+              example: ADasLDAP:CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9f03a151-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    OperationAdditionalData:
+      type: object
+      properties:
+        OperationAdditionalData:
+          type: object
+          properties:
+            additionalData:
+              type: array
+              example:
+              - name: example additional attribute name
+                value: its value
+              items:
+                properties:
+                  name:
+                    type: string
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guesttype/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 4
+        resources:
+          type: array
+          example:
+          - id: 9f03a151-8c01-11e6-996c-525400b48521
+            name: Contractor (default)
+            description: Default settings allow network access for up to a year.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9f03a151-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 9eeda851-8c01-11e6-996c-525400b48521
+            name: Daily (default)
+            description: Default settings allow network access for just 1-5 days.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9eeda851-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 28bbb9f3-86ec-4296-ae9a-819005bdc0e7
+            name: SocialLogin (default)
+            description: Default settings for social login users to allow network access for just 1-5 days
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/28bbb9f3-86ec-4296-ae9a-819005bdc0e7
+              type: application/json
+          - id: 9efd11a1-8c01-11e6-996c-525400b48521
+            name: Weekly (default)
+            description: Default settings allow network access for a couple of weeks.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9efd11a1-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    guesttype:
+      type: object
+      properties:
+        GuestType:
+          $ref: '#/components/schemas/GuestType_2'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1245,7 +1842,19 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
       scheme: basic
+x-refined-from:
+- cisco-ise-ers-open-api-ers-apis.yaml
+- cisco-ise-legacy-ers-guest-type.yaml

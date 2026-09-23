@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Restidstoresettings API
-  version: '1.0'
-  description: 'Operations tagged restidstoresettings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-ers-open-api-ers-apis.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-ers-open-api-ers-apis.yaml
-    operation_coverage: 2/4
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged restidstoresettings across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-rest-id-store.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -34,16 +31,6 @@ tags:
 - name: restidstoresettings
 paths:
   /restidstoresettings/:
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
     get:
       tags:
       - restidstoresettings
@@ -110,7 +97,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-  /restidstoresettings/{id}:
+      operationId: getRestidstoresettings
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -121,6 +109,7 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /restidstoresettings/{id}:
     put:
       tags:
       - restidstoresettings
@@ -208,12 +197,24 @@ paths:
                 $ref: '#/components/schemas/ERSResponse'
       security:
       - HTTPBasicAuthentication: []
+      operationId: putRestidstoresettingsById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /ers/config/restidstoresettings:
     get:
       tags:
       - restidstoresettings
       summary: Get REST ID store settings
-      description: <p>This API helps to retrieve the REST ID store settings.</p>
+      description: This API helps to retrieve the REST ID store settings.
       responses:
         '200':
           description: OK
@@ -221,12 +222,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ERSRestIDStoreSettings_2'
+      operationId: getErsConfigRestidstoresettings
+      x-operation-id-source: derived
   /ers/config/restidstoresettings/{id}:
     put:
       tags:
       - restidstoresettings
-      summary: Update REST ID store by ID. Operation 'Update' can be used within Bulk Request.
-      description: <p>This API helps to retrieve the REST ID store settings.</p>
+      summary: Update REST ID store by ID. Operation 'Update' can be used within Bulk Request
+      description: This API helps to retrieve the REST ID store settings.
       parameters:
       - name: id
         in: path
@@ -243,33 +246,10 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ERSRestIDStoreSettings_2'
+      operationId: putErsConfigRestidstoresettingsById
+      x-operation-id-source: derived
 components:
   schemas:
-    restidstoresettingsResponseEntity:
-      properties:
-        enableRestIdStore:
-          title: enableRestIdStore
-          type: object
-          description: Enable or Disable RestIDStore
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     ERSRestIDStoreSettings:
       required:
       - enableRestIdStore
@@ -301,6 +281,25 @@ components:
           name: RestIDStoreSettings
           description: RestIDStore Settings
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    restidstoresettingsResponse:
+      type: object
+      properties:
+        ERSRestIDStoreSettings:
+          $ref: '#/components/schemas/restidstoresettingsResponseEntity'
+      example:
+        ERSRestIDStoreSettings:
+          enableRestIdStore: false
+          name: RestIDStoreSettings
+          description: RestIDStore Settings
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    identitystores.restidstoresettings:
+      required:
+      - ERSRestIDStoreSettings
+      type: object
+      properties:
+        ERSRestIDStoreSettings:
+          $ref: '#/components/schemas/ERSRestIDStoreSettings'
+      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -313,6 +312,53 @@ components:
               items:
                 $ref: '#/components/schemas/updatedField'
           example: null
+      example: null
+    restidstoresettingsResponseEntity:
+      properties:
+        enableRestIdStore:
+          title: enableRestIdStore
+          type: object
+          description: Enable or Disable RestIDStore
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     Link:
       type: object
@@ -332,25 +378,6 @@ components:
           type: string
           example: application/json
       example: null
-    identitystores.restidstoresettings:
-      required:
-      - ERSRestIDStoreSettings
-      type: object
-      properties:
-        ERSRestIDStoreSettings:
-          $ref: '#/components/schemas/ERSRestIDStoreSettings'
-      example: null
-    restidstoresettingsResponse:
-      type: object
-      properties:
-        ERSRestIDStoreSettings:
-          $ref: '#/components/schemas/restidstoresettingsResponseEntity'
-      example:
-        ERSRestIDStoreSettings:
-          enableRestIdStore: false
-          name: RestIDStoreSettings
-          description: RestIDStore Settings
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     updatedField:
       properties:
         field:
@@ -374,28 +401,6 @@ components:
           type: string
         enableRestIdStore:
           type: boolean
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

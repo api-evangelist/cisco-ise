@@ -32,10 +32,8 @@ tags:
 paths:
   /upgrade/prepare/pre-checks:
     post:
-      summary: APIs to initiate pre-checks execution on Primary PAN for complete deployment.
-      description: 'API''s purpose is to initiate pre-checks execution on Primary PAN for complete deployment.
-
-        '
+      summary: APIs to initiate pre-checks execution on Primary PAN for complete deployment
+      description: API's purpose is to initiate pre-checks execution on Primary PAN for complete deployment.
       operationId: runPreChecksInPPAN
       tags:
       - Upgrade
@@ -68,9 +66,7 @@ paths:
   /upgrade/prepare/get-status:
     get:
       summary: gets status of pre-checks
-      description: 'get the latest precheck report
-
-        '
+      description: get the latest precheck report
       operationId: getPrecheckStatus
       tags:
       - Upgrade
@@ -100,9 +96,6 @@ paths:
   /upgrade/proceed/initiate-upgrade:
     post:
       summary: API's purpose would be to orchestrate upgrade execution on PPAN
-      description: 'API''s purpose would be to orchestrate upgrade execution on PPAN
-
-        '
       operationId: initiateUpgradeOnPPAN
       tags:
       - Upgrade
@@ -135,9 +128,6 @@ paths:
   /upgrade/stage/start-stage:
     post:
       summary: API to initiate staging orcheastration from PPAN
-      description: 'API to initiate staging orcheastration from PPAN
-
-        '
       operationId: initiateStagingOnPPAN
       tags:
       - Upgrade
@@ -164,9 +154,7 @@ paths:
   /upgrade/stage/cancel-stage:
     post:
       summary: API to cancel staging process from PPAN
-      description: 'API to cancel staging process of specified nodes from PPAN
-
-        '
+      description: API to cancel staging process of specified nodes from PPAN
       operationId: cancelStagingOnPPAN
       tags:
       - Upgrade
@@ -193,9 +181,7 @@ paths:
   /upgrade/stage/get-status:
     get:
       summary: get the status a particular upgrade stage process
-      description: 'get the status of upgrade stage process for the requested nodes
-
-        '
+      description: get the status of upgrade stage process for the requested nodes
       operationId: stageStatus
       tags:
       - Upgrade
@@ -218,9 +204,7 @@ paths:
   /upgrade/proceed/get-status:
     get:
       summary: get the status of upgrade proceed process
-      description: 'get the status of upgrade process for the requested nodes
-
-        '
+      description: get the status of upgrade process for the requested nodes
       operationId: proceedStatus
       tags:
       - Upgrade
@@ -243,9 +227,6 @@ paths:
   /upgrade/summary/get-status:
     get:
       summary: get the summary of upgrade process
-      description: 'get the summary of upgrade process
-
-        '
       operationId: upgradeSummary
       tags:
       - Upgrade
@@ -265,42 +246,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
-  parameters:
-    PrecheckReportID:
-      in: query
-      name: preCheckReportID
-      description: Precheck report's id.
-      example: c4aa1432-be06-bf27-11eb-c208a1714b90
-      schema:
-        type: string
-    PreCheckID:
-      in: query
-      name: preCheckID
-      schema:
-        type: string
-    XRequestIdHeader:
-      in: header
-      name: X-Request-ID
-      description: request Id, will return in the response headers, and appear in logs
-      schema:
-        type: string
-      required: false
   schemas:
-    UpgradeListStage:
-      type: object
-      properties:
-        response:
-          type: array
-          items:
-            $ref: '#/components/schemas/UpgradeStage'
-    UpgradeTaskResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/TaskIdResponse'
-        version:
-          type: string
-          example: 1.0.0
     PrecheckRequest:
       type: object
       properties:
@@ -331,6 +277,22 @@ components:
         reTrigger:
           type: boolean
           example: false
+    UpgradeProceed:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListNodeProceed'
+        remainingUpgradeTime:
+          type: integer
+          example: 0
+        percentage:
+          type: integer
+          example: 100
+        status:
+          type: string
+          example: success
     ListNodeProceed:
       type: object
       properties:
@@ -355,128 +317,6 @@ components:
         upgradeTime:
           type: integer
           example: 127
-    UpgradeStage:
-      type: object
-      properties:
-        node:
-          type: string
-          example: ise1.sn.test
-        progressMsg:
-          type: string
-          example: Config files backed up successfully
-        percentage:
-          type: integer
-          example: 100
-        dbStatus:
-          type: string
-          example: UPGRADE_STAGING_COMPLETED
-        message:
-          type: string
-          example: Config Files Backup $ Copy Upgrade DB dump
-        status:
-          type: string
-          example: passed
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Repository (repo_name) does not exist. Please configure the repository from ISE UI to proceed
-    CancelStageRequest:
-      type: object
-      properties:
-        hostnames:
-          type: array
-          items:
-            type: string
-        upgradeType:
-          type: string
-          example: FULL_UPGRADE or SPLIT_UPGRADE
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-    StageRequest:
-      type: object
-      properties:
-        hostnames:
-          type: array
-          items:
-            type: string
-        upgradeType:
-          type: string
-          example: FULL_UPGRADE or SPLIT_UPGRADE
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-        reTrigger:
-          type: boolean
-          example: false
-    UpgradeProceed:
-      type: object
-      properties:
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ListNodeProceed'
-        remainingUpgradeTime:
-          type: integer
-          example: 0
-        percentage:
-          type: integer
-          example: 100
-        status:
-          type: string
-          example: success
-    UpgradePrecheckResponse:
-      type: object
-      properties:
-        preChecks:
-          type: array
-          items:
-            $ref: '#/components/schemas/PrecheckType'
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-        nodecount:
-          type: integer
-          example: 1
-        isValid:
-          type: boolean
-          example: false
-        status:
-          type: string
-          example: valid
-        iseVersion:
-          type: string
-          example: 3.4.0.451
-        patchNo:
-          type: integer
-          example: 99
-    ErrorResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    UpgradeProceedRequest:
-      type: object
-      properties:
-        hostnames:
-          type: array
-          items:
-            type: string
-        upgradeType:
-          type: string
-          example: FULL_UPGRADE or SPLIT_UPGRADE
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-      required:
-      - upgradeType
-      - preCheckReportID
-      - continueOnFailure
     PrecheckType:
       type: object
       properties:
@@ -520,6 +360,137 @@ components:
         status:
           type: string
           example: Success
+    ErrorResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    TaskIdResponse:
+      type: object
+      properties:
+        preCheckReportID:
+          description: ID which can be used to track the status of task.
+          example: c4aa1432-be06-bf27-11eb-c208a1714b90
+          type: string
+        message:
+          type: string
+          example: Upgrade task has been initiated.
+    UpgradePrecheckResponse:
+      type: object
+      properties:
+        preChecks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrecheckType'
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+        nodecount:
+          type: integer
+          example: 1
+        isValid:
+          type: boolean
+          example: false
+        status:
+          type: string
+          example: valid
+        iseVersion:
+          type: string
+          example: 3.4.0.451
+        patchNo:
+          type: integer
+          example: 99
+    StageRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+        reTrigger:
+          type: boolean
+          example: false
+    UpgradeListStage:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpgradeStage'
+    UpgradeStage:
+      type: object
+      properties:
+        node:
+          type: string
+          example: ise1.sn.test
+        progressMsg:
+          type: string
+          example: Config files backed up successfully
+        percentage:
+          type: integer
+          example: 100
+        dbStatus:
+          type: string
+          example: UPGRADE_STAGING_COMPLETED
+        message:
+          type: string
+          example: Config Files Backup $ Copy Upgrade DB dump
+        status:
+          type: string
+          example: passed
+    UpgradeTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TaskIdResponse'
+        version:
+          type: string
+          example: 1.0.0
+    UpgradeProceedRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+      required:
+      - upgradeType
+      - preCheckReportID
+      - continueOnFailure
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Repository (repo_name) does not exist. Please configure the repository from ISE UI to proceed
+    CancelStageRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
     ListNode:
       type: object
       properties:
@@ -532,16 +503,26 @@ components:
         status:
           type: string
           example: Success
-    TaskIdResponse:
-      type: object
-      properties:
-        preCheckReportID:
-          description: ID which can be used to track the status of task.
-          example: c4aa1432-be06-bf27-11eb-c208a1714b90
-          type: string
-        message:
-          type: string
-          example: Upgrade task has been initiated.
+  parameters:
+    PreCheckID:
+      in: query
+      name: preCheckID
+      schema:
+        type: string
+    PrecheckReportID:
+      in: query
+      name: preCheckReportID
+      description: Precheck report's id.
+      example: c4aa1432-be06-bf27-11eb-c208a1714b90
+      schema:
+        type: string
+    XRequestIdHeader:
+      in: header
+      name: X-Request-ID
+      description: request Id, will return in the response headers, and appear in logs
+      schema:
+        type: string
+      required: false
   securitySchemes:
     BasicAuth:
       type: http

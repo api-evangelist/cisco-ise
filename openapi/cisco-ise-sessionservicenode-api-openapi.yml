@@ -1,8 +1,11 @@
 openapi: 3.2.0
 info:
   title: Cisco Ise Sessionservicenode API
-  version: '1.0'
-  description: 'Operations tagged sessionservicenode across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-psn-node-details-with-radius-service.yaml. Each path carries the servers of the definition it was published in.'
+  x-evidence:
+  - type: source
+    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
+  - type: source
+    url: https://developer.cisco.com/docs/identity-services-engine/
   x-provenance:
     method: harvested
     authored_by: Cisco
@@ -12,14 +15,8 @@ info:
     provider_published: true
     source_host: pubhub.devnetcloud.com
     note: 103 ISE API descriptions (1,490 operations; 32 OpenAPI 3.0.x + 71 Swagger 2.0) enumerated from Cisco's own DevNet project manifest and fetched anonymously. Byte-identity reconfirmed 2026-08-19 by SHA-256 against the live source.
-    derived_view: Per-tag view of cisco-ise-legacy-ers-psn-node-details-with-radius-service.yaml, the provider's source document. Operations and schemas are the provider's, unmodified; only the partition is ours.
-    derived_from: cisco-ise-legacy-ers-psn-node-details-with-radius-service.yaml
-    operation_coverage: 4/7
-  x-evidence:
-  - type: source
-    url: https://pubhub.devnetcloud.com/media/identity-services-engine-api-v1/docs/
-  - type: source
-    url: https://developer.cisco.com/docs/identity-services-engine/
+  version: '1.0'
+  description: 'Operations tagged sessionservicenode across 2 of this provider''s published API definitions: cisco-ise-ers-open-api-ers-apis.yaml, cisco-ise-legacy-ers-psn-node-details-with-radius-service.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{server}:{port}/ers/config
   description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -34,16 +31,6 @@ tags:
 - name: sessionservicenode
 paths:
   /sessionservicenode/:
-    servers:
-    - url: https://{server}:{port}/ers/config
-      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
-      variables:
-        server:
-          description: The host where the API is rooted
-          default: localhost
-        port:
-          description: The port no for CTS APIs is 9063 and for other APIs it is 443
-          default: '443'
     get:
       tags:
       - sessionservicenode
@@ -112,7 +99,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-  /sessionservicenode/name/{name}:
+      operationId: getSessionservicenode
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -123,6 +111,7 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /sessionservicenode/name/{name}:
     get:
       tags:
       - sessionservicenode
@@ -196,7 +185,8 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
-  /sessionservicenode/{id}:
+      operationId: getSessionservicenodeNameByName
+      x-operation-id-source: derived
     servers:
     - url: https://{server}:{port}/ers/config
       description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
@@ -207,6 +197,7 @@ paths:
         port:
           description: The port no for CTS APIs is 9063 and for other APIs it is 443
           default: '443'
+  /sessionservicenode/{id}:
     get:
       tags:
       - sessionservicenode
@@ -280,12 +271,24 @@ paths:
                 example: null
       security:
       - HTTPBasicAuthentication: []
+      operationId: getSessionservicenodeById
+      x-operation-id-source: derived
+    servers:
+    - url: https://{server}:{port}/ers/config
+      description: Append /ctsapi/v2 or /ctsapi/v3 to above URL while accessing CTS APIs
+      variables:
+        server:
+          description: The host where the API is rooted
+          default: localhost
+        port:
+          description: The port no for CTS APIs is 9063 and for other APIs it is 443
+          default: '443'
   /ers/config/sessionservicenode/name/{name}:
     get:
       tags:
       - sessionservicenode
       summary: Get PSN node details by name
-      description: <p>This API allows the client to get a PSN node details by name.</p>
+      description: This API allows the client to get a PSN node details by name.
       parameters:
       - name: name
         in: path
@@ -313,12 +316,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/psnnodedetails_name'
+      operationId: getErsConfigSessionservicenodeNameByName
+      x-operation-id-source: derived
   /ers/config/sessionservicenode/{id}:
     get:
       tags:
       - sessionservicenode
       summary: Get PSN node details by ID
-      description: <p>This API allows the client to get a PSN node details by ID.</p>
+      description: This API allows the client to get a PSN node details by ID.
       parameters:
       - name: id
         in: path
@@ -346,12 +351,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/psnnodedetails'
+      operationId: getErsConfigSessionservicenodeById
+      x-operation-id-source: derived
   /ers/config/sessionservicenode:
     get:
       tags:
       - sessionservicenode
       summary: Get all PSN node details
-      description: <p>This API allows the client to get all the PSN node details.</p>
+      description: This API allows the client to get all the PSN node details.
       parameters:
       - in: header
         name: HTTP ERS-Media-Type Header
@@ -374,12 +381,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/search'
+      operationId: getErsConfigSessionservicenode
+      x-operation-id-source: derived
   /ers/config/sessionservicenode/versioninfo:
     get:
       tags:
       - sessionservicenode
       summary: Get PSN node version information
-      description: <p>This API helps to retrieve the version information related to the PSN node.</p>
+      description: This API helps to retrieve the version information related to the PSN node.
       responses:
         200:
           description: OK
@@ -387,25 +396,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VersionInfo'
+      operationId: getErsConfigSessionservicenodeVersioninfo
+      x-operation-id-source: derived
 components:
   schemas:
-    link1:
-      type: object
+    sessionservicenodeResponseEntity:
       properties:
-        rel:
+        ipAddress:
+          title: ipAddress
           type: string
-          example: self
-        href:
+          description: ipAddress
+          example: null
+        name:
+          title: name
           type: string
-          example: https://<ise-ip>:9060/ers/config/sessionservicenode/versioninfo
-        type:
+          description: name
+          example: null
+        id:
+          title: id
           type: string
-          example: application/json
-    psnnodedetails:
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    sessionservicenodeResponse:
       type: object
       properties:
         SessionServiceNode:
-          $ref: '#/components/schemas/SessionServiceNode'
+          $ref: '#/components/schemas/sessionservicenodeResponseEntity'
+      example:
+        SessionServiceNode:
+          name: node1
+          ipAddress: 10.0.0.1
+          description: PSN with Session Service
+          id: id1
     sessionservicenodeListResponseEntity:
       properties:
         id:
@@ -426,6 +456,28 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     Link:
       type: object
       properties:
@@ -444,6 +496,101 @@ components:
           type: string
           example: application/json
       example: null
+    sessionservicenodeListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sessionservicenodeListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    psnnodedetails_name:
+      type: object
+      properties:
+        SessionServiceNode:
+          $ref: '#/components/schemas/SessionServiceNode_name'
+    psnnodedetails:
+      type: object
+      properties:
+        SessionServiceNode:
+          $ref: '#/components/schemas/SessionServiceNode'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    SessionServiceNode_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+        name:
+          type: string
+          example: TestNode
+        description:
+          type: string
+          example: PSN with Session Service
+        gateWay:
+          type: string
+          example: 10.0.0.1
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sessionservicenode/name/TestNode
+            type:
+              type: string
+              example: application/json
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sessionservicenode/versioninfo
+        type:
+          type: string
+          example: application/json
     version:
       type: object
       properties:
@@ -455,22 +602,6 @@ components:
           example: '1.0'
         link:
           $ref: '#/components/schemas/link1'
-    psnnodedetails_name:
-      type: object
-      properties:
-        SessionServiceNode:
-          $ref: '#/components/schemas/SessionServiceNode_name'
-    sessionservicenodeResponse:
-      type: object
-      properties:
-        SessionServiceNode:
-          $ref: '#/components/schemas/sessionservicenodeResponseEntity'
-      example:
-        SessionServiceNode:
-          name: node1
-          ipAddress: 10.0.0.1
-          description: PSN with Session Service
-          id: id1
     SearchResult:
       type: object
       properties:
@@ -523,126 +654,6 @@ components:
             type:
               type: string
               example: application/json
-    sessionservicenodeResponseEntity:
-      properties:
-        ipAddress:
-          title: ipAddress
-          type: string
-          description: ipAddress
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    SessionServiceNode_name:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
-        name:
-          type: string
-          example: TestNode
-        description:
-          type: string
-          example: PSN with Session Service
-        gateWay:
-          type: string
-          example: 10.0.0.1
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/sessionservicenode/name/TestNode
-            type:
-              type: string
-              example: application/json
-    sessionservicenodeListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sessionservicenodeListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
   parameters:
     ppage:
       name: page

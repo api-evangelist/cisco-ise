@@ -337,23 +337,121 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    ReserveRangePostResponse:
-      title: ReserveRangePostResponse
+    ErrorResponse:
+      title: ErrorResponse
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/ReservedTag'
+        error:
+          $ref: '#/components/schemas/Message'
           exampleSetFlag: true
         version:
           type: string
           example: 1.0.0
           exampleSetFlag: true
-      description: Reserve range response format
+      exampleSetFlag: false
+    ReservedTagRequest:
+      title: ReservedTagRequest
+      required:
+      - clientId
+      - endIndex
+      - startIndex
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: Unique ID of the given client
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        endIndex:
+          type: integer
+          description: End index of the reserved range
+          format: int32
+          example: 9020
+          exampleSetFlag: true
+        startIndex:
+          type: integer
+          description: Start index of the reserved range
+          format: int32
+          example: 9010
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ReserveRangeListResponse:
+      title: ReserveRangeListResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AllReservedTags'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
       exampleSetFlag: false
     AllReservedTags:
       title: AllReservedTags
       required:
       - clientName
+      - endIndex
+      - startIndex
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: Unique ID of the given client
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+        clientName:
+          type: string
+          description: Name of the given client
+          example: test.applicationName.com
+          exampleSetFlag: true
+        endIndex:
+          type: integer
+          description: End index of the reserved range
+          format: int32
+          example: 9020
+          exampleSetFlag: true
+        startIndex:
+          type: integer
+          description: Start index of the reserved range
+          format: int32
+          example: 9010
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        message:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ReservedTag:
+      title: ReservedTag
+      required:
+      - clientId
       - endIndex
       - startIndex
       type: object
@@ -407,64 +505,18 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    ReservedTag:
-      title: ReservedTag
-      required:
-      - clientId
-      - endIndex
-      - startIndex
-      type: object
-      properties:
-        clientId:
-          type: string
-          description: Unique ID of the given client
-          format: uuid
-          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
-          exampleSetFlag: true
-        clientName:
-          type: string
-          description: Name of the given client
-          example: test.applicationName.com
-          exampleSetFlag: true
-        endIndex:
-          type: integer
-          description: End index of the reserved range
-          format: int32
-          example: 9020
-          exampleSetFlag: true
-        startIndex:
-          type: integer
-          description: Start index of the reserved range
-          format: int32
-          example: 9010
-          exampleSetFlag: true
-      exampleSetFlag: false
-    ReserveRangeListResponse:
-      title: ReserveRangeListResponse
+    ReserveRangePostResponse:
+      title: ReserveRangePostResponse
       type: object
       properties:
         response:
-          type: array
+          $ref: '#/components/schemas/ReservedTag'
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AllReservedTags'
-            exampleSetFlag: false
         version:
           type: string
           example: 1.0.0
           exampleSetFlag: true
+      description: Reserve range response format
       exampleSetFlag: false
     ReserveRangePostRequest:
       title: ReserveRangePostRequest
@@ -485,56 +537,4 @@ components:
           example: 100
           exampleSetFlag: true
       description: Reserve range request format
-      exampleSetFlag: false
-    Message:
-      title: Message
-      type: object
-      properties:
-        message:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
-    ReservedTagRequest:
-      title: ReservedTagRequest
-      required:
-      - clientId
-      - endIndex
-      - startIndex
-      type: object
-      properties:
-        clientId:
-          type: string
-          description: Unique ID of the given client
-          format: uuid
-          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
-          exampleSetFlag: true
-        endIndex:
-          type: integer
-          description: End index of the reserved range
-          format: int32
-          example: 9020
-          exampleSetFlag: true
-        startIndex:
-          type: integer
-          description: Start index of the reserved range
-          format: int32
-          example: 9010
-          exampleSetFlag: true
       exampleSetFlag: false

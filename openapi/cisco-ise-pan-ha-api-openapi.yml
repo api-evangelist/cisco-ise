@@ -82,6 +82,23 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    Hostname:
+      type: object
+      properties:
+        hostname:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
     PanHA:
       type: object
       properties:
@@ -126,22 +143,12 @@ components:
           example: 5
       required:
       - isEnabled
-    SuccessResponse:
+    Message:
       type: object
       properties:
-        success:
-          $ref: '#/components/schemas/Message'
-        version:
+        message:
           type: string
-          example: 1.0.0
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
+          example: Success
     PanHAResponse:
       type: object
       properties:
@@ -151,18 +158,11 @@ components:
         version:
           type: string
           example: 1.0.0
-    Hostname:
+    SuccessResponse:
       type: object
       properties:
-        hostname:
-          pattern: '[a-zA-Z][\w\-]*'
-          maxLength: 64
-          minLength: 1
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
           type: string
-          example: isenode
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
+          example: 1.0.0

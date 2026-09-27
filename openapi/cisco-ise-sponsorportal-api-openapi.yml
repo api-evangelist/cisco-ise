@@ -825,93 +825,48 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    sponsorportalResponse:
+    ERSResponse:
       type: object
       properties:
-        SponsorPortal:
-          $ref: '#/components/schemas/sponsorportalResponseEntity'
-      example:
-        SponsorPortal:
-          portalType: SPONSOR
-          settings:
-            loginPageSettings:
-              maxFailedAttemptsBeforeRateLimit: 5
-              allowGuestToChangePassword: false
-              requireAccessCode: false
-              allowGuestToCreateAccounts: true
-              includeAup: false
-              allowAlternateGuestPortal: false
-              socialConfigs: []
-              timeBetweenLoginsDuringRateLimit: 2
-              allowShowGuestForm: false
-              allowForgotPassword: true
-              allowGuestToUseSocialAccounts: false
-              requireAupAcceptance: false
-              requireAupScrolling: false
-              aupDisplay: ASLINK
-            supportInfoSettings:
-              includePolicyServer: true
-              includeFailureCode: true
-              includeMacAddr: true
-              includeBrowserUserAgent: true
-              includeSupportInfoPage: false
-              includeIpAddress: true
-              emptyFieldDisplay: HIDE
-            aupSettings:
-              requireAccessCode: false
-              requireScrolling: true
-              includeAup: false
-              useDiffAupForEmployees: false
-              displayFrequency: FIRSTLOGIN
-              skipAupForEmployees: false
-            postLoginBannerSettings:
-              includePostAccessBanner: true
-            portalSettings:
-              allowedInterfaces:
-              - eth0
-              - bond0
-              fqdn: Fully Qualified Domain Name
-              authenticationMethod: Identity Source
-              availableSsids:
-              - ssid1
-              - ssid2
-              certificateGroupTag: Default Portal Certificate Group
-              idleTimeout: 10
-              alwaysUsedLanguage: English
-              displayLang: USEBROWSERLOCALE
-              fallbackLanguage: English
-              httpsPort: 8443
-            sponsorChangePasswordSettings:
-              allowSponsorToChangePwd: false
-          name: name
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sponsorportalListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
           description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          customizations:
-            globalCustomizations:
-              bannerImage:
-                data: base 64 encoded value of image
-              contactText: 'Contact Information '
-              bannerTitle: Banner Title
-              desktopLogoImage:
-                data: base 64 encoded value of image
-              mobileLogoImage:
-                data: base 64 encoded value of image
-              footerElement: Footer Element
-            portalTweakSettings:
-              pageBackgroundColor: Color code from GUI
-              pageLabelAndTextColor: Label and Text color from GUI
-              bannerColor: Banner Color from GUI
-              bannerTextColor: Banner Text color code from GUI
-            pageCustomizations:
-              data:
-              - value: Contact Support
-                key: ui_contact_link
-            language:
-              viewLanguage: English
-            portalTheme:
-              themeData: Base 64 encoded string of Theme CSS file
-              name: ThemeName
-              id: themeId
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     SponsorPortal:
       required:
       - name
@@ -1309,75 +1264,6 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
-    portal.sponsorportal:
-      required:
-      - SponsorPortal
-      type: object
-      properties:
-        SponsorPortal:
-          $ref: '#/components/schemas/SponsorPortal'
-      example: null
-    sponsorportalListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sponsorportalListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    sponsorportalListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     sponsorportalResponseEntity:
       properties:
         portalTestUrl:
@@ -1686,41 +1572,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     Link:
       type: object
       properties:
@@ -1739,6 +1590,142 @@ components:
           type: string
           example: application/json
       example: null
+    sponsorportalListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sponsorportalListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    portal.sponsorportal:
+      required:
+      - SponsorPortal
+      type: object
+      properties:
+        SponsorPortal:
+          $ref: '#/components/schemas/SponsorPortal'
+      example: null
+    sponsorportalResponse:
+      type: object
+      properties:
+        SponsorPortal:
+          $ref: '#/components/schemas/sponsorportalResponseEntity'
+      example:
+        SponsorPortal:
+          portalType: SPONSOR
+          settings:
+            loginPageSettings:
+              maxFailedAttemptsBeforeRateLimit: 5
+              allowGuestToChangePassword: false
+              requireAccessCode: false
+              allowGuestToCreateAccounts: true
+              includeAup: false
+              allowAlternateGuestPortal: false
+              socialConfigs: []
+              timeBetweenLoginsDuringRateLimit: 2
+              allowShowGuestForm: false
+              allowForgotPassword: true
+              allowGuestToUseSocialAccounts: false
+              requireAupAcceptance: false
+              requireAupScrolling: false
+              aupDisplay: ASLINK
+            supportInfoSettings:
+              includePolicyServer: true
+              includeFailureCode: true
+              includeMacAddr: true
+              includeBrowserUserAgent: true
+              includeSupportInfoPage: false
+              includeIpAddress: true
+              emptyFieldDisplay: HIDE
+            aupSettings:
+              requireAccessCode: false
+              requireScrolling: true
+              includeAup: false
+              useDiffAupForEmployees: false
+              displayFrequency: FIRSTLOGIN
+              skipAupForEmployees: false
+            postLoginBannerSettings:
+              includePostAccessBanner: true
+            portalSettings:
+              allowedInterfaces:
+              - eth0
+              - bond0
+              fqdn: Fully Qualified Domain Name
+              authenticationMethod: Identity Source
+              availableSsids:
+              - ssid1
+              - ssid2
+              certificateGroupTag: Default Portal Certificate Group
+              idleTimeout: 10
+              alwaysUsedLanguage: English
+              displayLang: USEBROWSERLOCALE
+              fallbackLanguage: English
+              httpsPort: 8443
+            sponsorChangePasswordSettings:
+              allowSponsorToChangePwd: false
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          customizations:
+            globalCustomizations:
+              bannerImage:
+                data: base 64 encoded value of image
+              contactText: 'Contact Information '
+              bannerTitle: Banner Title
+              desktopLogoImage:
+                data: base 64 encoded value of image
+              mobileLogoImage:
+                data: base 64 encoded value of image
+              footerElement: Footer Element
+            portalTweakSettings:
+              pageBackgroundColor: Color code from GUI
+              pageLabelAndTextColor: Label and Text color from GUI
+              bannerColor: Banner Color from GUI
+              bannerTextColor: Banner Text color code from GUI
+            pageCustomizations:
+              data:
+              - value: Contact Support
+                key: ui_contact_link
+            language:
+              viewLanguage: English
+            portalTheme:
+              themeData: Base 64 encoded string of Theme CSS file
+              name: ThemeName
+              id: themeId
     updatedField:
       properties:
         field:
@@ -1751,47 +1738,24 @@ components:
           type: string
           example: null
       example: null
-    Update:
+    UpdatedFieldsResponse:
       type: object
       properties:
         UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    sponsorportal:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    VersionInfo:
       type: object
       properties:
-        SponsorPortal:
-          $ref: '#/components/schemas/SponsorPortal_2'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     link1:
       type: object
       properties:
@@ -1804,17 +1768,23 @@ components:
         type:
           type: string
           example: application/json
-    version:
+    search:
       type: object
       properties:
-        currentServerVersion:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    UpdatedField:
+      type: object
+      properties:
+        field:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: field1
+        oldValue:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     SearchResult:
       type: object
       properties:
@@ -1835,6 +1805,11 @@ components:
             properties:
               name:
                 type: string
+    sponsorportal:
+      type: object
+      properties:
+        SponsorPortal:
+          $ref: '#/components/schemas/SponsorPortal_2'
     SponsorPortal_2:
       type: object
       properties:
@@ -2041,21 +2016,37 @@ components:
             type:
               type: string
               example: application/json
-    VersionInfo:
+    version:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -2065,6 +2056,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

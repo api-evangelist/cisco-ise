@@ -639,56 +639,85 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    AlarmRuleResponse:
-      title: AlarmRuleResponse
+    AlarmRuleListResponseWrapper:
+      title: AlarmRuleListResponseWrapper
       type: object
       properties:
-        category:
+        rulesRes:
+          type: array
+          description: A list of alarm rules, each containing details such as ID, name, description, category, severity, and type ID.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AlarmRuleResponse'
+            exampleSetFlag: false
+        version:
           type: string
-          description: The category of the alarm rule
-          example: Posture
+          description: The version of the API or the response format being used.
+          example: 1.0.0
           exampleSetFlag: true
-        description:
-          type: string
-          description: A detailed description of the alarm rule
-          example: Alarm Rule Description.
-          exampleSetFlag: true
-        id:
-          type: string
-          description: The id of Alarm Rule
-          example: 909uhjm
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the alarm rule
-          example: Critical Posture Alarm.
-          exampleSetFlag: true
-        severity:
-          type: string
-          description: The severity level of the alarm rule
-          example: High.
-          exampleSetFlag: true
-        typeId:
-          type: integer
-          description: The type ID of the alarm rule
-          format: int32
-          example: 2000
-          exampleSetFlag: true
-      description: Represents the response object for an alarm rule. This object provides detailed information about a specific alarm rule, including its unique identifier, name, description, category, severity, and type ID.
+      description: Represents the response wrapper for retrieving a list of alarm rules. This object contains an array of alarm rule details and the version of the API or response format being used.
       exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
+    WebhookAlarmRlAssoResponseWrapper:
+      title: WebhookAlarmRlAssoResponseWrapper
       type: object
       properties:
-        error:
-          $ref: '#/components/schemas/Message'
+        response:
+          $ref: '#/components/schemas/WebhookAlarmResponse'
           exampleSetFlag: true
         version:
           type: string
           description: The version of the API or the response format being used.
           example: 1.0.0
           exampleSetFlag: true
-      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
+      description: Represents the response wrapper for operations that associate alarm rules with a webhook configuration. This wrapper includes the detailed response object with the updated webhook and alarm rule associations, as well as the API version information.
+      exampleSetFlag: false
+    WebhookStatusResponse:
+      title: WebhookStatusResponse
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the webhook configuration.
+          example: 3f2504e0-4f89-11d3-9a0c-0305e82c3301
+          exampleSetFlag: true
+        status:
+          type: string
+          description: The operational status of the webhook. Possible values are `ENABLED` or `DISABLED`.
+          example: ENABLED
+          exampleSetFlag: true
+      description: Represents the response object for a webhook configuration status update operation. This object includes the unique identifier of the webhook and its updated status.
+      exampleSetFlag: false
+    RemoveWebhookResponseWrapper:
+      title: RemoveWebhookResponseWrapper
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/RemoveWebhookResponse'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for the operation to remove a webhook configuration. This wrapper includes the response object with details about the removal operation and the version of the API or response format.
+      exampleSetFlag: false
+    WebhookAlarmResponse:
+      title: WebhookAlarmResponse
+      type: object
+      properties:
+        alarmRules:
+          type: array
+          description: A list of alarm rules associated with the webhook configuration.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AlarmRuleResponse'
+            exampleSetFlag: false
+        id:
+          type: string
+          description: The unique identifier of the webhook configuration.
+          example: 78jhgghh
+          exampleSetFlag: true
+      description: Represents the response object for operations involving webhook configurations and their associated alarm rules. This object includes the unique identifier of the webhook and a list of alarm rules associated with it.
       exampleSetFlag: false
     WebhookResponse:
       title: WebhookResponse
@@ -748,53 +777,42 @@ components:
           exampleSetFlag: true
       description: 'Represents the response object for webhook-related API operations. This object contains all the attributes of a webhook configuration,  including its unique identifier, name, URL, secret key, status, and certificate validation settings. '
       exampleSetFlag: false
-    RecentWebhookDeliveriesResponseWrapper:
-      title: RecentWebhookDeliveriesResponseWrapper
+    AlarmRuleResponse:
+      title: AlarmRuleResponse
       type: object
       properties:
-        deliveries:
-          type: array
-          description: A list of recent webhook delivery records, including details such as payload, status, response code, and timestamps.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/RecentWebhookDeliveriesResponse'
-            exampleSetFlag: false
-        version:
+        category:
           type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
+          description: The category of the alarm rule
+          example: Posture
           exampleSetFlag: true
-      description: Represents the response wrapper for retrieving recent webhook delivery records. This object contains a list of recent webhook delivery details and the version of the API or response format being used.
-      exampleSetFlag: false
-    WebhookStatusResponse:
-      title: WebhookStatusResponse
-      type: object
-      properties:
+        description:
+          type: string
+          description: A detailed description of the alarm rule
+          example: Alarm Rule Description.
+          exampleSetFlag: true
         id:
           type: string
-          description: The unique identifier of the webhook configuration.
-          example: 3f2504e0-4f89-11d3-9a0c-0305e82c3301
+          description: The id of Alarm Rule
+          example: 909uhjm
           exampleSetFlag: true
-        status:
+        name:
           type: string
-          description: The operational status of the webhook. Possible values are `ENABLED` or `DISABLED`.
-          example: ENABLED
+          description: The name of the alarm rule
+          example: Critical Posture Alarm.
           exampleSetFlag: true
-      description: Represents the response object for a webhook configuration status update operation. This object includes the unique identifier of the webhook and its updated status.
-      exampleSetFlag: false
-    AlarmRuleResponseWrapper:
-      title: AlarmRuleResponseWrapper
-      type: object
-      properties:
-        alarmRule:
-          $ref: '#/components/schemas/AlarmRuleResponse'
-          exampleSetFlag: true
-        version:
+        severity:
           type: string
-          description: The version of the API or response format.
-          example: 1.0.0
+          description: The severity level of the alarm rule
+          example: High.
           exampleSetFlag: true
-      description: Represents the response wrapper for retrieving the details of a single alarm rule. This object contains the alarm rule details along with the version of the API or response format being used.
+        typeId:
+          type: integer
+          description: The type ID of the alarm rule
+          format: int32
+          example: 2000
+          exampleSetFlag: true
+      description: Represents the response object for an alarm rule. This object provides detailed information about a specific alarm rule, including its unique identifier, name, description, category, severity, and type ID.
       exampleSetFlag: false
     WebhookStatusRequest:
       title: WebhookStatusRequest
@@ -814,34 +832,6 @@ components:
           exampleSetFlag: true
       description: Represents the request payload for updating the status of a webhook configuration. This object includes the unique identifier of the webhook and the new status (enabled or disabled) to be applied.
       exampleSetFlag: false
-    RemoveWebhookResponseWrapper:
-      title: RemoveWebhookResponseWrapper
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/RemoveWebhookResponse'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for the operation to remove a webhook configuration. This wrapper includes the response object with details about the removal operation and the version of the API or response format.
-      exampleSetFlag: false
-    WebhookResponseWrapper:
-      title: WebhookResponseWrapper
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/WebhookResponse'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for webhook-related API operations. It contains the detailed response object for the webhook operation along with the version of the API or response format.
-      exampleSetFlag: false
     WebhookIdsRequest:
       title: WebhookIdsRequest
       required:
@@ -858,38 +848,6 @@ components:
             exampleSetFlag: false
       description: Represents the request payload for operations that involve specifying a list of webhook IDs. This is typically used for removing multiple webhooks in a single operation.
       exampleSetFlag: false
-    WebhookAlarmResponse:
-      title: WebhookAlarmResponse
-      type: object
-      properties:
-        alarmRules:
-          type: array
-          description: A list of alarm rules associated with the webhook configuration.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AlarmRuleResponse'
-            exampleSetFlag: false
-        id:
-          type: string
-          description: The unique identifier of the webhook configuration.
-          example: 78jhgghh
-          exampleSetFlag: true
-      description: Represents the response object for operations involving webhook configurations and their associated alarm rules. This object includes the unique identifier of the webhook and a list of alarm rules associated with it.
-      exampleSetFlag: false
-    WebhookAlarmRlAssoResponseWrapper:
-      title: WebhookAlarmRlAssoResponseWrapper
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/WebhookAlarmResponse'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for operations that associate alarm rules with a webhook configuration. This wrapper includes the detailed response object with the updated webhook and alarm rule associations, as well as the API version information.
-      exampleSetFlag: false
     Message:
       title: Message
       type: object
@@ -900,19 +858,6 @@ components:
           example: Success
           exampleSetFlag: true
       description: Represents a simple message object used in API responses. This object typically contains a single message string that provides information about the success, error, or status of an operation.
-      exampleSetFlag: false
-    AlarmRuleIdsRequest:
-      title: AlarmRuleIdsRequest
-      type: object
-      properties:
-        alarmRuleIds:
-          type: array
-          description: A list of unique alarm rule IDs to be processed in the operation, such as removal or association with a webhook configuration.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      description: Represents the request payload for operations that involve specifying a list of alarm rule IDs. This is typically used for removing or associating alarm rules with a webhook configuration.
       exampleSetFlag: false
     RemoveWebhookResponse:
       title: RemoveWebhookResponse
@@ -929,24 +874,6 @@ components:
           example: Webhook Removed Successfully
           exampleSetFlag: true
       description: Represents the response object for the operation to remove a webhook configuration. This object provides the status code of the operation and a message indicating whether the removal was successful or if an issue occurred.
-      exampleSetFlag: false
-    ValidationErrorResponse:
-      title: ValidationErrorResponse
-      type: object
-      properties:
-        error:
-          type: object
-          additionalProperties:
-            type: string
-            exampleSetFlag: false
-          description: A map of validation errors, where each key is a field name and the value is the error message for that field.
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the validation error response object for API operations. This object provides details about validation errors that occurred during the API call, including a map of field-specific error messages and the version of the API or response format.
       exampleSetFlag: false
     WebhookStatusResponseWrapper:
       title: WebhookStatusResponseWrapper
@@ -965,40 +892,6 @@ components:
             $ref: '#/components/schemas/WebhookStatusResponse'
             exampleSetFlag: false
       description: Represents the response wrapper for operations that update the status of webhook configurations. This wrapper includes a list of webhook configurations with their updated statuses and the API version information.
-      exampleSetFlag: false
-    WebhookRequest:
-      title: WebhookRequest
-      type: object
-      properties:
-        ignoreCertificate:
-          type: boolean
-          description: Indicates if the URL's certificate should be validated against the trusted store
-          example: true
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The unique name of the webhook configuration. Must be between 1 and 128 characters.
-          example: MyWebhook
-          exampleSetFlag: true
-        secret:
-          type: string
-          description: The secret key used for authentication
-          example: mySecret
-          exampleSetFlag: true
-        status:
-          type: string
-          description: The operational status of the webhook. Can be either `ENABLED` or `DISABLED`.
-          example: ENABLED
-          exampleSetFlag: true
-          enum:
-          - DISABLED
-          - ENABLED
-        url:
-          type: string
-          description: Must be a valid URL starting with https
-          example: https://example.com/webhook
-          exampleSetFlag: true
-      description: Represents the request payload for creating or updating a Webhook Configuration. This object contains all the necessary attributes required to define a webhook, including its name, URL, secret, status, and certificate validation settings.
       exampleSetFlag: false
     RecentWebhookDeliveriesResponse:
       title: RecentWebhookDeliveriesResponse
@@ -1063,23 +956,130 @@ components:
           exampleSetFlag: true
       description: Represents the details of a recent webhook delivery. This object provides comprehensive information about the delivery, including the associated alarm, payload, status, response codes, timestamps, and any failure reasons.
       exampleSetFlag: false
-    AlarmRuleListResponseWrapper:
-      title: AlarmRuleListResponseWrapper
+    WebhookResponseWrapper:
+      title: WebhookResponseWrapper
       type: object
       properties:
-        rulesRes:
+        response:
+          $ref: '#/components/schemas/WebhookResponse'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for webhook-related API operations. It contains the detailed response object for the webhook operation along with the version of the API or response format.
+      exampleSetFlag: false
+    AlarmRuleResponseWrapper:
+      title: AlarmRuleResponseWrapper
+      type: object
+      properties:
+        alarmRule:
+          $ref: '#/components/schemas/AlarmRuleResponse'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving the details of a single alarm rule. This object contains the alarm rule details along with the version of the API or response format being used.
+      exampleSetFlag: false
+    RecentWebhookDeliveriesResponseWrapper:
+      title: RecentWebhookDeliveriesResponseWrapper
+      type: object
+      properties:
+        deliveries:
           type: array
-          description: A list of alarm rules, each containing details such as ID, name, description, category, severity, and type ID.
+          description: A list of recent webhook delivery records, including details such as payload, status, response code, and timestamps.
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/AlarmRuleResponse'
+            $ref: '#/components/schemas/RecentWebhookDeliveriesResponse'
             exampleSetFlag: false
         version:
           type: string
           description: The version of the API or the response format being used.
           example: 1.0.0
           exampleSetFlag: true
-      description: Represents the response wrapper for retrieving a list of alarm rules. This object contains an array of alarm rule details and the version of the API or response format being used.
+      description: Represents the response wrapper for retrieving recent webhook delivery records. This object contains a list of recent webhook delivery details and the version of the API or response format being used.
+      exampleSetFlag: false
+    ValidationErrorResponse:
+      title: ValidationErrorResponse
+      type: object
+      properties:
+        error:
+          type: object
+          additionalProperties:
+            type: string
+            exampleSetFlag: false
+          description: A map of validation errors, where each key is a field name and the value is the error message for that field.
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the validation error response object for API operations. This object provides details about validation errors that occurred during the API call, including a map of field-specific error messages and the version of the API or response format.
+      exampleSetFlag: false
+    AlarmRuleIdsRequest:
+      title: AlarmRuleIdsRequest
+      type: object
+      properties:
+        alarmRuleIds:
+          type: array
+          description: A list of unique alarm rule IDs to be processed in the operation, such as removal or association with a webhook configuration.
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Represents the request payload for operations that involve specifying a list of alarm rule IDs. This is typically used for removing or associating alarm rules with a webhook configuration.
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or the response format being used.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
+      exampleSetFlag: false
+    WebhookRequest:
+      title: WebhookRequest
+      type: object
+      properties:
+        ignoreCertificate:
+          type: boolean
+          description: Indicates if the URL's certificate should be validated against the trusted store
+          example: true
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The unique name of the webhook configuration. Must be between 1 and 128 characters.
+          example: MyWebhook
+          exampleSetFlag: true
+        secret:
+          type: string
+          description: The secret key used for authentication
+          example: mySecret
+          exampleSetFlag: true
+        status:
+          type: string
+          description: The operational status of the webhook. Can be either `ENABLED` or `DISABLED`.
+          example: ENABLED
+          exampleSetFlag: true
+          enum:
+          - DISABLED
+          - ENABLED
+        url:
+          type: string
+          description: Must be a valid URL starting with https
+          example: https://example.com/webhook
+          exampleSetFlag: true
+      description: Represents the request payload for creating or updating a Webhook Configuration. This object contains all the necessary attributes required to define a webhook, including its name, URL, secret, status, and certificate validation settings.
       exampleSetFlag: false
     WebhookListResponseWrapper:
       title: WebhookListResponseWrapper

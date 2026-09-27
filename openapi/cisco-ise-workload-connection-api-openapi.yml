@@ -1402,21 +1402,6 @@ paths:
           description: Not Found
 components:
   schemas:
-    AwsConfigResponse:
-      title: AwsConfigResponse
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/AwsConfig'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
     AllAttributesMappingResponse:
       title: AllAttributesMappingResponse
       type: object
@@ -1429,6 +1414,242 @@ components:
             exampleSetFlag: false
         version:
           type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    WorkloadConnectionNames:
+      title: WorkloadConnectionNames
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Workload Connection name
+          example: AWS_1
+          exampleSetFlag: true
+        platform:
+          type: string
+          description: Workload Platform
+          example: AWS
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AzureConfigWithAttribute:
+      title: AzureConfigWithAttribute
+      required:
+      - clientId
+      - clientSecret
+      - name
+      - subscriptionId
+      - syncInterval
+      - tenantId
+      type: object
+      properties:
+        attributes:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMapping'
+            exampleSetFlag: false
+        clientId:
+          type: string
+          exampleSetFlag: true
+        clientSecret:
+          type: string
+          exampleSetFlag: true
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: azure_connection_name
+          exampleSetFlag: true
+        subscriptionId:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+        tenantId:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AwsConfig:
+      title: AwsConfig
+      required:
+      - accessKeyId
+      - name
+      - regions
+      - secretAccessKey
+      - syncInterval
+      type: object
+      properties:
+        accessKeyId:
+          type: string
+          exampleSetFlag: true
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: aws_connection_name
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        secretAccessKey:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+      exampleSetFlag: false
+    FetchAttributeMappingResponse:
+      title: FetchAttributeMappingResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMappingWithReferences'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    WorkloadConnectorThresholdResponseEntity:
+      title: WorkloadConnectorThresholdResponseEntity
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/WorkloadConnectorThresholdResponse'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AwsAccessInfo:
+      title: AwsAccessInfo
+      required:
+      - accessKeyId
+      - regions
+      - secretAccessKey
+      type: object
+      properties:
+        accessKeyId:
+          type: string
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        secretAccessKey:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeMappingWithType:
+      title: AttributeMappingWithType
+      required:
+      - dictionaryName
+      - includeInDictionary
+      - name
+      type: object
+      properties:
+        dictionaryName:
+          type: string
+          example: origin
+          exampleSetFlag: true
+        dictionaryType:
+          type: string
+          example: AWS
+          exampleSetFlag: true
+        includeInDictionary:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          example: location
+          exampleSetFlag: true
+      exampleSetFlag: false
+    TestResponse:
+      title: TestResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: Test successful
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    GcpConfig:
+      title: GcpConfig
+      required:
+      - name
+      - regions
+      - serviceAccountJson
+      - syncInterval
+      type: object
+      properties:
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        serviceAccountJson:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AzureConfigResponse:
+      title: AzureConfigResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/AzureConfig'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     VcenterAccessInfo:
@@ -1484,60 +1705,25 @@ components:
           exampleSetFlag: true
       description: vCenter connection configuration
       exampleSetFlag: false
-    AzureConfigWithAttribute:
-      title: AzureConfigWithAttribute
+    AzureAccessInfo:
+      title: AzureAccessInfo
       required:
       - clientId
       - clientSecret
-      - name
       - subscriptionId
-      - syncInterval
       - tenantId
       type: object
       properties:
-        attributes:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AttributeMapping'
-            exampleSetFlag: false
         clientId:
           type: string
           exampleSetFlag: true
         clientSecret:
           type: string
           exampleSetFlag: true
-        description:
-          type: string
-          exampleSetFlag: true
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        name:
-          type: string
-          example: azure_connection_name
-          exampleSetFlag: true
         subscriptionId:
           type: string
           exampleSetFlag: true
-        syncInterval:
-          type: string
-          description: Sync Interval in ISO 8601 duration format
-          example: PT15M
-          exampleSetFlag: true
         tenantId:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AttributeValuesResponse:
-      title: AttributeValuesResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/AttributeValues'
-          exampleSetFlag: true
-        version:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
@@ -1597,112 +1783,6 @@ components:
           example: PT15M
           exampleSetFlag: true
       description: Workload connection summary
-      exampleSetFlag: false
-    WorkloadConnectionNames:
-      title: WorkloadConnectionNames
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Workload Connection name
-          example: AWS_1
-          exampleSetFlag: true
-        platform:
-          type: string
-          description: Workload Platform
-          example: AWS
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AwsConfig:
-      title: AwsConfig
-      required:
-      - accessKeyId
-      - name
-      - regions
-      - secretAccessKey
-      - syncInterval
-      type: object
-      properties:
-        accessKeyId:
-          type: string
-          exampleSetFlag: true
-        description:
-          type: string
-          exampleSetFlag: true
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        name:
-          type: string
-          example: aws_connection_name
-          exampleSetFlag: true
-        regions:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        secretAccessKey:
-          type: string
-          exampleSetFlag: true
-        syncInterval:
-          type: string
-          description: Sync Interval in ISO 8601 duration format
-          example: PT15M
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AttributeValues:
-      title: AttributeValues
-      type: object
-      properties:
-        values:
-          type: array
-          example: '["US","UK"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      exampleSetFlag: false
-    AttributeMapping:
-      title: AttributeMapping
-      required:
-      - dictionaryName
-      - includeInDictionary
-      - name
-      type: object
-      properties:
-        dictionaryName:
-          type: string
-          example: origin
-          exampleSetFlag: true
-        includeInDictionary:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-        name:
-          type: string
-          example: location
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AzureConfigResponse:
-      title: AzureConfigResponse
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/AzureConfig'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
       exampleSetFlag: false
     VcenterConfig:
       title: VcenterConfig
@@ -1776,6 +1856,61 @@ components:
           example: false
           exampleSetFlag: true
       exampleSetFlag: false
+    AzureConfig:
+      title: AzureConfig
+      required:
+      - clientId
+      - clientSecret
+      - name
+      - subscriptionId
+      - syncInterval
+      - tenantId
+      type: object
+      properties:
+        clientId:
+          type: string
+          exampleSetFlag: true
+        clientSecret:
+          type: string
+          exampleSetFlag: true
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: azure_connection_name
+          exampleSetFlag: true
+        subscriptionId:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+        tenantId:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AwsConfigResponse:
+      title: AwsConfigResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/AwsConfig'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     AttributeMappingWithReferences:
       title: AttributeMappingWithReferences
       required:
@@ -1803,25 +1938,16 @@ components:
             $ref: '#/components/schemas/AttributeReferences'
             exampleSetFlag: false
       exampleSetFlag: false
-    TestResponse:
-      title: TestResponse
-      type: object
-      properties:
-        message:
-          type: string
-          example: Test successful
-          exampleSetFlag: true
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    WorkloadConnectorThresholdResponseEntity:
-      title: WorkloadConnectorThresholdResponseEntity
+    WorkloadConnectionNamesResponseEntity:
+      title: WorkloadConnectionNamesResponseEntity
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/WorkloadConnectorThresholdResponse'
+          type: array
           exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/WorkloadConnectionNames'
+            exampleSetFlag: false
         version:
           type: string
           exampleSetFlag: true
@@ -1866,19 +1992,94 @@ components:
           example: PT15M
           exampleSetFlag: true
       exampleSetFlag: false
-    GcpConfigResponse:
-      title: GcpConfigResponse
+    AttributeReferences:
+      title: AttributeReferences
+      type: object
+      properties:
+        policyName:
+          type: string
+          example: rule1
+          exampleSetFlag: true
+        policyType:
+          type: string
+          example: Inbound Filter
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AwsConfigWithAttribute:
+      title: AwsConfigWithAttribute
       required:
-      - response
-      - version
+      - accessKeyId
+      - name
+      - regions
+      - secretAccessKey
+      - syncInterval
+      type: object
+      properties:
+        accessKeyId:
+          type: string
+          exampleSetFlag: true
+        attributes:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AttributeMapping'
+            exampleSetFlag: false
+        description:
+          type: string
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: aws_connection_name
+          exampleSetFlag: true
+        regions:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        secretAccessKey:
+          type: string
+          exampleSetFlag: true
+        syncInterval:
+          type: string
+          description: Sync Interval in ISO 8601 duration format
+          example: PT15M
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeMapping:
+      title: AttributeMapping
+      required:
+      - dictionaryName
+      - includeInDictionary
+      - name
+      type: object
+      properties:
+        dictionaryName:
+          type: string
+          example: origin
+          exampleSetFlag: true
+        includeInDictionary:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        name:
+          type: string
+          example: location
+          exampleSetFlag: true
+      exampleSetFlag: false
+    VcenterConfigResponse:
+      title: VcenterConfigResponse
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/GcpConfig'
+          $ref: '#/components/schemas/VcenterConfig'
           exampleSetFlag: true
         version:
           type: string
-          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     WorkloadConnectorThresholdResponse:
@@ -1897,28 +2098,20 @@ components:
           example: 1000
           exampleSetFlag: true
       exampleSetFlag: false
-    VcenterConfigResponse:
-      title: VcenterConfigResponse
+    GcpAccessInfo:
+      title: GcpAccessInfo
+      required:
+      - regions
+      - serviceAccountJson
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/VcenterConfig'
-          exampleSetFlag: true
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    WorkloadConnectionNamesResponseEntity:
-      title: WorkloadConnectionNamesResponseEntity
-      type: object
-      properties:
-        response:
+        regions:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/WorkloadConnectionNames'
+            type: string
             exampleSetFlag: false
-        version:
+        serviceAccountJson:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
@@ -1936,121 +2129,19 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    AttributeMappingWithType:
-      title: AttributeMappingWithType
+    GcpConfigResponse:
+      title: GcpConfigResponse
       required:
-      - dictionaryName
-      - includeInDictionary
-      - name
-      type: object
-      properties:
-        dictionaryName:
-          type: string
-          example: origin
-          exampleSetFlag: true
-        dictionaryType:
-          type: string
-          example: AWS
-          exampleSetFlag: true
-        includeInDictionary:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-        name:
-          type: string
-          example: location
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AwsAccessInfo:
-      title: AwsAccessInfo
-      required:
-      - accessKeyId
-      - regions
-      - secretAccessKey
-      type: object
-      properties:
-        accessKeyId:
-          type: string
-          exampleSetFlag: true
-        regions:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        secretAccessKey:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
-      exampleSetFlag: false
-    FetchAttributeMappingResponse:
-      title: FetchAttributeMappingResponse
+      - response
+      - version
       type: object
       properties:
         response:
-          type: array
+          $ref: '#/components/schemas/GcpConfig'
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AttributeMappingWithReferences'
-            exampleSetFlag: false
         version:
           type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AzureConfig:
-      title: AzureConfig
-      required:
-      - clientId
-      - clientSecret
-      - name
-      - subscriptionId
-      - syncInterval
-      - tenantId
-      type: object
-      properties:
-        clientId:
-          type: string
-          exampleSetFlag: true
-        clientSecret:
-          type: string
-          exampleSetFlag: true
-        description:
-          type: string
-          exampleSetFlag: true
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        name:
-          type: string
-          example: azure_connection_name
-          exampleSetFlag: true
-        subscriptionId:
-          type: string
-          exampleSetFlag: true
-        syncInterval:
-          type: string
-          description: Sync Interval in ISO 8601 duration format
-          example: PT15M
-          exampleSetFlag: true
-        tenantId:
-          type: string
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     VcenterConfigWithAttribute:
@@ -2131,134 +2222,43 @@ components:
           example: false
           exampleSetFlag: true
       exampleSetFlag: false
-    AttributeReferences:
-      title: AttributeReferences
+    AttributeValues:
+      title: AttributeValues
       type: object
       properties:
-        policyName:
-          type: string
-          example: rule1
-          exampleSetFlag: true
-        policyType:
-          type: string
-          example: Inbound Filter
-          exampleSetFlag: true
-      exampleSetFlag: false
-    GcpAccessInfo:
-      title: GcpAccessInfo
-      required:
-      - regions
-      - serviceAccountJson
-      type: object
-      properties:
-        regions:
+        values:
           type: array
+          example: '["US","UK"]'
           exampleSetFlag: true
           items:
             type: string
             exampleSetFlag: false
-        serviceAccountJson:
-          type: string
-          exampleSetFlag: true
       exampleSetFlag: false
-    AzureAccessInfo:
-      title: AzureAccessInfo
+    Error:
+      title: Error
       required:
-      - clientId
-      - clientSecret
-      - subscriptionId
-      - tenantId
+      - code
+      - message
       type: object
       properties:
-        clientId:
-          type: string
+        code:
+          type: integer
+          format: int32
+          example: 400
           exampleSetFlag: true
-        clientSecret:
+        message:
           type: string
-          exampleSetFlag: true
-        subscriptionId:
-          type: string
-          exampleSetFlag: true
-        tenantId:
-          type: string
+          example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false
-    GcpConfig:
-      title: GcpConfig
-      required:
-      - name
-      - regions
-      - serviceAccountJson
-      - syncInterval
+    AttributeValuesResponse:
+      title: AttributeValuesResponse
       type: object
       properties:
-        description:
+        response:
+          $ref: '#/components/schemas/AttributeValues'
+          exampleSetFlag: true
+        version:
           type: string
-          exampleSetFlag: true
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        name:
-          type: string
-          exampleSetFlag: true
-        regions:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        serviceAccountJson:
-          type: string
-          exampleSetFlag: true
-        syncInterval:
-          type: string
-          description: Sync Interval in ISO 8601 duration format
-          example: PT15M
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AwsConfigWithAttribute:
-      title: AwsConfigWithAttribute
-      required:
-      - accessKeyId
-      - name
-      - regions
-      - secretAccessKey
-      - syncInterval
-      type: object
-      properties:
-        accessKeyId:
-          type: string
-          exampleSetFlag: true
-        attributes:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AttributeMapping'
-            exampleSetFlag: false
-        description:
-          type: string
-          exampleSetFlag: true
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        name:
-          type: string
-          example: aws_connection_name
-          exampleSetFlag: true
-        regions:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        secretAccessKey:
-          type: string
-          exampleSetFlag: true
-        syncInterval:
-          type: string
-          description: Sync Interval in ISO 8601 duration format
-          example: PT15M
           exampleSetFlag: true
       exampleSetFlag: false

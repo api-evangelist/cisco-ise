@@ -143,13 +143,27 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    identitystores.restidstoregroup:
-      required:
-      - ERSRestIDStoreAllGroups
+    ERSResponse:
       type: object
       properties:
-        ERSRestIDStoreAllGroups:
-          $ref: '#/components/schemas/ERSRestIDStoreAllGroups'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     ERSRestIDStoreAllGroups:
       required:
@@ -179,33 +193,19 @@ components:
           pageSize: 20
           clientSecret: <AZURE_CLIENT_SECRET>
           restIDStoreName: ''
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    ERSRestIDStoreAllGroupsRequest:
+    identitystores.restidstoregroup:
+      required:
+      - ERSRestIDStoreAllGroups
       type: object
       properties:
         ERSRestIDStoreAllGroups:
-          $ref: '#/components/schemas/ERSRestIDStoreAllGroups_2'
+          $ref: '#/components/schemas/ERSRestIDStoreAllGroups'
+      example: null
+    ERSRestIDStoreGroupsResponse:
+      type: object
+      properties:
+        ERSRestIDStoreGroups:
+          $ref: '#/components/schemas/ERSRestIDStoreGroups'
     ERSRestIDStoreAllGroups_2:
       type: object
       description: 'Either (clientID, clientSecret, tenantID) or restIDStoreName is mandatory.
@@ -254,11 +254,11 @@ components:
           - group5
           items:
             type: string
-    ERSRestIDStoreGroupsResponse:
+    ERSRestIDStoreAllGroupsRequest:
       type: object
       properties:
-        ERSRestIDStoreGroups:
-          $ref: '#/components/schemas/ERSRestIDStoreGroups'
+        ERSRestIDStoreAllGroups:
+          $ref: '#/components/schemas/ERSRestIDStoreAllGroups_2'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

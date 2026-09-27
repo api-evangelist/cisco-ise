@@ -406,6 +406,63 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    certificatetemplateResponseEntity:
+      properties:
+        raprofile:
+          title: raprofile
+          type: string
+          description: RA profile for the Certificate template
+          example: null
+        keySize:
+          title: keySize
+          type: number
+          description: Key Size of the Certificate Template
+          example: null
+        validityPeriod:
+          title: validityPeriod
+          type: integer
+          description: Validity period of the Certificate Template
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     certificatetemplateListResponse:
       type: object
       properties:
@@ -447,40 +504,23 @@ components:
               type: application/xml
             description: description2
             id: id2
-    certificatetemplateResponseEntity:
+    Link:
+      type: object
       properties:
-        raprofile:
-          title: raprofile
+        rel:
           type: string
-          description: RA profile for the Certificate template
-          example: null
-        keySize:
-          title: keySize
-          type: number
-          description: Key Size of the Certificate Template
-          example: null
-        validityPeriod:
-          title: validityPeriod
-          type: integer
-          description: Validity period of the Certificate Template
-          example: null
-        name:
-          title: name
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
           type: string
-          description: name
-          example: null
-        id:
-          title: id
+          example: https://{server}:{port}/ers/config
+        type:
           type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          example: application/json
       example: null
     certificatetemplateListResponseEntity:
       properties:
@@ -502,46 +542,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
     certificatetemplateResponse:
       type: object
       properties:
@@ -555,32 +555,6 @@ components:
           name: Certificate_Template_Name
           description: 'ERS Example certificate template '
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    getbyname:
-      type: object
-      properties:
-        ERSCertificateTemplate:
-          $ref: '#/components/schemas/getbyname1'
-    getbyname1:
-      type: object
-      properties:
-        id:
-          type: string
-          example: da095377-dce8-486e-933a-6ea788bbf51a
-        name:
-          type: string
-          example: Certificate_Template_Name
-        description:
-          type: string
-          example: ERS Example certificate template
-        keySize:
-          type: integer
-          example: 2048
-        validityPeriod:
-          type: integer
-          example: 730
-        raprofile:
-          type: string
-          example: ISE Internal CA
     getall1:
       type: object
       properties:
@@ -615,6 +589,16 @@ components:
             properties:
               name:
                 type: string
+    getbyname:
+      type: object
+      properties:
+        ERSCertificateTemplate:
+          $ref: '#/components/schemas/getbyname1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     link1:
       type: object
       properties:
@@ -638,26 +622,33 @@ components:
           example: '1.0'
         link:
           $ref: '#/components/schemas/link1'
+    getbyname1:
+      type: object
+      properties:
+        id:
+          type: string
+          example: da095377-dce8-486e-933a-6ea788bbf51a
+        name:
+          type: string
+          example: Certificate_Template_Name
+        description:
+          type: string
+          example: ERS Example certificate template
+        keySize:
+          type: integer
+          example: 2048
+        validityPeriod:
+          type: integer
+          example: 730
+        raprofile:
+          type: string
+          example: ISE Internal CA
     getall:
       type: object
       properties:
         SearchResult:
           $ref: '#/components/schemas/getall1'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -667,6 +658,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

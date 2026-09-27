@@ -1553,6 +1553,195 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    endpointListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/endpointListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    endpointListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    identity.endpoint:
+      required:
+      - ERSEndPoint
+      type: object
+      properties:
+        ERSEndPoint:
+          $ref: '#/components/schemas/ERSEndPoint'
+      example: null
+    endpointResponseEntity:
+      properties:
+        customAttributes:
+          title: customAttributes
+          type: object
+          description: Key value map
+          example: null
+        groupId:
+          title: groupId
+          type: string
+          description: ''
+          example: null
+        identityStore:
+          title: identityStore
+          type: string
+          description: This field is for read only
+          example: null
+        identityStoreId:
+          title: identityStoreId
+          type: string
+          description: This field is for read only
+          example: null
+        mac:
+          title: mac
+          type: string
+          description: ''
+          example: null
+        portalUser:
+          title: portalUser
+          type: string
+          description: ''
+          example: null
+        profileId:
+          title: profileId
+          type: string
+          description: ''
+          example: null
+        staticGroupAssignment:
+          title: staticGroupAssignment
+          type: boolean
+          description: ''
+          example: null
+        staticGroupAssignmentDefined:
+          title: staticGroupAssignmentDefined
+          type: boolean
+          description: ''
+          example: null
+        staticProfileAssignment:
+          title: staticProfileAssignment
+          type: boolean
+          description: ''
+          example: null
+        staticProfileAssignmentDefined:
+          title: staticProfileAssignmentDefined
+          type: boolean
+          description: ''
+          example: null
+        mdmAttributes:
+          title: mdmAttributes
+          type: object
+          description: MDM Attributes
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     ERSEndPoint:
       required:
       - groupId
@@ -1669,210 +1858,6 @@ components:
             customAttributes:
               key1: value1
               key2: value2
-    OperationResultEntity:
-      properties:
-        OperationResult:
-          properties:
-            resultValue:
-              type: array
-              example: null
-              items:
-                properties:
-                  Value:
-                    type: integer
-                    example: null
-                  name:
-                    type: string
-                    example: null
-                example: null
-          example: null
-      example: null
-    endpointResponseEntity:
-      properties:
-        customAttributes:
-          title: customAttributes
-          type: object
-          description: Key value map
-          example: null
-        groupId:
-          title: groupId
-          type: string
-          description: ''
-          example: null
-        identityStore:
-          title: identityStore
-          type: string
-          description: This field is for read only
-          example: null
-        identityStoreId:
-          title: identityStoreId
-          type: string
-          description: This field is for read only
-          example: null
-        mac:
-          title: mac
-          type: string
-          description: ''
-          example: null
-        portalUser:
-          title: portalUser
-          type: string
-          description: ''
-          example: null
-        profileId:
-          title: profileId
-          type: string
-          description: ''
-          example: null
-        staticGroupAssignment:
-          title: staticGroupAssignment
-          type: boolean
-          description: ''
-          example: null
-        staticGroupAssignmentDefined:
-          title: staticGroupAssignmentDefined
-          type: boolean
-          description: ''
-          example: null
-        staticProfileAssignment:
-          title: staticProfileAssignment
-          type: boolean
-          description: ''
-          example: null
-        staticProfileAssignmentDefined:
-          title: staticProfileAssignmentDefined
-          type: boolean
-          description: ''
-          example: null
-        mdmAttributes:
-          title: mdmAttributes
-          type: object
-          description: MDM Attributes
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    endpointListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/endpointListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
     endpointResponse:
       type: object
       properties:
@@ -1911,82 +1896,63 @@ components:
             customAttributes:
               key1: value1
               key2: value2
-    endpointListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    identity.endpoint:
-      required:
-      - ERSEndPoint
-      type: object
-      properties:
-        ERSEndPoint:
-          $ref: '#/components/schemas/ERSEndPoint'
-      example: null
-    UpdatedField:
-      type: object
+    updatedField:
       properties:
         field:
           type: string
-          example: field1
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    OperationResultEntity:
+      properties:
+        OperationResult:
+          properties:
+            resultValue:
+              type: array
+              example: null
+              items:
+                properties:
+                  Value:
+                    type: integer
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
         oldValue:
           type: string
           example: val_old
         newValue:
           type: string
           example: val_new
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 172f8270-8f4f-11eb-b4a8-9eb04987ed29
-            name: 11:22:33:44:55:66
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/endpoint/172f8270-8f4f-11eb-b4a8-9eb04987ed29
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/endpoint/versioninfo
-        type:
-          type: string
-          example: application/json
-    endpoint_name:
-      type: object
-      properties:
-        ERSEndPoint:
-          $ref: '#/components/schemas/ERSEndPoint_name'
     ERSEndPoint_2:
       properties:
         id:
@@ -2060,6 +2026,42 @@ components:
             type:
               type: string
               example: application/json
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    bulkrequest:
+      type: object
+      properties:
+        EndpointBulkRequest:
+          $ref: '#/components/schemas/EndpointBulkRequest'
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     patchRequest:
       type: object
       properties:
@@ -2070,128 +2072,37 @@ components:
       properties:
         SearchResult:
           $ref: '#/components/schemas/SearchResult'
-    BulkStatus:
+    link1:
       type: object
       properties:
-        bulkId:
+        rel:
           type: string
-          example: 1615360357673
-        mediaType:
+          example: self
+        href:
           type: string
-          example: ''
-        executionStatus:
+          example: https://<ise-ip>:9060/ers/config/endpoint/versioninfo
+        type:
           type: string
-          example: COMPLETED
-        operationType:
-          type: string
-          example: create
-        startTime:
-          type: string
-          example: Wed Mar 10 07:12:37 UTC 2021
-        resourcesCount:
+          example: application/json
+    SearchResult:
+      type: object
+      properties:
+        total:
           type: integer
-          example: 5
-        successCount:
-          type: integer
-          example: 5
-        failCount:
-          type: integer
-          example: 0
-        resourcesStatus:
+          example: 1
+        resources:
           type: array
           example:
-          - id: '1234454324'
-            name: resource1
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '2343242342'
-            name: resource2
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '4564566456'
-            name: resource3
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '6544566455'
-            name: resource4
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
+          - id: 172f8270-8f4f-11eb-b4a8-9eb04987ed29
+            name: 11:22:33:44:55:66
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/endpoint/172f8270-8f4f-11eb-b4a8-9eb04987ed29
+              type: application/json
           items:
             properties:
               name:
                 type: string
-    endpoint:
-      type: object
-      properties:
-        ERSEndPoint:
-          $ref: '#/components/schemas/ERSEndPoint_2'
-    bulkrequest:
-      type: object
-      properties:
-        EndpointBulkRequest:
-          $ref: '#/components/schemas/EndpointBulkRequest'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.2'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1,1.2
-        link:
-          $ref: '#/components/schemas/link1'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    EndpointBulkRequest:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: vnd.com.cisco.ise.identity.endpoint.1.0+xml
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
     ERSEndPoint_name:
       properties:
         id:
@@ -2265,6 +2176,17 @@ components:
             type:
               type: string
               example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.2'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1,1.2
+        link:
+          $ref: '#/components/schemas/link1'
     OperationResult:
       type: object
       properties:
@@ -2280,16 +2202,85 @@ components:
                 properties:
                   name:
                     type: string
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    endpoint:
+      type: object
+      properties:
+        ERSEndPoint:
+          $ref: '#/components/schemas/ERSEndPoint_2'
+    EndpointBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.identity.endpoint.1.0+xml
+    endpoint_name:
+      type: object
+      properties:
+        ERSEndPoint:
+          $ref: '#/components/schemas/ERSEndPoint_name'
+    BulkStatus:
+      type: object
+      properties:
+        bulkId:
+          type: string
+          example: 1615360357673
+        mediaType:
+          type: string
+          example: ''
+        executionStatus:
+          type: string
+          example: COMPLETED
+        operationType:
+          type: string
+          example: create
+        startTime:
+          type: string
+          example: Wed Mar 10 07:12:37 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -2299,6 +2290,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

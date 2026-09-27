@@ -334,40 +334,27 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    profilerprofileResponse:
+    ERSResponse:
       type: object
       properties:
-        ProfilerProfile:
-          $ref: '#/components/schemas/profilerprofileResponseEntity'
-      example:
-        ProfilerProfile:
-          name: name
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    profilerprofileResponseEntity:
-      properties:
-        parentId:
-          title: parentId
+        operation:
           type: string
-          description: ''
+          example: Operation
+        messages:
+          type: array
           example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     profilerprofileListResponseEntity:
       properties:
@@ -388,6 +375,34 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
+      example: null
+    profilerprofileResponse:
+      type: object
+      properties:
+        ProfilerProfile:
+          $ref: '#/components/schemas/profilerprofileResponseEntity'
+      example:
+        ProfilerProfile:
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     profilerprofileListResponse:
       type: object
@@ -443,56 +458,36 @@ components:
               type: application/xml
             description: description2
             id: id2
-    ERSResponse:
-      type: object
+    profilerprofileResponseEntity:
       properties:
-        operation:
+        parentId:
+          title: parentId
           type: string
-          example: Operation
-        messages:
-          type: array
+          description: ''
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
-    Link:
+    VersionInfo:
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    profiler:
-      type: object
-      properties:
-        ProfilerProfile:
-          $ref: '#/components/schemas/ProfilerProfile'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     link1:
       type: object
       properties:
@@ -505,41 +500,11 @@ components:
         type:
           type: string
           example: application/json
-    ProfilerProfile:
+    search:
       type: object
       properties:
-        id:
-          type: string
-          example: fe8c7cc0-8bff-11e6-996c-525400b48521
-        name:
-          type: string
-          example: 2Wire-Device
-        description:
-          type: string
-          example: Policy for 2Wire-Device
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/profilerprofile/fe8c7cc0-8bff-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -567,21 +532,47 @@ components:
             properties:
               name:
                 type: string
-    VersionInfo:
+    version:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    ProfilerProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          example: fe8c7cc0-8bff-11e6-996c-525400b48521
+        name:
+          type: string
+          example: 2Wire-Device
+        description:
+          type: string
+          example: Policy for 2Wire-Device
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/profilerprofile/fe8c7cc0-8bff-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    profiler:
+      type: object
+      properties:
+        ProfilerProfile:
+          $ref: '#/components/schemas/ProfilerProfile'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -591,6 +582,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

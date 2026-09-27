@@ -380,50 +380,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    AdminUserDetailsResponse:
-      title: AdminUserDetailsResponse
-      required:
-      - statusCode
-      type: object
-      properties:
-        adminUserDetails:
-          $ref: '#/components/schemas/OpenApiAdminUser'
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A message providing more information about the response.
-          exampleSetFlag: true
-        statusCode:
-          type: integer
-          description: The status code of the response.
-          format: int32
-          exampleSetFlag: true
-      description: Response schema for retrieving detailed information about a specific admin user.
-      exampleSetFlag: false
-    AdminUserResponse:
-      title: AdminUserResponse
-      required:
-      - statusCode
-      type: object
-      properties:
-        adminUserList:
-          type: array
-          description: A list of admin users.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AdminUserData'
-            exampleSetFlag: false
-        message:
-          type: string
-          description: A descriptive message related to the response.
-          exampleSetFlag: true
-        statusCode:
-          type: integer
-          description: The status code of the response.
-          format: int32
-          exampleSetFlag: true
-      description: Response schema for admin user data, including the status code, message, and a list of admin user data.
-      exampleSetFlag: false
     AdminUserData:
       title: AdminUserData
       required:
@@ -476,6 +432,56 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
+    AdminUserDetailsResponse:
+      title: AdminUserDetailsResponse
+      required:
+      - statusCode
+      type: object
+      properties:
+        adminUserDetails:
+          $ref: '#/components/schemas/OpenApiAdminUser'
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message providing more information about the response.
+          exampleSetFlag: true
+        statusCode:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+      description: Response schema for retrieving detailed information about a specific admin user.
+      exampleSetFlag: false
+    ExternalUserResponse:
+      title: ExternalUserResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Status code of the response.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: Message describing the response status.
+          exampleSetFlag: true
+        networkUsers:
+          type: array
+          description: List of network users in the response.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/NetworkUser'
+            exampleSetFlag: false
+        totalCount:
+          type: integer
+          description: Total number of network users.
+          format: int32
+          exampleSetFlag: true
+      description: Schema for the response containing external user data, including status code, message, and a list of network users.
+      exampleSetFlag: false
     NetworkUser:
       title: NetworkUser
       required:
@@ -519,54 +525,6 @@ components:
           exampleSetFlag: true
       description: Schema representing a Network User. It includes details like name, email, password, and status. These users are typically restricted to specific network access.
       exampleSetFlag: false
-    ExternalUserResponse:
-      title: ExternalUserResponse
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          description: Status code of the response.
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          description: Message describing the response status.
-          exampleSetFlag: true
-        networkUsers:
-          type: array
-          description: List of network users in the response.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/NetworkUser'
-            exampleSetFlag: false
-        totalCount:
-          type: integer
-          description: Total number of network users.
-          format: int32
-          exampleSetFlag: true
-      description: Schema for the response containing external user data, including status code, message, and a list of network users.
-      exampleSetFlag: false
-    BaseResponse:
-      title: BaseResponse
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          description: A message detailing the response, indicating success or failure.
-          exampleSetFlag: true
-      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
-      exampleSetFlag: false
     Error:
       title: Error
       required:
@@ -584,6 +542,30 @@ components:
           description: A description of the error encountered.
           exampleSetFlag: true
       description: 'The `Error` object represents an error response. It provides information about  the error code and a message that explains the cause of the error. This object is typically returned when a request fails due to invalid input,  server issues, or other unforeseen circumstances. '
+      exampleSetFlag: false
+    AdminUserResponse:
+      title: AdminUserResponse
+      required:
+      - statusCode
+      type: object
+      properties:
+        adminUserList:
+          type: array
+          description: A list of admin users.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AdminUserData'
+            exampleSetFlag: false
+        message:
+          type: string
+          description: A descriptive message related to the response.
+          exampleSetFlag: true
+        statusCode:
+          type: integer
+          description: The status code of the response.
+          format: int32
+          exampleSetFlag: true
+      description: Response schema for admin user data, including the status code, message, and a list of admin user data.
       exampleSetFlag: false
     OpenApiAdminUser:
       title: OpenApiAdminUser
@@ -653,4 +635,22 @@ components:
           example: false
           exampleSetFlag: true
       description: Schema representing an Admin User in the system. This includes attributes like user details, access control, and system-related settings.
+      exampleSetFlag: false
+    BaseResponse:
+      title: BaseResponse
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The response status code. A code of 0 typically indicates success, while non-zero codes represent errors or issues.
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          description: A message detailing the response, indicating success or failure.
+          exampleSetFlag: true
+      description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
       exampleSetFlag: false

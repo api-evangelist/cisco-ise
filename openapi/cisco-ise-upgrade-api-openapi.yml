@@ -247,6 +247,192 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    UpgradeListStage:
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpgradeStage'
+    TaskIdResponse:
+      type: object
+      properties:
+        preCheckReportID:
+          description: ID which can be used to track the status of task.
+          example: c4aa1432-be06-bf27-11eb-c208a1714b90
+          type: string
+        message:
+          type: string
+          example: Upgrade task has been initiated.
+    StageRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+        reTrigger:
+          type: boolean
+          example: false
+    PrecheckType:
+      type: object
+      properties:
+        onFailure:
+          type: string
+          example: fail
+        remediationMsg:
+          type: string
+          example: Repository validation failed. Check if repository configuration is correct and manually validate from UI in Repository page or in CLI using, show repository
+        updateTime:
+          type: long
+          example: 1631513275877
+        message:
+          type: string
+          example: null
+        executionTime:
+          type: long
+          example: null
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListNode'
+        checkType:
+          type: string
+          example: local
+        displayname:
+          type: string
+          example: Repository Validation
+        percentage:
+          type: integer
+          example: 100
+        name:
+          type: string
+          example: REPOSITORY_CHECK
+        successMsg:
+          type: string
+          example: Repository for bundle is validated successfully
+        successNodes:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: Success
+    UpgradePrecheckResponse:
+      type: object
+      properties:
+        preChecks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrecheckType'
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+        nodecount:
+          type: integer
+          example: 1
+        isValid:
+          type: boolean
+          example: false
+        status:
+          type: string
+          example: valid
+        iseVersion:
+          type: string
+          example: 3.4.0.451
+        patchNo:
+          type: integer
+          example: 99
+    ErrorResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    UpgradeProceedRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
+      required:
+      - upgradeType
+      - preCheckReportID
+      - continueOnFailure
+    UpgradeTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TaskIdResponse'
+        version:
+          type: string
+          example: 1.0.0
+    ListNode:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: repository precheck passed
+        name:
+          type: string
+          example: ise1.sn.test
+        status:
+          type: string
+          example: Success
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Repository (repo_name) does not exist. Please configure the repository from ISE UI to proceed
+    UpgradeStage:
+      type: object
+      properties:
+        node:
+          type: string
+          example: ise1.sn.test
+        progressMsg:
+          type: string
+          example: Config files backed up successfully
+        percentage:
+          type: integer
+          example: 100
+        dbStatus:
+          type: string
+          example: UPGRADE_STAGING_COMPLETED
+        message:
+          type: string
+          example: Config Files Backup $ Copy Upgrade DB dump
+        status:
+          type: string
+          example: passed
+    CancelStageRequest:
+      type: object
+      properties:
+        hostnames:
+          type: array
+          items:
+            type: string
+        upgradeType:
+          type: string
+          example: FULL_UPGRADE or SPLIT_UPGRADE
+        preCheckReportID:
+          type: string
+          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
     PrecheckRequest:
       type: object
       properties:
@@ -317,192 +503,6 @@ components:
         upgradeTime:
           type: integer
           example: 127
-    PrecheckType:
-      type: object
-      properties:
-        onFailure:
-          type: string
-          example: fail
-        remediationMsg:
-          type: string
-          example: Repository validation failed. Check if repository configuration is correct and manually validate from UI in Repository page or in CLI using, show repository
-        updateTime:
-          type: long
-          example: 1631513275877
-        message:
-          type: string
-          example: null
-        executionTime:
-          type: long
-          example: null
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ListNode'
-        checkType:
-          type: string
-          example: local
-        displayname:
-          type: string
-          example: Repository Validation
-        percentage:
-          type: integer
-          example: 100
-        name:
-          type: string
-          example: REPOSITORY_CHECK
-        successMsg:
-          type: string
-          example: Repository for bundle is validated successfully
-        successNodes:
-          type: integer
-          example: 1
-        status:
-          type: string
-          example: Success
-    ErrorResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    TaskIdResponse:
-      type: object
-      properties:
-        preCheckReportID:
-          description: ID which can be used to track the status of task.
-          example: c4aa1432-be06-bf27-11eb-c208a1714b90
-          type: string
-        message:
-          type: string
-          example: Upgrade task has been initiated.
-    UpgradePrecheckResponse:
-      type: object
-      properties:
-        preChecks:
-          type: array
-          items:
-            $ref: '#/components/schemas/PrecheckType'
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-        nodecount:
-          type: integer
-          example: 1
-        isValid:
-          type: boolean
-          example: false
-        status:
-          type: string
-          example: valid
-        iseVersion:
-          type: string
-          example: 3.4.0.451
-        patchNo:
-          type: integer
-          example: 99
-    StageRequest:
-      type: object
-      properties:
-        hostnames:
-          type: array
-          items:
-            type: string
-        upgradeType:
-          type: string
-          example: FULL_UPGRADE or SPLIT_UPGRADE
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-        reTrigger:
-          type: boolean
-          example: false
-    UpgradeListStage:
-      type: object
-      properties:
-        response:
-          type: array
-          items:
-            $ref: '#/components/schemas/UpgradeStage'
-    UpgradeStage:
-      type: object
-      properties:
-        node:
-          type: string
-          example: ise1.sn.test
-        progressMsg:
-          type: string
-          example: Config files backed up successfully
-        percentage:
-          type: integer
-          example: 100
-        dbStatus:
-          type: string
-          example: UPGRADE_STAGING_COMPLETED
-        message:
-          type: string
-          example: Config Files Backup $ Copy Upgrade DB dump
-        status:
-          type: string
-          example: passed
-    UpgradeTaskResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/TaskIdResponse'
-        version:
-          type: string
-          example: 1.0.0
-    UpgradeProceedRequest:
-      type: object
-      properties:
-        hostnames:
-          type: array
-          items:
-            type: string
-        upgradeType:
-          type: string
-          example: FULL_UPGRADE or SPLIT_UPGRADE
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-      required:
-      - upgradeType
-      - preCheckReportID
-      - continueOnFailure
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Repository (repo_name) does not exist. Please configure the repository from ISE UI to proceed
-    CancelStageRequest:
-      type: object
-      properties:
-        hostnames:
-          type: array
-          items:
-            type: string
-        upgradeType:
-          type: string
-          example: FULL_UPGRADE or SPLIT_UPGRADE
-        preCheckReportID:
-          type: string
-          example: f2b7ba4b-6692-48f4-aec8-8681ce651a57
-    ListNode:
-      type: object
-      properties:
-        msg:
-          type: string
-          example: repository precheck passed
-        name:
-          type: string
-          example: ise1.sn.test
-        status:
-          type: string
-          example: Success
   parameters:
     PreCheckID:
       in: query

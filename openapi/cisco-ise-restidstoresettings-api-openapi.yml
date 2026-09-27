@@ -250,6 +250,28 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     ERSRestIDStoreSettings:
       required:
       - enableRestIdStore
@@ -281,17 +303,24 @@ components:
           name: RestIDStoreSettings
           description: RestIDStore Settings
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    restidstoresettingsResponse:
+    Link:
       type: object
       properties:
-        ERSRestIDStoreSettings:
-          $ref: '#/components/schemas/restidstoresettingsResponseEntity'
-      example:
-        ERSRestIDStoreSettings:
-          enableRestIdStore: false
-          name: RestIDStoreSettings
-          description: RestIDStore Settings
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     identitystores.restidstoresettings:
       required:
       - ERSRestIDStoreSettings
@@ -299,6 +328,18 @@ components:
       properties:
         ERSRestIDStoreSettings:
           $ref: '#/components/schemas/ERSRestIDStoreSettings'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
       example: null
     UpdatedFieldsResponse:
       type: object
@@ -338,58 +379,17 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    ERSResponse:
+    restidstoresettingsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
+        ERSRestIDStoreSettings:
+          $ref: '#/components/schemas/restidstoresettingsResponseEntity'
+      example:
+        ERSRestIDStoreSettings:
+          enableRestIdStore: false
+          name: RestIDStoreSettings
+          description: RestIDStore Settings
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     ERSRestIDStoreSettings_2:
       type: object
       properties:

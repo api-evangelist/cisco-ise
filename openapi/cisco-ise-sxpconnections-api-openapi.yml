@@ -722,26 +722,29 @@ paths:
       operationId: getErsConfigSxpconnectionsBulkByBulkid
       x-operation-id-source: derived
 components:
-  parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     ERSSxpConnection:
       required:
       - enabled
@@ -812,6 +815,67 @@ components:
           enabled: true
           sxpPeer: Sxp Peer Name
           sxpMode: Sxp Mode
+    sxpconnectionsListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    sxpconnectionsListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sxpconnectionsListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     sxpconnectionsResponseEntity:
       properties:
         sxpPeer:
@@ -867,110 +931,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    sxp.sxpconnections:
-      required:
-      - ERSSxpConnection
-      type: object
-      properties:
-        ERSSxpConnection:
-          $ref: '#/components/schemas/ERSSxpConnection'
-      example: null
-    sxpconnectionsListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sxpconnectionsListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    sxpconnectionsListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     Link:
       type: object
       properties:
@@ -989,6 +949,39 @@ components:
           type: string
           example: application/json
       example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    sxp.sxpconnections:
+      required:
+      - ERSSxpConnection
+      type: object
+      properties:
+        ERSSxpConnection:
+          $ref: '#/components/schemas/ERSSxpConnection'
+      example: null
     sxpconnectionsResponse:
       type: object
       properties:
@@ -1004,35 +997,11 @@ components:
           enabled: true
           sxpPeer: Sxp Peer Name
           sxpMode: Sxp Mode
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    Update:
+    bulkrequest:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
+        ConnectionBulkRequest:
+          $ref: '#/components/schemas/ConnectionBulkRequest'
     ERSSxpConnection_2:
       type: object
       properties:
@@ -1075,25 +1044,16 @@ components:
             type:
               type: string
               example: application/json
-    ConnectionBulkRequest:
+    bulkstatus:
       type: object
       properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: vnd.com.cisco.ise.sxp.sxpconnections.1.0+xml
-    search:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    VersionInfo:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    sxpconnections:
-      type: object
-      properties:
-        ERSSxpConnection:
-          $ref: '#/components/schemas/ERSSxpConnection_2'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     link1:
       type: object
       properties:
@@ -1106,11 +1066,85 @@ components:
         type:
           type: string
           example: application/json
-    bulkstatus:
+    search:
       type: object
       properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: '  f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/sxpconnections/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    ConnectionBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.sxp.sxpconnections.1.0+xml
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    sxpconnections:
+      type: object
+      properties:
+        ERSSxpConnection:
+          $ref: '#/components/schemas/ERSSxpConnection_2'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     BulkStatus:
       type: object
       properties:
@@ -1165,59 +1199,25 @@ components:
             properties:
               name:
                 type: string
-    bulkrequest:
-      type: object
-      properties:
-        ConnectionBulkRequest:
-          $ref: '#/components/schemas/ConnectionBulkRequest'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.1'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: '  f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/sxpconnections/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+  parameters:
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

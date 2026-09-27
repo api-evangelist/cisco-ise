@@ -472,84 +472,6 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    Condition:
-      title: Condition
-      required:
-      - conditionType
-      type: object
-      properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
-          exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
-          exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
-      exampleSetFlag: false
-    IngressFilterPreviewResponseEntity:
-      title: IngressFilterPreviewResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/IngressFilterPreview'
-            exampleSetFlag: false
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    CdpIngressFilterResponseEntity:
-      title: CdpIngressFilterResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/CdpIngressFilter'
-          exampleSetFlag: true
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
-      exampleSetFlag: false
     RuleCommon:
       title: RuleCommon
       required:
@@ -600,43 +522,35 @@ components:
           - monitor
       description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    CdpIngressFilter:
-      title: CdpIngressFilter
-      type: object
-      properties:
-        mappingsCount:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        rule:
-          $ref: '#/components/schemas/RuleCommon'
-          exampleSetFlag: true
-        sxpDomains:
-          type: array
-          description: Sxp Domains used in the inbound rule destination configurations
-          example: '["sxpDomain1","sxpDomain2"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      description: Inbound Rule details
-      exampleSetFlag: false
-    CdpIngressFilterListResponseEntity:
-      title: CdpIngressFilterListResponseEntity
+    Condition:
+      title: Condition
       required:
-      - response
-      - version
+      - conditionType
       type: object
       properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/CdpIngressFilter'
-            exampleSetFlag: false
-        version:
+        conditionType:
           type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
           exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
     SxpDomainListResponseEntity:
       title: SxpDomainListResponseEntity
@@ -650,6 +564,47 @@ components:
           exampleSetFlag: true
         version:
           type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IngressFilterPreviewResponseEntity:
+      title: IngressFilterPreviewResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/IngressFilterPreview'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
           exampleSetFlag: true
       exampleSetFlag: false
     CdpIngressFilterWithPage:
@@ -672,6 +627,51 @@ components:
           $ref: '#/components/schemas/CdpIngressFilter'
           exampleSetFlag: true
       description: Inbound Rule details with Page Info
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpDomainList:
+      title: SxpDomainList
+      required:
+      - sxpDomains
+      type: object
+      properties:
+        sxpDomains:
+          type: array
+          example: '["sxpdomain1","sxpdomain2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      exampleSetFlag: false
+    CdpIngressFilterResponseEntity:
+      title: CdpIngressFilterResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/CdpIngressFilter'
+          exampleSetFlag: true
+        version:
+          type: string
+          exampleSetFlag: true
       exampleSetFlag: false
     IngressFilterPreview:
       title: IngressFilterPreview
@@ -719,29 +719,55 @@ components:
           exampleSetFlag: true
       description: Inbound Rule Preview details
       exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
+    CdpIngressFilter:
+      title: CdpIngressFilter
       type: object
       properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+        mappingsCount:
+          type: integer
+          format: int32
           exampleSetFlag: true
-        rel:
-          type: string
-          example: self
+        rule:
+          $ref: '#/components/schemas/RuleCommon'
           exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
+        sxpDomains:
+          type: array
+          description: Sxp Domains used in the inbound rule destination configurations
+          example: '["sxpDomain1","sxpDomain2"]'
           exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Inbound Rule details
+      exampleSetFlag: false
+    CdpIngressFilterListResponseEntity:
+      title: CdpIngressFilterListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/CdpIngressFilter'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+          exampleSetFlag: true
+      description: Response object containing success message
       exampleSetFlag: false
     InputRequest:
       title: InputRequest
@@ -803,30 +829,4 @@ components:
           example: vn1
           exampleSetFlag: true
       description: Dictionary POST format
-      exampleSetFlag: false
-    SxpDomainList:
-      title: SxpDomainList
-      required:
-      - sxpDomains
-      type: object
-      properties:
-        sxpDomains:
-          type: array
-          example: '["sxpdomain1","sxpdomain2"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      exampleSetFlag: false
-    MessageResponseEntity:
-      title: MessageResponseEntity
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-          exampleSetFlag: true
-      description: Response object containing success message
       exampleSetFlag: false

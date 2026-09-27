@@ -860,51 +860,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    certificateprofileResponseEntity:
-      properties:
-        allowedAsUserName:
-          title: allowedAsUserName
-          type: boolean
-          description: To be set true or false
-          example: null
-        externalIdentityStoreName:
-          title: externalIdentityStoreName
-          type: string
-          description: referred IDStore name for the Certificate Profile or [not applicable] in case no identity store is chosen
-          example: null
-        certificateAttributeName:
-          title: certificateAttributeName
-          type: object
-          description: 'Attribute name of the Certificate Profile - used only when CERTIFICATE is chosen in usernameFrom. Allowed values: SUBJECT_COMMON_NAME, SUBJECT_ALTERNATIVE_NAME, SUBJECT_SERIAL_NUMBER, SUBJECT, SUBJECT_ALTERNATIVE_NAME_OTHER_NAME, SUBJECT_ALTERNATIVE_NAME_EMAIL, SUBJECT_ALTERNATIVE_NAME_DNS. Additional internal value ALL_SUBJECT_AND_ALTERNATIVE_NAMES is used automatically when usernameFrom=UPN'
-          example: null
-        matchMode:
-          title: matchMode
-          type: object
-          description: 'Match mode of the Certificate Profile. Allowed values: NEVER, RESOLVE_IDENTITY_AMBIGUITY, BINARY_COMPARISON'
-          example: null
-        usernameFrom:
-          title: usernameFrom
-          type: object
-          description: 'The attribute in the certificate where the user name should be taken from. Allowed values: CERTIFICATE (for a specific attribute as defined in certificateAttributeName), UPN (for using any Subject or Alternative Name Attributes in the Certificate - an option only in AD)'
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     ERSResponse:
       type: object
       properties:
@@ -968,18 +923,23 @@ components:
               type: application/xml
             description: description2
             id: id2
-    UpdatedFieldsResponse:
+    Link:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     certificateprofileListResponseEntity:
       properties:
@@ -1009,6 +969,76 @@ components:
         CertificateProfile:
           $ref: '#/components/schemas/CertificateProfile'
       example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    certificateprofileResponseEntity:
+      properties:
+        allowedAsUserName:
+          title: allowedAsUserName
+          type: boolean
+          description: To be set true or false
+          example: null
+        externalIdentityStoreName:
+          title: externalIdentityStoreName
+          type: string
+          description: referred IDStore name for the Certificate Profile or [not applicable] in case no identity store is chosen
+          example: null
+        certificateAttributeName:
+          title: certificateAttributeName
+          type: object
+          description: 'Attribute name of the Certificate Profile - used only when CERTIFICATE is chosen in usernameFrom. Allowed values: SUBJECT_COMMON_NAME, SUBJECT_ALTERNATIVE_NAME, SUBJECT_SERIAL_NUMBER, SUBJECT, SUBJECT_ALTERNATIVE_NAME_OTHER_NAME, SUBJECT_ALTERNATIVE_NAME_EMAIL, SUBJECT_ALTERNATIVE_NAME_DNS. Additional internal value ALL_SUBJECT_AND_ALTERNATIVE_NAMES is used automatically when usernameFrom=UPN'
+          example: null
+        matchMode:
+          title: matchMode
+          type: object
+          description: 'Match mode of the Certificate Profile. Allowed values: NEVER, RESOLVE_IDENTITY_AMBIGUITY, BINARY_COMPARISON'
+          example: null
+        usernameFrom:
+          title: usernameFrom
+          type: object
+          description: 'The attribute in the certificate where the user name should be taken from. Allowed values: CERTIFICATE (for a specific attribute as defined in certificateAttributeName), UPN (for using any Subject or Alternative Name Attributes in the Certificate - an option only in AD)'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     certificateprofileResponse:
       type: object
       properties:
@@ -1024,36 +1054,6 @@ components:
           matchMode: NEVER
           usernameFrom: CERTIFICATE
           allowedAsUserName: false
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
     CertificateProfile:
       required:
       - name
@@ -1108,15 +1108,11 @@ components:
           matchMode: NEVER
           usernameFrom: CERTIFICATE
           allowedAsUserName: false
-    patchRequestBody:
+    getbyid:
       type: object
       properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
+        CertificateProfile:
+          $ref: '#/components/schemas/getbyid1'
     link3:
       type: object
       properties:
@@ -1129,11 +1125,102 @@ components:
         type:
           type: string
           example: application/xml
+    getall1:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 0
+        resources:
+          type: array
+          example:
+          - id: 925b6d20-8c01-11e6-996c-525400b48521
+            name: Preloaded_Certificate_Profile
+            description: Precreated Certificate Authorization Profile.
+            link:
+              rel: self
+              href: https:/<ise-ip>:9060/ers/config/certificateprofile/925b6d20-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    update1:
+      type: object
+      properties:
+        updatedField:
+          type: array
+          example:
+          - field: field1
+            oldValue: val_old
+            newValue: val_new
+          - field: some other field
+            oldValue: val_old
+            newValue: val_new
+          items:
+            properties:
+              name:
+                type: string
     getbyname:
       type: object
       properties:
         CertificateProfile:
           $ref: '#/components/schemas/getbyname1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/update1'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/certificateprofile/versioninfo
+        type:
+          type: string
+          example: application/xml
+    patchRequest:
+      type: object
+      properties:
+        CertificateProfile:
+          $ref: '#/components/schemas/patchRequestBody'
+    link2:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/certificateprofile/name/test_2
+        type:
+          type: string
+          example: application/xml
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    getall:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/getall1'
     getbyname1:
       type: object
       properties:
@@ -1172,16 +1259,47 @@ components:
             - CERTIFICATE
         link:
           $ref: '#/components/schemas/link2'
-    patchRequest:
+    put1:
+      type: object
+      properties:
+        id:
+          type: string
+          example: da095377-dce8-486e-933a-6ea788bbf51a
+        name:
+          type: string
+          example: test_2
+        externalIdentityStoreName:
+          type: array
+          items:
+            type: string
+            enum:
+            - not_applicable
+        certificateAttributeName:
+          type: array
+          items:
+            type: string
+            enum:
+            - SUBJECT_COMMON_NAME
+        allowedAsUserName:
+          type: boolean
+          example: false
+        matchMode:
+          type: array
+          items:
+            type: string
+            enum:
+            - NEVER
+        usernameFrom:
+          type: array
+          items:
+            type: string
+            enum:
+            - CERTIFICATE
+    put:
       type: object
       properties:
         CertificateProfile:
-          $ref: '#/components/schemas/patchRequestBody'
-    getbyid:
-      type: object
-      properties:
-        CertificateProfile:
-          $ref: '#/components/schemas/getbyid1'
+          $ref: '#/components/schemas/put1'
     getbyid1:
       type: object
       properties:
@@ -1220,143 +1338,16 @@ components:
             - CERTIFICATE
         link:
           $ref: '#/components/schemas/link3'
-    getall1:
+    patchRequestBody:
       type: object
       properties:
-        total:
-          type: integer
-          example: 0
-        resources:
-          type: array
-          example:
-          - id: 925b6d20-8c01-11e6-996c-525400b48521
-            name: Preloaded_Certificate_Profile
-            description: Precreated Certificate Authorization Profile.
-            link:
-              rel: self
-              href: https:/<ise-ip>:9060/ers/config/certificateprofile/925b6d20-8c01-11e6-996c-525400b48521
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    update1:
-      type: object
-      properties:
-        updatedField:
-          type: array
-          example:
-          - field: field1
-            oldValue: val_old
-            newValue: val_new
-          - field: some other field
-            oldValue: val_old
-            newValue: val_new
-          items:
-            properties:
-              name:
-                type: string
-    link1:
-      type: object
-      properties:
-        rel:
+        any-resource-attribute:
           type: string
-          example: self
-        href:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: https://<ise-ip>:9060/ers/config/certificateprofile/versioninfo
-        type:
-          type: string
-          example: application/xml
-    update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/update1'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    put:
-      type: object
-      properties:
-        CertificateProfile:
-          $ref: '#/components/schemas/put1'
-    getall:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/getall1'
-    put1:
-      type: object
-      properties:
-        id:
-          type: string
-          example: da095377-dce8-486e-933a-6ea788bbf51a
-        name:
-          type: string
-          example: test_2
-        externalIdentityStoreName:
-          type: array
-          items:
-            type: string
-            enum:
-            - not_applicable
-        certificateAttributeName:
-          type: array
-          items:
-            type: string
-            enum:
-            - SUBJECT_COMMON_NAME
-        allowedAsUserName:
-          type: boolean
-          example: false
-        matchMode:
-          type: array
-          items:
-            type: string
-            enum:
-            - NEVER
-        usernameFrom:
-          type: array
-          items:
-            type: string
-            enum:
-            - CERTIFICATE
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    link2:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/certificateprofile/name/test_2
-        type:
-          type: string
-          example: application/xml
+          example: some-updated-value
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1366,6 +1357,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

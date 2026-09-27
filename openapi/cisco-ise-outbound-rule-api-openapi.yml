@@ -306,38 +306,6 @@ paths:
           description: Forbidden
 components:
   schemas:
-    OutboundRuleContract:
-      title: OutboundRuleContract
-      required:
-      - connectionName
-      - l3out
-      - sgt
-      - tn
-      type: object
-      properties:
-        connectionName:
-          type: string
-          example: ACI1
-          exampleSetFlag: true
-        consumed:
-          $ref: '#/components/schemas/Consumed'
-          exampleSetFlag: true
-        l3out:
-          type: string
-          example: out1
-          exampleSetFlag: true
-        provided:
-          $ref: '#/components/schemas/Provided'
-          exampleSetFlag: true
-        sgt:
-          type: string
-          example: sgt1
-          exampleSetFlag: true
-        tn:
-          type: string
-          example: tn1
-          exampleSetFlag: true
-      exampleSetFlag: false
     Condition:
       title: Condition
       required:
@@ -368,78 +336,16 @@ components:
           exampleSetFlag: true
       description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
-    OutboundRuleWithPage:
-      title: OutboundRuleWithPage
-      type: object
-      properties:
-        PageNumber:
-          type: integer
-          description: Page Number
-          format: int32
-          example: 0
-          exampleSetFlag: true
-        PageSize:
-          type: integer
-          description: Page Size
-          format: int32
-          example: 50000
-          exampleSetFlag: true
-        nameBeforeEdit:
-          type: string
-          description: Name of the rule before edit
-          example: rule1
-          exampleSetFlag: true
-        outboundRule:
-          $ref: '#/components/schemas/EgressFilter'
-          exampleSetFlag: true
-      description: Outbound Rule details with Page Info
-      exampleSetFlag: false
-    EgressFilterDestination:
-      title: EgressFilterDestination
-      type: object
-      properties:
-        l3outs:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/L3Out'
-            exampleSetFlag: false
-        name:
-          type: string
-          example: ACI1
-          exampleSetFlag: true
-        type:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - ACI
-          - SXP_SPEAKER
-      description: Destinations mapped to l3outs used in the outbound rule destination configurations
-      exampleSetFlag: false
-    L3Out:
-      title: L3Out
-      type: object
-      properties:
-        l3out:
-          type: string
-          example: l3out1
-          exampleSetFlag: true
-        tn:
-          type: string
-          example: tenant1
-          exampleSetFlag: true
-        vn:
-          type: string
-          example: vn1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    EgressFilterResponse:
-      title: EgressFilterResponse
+    EgressFilterSummaryResponse:
+      title: EgressFilterSummaryResponse
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/EgressFilter'
+          type: array
           exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/EgressFilter'
+            exampleSetFlag: false
         version:
           type: string
           exampleSetFlag: true
@@ -468,46 +374,153 @@ components:
             exampleSetFlag: false
       description: Outbound Rule batch configuration
       exampleSetFlag: false
-    EgressFilterPreview:
-      title: EgressFilterPreview
+    EgressFilterResponse:
+      title: EgressFilterResponse
       type: object
       properties:
-        ipAddress:
+        response:
+          $ref: '#/components/schemas/EgressFilter'
+          exampleSetFlag: true
+        version:
           type: string
           exampleSetFlag: true
-        learnedBy:
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
           type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
           exampleSetFlag: true
-        learnedFrom:
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EgressFilter:
+      title: EgressFilter
+      type: object
+      properties:
+        contracts:
           type: array
           exampleSetFlag: true
           items:
-            type: string
+            $ref: '#/components/schemas/OutboundRuleContract'
             exampleSetFlag: false
-        matchingRules:
+        destinations:
           type: array
-          description: matching rules used in the inbound rule destination configurations
-          example: '["Rule1","Rule2"]'
           exampleSetFlag: true
           items:
-            type: string
+            $ref: '#/components/schemas/EgressFilterDestination'
             exampleSetFlag: false
-        primarySgt:
+        enabled:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+        id:
           type: string
-          description: Primary SGT name used in the Outbound Rule
+          readOnly: true
           exampleSetFlag: true
-        sgtDomains:
-          type: array
-          description: Sxp Domains used in the inbound rule destination configurations
-          example: '["sxpDomain1","sxpDomain2"]'
+        link:
+          $ref: '#/components/schemas/Link'
           exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
+        name:
+          type: string
+          example: rule1
+          exampleSetFlag: true
+        rule:
+          $ref: '#/components/schemas/RuleCommon'
+          exampleSetFlag: true
+      description: Outbound Rule
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    OutboundRuleWithPage:
+      title: OutboundRuleWithPage
+      type: object
+      properties:
+        PageNumber:
+          type: integer
+          description: Page Number
+          format: int32
+          example: 0
+          exampleSetFlag: true
+        PageSize:
+          type: integer
+          description: Page Size
+          format: int32
+          example: 50000
+          exampleSetFlag: true
+        nameBeforeEdit:
+          type: string
+          description: Name of the rule before edit
+          example: rule1
+          exampleSetFlag: true
+        outboundRule:
+          $ref: '#/components/schemas/EgressFilter'
+          exampleSetFlag: true
+      description: Outbound Rule details with Page Info
+      exampleSetFlag: false
+    L3Out:
+      title: L3Out
+      type: object
+      properties:
+        l3out:
+          type: string
+          example: l3out1
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
         vn:
           type: string
+          example: vn1
           exampleSetFlag: true
-      description: Outbound Rule Preview details
+      exampleSetFlag: false
+    Consumed:
+      title: Consumed
+      type: object
+      properties:
+        contractIfs:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        contracts:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
       exampleSetFlag: false
     RuleCommon:
       title: RuleCommon
@@ -559,82 +572,48 @@ components:
           - monitor
       description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    Consumed:
-      title: Consumed
-      type: object
-      properties:
-        contractIfs:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        contracts:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      exampleSetFlag: false
-    EgressFilter:
-      title: EgressFilter
-      type: object
-      properties:
-        contracts:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/OutboundRuleContract'
-            exampleSetFlag: false
-        destinations:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/EgressFilterDestination'
-            exampleSetFlag: false
-        enabled:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-        name:
-          type: string
-          example: rule1
-          exampleSetFlag: true
-        rule:
-          $ref: '#/components/schemas/RuleCommon'
-          exampleSetFlag: true
-      description: Outbound Rule
-      exampleSetFlag: false
-    Link:
-      title: Link
+    OutboundRuleContract:
+      title: OutboundRuleContract
       required:
-      - href
+      - connectionName
+      - l3out
+      - sgt
+      - tn
       type: object
       properties:
-        href:
+        connectionName:
           type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          example: ACI1
           exampleSetFlag: true
-        rel:
+        consumed:
+          $ref: '#/components/schemas/Consumed'
+          exampleSetFlag: true
+        l3out:
           type: string
-          example: self
+          example: out1
           exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
+        provided:
+          $ref: '#/components/schemas/Provided'
+          exampleSetFlag: true
+        sgt:
           type: string
-          example: application/json
+          example: sgt1
           exampleSetFlag: true
+        tn:
+          type: string
+          example: tn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Provided:
+      title: Provided
+      type: object
+      properties:
+        contracts:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
       exampleSetFlag: false
     EgressFilterPreviewResponseEntity:
       title: EgressFilterPreviewResponseEntity
@@ -653,45 +632,66 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
+    EgressFilterPreview:
+      title: EgressFilterPreview
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
-      exampleSetFlag: false
-    EgressFilterSummaryResponse:
-      title: EgressFilterSummaryResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/EgressFilter'
-            exampleSetFlag: false
-        version:
+        ipAddress:
           type: string
           exampleSetFlag: true
-      exampleSetFlag: false
-    Provided:
-      title: Provided
-      type: object
-      properties:
-        contracts:
+        learnedBy:
+          type: string
+          exampleSetFlag: true
+        learnedFrom:
           type: array
           exampleSetFlag: true
           items:
             type: string
             exampleSetFlag: false
+        matchingRules:
+          type: array
+          description: matching rules used in the inbound rule destination configurations
+          example: '["Rule1","Rule2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        primarySgt:
+          type: string
+          description: Primary SGT name used in the Outbound Rule
+          exampleSetFlag: true
+        sgtDomains:
+          type: array
+          description: Sxp Domains used in the inbound rule destination configurations
+          example: '["sxpDomain1","sxpDomain2"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        vn:
+          type: string
+          exampleSetFlag: true
+      description: Outbound Rule Preview details
+      exampleSetFlag: false
+    EgressFilterDestination:
+      title: EgressFilterDestination
+      type: object
+      properties:
+        l3outs:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/L3Out'
+            exampleSetFlag: false
+        name:
+          type: string
+          example: ACI1
+          exampleSetFlag: true
+        type:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - ACI
+          - SXP_SPEAKER
+      description: Destinations mapped to l3outs used in the outbound rule destination configurations
       exampleSetFlag: false

@@ -391,19 +391,19 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    AlarmInstanceResponseWrapper:
-      title: AlarmInstanceResponseWrapper
+    ErrorResponse:
+      title: ErrorResponse
       type: object
       properties:
-        instance:
-          $ref: '#/components/schemas/AlarmInstance'
+        error:
+          $ref: '#/components/schemas/Message'
           exampleSetFlag: true
         version:
           type: string
-          description: The version of the API or response format.
+          description: The version of the API or the response format being used.
           example: 1.0.0
           exampleSetFlag: true
-      description: Represents the response wrapper for retrieving a single alarm instance.
+      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
       exampleSetFlag: false
     AcknowledgeInstancesRequest:
       title: AcknowledgeInstancesRequest
@@ -420,112 +420,6 @@ components:
             type: string
             exampleSetFlag: false
       description: Represents the request payload for acknowledging alarm instances.
-      exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or the response format being used.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the error response object for API operations. This object provides details about an error that occurred during the API call, including an error message and the version of the API or response format.
-      exampleSetFlag: false
-    AlarmSummary:
-      title: AlarmSummary
-      type: object
-      properties:
-        alarmId:
-          type: string
-          description: The unique identifier of the alarm.
-          example: 550e8400-e29b-41d4-a716-446655440000
-          exampleSetFlag: true
-        alarmName:
-          type: string
-          description: The name of the alarm.
-          example: Critical Posture Alarm
-          exampleSetFlag: true
-        description:
-          type: string
-          description: A brief description of the alarm rule.
-          example: This alarm rule monitors critical posture violations in the system.
-          exampleSetFlag: true
-        iseNodes:
-          type: array
-          description: List of ISE nodes where this alarm has occurred.
-          example: '["ISE-Node-01","ISE-Node-02"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        lastOccurredTime:
-          type: string
-          description: The last time this alarm occurred, in ISO 8601 format.
-          example: '2023-10-01T12:00:00Z'
-          exampleSetFlag: true
-        occurrences:
-          type: integer
-          description: The number of times this alarm has occurred.
-          format: int32
-          example: 5
-          exampleSetFlag: true
-        severity:
-          type: string
-          description: The severity level of the alarm.
-          example: Critical
-          exampleSetFlag: true
-        suggestedAction:
-          type: string
-          description: Suggested actions to be taken when the alarm rule is triggered.
-          example: Review the posture violations and take necessary actions.
-          exampleSetFlag: true
-      description: Represents a summary of alarm occurrences grouped by alarm ID.
-      exampleSetFlag: false
-    AlarmInstancePagedResponseWrapper:
-      title: AlarmInstancePagedResponseWrapper
-      type: object
-      properties:
-        instances:
-          type: array
-          description: List of alarm instances
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AlarmInstance'
-            exampleSetFlag: false
-        pageNumber:
-          type: integer
-          description: The current page number of the paginated response.
-          format: int32
-          example: 1
-          exampleSetFlag: true
-        pageSize:
-          type: integer
-          description: The number of items per page in the paginated response.
-          format: int32
-          example: 10
-          exampleSetFlag: true
-        totalPages:
-          type: integer
-          description: The total number of pages available based on the page size.
-          format: int32
-          example: 5
-          exampleSetFlag: true
-        totalRecords:
-          type: integer
-          description: The total number of alarm instances available.
-          format: int64
-          example: 50
-          exampleSetFlag: true
-        version:
-          type: string
-          description: The version of the API or response format.
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Represents the response wrapper for retrieving a single alarm instance.
       exampleSetFlag: false
     AlarmInstance:
       title: AlarmInstance
@@ -592,22 +486,6 @@ components:
           exampleSetFlag: true
       description: Represents an alarm instance that has been triggered in the system.
       exampleSetFlag: false
-    AcknowledgeAlarmsByIdsRequest:
-      title: AcknowledgeAlarmsByIdsRequest
-      required:
-      - alarmIds
-      type: object
-      properties:
-        alarmIds:
-          type: array
-          description: List of alarm IDs to acknowledge all instances for.
-          example: '["550e8400-e29b-41d4-a716-446655440000","660f9400-f29c-51d5-b817-556755550111"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      description: Represents the request payload for acknowledging alarm instances by alarm IDs.
-      exampleSetFlag: false
     AcknowledgeInstancesResponse:
       title: AcknowledgeInstancesResponse
       required:
@@ -628,25 +506,77 @@ components:
           exampleSetFlag: true
       description: Represents the response for acknowledging alarm instances.
       exampleSetFlag: false
-    AcknowledgeAlarmsByIdsResponse:
-      title: AcknowledgeAlarmsByIdsResponse
-      required:
-      - acknowledgedCount
-      - version
+    AlarmInstancePagedResponseWrapper:
+      title: AlarmInstancePagedResponseWrapper
       type: object
       properties:
-        acknowledgedCount:
+        instances:
+          type: array
+          description: List of alarm instances
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AlarmInstance'
+            exampleSetFlag: false
+        pageNumber:
           type: integer
-          description: Total number of alarm instances that were successfully acknowledged across all alarm IDs.
+          description: The current page number of the paginated response.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        pageSize:
+          type: integer
+          description: The number of items per page in the paginated response.
+          format: int32
+          example: 10
+          exampleSetFlag: true
+        totalPages:
+          type: integer
+          description: The total number of pages available based on the page size.
           format: int32
           example: 5
           exampleSetFlag: true
+        totalRecords:
+          type: integer
+          description: The total number of alarm instances available.
+          format: int64
+          example: 50
+          exampleSetFlag: true
         version:
           type: string
-          description: Version of the API.
+          description: The version of the API or response format.
           example: 1.0.0
           exampleSetFlag: true
-      description: Represents the response for acknowledging alarm instances by alarm IDs.
+      description: Represents the response wrapper for retrieving a single alarm instance.
+      exampleSetFlag: false
+    AcknowledgeAlarmsByIdsRequest:
+      title: AcknowledgeAlarmsByIdsRequest
+      required:
+      - alarmIds
+      type: object
+      properties:
+        alarmIds:
+          type: array
+          description: List of alarm IDs to acknowledge all instances for.
+          example: '["550e8400-e29b-41d4-a716-446655440000","660f9400-f29c-51d5-b817-556755550111"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Represents the request payload for acknowledging alarm instances by alarm IDs.
+      exampleSetFlag: false
+    AlarmInstanceResponseWrapper:
+      title: AlarmInstanceResponseWrapper
+      type: object
+      properties:
+        instance:
+          $ref: '#/components/schemas/AlarmInstance'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: The version of the API or response format.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response wrapper for retrieving a single alarm instance.
       exampleSetFlag: false
     Message:
       title: Message
@@ -725,4 +655,74 @@ components:
           example: 40
           exampleSetFlag: true
       description: Represents the response wrapper for retrieving a list of alarm instances.
+      exampleSetFlag: false
+    AcknowledgeAlarmsByIdsResponse:
+      title: AcknowledgeAlarmsByIdsResponse
+      required:
+      - acknowledgedCount
+      - version
+      type: object
+      properties:
+        acknowledgedCount:
+          type: integer
+          description: Total number of alarm instances that were successfully acknowledged across all alarm IDs.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        version:
+          type: string
+          description: Version of the API.
+          example: 1.0.0
+          exampleSetFlag: true
+      description: Represents the response for acknowledging alarm instances by alarm IDs.
+      exampleSetFlag: false
+    AlarmSummary:
+      title: AlarmSummary
+      type: object
+      properties:
+        alarmId:
+          type: string
+          description: The unique identifier of the alarm.
+          example: 550e8400-e29b-41d4-a716-446655440000
+          exampleSetFlag: true
+        alarmName:
+          type: string
+          description: The name of the alarm.
+          example: Critical Posture Alarm
+          exampleSetFlag: true
+        description:
+          type: string
+          description: A brief description of the alarm rule.
+          example: This alarm rule monitors critical posture violations in the system.
+          exampleSetFlag: true
+        iseNodes:
+          type: array
+          description: List of ISE nodes where this alarm has occurred.
+          example: '["ISE-Node-01","ISE-Node-02"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        lastOccurredTime:
+          type: string
+          description: The last time this alarm occurred, in ISO 8601 format.
+          example: '2023-10-01T12:00:00Z'
+          exampleSetFlag: true
+        occurrences:
+          type: integer
+          description: The number of times this alarm has occurred.
+          format: int32
+          example: 5
+          exampleSetFlag: true
+        severity:
+          type: string
+          description: The severity level of the alarm.
+          example: Critical
+          exampleSetFlag: true
+        suggestedAction:
+          type: string
+          description: Suggested actions to be taken when the alarm rule is triggered.
+          example: Review the posture violations and take necessary actions.
+          exampleSetFlag: true
+      description: Represents a summary of alarm occurrences grouped by alarm ID.
       exampleSetFlag: false

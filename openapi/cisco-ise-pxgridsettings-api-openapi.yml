@@ -169,6 +169,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    pxgrid.pxgridsettings:
+      required:
+      - PxgridSettings
+      type: object
+      properties:
+        PxgridSettings:
+          $ref: '#/components/schemas/PxgridSettings'
+      example: null
     PxgridSettings:
       required:
       - allowPasswordBasedAccounts
@@ -203,6 +233,18 @@ components:
         PxgridSettings:
           allowPasswordBasedAccounts: false
           autoApproveCertBasedAccounts: true
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -216,53 +258,11 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
-    pxgrid.pxgridsettings:
-      required:
-      - PxgridSettings
+    VersionInfo:
       type: object
       properties:
-        PxgridSettings:
-          $ref: '#/components/schemas/PxgridSettings'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    settings:
-      type: object
-      properties:
-        PxgridSettings:
-          $ref: '#/components/schemas/PxgridSettings_2'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     link1:
       type: object
       properties:
@@ -275,6 +275,11 @@ components:
         type:
           type: string
           example: application/json
+    settings:
+      type: object
+      properties:
+        PxgridSettings:
+          $ref: '#/components/schemas/PxgridSettings_2'
     version:
       type: object
       properties:
@@ -295,11 +300,6 @@ components:
         allowPasswordBasedAccounts:
           type: boolean
           example: false
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -444,33 +444,6 @@ components:
           exampleSetFlag: true
       description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
-    RuleAuthorizationNetworkAccess:
-      title: RuleAuthorizationNetworkAccess
-      required:
-      - rule
-      type: object
-      properties:
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-        profile:
-          type: array
-          description: The authorization profile/s
-          example: '["PermitAccess","NSP_Onboard"]'
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        rule:
-          $ref: '#/components/schemas/RuleCommon'
-          exampleSetFlag: true
-        securityGroup:
-          type: string
-          description: Security group used in authorization policies
-          example: BYOD
-          exampleSetFlag: true
-      description: Authorization rule for network access
-      exampleSetFlag: false
     IdResponseEntity:
       title: IdResponseEntity
       required:
@@ -483,6 +456,30 @@ components:
           example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
           exampleSetFlag: true
       description: response object containing object ID
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
       exampleSetFlag: false
     NetworkAccessAuthorizationRuleListResponseEntity:
       title: NetworkAccessAuthorizationRuleListResponseEntity
@@ -498,6 +495,34 @@ components:
           items:
             $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
             exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    NetworkAccessAuthorizationRuleResponseEntity:
+      title: NetworkAccessAuthorizationRuleResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
+          exampleSetFlag: true
         version:
           type: string
           example: 1.0.0
@@ -553,58 +578,6 @@ components:
           - monitor
       description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    NetworkAccessAuthorizationRuleResponseEntity:
-      title: NetworkAccessAuthorizationRuleResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/RuleAuthorizationNetworkAccess'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
     MessageResponseEntity:
       title: MessageResponseEntity
       required:
@@ -616,6 +589,33 @@ components:
           example: Success
           exampleSetFlag: true
       description: Response object containing success message
+      exampleSetFlag: false
+    RuleAuthorizationNetworkAccess:
+      title: RuleAuthorizationNetworkAccess
+      required:
+      - rule
+      type: object
+      properties:
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        profile:
+          type: array
+          description: The authorization profile/s
+          example: '["PermitAccess","NSP_Onboard"]'
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        rule:
+          $ref: '#/components/schemas/RuleCommon'
+          exampleSetFlag: true
+        securityGroup:
+          type: string
+          description: Security group used in authorization policies
+          example: BYOD
+          exampleSetFlag: true
+      description: Authorization rule for network access
       exampleSetFlag: false
   securitySchemes:
     BasicAuth:

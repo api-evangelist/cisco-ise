@@ -1022,6 +1022,69 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    trustsec.sgmappinggroup:
+      required:
+      - SGMappingGroup
+      type: object
+      properties:
+        SGMappingGroup:
+          $ref: '#/components/schemas/SGMappingGroup'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sgmappinggroupResponse:
+      type: object
+      properties:
+        SGMappingGroup:
+          $ref: '#/components/schemas/sgmappinggroupResponseEntity'
+      example:
+        SGMappingGroup:
+          sgt: sgt_id
+          sgtDomain:
+          - sgt_domain
+          name: groupA
+          deployTo: network_device_id
+          deployType: ND
+    sgmappinggroupListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     sgmappinggroupResponseEntity:
       properties:
         deployTo:
@@ -1062,64 +1125,23 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    sgmappinggroupListResponse:
+    Link:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sgmappinggroupListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    OperationResultEntity:
-      properties:
-        OperationResult:
-          properties:
-            resultValue:
-              type: array
-              example: null
-              items:
-                properties:
-                  Value:
-                    type: integer
-                    example: null
-                  name:
-                    type: string
-                    example: null
-                example: null
-          example: null
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     SGMappingGroup:
       required:
@@ -1170,26 +1192,58 @@ components:
           name: groupA
           deployTo: network_device_id
           deployType: ND
-    sgmappinggroupResponse:
+    sgmappinggroupListResponse:
       type: object
       properties:
-        SGMappingGroup:
-          $ref: '#/components/schemas/sgmappinggroupResponseEntity'
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sgmappinggroupListResponseEntity'
+          example: null
       example:
-        SGMappingGroup:
-          sgt: sgt_id
-          sgtDomain:
-          - sgt_domain
-          name: groupA
-          deployTo: network_device_id
-          deployType: ND
-    trustsec.sgmappinggroup:
-      required:
-      - SGMappingGroup
-      type: object
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    updatedField:
       properties:
-        SGMappingGroup:
-          $ref: '#/components/schemas/SGMappingGroup'
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
       example: null
     UpdatedFieldsResponse:
       type: object
@@ -1204,83 +1258,65 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
-    ERSResponse:
+    OperationResultEntity:
+      properties:
+        OperationResult:
+          properties:
+            resultValue:
+              type: array
+              example: null
+              items:
+                properties:
+                  Value:
+                    type: integer
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    bulkrequest:
       type: object
       properties:
-        operation:
+        SGMappingGroupBulkRequest:
+          $ref: '#/components/schemas/SGMappingGroupBulkRequest'
+    SGMappingGroupBulkRequest:
+      type: object
+      properties:
+        operationType:
           type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    Link:
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.trustsec.sgmappinggroup.1.0+xml
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    link1:
       type: object
       properties:
         rel:
           type: string
           example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
         href:
           type: string
-          example: https://{server}:{port}/ers/config
+          example: https://<ise-ip>:9060/ers/config/sgmappinggroup/versioninfo
         type:
           type: string
           example: application/json
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    sgmappinggroupListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    Update:
+    search:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     UpdatedField:
       type: object
       properties:
@@ -1293,16 +1329,6 @@ components:
         newValue:
           type: string
           example: val_new
-    iptosgtgroup:
-      type: object
-      properties:
-        SGMappingGroup:
-          $ref: '#/components/schemas/SGMappingGroup_2'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     SGMappingGroup_2:
       type: object
       properties:
@@ -1333,23 +1359,75 @@ components:
             type:
               type: string
               example: application/json
-    link1:
+    SearchResult:
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/sgmappinggroup/versioninfo
-        type:
-          type: string
-          example: application/json
-    bulkstatus:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: id
+            name: groupA
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/sgmapping/id
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    iptosgtgroup:
       type: object
       properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
+        SGMappingGroup:
+          $ref: '#/components/schemas/SGMappingGroup_2'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    OperationResult:
+      type: object
+      properties:
+        OperationResult:
+          type: object
+          properties:
+            resultValue:
+              type: array
+              example:
+              - value: DdsAASDs%$##@ssds12
+                name: password
+              items:
+                properties:
+                  name:
+                    type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     BulkStatus:
       type: object
       properties:
@@ -1404,94 +1482,7 @@ components:
             properties:
               name:
                 type: string
-    bulkrequest:
-      type: object
-      properties:
-        SGMappingGroupBulkRequest:
-          $ref: '#/components/schemas/SGMappingGroupBulkRequest'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    SGMappingGroupBulkRequest:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: vnd.com.cisco.ise.trustsec.sgmappinggroup.1.0+xml
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: id
-            name: groupA
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/sgmapping/id
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    OperationResult:
-      type: object
-      properties:
-        OperationResult:
-          type: object
-          properties:
-            resultValue:
-              type: array
-              example:
-              - value: DdsAASDs%$##@ssds12
-                name: password
-              items:
-                properties:
-                  name:
-                    type: string
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1501,6 +1492,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

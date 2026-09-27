@@ -596,46 +596,84 @@ paths:
           description: Not Found
 components:
   schemas:
-    ActionRequest:
-      title: ActionRequest
+    AciConnectionSummary:
+      title: AciConnectionSummary
       type: object
       properties:
-        ConnectionIDs:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        action:
+        domain:
           type: string
+          example: default
           exampleSetFlag: true
-          enum:
-          - Connect
-          - Delete
-          - Suspend
-      description: connect, suspend or delete multiple ACI connections
-      exampleSetFlag: false
-    EgressFilterDestination:
-      title: EgressFilterDestination
-      type: object
-      properties:
-        l3outs:
-          type: array
+        errorReason:
+          type: string
+          example: error reason
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/L3Out'
-            exampleSetFlag: false
+        hostname:
+          type: string
+          description: ACI hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        lastUpdate:
+          type: string
+          example: Oct 25, 2024 1:40 PM
+          exampleSetFlag: true
         name:
           type: string
+          description: ACI name
           example: ACI1
           exampleSetFlag: true
-        type:
+        receivedMappings:
+          type: integer
+          format: int32
+          example: 1000
+          exampleSetFlag: true
+        sgtRanges:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SgtRange'
+            exampleSetFlag: false
+        sharedMappings:
+          type: integer
+          format: int32
+          example: 2000
+          exampleSetFlag: true
+        state:
           type: string
+          description: Corresponding actions will change the state of the connection
+          readOnly: true
           exampleSetFlag: true
           enum:
-          - ACI
-          - SXP_SPEAKER
-      description: Destinations mapped to l3outs used in the outbound rule destination configurations
+          - CONNECTED
+          - CONNECTING
+          - DELETE_ERROR
+          - DELETING
+          - DISCONNECTED
+          - ERROR
+          - SUSPENDED
+          - UNDEPLOYED
+        syncedEPG:
+          type: integer
+          description: Synced EPGs/ESGs
+          format: int32
+          example: 5
+          exampleSetFlag: true
+      description: ACI connection summary
+      exampleSetFlag: false
+    DomainListResponseEntity:
+      title: DomainListResponseEntity
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/DomainList'
+            exampleSetFlag: false
       exampleSetFlag: false
     Epg:
       title: Epg
@@ -699,6 +737,163 @@ components:
         vn:
           type: string
           example: vn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SgtListResponseEntity:
+      title: SgtListResponseEntity
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SgtRangeList'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    AciConnectionAccessInfo:
+      title: AciConnectionAccessInfo
+      required:
+      - hostname
+      - name
+      - username
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Auth Domain
+          example: Default
+          exampleSetFlag: true
+        hostname:
+          type: string
+          description: ACI hostname or IP address
+          example: 10.0.0.1
+          exampleSetFlag: true
+        id:
+          type: string
+          description: ID if connection is already created
+          exampleSetFlag: true
+        name:
+          type: string
+          description: ACI name
+          example: ACI1
+          exampleSetFlag: true
+        password:
+          type: string
+          description: Password
+          example: password1
+          exampleSetFlag: true
+        username:
+          type: string
+          description: Username
+          example: user1
+          exampleSetFlag: true
+        validateCertificate:
+          type: boolean
+          description: ValidationCertificate
+          example: false
+          exampleSetFlag: true
+      description: ACI connection configuration
+      exampleSetFlag: false
+    SgtRangeList:
+      title: SgtRangeList
+      type: object
+      properties:
+        clientName:
+          type: string
+          example: AC1#1
+          exampleSetFlag: true
+        endIndex:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        startIndex:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      exampleSetFlag: false
+    L3Out:
+      title: L3Out
+      type: object
+      properties:
+        l3out:
+          type: string
+          example: l3out1
+          exampleSetFlag: true
+        tn:
+          type: string
+          example: tenant1
+          exampleSetFlag: true
+        vn:
+          type: string
+          example: vn1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AttributeConversion:
+      title: AttributeConversion
+      type: object
+      properties:
+        from:
+          type: string
+          description: From original value
+          exampleSetFlag: true
+        to:
+          type: string
+          description: To new value
+          exampleSetFlag: true
+        type:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - AP
+          - CONNECTION_NAME
+          - EPG_TYPE
+          - TN
+          - VN
+      description: Attribute conversion configuration
+      exampleSetFlag: false
+    AciConnectionStatusResponse:
+      title: AciConnectionStatusResponse
+      type: object
+      properties:
+        response:
+          type: array
+          description: Connection name to be used to filter out the metadata
+          example: '["ACI1","ACI2"]'
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AciConnectionStatus'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      description: List of AciConnectionStatus
+      exampleSetFlag: false
+    AciConnectionAllOfLearnedIPs:
+      title: AciConnectionAllOfLearnedIPs
+      type: object
+      properties:
+        ipaddress:
+          type: string
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        status:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Contract:
+      title: Contract
+      type: object
+      properties:
+        dn:
+          type: string
+          example: uni/tn-tn1/brc-contract1
+          exampleSetFlag: true
+        name:
+          type: string
+          example: contract1
           exampleSetFlag: true
       exampleSetFlag: false
     AciConnection:
@@ -793,75 +988,30 @@ components:
           example: false
           exampleSetFlag: true
       exampleSetFlag: false
-    AciConnectionAllOfLearnedIPs:
-      title: AciConnectionAllOfLearnedIPs
+    AciTenantContract:
+      title: AciTenantContract
       type: object
       properties:
-        ipaddress:
-          type: string
-          exampleSetFlag: true
-        name:
-          type: string
-          exampleSetFlag: true
-        status:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-      exampleSetFlag: false
-    EgressFilterDestinationList:
-      title: EgressFilterDestinationList
-      type: object
-      properties:
-        destinations:
+        contractIfs:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/EgressFilterDestination'
+            $ref: '#/components/schemas/ContractInterface'
             exampleSetFlag: false
-      exampleSetFlag: false
-    AciConnectionAccessInfo:
-      title: AciConnectionAccessInfo
-      required:
-      - hostname
-      - name
-      - username
-      type: object
-      properties:
-        domain:
-          type: string
-          description: Auth Domain
-          example: Default
+        contracts:
+          type: array
           exampleSetFlag: true
-        hostname:
-          type: string
-          description: ACI hostname or IP address
-          example: 10.0.0.1
-          exampleSetFlag: true
-        id:
-          type: string
-          description: ID if connection is already created
-          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Contract'
+            exampleSetFlag: false
         name:
           type: string
-          description: ACI name
           example: ACI1
           exampleSetFlag: true
-        password:
+        tn:
           type: string
-          description: Password
-          example: password1
+          example: tn1
           exampleSetFlag: true
-        username:
-          type: string
-          description: Username
-          example: user1
-          exampleSetFlag: true
-        validateCertificate:
-          type: boolean
-          description: ValidationCertificate
-          example: false
-          exampleSetFlag: true
-      description: ACI connection configuration
       exampleSetFlag: false
     TestConnectionResponse:
       title: TestConnectionResponse
@@ -875,17 +1025,15 @@ components:
             exampleSetFlag: false
       description: Response to test Connection
       exampleSetFlag: false
-    ContractInterface:
-      title: ContractInterface
+    AciConnectionResponse:
+      title: AciConnectionResponse
       type: object
       properties:
-        dn:
-          type: string
-          example: uni/tn-tn1/cif-contractIf1
+        response:
+          $ref: '#/components/schemas/AciConnection'
           exampleSetFlag: true
-        name:
+        version:
           type: string
-          example: contractIf1
           exampleSetFlag: true
       exampleSetFlag: false
     AciConnectionStatus:
@@ -930,109 +1078,92 @@ components:
           exampleSetFlag: true
       description: ACI Connection status
       exampleSetFlag: false
-    AciConnectionSummary:
-      title: AciConnectionSummary
+    EgressFilterDestination:
+      title: EgressFilterDestination
       type: object
       properties:
-        domain:
-          type: string
-          example: default
-          exampleSetFlag: true
-        errorReason:
-          type: string
-          example: error reason
-          exampleSetFlag: true
-        hostname:
-          type: string
-          description: ACI hostname or IP address
-          example: 10.0.0.1
-          exampleSetFlag: true
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        lastUpdate:
-          type: string
-          example: Oct 25, 2024 1:40 PM
-          exampleSetFlag: true
-        name:
-          type: string
-          description: ACI name
-          example: ACI1
-          exampleSetFlag: true
-        receivedMappings:
-          type: integer
-          format: int32
-          example: 1000
-          exampleSetFlag: true
-        sgtRanges:
+        l3outs:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/SgtRange'
+            $ref: '#/components/schemas/L3Out'
             exampleSetFlag: false
-        sharedMappings:
-          type: integer
-          format: int32
-          example: 2000
-          exampleSetFlag: true
-        state:
+        name:
           type: string
-          description: Corresponding actions will change the state of the connection
-          readOnly: true
+          example: ACI1
+          exampleSetFlag: true
+        type:
+          type: string
           exampleSetFlag: true
           enum:
-          - CONNECTED
-          - CONNECTING
-          - DELETE_ERROR
-          - DELETING
-          - DISCONNECTED
-          - ERROR
-          - SUSPENDED
-          - UNDEPLOYED
-        syncedEPG:
-          type: integer
-          description: Synced EPGs/ESGs
-          format: int32
-          example: 5
-          exampleSetFlag: true
-      description: ACI connection summary
+          - ACI
+          - SXP_SPEAKER
+      description: Destinations mapped to l3outs used in the outbound rule destination configurations
       exampleSetFlag: false
-    ReadinessResponse:
-      title: ReadinessResponse
+    ActionRequest:
+      title: ActionRequest
       type: object
       properties:
-        OldAciConnectionCheck:
-          type: boolean
-          example: true
+        ConnectionIDs:
+          type: array
           exampleSetFlag: true
-        PxGridCheck:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        SXPDefaultDeviceCheck:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        SXPServiceCheck:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        SXPviaPxGridCheck:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        notReadyReason:
+          items:
+            type: string
+            exampleSetFlag: false
+        action:
           type: string
-          example: Failed to enable SXP services
           exampleSetFlag: true
-        ready:
-          type: boolean
-          example: true
+          enum:
+          - Connect
+          - Delete
+          - Suspend
+      description: connect, suspend or delete multiple ACI connections
+      exampleSetFlag: false
+    AciTenantContractListResponseEntity:
+      title: AciTenantContractListResponseEntity
+      type: object
+      properties:
+        response:
+          type: array
           exampleSetFlag: true
-        urlRedirect:
+          items:
+            $ref: '#/components/schemas/AciTenantContract'
+            exampleSetFlag: false
+        version:
           type: string
-          example: /admin/#workcenters/workcenter_trustsec/workcenter_trustsec_settings/apic
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EgressFilterDestinationList:
+      title: EgressFilterDestinationList
+      type: object
+      properties:
+        destinations:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/EgressFilterDestination'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    ActionResponse:
+      title: ActionResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: Action on ACI Connection was Successful
+          exampleSetFlag: true
+      exampleSetFlag: false
+    DomainList:
+      title: DomainList
+      type: object
+      properties:
+        guiBanner:
+          type: string
+          example: admin for domain1
+          exampleSetFlag: true
+        name:
+          type: string
+          example: admin1
           exampleSetFlag: true
       exampleSetFlag: false
     AciConnectionSummaryResponse:
@@ -1049,13 +1180,15 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    ActionResponse:
-      title: ActionResponse
+    AciConnectionByIdStatusResponse:
+      title: AciConnectionByIdStatusResponse
       type: object
       properties:
-        message:
+        response:
+          $ref: '#/components/schemas/AciConnectionStatus'
+          exampleSetFlag: true
+        version:
           type: string
-          example: Action on ACI Connection was Successful
           exampleSetFlag: true
       exampleSetFlag: false
     SgtRange:
@@ -1074,143 +1207,6 @@ components:
           format: int32
           exampleSetFlag: true
       description: SGT range
-      exampleSetFlag: false
-    DomainList:
-      title: DomainList
-      type: object
-      properties:
-        guiBanner:
-          type: string
-          example: admin for domain1
-          exampleSetFlag: true
-        name:
-          type: string
-          example: admin1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AciConnectionResponse:
-      title: AciConnectionResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/AciConnection'
-          exampleSetFlag: true
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    L3Out:
-      title: L3Out
-      type: object
-      properties:
-        l3out:
-          type: string
-          example: l3out1
-          exampleSetFlag: true
-        tn:
-          type: string
-          example: tenant1
-          exampleSetFlag: true
-        vn:
-          type: string
-          example: vn1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AttributeConversion:
-      title: AttributeConversion
-      type: object
-      properties:
-        from:
-          type: string
-          description: From original value
-          exampleSetFlag: true
-        to:
-          type: string
-          description: To new value
-          exampleSetFlag: true
-        type:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - AP
-          - CONNECTION_NAME
-          - EPG_TYPE
-          - TN
-          - VN
-      description: Attribute conversion configuration
-      exampleSetFlag: false
-    AciConnectionStatusResponse:
-      title: AciConnectionStatusResponse
-      type: object
-      properties:
-        response:
-          type: array
-          description: Connection name to be used to filter out the metadata
-          example: '["ACI1","ACI2"]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AciConnectionStatus'
-            exampleSetFlag: false
-        version:
-          type: string
-          exampleSetFlag: true
-      description: List of AciConnectionStatus
-      exampleSetFlag: false
-    SgtRangeList:
-      title: SgtRangeList
-      type: object
-      properties:
-        clientName:
-          type: string
-          example: AC1#1
-          exampleSetFlag: true
-        endIndex:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        startIndex:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-      exampleSetFlag: false
-    DomainListResponseEntity:
-      title: DomainListResponseEntity
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/DomainList'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AciConnectionByIdStatusResponse:
-      title: AciConnectionByIdStatusResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/AciConnectionStatus'
-          exampleSetFlag: true
-        version:
-          type: string
-          exampleSetFlag: true
       exampleSetFlag: false
     NameConversion:
       title: NameConversion
@@ -1253,66 +1249,70 @@ components:
           - ATTRIBUTE
       description: Name conversion configuration
       exampleSetFlag: false
-    SgtListResponseEntity:
-      title: SgtListResponseEntity
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SgtRangeList'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    AciTenantContractListResponseEntity:
-      title: AciTenantContractListResponseEntity
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/AciTenantContract'
-            exampleSetFlag: false
-        version:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    AciTenantContract:
-      title: AciTenantContract
-      type: object
-      properties:
-        contractIfs:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/ContractInterface'
-            exampleSetFlag: false
-        contracts:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Contract'
-            exampleSetFlag: false
-        name:
-          type: string
-          example: ACI1
-          exampleSetFlag: true
-        tn:
-          type: string
-          example: tn1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Contract:
-      title: Contract
+    ContractInterface:
+      title: ContractInterface
       type: object
       properties:
         dn:
           type: string
-          example: uni/tn-tn1/brc-contract1
+          example: uni/tn-tn1/cif-contractIf1
           exampleSetFlag: true
         name:
           type: string
-          example: contract1
+          example: contractIf1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ReadinessResponse:
+      title: ReadinessResponse
+      type: object
+      properties:
+        OldAciConnectionCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        PxGridCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        SXPDefaultDeviceCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        SXPServiceCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        SXPviaPxGridCheck:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        notReadyReason:
+          type: string
+          example: Failed to enable SXP services
+          exampleSetFlag: true
+        ready:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        urlRedirect:
+          type: string
+          example: /admin/#workcenters/workcenter_trustsec/workcenter_trustsec_settings/apic
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false

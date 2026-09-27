@@ -281,19 +281,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    IdResponseEntity:
-      title: IdResponseEntity
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
-          exampleSetFlag: true
-      description: response object containing object ID
-      exampleSetFlag: false
     NetworkConditionListResponseEntity:
       title: NetworkConditionListResponseEntity
       required:
@@ -308,6 +295,58 @@ components:
           items:
             $ref: '#/components/schemas/NetworkCondition'
             exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    NetworkConditionResponseEntity:
+      title: NetworkConditionResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/NetworkCondition'
+          exampleSetFlag: true
         version:
           type: string
           example: 1.0.0
@@ -348,45 +387,6 @@ components:
           example: My network condition
           exampleSetFlag: true
       description: Unique network conditions to restrict access to the network
-      exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
-    NetworkConditionResponseEntity:
-      title: NetworkConditionResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/NetworkCondition'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
       exampleSetFlag: false
     Error:
       title: Error

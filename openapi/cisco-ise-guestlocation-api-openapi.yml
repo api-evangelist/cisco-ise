@@ -334,6 +334,75 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    guestlocationResponseEntity:
+      properties:
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    guestlocationResponse:
+      type: object
+      properties:
+        LocationIdentification:
+          $ref: '#/components/schemas/guestlocationResponseEntity'
+      example:
+        LocationIdentification:
+          name: name
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     guestlocationListResponse:
       type: object
       properties:
@@ -375,15 +444,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    guestlocationResponse:
-      type: object
-      properties:
-        LocationIdentification:
-          $ref: '#/components/schemas/guestlocationResponseEntity'
-      example:
-        LocationIdentification:
-          name: name
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     guestlocationListResponseEntity:
       properties:
         id:
@@ -404,118 +464,11 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    guestlocationResponseEntity:
-      properties:
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     guestlocation:
       type: object
       properties:
         LocationIdentification:
           $ref: '#/components/schemas/LocationIdentification'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/guestlocation/versioninfo
-        type:
-          type: string
-          example: application/json
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 9f083530-8c01-11e6-996c-525400b48521
-            name: San Jose
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guestlocation/9f083530-8c01-11e6-996c-525400b48521
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
     LocationIdentification:
       type: object
       properties:
@@ -542,16 +495,54 @@ components:
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guestlocation/versioninfo
+        type:
+          type: string
+          example: application/json
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 9f083530-8c01-11e6-996c-525400b48521
+            name: San Jose
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guestlocation/9f083530-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -561,6 +552,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -1361,25 +1361,158 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    internaluserListResponseEntity:
+    ERSResponse:
+      type: object
       properties:
-        id:
-          title: id
+        operation:
           type: string
-          description: Id description
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    internaluserResponseEntity:
+      properties:
+        changePassword:
+          title: changePassword
+          type: boolean
+          description: ''
+          example: null
+        email:
+          title: email
+          type: string
+          description: ''
+          example: null
+        accountNameAlias:
+          title: accountNameAlias
+          type: string
+          description: The Account Name Alias will be used to send email notifications about password expiration
+          example: null
+        enablePassword:
+          title: enablePassword
+          type: string
+          description: EnablePassword field is added in ISE 2.0 to support T+
+          example: null
+        enabled:
+          title: enabled
+          type: boolean
+          description: Whether the user is enabled/disabled.<br/>To use it as filter, the values should be 'Enabled' or 'Disabled'. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=enabled.EQ.Enabled'
+          example: null
+        passwordNeverExpires:
+          title: passwordNeverExpires
+          type: boolean
+          description: Set TRUE to indicate the user password never expires. This will not apply to Users who are also ISE Admins
+          example: null
+        daysForPasswordExpiration:
+          title: daysForPasswordExpiration
+          type: number
+          description: This field is for read only
+          example: null
+        customAttributes:
+          title: customAttributes
+          type: string
+          description: Key value map
+          example: null
+        firstName:
+          title: firstName
+          type: string
+          description: ''
+          example: null
+        identityGroups:
+          title: identityGroups
+          type: string
+          description: CSV of identity group IDs.
+          example: null
+        lastName:
+          title: lastName
+          type: string
+          description: ''
+          example: null
+        password:
+          title: password
+          type: string
+          description: ''
+          example: null
+        passwordIDStore:
+          title: passwordIDStore
+          type: string
+          description: the id store where the internal user's password is kept
+          example: null
+        expiryDateEnabled:
+          title: expiryDateEnabled
+          type: boolean
+          description: ''
+          example: null
+        expiryDate:
+          title: expiryDate
+          type: string
+          description: 'to store the internal user''s expiry date information. It''s format is = ''YYYY-MM-DD'' '
+          example: null
+        dateModified:
+          title: dateModified
+          type: string
+          description: The date of the last user modification by admin, formatted as 'YYYY-MM-DD'. Read-only.
+          example: null
+        dateCreated:
+          title: dateCreated
+          type: string
+          description: The date of the user creation, formatted as 'YYYY-MM-DD'. Read-only.
           example: null
         name:
           title: name
           type: string
-          description: name description
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
           example: null
         description:
           title: description
           type: string
-          description: description
+          description: Description
           example: null
         link:
           $ref: '#/components/schemas/Link'
+      example: null
+    identity.internaluser:
+      required:
+      - InternalUser
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     internaluserResponse:
       type: object
@@ -1413,6 +1546,51 @@ components:
           customAttributes:
             key1: value1
             key2: value3
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    internaluserListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     internaluserListResponse:
       type: object
       properties:
@@ -1454,14 +1632,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    identity.internaluser:
-      required:
-      - InternalUser
-      type: object
-      properties:
-        InternalUser:
-          $ref: '#/components/schemas/InternalUser'
-      example: null
     InternalUser:
       required:
       - enabled
@@ -1594,190 +1764,33 @@ components:
           customAttributes:
             key1: value1
             key2: value3
-    UpdatedFieldsResponse:
+    internal_name:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    ERSResponse:
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser_name'
+    VersionInfo:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    Link:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    link1:
       type: object
       properties:
         rel:
           type: string
           example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
         href:
           type: string
-          example: https://{server}:{port}/ers/config
+          example: https://<ise-ip>:9060/ers/config/internaluser/versioninfo
         type:
           type: string
           example: application/json
-      example: null
-    internaluserResponseEntity:
-      properties:
-        changePassword:
-          title: changePassword
-          type: boolean
-          description: ''
-          example: null
-        email:
-          title: email
-          type: string
-          description: ''
-          example: null
-        accountNameAlias:
-          title: accountNameAlias
-          type: string
-          description: The Account Name Alias will be used to send email notifications about password expiration
-          example: null
-        enablePassword:
-          title: enablePassword
-          type: string
-          description: EnablePassword field is added in ISE 2.0 to support T+
-          example: null
-        enabled:
-          title: enabled
-          type: boolean
-          description: Whether the user is enabled/disabled.<br/>To use it as filter, the values should be 'Enabled' or 'Disabled'. The values are case sensitive.<br/>For example, '[ERSObjectURL]?filter=enabled.EQ.Enabled'
-          example: null
-        passwordNeverExpires:
-          title: passwordNeverExpires
-          type: boolean
-          description: Set TRUE to indicate the user password never expires. This will not apply to Users who are also ISE Admins
-          example: null
-        daysForPasswordExpiration:
-          title: daysForPasswordExpiration
-          type: number
-          description: This field is for read only
-          example: null
-        customAttributes:
-          title: customAttributes
-          type: string
-          description: Key value map
-          example: null
-        firstName:
-          title: firstName
-          type: string
-          description: ''
-          example: null
-        identityGroups:
-          title: identityGroups
-          type: string
-          description: CSV of identity group IDs.
-          example: null
-        lastName:
-          title: lastName
-          type: string
-          description: ''
-          example: null
-        password:
-          title: password
-          type: string
-          description: ''
-          example: null
-        passwordIDStore:
-          title: passwordIDStore
-          type: string
-          description: the id store where the internal user's password is kept
-          example: null
-        expiryDateEnabled:
-          title: expiryDateEnabled
-          type: boolean
-          description: ''
-          example: null
-        expiryDate:
-          title: expiryDate
-          type: string
-          description: 'to store the internal user''s expiry date information. It''s format is = ''YYYY-MM-DD'' '
-          example: null
-        dateModified:
-          title: dateModified
-          type: string
-          description: The date of the last user modification by admin, formatted as 'YYYY-MM-DD'. Read-only.
-          example: null
-        dateCreated:
-          title: dateCreated
-          type: string
-          description: The date of the user creation, formatted as 'YYYY-MM-DD'. Read-only.
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    patchRequestBody:
+    internal:
       type: object
       properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser_2'
     UpdatedField:
       type: object
       properties:
@@ -1795,28 +1808,56 @@ components:
       properties:
         InternalUser:
           $ref: '#/components/schemas/patchRequestBody'
-    internal_name:
-      type: object
-      properties:
-        InternalUser:
-          $ref: '#/components/schemas/InternalUser_name'
     search:
       type: object
       properties:
         SearchResult:
           $ref: '#/components/schemas/SearchResult'
-    link1:
+    SearchResult:
       type: object
       properties:
-        rel:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: b24b09e2-16f8-4e48-ace1-2c262a9449f1
+            name: name
+            description: description
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/internaluser/b24b09e2-16f8-4e48-ace1-2c262a9449f1
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.2'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/internaluser/versioninfo
-        type:
+          example: 1.0,1.1,1.2
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
           type: string
-          example: application/json
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     InternalUser_name:
       type: object
       properties:
@@ -1896,31 +1937,20 @@ components:
             type:
               type: string
               example: application/json
-    UpdatedFieldsList:
+    Update:
       type: object
       properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    version:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    patchRequestBody:
       type: object
       properties:
-        currentServerVersion:
+        any-resource-attribute:
           type: string
-          example: '1.2'
-        supportedVersions:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: 1.0,1.1,1.2
-        link:
-          $ref: '#/components/schemas/link1'
+          example: some-updated-value
     InternalUser_2:
       type: object
       properties:
@@ -2009,46 +2039,7 @@ components:
             type:
               type: string
               example: application/json
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: b24b09e2-16f8-4e48-ace1-2c262a9449f1
-            name: name
-            description: description
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/internaluser/b24b09e2-16f8-4e48-ace1-2c262a9449f1
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    internal:
-      type: object
-      properties:
-        InternalUser:
-          $ref: '#/components/schemas/InternalUser_2'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -2058,6 +2049,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

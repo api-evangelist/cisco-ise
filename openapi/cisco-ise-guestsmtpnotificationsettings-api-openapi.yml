@@ -463,75 +463,27 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    guestsmtpnotificationsettingsResponseEntity:
+    ERSResponse:
+      type: object
       properties:
-        defaultFromAddress:
-          title: defaultFromAddress
+        operation:
           type: string
-          description: the default From email address to be used to send emails from
+          example: Operation
+        messages:
+          type: array
           example: null
-        notificationEnabled:
-          title: notificationEnabled
-          type: boolean
-          description: indicates if the email notification service is to be enabled
-          example: null
-        smtpServer:
-          title: smtpServer
-          type: string
-          description: the SMTP server ip address or fqdn such as outbound.mycompany.com
-          example: null
-        useDefaultFromAddress:
-          title: useDefaultFromAddress
-          type: boolean
-          description: if the default from address should be used rather than using a sponsor user email address
-          example: null
-        smtpPort:
-          title: smtpPort
-          type: string
-          description: Port at which SMTP Secure Server is listening
-          example: null
-        connectionTimeout:
-          title: connectionTimeout
-          type: string
-          description: Interval in seconds for all the SMTP client connections
-          example: null
-        useTLSorSSLEncryption:
-          title: useTLSorSSLEncryption
-          type: boolean
-          description: If configured to true, SMTP server authentication will happen using TLS/SSL
-          example: null
-        usePasswordAuthentication:
-          title: usePasswordAuthentication
-          type: boolean
-          description: If configured to true, SMTP server authentication will happen using username/password
-          example: null
-        userName:
-          title: userName
-          type: string
-          description: Username of Secure SMTP server
-          example: null
-        password:
-          title: password
-          type: string
-          description: Password of Secure SMTP server
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     identity.guestsmtpnotificationsettings:
       required:
@@ -541,25 +493,23 @@ components:
         ERSGuestSmtpNotificationSettings:
           $ref: '#/components/schemas/ERSGuestSmtpNotificationSettings'
       example: null
-    guestsmtpnotificationsettingsListResponseEntity:
+    Link:
+      type: object
       properties:
-        id:
-          title: id
+        rel:
           type: string
-          description: Id description
-          example: null
-        name:
-          title: name
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
           type: string
-          description: name description
-          example: null
-        description:
-          title: description
+          example: https://{server}:{port}/ers/config
+        type:
           type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          example: application/json
       example: null
     guestsmtpnotificationsettingsResponse:
       type: object
@@ -619,6 +569,38 @@ components:
               type: application/xml
             description: description2
             id: id2
+    guestsmtpnotificationsettingsListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -631,46 +613,6 @@ components:
               items:
                 $ref: '#/components/schemas/updatedField'
           example: null
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
       example: null
     ERSGuestSmtpNotificationSettings:
       properties:
@@ -751,28 +693,77 @@ components:
           connectionTimeout: '60'
           notificationEnabled: true
           usePasswordAuthentication: false
-    updatedField:
+    guestsmtpnotificationsettingsResponseEntity:
       properties:
-        field:
+        defaultFromAddress:
+          title: defaultFromAddress
           type: string
+          description: the default From email address to be used to send emails from
           example: null
-        oldValue:
+        notificationEnabled:
+          title: notificationEnabled
+          type: boolean
+          description: indicates if the email notification service is to be enabled
+          example: null
+        smtpServer:
+          title: smtpServer
           type: string
+          description: the SMTP server ip address or fqdn such as outbound.mycompany.com
           example: null
-        newValue:
+        useDefaultFromAddress:
+          title: useDefaultFromAddress
+          type: boolean
+          description: if the default from address should be used rather than using a sponsor user email address
+          example: null
+        smtpPort:
+          title: smtpPort
           type: string
+          description: Port at which SMTP Secure Server is listening
           example: null
+        connectionTimeout:
+          title: connectionTimeout
+          type: string
+          description: Interval in seconds for all the SMTP client connections
+          example: null
+        useTLSorSSLEncryption:
+          title: useTLSorSSLEncryption
+          type: boolean
+          description: If configured to true, SMTP server authentication will happen using TLS/SSL
+          example: null
+        usePasswordAuthentication:
+          title: usePasswordAuthentication
+          type: boolean
+          description: If configured to true, SMTP server authentication will happen using username/password
+          example: null
+        userName:
+          title: userName
+          type: string
+          description: Username of Secure SMTP server
+          example: null
+        password:
+          title: password
+          type: string
+          description: Password of Secure SMTP server
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -782,6 +773,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

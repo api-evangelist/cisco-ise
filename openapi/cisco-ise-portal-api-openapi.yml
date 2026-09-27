@@ -334,6 +334,69 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    portalListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/portalListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     portalResponse:
       type: object
       properties:
@@ -344,6 +407,24 @@ components:
           name: portal1
           description: example portal
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     portalListResponseEntity:
       properties:
         id:
@@ -442,97 +523,11 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    portalListResponse:
+    VersionInfo:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/portalListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    portal:
-      type: object
-      properties:
-        ERSPortal:
-          $ref: '#/components/schemas/ERSPortal'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     link1:
       type: object
       properties:
@@ -545,17 +540,11 @@ components:
         type:
           type: string
           example: application/json
-    version:
+    search:
       type: object
       properties:
-        currentServerVersion:
-          type: string
-          example: '2.0'
-        supportedVersions:
-          type: string
-          example: '2.0'
-        link:
-          $ref: '#/components/schemas/link1'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -604,6 +593,17 @@ components:
             properties:
               name:
                 type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '2.0'
+        supportedVersions:
+          type: string
+          example: '2.0'
+        link:
+          $ref: '#/components/schemas/link1'
     ERSPortal:
       type: object
       properties:
@@ -631,21 +631,12 @@ components:
             type:
               type: string
               example: application/json
-    VersionInfo:
+    portal:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+        ERSPortal:
+          $ref: '#/components/schemas/ERSPortal'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -655,6 +646,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

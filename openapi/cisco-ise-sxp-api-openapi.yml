@@ -133,31 +133,24 @@ paths:
           description: Not Found
 components:
   schemas:
-    SxpDomain:
-      title: SxpDomain
+    InboundOutboundRule:
+      title: InboundOutboundRule
+      required:
+      - id
+      - name
+      - ruleType
       type: object
       properties:
         id:
           type: string
-          readOnly: true
+          format: uuid
           exampleSetFlag: true
         name:
           type: string
-          example: sxpDomain1
           exampleSetFlag: true
-      exampleSetFlag: false
-    SxpFilterList:
-      title: SxpFilterList
-      required:
-      - sxpFilters
-      type: object
-      properties:
-        sxpFilters:
-          type: array
+        ruleType:
+          type: string
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/FilterList'
-            exampleSetFlag: false
       exampleSetFlag: false
     FilterList:
       title: FilterList
@@ -179,23 +172,39 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    InboundOutboundRule:
-      title: InboundOutboundRule
+    SxpFilterListResponseEntity:
+      title: SxpFilterListResponseEntity
       required:
-      - id
-      - name
-      - ruleType
+      - response
+      - version
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
+        response:
+          type: array
           exampleSetFlag: true
-        name:
+          items:
+            type: string
+            exampleSetFlag: false
+        version:
           type: string
+          example: 1.0.0
           exampleSetFlag: true
-        ruleType:
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
           type: string
+          example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false
     SxpDomainResult:
@@ -229,38 +238,29 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
+    SxpDomain:
+      title: SxpDomain
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
+        id:
           type: string
-          example: Some error occurred
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: sxpDomain1
           exampleSetFlag: true
       exampleSetFlag: false
-    SxpFilterListResponseEntity:
-      title: SxpFilterListResponseEntity
+    SxpFilterList:
+      title: SxpFilterList
       required:
-      - response
-      - version
+      - sxpFilters
       type: object
       properties:
-        response:
+        sxpFilters:
           type: array
           exampleSetFlag: true
           items:
-            type: string
+            $ref: '#/components/schemas/FilterList'
             exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
       exampleSetFlag: false

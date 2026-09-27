@@ -73,6 +73,146 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
+    FilterFlow:
+      title: FilterFlow
+      required:
+      - destination
+      - destinationMappingCount
+      - id
+      - inboundRules
+      - outboundRules
+      - source
+      - sourceMappingCount
+      - sxpDomain
+      - sxpDomainMappingCount
+      type: object
+      properties:
+        destination:
+          type: string
+          example: ACI_1
+          exampleSetFlag: true
+        destinationMappingCount:
+          $ref: '#/components/schemas/MappingCount'
+          exampleSetFlag: true
+        destinationType:
+          type: string
+          example: ACI or SXP_SPEAKER
+          exampleSetFlag: true
+          enum:
+          - ACI
+          - SXP_SPEAKER
+        id:
+          type: string
+          description: Identifier for the Rule Flow record
+          format: uuid
+          readOnly: true
+          example: 12345678-f0e7-456b-a2d1-876543320b14
+          exampleSetFlag: true
+        inboundRules:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        outboundRules:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        source:
+          type: string
+          example: ACI_1
+          exampleSetFlag: true
+        sourceMappingCount:
+          $ref: '#/components/schemas/MappingCount'
+          exampleSetFlag: true
+        sourceType:
+          type: string
+          example: ACI or ISE
+          exampleSetFlag: true
+          enum:
+          - ACI
+          - ISE
+        sxpDomain:
+          type: string
+          example: sxpDomain1
+          exampleSetFlag: true
+        sxpDomainMappingCount:
+          $ref: '#/components/schemas/MappingCount'
+          exampleSetFlag: true
+      exampleSetFlag: false
+    FilterFlowResponseEntity:
+      title: FilterFlowResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterFlow'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MappingCount:
+      title: MappingCount
+      required:
+      - id
+      - name
+      - totalMappings
+      - totalReceivedMappings
+      - totalSharedMappings
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+        name:
+          type: string
+          example: ISE
+          exampleSetFlag: true
+        totalMappings:
+          type: integer
+          format: int32
+          example: 12
+          exampleSetFlag: true
+        totalReceivedMappings:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterMappingCount'
+            exampleSetFlag: false
+        totalSharedMappings:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterMappingCount'
+            exampleSetFlag: false
+      exampleSetFlag: false
     FilterMappingCount:
       title: FilterMappingCount
       required:
@@ -160,144 +300,4 @@ components:
           example: vn1
           exampleSetFlag: true
       description: Dictionary POST format
-      exampleSetFlag: false
-    MappingCount:
-      title: MappingCount
-      required:
-      - id
-      - name
-      - totalMappings
-      - totalReceivedMappings
-      - totalSharedMappings
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          exampleSetFlag: true
-        name:
-          type: string
-          example: ISE
-          exampleSetFlag: true
-        totalMappings:
-          type: integer
-          format: int32
-          example: 12
-          exampleSetFlag: true
-        totalReceivedMappings:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/FilterMappingCount'
-            exampleSetFlag: false
-        totalSharedMappings:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/FilterMappingCount'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    FilterFlowResponseEntity:
-      title: FilterFlowResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/FilterFlow'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    FilterFlow:
-      title: FilterFlow
-      required:
-      - destination
-      - destinationMappingCount
-      - id
-      - inboundRules
-      - outboundRules
-      - source
-      - sourceMappingCount
-      - sxpDomain
-      - sxpDomainMappingCount
-      type: object
-      properties:
-        destination:
-          type: string
-          example: ACI_1
-          exampleSetFlag: true
-        destinationMappingCount:
-          $ref: '#/components/schemas/MappingCount'
-          exampleSetFlag: true
-        destinationType:
-          type: string
-          example: ACI or SXP_SPEAKER
-          exampleSetFlag: true
-          enum:
-          - ACI
-          - SXP_SPEAKER
-        id:
-          type: string
-          description: Identifier for the Rule Flow record
-          format: uuid
-          readOnly: true
-          example: 12345678-f0e7-456b-a2d1-876543320b14
-          exampleSetFlag: true
-        inboundRules:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        outboundRules:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        source:
-          type: string
-          example: ACI_1
-          exampleSetFlag: true
-        sourceMappingCount:
-          $ref: '#/components/schemas/MappingCount'
-          exampleSetFlag: true
-        sourceType:
-          type: string
-          example: ACI or ISE
-          exampleSetFlag: true
-          enum:
-          - ACI
-          - ISE
-        sxpDomain:
-          type: string
-          example: sxpDomain1
-          exampleSetFlag: true
-        sxpDomainMappingCount:
-          $ref: '#/components/schemas/MappingCount'
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
       exampleSetFlag: false

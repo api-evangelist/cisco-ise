@@ -168,6 +168,28 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     supportbundle.supportbundledownload:
       required:
       - ErsSupportBundleDownload
@@ -203,6 +225,18 @@ components:
       example:
         ErsSupportBundleDownload:
           fileName: Support bundle file name to be picked for download
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -216,45 +250,11 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
-    ERSResponse:
+    VersionInfo:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    supportbundle:
-      type: object
-      properties:
-        ErsSupportBundleDownload:
-          $ref: '#/components/schemas/ErsSupportBundleDownload_2'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     link1:
       type: object
       properties:
@@ -267,12 +267,6 @@ components:
         type:
           type: string
           example: application/json
-    ErsSupportBundleDownload_2:
-      type: object
-      properties:
-        fileName:
-          type: string
-          example: filename
     version:
       type: object
       properties:
@@ -284,11 +278,17 @@ components:
           example: '1.0'
         link:
           $ref: '#/components/schemas/link1'
-    VersionInfo:
+    ErsSupportBundleDownload_2:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+        fileName:
+          type: string
+          example: filename
+    supportbundle:
+      type: object
+      properties:
+        ErsSupportBundleDownload:
+          $ref: '#/components/schemas/ErsSupportBundleDownload_2'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -716,13 +716,27 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    sxp.filterpolicy:
-      required:
-      - ERSFilterPolicy
+    ERSResponse:
       type: object
       properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/ERSFilterPolicy'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     ERSFilterPolicy:
       required:
@@ -769,113 +783,6 @@ components:
           sgt: sgt
           vn: virtualNetwork
           domains: Sxp Vpn Name
-    filterpolicyResponse:
-      type: object
-      properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/filterpolicyResponseEntity'
-      example:
-        ERSFilterPolicy:
-          subnet: subnetAddress
-          sgt: sgt
-          vn: virtualNetwork
-          domains: Sxp Vpn Name
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    filterpolicyListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/filterpolicyListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    filterpolicyListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     Link:
       type: object
       properties:
@@ -894,17 +801,13 @@ components:
           type: string
           example: application/json
       example: null
-    updatedField:
+    sxp.filterpolicy:
+      required:
+      - ERSFilterPolicy
+      type: object
       properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/ERSFilterPolicy'
       example: null
     filterpolicyResponseEntity:
       properties:
@@ -946,32 +849,108 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    patchRequestBody:
+    filterpolicyResponse:
       type: object
       properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    Update:
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/filterpolicyResponseEntity'
+      example:
+        ERSFilterPolicy:
+          subnet: subnetAddress
+          sgt: sgt
+          vn: virtualNetwork
+          domains: Sxp Vpn Name
+    filterpolicyListResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedField:
-      type: object
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/filterpolicyListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    updatedField:
       properties:
         field:
           type: string
-          example: field1
+          example: null
         oldValue:
           type: string
-          example: val_old
+          example: null
         newValue:
           type: string
-          example: val_new
+          example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    filterpolicyListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    filter:
+      type: object
+      properties:
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/ERSFilterPolicy_2'
     ERSFilterPolicy_2:
       type: object
       properties:
@@ -987,21 +966,28 @@ components:
         vn:
           type: string
           example: virtualNetwork
-    filter:
+    VersionInfo:
       type: object
       properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/ERSFilterPolicy_2'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     patchRequest:
       type: object
       properties:
         ERSFilterPolicy:
           $ref: '#/components/schemas/patchRequestBody'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     link1:
       type: object
       properties:
@@ -1014,31 +1000,11 @@ components:
         type:
           type: string
           example: application/json
-    UpdatedFieldsList:
+    search:
       type: object
       properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -1078,21 +1044,46 @@ components:
             properties:
               name:
                 type: string
-    VersionInfo:
+    version:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1102,6 +1093,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

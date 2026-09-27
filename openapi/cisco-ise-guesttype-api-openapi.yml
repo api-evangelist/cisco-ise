@@ -1056,50 +1056,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    guesttypeResponse:
-      type: object
-      properties:
-        GuestType:
-          $ref: '#/components/schemas/guesttypeResponseEntity'
-      example:
-        GuestType:
-          allowDynamicIdentityGroups: true
-          expirationNotification:
-            sendEmailNotification: false
-            sendSmsNotification: false
-            enableNotification: false
-            emailText: EmailText
-            advanceNotificationUnits: DAYS
-            advanceNotificationDuration: 3
-            smsText: SMS Text
-          name: Name
-          description: Description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          sponsorGroups:
-          - Group1
-          - Group2
-          dynamicGroups:
-          - externalGroupName: ExternalServerName:GroupName
-            endpointIdentityGroupId: generatedID
-          loginOptions:
-            maxSimultaneousLogins: 3
-            identityGroupId: generatedID
-            failureAction: Disconnect_Oldest_Connection
-            limitSimultaneousLogins: true
-            allowGuestPortalBypass: false
-            maxRegisteredDevices: 5
-          accessTime:
-            dayTimeLimits:
-            - days:
-              - Sunday
-              - Tuesday
-              startTime: '12:00'
-              endTime: '16:00'
-            maxAccountDuration: 365
-            durationTimeUnit: DAYS
-            defaultDuration: 90
-            allowAccessOnSpecificDaysTimes: false
-            fromFirstLogin: true
     guesttypeListResponse:
       type: object
       properties:
@@ -1141,6 +1097,227 @@ components:
               type: application/xml
             description: description2
             id: id2
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    guesttypeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    guesttypeResponseEntity:
+      properties:
+        accessTime:
+          properties:
+            allowAccessOnSpecificDaysTimes:
+              title: allowAccessOnSpecificDaysTimes
+              type: boolean
+              description: Enable Specific Day Time Limits
+              example: null
+            defaultDuration:
+              title: defaultDuration
+              type: number
+              description: ''
+              example: null
+            durationTimeUnit:
+              title: durationTimeUnit
+              type: string
+              description: Allowed values are Days or Hours or Minutes
+              example: null
+            fromFirstLogin:
+              title: fromFirstLogin
+              type: boolean
+              description: When Account Duration starts from first login or specified date
+              example: null
+            maxAccountDuration:
+              title: maxAccountDuration
+              type: number
+              description: Maximum value of Account Duration
+              example: null
+            dayTimeLimits:
+              title: dayTimeLimits
+              type: array
+              description: List of Time Ranges for account access
+              example: null
+              items:
+                properties:
+                  dayTimeLimit:
+                    title: dayTimeLimit
+                    type: object
+                    description: Time Ranges for account access
+                    example: null
+                example: null
+          example: null
+        allowDynamicIdentityGroups:
+          title: allowDynamicIdentityGroups
+          type: boolean
+          description: Enable the DynamicGroups Option
+          example: null
+        dynamicGroups:
+          title: dynamicGroups
+          type: array
+          description: List of Dynamic Groups
+          example: null
+          items:
+            properties:
+              externalGroupName:
+                title: externalGroupName
+                type: string
+                description: List of External Group Names
+                example: null
+              identityGroupId:
+                title: identityGroupId
+                type: string
+                description: ID of Guest Identity Group
+                example: null
+            example: null
+        loginOptions:
+          properties:
+            allowGuestPortalBypass:
+              title: allowGuestPortalBypass
+              type: boolean
+              description: ''
+              example: null
+            failureAction:
+              title: failureAction
+              type: string
+              description: When Guest Exceeds limit this action will be invoked, Allowed values are Disconnect_Oldest_Connection or Disconnect_Newest_Connection
+              example: null
+            identityGroupId:
+              title: identityGroupId
+              type: string
+              description: ID of Guest Identity Group
+              example: null
+            limitSimultaneousLogins:
+              title: limitSimultaneousLogins
+              type: boolean
+              description: Enable Simultaneous Logins
+              example: null
+            maxRegisteredDevices:
+              title: maxRegisteredDevices
+              type: number
+              description: Maximum devices guests can register
+              example: null
+            maxSimultaneousLogins:
+              title: maxSimultaneousLogins
+              type: number
+              description: Number of Simultaneous Logins
+              example: null
+          example: null
+        expirationNotification:
+          properties:
+            advanceNotificationDuration:
+              title: advanceNotificationDuration
+              type: number
+              description: Send Account Expiration Notification Duration before ( Days, Hours, Minutes )
+              example: null
+            advanceNotificationUnits:
+              title: advanceNotificationUnits
+              type: string
+              description: Allowed values are Days, Hours, Minutes
+              example: null
+            enableNotification:
+              title: enableNotification
+              type: boolean
+              description: Enable Notification settings
+              example: null
+            sendEmailNotification:
+              title: sendEmailNotification
+              type: boolean
+              description: Enable Email Notification
+              example: null
+            sendSmsNotification:
+              title: sendSmsNotification
+              type: number
+              description: Maximum devices guests can register
+              example: null
+          example: null
+        sponsorGroups:
+          title: sponsorGroups
+          type: array
+          description: List of Sponsor Groups
+          example: null
+          items:
+            type: string
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    identity.guesttype:
+      required:
+      - GuestType
+      type: object
+      properties:
+        GuestType:
+          $ref: '#/components/schemas/GuestType'
+      example: null
     GuestType:
       required:
       - name
@@ -1334,178 +1511,17 @@ components:
             defaultDuration: 90
             allowAccessOnSpecificDaysTimes: false
             fromFirstLogin: true
-    guesttypeResponseEntity:
+    updatedField:
       properties:
-        accessTime:
-          properties:
-            allowAccessOnSpecificDaysTimes:
-              title: allowAccessOnSpecificDaysTimes
-              type: boolean
-              description: Enable Specific Day Time Limits
-              example: null
-            defaultDuration:
-              title: defaultDuration
-              type: number
-              description: ''
-              example: null
-            durationTimeUnit:
-              title: durationTimeUnit
-              type: string
-              description: Allowed values are Days or Hours or Minutes
-              example: null
-            fromFirstLogin:
-              title: fromFirstLogin
-              type: boolean
-              description: When Account Duration starts from first login or specified date
-              example: null
-            maxAccountDuration:
-              title: maxAccountDuration
-              type: number
-              description: Maximum value of Account Duration
-              example: null
-            dayTimeLimits:
-              title: dayTimeLimits
-              type: array
-              description: List of Time Ranges for account access
-              example: null
-              items:
-                properties:
-                  dayTimeLimit:
-                    title: dayTimeLimit
-                    type: object
-                    description: Time Ranges for account access
-                    example: null
-                example: null
-          example: null
-        allowDynamicIdentityGroups:
-          title: allowDynamicIdentityGroups
-          type: boolean
-          description: Enable the DynamicGroups Option
-          example: null
-        dynamicGroups:
-          title: dynamicGroups
-          type: array
-          description: List of Dynamic Groups
-          example: null
-          items:
-            properties:
-              externalGroupName:
-                title: externalGroupName
-                type: string
-                description: List of External Group Names
-                example: null
-              identityGroupId:
-                title: identityGroupId
-                type: string
-                description: ID of Guest Identity Group
-                example: null
-            example: null
-        loginOptions:
-          properties:
-            allowGuestPortalBypass:
-              title: allowGuestPortalBypass
-              type: boolean
-              description: ''
-              example: null
-            failureAction:
-              title: failureAction
-              type: string
-              description: When Guest Exceeds limit this action will be invoked, Allowed values are Disconnect_Oldest_Connection or Disconnect_Newest_Connection
-              example: null
-            identityGroupId:
-              title: identityGroupId
-              type: string
-              description: ID of Guest Identity Group
-              example: null
-            limitSimultaneousLogins:
-              title: limitSimultaneousLogins
-              type: boolean
-              description: Enable Simultaneous Logins
-              example: null
-            maxRegisteredDevices:
-              title: maxRegisteredDevices
-              type: number
-              description: Maximum devices guests can register
-              example: null
-            maxSimultaneousLogins:
-              title: maxSimultaneousLogins
-              type: number
-              description: Number of Simultaneous Logins
-              example: null
-          example: null
-        expirationNotification:
-          properties:
-            advanceNotificationDuration:
-              title: advanceNotificationDuration
-              type: number
-              description: Send Account Expiration Notification Duration before ( Days, Hours, Minutes )
-              example: null
-            advanceNotificationUnits:
-              title: advanceNotificationUnits
-              type: string
-              description: Allowed values are Days, Hours, Minutes
-              example: null
-            enableNotification:
-              title: enableNotification
-              type: boolean
-              description: Enable Notification settings
-              example: null
-            sendEmailNotification:
-              title: sendEmailNotification
-              type: boolean
-              description: Enable Email Notification
-              example: null
-            sendSmsNotification:
-              title: sendSmsNotification
-              type: number
-              description: Maximum devices guests can register
-              example: null
-          example: null
-        sponsorGroups:
-          title: sponsorGroups
-          type: array
-          description: List of Sponsor Groups
-          example: null
-          items:
-            type: string
-            example: null
-        name:
-          title: name
+        field:
           type: string
-          description: name
           example: null
-        id:
-          title: id
+        oldValue:
           type: string
-          description: Id
           example: null
-        description:
-          title: description
+        newValue:
           type: string
-          description: Description
           example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    guesttypeListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     UpdatedFieldsResponse:
       type: object
@@ -1520,77 +1536,159 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    identity.guesttype:
-      required:
-      - GuestType
+    guesttypeResponse:
       type: object
       properties:
         GuestType:
-          $ref: '#/components/schemas/GuestType'
-      example: null
-    Update:
+          $ref: '#/components/schemas/guesttypeResponseEntity'
+      example:
+        GuestType:
+          allowDynamicIdentityGroups: true
+          expirationNotification:
+            sendEmailNotification: false
+            sendSmsNotification: false
+            enableNotification: false
+            emailText: EmailText
+            advanceNotificationUnits: DAYS
+            advanceNotificationDuration: 3
+            smsText: SMS Text
+          name: Name
+          description: Description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          sponsorGroups:
+          - Group1
+          - Group2
+          dynamicGroups:
+          - externalGroupName: ExternalServerName:GroupName
+            endpointIdentityGroupId: generatedID
+          loginOptions:
+            maxSimultaneousLogins: 3
+            identityGroupId: generatedID
+            failureAction: Disconnect_Oldest_Connection
+            limitSimultaneousLogins: true
+            allowGuestPortalBypass: false
+            maxRegisteredDevices: 5
+          accessTime:
+            dayTimeLimits:
+            - days:
+              - Sunday
+              - Tuesday
+              startTime: '12:00'
+              endTime: '16:00'
+            maxAccountDuration: 365
+            durationTimeUnit: DAYS
+            defaultDuration: 90
+            allowAccessOnSpecificDaysTimes: false
+            fromFirstLogin: true
+    search:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 4
+        resources:
+          type: array
+          example:
+          - id: 9f03a151-8c01-11e6-996c-525400b48521
+            name: Contractor (default)
+            description: Default settings allow network access for up to a year.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9f03a151-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 9eeda851-8c01-11e6-996c-525400b48521
+            name: Daily (default)
+            description: Default settings allow network access for just 1-5 days.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9eeda851-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 28bbb9f3-86ec-4296-ae9a-819005bdc0e7
+            name: SocialLogin (default)
+            description: Default settings for social login users to allow network access for just 1-5 days
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/28bbb9f3-86ec-4296-ae9a-819005bdc0e7
+              type: application/json
+          - id: 9efd11a1-8c01-11e6-996c-525400b48521
+            name: Weekly (default)
+            description: Default settings allow network access for a couple of weeks.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9efd11a1-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
     UpdatedField:
       type: object
       properties:
         field:
           type: string
           example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guesttype/versioninfo
+        type:
+          type: string
+          example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    OperationAdditionalData:
+      type: object
+      properties:
+        OperationAdditionalData:
+          type: object
+          properties:
+            additionalData:
+              type: array
+              example:
+              - name: example additional attribute name
+                value: its value
+              items:
+                properties:
+                  name:
+                    type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
         oldValue:
           type: string
           example: val_old
@@ -1724,124 +1822,17 @@ components:
             type:
               type: string
               example: application/json
-    search:
+    Update:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    OperationAdditionalData:
-      type: object
-      properties:
-        OperationAdditionalData:
-          type: object
-          properties:
-            additionalData:
-              type: array
-              example:
-              - name: example additional attribute name
-                value: its value
-              items:
-                properties:
-                  name:
-                    type: string
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/guesttype/versioninfo
-        type:
-          type: string
-          example: application/json
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 4
-        resources:
-          type: array
-          example:
-          - id: 9f03a151-8c01-11e6-996c-525400b48521
-            name: Contractor (default)
-            description: Default settings allow network access for up to a year.
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9f03a151-8c01-11e6-996c-525400b48521
-              type: application/json
-          - id: 9eeda851-8c01-11e6-996c-525400b48521
-            name: Daily (default)
-            description: Default settings allow network access for just 1-5 days.
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9eeda851-8c01-11e6-996c-525400b48521
-              type: application/json
-          - id: 28bbb9f3-86ec-4296-ae9a-819005bdc0e7
-            name: SocialLogin (default)
-            description: Default settings for social login users to allow network access for just 1-5 days
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/28bbb9f3-86ec-4296-ae9a-819005bdc0e7
-              type: application/json
-          - id: 9efd11a1-8c01-11e6-996c-525400b48521
-            name: Weekly (default)
-            description: Default settings allow network access for a couple of weeks.
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9efd11a1-8c01-11e6-996c-525400b48521
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     guesttype:
       type: object
       properties:
         GuestType:
           $ref: '#/components/schemas/GuestType_2'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1851,6 +1842,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

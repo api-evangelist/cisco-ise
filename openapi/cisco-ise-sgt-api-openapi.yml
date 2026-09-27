@@ -503,6 +503,28 @@ paths:
       description: Inferred Url
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     trustsec.sgt:
       required:
       - Sgt
@@ -524,48 +546,23 @@ components:
           description: description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           value: 2
-    sgtResponseEntity:
+    Link:
+      type: object
       properties:
-        value:
-          title: value
-          type: object
-          description: 'Value range: 2 ot 65519 or -1 to auto-generate'
-          example: null
-        propogateToApic:
-          title: propogateToApic
-          type: boolean
-          description: ''
-          example: null
-        isReadOnly:
-          title: isReadOnly
-          type: boolean
-          description: ''
-          example: null
-        defaultSGACLs:
-          title: defaultSGACLs
-          type: array
-          description: ''
-          example: null
-          items:
-            type: string
-            example: null
-        name:
-          title: name
+        rel:
           type: string
-          description: name
-          example: null
-        id:
-          title: id
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
           type: string
-          description: Id
-          example: null
-        description:
-          title: description
+          example: https://{server}:{port}/ers/config
+        type:
           type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          example: application/json
       example: null
     Sgt:
       required:
@@ -618,6 +615,18 @@ components:
           description: description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           value: 2
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -672,28 +681,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     sgtListResponseEntity:
       properties:
         id:
@@ -714,48 +701,67 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    Link:
-      type: object
+    sgtResponseEntity:
       properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
+        value:
+          title: value
+          type: object
+          description: 'Value range: 2 ot 65519 or -1 to auto-generate'
           example: null
-        oldValue:
-          type: string
+        propogateToApic:
+          title: propogateToApic
+          type: boolean
+          description: ''
           example: null
-        newValue:
-          type: string
+        isReadOnly:
+          title: isReadOnly
+          type: boolean
+          description: ''
           example: null
-      example: null
-    SgtFilterList:
-      title: SgtFilterList
-      required:
-      - sgtFilters
-      type: object
-      properties:
-        sgtFilters:
+        defaultSGACLs:
+          title: defaultSGACLs
           type: array
-          exampleSetFlag: true
+          description: ''
+          example: null
           items:
-            $ref: '#/components/schemas/FilterList'
-            exampleSetFlag: false
+            type: string
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    InboundOutboundRule:
+      title: InboundOutboundRule
+      required:
+      - id
+      - name
+      - ruleType
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        ruleType:
+          type: string
+          exampleSetFlag: true
       exampleSetFlag: false
     FilterList:
       title: FilterList
@@ -777,39 +783,18 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    InboundOutboundRule:
-      title: InboundOutboundRule
+    SgtFilterList:
+      title: SgtFilterList
       required:
-      - id
-      - name
-      - ruleType
+      - sgtFilters
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
+        sgtFilters:
+          type: array
           exampleSetFlag: true
-        name:
-          type: string
-          exampleSetFlag: true
-        ruleType:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    SgtFilterListResponseEntity:
-      title: SgtFilterListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/SgtFilterList'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterList'
+            exampleSetFlag: false
       exampleSetFlag: false
     Error:
       title: Error
@@ -828,16 +813,22 @@ components:
           example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false
+    SgtFilterListResponseEntity:
+      title: SgtFilterListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/SgtFilterList'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -847,6 +838,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

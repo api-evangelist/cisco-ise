@@ -207,15 +207,49 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    ActivationUrlDetailsResponse:
-      title: ActivationUrlDetailsResponse
+    RegionsResponse:
+      title: RegionsResponse
       required:
       - response
       - version
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/ActivationUrlDetails'
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Region'
+            exampleSetFlag: false
+        version:
+          type: string
+          description: API version.
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EnrollmentAccount:
+      title: EnrollmentAccount
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Account identifier.
+          example: 599f76ed-6bd6-4182-9cd9-06d9c15a14dc
+          exampleSetFlag: true
+        accountName:
+          type: string
+          description: Account name.
+          example: Production Account
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EnrolledDeviceDetailsResponse:
+      title: EnrolledDeviceDetailsResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/EnrolledDeviceDetails'
           exampleSetFlag: true
         version:
           type: string
@@ -223,25 +257,43 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    HostConfigInfo:
-      title: HostConfigInfo
+    EnrolledDeviceDetails:
+      title: EnrolledDeviceDetails
+      required:
+      - deviceName
+      - enrollmentStatus
+      - region
       type: object
       properties:
-        ipAddress:
+        accountName:
           type: string
-          description: IP address of the host.
-          example: 10.104.240.60
+          description: Name of the account.
+          example: tenantName
           exampleSetFlag: true
-      description: Details of the ISE node on which pxGrid Cloud has to be enabled.
-      exampleSetFlag: false
-    ActivationUrlDetails:
-      title: ActivationUrlDetails
-      type: object
-      properties:
-        url:
+        description:
           type: string
-          description: Activation URL.
-          example: https://id.cisco.com/activate?user_code=FQPJQLLM
+          description: Description of the enrolled device.
+          example: ise-777
+          exampleSetFlag: true
+        deviceName:
+          type: string
+          description: Name of the enrolled device.
+          example: ise-777
+          exampleSetFlag: true
+        enrollmentStatus:
+          type: string
+          description: Enrollment status for the device.
+          exampleSetFlag: true
+          enum:
+          - delete-failed
+          - deleting
+          - enrolled
+          - pending
+          - un-enrolled
+        region:
+          type: string
+          description: Region under which the device is enrolled.
+          example: us-west-2
           exampleSetFlag: true
       exampleSetFlag: false
     Region:
@@ -289,88 +341,51 @@ components:
           - authorization_pending
           - registered
       exampleSetFlag: false
-    EnrollmentAccount:
-      title: EnrollmentAccount
+    ActivationUrlDetails:
+      title: ActivationUrlDetails
       type: object
       properties:
-        accountId:
+        url:
           type: string
-          description: Account identifier.
-          example: 599f76ed-6bd6-4182-9cd9-06d9c15a14dc
-          exampleSetFlag: true
-        accountName:
-          type: string
-          description: Account name.
-          example: Production Account
+          description: Activation URL.
+          example: https://id.cisco.com/activate?user_code=FQPJQLLM
           exampleSetFlag: true
       exampleSetFlag: false
-    RegionsResponse:
-      title: RegionsResponse
+    Error:
+      title: Error
       required:
-      - response
-      - version
+      - code
+      - message
       type: object
       properties:
-        response:
+        arguments:
           type: array
+          description: List of error arguments which can be used to replace dynamic fields when API fails.
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/Region'
+            type: string
             exampleSetFlag: false
-        version:
+        code:
           type: string
-          description: API version.
-          example: 1.0.0
+          description: Unique error code when an API fails.
+          example: pxcloud.unenroll.conflict.error
           exampleSetFlag: true
+        message:
+          type: string
+          description: Error message when an API fails.
+          example: ISE is already un-enrolled from cloud.
+          exampleSetFlag: true
+      description: Error details
       exampleSetFlag: false
-    EnrolledDeviceDetails:
-      title: EnrolledDeviceDetails
-      required:
-      - deviceName
-      - enrollmentStatus
-      - region
-      type: object
-      properties:
-        accountName:
-          type: string
-          description: Name of the account.
-          example: tenantName
-          exampleSetFlag: true
-        description:
-          type: string
-          description: Description of the enrolled device.
-          example: ise-777
-          exampleSetFlag: true
-        deviceName:
-          type: string
-          description: Name of the enrolled device.
-          example: ise-777
-          exampleSetFlag: true
-        enrollmentStatus:
-          type: string
-          description: Enrollment status for the device.
-          exampleSetFlag: true
-          enum:
-          - delete-failed
-          - deleting
-          - enrolled
-          - pending
-          - un-enrolled
-        region:
-          type: string
-          description: Region under which the device is enrolled.
-          example: us-west-2
-          exampleSetFlag: true
-      exampleSetFlag: false
-    EnrollmentDetailsResponse:
-      title: EnrollmentDetailsResponse
+    ActivationUrlDetailsResponse:
+      title: ActivationUrlDetailsResponse
       required:
       - response
       - version
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/EnrollmentDetails'
+          $ref: '#/components/schemas/ActivationUrlDetails'
           exampleSetFlag: true
         version:
           type: string
@@ -408,15 +423,15 @@ components:
           example: us-west-2
           exampleSetFlag: true
       exampleSetFlag: false
-    EnrolledDeviceDetailsResponse:
-      title: EnrolledDeviceDetailsResponse
+    EnrollmentDetailsResponse:
+      title: EnrollmentDetailsResponse
       required:
       - response
       - version
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/EnrolledDeviceDetails'
+          $ref: '#/components/schemas/EnrollmentDetails'
           exampleSetFlag: true
         version:
           type: string
@@ -424,29 +439,14 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
+    HostConfigInfo:
+      title: HostConfigInfo
       type: object
       properties:
-        arguments:
-          type: array
-          description: List of error arguments which can be used to replace dynamic fields when API fails.
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        code:
+        ipAddress:
           type: string
-          description: Unique error code when an API fails.
-          example: pxcloud.unenroll.conflict.error
+          description: IP address of the host.
+          example: 10.104.240.60
           exampleSetFlag: true
-        message:
-          type: string
-          description: Error message when an API fails.
-          example: ISE is already un-enrolled from cloud.
-          exampleSetFlag: true
-      description: Error details
+      description: Details of the ISE node on which pxGrid Cloud has to be enabled.
       exampleSetFlag: false

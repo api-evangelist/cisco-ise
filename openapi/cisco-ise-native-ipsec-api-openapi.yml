@@ -768,33 +768,247 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    Link:
+      title: Link
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://<ip>/api/v1/ipsec/<ID>
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IPSecResponsePayload:
+      title: IPSecResponsePayload
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/IPSecResponse'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IPSecRequest:
+      title: IPSecRequest
+      type: object
+      properties:
+        authType:
+          type: string
+          description: Authentication type for establishing connection
+          example: psk
+          exampleSetFlag: true
+          enum:
+          - psk
+          - x509
+        certId:
+          type: string
+          description: ID of the certificate for establishing connection
+          example: '123243432'
+          exampleSetFlag: true
+        configureVti:
+          type: boolean
+          description: Authentication type for establishing connection
+          example: false
+          exampleSetFlag: true
+        espAhProtocol:
+          type: string
+          description: Encryption protocol used for establishing connection
+          example: ah
+          exampleSetFlag: true
+          enum:
+          - ah
+          - esp
+        hostName:
+          type: string
+          description: Hostname of the node
+          example: isenode-1
+          exampleSetFlag: true
+        iface:
+          type: string
+          description: Ethernet port of the node
+          example: '1'
+          exampleSetFlag: true
+        ikeReAuthTime:
+          type: integer
+          description: IKE re-authentication time
+          format: int32
+          example: 86400
+          exampleSetFlag: true
+        ikeVersion:
+          type: string
+          description: IKE version
+          example: '1'
+          exampleSetFlag: true
+          enum:
+          - '1'
+          - '2'
+        localInternalIp:
+          type: string
+          description: Local Tunnel IP address
+          example: 1.1.4.1
+          exampleSetFlag: true
+        modeOption:
+          type: string
+          description: The Mode type used for establishing the connection
+          example: tunnel
+          exampleSetFlag: true
+          enum:
+          - transport
+          - tunnel
+        nadIp:
+          type: string
+          description: NAD IP address for establishing connection
+          example: 1.1.1.1
+          exampleSetFlag: true
+        phaseOneDHGroup:
+          type: string
+          description: Phase-one DH group used for establishing connection
+          example: GROUP1
+          exampleSetFlag: true
+          enum:
+          - GROUP1
+          - GROUP14
+          - GROUP15
+          - GROUP16
+          - GROUP19
+          - GROUP2
+          - GROUP20
+          - GROUP21
+          - GROUP24
+          - GROUP5
+        phaseOneEncryptionAlgo:
+          type: string
+          description: Phase-one encryption algorithm used for establishing connection
+          example: aes128
+          exampleSetFlag: true
+          enum:
+          - 3des
+          - aes
+          - aes128
+          - aes192
+          - aes256
+          - des
+        phaseOneHashAlgo:
+          type: string
+          description: Phase-one hashing algorithm used for establishing connection
+          example: sha
+          exampleSetFlag: true
+          enum:
+          - sha
+          - sha256
+          - sha384
+          - sha512
+        phaseOneLifeTime:
+          type: integer
+          description: Phase-one connection lifetime
+          format: int32
+          example: 14400
+          exampleSetFlag: true
+        phaseTwoDHGroup:
+          type: string
+          description: Phase-two DH group used for establishing connection
+          example: GROUP1
+          exampleSetFlag: true
+          enum:
+          - GROUP1
+          - GROUP14
+          - GROUP15
+          - GROUP16
+          - GROUP19
+          - GROUP2
+          - GROUP20
+          - GROUP21
+          - GROUP24
+          - GROUP5
+          - NONE
+        phaseTwoEncryptionAlgo:
+          type: string
+          description: Phase-two encryption algorithm used for establishing connection
+          example: aes128
+          exampleSetFlag: true
+          enum:
+          - 3des
+          - aes
+          - aes128
+          - aes192
+          - aes256
+          - des
+          - gcm
+          - gmac
+        phaseTwoHashAlgo:
+          type: string
+          description: Phase-two hashing algorithm used for establishing connection
+          example: sha
+          exampleSetFlag: true
+          enum:
+          - sha
+          - sha256
+          - sha384
+          - sha512
+        phaseTwoLifeTime:
+          type: integer
+          description: Phase-two connection lifetime
+          format: int32
+          example: 14400
+          exampleSetFlag: true
+        psk:
+          type: string
+          description: Pre-shared key used for establishing connection
+          example: psk12345
+          exampleSetFlag: true
+        remotePeerInternalIp:
+          type: string
+          description: Remote Tunnel IP address
+          example: 1.2.2.1
+          exampleSetFlag: true
+      exampleSetFlag: false
+    DisableResponse:
+      title: DisableResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'IPsec connection for node with hostname: node-1, and nadIp: 1.1.1.1 has been disabled'
+          exampleSetFlag: true
+      exampleSetFlag: false
+    RemoveResponse:
+      title: RemoveResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'The IPsec connection for a node with hostname: node-1, and nadIp: 1.1.1.1 has been removed successfully.'
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EnableResponse:
+      title: EnableResponse
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'IPsec connection is initiated for node with hostname: node-1, and nadIp: 1.1.1.1'
+          exampleSetFlag: true
+      exampleSetFlag: false
     TaskResponse:
       title: TaskResponse
       type: object
       properties:
         id:
           type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    IPSecGetAllResponsePayload:
-      title: IPSecGetAllResponsePayload
-      type: object
-      properties:
-        nextPage:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-        previousPage:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/IPSecConfig'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     IPSecCertificate:
@@ -808,15 +1022,6 @@ components:
         id:
           type: string
           description: ID of system certificate
-          exampleSetFlag: true
-      exampleSetFlag: false
-    DisableResponse:
-      title: DisableResponse
-      type: object
-      properties:
-        message:
-          type: string
-          example: 'IPsec connection for node with hostname: node-1, and nadIp: 1.1.1.1 has been disabled'
           exampleSetFlag: true
       exampleSetFlag: false
     IPSecResponse:
@@ -1014,36 +1219,25 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    RemoveResponse:
-      title: RemoveResponse
+    Operations:
+      title: Operations
       type: object
       properties:
-        message:
-          type: string
-          example: 'The IPsec connection for a node with hostname: node-1, and nadIp: 1.1.1.1 has been removed successfully.'
+        ItemList:
+          type: array
           exampleSetFlag: true
-      exampleSetFlag: false
-    Link:
-      title: Link
-      type: object
-      properties:
-        href:
+          items:
+            $ref: '#/components/schemas/IPSecRequest'
+            exampleSetFlag: false
+        operation:
           type: string
-          example: https://<ip>/api/v1/ipsec/<ID>
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
           exampleSetFlag: true
           enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
+          - Create
+          - Delete
+          - Disable
+          - Enable
+          - Update
       exampleSetFlag: false
     IPSecCertificateGetAllResponse:
       title: IPSecCertificateGetAllResponse
@@ -1055,33 +1249,6 @@ components:
           items:
             $ref: '#/components/schemas/IPSecCertificate'
             exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    IPSecResponsePayload:
-      title: IPSecResponsePayload
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/IPSecResponse'
-          exampleSetFlag: true
         version:
           type: string
           example: 1.0.0
@@ -1279,206 +1446,39 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    Operations:
-      title: Operations
+    IPSecGetAllResponsePayload:
+      title: IPSecGetAllResponsePayload
       type: object
       properties:
-        ItemList:
+        nextPage:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        previousPage:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+        response:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/IPSecRequest'
+            $ref: '#/components/schemas/IPSecConfig'
             exampleSetFlag: false
-        operation:
+        version:
           type: string
-          exampleSetFlag: true
-          enum:
-          - Create
-          - Delete
-          - Disable
-          - Enable
-          - Update
-      exampleSetFlag: false
-    IPSecRequest:
-      title: IPSecRequest
-      type: object
-      properties:
-        authType:
-          type: string
-          description: Authentication type for establishing connection
-          example: psk
-          exampleSetFlag: true
-          enum:
-          - psk
-          - x509
-        certId:
-          type: string
-          description: ID of the certificate for establishing connection
-          example: '123243432'
-          exampleSetFlag: true
-        configureVti:
-          type: boolean
-          description: Authentication type for establishing connection
-          example: false
-          exampleSetFlag: true
-        espAhProtocol:
-          type: string
-          description: Encryption protocol used for establishing connection
-          example: ah
-          exampleSetFlag: true
-          enum:
-          - ah
-          - esp
-        hostName:
-          type: string
-          description: Hostname of the node
-          example: isenode-1
-          exampleSetFlag: true
-        iface:
-          type: string
-          description: Ethernet port of the node
-          example: '1'
-          exampleSetFlag: true
-        ikeReAuthTime:
-          type: integer
-          description: IKE re-authentication time
-          format: int32
-          example: 86400
-          exampleSetFlag: true
-        ikeVersion:
-          type: string
-          description: IKE version
-          example: '1'
-          exampleSetFlag: true
-          enum:
-          - '1'
-          - '2'
-        localInternalIp:
-          type: string
-          description: Local Tunnel IP address
-          example: 1.1.4.1
-          exampleSetFlag: true
-        modeOption:
-          type: string
-          description: The Mode type used for establishing the connection
-          example: tunnel
-          exampleSetFlag: true
-          enum:
-          - transport
-          - tunnel
-        nadIp:
-          type: string
-          description: NAD IP address for establishing connection
-          example: 1.1.1.1
-          exampleSetFlag: true
-        phaseOneDHGroup:
-          type: string
-          description: Phase-one DH group used for establishing connection
-          example: GROUP1
-          exampleSetFlag: true
-          enum:
-          - GROUP1
-          - GROUP14
-          - GROUP15
-          - GROUP16
-          - GROUP19
-          - GROUP2
-          - GROUP20
-          - GROUP21
-          - GROUP24
-          - GROUP5
-        phaseOneEncryptionAlgo:
-          type: string
-          description: Phase-one encryption algorithm used for establishing connection
-          example: aes128
-          exampleSetFlag: true
-          enum:
-          - 3des
-          - aes
-          - aes128
-          - aes192
-          - aes256
-          - des
-        phaseOneHashAlgo:
-          type: string
-          description: Phase-one hashing algorithm used for establishing connection
-          example: sha
-          exampleSetFlag: true
-          enum:
-          - sha
-          - sha256
-          - sha384
-          - sha512
-        phaseOneLifeTime:
-          type: integer
-          description: Phase-one connection lifetime
-          format: int32
-          example: 14400
-          exampleSetFlag: true
-        phaseTwoDHGroup:
-          type: string
-          description: Phase-two DH group used for establishing connection
-          example: GROUP1
-          exampleSetFlag: true
-          enum:
-          - GROUP1
-          - GROUP14
-          - GROUP15
-          - GROUP16
-          - GROUP19
-          - GROUP2
-          - GROUP20
-          - GROUP21
-          - GROUP24
-          - GROUP5
-          - NONE
-        phaseTwoEncryptionAlgo:
-          type: string
-          description: Phase-two encryption algorithm used for establishing connection
-          example: aes128
-          exampleSetFlag: true
-          enum:
-          - 3des
-          - aes
-          - aes128
-          - aes192
-          - aes256
-          - des
-          - gcm
-          - gmac
-        phaseTwoHashAlgo:
-          type: string
-          description: Phase-two hashing algorithm used for establishing connection
-          example: sha
-          exampleSetFlag: true
-          enum:
-          - sha
-          - sha256
-          - sha384
-          - sha512
-        phaseTwoLifeTime:
-          type: integer
-          description: Phase-two connection lifetime
-          format: int32
-          example: 14400
-          exampleSetFlag: true
-        psk:
-          type: string
-          description: Pre-shared key used for establishing connection
-          example: psk12345
-          exampleSetFlag: true
-        remotePeerInternalIp:
-          type: string
-          description: Remote Tunnel IP address
-          example: 1.2.2.1
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    EnableResponse:
-      title: EnableResponse
+    Error:
+      title: Error
+      required:
+      - code
+      - message
       type: object
       properties:
+        code:
+          type: integer
+          format: int32
+          exampleSetFlag: true
         message:
           type: string
-          example: 'IPsec connection is initiated for node with hostname: node-1, and nadIp: 1.1.1.1'
           exampleSetFlag: true
       exampleSetFlag: false

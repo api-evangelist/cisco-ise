@@ -814,27 +814,38 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+      example: null
+    radiusserversequenceListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     Link:
       type: object
@@ -854,6 +865,50 @@ components:
           type: string
           example: application/json
       example: null
+    radiusserversequenceResponse:
+      type: object
+      properties:
+        RadiusServerSequence:
+          $ref: '#/components/schemas/radiusserversequenceResponseEntity'
+      example:
+        RadiusServerSequence:
+          stripPrefix: false
+          localAccounting: false
+          prefixSeparator: \
+          BeforeAcceptAttrManipulatorsList:
+          - dictionaryName: Cisco
+            action: ADD
+            changedVal: test2
+            attributeName: cisco-prev-hop-ip
+            value: test1
+          - dictionaryName: Cisco
+            action: UPDATE
+            changedVal: '13'
+            attributeName: Cisco:cisco-ppp-vj-slot-comp
+            value: '12'
+          description: description
+          suffixSeparator: '@'
+          RadiusServerList:
+          - externalRadiusServer1
+          - externalRadiusServer2
+          useAttrSetBeforeAcc: false
+          OnRequestAttrManipulatorList:
+          - dictionaryName: Cisco
+            action: ADD
+            changedVal: test2
+            attributeName: cisco-prev-hop-ip
+            value: test1
+          - dictionaryName: Cisco
+            action: UPDATE
+            changedVal: '13'
+            attributeName: Cisco:cisco-ppp-vj-slot-comp
+            value: '12'
+          remoteAccounting: true
+          continueAuthorzPolicy: false
+          name: name
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          stripSuffix: false
+          useAttrSetOnRequest: false
     RadiusServerSequence:
       required:
       - name
@@ -990,14 +1045,6 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           stripSuffix: false
           useAttrSetOnRequest: false
-    network.radiusserversequence:
-      required:
-      - RadiusServerSequence
-      type: object
-      properties:
-        RadiusServerSequence:
-          $ref: '#/components/schemas/RadiusServerSequence'
-      example: null
     radiusserversequenceListResponse:
       type: object
       properties:
@@ -1039,75 +1086,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    radiusserversequenceResponse:
-      type: object
-      properties:
-        RadiusServerSequence:
-          $ref: '#/components/schemas/radiusserversequenceResponseEntity'
-      example:
-        RadiusServerSequence:
-          stripPrefix: false
-          localAccounting: false
-          prefixSeparator: \
-          BeforeAcceptAttrManipulatorsList:
-          - dictionaryName: Cisco
-            action: ADD
-            changedVal: test2
-            attributeName: cisco-prev-hop-ip
-            value: test1
-          - dictionaryName: Cisco
-            action: UPDATE
-            changedVal: '13'
-            attributeName: Cisco:cisco-ppp-vj-slot-comp
-            value: '12'
-          description: description
-          suffixSeparator: '@'
-          RadiusServerList:
-          - externalRadiusServer1
-          - externalRadiusServer2
-          useAttrSetBeforeAcc: false
-          OnRequestAttrManipulatorList:
-          - dictionaryName: Cisco
-            action: ADD
-            changedVal: test2
-            attributeName: cisco-prev-hop-ip
-            value: test1
-          - dictionaryName: Cisco
-            action: UPDATE
-            changedVal: '13'
-            attributeName: Cisco:cisco-ppp-vj-slot-comp
-            value: '12'
-          remoteAccounting: true
-          continueAuthorzPolicy: false
-          name: name
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          stripSuffix: false
-          useAttrSetOnRequest: false
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     radiusserversequenceResponseEntity:
       properties:
         stripPrefix:
@@ -1206,65 +1184,64 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    radiusserversequenceListResponseEntity:
+    network.radiusserversequence:
+      required:
+      - RadiusServerSequence
+      type: object
       properties:
-        id:
-          title: id
+        RadiusServerSequence:
+          $ref: '#/components/schemas/RadiusServerSequence'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
           type: string
-          description: Id description
+          example: Operation
+        messages:
+          type: array
           example: null
-        name:
-          title: name
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    updatedField:
+      properties:
+        field:
           type: string
-          description: name description
           example: null
-        description:
-          title: description
+        oldValue:
           type: string
-          description: description
           example: null
-        link:
-          $ref: '#/components/schemas/Link'
+        newValue:
+          type: string
+          example: null
       example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.0'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/radiusserversequence/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        RadiusServerSequence:
-          $ref: '#/components/schemas/patchRequestBody'
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -1285,6 +1262,35 @@ components:
             properties:
               name:
                 type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    radius:
+      type: object
+      properties:
+        RadiusServerSequence:
+          $ref: '#/components/schemas/RadiusServerSequence_2'
     RadiusServerSequence_2:
       type: object
       properties:
@@ -1379,41 +1385,11 @@ components:
             type:
               type: string
               example: application/json
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    radius:
+    patchRequest:
       type: object
       properties:
         RadiusServerSequence:
-          $ref: '#/components/schemas/RadiusServerSequence_2'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
+          $ref: '#/components/schemas/patchRequestBody'
     patchRequestBody:
       type: object
       properties:
@@ -1423,16 +1399,31 @@ components:
         another-resource-attribute:
           type: string
           example: some-updated-value
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/radiusserversequence/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1442,6 +1433,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

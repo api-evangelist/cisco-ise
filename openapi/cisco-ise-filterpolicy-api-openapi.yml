@@ -716,27 +716,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     ERSFilterPolicy:
       required:
@@ -801,14 +792,6 @@ components:
           type: string
           example: application/json
       example: null
-    sxp.filterpolicy:
-      required:
-      - ERSFilterPolicy
-      type: object
-      properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/ERSFilterPolicy'
-      example: null
     filterpolicyResponseEntity:
       properties:
         subnet:
@@ -849,17 +832,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    filterpolicyResponse:
-      type: object
-      properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/filterpolicyResponseEntity'
-      example:
-        ERSFilterPolicy:
-          subnet: subnetAddress
-          sgt: sgt
-          vn: virtualNetwork
-          domains: Sxp Vpn Name
     filterpolicyListResponse:
       type: object
       properties:
@@ -901,31 +873,17 @@ components:
               type: application/xml
             description: description2
             id: id2
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
+    filterpolicyResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/filterpolicyResponseEntity'
+      example:
+        ERSFilterPolicy:
+          subnet: subnetAddress
+          sgt: sgt
+          vn: virtualNetwork
+          domains: Sxp Vpn Name
     filterpolicyListResponseEntity:
       properties:
         id:
@@ -946,11 +904,53 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    filter:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sxp.filterpolicy:
+      required:
+      - ERSFilterPolicy
       type: object
       properties:
         ERSFilterPolicy:
-          $ref: '#/components/schemas/ERSFilterPolicy_2'
+          $ref: '#/components/schemas/ERSFilterPolicy'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     ERSFilterPolicy_2:
       type: object
       properties:
@@ -966,45 +966,17 @@ components:
         vn:
           type: string
           example: virtualNetwork
-    VersionInfo:
+    version:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    UpdatedField:
-      type: object
-      properties:
-        field:
+        currentServerVersion:
           type: string
-          example: field1
-        oldValue:
+          example: '1.0'
+        supportedVersions:
           type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/patchRequestBody'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/filterpolicy/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -1044,17 +1016,6 @@ components:
             properties:
               name:
                 type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
     UpdatedFieldsList:
       type: object
       properties:
@@ -1074,6 +1035,11 @@ components:
       properties:
         UpdatedFieldsList:
           $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     patchRequestBody:
       type: object
       properties:
@@ -1083,16 +1049,41 @@ components:
         another-resource-attribute:
           type: string
           example: some-updated-value
+    patchRequest:
+      type: object
+      properties:
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/patchRequestBody'
+    filter:
+      type: object
+      properties:
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/ERSFilterPolicy_2'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/filterpolicy/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1102,6 +1093,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

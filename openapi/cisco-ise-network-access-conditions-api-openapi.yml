@@ -591,6 +591,58 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    LibraryConditionResponseEntity:
+      title: LibraryConditionResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Condition'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
+          exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
     Condition:
       title: Condition
       required:
@@ -640,43 +692,6 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    IdResponseEntity:
-      title: IdResponseEntity
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
-          exampleSetFlag: true
-      description: response object containing object ID
-      exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
-      exampleSetFlag: false
     Error:
       title: Error
       type: object
@@ -688,21 +703,6 @@ components:
         message:
           type: string
           example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
-    LibraryConditionResponseEntity:
-      title: LibraryConditionResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Condition'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
   securitySchemes:

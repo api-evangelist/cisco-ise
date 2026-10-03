@@ -406,28 +406,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     certificatetemplateResponseEntity:
       properties:
         raprofile:
@@ -462,6 +440,24 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     certificatetemplateListResponse:
       type: object
@@ -504,23 +500,40 @@ components:
               type: application/xml
             description: description2
             id: id2
-    Link:
+    certificatetemplateResponse:
       type: object
       properties:
-        rel:
+        ERSCertificateTemplate:
+          $ref: '#/components/schemas/certificatetemplateResponseEntity'
+      example:
+        ERSCertificateTemplate:
+          validityPeriod: 730
+          raprofile: ISE Internal CA
+          keySize: 2048
+          name: Certificate_Template_Name
+          description: 'ERS Example certificate template '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    ERSResponse:
+      type: object
+      properties:
+        operation:
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     certificatetemplateListResponseEntity:
       properties:
@@ -542,19 +555,11 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    certificatetemplateResponse:
+    VersionInfo:
       type: object
       properties:
-        ERSCertificateTemplate:
-          $ref: '#/components/schemas/certificatetemplateResponseEntity'
-      example:
-        ERSCertificateTemplate:
-          validityPeriod: 730
-          raprofile: ISE Internal CA
-          keySize: 2048
-          name: Certificate_Template_Name
-          description: 'ERS Example certificate template '
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     getall1:
       type: object
       properties:
@@ -589,28 +594,6 @@ components:
             properties:
               name:
                 type: string
-    getbyname:
-      type: object
-      properties:
-        ERSCertificateTemplate:
-          $ref: '#/components/schemas/getbyname1'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/certificatetemplate/versioninfo
-        type:
-          type: string
-          example: application/xml
     version:
       type: object
       properties:
@@ -648,16 +631,24 @@ components:
       properties:
         SearchResult:
           $ref: '#/components/schemas/getall1'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/certificatetemplate/versioninfo
+        type:
+          type: string
+          example: application/xml
+    getbyname:
+      type: object
+      properties:
+        ERSCertificateTemplate:
+          $ref: '#/components/schemas/getbyname1'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -667,6 +658,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

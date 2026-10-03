@@ -859,6 +859,104 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    idstoresequenceResponseEntity:
+      properties:
+        breakOnStoreFail:
+          title: breakOnStoreFail
+          type: boolean
+          description: Do not access other stores in the sequence If a selected identity store cannot be accessed for authentication
+          example: null
+        certificateAuthenticationProfile:
+          title: certificateAuthenticationProfile
+          type: string
+          description: Certificate Authentication Profile, empty if doesn't exist
+          example: null
+        idSeqItem:
+          type: array
+          example: null
+          items:
+            properties:
+              idstore:
+                type: string
+                example: null
+              order:
+                type: string
+                example: null
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    identitystores.idstoresequence:
+      required:
+      - IdStoreSequence
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/IdStoreSequence'
+      example: null
+    idstoresequenceResponse:
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/idstoresequenceResponseEntity'
+      example:
+        IdStoreSequence:
+          certificateAuthenticationProfile: Preloaded_Certificate_Profile
+          idSeqItem:
+          - idstore: Internal Users
+            order: 1
+          - idstore: Guest Users
+            order: 2
+          name: idSeq1
+          breakOnStoreFail: false
+          description: 'ERS Example Id sequence '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     ERSResponse:
       type: object
       properties:
@@ -881,13 +979,34 @@ components:
                 example: code
             example: null
       example: null
-    identitystores.idstoresequence:
-      required:
-      - IdStoreSequence
-      type: object
+    idstoresequenceListResponseEntity:
       properties:
-        IdStoreSequence:
-          $ref: '#/components/schemas/IdStoreSequence'
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+        idSeqItem:
+          properties:
+            idstore:
+              type: string
+              example: null
+            order:
+              type: string
+              example: null
+          example: null
       example: null
     idstoresequenceListResponse:
       type: object
@@ -979,83 +1098,6 @@ components:
           breakOnStoreFail: false
           description: 'ERS Example Id sequence '
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    idstoresequenceResponse:
-      type: object
-      properties:
-        IdStoreSequence:
-          $ref: '#/components/schemas/idstoresequenceResponseEntity'
-      example:
-        IdStoreSequence:
-          certificateAuthenticationProfile: Preloaded_Certificate_Profile
-          idSeqItem:
-          - idstore: Internal Users
-            order: 1
-          - idstore: Guest Users
-            order: 2
-          name: idSeq1
-          breakOnStoreFail: false
-          description: 'ERS Example Id sequence '
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    idstoresequenceResponseEntity:
-      properties:
-        breakOnStoreFail:
-          title: breakOnStoreFail
-          type: boolean
-          description: Do not access other stores in the sequence If a selected identity store cannot be accessed for authentication
-          example: null
-        certificateAuthenticationProfile:
-          title: certificateAuthenticationProfile
-          type: string
-          description: Certificate Authentication Profile, empty if doesn't exist
-          example: null
-        idSeqItem:
-          type: array
-          example: null
-          items:
-            properties:
-              idstore:
-                type: string
-                example: null
-              order:
-                type: string
-                example: null
-            example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     updatedField:
       properties:
         field:
@@ -1068,135 +1110,22 @@ components:
           type: string
           example: null
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    idstoresequenceListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-        idSeqItem:
-          properties:
-            idstore:
-              type: string
-              example: null
-            order:
-              type: string
-              example: null
-          example: null
-      example: null
-    identitysequence_name:
-      type: object
-      properties:
-        IdStoreSequence:
-          $ref: '#/components/schemas/IdStoreSequence_name'
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.0'
+        supportedVersions:
           type: string
-          example: <ise-ip>/ers/config/idstoresequence/versioninfo
-        type:
-          type: string
-          example: application/json
-    IdStoreSequence_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 93246270-8c01-11e6-996c-525400b48521
-        name:
-          type: string
-          example: All_User_ID_Store
-        description:
-          type: string
-          example: A built-in Identity Sequence to include all User Identity Stores
-        idSeqItem:
-          type: array
-          example:
-          - idstore: Internal Users
-            order: 1
-          - idstore: All_AD_Join_Points
-            order: 2
-          - idstore: Guest Users
-            order: 3
-          items:
-            properties:
-              name:
-                type: string
-        certificateAuthenticationProfile:
-          type: string
-          example: Preloaded_Certificate_Profile
-        breakOnStoreFail:
-          type: boolean
-          example: false
+          example: 1.0,1.1
         link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/idstoresequence/93246270-8c01-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        IdStoreSequence:
-          $ref: '#/components/schemas/patchRequestBody'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -1245,6 +1174,121 @@ components:
             properties:
               name:
                 type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    patchRequest:
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/patchRequestBody'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    identitysequence_name:
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/IdStoreSequence_name'
+    IdStoreSequence_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 93246270-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: All_User_ID_Store
+        description:
+          type: string
+          example: A built-in Identity Sequence to include all User Identity Stores
+        idSeqItem:
+          type: array
+          example:
+          - idstore: Internal Users
+            order: 1
+          - idstore: All_AD_Join_Points
+            order: 2
+          - idstore: Guest Users
+            order: 3
+          items:
+            properties:
+              name:
+                type: string
+        certificateAuthenticationProfile:
+          type: string
+          example: Preloaded_Certificate_Profile
+        breakOnStoreFail:
+          type: boolean
+          example: false
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/idstoresequence/93246270-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: <ise-ip>/ers/config/idstoresequence/versioninfo
+        type:
+          type: string
+          example: application/json
+    idstoresequence:
+      type: object
+      properties:
+        IdStoreSequence:
+          $ref: '#/components/schemas/IdStoreSequence_2'
     IdStoreSequence_name:
       type: object
       properties:
@@ -1288,60 +1332,7 @@ components:
             type:
               type: string
               example: application/json
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    idstoresequence:
-      type: object
-      properties:
-        IdStoreSequence:
-          $ref: '#/components/schemas/IdStoreSequence_2'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1351,6 +1342,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -430,6 +430,37 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     acisettingsResponse:
       type: object
       properties:
@@ -455,221 +486,6 @@ components:
           - default
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           enableAci: false
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    acisettingsResponseEntity:
-      properties:
-        enableAci:
-          title: enableAci
-          type: boolean
-          description: Enable ACI Integration.
-          example: null
-        aci50:
-          title: aci50
-          type: boolean
-          description: Enable Policy Plane/API integration.
-          example: null
-        ipAddressHostName:
-          title: ipAddressHostName
-          type: string
-          description: ACI Cluster IP Address / Host name.
-          example: null
-        adminName:
-          title: adminName
-          type: string
-          description: ACI Cluster Admin name.
-          example: null
-        adminPassword:
-          title: adminPassword
-          type: string
-          description: ACI Cluster Admin password.
-          example: null
-        tenantName:
-          title: tenantName
-          type: string
-          description: ACI Cluster Tenant name.
-          example: null
-        l3RouteNetwork:
-          title: l3RouteNetwork
-          type: string
-          description: ACI Cluster L3 Route network name.
-          example: null
-        suffixToEpg:
-          title: suffixToEpg
-          type: string
-          description: Name Conversion - EPG suffix.
-          example: null
-        suffixToSgt:
-          title: suffixToSgt
-          type: string
-          description: Name Conversion - SGT suffix.
-          example: null
-        allSxpDomain:
-          title: allSxpDomain
-          type: boolean
-          description: SXP Propagation to all the SXP domains.
-          example: null
-        specificSxpDomain:
-          title: specificSxpDomain
-          type: boolean
-          description: SXP Propagation to specific SXP domains.
-          example: null
-        specifixSxpDomainList:
-          title: specifixSxpDomainList
-          type: array
-          description: Specific SXP domains list.
-          example: null
-          items:
-            type: string
-            example: null
-        aci51:
-          title: aci51
-          type: boolean
-          description: Enable Data Plane/Hardware integration (ACI 5.1 onwards).
-          example: null
-        aciipaddress:
-          title: aciipaddress
-          type: string
-          description: ACI Domain manager Ip Address.
-          example: null
-        aciuserName:
-          title: aciuserName
-          type: string
-          description: ACI Domain manager Username.
-          example: null
-        acipassword:
-          title: acipassword
-          type: string
-          description: ACI Domain manager Password.
-          example: null
-        enableDataPlane:
-          title: enableDataPlane
-          type: boolean
-          description: Enable data plane.
-          example: null
-        untaggedPacketIepgName:
-          title: untaggedPacketIepgName
-          type: string
-          description: Untagged IEPG packets name.
-          example: null
-        defaultSgtName:
-          title: defaultSgtName
-          type: string
-          description: Default SGT name.
-          example: null
-        enableElementsLimit:
-          title: enableElementsLimit
-          type: boolean
-          description: Enable Elements Limit.
-          example: null
-        maxNumIepgFromAci:
-          title: maxNumIepgFromAci
-          type: object
-          description: Max number of IEPGs.
-          example: null
-        maxNumSgtToAci:
-          title: maxNumSgtToAci
-          type: object
-          description: Max number of SGTs.
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    AciTestConnectivityEntity:
-      properties:
-        ACITestConnectionResult:
-          properties:
-            result:
-              type: boolean
-              example: null
-          example: null
-      example: null
-    apic.acisettings:
-      required:
-      - AciSettings
-      type: object
-      properties:
-        AciSettings:
-          $ref: '#/components/schemas/AciSettings'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     AciSettings:
       required:
       - aci50
@@ -825,40 +641,200 @@ components:
           - default
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           enableAci: false
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    apic.acisettings:
+      required:
+      - AciSettings
+      type: object
+      properties:
+        AciSettings:
+          $ref: '#/components/schemas/AciSettings'
+      example: null
+    acisettingsResponseEntity:
+      properties:
+        enableAci:
+          title: enableAci
+          type: boolean
+          description: Enable ACI Integration.
+          example: null
+        aci50:
+          title: aci50
+          type: boolean
+          description: Enable Policy Plane/API integration.
+          example: null
+        ipAddressHostName:
+          title: ipAddressHostName
+          type: string
+          description: ACI Cluster IP Address / Host name.
+          example: null
+        adminName:
+          title: adminName
+          type: string
+          description: ACI Cluster Admin name.
+          example: null
+        adminPassword:
+          title: adminPassword
+          type: string
+          description: ACI Cluster Admin password.
+          example: null
+        tenantName:
+          title: tenantName
+          type: string
+          description: ACI Cluster Tenant name.
+          example: null
+        l3RouteNetwork:
+          title: l3RouteNetwork
+          type: string
+          description: ACI Cluster L3 Route network name.
+          example: null
+        suffixToEpg:
+          title: suffixToEpg
+          type: string
+          description: Name Conversion - EPG suffix.
+          example: null
+        suffixToSgt:
+          title: suffixToSgt
+          type: string
+          description: Name Conversion - SGT suffix.
+          example: null
+        allSxpDomain:
+          title: allSxpDomain
+          type: boolean
+          description: SXP Propagation to all the SXP domains.
+          example: null
+        specificSxpDomain:
+          title: specificSxpDomain
+          type: boolean
+          description: SXP Propagation to specific SXP domains.
+          example: null
+        specifixSxpDomainList:
+          title: specifixSxpDomainList
+          type: array
+          description: Specific SXP domains list.
+          example: null
+          items:
+            type: string
+            example: null
+        aci51:
+          title: aci51
+          type: boolean
+          description: Enable Data Plane/Hardware integration (ACI 5.1 onwards).
+          example: null
+        aciipaddress:
+          title: aciipaddress
+          type: string
+          description: ACI Domain manager Ip Address.
+          example: null
+        aciuserName:
+          title: aciuserName
+          type: string
+          description: ACI Domain manager Username.
+          example: null
+        acipassword:
+          title: acipassword
+          type: string
+          description: ACI Domain manager Password.
+          example: null
+        enableDataPlane:
+          title: enableDataPlane
+          type: boolean
+          description: Enable data plane.
+          example: null
+        untaggedPacketIepgName:
+          title: untaggedPacketIepgName
+          type: string
+          description: Untagged IEPG packets name.
+          example: null
+        defaultSgtName:
+          title: defaultSgtName
+          type: string
+          description: Default SGT name.
+          example: null
+        enableElementsLimit:
+          title: enableElementsLimit
+          type: boolean
+          description: Enable Elements Limit.
+          example: null
+        maxNumIepgFromAci:
+          title: maxNumIepgFromAci
+          type: object
+          description: Max number of IEPGs.
+          example: null
+        maxNumSgtToAci:
+          title: maxNumSgtToAci
+          type: object
+          description: Max number of SGTs.
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    AciTestConnectivityEntity:
+      properties:
+        ACITestConnectionResult:
+          properties:
+            result:
+              type: boolean
+              example: null
+          example: null
+      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    Result:
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/acisettings/versioninfo
-        type:
-          type: string
-          example: application/json
-    settings:
-      type: object
-      properties:
-        AciSettings:
-          $ref: '#/components/schemas/acisettings'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
+        ACITestConnectionResult:
+          $ref: '#/components/schemas/ACITestConnectionResult'
     version:
       type: object
       properties:
@@ -870,12 +846,11 @@ components:
           example: '1.0'
         link:
           $ref: '#/components/schemas/link1'
-    ACITestConnectionResult:
+    settings:
       type: object
       properties:
-        result:
-          type: boolean
-          example: true
+        AciSettings:
+          $ref: '#/components/schemas/acisettings'
     UpdatedFieldsList:
       type: object
       properties:
@@ -895,11 +870,12 @@ components:
       properties:
         UpdatedFieldsList:
           $ref: '#/components/schemas/UpdatedFieldsList'
-    Result:
+    ACITestConnectionResult:
       type: object
       properties:
-        ACITestConnectionResult:
-          $ref: '#/components/schemas/ACITestConnectionResult'
+        result:
+          type: boolean
+          example: true
     acisettings:
       type: object
       properties:
@@ -956,6 +932,30 @@ components:
         aci51:
           type: boolean
           example: false
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/acisettings/versioninfo
+        type:
+          type: string
+          example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

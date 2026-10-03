@@ -168,27 +168,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     supportbundle.supportbundledownload:
       required:
@@ -225,6 +216,28 @@ components:
       example:
         ErsSupportBundleDownload:
           fileName: Support bundle file name to be picked for download
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -237,24 +250,33 @@ components:
           type: string
           example: null
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    supportbundle:
+      type: object
+      properties:
+        ErsSupportBundleDownload:
+          $ref: '#/components/schemas/ErsSupportBundleDownload_2'
+    ErsSupportBundleDownload_2:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: filename
     link1:
       type: object
       properties:
@@ -267,28 +289,6 @@ components:
         type:
           type: string
           example: application/json
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    ErsSupportBundleDownload_2:
-      type: object
-      properties:
-        fileName:
-          type: string
-          example: filename
-    supportbundle:
-      type: object
-      properties:
-        ErsSupportBundleDownload:
-          $ref: '#/components/schemas/ErsSupportBundleDownload_2'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

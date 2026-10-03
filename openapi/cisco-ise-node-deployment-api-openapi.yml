@@ -331,6 +331,19 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    FQDN:
+      maxLength: 64
+      minLength: 1
+      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
+      type: string
+    DeploymentNodeResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/DeploymentNode'
+        version:
+          type: string
+          example: 1.0.0
     NodeUpdateRequest:
       type: object
       properties:
@@ -342,30 +355,17 @@ components:
       - roles
       - services
       example: TBD
-    DeploymentNodeResponse:
+    Message:
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/DeploymentNode'
-        version:
+        message:
           type: string
-          example: 1.0.0
-    ErrorResponse:
+          example: Success
+    SuccessResponse:
       type: object
       properties:
-        error:
+        success:
           $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    DeploymentNodesResponse:
-      type: object
-      properties:
-        response:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentNode'
-          example: TBD
         version:
           type: string
           example: 1.0.0
@@ -382,43 +382,35 @@ components:
         - PassiveIdentity
         - pxGrid
         - pxGridCloud
-    Roles:
-      type: array
-      items:
-        type: string
-        enum:
-        - PrimaryAdmin
-        - SecondaryAdmin
-        - PrimaryMonitoring
-        - SecondaryMonitoring
-        - PrimaryDedicatedMonitoring
-        - SecondaryDedicatedMonitoring
-        - Standalone
-    DeploymentNode:
+    DeploymentTask:
       type: object
       properties:
-        hostname:
-          pattern: '[a-zA-Z][\w\-]*'
-          maxLength: 64
-          minLength: 1
+        id:
           type: string
-          example: isenode
-        fqdn:
-          $ref: '#/components/schemas/FQDN'
-        ipAddress:
-          $ref: '#/components/schemas/IPAddress'
-        roles:
-          $ref: '#/components/schemas/Roles'
-        services:
-          $ref: '#/components/schemas/Services'
-        nodeStatus:
-          $ref: '#/components/schemas/NodeStatus'
-      required:
-      - hostname
-      - fqdn
-      - ipAddress
-      - services
-      example: TBD
+          description: ID which can be used to track the status of the deployment task using the Task Service API.
+          example: a1714b90-be06-11eb-bf27-c208c4aa1432
+        message:
+          type: string
+          example: Deployment task initiated. You can use the Task Service Status API to get the status of the task.
+    DeploymentTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/DeploymentTask'
+        version:
+          type: string
+          example: 1.0.0
+    NodeStatus:
+      type: string
+      enum:
+      - Connected
+      - Disconnected
+      - InProgress
+      - ReplicationStopped
+      - RegistrationFailed
+      - NotInSync
+      - NotUpgraded
+      - NotApplicable
     NodeRegistrationRequest:
       type: object
       properties:
@@ -449,57 +441,65 @@ components:
       - roles
       - services
       example: TBD
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-    IPAddress:
-      type: string
-      format: ipv4 | ipv6
-    DeploymentTask:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID which can be used to track the status of the deployment task using the Task Service API.
-          example: a1714b90-be06-11eb-bf27-c208c4aa1432
-        message:
-          type: string
-          example: Deployment task initiated. You can use the Task Service Status API to get the status of the task.
-    FQDN:
-      maxLength: 64
-      minLength: 1
-      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
-      type: string
-    DeploymentTaskResponse:
+    DeploymentNodesResponse:
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/DeploymentTask'
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentNode'
+          example: TBD
         version:
           type: string
           example: 1.0.0
-    SuccessResponse:
+    ErrorResponse:
       type: object
       properties:
-        success:
+        error:
           $ref: '#/components/schemas/Message'
         version:
           type: string
           example: 1.0.0
-    NodeStatus:
+    DeploymentNode:
+      type: object
+      properties:
+        hostname:
+          pattern: '[a-zA-Z][\w\-]*'
+          maxLength: 64
+          minLength: 1
+          type: string
+          example: isenode
+        fqdn:
+          $ref: '#/components/schemas/FQDN'
+        ipAddress:
+          $ref: '#/components/schemas/IPAddress'
+        roles:
+          $ref: '#/components/schemas/Roles'
+        services:
+          $ref: '#/components/schemas/Services'
+        nodeStatus:
+          $ref: '#/components/schemas/NodeStatus'
+      required:
+      - hostname
+      - fqdn
+      - ipAddress
+      - services
+      example: TBD
+    Roles:
+      type: array
+      items:
+        type: string
+        enum:
+        - PrimaryAdmin
+        - SecondaryAdmin
+        - PrimaryMonitoring
+        - SecondaryMonitoring
+        - PrimaryDedicatedMonitoring
+        - SecondaryDedicatedMonitoring
+        - Standalone
+    IPAddress:
       type: string
-      enum:
-      - Connected
-      - Disconnected
-      - InProgress
-      - ReplicationStopped
-      - RegistrationFailed
-      - NotInSync
-      - NotUpgraded
-      - NotApplicable
+      format: ipv4 | ipv6
   parameters:
     filtering:
       name: filter

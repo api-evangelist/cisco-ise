@@ -1565,28 +1565,27 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    adminuserResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
+        AdminUser:
+          $ref: '#/components/schemas/adminuserResponseEntity'
+      example:
+        AdminUser:
+          lastName: lastName
+          adminGroups: adminGroups
+          description: description
+          includeSystemAlarmsInEmail: false
+          enabled: true
+          changePassword: true
+          firstName: firstName
+          password: password
+          externalUser: false
+          name: name
+          inactiveAccountNeverDisabled: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          email: email@domain.com
+          customAttributes: {}
     AdminUser:
       required:
       - changePassword
@@ -1679,6 +1678,69 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           email: email@domain.com
           customAttributes: {}
+    adminuserListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     adminuserResponseEntity:
       properties:
         changePassword:
@@ -1754,31 +1816,27 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    Link:
+    ERSResponse:
       type: object
       properties:
-        rel:
+        operation:
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    identity.adminuser:
-      required:
-      - AdminUser
-      type: object
-      properties:
-        AdminUser:
-          $ref: '#/components/schemas/AdminUser'
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     adminuserListResponse:
       type: object
@@ -1821,258 +1879,19 @@ components:
               type: application/xml
             description: description2
             id: id2
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    adminuserListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    adminuserResponse:
+    identity.adminuser:
+      required:
+      - AdminUser
       type: object
       properties:
         AdminUser:
-          $ref: '#/components/schemas/adminuserResponseEntity'
-      example:
-        AdminUser:
-          lastName: lastName
-          adminGroups: adminGroups
-          description: description
-          includeSystemAlarmsInEmail: false
-          enabled: true
-          changePassword: true
-          firstName: firstName
-          password: password
-          externalUser: false
-          name: name
-          inactiveAccountNeverDisabled: false
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          email: email@domain.com
-          customAttributes: {}
+          $ref: '#/components/schemas/AdminUser'
+      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/adminuser/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        AdminUser:
-          $ref: '#/components/schemas/patchRequestBody'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 2
-        resources:
-          type: array
-          example:
-          - id: 7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
-            name: name1
-            description: description1
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/adminuser/7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
-              type: application/json
-          - id: 9bc9f6f8-e691-5500-bcg2-4bc4g9ee5bg2
-            name: name2
-            description: description2
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/adminuser/9bc9f6f8-e691-5500-bcg2-4bc4g9ee5bg2
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    adminuser:
-      type: object
-      properties:
-        AdminUser:
-          $ref: '#/components/schemas/AdminUser_2'
-    AdminUser_name:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Specifies the unique UUID of the admin user resource.
-          example: 7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
-        name:
-          type: string
-          description: Specifies the resource name of the admin user.
-          example: name
-        description:
-          type: string
-          description: Defines an optional description for the admin user resource.
-          example: description
-        enabled:
-          type: boolean
-          description: Indicates whether the admin user account is active and enabled.
-          example: true
-        email:
-          type: string
-          description: Specifies the email address of the admin user.
-          example: email@domain.com
-        password:
-          type: string
-          description: Specifies the password for the admin user account.
-          example: password
-        firstName:
-          type: string
-          description: Specifies the first name of the admin user.
-          example: firstName
-        lastName:
-          type: string
-          description: Specifies the last name of the admin user.
-          example: lastName
-        changePassword:
-          type: boolean
-          description: Indicates whether the admin user is required to change their password upon next login. Defaults to true.
-          example: true
-        includeSystemAlarmsInEmail:
-          type: boolean
-          description: Indicates whether system alarms are included in email notifications sent to the admin user.
-          example: false
-        externalUser:
-          type: boolean
-          description: Indicates whether the admin user is an externally authenticated user.
-          example: false
-        inactiveAccountNeverDisabled:
-          type: boolean
-          description: Indicates whether the admin user account is exempt from automatic disabling due to inactivity.
-          example: false
-        adminGroups:
-          type: string
-          description: Specifies the admin group names to which the admin user belongs.
-          example: adminGroups
-        customAttributes:
-          type: object
-          description: Defines a key-value map of custom attributes associated with the admin user.
-          example: {}
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/adminuser/name/name
-            type:
-              type: string
-              example: application/json
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.3'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1,1.2,1.3
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    adminuser_name:
-      type: object
-      properties:
-        AdminUser:
-          $ref: '#/components/schemas/AdminUser_name'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
     AdminUser_2:
       type: object
       properties:
@@ -2144,16 +1963,188 @@ components:
             type:
               type: string
               example: application/json
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.3'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1,1.2,1.3
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 2
+        resources:
+          type: array
+          example:
+          - id: 7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
+            name: name1
+            description: description1
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/adminuser/7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
+              type: application/json
+          - id: 9bc9f6f8-e691-5500-bcg2-4bc4g9ee5bg2
+            name: name2
+            description: description2
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/adminuser/9bc9f6f8-e691-5500-bcg2-4bc4g9ee5bg2
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    adminuser:
+      type: object
+      properties:
+        AdminUser:
+          $ref: '#/components/schemas/AdminUser_2'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    AdminUser_name:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Specifies the unique UUID of the admin user resource.
+          example: 7ac8e5e7-d580-4499-abf1-3ab3f8dd4af1
+        name:
+          type: string
+          description: Specifies the resource name of the admin user.
+          example: name
+        description:
+          type: string
+          description: Defines an optional description for the admin user resource.
+          example: description
+        enabled:
+          type: boolean
+          description: Indicates whether the admin user account is active and enabled.
+          example: true
+        email:
+          type: string
+          description: Specifies the email address of the admin user.
+          example: email@domain.com
+        password:
+          type: string
+          description: Specifies the password for the admin user account.
+          example: password
+        firstName:
+          type: string
+          description: Specifies the first name of the admin user.
+          example: firstName
+        lastName:
+          type: string
+          description: Specifies the last name of the admin user.
+          example: lastName
+        changePassword:
+          type: boolean
+          description: Indicates whether the admin user is required to change their password upon next login. Defaults to true.
+          example: true
+        includeSystemAlarmsInEmail:
+          type: boolean
+          description: Indicates whether system alarms are included in email notifications sent to the admin user.
+          example: false
+        externalUser:
+          type: boolean
+          description: Indicates whether the admin user is an externally authenticated user.
+          example: false
+        inactiveAccountNeverDisabled:
+          type: boolean
+          description: Indicates whether the admin user account is exempt from automatic disabling due to inactivity.
+          example: false
+        adminGroups:
+          type: string
+          description: Specifies the admin group names to which the admin user belongs.
+          example: adminGroups
+        customAttributes:
+          type: object
+          description: Defines a key-value map of custom attributes associated with the admin user.
+          example: {}
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/adminuser/name/name
+            type:
+              type: string
+              example: application/json
+    adminuser_name:
+      type: object
+      properties:
+        AdminUser:
+          $ref: '#/components/schemas/AdminUser_name'
+    patchRequest:
+      type: object
+      properties:
+        AdminUser:
+          $ref: '#/components/schemas/patchRequestBody'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/adminuser/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -2163,6 +2154,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

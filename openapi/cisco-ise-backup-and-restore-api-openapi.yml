@@ -236,35 +236,23 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    ConfigScheduleStatusResponse:
-      title: ConfigScheduleStatusResponse
+    BackupRestoreTaskResponse:
+      title: BackupRestoreTaskResponse
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/ConfigScheduleStatus'
+          $ref: '#/components/schemas/BackupRestoreTask'
         version:
           type: string
           example: 1.0.0
-    ConfigBackup:
-      title: ConfigBackup
-      required:
-      - backupEncryptionKey
-      - backupName
-      - repositoryName
+    ConfigScheduleStatus:
+      title: ConfigScheduleStatus
       type: object
       properties:
-        backupEncryptionKey:
+        message:
           type: string
-          description: The encyption key for the backed up file. Encryption key must satisfy the following criteria - Contains at least one uppercase letter [A-Z], Contains at least one lowercase letter [a-z], Contains at least one digit [0-9], Contain only [A-Z][a-z][0-9]_#, Has at least 8 characters, Has not more than 15 characters, Must not contain 'CcIiSsCco', Must not begin with
-          example: Qwerty123
-        backupName:
-          type: string
-          description: The backup file will get saved with this name.
-          example: backup_name
-        repositoryName:
-          type: string
-          description: Name of the configured repository where the generated backup file will get copied.
-          example: repo_name
+          description: Response message on successful scheduling the backup job.
+          example: The config backup job got scheduled successfully
     ScheduleConfigBackupRequest:
       title: ScheduleConfigBackupRequest
       required:
@@ -330,6 +318,60 @@ components:
           - THU
           - TUE
           - WED
+    OperationNotExecuted:
+      title: OperationNotExecuted
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 405
+        message:
+          type: string
+          example: Cancel can't be executed as there is no running backup.
+    ConfigScheduleStatusResponse:
+      title: ConfigScheduleStatusResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ConfigScheduleStatus'
+        version:
+          type: string
+          example: 1.0.0
+    ConfigBackup:
+      title: ConfigBackup
+      required:
+      - backupEncryptionKey
+      - backupName
+      - repositoryName
+      type: object
+      properties:
+        backupEncryptionKey:
+          type: string
+          description: The encyption key for the backed up file. Encryption key must satisfy the following criteria - Contains at least one uppercase letter [A-Z], Contains at least one lowercase letter [a-z], Contains at least one digit [0-9], Contain only [A-Z][a-z][0-9]_#, Has at least 8 characters, Has not more than 15 characters, Must not contain 'CcIiSsCco', Must not begin with
+          example: Qwerty123
+        backupName:
+          type: string
+          description: The backup file will get saved with this name.
+          example: backup_name
+        repositoryName:
+          type: string
+          description: Name of the configured repository where the generated backup file will get copied.
+          example: repo_name
+    BackupRestoreTask:
+      title: BackupRestoreTask
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id which can be used to track the status of backup / restore of config DB.
+          example: a1714b90-be06-11eb-bf27-c208c4aa1432
+        message:
+          type: string
+          example: Config DB backup task initiated. Please use Task Service status API to get the status of the backup job
     ConfigRestore:
       title: ConfigRestore
       required:
@@ -355,20 +397,6 @@ components:
           type: string
           description: Determines whether the ADE-OS configure is restored. Possible values true, false
           example: 'true'
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-        message:
-          type: string
-          example: Invalid repository name
     ConfigBackupStatus:
       title: ConfigBackupStatus
       type: object
@@ -436,43 +464,6 @@ components:
           enum:
           - CONFIGURATION_DB
           - OPERATIONAL_DB
-    ConfigBackupStatusResponse:
-      title: ConfigBackupStatusResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ConfigBackupStatus'
-        version:
-          type: string
-          example: 1.0.0
-    BackupRestoreTask:
-      title: BackupRestoreTask
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id which can be used to track the status of backup / restore of config DB.
-          example: a1714b90-be06-11eb-bf27-c208c4aa1432
-        message:
-          type: string
-          example: Config DB backup task initiated. Please use Task Service status API to get the status of the backup job
-    BackupRestoreTaskResponse:
-      title: BackupRestoreTaskResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/BackupRestoreTask'
-        version:
-          type: string
-          example: 1.0.0
-    ConfigScheduleStatus:
-      title: ConfigScheduleStatus
-      type: object
-      properties:
-        message:
-          type: string
-          description: Response message on successful scheduling the backup job.
-          example: The config backup job got scheduled successfully
     CancelBackupResponse:
       title: CancelBackupResponse
       type: object
@@ -482,8 +473,17 @@ components:
         version:
           type: string
           example: 1.0.0
-    OperationNotExecuted:
-      title: OperationNotExecuted
+    ConfigBackupStatusResponse:
+      title: ConfigBackupStatusResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ConfigBackupStatus'
+        version:
+          type: string
+          example: 1.0.0
+    Error:
+      title: Error
       required:
       - code
       - message
@@ -492,7 +492,7 @@ components:
         code:
           type: integer
           format: int32
-          example: 405
+          example: 400
         message:
           type: string
-          example: Cancel can't be executed as there is no running backup.
+          example: Invalid repository name

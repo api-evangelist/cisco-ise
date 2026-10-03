@@ -1553,97 +1553,75 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    endpointListResponse:
-      type: object
-      properties:
-        SearchResult:
+        UpdatedFieldsList:
           type: object
           properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
+            updatedField:
               type: array
               example: null
               items:
-                $ref: '#/components/schemas/endpointListResponseEntity'
+                $ref: '#/components/schemas/updatedField'
           example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    endpointListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
-    identity.endpoint:
-      required:
-      - ERSEndPoint
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    endpointResponse:
       type: object
       properties:
         ERSEndPoint:
-          $ref: '#/components/schemas/ERSEndPoint'
-      example: null
+          $ref: '#/components/schemas/endpointResponseEntity'
+      example:
+        ERSEndPoint:
+          mdmAttributes:
+            mdmReachable: true
+            mdmManufacturer: Apple Inc.
+            mdmComplianceStatus: false
+            mdmPinlock: false
+            mdmJailBroken: false
+            mdmServerName: MdmServerName
+            mdmSerial: '10000000001'
+            mdmEncrypted: false
+            mdmPhoneNumber: Phone Number
+            mdmIMEI: IMEI
+            mdmEnrolled: false
+            mdmModel: iPad
+            mdmOS: iOS
+          staticProfileAssignment: false
+          groupId: groupId
+          description: description
+          staticGroupAssignment: true
+          staticProfileAssignmentDefined: true
+          mac: 00:01:02:03:04:05
+          portalUser: portalUser
+          profileId: profileId
+          name: name
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          staticGroupAssignmentDefined: true
+          identityStore: identityStore
+          identityStoreId: identityStoreId
+          customAttributes:
+            customAttributes:
+              key1: value1
+              key2: value2
     endpointResponseEntity:
       properties:
         customAttributes:
@@ -1724,24 +1702,73 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    Link:
+    identity.endpoint:
+      required:
+      - ERSEndPoint
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
+        ERSEndPoint:
+          $ref: '#/components/schemas/ERSEndPoint'
       example: null
+    OperationResultEntity:
+      properties:
+        OperationResult:
+          properties:
+            resultValue:
+              type: array
+              example: null
+              items:
+                properties:
+                  Value:
+                    type: integer
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    endpointListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/endpointListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     ERSEndPoint:
       required:
       - groupId
@@ -1858,44 +1885,48 @@ components:
             customAttributes:
               key1: value1
               key2: value2
-    endpointResponse:
+    ERSResponse:
       type: object
       properties:
-        ERSEndPoint:
-          $ref: '#/components/schemas/endpointResponseEntity'
-      example:
-        ERSEndPoint:
-          mdmAttributes:
-            mdmReachable: true
-            mdmManufacturer: Apple Inc.
-            mdmComplianceStatus: false
-            mdmPinlock: false
-            mdmJailBroken: false
-            mdmServerName: MdmServerName
-            mdmSerial: '10000000001'
-            mdmEncrypted: false
-            mdmPhoneNumber: Phone Number
-            mdmIMEI: IMEI
-            mdmEnrolled: false
-            mdmModel: iPad
-            mdmOS: iOS
-          staticProfileAssignment: false
-          groupId: groupId
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    endpointListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
           description: description
-          staticGroupAssignment: true
-          staticProfileAssignmentDefined: true
-          mac: 00:01:02:03:04:05
-          portalUser: portalUser
-          profileId: profileId
-          name: name
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          staticGroupAssignmentDefined: true
-          identityStore: identityStore
-          identityStoreId: identityStoreId
-          customAttributes:
-            customAttributes:
-              key1: value1
-              key2: value2
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     updatedField:
       properties:
         field:
@@ -1908,201 +1939,80 @@ components:
           type: string
           example: null
       example: null
-    UpdatedFieldsResponse:
+    BulkStatus:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    OperationResultEntity:
-      properties:
-        OperationResult:
-          properties:
-            resultValue:
-              type: array
-              example: null
-              items:
-                properties:
-                  Value:
-                    type: integer
-                    example: null
-                  name:
-                    type: string
-                    example: null
-                example: null
-          example: null
-      example: null
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
+        bulkId:
           type: string
-          example: some other field
-        oldValue:
+          example: 1615360357673
+        mediaType:
           type: string
-          example: val_old
-        newValue:
+          example: ''
+        executionStatus:
           type: string
-          example: val_new
-    ERSEndPoint_2:
-      properties:
-        id:
+          example: COMPLETED
+        operationType:
           type: string
-          example: 172f8270-8f4f-11eb-b4a8-9eb04987ed29
-        name:
+          example: create
+        startTime:
           type: string
-          example: 11:22:33:44:55:66
-        description:
-          type: string
-          example: MyEndpoint
-        mac:
-          type: string
-          example: 11:22:33:44:55:66
-        profileId:
-          type: string
-          example: profileId
-        staticProfileAssignment:
-          type: boolean
-          example: false
-        groupId:
-          type: string
-          example: aa13bb40-8bff-11e6-996c-525400b48521
-        staticGroupAssignment:
-          type: boolean
-          example: true
-        portalUser:
-          type: string
-          example: portalUser
-        identityStore:
-          type: string
-          example: identityStore
-        identityStoreId:
-          type: string
-          example: identityStoreId
-        customAttributes:
-          type: object
-          properties:
-            customAttributes:
-              type: object
-              properties:
-                key1:
-                  type: string
-                  example: value1
-                key2:
-                  type: string
-                  example: value2
-        mfcAttributes:
-          type: object
-          properties:
-            mfcDeviceType:
-              type: boolean
-              example: Workstation
-            mfcHardwareManufacturer:
-              type: boolean
-              example: VMWare, Inc.
-            mfcHardwareModel:
-              type: boolean
-              example: VMWare-Device
-            mfcOperatingSystem:
-              type: boolean
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/endpoint/172f8270-8f4f-11eb-b4a8-9eb04987ed29
-            type:
-              type: string
-              example: application/json
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    bulkrequest:
-      type: object
-      properties:
-        EndpointBulkRequest:
-          $ref: '#/components/schemas/EndpointBulkRequest'
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        ERSEndPoint:
-          $ref: '#/components/schemas/patchRequestBody'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/endpoint/versioninfo
-        type:
-          type: string
-          example: application/json
-    SearchResult:
-      type: object
-      properties:
-        total:
+          example: Wed Mar 10 07:12:37 UTC 2021
+        resourcesCount:
           type: integer
-          example: 1
-        resources:
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
           type: array
           example:
-          - id: 172f8270-8f4f-11eb-b4a8-9eb04987ed29
-            name: 11:22:33:44:55:66
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/endpoint/172f8270-8f4f-11eb-b4a8-9eb04987ed29
-              type: application/json
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
           items:
             properties:
               name:
                 type: string
+    OperationResult:
+      type: object
+      properties:
+        OperationResult:
+          type: object
+          properties:
+            resultValue:
+              type: array
+              example:
+              - value: DdsAASDs%$##@ssds12
+                name: password
+              items:
+                properties:
+                  name:
+                    type: string
+    endpoint:
+      type: object
+      properties:
+        ERSEndPoint:
+          $ref: '#/components/schemas/ERSEndPoint_2'
     ERSEndPoint_name:
       properties:
         id:
@@ -2176,6 +2086,132 @@ components:
             type:
               type: string
               example: application/json
+    endpoint_name:
+      type: object
+      properties:
+        ERSEndPoint:
+          $ref: '#/components/schemas/ERSEndPoint_name'
+    ERSEndPoint_2:
+      properties:
+        id:
+          type: string
+          example: 172f8270-8f4f-11eb-b4a8-9eb04987ed29
+        name:
+          type: string
+          example: 11:22:33:44:55:66
+        description:
+          type: string
+          example: MyEndpoint
+        mac:
+          type: string
+          example: 11:22:33:44:55:66
+        profileId:
+          type: string
+          example: profileId
+        staticProfileAssignment:
+          type: boolean
+          example: false
+        groupId:
+          type: string
+          example: aa13bb40-8bff-11e6-996c-525400b48521
+        staticGroupAssignment:
+          type: boolean
+          example: true
+        portalUser:
+          type: string
+          example: portalUser
+        identityStore:
+          type: string
+          example: identityStore
+        identityStoreId:
+          type: string
+          example: identityStoreId
+        customAttributes:
+          type: object
+          properties:
+            customAttributes:
+              type: object
+              properties:
+                key1:
+                  type: string
+                  example: value1
+                key2:
+                  type: string
+                  example: value2
+        mfcAttributes:
+          type: object
+          properties:
+            mfcDeviceType:
+              type: boolean
+              example: Workstation
+            mfcHardwareManufacturer:
+              type: boolean
+              example: VMWare, Inc.
+            mfcHardwareModel:
+              type: boolean
+              example: VMWare-Device
+            mfcOperatingSystem:
+              type: boolean
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/endpoint/172f8270-8f4f-11eb-b4a8-9eb04987ed29
+            type:
+              type: string
+              example: application/json
+    patchRequest:
+      type: object
+      properties:
+        ERSEndPoint:
+          $ref: '#/components/schemas/patchRequestBody'
+    EndpointBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.identity.endpoint.1.0+xml
+    bulkrequest:
+      type: object
+      properties:
+        EndpointBulkRequest:
+          $ref: '#/components/schemas/EndpointBulkRequest'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/endpoint/versioninfo
+        type:
+          type: string
+          example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     version:
       type: object
       properties:
@@ -2187,109 +2223,64 @@ components:
           example: 1.0,1.1,1.2
         link:
           $ref: '#/components/schemas/link1'
-    OperationResult:
+    SearchResult:
       type: object
       properties:
-        OperationResult:
-          type: object
-          properties:
-            resultValue:
-              type: array
-              example:
-              - value: DdsAASDs%$##@ssds12
-                name: password
-              items:
-                properties:
-                  name:
-                    type: string
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 172f8270-8f4f-11eb-b4a8-9eb04987ed29
+            name: 11:22:33:44:55:66
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/endpoint/172f8270-8f4f-11eb-b4a8-9eb04987ed29
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     Update:
       type: object
       properties:
         UpdatedFieldsList:
           $ref: '#/components/schemas/UpdatedFieldsList'
-    endpoint:
+    search:
       type: object
       properties:
-        ERSEndPoint:
-          $ref: '#/components/schemas/ERSEndPoint_2'
-    EndpointBulkRequest:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    patchRequestBody:
       type: object
       properties:
-        operationType:
+        any-resource-attribute:
           type: string
-          example: create
-        resourceMediaType:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: vnd.com.cisco.ise.identity.endpoint.1.0+xml
-    endpoint_name:
+          example: some-updated-value
+    bulkstatus:
       type: object
       properties:
-        ERSEndPoint:
-          $ref: '#/components/schemas/ERSEndPoint_name'
-    BulkStatus:
-      type: object
-      properties:
-        bulkId:
-          type: string
-          example: 1615360357673
-        mediaType:
-          type: string
-          example: ''
-        executionStatus:
-          type: string
-          example: COMPLETED
-        operationType:
-          type: string
-          example: create
-        startTime:
-          type: string
-          example: Wed Mar 10 07:12:37 UTC 2021
-        resourcesCount:
-          type: integer
-          example: 5
-        successCount:
-          type: integer
-          example: 5
-        failCount:
-          type: integer
-          example: 0
-        resourcesStatus:
-          type: array
-          example:
-          - id: '1234454324'
-            name: resource1
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '2343242342'
-            name: resource2
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '4564566456'
-            name: resource3
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '6544566455'
-            name: resource4
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          items:
-            properties:
-              name:
-                type: string
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -2299,6 +2290,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

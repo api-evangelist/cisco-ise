@@ -165,6 +165,14 @@ components:
                 example: code
             example: null
       example: null
+    identitystores.restidstoregroup:
+      required:
+      - ERSRestIDStoreAllGroups
+      type: object
+      properties:
+        ERSRestIDStoreAllGroups:
+          $ref: '#/components/schemas/ERSRestIDStoreAllGroups'
+      example: null
     ERSRestIDStoreAllGroups:
       required:
       - name
@@ -193,14 +201,25 @@ components:
           pageSize: 20
           clientSecret: <AZURE_CLIENT_SECRET>
           restIDStoreName: ''
-    identitystores.restidstoregroup:
-      required:
-      - ERSRestIDStoreAllGroups
+    ERSRestIDStoreGroups:
+      type: object
+      properties:
+        groups:
+          type: array
+          description: List of group names returned from the REST ID store.
+          example:
+          - group1
+          - group2
+          - group3
+          - group4
+          - group5
+          items:
+            type: string
+    ERSRestIDStoreAllGroupsRequest:
       type: object
       properties:
         ERSRestIDStoreAllGroups:
-          $ref: '#/components/schemas/ERSRestIDStoreAllGroups'
-      example: null
+          $ref: '#/components/schemas/ERSRestIDStoreAllGroups_2'
     ERSRestIDStoreGroupsResponse:
       type: object
       properties:
@@ -240,25 +259,6 @@ components:
           type: integer
           example: 10
           description: Number of groups to return per page.
-    ERSRestIDStoreGroups:
-      type: object
-      properties:
-        groups:
-          type: array
-          description: List of group names returned from the REST ID store.
-          example:
-          - group1
-          - group2
-          - group3
-          - group4
-          - group5
-          items:
-            type: string
-    ERSRestIDStoreAllGroupsRequest:
-      type: object
-      properties:
-        ERSRestIDStoreAllGroups:
-          $ref: '#/components/schemas/ERSRestIDStoreAllGroups_2'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -298,7 +298,44 @@ paths:
       operationId: getErsConfigSmsproviderVersioninfo
       x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     smsproviderResponse:
       type: object
       properties:
@@ -350,6 +387,26 @@ components:
                 example: code
             example: null
       example: null
+    smsproviderResponseEntity:
+      properties:
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     smsproviderListResponse:
       type: object
       properties:
@@ -391,61 +448,22 @@ components:
               type: application/xml
             description: description2
             id: id2
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    smsproviderResponseEntity:
-      properties:
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.0'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/smsprovider/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -470,36 +488,18 @@ components:
       properties:
         SearchResult:
           $ref: '#/components/schemas/SearchResult'
-    version:
+    link1:
       type: object
       properties:
-        currentServerVersion:
+        rel:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: self
+        href:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-  parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
+          example: https://<ise-ip>:9060/ers/config/smsprovider/versioninfo
+        type:
+          type: string
+          example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -207,54 +207,24 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    RegionsResponse:
-      title: RegionsResponse
-      required:
-      - response
-      - version
+    Region:
+      title: Region
       type: object
       properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Region'
-            exampleSetFlag: false
-        version:
+        fqdn:
           type: string
-          description: API version.
-          example: 1.0.0
+          description: Fully qualified domain name.
+          example: neoffers.cisco.com
           exampleSetFlag: true
-      exampleSetFlag: false
-    EnrollmentAccount:
-      title: EnrollmentAccount
-      type: object
-      properties:
-        accountId:
+        id:
           type: string
-          description: Account identifier.
-          example: 599f76ed-6bd6-4182-9cd9-06d9c15a14dc
+          description: Id of the region.
+          example: us-west-2
           exampleSetFlag: true
-        accountName:
+        name:
           type: string
-          description: Account name.
-          example: Production Account
-          exampleSetFlag: true
-      exampleSetFlag: false
-    EnrolledDeviceDetailsResponse:
-      title: EnrolledDeviceDetailsResponse
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/EnrolledDeviceDetails'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: API version.
-          example: 1.0.0
+          description: Name of region.
+          example: us-west-2
           exampleSetFlag: true
       exampleSetFlag: false
     EnrolledDeviceDetails:
@@ -296,50 +266,39 @@ components:
           example: us-west-2
           exampleSetFlag: true
       exampleSetFlag: false
-    Region:
-      title: Region
+    EnrollmentAccount:
+      title: EnrollmentAccount
       type: object
       properties:
-        fqdn:
+        accountId:
           type: string
-          description: Fully qualified domain name.
-          example: neoffers.cisco.com
+          description: Account identifier.
+          example: 599f76ed-6bd6-4182-9cd9-06d9c15a14dc
           exampleSetFlag: true
-        id:
+        accountName:
           type: string
-          description: Id of the region.
-          example: us-west-2
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Name of region.
-          example: us-west-2
+          description: Account name.
+          example: Production Account
           exampleSetFlag: true
       exampleSetFlag: false
-    EnrollmentDetails:
-      title: EnrollmentDetails
+    RegionsResponse:
+      title: RegionsResponse
+      required:
+      - response
+      - version
       type: object
       properties:
-        accounts:
+        response:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/EnrollmentAccount'
+            $ref: '#/components/schemas/Region'
             exampleSetFlag: false
-        responseType:
+        version:
           type: string
-          description: If there is a single cloud account associated with the user, then this value will be `TOKEN` and `data` attribute will have the token information. If there are multiple accounts associated, then this value will be `SELECT_TOKEN` and `accounts` attribute will have the list of accounts.
+          description: API version.
+          example: 1.0.0
           exampleSetFlag: true
-          enum:
-          - SELECT_TENANT
-          - TOKEN
-        status:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - activated
-          - authorization_pending
-          - registered
       exampleSetFlag: false
     ActivationUrlDetails:
       title: ActivationUrlDetails
@@ -377,6 +336,22 @@ components:
           exampleSetFlag: true
       description: Error details
       exampleSetFlag: false
+    EnrolledDeviceDetailsResponse:
+      title: EnrolledDeviceDetailsResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/EnrolledDeviceDetails'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: API version.
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     ActivationUrlDetailsResponse:
       title: ActivationUrlDetailsResponse
       required:
@@ -386,6 +361,58 @@ components:
       properties:
         response:
           $ref: '#/components/schemas/ActivationUrlDetails'
+          exampleSetFlag: true
+        version:
+          type: string
+          description: API version.
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    EnrollmentDetails:
+      title: EnrollmentDetails
+      type: object
+      properties:
+        accounts:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/EnrollmentAccount'
+            exampleSetFlag: false
+        responseType:
+          type: string
+          description: If there is a single cloud account associated with the user, then this value will be `TOKEN` and `data` attribute will have the token information. If there are multiple accounts associated, then this value will be `SELECT_TOKEN` and `accounts` attribute will have the list of accounts.
+          exampleSetFlag: true
+          enum:
+          - SELECT_TENANT
+          - TOKEN
+        status:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - activated
+          - authorization_pending
+          - registered
+      exampleSetFlag: false
+    HostConfigInfo:
+      title: HostConfigInfo
+      type: object
+      properties:
+        ipAddress:
+          type: string
+          description: IP address of the host.
+          example: 10.104.240.60
+          exampleSetFlag: true
+      description: Details of the ISE node on which pxGrid Cloud has to be enabled.
+      exampleSetFlag: false
+    EnrollmentDetailsResponse:
+      title: EnrollmentDetailsResponse
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/EnrollmentDetails'
           exampleSetFlag: true
         version:
           type: string
@@ -422,31 +449,4 @@ components:
           description: Selected region name in which device has to be registered.
           example: us-west-2
           exampleSetFlag: true
-      exampleSetFlag: false
-    EnrollmentDetailsResponse:
-      title: EnrollmentDetailsResponse
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/EnrollmentDetails'
-          exampleSetFlag: true
-        version:
-          type: string
-          description: API version.
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    HostConfigInfo:
-      title: HostConfigInfo
-      type: object
-      properties:
-        ipAddress:
-          type: string
-          description: IP address of the host.
-          example: 10.104.240.60
-          exampleSetFlag: true
-      description: Details of the ISE node on which pxGrid Cloud has to be enabled.
       exampleSetFlag: false

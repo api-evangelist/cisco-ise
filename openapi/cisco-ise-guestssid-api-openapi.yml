@@ -782,27 +782,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     GuestSSID:
       required:
@@ -906,40 +897,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    guestssidResponse:
-      type: object
-      properties:
-        GuestSSID:
-          $ref: '#/components/schemas/guestssidResponseEntity'
-      example:
-        GuestSSID:
-          name: ssid value
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     guestssidResponseEntity:
       properties:
         name:
@@ -960,6 +917,49 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    guestssidResponse:
+      type: object
+      properties:
+        GuestSSID:
+          $ref: '#/components/schemas/guestssidResponseEntity'
+      example:
+        GuestSSID:
+          name: ssid value
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     portal.guestssid:
       required:
       - GuestSSID
@@ -968,6 +968,22 @@ components:
         GuestSSID:
           $ref: '#/components/schemas/GuestSSID'
       example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     GuestSSID_2:
       type: object
       properties:
@@ -989,45 +1005,6 @@ components:
             type:
               type: string
               example: application/json
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/guestssid/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        GuestSSID:
-          $ref: '#/components/schemas/patchRequestBody'
     SearchResult:
       type: object
       properties:
@@ -1047,22 +1024,6 @@ components:
             properties:
               name:
                 type: string
-    ssid:
-      type: object
-      properties:
-        GuestSSID:
-          $ref: '#/components/schemas/GuestSSID_2'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
     UpdatedFieldsList:
       type: object
       properties:
@@ -1082,6 +1043,21 @@ components:
       properties:
         UpdatedFieldsList:
           $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    ssid:
+      type: object
+      properties:
+        GuestSSID:
+          $ref: '#/components/schemas/GuestSSID_2'
+    patchRequest:
+      type: object
+      properties:
+        GuestSSID:
+          $ref: '#/components/schemas/patchRequestBody'
     patchRequestBody:
       type: object
       properties:
@@ -1091,16 +1067,31 @@ components:
         another-resource-attribute:
           type: string
           example: some-updated-value
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guestssid/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1110,6 +1101,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

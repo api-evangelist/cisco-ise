@@ -167,6 +167,25 @@ paths:
       operationId: getErsConfigAcibindingsVersioninfo
       x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
     acibindingsResponseEntity:
       properties:
@@ -218,6 +237,24 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -240,24 +277,6 @@ components:
                 example: code
             example: null
       example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
     acibindingsArrayListResponseEntity:
       properties:
         ArrayList:
@@ -266,6 +285,22 @@ components:
           items:
             $ref: '#/components/schemas/acibindingsResponseEntity'
       example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     acibindings:
       type: object
       properties:
@@ -287,11 +322,11 @@ components:
         learnedBy:
           type: string
           example: STATIC
-    VersionInfo:
+    bindings:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
+        ACIBindings:
+          $ref: '#/components/schemas/acibindings'
     link1:
       type: object
       properties:
@@ -304,41 +339,6 @@ components:
         type:
           type: string
           example: application/xml
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    bindings:
-      type: object
-      properties:
-        ACIBindings:
-          $ref: '#/components/schemas/acibindings'
-  parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -957,27 +957,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     identitystores.ldap:
       required:
@@ -986,6 +977,24 @@ components:
       properties:
         ERSLdap:
           $ref: '#/components/schemas/ERSLdap'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     ldapListResponseEntity:
       properties:
@@ -1007,404 +1016,160 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    ldapResponseEntity:
-      properties:
-        generalSettings:
-          properties:
-            userObjectClass:
-              title: userObjectClass
-              type: string
-              description: userObjectClass.
-              example: null
-            userNameAttribute:
-              title: userNameAttribute
-              type: string
-              description: userNameAttribute
-              example: null
-            groupNameAttribute:
-              title: groupNameAttribute
-              type: string
-              description: groupNameAttribute
-              example: null
-            groupObjectClass:
-              title: groupObjectClass
-              type: string
-              description: groupObjectClass
-              example: null
-            groupMapAttributeName:
-              title: groupMapAttributeName
-              type: string
-              description: groupMapAttributeName
-              example: null
-            certificate:
-              title: certificate
-              type: string
-              description: certificate
-              example: null
-            schema:
-              title: schema
-              type: object
-              description: schema
-              example: null
-            groupMemberReference:
-              title: groupMemberReference
-              type: object
-              description: groupMemberReference
-              example: null
-            userInfoAttributes:
-              properties:
-                firstName:
-                  title: firstName
-                  type: string
-                  description: firstName
-                  example: null
-                department:
-                  title: department
-                  type: string
-                  description: department
-                  example: null
-                lastName:
-                  title: lastName
-                  type: string
-                  description: lastName
-                  example: null
-                organizationalUnit:
-                  title: organizationalUnit
-                  type: string
-                  description: organizationalUnit
-                  example: null
-                jobTitle:
-                  title: jobTitle
-                  type: string
-                  description: jobTitle
-                  example: null
-                locality:
-                  title: locality
-                  type: string
-                  description: locality
-                  example: null
-                email:
-                  title: email
-                  type: string
-                  description: email
-                  example: null
-                stateOrProvince:
-                  title: stateOrProvince
-                  type: string
-                  description: stateOrProvince
-                  example: null
-                telephone:
-                  title: telephone
-                  type: string
-                  description: telephone
-                  example: null
-                country:
-                  title: country
-                  type: string
-                  description: country
-                  example: null
-                streetAddress:
-                  title: streetAddress
-                  type: string
-                  description: streetAddress
-                  example: null
-                additionalAttribute:
-                  title: additionalAttribute
-                  type: string
-                  description: additionalAttribute
-                  example: null
-              example: null
-          example: null
-        connectionSettings:
-          properties:
-            primaryServer:
-              properties:
-                hostName:
-                  title: hostName
-                  type: string
-                  description: hostName
-                  example: null
-                port:
-                  title: port
-                  type: number
-                  description: port
-                  example: null
-                maxConnections:
-                  title: maxConnections
-                  type: number
-                  description: maxConnections
-                  example: null
-                serverTimeout:
-                  title: serverTimeout
-                  type: number
-                  description: serverTimeout
-                  example: null
-                useAdminAccess:
-                  title: useAdminAccess
-                  type: boolean
-                  description: useAdminAccess
-                  example: null
-                adminDN:
-                  title: adminDN
-                  type: string
-                  description: adminDN
-                  example: null
-                adminPassword:
-                  title: adminPassword
-                  type: string
-                  description: adminPassword
-                  example: null
-                enableSecureConnection:
-                  title: enableSecureConnection
-                  type: boolean
-                  description: enableSecureConnection
-                  example: null
-                enableServerIdentityCheck:
-                  title: enableServerIdentityCheck
-                  type: boolean
-                  description: enableServerIdentityCheck
-                  example: null
-                trustCertificate:
-                  title: trustCertificate
-                  type: string
-                  description: trustCertificate
-                  example: null
-                issuerCACertificate:
-                  title: issuerCACertificate
-                  type: string
-                  description: issuerCACertificate
-                  example: null
-                enableForceReconnect:
-                  title: enableForceReconnect
-                  type: boolean
-                  description: enableForceReconnect
-                  example: null
-                forceReconnectTime:
-                  title: forceReconnectTime
-                  type: number
-                  description: forceReconnectTime
-                  example: null
-              example: null
-            secondaryServer:
-              properties:
-                hostName:
-                  title: hostName
-                  type: string
-                  description: hostName
-                  example: null
-                port:
-                  title: port
-                  type: number
-                  description: port
-                  example: null
-                maxConnections:
-                  title: maxConnections
-                  type: number
-                  description: maxConnections
-                  example: null
-                serverTimeout:
-                  title: serverTimeout
-                  type: number
-                  description: serverTimeout
-                  example: null
-                useAdminAccess:
-                  title: useAdminAccess
-                  type: boolean
-                  description: useAdminAccess
-                  example: null
-                adminDN:
-                  title: adminDN
-                  type: string
-                  description: adminDN
-                  example: null
-                adminPassword:
-                  title: adminPassword
-                  type: string
-                  description: adminPassword
-                  example: null
-                enableSecureConnection:
-                  title: enableSecureConnection
-                  type: boolean
-                  description: enableSecureConnection
-                  example: null
-                enableServerIdentityCheck:
-                  title: enableServerIdentityCheck
-                  type: boolean
-                  description: enableServerIdentityCheck
-                  example: null
-                trustCertificate:
-                  title: trustCertificate
-                  type: string
-                  description: trustCertificate
-                  example: null
-                issuerCACertificate:
-                  title: issuerCACertificate
-                  type: string
-                  description: issuerCACertificate
-                  example: null
-                enableForceReconnect:
-                  title: enableForceReconnect
-                  type: boolean
-                  description: enableForceReconnect
-                  example: null
-                forceReconnectTime:
-                  title: forceReconnectTime
-                  type: number
-                  description: forceReconnectTime
-                  example: null
-              example: null
-            ldapNodeData:
-              title: ldapNodeData
-              type: array
-              description: ldapNodeData
-              example: null
-              items:
-                properties:
-                  name:
-                    title: name
-                    type: string
-                    description: name
-                    example: null
-                  primaryHostname:
-                    title: primaryHostname
-                    type: string
-                    description: ipaddress
-                    example: null
-                  secondaryHostname:
-                    title: secondaryHostname
-                    type: string
-                    description: ipaddress
-                    example: null
-                  primaryPort:
-                    title: primaryPort
-                    type: number
-                    description: primaryPort
-                    example: null
-                  secondaryPort:
-                    title: secondaryPort
-                    type: number
-                    description: secondaryPort
-                    example: null
-                example: null
-            failoverToSecondary:
-              title: failoverToSecondary
-              type: boolean
-              description: failoverToSecondary
-              example: null
-            failbackRetryDelay:
-              title: failbackRetryDelay
-              type: number
-              description: failbackRetryDelay
-              example: null
-            specifyServerForEachISENode:
-              title: specifyServerForEachISENode
-              type: boolean
-              description: specifyServerForEachISENode
-              example: null
-            alwaysAccessPrimaryFirst:
-              title: alwaysAccessPrimaryFirst
-              type: boolean
-              description: alwaysAccessPrimaryFirst
-              example: null
-          example: null
-        directoryOrganization:
-          properties:
-            userDirectorySubtree:
-              title: userDirectorySubtree
-              type: string
-              description: userDirectorySubtree
-              example: null
-            groupDirectorySubtree:
-              title: groupDirectorySubtree
-              type: string
-              description: groupDirectorySubtree
-              example: null
-            macFormat:
-              title: macFormat
-              type: object
-              description: macFormat
-              example: null
-            stripPrefix:
-              title: stripPrefix
-              type: boolean
-              description: stripPrefix
-              example: null
-            stripSuffix:
-              title: stripSuffix
-              type: string
-              description: stripSuffix
-              example: null
-            prefixSeparator:
-              title: prefixSeparator
-              type: string
-              description: prefixSeparator
-              example: null
-            suffixSeparator:
-              title: suffixSeparator
-              type: string
-              description: suffixSeparator
-              example: null
-          example: null
-        groups:
-          properties:
-            groupsNames:
-              title: groupsNames
-              type: array
-              description: List of groups
-              example: null
-              items:
-                example: null
-          example: null
-        attributes:
-          properties:
-            attributes:
-              title: attributes
-              type: array
-              description: List of Attributes
-              example: null
-              items:
-                example: null
-          example: null
-        enablePasswordChangeLDAP:
-          title: enablePasswordChangeLDAP
-          type: boolean
-          description: enablePasswordChangeLDAP
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    Link:
+    ldapListResponse:
       type: object
       properties:
-        rel:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/ldapListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    ldapResponse:
+      type: object
+      properties:
+        ERSLdap:
+          $ref: '#/components/schemas/ldapResponseEntity'
+      example:
+        ERSLdap:
+          enablePasswordChangeLDAP: false
+          name: sample
+          description: Description
+          generalSettings:
+            schema: ACTIVE_DIRECTORY
+            groupNameAttribute: dn
+            groupMapAttributeName: memberOf
+            certificate: userCertificate
+            userInfoAttributes:
+              firstName: givenName
+              lastName: sn
+              country: co
+              stateOrProvince: st
+              streetAddress: streetAddress
+              locality: l
+              telephone: telephoneNumber
+              department: department
+              email: email
+              organizationalUnit: company
+            groupMemberReference: USERNAME
+            userNameAttribute: userPrincipalName
+            groupReference: GROUP_TO_USER
+            userObjectClass: Person
+            groupObjectClass: Group
+          groups:
+            groupsNames:
+            - CN=TestLDAP,CN=Users,DC=ISE,DC=COM
+          connectionSettings:
+            secondaryServer:
+              hostName: ''
+              useAdminAccess: true
+              enableForceReconnect: false
+              issuerCACertificate: ''
+              adminDN: cn=administrator,cn=users,dc=ise,dc=com
+              enableServerIdentityCheck: false
+              serverTimeout: 10
+              trustCertificate: ''
+              port: 389
+              maxConnections: 20
+              adminPassword: Lab@123
+              enableSecureConnection: false
+              forceReconnectTime: 20
+            failoverToSecondary: true
+            failbackRetryDelay: 5
+            alwaysAccessPrimaryFirst: true
+            specifyServerForEachISENode: true
+            primaryServer:
+              hostName: ''
+              useAdminAccess: true
+              enableForceReconnect: false
+              issuerCACertificate: ''
+              adminDN: cn=administrator,cn=users,dc=ise,dc=com
+              enableServerIdentityCheck: false
+              serverTimeout: 10
+              trustCertificate: ''
+              port: 389
+              maxConnections: 20
+              adminPassword: Lab@123
+              enableSecureConnection: false
+              forceReconnectTime: 20
+            ldapNodeData:
+            - primaryHostname: ipAddress
+              secondaryHostname: ipAddress
+              name: ise222
+              secondaryPort: 389
+              primaryPort: 389
+            - primaryHostname: ipAddress
+              secondaryHostname: ipAddress
+              name: ise223
+              secondaryPort: 389
+              primaryPort: 389
+          attributes:
+            attributes:
+            - internalName: whenChanged
+              defaultValue: ' '
+              name: whenChanged
+              type: STRING
+          directoryOrganization:
+            stripPrefix: false
+            prefixSeparator: \
+            macFormat: DASH
+            groupDirectorySubtree: groupDirectorySubtree
+            suffixSeparator: ' '
+            stripSuffix: false
+            userDirectorySubtree: userDirectorySubtree
+    ERSResponse:
+      type: object
+      properties:
+        operation:
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     ERSLdap:
       required:
@@ -1883,139 +1648,387 @@ components:
             suffixSeparator: ' '
             stripSuffix: false
             userDirectorySubtree: userDirectorySubtree
-    ldapResponse:
-      type: object
+    ldapResponseEntity:
       properties:
-        ERSLdap:
-          $ref: '#/components/schemas/ldapResponseEntity'
-      example:
-        ERSLdap:
-          enablePasswordChangeLDAP: false
-          name: sample
-          description: Description
-          generalSettings:
-            schema: ACTIVE_DIRECTORY
-            groupNameAttribute: dn
-            groupMapAttributeName: memberOf
-            certificate: userCertificate
-            userInfoAttributes:
-              firstName: givenName
-              lastName: sn
-              country: co
-              stateOrProvince: st
-              streetAddress: streetAddress
-              locality: l
-              telephone: telephoneNumber
-              department: department
-              email: email
-              organizationalUnit: company
-            groupMemberReference: USERNAME
-            userNameAttribute: userPrincipalName
-            groupReference: GROUP_TO_USER
-            userObjectClass: Person
-            groupObjectClass: Group
-          groups:
-            groupsNames:
-            - CN=TestLDAP,CN=Users,DC=ISE,DC=COM
-          connectionSettings:
-            secondaryServer:
-              hostName: ''
-              useAdminAccess: true
-              enableForceReconnect: false
-              issuerCACertificate: ''
-              adminDN: cn=administrator,cn=users,dc=ise,dc=com
-              enableServerIdentityCheck: false
-              serverTimeout: 10
-              trustCertificate: ''
-              port: 389
-              maxConnections: 20
-              adminPassword: Lab@123
-              enableSecureConnection: false
-              forceReconnectTime: 20
-            failoverToSecondary: true
-            failbackRetryDelay: 5
-            alwaysAccessPrimaryFirst: true
-            specifyServerForEachISENode: true
-            primaryServer:
-              hostName: ''
-              useAdminAccess: true
-              enableForceReconnect: false
-              issuerCACertificate: ''
-              adminDN: cn=administrator,cn=users,dc=ise,dc=com
-              enableServerIdentityCheck: false
-              serverTimeout: 10
-              trustCertificate: ''
-              port: 389
-              maxConnections: 20
-              adminPassword: Lab@123
-              enableSecureConnection: false
-              forceReconnectTime: 20
-            ldapNodeData:
-            - primaryHostname: ipAddress
-              secondaryHostname: ipAddress
-              name: ise222
-              secondaryPort: 389
-              primaryPort: 389
-            - primaryHostname: ipAddress
-              secondaryHostname: ipAddress
-              name: ise223
-              secondaryPort: 389
-              primaryPort: 389
-          attributes:
-            attributes:
-            - internalName: whenChanged
-              defaultValue: ' '
-              name: whenChanged
-              type: STRING
-          directoryOrganization:
-            stripPrefix: false
-            prefixSeparator: \
-            macFormat: DASH
-            groupDirectorySubtree: groupDirectorySubtree
-            suffixSeparator: ' '
-            stripSuffix: false
-            userDirectorySubtree: userDirectorySubtree
-    ldapListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
+        generalSettings:
           properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
+            userObjectClass:
+              title: userObjectClass
+              type: string
+              description: userObjectClass.
+              example: null
+            userNameAttribute:
+              title: userNameAttribute
+              type: string
+              description: userNameAttribute
+              example: null
+            groupNameAttribute:
+              title: groupNameAttribute
+              type: string
+              description: groupNameAttribute
+              example: null
+            groupObjectClass:
+              title: groupObjectClass
+              type: string
+              description: groupObjectClass
+              example: null
+            groupMapAttributeName:
+              title: groupMapAttributeName
+              type: string
+              description: groupMapAttributeName
+              example: null
+            certificate:
+              title: certificate
+              type: string
+              description: certificate
+              example: null
+            schema:
+              title: schema
+              type: object
+              description: schema
+              example: null
+            groupMemberReference:
+              title: groupMemberReference
+              type: object
+              description: groupMemberReference
+              example: null
+            userInfoAttributes:
+              properties:
+                firstName:
+                  title: firstName
+                  type: string
+                  description: firstName
+                  example: null
+                department:
+                  title: department
+                  type: string
+                  description: department
+                  example: null
+                lastName:
+                  title: lastName
+                  type: string
+                  description: lastName
+                  example: null
+                organizationalUnit:
+                  title: organizationalUnit
+                  type: string
+                  description: organizationalUnit
+                  example: null
+                jobTitle:
+                  title: jobTitle
+                  type: string
+                  description: jobTitle
+                  example: null
+                locality:
+                  title: locality
+                  type: string
+                  description: locality
+                  example: null
+                email:
+                  title: email
+                  type: string
+                  description: email
+                  example: null
+                stateOrProvince:
+                  title: stateOrProvince
+                  type: string
+                  description: stateOrProvince
+                  example: null
+                telephone:
+                  title: telephone
+                  type: string
+                  description: telephone
+                  example: null
+                country:
+                  title: country
+                  type: string
+                  description: country
+                  example: null
+                streetAddress:
+                  title: streetAddress
+                  type: string
+                  description: streetAddress
+                  example: null
+                additionalAttribute:
+                  title: additionalAttribute
+                  type: string
+                  description: additionalAttribute
+                  example: null
+              example: null
+          example: null
+        connectionSettings:
+          properties:
+            primaryServer:
+              properties:
+                hostName:
+                  title: hostName
+                  type: string
+                  description: hostName
+                  example: null
+                port:
+                  title: port
+                  type: number
+                  description: port
+                  example: null
+                maxConnections:
+                  title: maxConnections
+                  type: number
+                  description: maxConnections
+                  example: null
+                serverTimeout:
+                  title: serverTimeout
+                  type: number
+                  description: serverTimeout
+                  example: null
+                useAdminAccess:
+                  title: useAdminAccess
+                  type: boolean
+                  description: useAdminAccess
+                  example: null
+                adminDN:
+                  title: adminDN
+                  type: string
+                  description: adminDN
+                  example: null
+                adminPassword:
+                  title: adminPassword
+                  type: string
+                  description: adminPassword
+                  example: null
+                enableSecureConnection:
+                  title: enableSecureConnection
+                  type: boolean
+                  description: enableSecureConnection
+                  example: null
+                enableServerIdentityCheck:
+                  title: enableServerIdentityCheck
+                  type: boolean
+                  description: enableServerIdentityCheck
+                  example: null
+                trustCertificate:
+                  title: trustCertificate
+                  type: string
+                  description: trustCertificate
+                  example: null
+                issuerCACertificate:
+                  title: issuerCACertificate
+                  type: string
+                  description: issuerCACertificate
+                  example: null
+                enableForceReconnect:
+                  title: enableForceReconnect
+                  type: boolean
+                  description: enableForceReconnect
+                  example: null
+                forceReconnectTime:
+                  title: forceReconnectTime
+                  type: number
+                  description: forceReconnectTime
+                  example: null
+              example: null
+            secondaryServer:
+              properties:
+                hostName:
+                  title: hostName
+                  type: string
+                  description: hostName
+                  example: null
+                port:
+                  title: port
+                  type: number
+                  description: port
+                  example: null
+                maxConnections:
+                  title: maxConnections
+                  type: number
+                  description: maxConnections
+                  example: null
+                serverTimeout:
+                  title: serverTimeout
+                  type: number
+                  description: serverTimeout
+                  example: null
+                useAdminAccess:
+                  title: useAdminAccess
+                  type: boolean
+                  description: useAdminAccess
+                  example: null
+                adminDN:
+                  title: adminDN
+                  type: string
+                  description: adminDN
+                  example: null
+                adminPassword:
+                  title: adminPassword
+                  type: string
+                  description: adminPassword
+                  example: null
+                enableSecureConnection:
+                  title: enableSecureConnection
+                  type: boolean
+                  description: enableSecureConnection
+                  example: null
+                enableServerIdentityCheck:
+                  title: enableServerIdentityCheck
+                  type: boolean
+                  description: enableServerIdentityCheck
+                  example: null
+                trustCertificate:
+                  title: trustCertificate
+                  type: string
+                  description: trustCertificate
+                  example: null
+                issuerCACertificate:
+                  title: issuerCACertificate
+                  type: string
+                  description: issuerCACertificate
+                  example: null
+                enableForceReconnect:
+                  title: enableForceReconnect
+                  type: boolean
+                  description: enableForceReconnect
+                  example: null
+                forceReconnectTime:
+                  title: forceReconnectTime
+                  type: number
+                  description: forceReconnectTime
+                  example: null
+              example: null
+            ldapNodeData:
+              title: ldapNodeData
               type: array
+              description: ldapNodeData
               example: null
               items:
-                $ref: '#/components/schemas/ldapListResponseEntity'
+                properties:
+                  name:
+                    title: name
+                    type: string
+                    description: name
+                    example: null
+                  primaryHostname:
+                    title: primaryHostname
+                    type: string
+                    description: ipaddress
+                    example: null
+                  secondaryHostname:
+                    title: secondaryHostname
+                    type: string
+                    description: ipaddress
+                    example: null
+                  primaryPort:
+                    title: primaryPort
+                    type: number
+                    description: primaryPort
+                    example: null
+                  secondaryPort:
+                    title: secondaryPort
+                    type: number
+                    description: secondaryPort
+                    example: null
+                example: null
+            failoverToSecondary:
+              title: failoverToSecondary
+              type: boolean
+              description: failoverToSecondary
+              example: null
+            failbackRetryDelay:
+              title: failbackRetryDelay
+              type: number
+              description: failbackRetryDelay
+              example: null
+            specifyServerForEachISENode:
+              title: specifyServerForEachISENode
+              type: boolean
+              description: specifyServerForEachISENode
+              example: null
+            alwaysAccessPrimaryFirst:
+              title: alwaysAccessPrimaryFirst
+              type: boolean
+              description: alwaysAccessPrimaryFirst
+              example: null
           example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+        directoryOrganization:
+          properties:
+            userDirectorySubtree:
+              title: userDirectorySubtree
+              type: string
+              description: userDirectorySubtree
+              example: null
+            groupDirectorySubtree:
+              title: groupDirectorySubtree
+              type: string
+              description: groupDirectorySubtree
+              example: null
+            macFormat:
+              title: macFormat
+              type: object
+              description: macFormat
+              example: null
+            stripPrefix:
+              title: stripPrefix
+              type: boolean
+              description: stripPrefix
+              example: null
+            stripSuffix:
+              title: stripSuffix
+              type: string
+              description: stripSuffix
+              example: null
+            prefixSeparator:
+              title: prefixSeparator
+              type: string
+              description: prefixSeparator
+              example: null
+            suffixSeparator:
+              title: suffixSeparator
+              type: string
+              description: suffixSeparator
+              example: null
+          example: null
+        groups:
+          properties:
+            groupsNames:
+              title: groupsNames
+              type: array
+              description: List of groups
+              example: null
+              items:
+                example: null
+          example: null
+        attributes:
+          properties:
+            attributes:
+              title: attributes
+              type: array
+              description: List of Attributes
+              example: null
+              items:
+                example: null
+          example: null
+        enablePasswordChangeLDAP:
+          title: enablePasswordChangeLDAP
+          type: boolean
+          description: enablePasswordChangeLDAP
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     updatedField:
       properties:
         field:
@@ -2028,29 +2041,7 @@ components:
           type: string
           example: null
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -2060,6 +2051,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

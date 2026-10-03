@@ -441,6 +441,81 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    ProfilePolicy:
+      title: ProfilePolicy
+      required:
+      - profilingType
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/Condition'
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        profileLabel:
+          $ref: '#/components/schemas/ProfileLabel'
+          exampleSetFlag: true
+        profilingType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CUSTOM
+          - DIRECT
+          - ML
+        rulePriority:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        status:
+          type: boolean
+          example: false
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MFCValuesPojo:
+      title: MFCValuesPojo
+      type: object
+      properties:
+        admin:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+        system:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
     ProfilePolicyWithId:
       title: ProfilePolicyWithId
       required:
@@ -480,81 +555,6 @@ components:
           example: false
           exampleSetFlag: true
       exampleSetFlag: false
-    ProfilePolicy:
-      title: ProfilePolicy
-      required:
-      - profilingType
-      type: object
-      properties:
-        condition:
-          $ref: '#/components/schemas/Condition'
-          exampleSetFlag: true
-        name:
-          type: string
-          exampleSetFlag: true
-        profileLabel:
-          $ref: '#/components/schemas/ProfileLabel'
-          exampleSetFlag: true
-        profilingType:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - CUSTOM
-          - DIRECT
-          - ML
-        rulePriority:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        status:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Condition:
-      title: Condition
-      required:
-      - conditionType
-      type: object
-      properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
-          exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
-          exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
-      exampleSetFlag: false
-    BaseProfilePolicy:
-      title: BaseProfilePolicy
-      required:
-      - profilingType
-      type: object
-      properties:
-        policyId:
-          type: string
-          exampleSetFlag: true
-        profilingType:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - CUSTOM
-          - DIRECT
-          - ML
-      exampleSetFlag: false
     InlineResponse200:
       title: InlineResponse200
       type: object
@@ -593,33 +593,6 @@ components:
             type: string
             exampleSetFlag: false
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    DuplicateCheckResponseMessage:
-      title: DuplicateCheckResponseMessage
-      type: object
-      properties:
-        isDuplicate:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-        matchedPolicy:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
     PolicyAndStatus:
       title: PolicyAndStatus
       required:
@@ -635,20 +608,47 @@ components:
           example: false
           exampleSetFlag: true
       exampleSetFlag: false
-    MFCValuesPojo:
-      title: MFCValuesPojo
+    DuplicateCheckResponseMessage:
+      title: DuplicateCheckResponseMessage
       type: object
       properties:
-        admin:
-          type: array
+        isDuplicate:
+          type: boolean
+          example: false
           exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        system:
-          type: array
+        matchedPolicy:
+          type: string
           exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
+      exampleSetFlag: false
+    BaseProfilePolicy:
+      title: BaseProfilePolicy
+      required:
+      - profilingType
+      type: object
+      properties:
+        policyId:
+          type: string
+          exampleSetFlag: true
+        profilingType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CUSTOM
+          - DIRECT
+          - ML
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+        message:
+          type: string
+          exampleSetFlag: true
       exampleSetFlag: false

@@ -848,84 +848,27 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
-    TacacsExternalServer:
+    policy.tacacsexternalservers:
       required:
-      - hostIP
-      - name
-      - sharedSecret
+      - TacacsExternalServer
+      type: object
       properties:
-        hostIP:
-          title: hostIP
-          type: string
-          description: The server IPV4 address
-          example: null
-        connectionPort:
-          title: connectionPort
-          type: number
-          description: The port to connect the server
-          example: null
-        singleConnect:
-          title: singleConnect
-          type: boolean
-          description: define the use of single connection
-          example: null
-        sharedSecret:
-          title: sharedSecret
-          type: string
-          description: The server shared secret
-          example: null
-        timeout:
-          title: timeout
-          type: number
-          description: The server timeout
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-      example:
         TacacsExternalServer:
-          hostIP: 1.1.1.1
-          name: TacacsExternalServer1
-          description: TacacsExternalServerForSDK
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          connectionPort: 49
-          sharedSecret: SharedSecret
-          singleConnect: true
-          timeout: 20
+          $ref: '#/components/schemas/TacacsExternalServer'
+      example: null
     Link:
       type: object
       properties:
@@ -943,26 +886,6 @@ components:
         type:
           type: string
           example: application/json
-      example: null
-    tacacsexternalserversListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     tacacsexternalserversResponse:
       type: object
@@ -1020,30 +943,83 @@ components:
               type: application/xml
             description: description2
             id: id2
-    updatedField:
+    TacacsExternalServer:
+      required:
+      - hostIP
+      - name
+      - sharedSecret
       properties:
-        field:
+        hostIP:
+          title: hostIP
           type: string
+          description: The server IPV4 address
           example: null
-        oldValue:
+        connectionPort:
+          title: connectionPort
+          type: number
+          description: The port to connect the server
+          example: null
+        singleConnect:
+          title: singleConnect
+          type: boolean
+          description: define the use of single connection
+          example: null
+        sharedSecret:
+          title: sharedSecret
           type: string
+          description: The server shared secret
           example: null
-        newValue:
+        timeout:
+          title: timeout
+          type: number
+          description: The server timeout
+          example: null
+        name:
+          title: name
           type: string
+          description: name
           example: null
-      example: null
-    UpdatedFieldsResponse:
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        TacacsExternalServer:
+          hostIP: 1.1.1.1
+          name: TacacsExternalServer1
+          description: TacacsExternalServerForSDK
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          connectionPort: 49
+          sharedSecret: SharedSecret
+          singleConnect: true
+          timeout: 20
+    ERSResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
           example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     tacacsexternalserversResponseEntity:
       properties:
@@ -1090,14 +1066,122 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    policy.tacacsexternalservers:
-      required:
-      - TacacsExternalServer
+    tacacsexternalserversListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: "\t1af3d6e2-cc3b-4603-b80f-6827768335ab"
+            name: TacacsExternalServer1
+            description: TacacsExternalServerForSDK
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacsexternalservers/1af3d6e2-cc3b-4603-b80f-6827768335ab
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    tacacsexternalservers:
       type: object
       properties:
         TacacsExternalServer:
-          $ref: '#/components/schemas/TacacsExternalServer'
-      example: null
+          $ref: '#/components/schemas/TacacsExternalServer_2'
+    tacacsexternalservers_name:
+      type: object
+      properties:
+        TacacsExternalServer:
+          $ref: '#/components/schemas/TacacsExternalServer_name'
+    patchRequest:
+      type: object
+      properties:
+        TacacsExternalServer:
+          $ref: '#/components/schemas/patchRequestBody'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
     TacacsExternalServer_2:
       type: object
       properties:
@@ -1137,28 +1221,6 @@ components:
             type:
               type: string
               example: application/json
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/tacacsexternalservers/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     UpdatedField:
       type: object
       properties:
@@ -1171,11 +1233,18 @@ components:
         newValue:
           type: string
           example: val_new
-    patchRequest:
+    link1:
       type: object
       properties:
-        TacacsExternalServer:
-          $ref: '#/components/schemas/patchRequestBody'
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/tacacsexternalservers/versioninfo
+        type:
+          type: string
+          example: application/json
     TacacsExternalServer_name:
       type: object
       properties:
@@ -1215,85 +1284,7 @@ components:
             type:
               type: string
               example: application/json
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: "\t1af3d6e2-cc3b-4603-b80f-6827768335ab"
-            name: TacacsExternalServer1
-            description: TacacsExternalServerForSDK
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/tacacsexternalservers/1af3d6e2-cc3b-4603-b80f-6827768335ab
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    tacacsexternalservers:
-      type: object
-      properties:
-        TacacsExternalServer:
-          $ref: '#/components/schemas/TacacsExternalServer_2'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    tacacsexternalservers_name:
-      type: object
-      properties:
-        TacacsExternalServer:
-          $ref: '#/components/schemas/TacacsExternalServer_name'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1303,6 +1294,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -895,6 +895,141 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    identity.endpointgroup:
+      required:
+      - EndPointGroup
+      type: object
+      properties:
+        EndPointGroup:
+          $ref: '#/components/schemas/EndPointGroup'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    endpointgroupListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/endpointgroupListResponseEntity'
+            nextPage:
+              type: object
+              properties:
+                rel:
+                  type: string
+                  example: next
+                href:
+                  type: string
+                  example: https://{server}:{port}/ers/config
+                type:
+                  type: string
+                  example: application/json
+              example: null
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    endpointgroupResponse:
+      type: object
+      properties:
+        EndPointGroup:
+          $ref: '#/components/schemas/endpointgroupResponseEntity'
+      example:
+        EndPointGroup:
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          systemDefined: false
+          parentId: parentId
+    endpointgroupResponseEntity:
+      properties:
+        systemDefined:
+          title: systemDefined
+          type: boolean
+          description: ''
+          example: null
+        parentId:
+          title: parentId
+          type: string
+          description: ''
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     endpointgroupListResponseEntity:
       properties:
         id:
@@ -974,98 +1109,6 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           systemDefined: false
           parentId: parentId
-    endpointgroupResponse:
-      type: object
-      properties:
-        EndPointGroup:
-          $ref: '#/components/schemas/endpointgroupResponseEntity'
-      example:
-        EndPointGroup:
-          name: name
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          systemDefined: false
-          parentId: parentId
-    endpointgroupListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/endpointgroupListResponseEntity'
-            nextPage:
-              type: object
-              properties:
-                rel:
-                  type: string
-                  example: next
-                href:
-                  type: string
-                  example: https://{server}:{port}/ers/config
-                type:
-                  type: string
-                  example: application/json
-              example: null
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    identity.endpointgroup:
-      required:
-      - EndPointGroup
-      type: object
-      properties:
-        EndPointGroup:
-          $ref: '#/components/schemas/EndPointGroup'
-      example: null
     updatedField:
       properties:
         field:
@@ -1078,121 +1121,22 @@ components:
           type: string
           example: null
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    endpointgroupResponseEntity:
-      properties:
-        systemDefined:
-          title: systemDefined
-          type: boolean
-          description: ''
-          example: null
-        parentId:
-          title: parentId
-          type: string
-          description: ''
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    EndPointGroup_2:
-      properties:
-        id:
-          type: string
-          example: 1e2700a0-8c00-11e6-996c-525400b48521
-        name:
-          type: string
-          example: Cisco-Meraki-Device
-        description:
-          type: string
-          example: 'Identity Group for Profile: Cisco-Meraki-Device'
-        systemDefined:
-          type: boolean
-          example: false
-        parentId:
-          type: string
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/endpointgroup/38a73670-8c00-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
-    endpointidentitygroup_name:
-      type: object
-      properties:
-        EndPointGroup:
-          $ref: '#/components/schemas/EndPointGroup_name'
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.1'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/endpointgroup/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        EndPointGroup:
-          $ref: '#/components/schemas/patchRequestBody'
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -1332,45 +1276,6 @@ components:
             properties:
               name:
                 type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.1'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
     EndPointGroup_name:
       properties:
         id:
@@ -1399,21 +1304,107 @@ components:
             type:
               type: string
               example: application/json
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    endpointidentitygroup_name:
+      type: object
+      properties:
+        EndPointGroup:
+          $ref: '#/components/schemas/EndPointGroup_name'
+    patchRequest:
+      type: object
+      properties:
+        EndPointGroup:
+          $ref: '#/components/schemas/patchRequestBody'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    EndPointGroup_2:
+      properties:
+        id:
+          type: string
+          example: 1e2700a0-8c00-11e6-996c-525400b48521
+        name:
+          type: string
+          example: Cisco-Meraki-Device
+        description:
+          type: string
+          example: 'Identity Group for Profile: Cisco-Meraki-Device'
+        systemDefined:
+          type: boolean
+          example: false
+        parentId:
+          type: string
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/endpointgroup/38a73670-8c00-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
     endpoint:
       type: object
       properties:
         EndPointGroup:
           $ref: '#/components/schemas/EndPointGroup_2'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/endpointgroup/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1423,6 +1414,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

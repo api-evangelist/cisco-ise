@@ -415,155 +415,17 @@ paths:
       - Session
 components:
   schemas:
-    mnt-rest-result:
+    framed_ipv6_address:
+      description: IPv6 address
       type: object
-      additionalProperties: true
       properties:
-        http-code:
-          type: integer
-          example: 500
-        cpm-code:
-          type: integer
-          example: 34110
-        description:
-          type: string
-          example: Server has encountered error while processing the REST request
-        module-name:
-          type: string
-          example: MnT
-        internal-error-info:
-          type: string
-          example: This host is not a MnT node. MnT REST APIs can not be executed on this node.
-        requested-operation:
-          type: string
-          example: Get By Type
-        resource-id:
-          type: string
-          example: dummy
-        resource-name:
-          type: string
-          example: dummy
-        resource-type:
-          type: string
-          example: ActiveCount
-        status:
-          type: string
-          example: SERVER_ERROR
-    SimpleActiveSessionList:
-      type: object
-      description: List of active sessions
-      xml:
-        name: activeList
-      properties:
-        activeSession:
+        ipv6_address:
           type: array
           items:
-            $ref: '#/components/schemas/SimpleActiveSession'
-        noOfActiveSession:
-          type: integer
-          example: 10
-          xml:
-            attribute: true
-    sessionCount:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 32348
-    SimpleActiveSession:
-      description: Active session
-      type: object
-      additionalProperties: true
-      properties:
-        user_name:
-          type: string
-          example: jdoe
-        calling_station_id:
-          type: string
-          example: 00-14-22-01-23-45
-        orig_calling_station_id:
-          type: string
-          example: 00-14-22-01-23-45
-        nas_ip_address:
-          type: string
-          example: 192.168.1.1
-        nas_ipv6_address:
-          type: string
-          example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-        acct_session_id:
-          type: string
-          example: session123
-        audit_session_id:
-          type: string
-          example: audit123
-        cpmsession_id:
-          type: string
-          example: cpm123
-        server:
-          type: string
-          example: server1
-        framed_ip_address:
-          type: string
-          example: 192.168.1.100
-        device_ip_address:
-          type: string
-          example: 192.168.1.101
-        framed_ipv6_address:
-          $ref: '#/components/schemas/framed_ipv6_address'
-    RadActiveSessionList:
-      type: object
-      xml:
-        name: activeSessionList
-      properties:
-        activeSession:
-          type: array
-          items:
-            $ref: '#/components/schemas/RESTMntRadSess'
+            type: string
           example:
-          - calling_station_id: 00-14-22-01-23-45
-            orig_calling_station_id: 00-14-22-01-23-45
-            session_state_bit: 1
-            session_state: Active
-            session_source: 1
-            authentication_rule: rule1
-            authorization_rule: rule2
-            selected_authz_profiles: profile1
-            user_domain_name: example.com
-            host_domain_name: host.example.com
-            user_netbios_name: user1
-            host_netbios_name: host1
-            auth_timestamp: '2023-12-06T15:04:05Z'
-            nad_timestamp: '2023-12-06T15:04:10Z'
-            acct_timestamp: '2023-12-06T15:05:00Z'
-            posture_timestamp: '2023-12-06T15:06:00Z'
-            dead_timestamp: '2023-12-06T15:06:00Z'
-            acct_session_time: 300
-            audit_session_id: '12345'
-            acct_session_id: '54321'
-            username: user1
-            radius_username: user1@example.com
-          - calling_station_id: 00-14-22-01-23-46
-            orig_calling_station_id: 00-14-22-01-23-46
-            session_state_bit: 0
-            session_state: Inactive
-            session_source: 2
-            authentication_rule: rule3
-            authorization_rule: rule4
-            selected_authz_profiles: profile2
-            user_domain_name: example.net
-            host_domain_name: host.example.net
-            user_netbios_name: user2
-            host_netbios_name: host2
-            auth_timestamp: '2023-12-06T12:00:00Z'
-            nad_timestamp: '2023-12-06T12:01:00Z'
-            acct_timestamp: '2023-12-06T12:02:00Z'
-            posture_timestamp: '2023-12-06T15:06:00Z'
-            dead_timestamp: '2023-12-06T12:30:00Z'
-        noOfActiveSession:
-          type: integer
-          example: 0
-          xml:
-            attribute: true
+          - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+          - 2001:0db8:85a3:0000:0000:8a2e:0370:7335
     SessionParameters:
       description: Session parameters
       type: object
@@ -720,17 +582,40 @@ components:
           type: string
       xml:
         name: sessionParameters
-    framed_ipv6_address:
-      description: IPv6 address
+    mnt-rest-result:
       type: object
+      additionalProperties: true
       properties:
-        ipv6_address:
-          type: array
-          items:
-            type: string
-          example:
-          - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-          - 2001:0db8:85a3:0000:0000:8a2e:0370:7335
+        http-code:
+          type: integer
+          example: 500
+        cpm-code:
+          type: integer
+          example: 34110
+        description:
+          type: string
+          example: Server has encountered error while processing the REST request
+        module-name:
+          type: string
+          example: MnT
+        internal-error-info:
+          type: string
+          example: This host is not a MnT node. MnT REST APIs can not be executed on this node.
+        requested-operation:
+          type: string
+          example: Get By Type
+        resource-id:
+          type: string
+          example: dummy
+        resource-name:
+          type: string
+          example: dummy
+        resource-type:
+          type: string
+          example: ActiveCount
+        status:
+          type: string
+          example: SERVER_ERROR
     RESTMntRadSess:
       type: object
       additionalProperties: true
@@ -837,6 +722,121 @@ components:
           type: string
         session_start_time:
           type: string
+    SimpleActiveSessionList:
+      type: object
+      description: List of active sessions
+      xml:
+        name: activeList
+      properties:
+        activeSession:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleActiveSession'
+        noOfActiveSession:
+          type: integer
+          example: 10
+          xml:
+            attribute: true
+    SimpleActiveSession:
+      description: Active session
+      type: object
+      additionalProperties: true
+      properties:
+        user_name:
+          type: string
+          example: jdoe
+        calling_station_id:
+          type: string
+          example: 00-14-22-01-23-45
+        orig_calling_station_id:
+          type: string
+          example: 00-14-22-01-23-45
+        nas_ip_address:
+          type: string
+          example: 192.168.1.1
+        nas_ipv6_address:
+          type: string
+          example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+        acct_session_id:
+          type: string
+          example: session123
+        audit_session_id:
+          type: string
+          example: audit123
+        cpmsession_id:
+          type: string
+          example: cpm123
+        server:
+          type: string
+          example: server1
+        framed_ip_address:
+          type: string
+          example: 192.168.1.100
+        device_ip_address:
+          type: string
+          example: 192.168.1.101
+        framed_ipv6_address:
+          $ref: '#/components/schemas/framed_ipv6_address'
+    sessionCount:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 32348
+    RadActiveSessionList:
+      type: object
+      xml:
+        name: activeSessionList
+      properties:
+        activeSession:
+          type: array
+          items:
+            $ref: '#/components/schemas/RESTMntRadSess'
+          example:
+          - calling_station_id: 00-14-22-01-23-45
+            orig_calling_station_id: 00-14-22-01-23-45
+            session_state_bit: 1
+            session_state: Active
+            session_source: 1
+            authentication_rule: rule1
+            authorization_rule: rule2
+            selected_authz_profiles: profile1
+            user_domain_name: example.com
+            host_domain_name: host.example.com
+            user_netbios_name: user1
+            host_netbios_name: host1
+            auth_timestamp: '2023-12-06T15:04:05Z'
+            nad_timestamp: '2023-12-06T15:04:10Z'
+            acct_timestamp: '2023-12-06T15:05:00Z'
+            posture_timestamp: '2023-12-06T15:06:00Z'
+            dead_timestamp: '2023-12-06T15:06:00Z'
+            acct_session_time: 300
+            audit_session_id: '12345'
+            acct_session_id: '54321'
+            username: user1
+            radius_username: user1@example.com
+          - calling_station_id: 00-14-22-01-23-46
+            orig_calling_station_id: 00-14-22-01-23-46
+            session_state_bit: 0
+            session_state: Inactive
+            session_source: 2
+            authentication_rule: rule3
+            authorization_rule: rule4
+            selected_authz_profiles: profile2
+            user_domain_name: example.net
+            host_domain_name: host.example.net
+            user_netbios_name: user2
+            host_netbios_name: host2
+            auth_timestamp: '2023-12-06T12:00:00Z'
+            nad_timestamp: '2023-12-06T12:01:00Z'
+            acct_timestamp: '2023-12-06T12:02:00Z'
+            posture_timestamp: '2023-12-06T15:06:00Z'
+            dead_timestamp: '2023-12-06T12:30:00Z'
+        noOfActiveSession:
+          type: integer
+          example: 0
+          xml:
+            attribute: true
   securitySchemes:
     basicAuth:
       type: http

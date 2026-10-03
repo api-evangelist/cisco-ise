@@ -697,6 +697,37 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     sxplocalbindingsResponseEntity:
       properties:
         bindingName:
@@ -741,6 +772,14 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
+      example: null
+    sxp.sxplocalbindings:
+      required:
+      - ERSSxpLocalBindings
+      type: object
+      properties:
+        ERSSxpLocalBindings:
+          $ref: '#/components/schemas/ERSSxpLocalBindings'
       example: null
     ERSResponse:
       type: object
@@ -817,24 +856,6 @@ components:
           sxpVpn: Sxp Vpn Name
           vns: virtualNetwork
           ipAddressOrHost: ipAddressOrHost
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
     sxplocalbindingsResponse:
       type: object
       properties:
@@ -846,13 +867,25 @@ components:
           sxpVpn: Sxp Vpn Name
           vns: virtualNetwork
           ipAddressOrHost: ipAddressOrHost
-    sxp.sxplocalbindings:
-      required:
-      - ERSSxpLocalBindings
-      type: object
+    sxplocalbindingsListResponseEntity:
       properties:
-        ERSSxpLocalBindings:
-          $ref: '#/components/schemas/ERSSxpLocalBindings'
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     updatedField:
       properties:
@@ -864,19 +897,6 @@ components:
           example: null
         newValue:
           type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
           example: null
       example: null
     sxplocalbindingsListResponse:
@@ -920,118 +940,11 @@ components:
               type: application/xml
             description: description2
             id: id2
-    sxplocalbindingsListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    bulkrequest:
-      type: object
-      properties:
-        LocalBindingBulkRequest:
-          $ref: '#/components/schemas/LocalBindingBulkRequest'
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    ERSSxpLocalBindings_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-        ipAddressOrHost:
-          type: string
-          example: ipAddressOrHost
-        sxpVpn:
-          type: string
-          example: Sxp Vpn Name
-        sgt:
-          type: string
-          example: sgt_id
-        vns:
-          type: string
-          example: virtualNetwork
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-            type:
-              type: string
-              example: application/json
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/sxplocalbindings/versioninfo
-        type:
-          type: string
-          example: application/json
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: ' f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
     version:
       type: object
       properties:
@@ -1057,25 +970,36 @@ components:
         newValue:
           type: string
           example: val_new
-    sxplocalbindings:
+    UpdatedField:
       type: object
       properties:
-        ERSSxpLocalBindings:
-          $ref: '#/components/schemas/ERSSxpLocalBindings_2'
-    LocalBindingBulkRequest:
-      type: object
-      properties:
-        operationType:
+        field:
           type: string
-          example: create
-        resourceMediaType:
+          example: field1
+        oldValue:
           type: string
-          example: vnd.com.cisco.ise.sxp.sxplocalbindings.1.0+xml
-    Update:
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    SearchResult:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: ' f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
     BulkStatus:
       type: object
       properties:
@@ -1130,16 +1054,83 @@ components:
             properties:
               name:
                 type: string
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    sxplocalbindings:
+      type: object
+      properties:
+        ERSSxpLocalBindings:
+          $ref: '#/components/schemas/ERSSxpLocalBindings_2'
+    ERSSxpLocalBindings_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+        ipAddressOrHost:
+          type: string
+          example: ipAddressOrHost
+        sxpVpn:
+          type: string
+          example: Sxp Vpn Name
+        sgt:
+          type: string
+          example: sgt_id
+        vns:
+          type: string
+          example: virtualNetwork
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+            type:
+              type: string
+              example: application/json
+    bulkrequest:
+      type: object
+      properties:
+        LocalBindingBulkRequest:
+          $ref: '#/components/schemas/LocalBindingBulkRequest'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sxplocalbindings/versioninfo
+        type:
+          type: string
+          example: application/json
+    LocalBindingBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.sxp.sxplocalbindings.1.0+xml
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1149,6 +1140,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

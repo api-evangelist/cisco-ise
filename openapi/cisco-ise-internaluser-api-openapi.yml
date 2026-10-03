@@ -1361,27 +1361,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     internaluserResponseEntity:
       properties:
@@ -1496,23 +1505,25 @@ components:
         InternalUser:
           $ref: '#/components/schemas/InternalUser'
       example: null
-    Link:
-      type: object
+    internaluserListResponseEntity:
       properties:
-        rel:
+        id:
+          title: id
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
+          description: Id description
+          example: null
+        name:
+          title: name
           type: string
-          example: https://{server}:{port}/ers/config
-        type:
+          description: name description
+          example: null
+        description:
+          title: description
           type: string
-          example: application/json
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     internaluserResponse:
       type: object
@@ -1546,50 +1557,27 @@ components:
           customAttributes:
             key1: value1
             key2: value3
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
+    ERSResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    internaluserListResponseEntity:
-      properties:
-        id:
-          title: id
+        operation:
           type: string
-          description: Id description
+          example: Operation
+        messages:
+          type: array
           example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     internaluserListResponse:
       type: object
@@ -1764,55 +1752,34 @@ components:
           customAttributes:
             key1: value1
             key2: value3
-    internal_name:
-      type: object
+    updatedField:
       properties:
-        InternalUser:
-          $ref: '#/components/schemas/InternalUser_name'
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.2'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/internaluser/versioninfo
-        type:
-          type: string
-          example: application/json
-    internal:
-      type: object
-      properties:
-        InternalUser:
-          $ref: '#/components/schemas/InternalUser_2'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        InternalUser:
-          $ref: '#/components/schemas/patchRequestBody'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+          example: 1.0,1.1,1.2
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -1833,17 +1800,6 @@ components:
             properties:
               name:
                 type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.2'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1,1.2
-        link:
-          $ref: '#/components/schemas/link1'
     UpdatedFieldsList:
       type: object
       properties:
@@ -1858,6 +1814,11 @@ components:
         newValue:
           type: string
           example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     InternalUser_name:
       type: object
       properties:
@@ -1937,11 +1898,21 @@ components:
             type:
               type: string
               example: application/json
-    Update:
+    search:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    internal:
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser_2'
+    patchRequest:
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/patchRequestBody'
     patchRequestBody:
       type: object
       properties:
@@ -1951,6 +1922,11 @@ components:
         another-resource-attribute:
           type: string
           example: some-updated-value
+    internal_name:
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser_name'
     InternalUser_2:
       type: object
       properties:
@@ -2039,16 +2015,31 @@ components:
             type:
               type: string
               example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/internaluser/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -2058,6 +2049,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

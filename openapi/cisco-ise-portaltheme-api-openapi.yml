@@ -785,6 +785,37 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     portal.portaltheme:
       required:
       - PortalTheme
@@ -792,28 +823,6 @@ components:
       properties:
         PortalTheme:
           $ref: '#/components/schemas/PortalTheme'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     portalthemeResponse:
       type: object
@@ -855,6 +864,48 @@ components:
           themeData: Base 64 encoded string of CSS file
           name: name
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    portalthemeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     portalthemeResponseEntity:
       properties:
         themeData:
@@ -879,24 +930,6 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
       example: null
     portalthemeListResponse:
       type: object
@@ -939,26 +972,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    portalthemeListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     updatedField:
       properties:
         field:
@@ -971,82 +984,22 @@ components:
           type: string
           example: null
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    PortalTheme_2:
+    version:
       type: object
       properties:
-        id:
+        currentServerVersion:
           type: string
-          example: 9eb421c0-8c01-11e6-996c-525400b48521
-        name:
+          example: '1.0'
+        supportedVersions:
           type: string
-          example: Default Blue theme
-        portalType:
-          type: string
-          example: Base 64 encoded string of CSS file
+          example: '1.0'
         link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/portaltheme/9eb421c0-8c01-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/portaltheme/versioninfo
-        type:
-          type: string
-          example: application/json
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        PortalTheme:
-          $ref: '#/components/schemas/patchRequestBody'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -1084,17 +1037,6 @@ components:
             properties:
               name:
                 type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
     UpdatedFieldsList:
       type: object
       properties:
@@ -1114,6 +1056,21 @@ components:
       properties:
         UpdatedFieldsList:
           $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    portaltheme:
+      type: object
+      properties:
+        PortalTheme:
+          $ref: '#/components/schemas/PortalTheme_2'
+    patchRequest:
+      type: object
+      properties:
+        PortalTheme:
+          $ref: '#/components/schemas/patchRequestBody'
     patchRequestBody:
       type: object
       properties:
@@ -1123,21 +1080,55 @@ components:
         another-resource-attribute:
           type: string
           example: some-updated-value
-    portaltheme:
+    UpdatedField:
       type: object
       properties:
-        PortalTheme:
-          $ref: '#/components/schemas/PortalTheme_2'
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/portaltheme/versioninfo
+        type:
+          type: string
+          example: application/json
+    PortalTheme_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9eb421c0-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: Default Blue theme
+        portalType:
+          type: string
+          example: Base 64 encoded string of CSS file
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/portaltheme/9eb421c0-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1147,6 +1138,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

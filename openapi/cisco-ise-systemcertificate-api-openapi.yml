@@ -179,28 +179,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     ERSSystemCertificate:
       required:
       - nodeId
@@ -362,6 +340,28 @@ components:
             keyType: RSA OR ECDSA
             certificateSanIp: <<IP-ADDRESS>>
             friendlyName: HCL
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     ca.systemcertificate:
       required:
       - ERSSystemCertificate
@@ -375,18 +375,17 @@ components:
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.0'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/systemcertificate/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     ERSSystemCertificate_2:
       type: object
       properties:
@@ -459,22 +458,23 @@ components:
             certificateSanUri:
               type: string
               example: URI
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/systemcertificate/versioninfo
+        type:
+          type: string
+          example: application/json
     systemcertificate:
       type: object
       properties:
         ERSSystemCertificate:
           $ref: '#/components/schemas/ERSSystemCertificate_2'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

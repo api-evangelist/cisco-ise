@@ -974,6 +974,340 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    hotspotportalListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    portal.hotspotportal:
+      required:
+      - HotspotPortal
+      type: object
+      properties:
+        HotspotPortal:
+          $ref: '#/components/schemas/HotspotPortal'
+      example: null
+    hotspotportalResponseEntity:
+      properties:
+        portalTestUrl:
+          title: portalTestUrl
+          type: string
+          description: URL to bring up a test page for this portal
+          example: null
+        portalType:
+          title: portalType
+          type: string
+          description: 'allowed values: byod, hotspotGuest, mydevice, selfRegGuest, sponsor and sponsoredGuest'
+          example: null
+        settings:
+          properties:
+            portalSettings:
+              properties:
+                httpsPort:
+                  title: httpsPort
+                  type: number
+                  description: The port number that the allowed interfaces will listen on. Range from 8000 to 8999
+                  example: null
+                allowedInterfaces:
+                  title: allowedInterfaces
+                  type: string
+                  description: 'Interfaces that the portal will be reachable on. allowed values: eth0, eth1, eth2, eth3, eth4, eth5, bond0, bond1 and bond2'
+                  example: null
+                certificateGroupTag:
+                  title: certificateGroupTag
+                  type: string
+                  description: Logical name of the x.509 server certificate that will be used for the portal.
+                  example: null
+                endpointIdentityGroup:
+                  title: endpointIdentityGroup
+                  type: string
+                  description: Unique Id of the endpoint identity group where user's devices will be added. Used only in Hotspot Portal.
+                  example: null
+                displayLang:
+                  title: displayLang
+                  type: string
+                  description: 'allowed values:  useBrowserLocale and alwaysUse'
+                  example: null
+                fallbackLanguage:
+                  title: fallbackLanguage
+                  type: string
+                  description: Used when displayLang = useBrowserLocale
+                  example: null
+                alwaysUsedLanguage:
+                  title: alwaysUsedLanguage
+                  type: string
+                  description: Used when displayLang = alwaysUse
+                  example: null
+                coaType:
+                  title: coaType
+                  type: string
+                  description: Allowed Values coaReauthenticate and coaTerminate
+                  example: null
+              example: null
+            aupSettings:
+              properties:
+                requireAccessCode:
+                  title: requireAccessCode
+                  type: boolean
+                  description: Require the portal user to enter an access code.  Only used in Hotspot portal.
+                  example: null
+                accessCode:
+                  title: accessCode
+                  type: string
+                  description: Access code that must be entered by the portal user (only valid if requireAccessCode = true).
+                  example: null
+                includeAup:
+                  title: includeAup
+                  type: boolean
+                  description: Require the portal user to read and accept an AUP.
+                  example: null
+                requireAupScrolling:
+                  title: requireAupScrolling
+                  type: boolean
+                  description: Require the portal user to scroll to the end of the AUP.  Only valid if requireAupAcceptance = true.
+                  example: null
+              example: null
+            authSuccessSettings:
+              properties:
+                successRedirect:
+                  title: successRedirect
+                  type: string
+                  description: After an Authentication Success where should user be redirected. Allowed Values authSuccessPage, originatingURL and url.
+                  example: null
+                redirectUrl:
+                  title: redirectUrl
+                  type: string
+                  description: Target URL for redirection, used when successRedirect = url.
+                  example: null
+              example: null
+            postLoginBannerSettings:
+              properties:
+                includePostAccessBanner:
+                  title: includePostAccessBanner
+                  type: boolean
+                  description: Include a Post-Login Banner page.
+                  example: null
+              example: null
+            supportInfoSettings:
+              properties:
+                includeSupportInfoPage:
+                  title: includeSupportInfoPage
+                  type: boolean
+                  description: ''
+                  example: null
+                includeMacAddr:
+                  title: includeMacAddr
+                  type: boolean
+                  description: ''
+                  example: null
+                includeIpAddress:
+                  title: includeIpAddress
+                  type: boolean
+                  description: ''
+                  example: null
+                includeBrowserUserAgent:
+                  title: includeBrowserUserAgent
+                  type: boolean
+                  description: ''
+                  example: null
+                includePolicyServer:
+                  title: includePolicyServer
+                  type: boolean
+                  description: ''
+                  example: null
+                includeFailureCode:
+                  title: includeFailureCode
+                  type: boolean
+                  description: ''
+                  example: null
+                emptyFieldDisplay:
+                  title: emptyFieldDisplay
+                  type: string
+                  description: 'Specifies how empty fields are handled on the Support Information Page. allowedValues: hide, displayWithNoValue and displayWithDefaultValue'
+                  example: null
+                defaultEmptyFieldValue:
+                  title: defaultEmptyFieldValue
+                  type: string
+                  description: ' The default value displayed for an empty field  Only valid when emptyFieldDisplay = displayWithDefaultValue.  '
+                  example: null
+              example: null
+          example: null
+        customizations:
+          properties:
+            portalTheme:
+              properties:
+                id:
+                  title: id
+                  type: string
+                  description: The unique internal identifier of the portal theme.
+                  example: null
+                name:
+                  title: name
+                  type: string
+                  description: The system- or user-assigned name of the portal theme.
+                  example: null
+                themeData:
+                  title: themeData
+                  type: string
+                  description: A CSS file, represented as a Base64-encoded byte array.
+                  example: null
+              example: null
+            portalTweakSettings:
+              properties:
+                banneColor:
+                  title: banneColor
+                  type: string
+                  description: ''
+                  example: null
+                bannerTextColor:
+                  title: bannerTextColor
+                  type: string
+                  description: ''
+                  example: null
+                pageBackgroundColor:
+                  title: pageBackgroundColor
+                  type: string
+                  description: ''
+                  example: null
+                pageLabelAndTextColor:
+                  title: pageLabelAndTextColor
+                  type: string
+                  description: ''
+                  example: null
+              example: null
+            language:
+              title: language
+              type: object
+              description: This property is supported only for Read operation and it allows to show the customizations in English. Other languages are not supported.
+              example: null
+            globalCustomizations:
+              properties:
+                bannerTitle:
+                  title: bannerTitle
+                  type: string
+                  description: ''
+                  example: null
+                contactText:
+                  title: contactText
+                  type: string
+                  description: ''
+                  example: null
+                footerElement:
+                  title: footerElement
+                  type: string
+                  description: ''
+                  example: null
+                mobileLogoImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+                bannerImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+                backgroundImage:
+                  properties:
+                    data:
+                      title: data
+                      type: string
+                      description: Represented as base 64 encoded string of the image byte array
+                      example: null
+                  example: null
+              example: null
+            pageCustomizations:
+              properties:
+                data:
+                  title: data
+                  type: array
+                  description: The Dictionary will be exposed here as key value pair
+                  example: null
+                  items:
+                    properties:
+                      key:
+                        title: key
+                        type: string
+                        description: ''
+                        example: null
+                      value:
+                        title: value
+                        type: string
+                        description: ''
+                        example: null
+                    example: null
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     hotspotportalListResponse:
       type: object
       properties:
@@ -1015,48 +1349,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    hotspotportalListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     hotspotportalResponse:
       type: object
       properties:
@@ -1127,6 +1419,28 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     HotspotPortal:
       required:
       - name
@@ -1474,32 +1788,6 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    portal.hotspotportal:
-      required:
-      - HotspotPortal
-      type: object
-      properties:
-        HotspotPortal:
-          $ref: '#/components/schemas/HotspotPortal'
-      example: null
     updatedField:
       properties:
         field:
@@ -1512,328 +1800,85 @@ components:
           type: string
           example: null
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    hotspotportalResponseEntity:
-      properties:
-        portalTestUrl:
-          title: portalTestUrl
-          type: string
-          description: URL to bring up a test page for this portal
-          example: null
-        portalType:
-          title: portalType
-          type: string
-          description: 'allowed values: byod, hotspotGuest, mydevice, selfRegGuest, sponsor and sponsoredGuest'
-          example: null
-        settings:
-          properties:
-            portalSettings:
-              properties:
-                httpsPort:
-                  title: httpsPort
-                  type: number
-                  description: The port number that the allowed interfaces will listen on. Range from 8000 to 8999
-                  example: null
-                allowedInterfaces:
-                  title: allowedInterfaces
-                  type: string
-                  description: 'Interfaces that the portal will be reachable on. allowed values: eth0, eth1, eth2, eth3, eth4, eth5, bond0, bond1 and bond2'
-                  example: null
-                certificateGroupTag:
-                  title: certificateGroupTag
-                  type: string
-                  description: Logical name of the x.509 server certificate that will be used for the portal.
-                  example: null
-                endpointIdentityGroup:
-                  title: endpointIdentityGroup
-                  type: string
-                  description: Unique Id of the endpoint identity group where user's devices will be added. Used only in Hotspot Portal.
-                  example: null
-                displayLang:
-                  title: displayLang
-                  type: string
-                  description: 'allowed values:  useBrowserLocale and alwaysUse'
-                  example: null
-                fallbackLanguage:
-                  title: fallbackLanguage
-                  type: string
-                  description: Used when displayLang = useBrowserLocale
-                  example: null
-                alwaysUsedLanguage:
-                  title: alwaysUsedLanguage
-                  type: string
-                  description: Used when displayLang = alwaysUse
-                  example: null
-                coaType:
-                  title: coaType
-                  type: string
-                  description: Allowed Values coaReauthenticate and coaTerminate
-                  example: null
-              example: null
-            aupSettings:
-              properties:
-                requireAccessCode:
-                  title: requireAccessCode
-                  type: boolean
-                  description: Require the portal user to enter an access code.  Only used in Hotspot portal.
-                  example: null
-                accessCode:
-                  title: accessCode
-                  type: string
-                  description: Access code that must be entered by the portal user (only valid if requireAccessCode = true).
-                  example: null
-                includeAup:
-                  title: includeAup
-                  type: boolean
-                  description: Require the portal user to read and accept an AUP.
-                  example: null
-                requireAupScrolling:
-                  title: requireAupScrolling
-                  type: boolean
-                  description: Require the portal user to scroll to the end of the AUP.  Only valid if requireAupAcceptance = true.
-                  example: null
-              example: null
-            authSuccessSettings:
-              properties:
-                successRedirect:
-                  title: successRedirect
-                  type: string
-                  description: After an Authentication Success where should user be redirected. Allowed Values authSuccessPage, originatingURL and url.
-                  example: null
-                redirectUrl:
-                  title: redirectUrl
-                  type: string
-                  description: Target URL for redirection, used when successRedirect = url.
-                  example: null
-              example: null
-            postLoginBannerSettings:
-              properties:
-                includePostAccessBanner:
-                  title: includePostAccessBanner
-                  type: boolean
-                  description: Include a Post-Login Banner page.
-                  example: null
-              example: null
-            supportInfoSettings:
-              properties:
-                includeSupportInfoPage:
-                  title: includeSupportInfoPage
-                  type: boolean
-                  description: ''
-                  example: null
-                includeMacAddr:
-                  title: includeMacAddr
-                  type: boolean
-                  description: ''
-                  example: null
-                includeIpAddress:
-                  title: includeIpAddress
-                  type: boolean
-                  description: ''
-                  example: null
-                includeBrowserUserAgent:
-                  title: includeBrowserUserAgent
-                  type: boolean
-                  description: ''
-                  example: null
-                includePolicyServer:
-                  title: includePolicyServer
-                  type: boolean
-                  description: ''
-                  example: null
-                includeFailureCode:
-                  title: includeFailureCode
-                  type: boolean
-                  description: ''
-                  example: null
-                emptyFieldDisplay:
-                  title: emptyFieldDisplay
-                  type: string
-                  description: 'Specifies how empty fields are handled on the Support Information Page. allowedValues: hide, displayWithNoValue and displayWithDefaultValue'
-                  example: null
-                defaultEmptyFieldValue:
-                  title: defaultEmptyFieldValue
-                  type: string
-                  description: ' The default value displayed for an empty field  Only valid when emptyFieldDisplay = displayWithDefaultValue.  '
-                  example: null
-              example: null
-          example: null
-        customizations:
-          properties:
-            portalTheme:
-              properties:
-                id:
-                  title: id
-                  type: string
-                  description: The unique internal identifier of the portal theme.
-                  example: null
-                name:
-                  title: name
-                  type: string
-                  description: The system- or user-assigned name of the portal theme.
-                  example: null
-                themeData:
-                  title: themeData
-                  type: string
-                  description: A CSS file, represented as a Base64-encoded byte array.
-                  example: null
-              example: null
-            portalTweakSettings:
-              properties:
-                banneColor:
-                  title: banneColor
-                  type: string
-                  description: ''
-                  example: null
-                bannerTextColor:
-                  title: bannerTextColor
-                  type: string
-                  description: ''
-                  example: null
-                pageBackgroundColor:
-                  title: pageBackgroundColor
-                  type: string
-                  description: ''
-                  example: null
-                pageLabelAndTextColor:
-                  title: pageLabelAndTextColor
-                  type: string
-                  description: ''
-                  example: null
-              example: null
-            language:
-              title: language
-              type: object
-              description: This property is supported only for Read operation and it allows to show the customizations in English. Other languages are not supported.
-              example: null
-            globalCustomizations:
-              properties:
-                bannerTitle:
-                  title: bannerTitle
-                  type: string
-                  description: ''
-                  example: null
-                contactText:
-                  title: contactText
-                  type: string
-                  description: ''
-                  example: null
-                footerElement:
-                  title: footerElement
-                  type: string
-                  description: ''
-                  example: null
-                mobileLogoImage:
-                  properties:
-                    data:
-                      title: data
-                      type: string
-                      description: Represented as base 64 encoded string of the image byte array
-                      example: null
-                  example: null
-                bannerImage:
-                  properties:
-                    data:
-                      title: data
-                      type: string
-                      description: Represented as base 64 encoded string of the image byte array
-                      example: null
-                  example: null
-                backgroundImage:
-                  properties:
-                    data:
-                      title: data
-                      type: string
-                      description: Represented as base 64 encoded string of the image byte array
-                      example: null
-                  example: null
-              example: null
-            pageCustomizations:
-              properties:
-                data:
-                  title: data
-                  type: array
-                  description: The Dictionary will be exposed here as key value pair
-                  example: null
-                  items:
-                    properties:
-                      key:
-                        title: key
-                        type: string
-                        description: ''
-                        example: null
-                      value:
-                        title: value
-                        type: string
-                        description: ''
-                        example: null
-                    example: null
-              example: null
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.0'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/hotspotportal/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    UpdatedField:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
+            name: Hotspot Guest Portal (default)
+            description: Guests do not require username and password credentials to access the network, but you can optionally require an access code
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/hotspotportal/b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
       type: object
       properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
         field:
           type: string
-          example: field1
+          example: some other field
         oldValue:
           type: string
           example: val_old
         newValue:
           type: string
           example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    patchRequest:
+      type: object
+      properties:
+        HotspotPortal:
+          $ref: '#/components/schemas/patchRequestBody'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    hotspot:
+      type: object
+      properties:
+        HotspotPortal:
+          $ref: '#/components/schemas/HotspotPortal_2'
     HotspotPortal_2:
       type: object
       properties:
@@ -2022,85 +2067,31 @@ components:
             type:
               type: string
               example: application/json
-    patchRequest:
+    UpdatedField:
       type: object
       properties:
-        HotspotPortal:
-          $ref: '#/components/schemas/patchRequestBody'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
-            name: Hotspot Guest Portal (default)
-            description: Guests do not require username and password credentials to access the network, but you can optionally require an access code
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/hotspotportal/b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
         field:
           type: string
-          example: some other field
+          example: field1
         oldValue:
           type: string
           example: val_old
         newValue:
           type: string
           example: val_new
-    Update:
+    link1:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
-    hotspot:
-      type: object
-      properties:
-        HotspotPortal:
-          $ref: '#/components/schemas/HotspotPortal_2'
+          example: https://<ise-ip>:9060/ers/config/hotspotportal/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -2110,6 +2101,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

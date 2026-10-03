@@ -519,27 +519,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     identitystores.adresourcereservation:
       required:
@@ -549,15 +540,24 @@ components:
         ERSADResourceReservation:
           $ref: '#/components/schemas/ERSADResourceReservation'
       example: null
-    adresourcereservationResponse:
+    Link:
       type: object
       properties:
-        ERSADResourceReservation:
-          $ref: '#/components/schemas/adresourcereservationResponseEntity'
-      example:
-        ERSADResourceReservation:
-          node: node1.com
-          joinPointNames: jp1,jp2,jp3
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     ERSADResourceReservation:
       required:
       - name
@@ -592,23 +592,47 @@ components:
         ERSADResourceReservation:
           node: node1.com
           joinPointNames: jp1,jp2,jp3
-    Link:
+    ERSResponse:
       type: object
       properties:
-        rel:
+        operation:
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    adresourcereservationListResponseEntity:
+      properties:
+        id:
+          title: id
           type: string
-          example: https://{server}:{port}/ers/config
-        type:
+          description: Id description
+          example: null
+        name:
+          title: name
           type: string
-          example: application/json
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     adresourcereservationListResponse:
       type: object
@@ -651,31 +675,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     adresourcereservationResponseEntity:
       properties:
         node:
@@ -706,26 +705,32 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    adresourcereservationListResponseEntity:
+    adresourcereservationResponse:
+      type: object
       properties:
-        id:
-          title: id
+        ERSADResourceReservation:
+          $ref: '#/components/schemas/adresourcereservationResponseEntity'
+      example:
+        ERSADResourceReservation:
+          node: node1.com
+          joinPointNames: jp1,jp2,jp3
+    updatedField:
+      properties:
+        field:
           type: string
-          description: Id description
           example: null
-        name:
-          title: name
+        oldValue:
           type: string
-          description: name description
           example: null
-        description:
-          title: description
+        newValue:
           type: string
-          description: description
           example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     version:
       type: object
       properties:
@@ -758,21 +763,7 @@ components:
         type:
           type: string
           example: application/json
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -782,6 +773,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -428,29 +428,26 @@ paths:
       operationId: getErsConfigNodeVersioninfo
       x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     Link:
       type: object
       properties:
@@ -499,67 +496,6 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           gateWay: 10.0.10.11
           primaryPapNode: true
-    nodeListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/nodeListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    nodeListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     nodeResponseEntity:
       properties:
         gateWay:
@@ -665,28 +601,105 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    nodeListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/nodeListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    nodeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.2'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/node/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+          example: 1.0,1.1,1.2,1.3
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -706,75 +719,11 @@ components:
             properties:
               name:
                 type: string
-    Node:
+    search:
       type: object
       properties:
-        id:
-          type: string
-          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
-        name:
-          type: string
-          example: TestNode
-        gateWay:
-          type: string
-          example: 10.0.10.11
-        userName:
-          type: string
-          example: Testuser
-        passWord:
-          type: string
-          example: TestPassword
-        displayName:
-          type: string
-          example: TestNode
-        inDeployment:
-          type: boolean
-          example: true
-        otherPapFqdn:
-          type: string
-          example: OtherTestNode
-        ipAddresses:
-          type: array
-          example:
-          - 10.0.0.1
-          - 10.0.0.2
-          items:
-            properties:
-              name:
-                type: string
-        ipAddress:
-          type: string
-          example: 10.0.0.3
-        sxpIpAddress:
-          type: string
-          example: 10.10.10.1
-        nodeServiceTypes:
-          type: string
-          example: DEVICE ADMIN
-        fqdn:
-          type: string
-          example: test.ers.cisco.com
-        papNode:
-          type: boolean
-          example: true
-        primaryPapNode:
-          type: boolean
-          example: true
-        pxGridNode:
-          type: boolean
-          example: true
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/node/ab6deded-fcc2-47ff-8577-0014737c8fcf
-            type:
-              type: string
-              example: application/json
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     Node_name:
       type: object
       properties:
@@ -844,46 +793,97 @@ components:
             type:
               type: string
               example: application/json
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.2'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1,1.2,1.3
-        link:
-          $ref: '#/components/schemas/link1'
-    nodedetails_name:
-      type: object
-      properties:
-        Node:
-          $ref: '#/components/schemas/Node_name'
     node:
       type: object
       properties:
         Node:
           $ref: '#/components/schemas/Node'
-  parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
+    nodedetails_name:
+      type: object
+      properties:
+        Node:
+          $ref: '#/components/schemas/Node_name'
+    Node:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+        name:
+          type: string
+          example: TestNode
+        gateWay:
+          type: string
+          example: 10.0.10.11
+        userName:
+          type: string
+          example: Testuser
+        passWord:
+          type: string
+          example: TestPassword
+        displayName:
+          type: string
+          example: TestNode
+        inDeployment:
+          type: boolean
+          example: true
+        otherPapFqdn:
+          type: string
+          example: OtherTestNode
+        ipAddresses:
+          type: array
+          example:
+          - 10.0.0.1
+          - 10.0.0.2
+          items:
+            properties:
+              name:
+                type: string
+        ipAddress:
+          type: string
+          example: 10.0.0.3
+        sxpIpAddress:
+          type: string
+          example: 10.10.10.1
+        nodeServiceTypes:
+          type: string
+          example: DEVICE ADMIN
+        fqdn:
+          type: string
+          example: test.ers.cisco.com
+        papNode:
+          type: boolean
+          example: true
+        primaryPapNode:
+          type: boolean
+          example: true
+        pxGridNode:
+          type: boolean
+          example: true
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/node/ab6deded-fcc2-47ff-8577-0014737c8fcf
+            type:
+              type: string
+              example: application/json
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/node/versioninfo
+        type:
+          type: string
+          example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

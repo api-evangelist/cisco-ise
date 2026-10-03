@@ -133,23 +133,19 @@ paths:
           description: Not Found
 components:
   schemas:
-    InboundOutboundRule:
-      title: InboundOutboundRule
+    AllSxpFilterListResponseEntity:
+      title: AllSxpFilterListResponseEntity
       required:
-      - id
-      - name
-      - ruleType
+      - response
+      - version
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
+        response:
+          $ref: '#/components/schemas/SxpFilterList'
           exampleSetFlag: true
-        name:
+        version:
           type: string
-          exampleSetFlag: true
-        ruleType:
-          type: string
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     FilterList:
@@ -170,6 +166,67 @@ components:
           exampleSetFlag: true
         sxpName:
           type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpFilterList:
+      title: SxpFilterList
+      required:
+      - sxpFilters
+      type: object
+      properties:
+        sxpFilters:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/FilterList'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    InboundOutboundRule:
+      title: InboundOutboundRule
+      required:
+      - id
+      - name
+      - ruleType
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          exampleSetFlag: true
+        name:
+          type: string
+          exampleSetFlag: true
+        ruleType:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    SxpDomainResult:
+      title: SxpDomainResult
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SxpDomain'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: SXP Domain Result
+      exampleSetFlag: false
+    SxpDomain:
+      title: SxpDomain
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          exampleSetFlag: true
+        name:
+          type: string
+          example: sxpDomain1
           exampleSetFlag: true
       exampleSetFlag: false
     SxpFilterListResponseEntity:
@@ -206,61 +263,4 @@ components:
           type: string
           example: Some error occurred
           exampleSetFlag: true
-      exampleSetFlag: false
-    SxpDomainResult:
-      title: SxpDomainResult
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SxpDomain'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: SXP Domain Result
-      exampleSetFlag: false
-    AllSxpFilterListResponseEntity:
-      title: AllSxpFilterListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/SxpFilterList'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    SxpDomain:
-      title: SxpDomain
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-          exampleSetFlag: true
-        name:
-          type: string
-          example: sxpDomain1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    SxpFilterList:
-      title: SxpFilterList
-      required:
-      - sxpFilters
-      type: object
-      properties:
-        sxpFilters:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/FilterList'
-            exampleSetFlag: false
       exampleSetFlag: false

@@ -823,114 +823,86 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
-    mydeviceportalResponse:
+    portal.mydeviceportal:
+      required:
+      - MyDevicePortal
       type: object
       properties:
         MyDevicePortal:
-          $ref: '#/components/schemas/mydeviceportalResponseEntity'
+          $ref: '#/components/schemas/MyDevicePortal'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    mydeviceportalListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/mydeviceportalListResponseEntity'
+          example: null
       example:
-        MyDevicePortal:
-          portalType: MYDEVICE
-          settings:
-            loginPageSettings:
-              maxFailedAttemptsBeforeRateLimit: 5
-              allowGuestToChangePassword: false
-              requireAccessCode: false
-              allowGuestToCreateAccounts: true
-              includeAup: false
-              allowAlternateGuestPortal: false
-              socialConfigs: []
-              timeBetweenLoginsDuringRateLimit: 2
-              allowShowGuestForm: false
-              allowForgotPassword: true
-              allowGuestToUseSocialAccounts: false
-              requireAupAcceptance: false
-              requireAupScrolling: false
-              aupDisplay: ASLINK
-            employeeChangePasswordSettings:
-              allowEmployeeToChangePwd: false
-            supportInfoSettings:
-              includePolicyServer: true
-              includeFailureCode: true
-              includeMacAddr: true
-              includeBrowserUserAgent: true
-              includeSupportInfoPage: false
-              includeIpAddress: true
-              emptyFieldDisplay: HIDE
-            aupSettings:
-              requireAccessCode: false
-              requireScrolling: true
-              includeAup: false
-              useDiffAupForEmployees: false
-              displayFrequency: FIRSTLOGIN
-              skipAupForEmployees: false
-            postLoginBannerSettings:
-              includePostAccessBanner: true
-            portalSettings:
-              allowedInterfaces:
-              - eth0
-              - bond0
-              endpointIdentityGroup: Identity Group
-              fqdn: Fully Qualified Domain Name
-              authenticationMethod: Identity Source
-              availableSsids: []
-              certificateGroupTag: Default Portal Certificate Group
-              idleTimeout: 10
-              alwaysUsedLanguage: English
-              displayLang: USEBROWSERLOCALE
-              fallbackLanguage: English
-              httpsPort: 8443
-          name: name
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          customizations:
-            globalCustomizations:
-              bannerImage:
-                data: base 64 encoded value of image
-              contactText: 'Contact Information '
-              bannerTitle: Banner Title
-              desktopLogoImage:
-                data: base 64 encoded value of image
-              mobileLogoImage:
-                data: base 64 encoded value of image
-              footerElement: Footer Element
-            portalTweakSettings:
-              pageBackgroundColor: Color code from GUI
-              pageLabelAndTextColor: Label and Text color from GUI
-              bannerColor: Banner Color from GUI
-              bannerTextColor: Banner Text color code from GUI
-            pageCustomizations:
-              data:
-              - value: Contact Support
-                key: ui_contact_link
-            language:
-              viewLanguage: English
-            portalTheme:
-              themeData: Base 64 encoded string of Theme CSS file
-              name: ThemeName
-              id: themeId
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     MyDevicePortal:
       required:
       - name
@@ -1317,118 +1289,6 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    portal.mydeviceportal:
-      required:
-      - MyDevicePortal
-      type: object
-      properties:
-        MyDevicePortal:
-          $ref: '#/components/schemas/MyDevicePortal'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    mydeviceportalListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    mydeviceportalListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/mydeviceportalListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
     mydeviceportalResponseEntity:
       properties:
         portalTestUrl:
@@ -1727,6 +1587,206 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    mydeviceportalResponse:
+      type: object
+      properties:
+        MyDevicePortal:
+          $ref: '#/components/schemas/mydeviceportalResponseEntity'
+      example:
+        MyDevicePortal:
+          portalType: MYDEVICE
+          settings:
+            loginPageSettings:
+              maxFailedAttemptsBeforeRateLimit: 5
+              allowGuestToChangePassword: false
+              requireAccessCode: false
+              allowGuestToCreateAccounts: true
+              includeAup: false
+              allowAlternateGuestPortal: false
+              socialConfigs: []
+              timeBetweenLoginsDuringRateLimit: 2
+              allowShowGuestForm: false
+              allowForgotPassword: true
+              allowGuestToUseSocialAccounts: false
+              requireAupAcceptance: false
+              requireAupScrolling: false
+              aupDisplay: ASLINK
+            employeeChangePasswordSettings:
+              allowEmployeeToChangePwd: false
+            supportInfoSettings:
+              includePolicyServer: true
+              includeFailureCode: true
+              includeMacAddr: true
+              includeBrowserUserAgent: true
+              includeSupportInfoPage: false
+              includeIpAddress: true
+              emptyFieldDisplay: HIDE
+            aupSettings:
+              requireAccessCode: false
+              requireScrolling: true
+              includeAup: false
+              useDiffAupForEmployees: false
+              displayFrequency: FIRSTLOGIN
+              skipAupForEmployees: false
+            postLoginBannerSettings:
+              includePostAccessBanner: true
+            portalSettings:
+              allowedInterfaces:
+              - eth0
+              - bond0
+              endpointIdentityGroup: Identity Group
+              fqdn: Fully Qualified Domain Name
+              authenticationMethod: Identity Source
+              availableSsids: []
+              certificateGroupTag: Default Portal Certificate Group
+              idleTimeout: 10
+              alwaysUsedLanguage: English
+              displayLang: USEBROWSERLOCALE
+              fallbackLanguage: English
+              httpsPort: 8443
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          customizations:
+            globalCustomizations:
+              bannerImage:
+                data: base 64 encoded value of image
+              contactText: 'Contact Information '
+              bannerTitle: Banner Title
+              desktopLogoImage:
+                data: base 64 encoded value of image
+              mobileLogoImage:
+                data: base 64 encoded value of image
+              footerElement: Footer Element
+            portalTweakSettings:
+              pageBackgroundColor: Color code from GUI
+              pageLabelAndTextColor: Label and Text color from GUI
+              bannerColor: Banner Color from GUI
+              bannerTextColor: Banner Text color code from GUI
+            pageCustomizations:
+              data:
+              - value: Contact Support
+                key: ui_contact_link
+            language:
+              viewLanguage: English
+            portalTheme:
+              themeData: Base 64 encoded string of Theme CSS file
+              name: ThemeName
+              id: themeId
+    mydeviceportalListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 901f1b37-4a2f-46d9-8653-d925d2dde3aa
+            name: My Devices Portal (default)
+            description: Default portal used by employees to register and manage their personal devices
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/mydeviceportal/901f1b37-4a2f-46d9-8653-d925d2dde3aa
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     MyDevicePortal_2:
       type: object
       properties:
@@ -1928,28 +1988,6 @@ components:
             type:
               type: string
               example: application/json
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/mydeviceportal/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     UpdatedField:
       type: object
       properties:
@@ -1962,71 +2000,24 @@ components:
         newValue:
           type: string
           example: val_new
-    SearchResult:
+    link1:
       type: object
       properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 901f1b37-4a2f-46d9-8653-d925d2dde3aa
-            name: My Devices Portal (default)
-            description: Default portal used by employees to register and manage their personal devices
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/mydeviceportal/901f1b37-4a2f-46d9-8653-d925d2dde3aa
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
+        rel:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: self
+        href:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
+          example: https://<ise-ip>:9060/ers/config/mydeviceportal/versioninfo
+        type:
           type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
+          example: application/json
     mydevice:
       type: object
       properties:
         MyDevicePortal:
           $ref: '#/components/schemas/MyDevicePortal_2'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -2036,6 +2027,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

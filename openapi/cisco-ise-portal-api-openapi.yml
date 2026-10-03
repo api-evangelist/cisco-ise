@@ -333,7 +333,64 @@ paths:
       operationId: getErsConfigPortalVersioninfo
       x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    portalListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     ERSResponse:
       type: object
       properties:
@@ -397,54 +454,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    portalResponse:
-      type: object
-      properties:
-        ERSPortal:
-          $ref: '#/components/schemas/portalResponseEntity'
-      example:
-        ERSPortal:
-          name: portal1
-          description: example portal
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    portalListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     portalResponseEntity:
       properties:
         allowSponsorToChangeOwnPassword:
@@ -523,28 +532,59 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    portalResponse:
+      type: object
+      properties:
+        ERSPortal:
+          $ref: '#/components/schemas/portalResponseEntity'
+      example:
+        ERSPortal:
+          name: portal1
+          description: example portal
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    ERSPortal:
       type: object
       properties:
-        rel:
+        id:
           type: string
-          example: self
-        href:
+          example: bc5524ea-b1e5-47ed-a907-5304821da916
+        name:
           type: string
-          example: https://<ise-ip>:9060/ers/config/portal/versioninfo
-        type:
+          example: ISE Portal (default)
+        description:
           type: string
-          example: application/json
-    search:
+          example: Ise Portal for saml based feature purpose
+        portalType:
+          type: string
+          example: GUEST
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/portal/bc5524ea-b1e5-47ed-a907-5304821da916
+            type:
+              type: string
+              example: application/json
+    version:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+        currentServerVersion:
+          type: string
+          example: '2.0'
+        supportedVersions:
+          type: string
+          example: '2.0'
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -593,68 +633,28 @@ components:
             properties:
               name:
                 type: string
-    version:
+    search:
       type: object
       properties:
-        currentServerVersion:
-          type: string
-          example: '2.0'
-        supportedVersions:
-          type: string
-          example: '2.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    ERSPortal:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    link1:
       type: object
       properties:
-        id:
+        rel:
           type: string
-          example: bc5524ea-b1e5-47ed-a907-5304821da916
-        name:
+          example: self
+        href:
           type: string
-          example: ISE Portal (default)
-        description:
+          example: https://<ise-ip>:9060/ers/config/portal/versioninfo
+        type:
           type: string
-          example: Ise Portal for saml based feature purpose
-        portalType:
-          type: string
-          example: GUEST
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/portal/bc5524ea-b1e5-47ed-a907-5304821da916
-            type:
-              type: string
-              example: application/json
+          example: application/json
     portal:
       type: object
       properties:
         ERSPortal:
           $ref: '#/components/schemas/ERSPortal'
-  parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

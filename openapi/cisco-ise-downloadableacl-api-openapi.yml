@@ -756,57 +756,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    downloadableaclResponseEntity:
-      properties:
-        dacl:
-          title: dacl
-          type: string
-          description: The DACL Content
-          example: null
-        daclType:
-          title: daclType
-          type: string
-          description: 'Allowed values: IPV4, IPV6, IP_AGNOSTIC'
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     downloadableaclListResponseEntity:
       properties:
@@ -845,6 +806,44 @@ components:
         type:
           type: string
           example: application/json
+      example: null
+    downloadableaclResponseEntity:
+      properties:
+        dacl:
+          title: dacl
+          type: string
+          description: The DACL Content
+          example: null
+        daclType:
+          title: daclType
+          type: string
+          description: 'Allowed values: IPV4, IPV6, IP_AGNOSTIC'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    network.downloadableacl:
+      required:
+      - DownloadableAcl
+      type: object
+      properties:
+        DownloadableAcl:
+          $ref: '#/components/schemas/DownloadableAcl'
       example: null
     downloadableaclListResponse:
       type: object
@@ -887,38 +886,39 @@ components:
               type: application/xml
             description: description2
             id: id2
-    network.downloadableacl:
-      required:
-      - DownloadableAcl
+    downloadableaclResponse:
       type: object
       properties:
         DownloadableAcl:
-          $ref: '#/components/schemas/DownloadableAcl'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    UpdatedFieldsResponse:
+          $ref: '#/components/schemas/downloadableaclResponseEntity'
+      example:
+        DownloadableAcl:
+          name: name
+          dacl: permit ip any any
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          daclType: IPV4
+    ERSResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
           example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     DownloadableAcl:
       required:
@@ -957,62 +957,34 @@ components:
           description: description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           daclType: IPV4
-    downloadableaclResponse:
-      type: object
+    updatedField:
       properties:
-        DownloadableAcl:
-          $ref: '#/components/schemas/downloadableaclResponseEntity'
-      example:
-        DownloadableAcl:
-          name: name
-          dacl: permit ip any any
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          daclType: IPV4
-    downloadable:
-      type: object
-      properties:
-        DownloadableAcl:
-          $ref: '#/components/schemas/DownloadableAcl_2'
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    version:
       type: object
       properties:
-        rel:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: 1.1
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/downloadableacl/versioninfo
-        type:
-          type: string
-          example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        DownloadableAcl:
-          $ref: '#/components/schemas/patchRequestBody'
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -1065,17 +1037,6 @@ components:
             properties:
               name:
                 type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: 1.1
-        supportedVersions:
-          type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
     UpdatedFieldsList:
       type: object
       properties:
@@ -1095,6 +1056,21 @@ components:
       properties:
         UpdatedFieldsList:
           $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    downloadable:
+      type: object
+      properties:
+        DownloadableAcl:
+          $ref: '#/components/schemas/DownloadableAcl_2'
+    patchRequest:
+      type: object
+      properties:
+        DownloadableAcl:
+          $ref: '#/components/schemas/patchRequestBody'
     patchRequestBody:
       type: object
       properties:
@@ -1134,16 +1110,31 @@ components:
             type:
               type: string
               example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/downloadableacl/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1153,6 +1144,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

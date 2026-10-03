@@ -1037,96 +1037,96 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    allowedprotocolsListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/allowedprotocolsListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    policy.allowedprotocols:
-      required:
-      - AllowedProtocols
+    allowedprotocolsResponse:
       type: object
       properties:
         AllowedProtocols:
-          $ref: '#/components/schemas/AllowedProtocols'
-      example: null
-    allowedprotocolsListResponseEntity:
+          $ref: '#/components/schemas/allowedprotocolsResponseEntity'
+      example:
+        AllowedProtocols:
+          allowEapMd5: true
+          allowMsChapV2: false
+          allowMsChapV1: false
+          allowEapTls: true
+          description: example allowed protocols
+          requireMessageAuth: false
+          displayAdditionalTLSParams: false
+          peap:
+            allowPeapEapMsChapV2: true
+            requireCryptobinding: false
+            allowPeapEapMsChapV2PwdChange: false
+            allowPeapEapGtc: false
+            allowPeapEapMsChapV2PwdChangeRetries: 1
+            allowPeapEapTlsAuthOfExpiredCerts: false
+            allowPeapV0: false
+            allowPeapEapTls: true
+          eapTlsLBit: false
+          eapTtls:
+            eapTtlsEapMsChapV2PwdChange: false
+            eapTtlsMsChapV2: true
+            eapTtlsMsChapV1: true
+            eapTtlsEapMsChapV2: true
+            eapTtlsPapAscii: true
+            eapTtlsEapMd5: true
+            eapTtlsEapMsChapV2PwdChangeRetries: 1
+            eapTtlsChap: true
+          teap:
+            allowTeapEapTlsAuthOfExpiredCerts: false
+            allowTeapEapMsChapV2PwdChange: false
+            enableEapChaining: false
+            acceptClientCertDuringTunnelEst: true
+            allowTeapEapMsChapV2: true
+            allowDowngradeMsk: true
+            allowTeapEapMsChapV2PwdChangeRetries: 3
+            allowTeapEapTls: true
+          preferredEapProtocol: PEAP
+          allowWeakCiphersForEap: false
+          allowChap: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          fiveG: false
+          eapTls:
+            eapTlsEnableStatelessSessionResume: false
+            allowEapTlsAuthOfExpiredCerts: false
+          allowPreferredEapProtocol: true
+          allowTeap: true
+          processHostLookup: true
+          allowPapAscii: true
+          allowPeap: true
+          eapFast:
+            allowEapFastEapMsChapV2PwdChangeRetries: 1
+            allowEapFastEapTlsAuthOfExpiredCerts: false
+            allowEapFastEapGtc: true
+            allowEapFastEapGtcPwdChangeRetries: 1
+            allowEapFastEapTls: true
+            eapFastUsePacsUseProactivePacUpdatePrecentage: 10
+            eapFastUsePacsStatelessSessionResume: false
+            allowEapFastEapMsChapV2: true
+            eapFastUsePacsAllowMachineAuthentication: false
+            eapFastUsePacsTunnelPacTtlUnits: SECONDS
+            allowEapFastEapMsChapV2PwdChange: false
+            eapFastUsePacsAllowAnonymProvisioning: false
+            eapFastEnableEAPChaining: false
+            eapFastUsePacsTunnelPacTtl: 7776000
+            eapFastUsePacsAllowAuthenProvisioning: false
+            eapFastUsePacs: true
+            allowEapFastEapGtcPwdChange: false
+          allowEapTtls: true
+          name: allowedprotocols1
+          allowLeap: false
+          allowEapFast: true
+          rsaPss: false
+    UpdatedFieldsResponse:
+      type: object
       properties:
-        id:
-          title: id
-          type: string
-          description: Id description
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     Link:
       type: object
@@ -1145,6 +1145,14 @@ components:
         type:
           type: string
           example: application/json
+      example: null
+    policy.allowedprotocols:
+      required:
+      - AllowedProtocols
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/AllowedProtocols'
       example: null
     allowedprotocolsResponseEntity:
       properties:
@@ -1561,30 +1569,47 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    updatedField:
+    allowedprotocolsListResponseEntity:
       properties:
-        field:
+        id:
+          title: id
           type: string
+          description: Id description
           example: null
-        oldValue:
+        name:
+          title: name
           type: string
+          description: name description
           example: null
-        newValue:
+        description:
+          title: description
           type: string
+          description: description
           example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
-    UpdatedFieldsResponse:
+    ERSResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
           example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     AllowedProtocols:
       required:
@@ -2118,133 +2143,80 @@ components:
           allowLeap: false
           allowEapFast: true
           rsaPss: false
-    allowedprotocolsResponse:
+    allowedprotocolsListResponse:
       type: object
       properties:
-        AllowedProtocols:
-          $ref: '#/components/schemas/allowedprotocolsResponseEntity'
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/allowedprotocolsListResponseEntity'
+          example: null
       example:
-        AllowedProtocols:
-          allowEapMd5: true
-          allowMsChapV2: false
-          allowMsChapV1: false
-          allowEapTls: true
-          description: example allowed protocols
-          requireMessageAuth: false
-          displayAdditionalTLSParams: false
-          peap:
-            allowPeapEapMsChapV2: true
-            requireCryptobinding: false
-            allowPeapEapMsChapV2PwdChange: false
-            allowPeapEapGtc: false
-            allowPeapEapMsChapV2PwdChangeRetries: 1
-            allowPeapEapTlsAuthOfExpiredCerts: false
-            allowPeapV0: false
-            allowPeapEapTls: true
-          eapTlsLBit: false
-          eapTtls:
-            eapTtlsEapMsChapV2PwdChange: false
-            eapTtlsMsChapV2: true
-            eapTtlsMsChapV1: true
-            eapTtlsEapMsChapV2: true
-            eapTtlsPapAscii: true
-            eapTtlsEapMd5: true
-            eapTtlsEapMsChapV2PwdChangeRetries: 1
-            eapTtlsChap: true
-          teap:
-            allowTeapEapTlsAuthOfExpiredCerts: false
-            allowTeapEapMsChapV2PwdChange: false
-            enableEapChaining: false
-            acceptClientCertDuringTunnelEst: true
-            allowTeapEapMsChapV2: true
-            allowDowngradeMsk: true
-            allowTeapEapMsChapV2PwdChangeRetries: 3
-            allowTeapEapTls: true
-          preferredEapProtocol: PEAP
-          allowWeakCiphersForEap: false
-          allowChap: false
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          fiveG: false
-          eapTls:
-            eapTlsEnableStatelessSessionResume: false
-            allowEapTlsAuthOfExpiredCerts: false
-          allowPreferredEapProtocol: true
-          allowTeap: true
-          processHostLookup: true
-          allowPapAscii: true
-          allowPeap: true
-          eapFast:
-            allowEapFastEapMsChapV2PwdChangeRetries: 1
-            allowEapFastEapTlsAuthOfExpiredCerts: false
-            allowEapFastEapGtc: true
-            allowEapFastEapGtcPwdChangeRetries: 1
-            allowEapFastEapTls: true
-            eapFastUsePacsUseProactivePacUpdatePrecentage: 10
-            eapFastUsePacsStatelessSessionResume: false
-            allowEapFastEapMsChapV2: true
-            eapFastUsePacsAllowMachineAuthentication: false
-            eapFastUsePacsTunnelPacTtlUnits: SECONDS
-            allowEapFastEapMsChapV2PwdChange: false
-            eapFastUsePacsAllowAnonymProvisioning: false
-            eapFastEnableEAPChaining: false
-            eapFastUsePacsTunnelPacTtl: 7776000
-            eapFastUsePacsAllowAuthenProvisioning: false
-            eapFastUsePacs: true
-            allowEapFastEapGtcPwdChange: false
-          allowEapTtls: true
-          name: allowedprotocols1
-          allowLeap: false
-          allowEapFast: true
-          rsaPss: false
-    allowed_name:
-      type: object
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    updatedField:
       properties:
-        AllowedProtocols:
-          $ref: '#/components/schemas/AllowedProtocols_name'
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/allowedprotocols/versioninfo
-        type:
-          type: string
-          example: application/json
-    allowed:
+    allowed_name:
       type: object
       properties:
         AllowedProtocols:
-          $ref: '#/components/schemas/AllowedProtocols_2'
-    UpdatedField:
+          $ref: '#/components/schemas/AllowedProtocols_name'
+    version:
       type: object
       properties:
-        field:
+        currentServerVersion:
           type: string
-          example: field1
-        oldValue:
+          example: 1.1
+        supportedVersions:
           type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    patchRequest:
-      type: object
-      properties:
-        AllowedProtocols:
-          $ref: '#/components/schemas/patchRequestBody'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
     SearchResult:
       type: object
       properties:
@@ -2272,17 +2244,6 @@ components:
             properties:
               name:
                 type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: 1.1
-        supportedVersions:
-          type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
     UpdatedFieldsList:
       type: object
       properties:
@@ -2297,6 +2258,35 @@ components:
         newValue:
           type: string
           example: val_new
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    allowed:
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/AllowedProtocols_2'
+    patchRequest:
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/patchRequestBody'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
     AllowedProtocols_name:
       type: object
       properties:
@@ -2528,20 +2518,6 @@ components:
             type:
               type: string
               example: application/json
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
     AllowedProtocols_2:
       type: object
       properties:
@@ -2773,16 +2749,31 @@ components:
             type:
               type: string
               example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/allowedprotocols/versioninfo
+        type:
+          type: string
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -2792,6 +2783,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

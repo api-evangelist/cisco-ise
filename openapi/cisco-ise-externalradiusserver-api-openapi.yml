@@ -693,27 +693,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     externalradiusserverResponseEntity:
       properties:
@@ -795,6 +804,55 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    network.externalradiusserver:
+      required:
+      - ExternalRadiusServer
+      type: object
+      properties:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/ExternalRadiusServer'
+      example: null
+    externalradiusserverListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/externalradiusserverListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     externalradiusserverResponse:
       type: object
       properties:
@@ -817,33 +875,27 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           sharedSecret: sharedSecret
           authenticationPort: 1812
-    network.externalradiusserver:
-      required:
-      - ExternalRadiusServer
+    ERSResponse:
       type: object
       properties:
-        ExternalRadiusServer:
-          $ref: '#/components/schemas/ExternalRadiusServer'
-      example: null
-    externalradiusserverListResponseEntity:
-      properties:
-        id:
-          title: id
+        operation:
           type: string
-          description: Id description
+          example: Operation
+        messages:
+          type: array
           example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     ExternalRadiusServer:
       required:
@@ -950,23 +1002,25 @@ components:
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           sharedSecret: sharedSecret
           authenticationPort: 1812
-    Link:
-      type: object
+    externalradiusserverListResponseEntity:
       properties:
-        rel:
+        id:
+          title: id
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
+          description: Id description
+          example: null
+        name:
+          title: name
           type: string
-          example: https://{server}:{port}/ers/config
-        type:
+          description: name description
+          example: null
+        description:
+          title: description
           type: string
-          example: application/json
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     updatedField:
       properties:
@@ -980,60 +1034,104 @@ components:
           type: string
           example: null
       example: null
-    UpdatedFieldsResponse:
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: 1.1
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 2
+        resources:
+          type: array
+          example:
+          - id: id1
+            name: name1
+            description: description1
+          - id: id2
+            name: name2
+            description: description2
+          items:
+            properties:
+              name:
+                type: string
+        nextPage:
+          type: array
+          example:
+          - rel: next
+            href: link-to-next-page
+            type: application/xml
+          items:
+            properties:
+              name:
+                type: string
+        previousPage:
+          type: array
+          example:
+          - rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          items:
+            properties:
+              name:
+                type: string
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    Update:
       type: object
       properties:
         UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    externalradiusserverListResponse:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
       type: object
       properties:
         SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/externalradiusserverListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+          $ref: '#/components/schemas/SearchResult'
+    radius:
+      type: object
+      properties:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/ExternalRadiusServer_2'
+    patchRequest:
+      type: object
+      properties:
+        ExternalRadiusServer:
+          $ref: '#/components/schemas/patchRequestBody'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
     ExternalRadiusServer_2:
       type: object
       properties:
@@ -1082,23 +1180,6 @@ components:
         msgAuthIsRequiredOnResponse:
           type: boolean
           example: true
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/externalradiusserver/versioninfo
-        type:
-          type: string
-          example: application/json
     UpdatedField:
       type: object
       properties:
@@ -1111,109 +1192,19 @@ components:
         newValue:
           type: string
           example: val_new
-    patchRequest:
+    link1:
       type: object
       properties:
-        ExternalRadiusServer:
-          $ref: '#/components/schemas/patchRequestBody'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 2
-        resources:
-          type: array
-          example:
-          - id: id1
-            name: name1
-            description: description1
-          - id: id2
-            name: name2
-            description: description2
-          items:
-            properties:
-              name:
-                type: string
-        nextPage:
-          type: array
-          example:
-          - rel: next
-            href: link-to-next-page
-            type: application/xml
-          items:
-            properties:
-              name:
-                type: string
-        previousPage:
-          type: array
-          example:
-          - rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          items:
-            properties:
-              name:
-                type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
+        rel:
           type: string
-          example: 1.1
-        supportedVersions:
+          example: self
+        href:
           type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    radius:
-      type: object
-      properties:
-        ExternalRadiusServer:
-          $ref: '#/components/schemas/ExternalRadiusServer_2'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
+          example: https://<ise-ip>:9060/ers/config/externalradiusserver/versioninfo
+        type:
           type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
+          example: application/json
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1223,6 +1214,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

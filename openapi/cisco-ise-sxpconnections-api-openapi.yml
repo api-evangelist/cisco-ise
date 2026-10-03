@@ -723,28 +723,52 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ERSResponse:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    sxpconnectionsResponse:
+      type: object
+      properties:
+        ERSSxpConnection:
+          $ref: '#/components/schemas/sxpconnectionsResponseEntity'
+      example:
+        ERSSxpConnection:
+          sxpVpn: Sxp VPN Name
+          ipAddress: Sxp Peer IP address
+          description: Brief description about network peer
+          sxpNode: Sxp Node Name
+          sxpVersion: Sxp Version
+          enabled: true
+          sxpPeer: Sxp Peer Name
+          sxpMode: Sxp Mode
     ERSSxpConnection:
       required:
       - enabled
@@ -815,25 +839,35 @@ components:
           enabled: true
           sxpPeer: Sxp Peer Name
           sxpMode: Sxp Mode
-    sxpconnectionsListResponseEntity:
+    sxp.sxpconnections:
+      required:
+      - ERSSxpConnection
+      type: object
       properties:
-        id:
-          title: id
+        ERSSxpConnection:
+          $ref: '#/components/schemas/ERSSxpConnection'
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
           type: string
-          description: Id description
+          example: Operation
+        messages:
+          type: array
           example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     sxpconnectionsListResponse:
       type: object
@@ -876,6 +910,26 @@ components:
               type: application/xml
             description: description2
             id: id2
+    sxpconnectionsListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     sxpconnectionsResponseEntity:
       properties:
         sxpPeer:
@@ -931,37 +985,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     updatedField:
       properties:
         field:
@@ -974,81 +997,6 @@ components:
           type: string
           example: null
       example: null
-    sxp.sxpconnections:
-      required:
-      - ERSSxpConnection
-      type: object
-      properties:
-        ERSSxpConnection:
-          $ref: '#/components/schemas/ERSSxpConnection'
-      example: null
-    sxpconnectionsResponse:
-      type: object
-      properties:
-        ERSSxpConnection:
-          $ref: '#/components/schemas/sxpconnectionsResponseEntity'
-      example:
-        ERSSxpConnection:
-          sxpVpn: Sxp VPN Name
-          ipAddress: Sxp Peer IP address
-          description: Brief description about network peer
-          sxpNode: Sxp Node Name
-          sxpVersion: Sxp Version
-          enabled: true
-          sxpPeer: Sxp Peer Name
-          sxpMode: Sxp Mode
-    bulkrequest:
-      type: object
-      properties:
-        ConnectionBulkRequest:
-          $ref: '#/components/schemas/ConnectionBulkRequest'
-    ERSSxpConnection_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-        description:
-          type: string
-          example: Brief description about network peer
-        sxpPeer:
-          type: string
-          example: Sxp Peer Name
-        sxpVpn:
-          type: string
-          example: Sxp VPN Name
-        sxpNode:
-          type: string
-          example: Sxp Node Name
-        ipAddress:
-          type: string
-          example: Sxp Peer IP address
-        sxpMode:
-          type: string
-          example: Sxp Mode
-        sxpVersion:
-          type: string
-          example: Sxp Version
-        enabled:
-          type: boolean
-          example: true
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/sxpconnections/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-            type:
-              type: string
-              example: application/json
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
     VersionInfo:
       type: object
       properties:
@@ -1066,41 +1014,6 @@ components:
         type:
           type: string
           example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: '  f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/sxpconnections/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
     ConnectionBulkRequest:
       type: object
       properties:
@@ -1121,6 +1034,24 @@ components:
           example: 1.0,1.1
         link:
           $ref: '#/components/schemas/link1'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: '  f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69'
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/sxpconnections/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
     UpdatedFieldsList:
       type: object
       properties:
@@ -1135,16 +1066,18 @@ components:
         newValue:
           type: string
           example: val_new
-    sxpconnections:
+    UpdatedField:
       type: object
       properties:
-        ERSSxpConnection:
-          $ref: '#/components/schemas/ERSSxpConnection_2'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     BulkStatus:
       type: object
       properties:
@@ -1199,16 +1132,74 @@ components:
             properties:
               name:
                 type: string
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    ERSSxpConnection_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+        description:
+          type: string
+          example: Brief description about network peer
+        sxpPeer:
+          type: string
+          example: Sxp Peer Name
+        sxpVpn:
+          type: string
+          example: Sxp VPN Name
+        sxpNode:
+          type: string
+          example: Sxp Node Name
+        ipAddress:
+          type: string
+          example: Sxp Peer IP address
+        sxpMode:
+          type: string
+          example: Sxp Mode
+        sxpVersion:
+          type: string
+          example: Sxp Version
+        enabled:
+          type: boolean
+          example: true
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sxpconnections/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+            type:
+              type: string
+              example: application/json
+    bulkrequest:
+      type: object
+      properties:
+        ConnectionBulkRequest:
+          $ref: '#/components/schemas/ConnectionBulkRequest'
+    sxpconnections:
+      type: object
+      properties:
+        ERSSxpConnection:
+          $ref: '#/components/schemas/ERSSxpConnection_2'
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
   parameters:
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
     ppage:
       name: page
       in: query
@@ -1218,6 +1209,15 @@ components:
         type: integer
         example: null
       example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -1086,20 +1086,26 @@ paths:
       operationId: getErsConfigEgressmatrixcellBulkByBulkid
       x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     updatedField:
       properties:
         field:
@@ -1130,51 +1136,40 @@ components:
           type: string
           example: application/json
       example: null
-    OperationResultEntity:
+    ERSResponse:
+      type: object
       properties:
-        OperationResult:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
           properties:
-            resultValue:
+            updatedField:
               type: array
               example: null
               items:
-                properties:
-                  Value:
-                    type: integer
-                    example: null
-                  name:
-                    type: string
-                    example: null
-                example: null
+                $ref: '#/components/schemas/updatedField'
           example: null
-      example: null
-    trustsec.egressmatrixcell:
-      required:
-      - EgressMatrixCell
-      type: object
-      properties:
-        EgressMatrixCell:
-          $ref: '#/components/schemas/EgressMatrixCell'
-      example: null
-    egressmatrixcellListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     egressmatrixcellResponseEntity:
       properties:
@@ -1228,85 +1223,34 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    ERSResponse:
-      type: object
+    egressmatrixcellListResponseEntity:
       properties:
-        operation:
+        id:
+          title: id
           type: string
-          example: Operation
-        messages:
-          type: array
+          description: Id description
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
-    egressmatrixcellResponse:
+    trustsec.egressmatrixcell:
+      required:
+      - EgressMatrixCell
       type: object
       properties:
         EgressMatrixCell:
-          $ref: '#/components/schemas/egressmatrixcellResponseEntity'
-      example:
-        EgressMatrixCell:
-          sourceSgtId: 2ebbc200-7a26-11e4-bc43-000c29ed7428
-          destinationSgtId: 1ebbc200-7a26-11e4-bc43-000c29ed7428
-          matrixCellStatus: MONITOR
-          matrixId: f47ac10b-58cc-4372-a567-0e02b2c3d479
-          id: 3b12f244-7c2b-4b1e-9bc1-1a5d6e420b94
-          sgacls:
-          - 1ebbc100-7a26-11e4-bc43-000c29ed7428
-          - 2ebbc100-7a26-11e4-bc43-000c29ed7428
-          defaultRule: PERMIT_IP
-    egressmatrixcellListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/egressmatrixcellListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+          $ref: '#/components/schemas/EgressMatrixCell'
+      example: null
     EgressMatrixCell:
       required:
       - defaultRule
@@ -1372,22 +1316,128 @@ components:
           - 1ebbc100-7a26-11e4-bc43-000c29ed7428
           - 2ebbc100-7a26-11e4-bc43-000c29ed7428
           defaultRule: PERMIT_IP
-    VersionInfo:
+    egressmatrixcellResponse:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
+        EgressMatrixCell:
+          $ref: '#/components/schemas/egressmatrixcellResponseEntity'
+      example:
+        EgressMatrixCell:
+          sourceSgtId: 2ebbc200-7a26-11e4-bc43-000c29ed7428
+          destinationSgtId: 1ebbc200-7a26-11e4-bc43-000c29ed7428
+          matrixCellStatus: MONITOR
+          matrixId: f47ac10b-58cc-4372-a567-0e02b2c3d479
+          id: 3b12f244-7c2b-4b1e-9bc1-1a5d6e420b94
+          sgacls:
+          - 1ebbc100-7a26-11e4-bc43-000c29ed7428
+          - 2ebbc100-7a26-11e4-bc43-000c29ed7428
+          defaultRule: PERMIT_IP
+    egressmatrixcellListResponse:
       type: object
       properties:
-        currentServerVersion:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/egressmatrixcellListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    OperationResultEntity:
+      properties:
+        OperationResult:
+          properties:
+            resultValue:
+              type: array
+              example: null
+              items:
+                properties:
+                  Value:
+                    type: integer
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    egressmatrixcell:
+      type: object
+      properties:
+        EgressMatrixCell:
+          $ref: '#/components/schemas/EgressMatrixCell_2'
+    OperationResult:
+      type: object
+      properties:
+        OperationResult:
+          type: object
+          properties:
+            resultValue:
+              type: array
+              example:
+              - value: DdsAASDs%$##@ssds12
+                name: password
+              items:
+                properties:
+                  name:
+                    type: string
+    UpdatedField:
+      type: object
+      properties:
+        field:
           type: string
-          example: '1.1'
-        supportedVersions:
+          example: field1
+        oldValue:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    bulkrequest:
+      type: object
+      properties:
+        EgressMatrixCellBulkRequest:
+          $ref: '#/components/schemas/EgressMatrixCellBulkRequest'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -1408,6 +1458,74 @@ components:
             properties:
               name:
                 type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    EgressMatrixCell_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 92c1a900-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: ANY-ANY
+        description:
+          type: string
+          example: Default egress rule
+        sourceSgtId:
+          type: string
+          example: 92bb1950-8c01-11e6-996c-525400b48521
+        destinationSgtId:
+          type: string
+          example: 92bb1950-8c01-11e6-996c-525400b48521
+        matrixCellStatus:
+          type: string
+          example: ENABLED
+        defaultRule:
+          type: string
+          example: PERMIT_IP
+        sgacls:
+          type: array
+          example:
+          - 92951ac0-8c01-11e6-996c-525400b48521
+          items:
+            properties:
+              name:
+                type: string
+        matrixId:
+          type: string
+          example: f47ac10b-58cc-4372-a567-0e02b2c3d479
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/egressmatrixcell/92c1a900-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
     UpdatedFieldsList:
       type: object
       properties:
@@ -1422,18 +1540,27 @@ components:
         newValue:
           type: string
           example: val_new
-    UpdatedField:
+    link1:
       type: object
       properties:
-        field:
+        rel:
           type: string
-          example: field1
-        oldValue:
+          example: self
+        href:
           type: string
-          example: val_old
-        newValue:
+          example: https://<ise-ip>:9060/ers/config/egressmatrixcell/versioninfo
+        type:
           type: string
-          example: val_new
+          example: application/json
+    EgressMatrixCellBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.trustsec.egressmatrixcell.1.0+xml
     BulkStatus:
       type: object
       properties:
@@ -1488,133 +1615,6 @@ components:
             properties:
               name:
                 type: string
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    OperationResult:
-      type: object
-      properties:
-        OperationResult:
-          type: object
-          properties:
-            resultValue:
-              type: array
-              example:
-              - value: DdsAASDs%$##@ssds12
-                name: password
-              items:
-                properties:
-                  name:
-                    type: string
-    EgressMatrixCellBulkRequest:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: vnd.com.cisco.ise.trustsec.egressmatrixcell.1.0+xml
-    bulkrequest:
-      type: object
-      properties:
-        EgressMatrixCellBulkRequest:
-          $ref: '#/components/schemas/EgressMatrixCellBulkRequest'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/egressmatrixcell/versioninfo
-        type:
-          type: string
-          example: application/json
-    egressmatrixcell:
-      type: object
-      properties:
-        EgressMatrixCell:
-          $ref: '#/components/schemas/EgressMatrixCell_2'
-    EgressMatrixCell_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 92c1a900-8c01-11e6-996c-525400b48521
-        name:
-          type: string
-          example: ANY-ANY
-        description:
-          type: string
-          example: Default egress rule
-        sourceSgtId:
-          type: string
-          example: 92bb1950-8c01-11e6-996c-525400b48521
-        destinationSgtId:
-          type: string
-          example: 92bb1950-8c01-11e6-996c-525400b48521
-        matrixCellStatus:
-          type: string
-          example: ENABLED
-        defaultRule:
-          type: string
-          example: PERMIT_IP
-        sgacls:
-          type: array
-          example:
-          - 92951ac0-8c01-11e6-996c-525400b48521
-          items:
-            properties:
-              name:
-                type: string
-        matrixId:
-          type: string
-          example: f47ac10b-58cc-4372-a567-0e02b2c3d479
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/egressmatrixcell/92c1a900-8c01-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
-  parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

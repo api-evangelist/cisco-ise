@@ -307,22 +307,42 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    VersionInfo:
+    patchRequestBody:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    UpdatedField:
       type: object
       properties:
-        currentServerVersion:
+        field:
           type: string
-          example: '1.1'
-        supportedVersions:
+          example: field1
+        oldValue:
           type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    identitygroup:
+      type: object
+      properties:
+        IdentityGroup:
+          $ref: '#/components/schemas/IdentityGroup'
+    identitygroup_name:
+      type: object
+      properties:
+        IdentityGroup:
+          $ref: '#/components/schemas/IdentityGroup_name'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -392,6 +412,27 @@ components:
             properties:
               name:
                 type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     UpdatedFieldsList:
       type: object
       properties:
@@ -406,16 +447,18 @@ components:
         newValue:
           type: string
           example: val_new
-    Update:
+    link1:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: <ise-ip>/ers/config/identitygroup/versioninfo
+        type:
+          type: string
+          example: application/json
     IdentityGroup_name:
       type: object
       properties:
@@ -443,6 +486,11 @@ components:
             type:
               type: string
               example: application/json
+    patchRequest:
+      type: object
+      properties:
+        IdentityGroup:
+          $ref: '#/components/schemas/patchRequestBody'
     IdentityGroup:
       type: object
       properties:
@@ -470,51 +518,3 @@ components:
             type:
               type: string
               example: application/json
-    identitygroup:
-      type: object
-      properties:
-        IdentityGroup:
-          $ref: '#/components/schemas/IdentityGroup'
-    patchRequest:
-      type: object
-      properties:
-        IdentityGroup:
-          $ref: '#/components/schemas/patchRequestBody'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: <ise-ip>/ers/config/identitygroup/versioninfo
-        type:
-          type: string
-          example: application/json
-    identitygroup_name:
-      type: object
-      properties:
-        IdentityGroup:
-          $ref: '#/components/schemas/IdentityGroup_name'

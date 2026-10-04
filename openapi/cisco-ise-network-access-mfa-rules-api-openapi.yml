@@ -414,6 +414,45 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    Link:
+      title: Link
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
+          exampleSetFlag: true
+        rel:
+          type: string
+          example: self
+          exampleSetFlag: true
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        type:
+          type: string
+          example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MfaRuleResponseEntity:
+      title: MfaRuleResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/RuleMfa'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     RuleMfa:
       title: RuleMfa
       type: object
@@ -440,30 +479,6 @@ components:
           $ref: '#/components/schemas/RuleCommon'
           exampleSetFlag: true
       description: Rule for MFA in Network Access/Device Admin
-      exampleSetFlag: false
-    Link:
-      title: Link
-      required:
-      - href
-      type: object
-      properties:
-        href:
-          type: string
-          example: https://{{ISE_IP}}/api/v1/policy/{{protocol}}/policy-set/{{resource-id}}
-          exampleSetFlag: true
-        rel:
-          type: string
-          example: self
-          exampleSetFlag: true
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        type:
-          type: string
-          example: application/json
-          exampleSetFlag: true
       exampleSetFlag: false
     RuleCommon:
       title: RuleCommon
@@ -515,30 +530,18 @@ components:
           - monitor
       description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    MessageResponseEntity:
-      title: MessageResponseEntity
-      required:
-      - message
+    Error:
+      title: Error
       type: object
       properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
         message:
           type: string
-          example: Success
+          example: Bad Request
           exampleSetFlag: true
-      description: Response object containing success message
-      exampleSetFlag: false
-    IdResponseEntity:
-      title: IdResponseEntity
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
-          exampleSetFlag: true
-      description: response object containing object ID
       exampleSetFlag: false
     Condition:
       title: Condition
@@ -570,21 +573,6 @@ components:
           exampleSetFlag: true
       description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
-    MfaRuleResponseEntity:
-      title: MfaRuleResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/RuleMfa'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
     MfaRuleListResponseEntity:
       title: MfaRuleListResponseEntity
       required:
@@ -604,18 +592,30 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
+    IdResponseEntity:
+      title: IdResponseEntity
+      required:
+      - id
       type: object
       properties:
-        code:
+        id:
           type: string
-          example: '400'
+          format: uuid
+          example: 07da6fd8-5abc-4dc4-bcec-df309dbf4d17
           exampleSetFlag: true
+      description: response object containing object ID
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
+      type: object
+      properties:
         message:
           type: string
-          example: Bad Request
+          example: Success
           exampleSetFlag: true
+      description: Response object containing success message
       exampleSetFlag: false
   securitySchemes:
     BasicAuth:

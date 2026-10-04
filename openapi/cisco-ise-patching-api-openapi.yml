@@ -368,18 +368,39 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    TaskIdResponse:
-      title: TaskIdResponse
+    PatchRollbackRequest:
+      title: PatchRollbackRequest
+      required:
+      - patchNumber
       type: object
       properties:
-        id:
-          type: string
-          description: ID which can be used to track the status of install / rollback of patch and hotpatch.
-          example: a1714b90-be06-11eb-bf27-c208c4aa1432
+        patchNumber:
+          type: integer
+          format: int32
+          example: 1
           exampleSetFlag: true
-        message:
+      exampleSetFlag: false
+    Hotpatch:
+      title: Hotpatch
+      type: object
+      properties:
+        hotpatchName:
           type: string
-          example: Patch install task has been initiated. Please use Task Service status API to get the status of the patch install job
+          exampleSetFlag: true
+        installDate:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     HotpatchRollbackRequest:
@@ -402,16 +423,18 @@ components:
           example: repo_name
           exampleSetFlag: true
       exampleSetFlag: false
-    PatchTaskResponse:
-      title: PatchTaskResponse
+    TaskIdResponse:
+      title: TaskIdResponse
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/TaskIdResponse'
-          exampleSetFlag: true
-        version:
+        id:
           type: string
-          example: 1.0.0
+          description: ID which can be used to track the status of install / rollback of patch and hotpatch.
+          example: a1714b90-be06-11eb-bf27-c208c4aa1432
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Patch install task has been initiated. Please use Task Service status API to get the status of the patch install job
           exampleSetFlag: true
       exampleSetFlag: false
     Message:
@@ -421,6 +444,26 @@ components:
         message:
           type: string
           example: Repository (repo_name) does not exist. Please configure the repository from Cisco ISE UI to proceed
+          exampleSetFlag: true
+      exampleSetFlag: false
+    PatchInstallRequest:
+      title: PatchInstallRequest
+      required:
+      - patchName
+      - repositoryName
+      type: object
+      properties:
+        isDirectoryListed:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        patchName:
+          type: string
+          example: ise-patchbundle-3.1.0.518-Patch1-21061111.SPA.x86_64.tar.gz
+          exampleSetFlag: true
+        repositoryName:
+          type: string
+          example: repo_name
           exampleSetFlag: true
       exampleSetFlag: false
     Patch:
@@ -435,60 +478,12 @@ components:
           format: int32
           exampleSetFlag: true
       exampleSetFlag: false
-    HotpatchListResponse:
-      title: HotpatchListResponse
+    PatchTaskResponse:
+      title: PatchTaskResponse
       type: object
       properties:
         response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Hotpatch'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    Hotpatch:
-      title: Hotpatch
-      type: object
-      properties:
-        hotpatchName:
-          type: string
-          exampleSetFlag: true
-        installDate:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    PatchRollbackRequest:
-      title: PatchRollbackRequest
-      required:
-      - patchNumber
-      type: object
-      properties:
-        patchNumber:
-          type: integer
-          format: int32
-          example: 1
-          exampleSetFlag: true
-      exampleSetFlag: false
-    PatchListResponse:
-      title: PatchListResponse
-      type: object
-      properties:
-        iseVersion:
-          type: string
-          exampleSetFlag: true
-        patchVersion:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Patch'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Message'
+          $ref: '#/components/schemas/TaskIdResponse'
           exampleSetFlag: true
         version:
           type: string
@@ -515,23 +510,28 @@ components:
           example: repo_name
           exampleSetFlag: true
       exampleSetFlag: false
-    PatchInstallRequest:
-      title: PatchInstallRequest
-      required:
-      - patchName
-      - repositoryName
+    PatchListResponse:
+      title: PatchListResponse
       type: object
       properties:
-        isDirectoryListed:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        patchName:
+        iseVersion:
           type: string
-          example: ise-patchbundle-3.1.0.518-Patch1-21061111.SPA.x86_64.tar.gz
           exampleSetFlag: true
-        repositoryName:
-          type: string
-          example: repo_name
+        patchVersion:
+          type: array
           exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Patch'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    HotpatchListResponse:
+      title: HotpatchListResponse
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Hotpatch'
+            exampleSetFlag: false
       exampleSetFlag: false

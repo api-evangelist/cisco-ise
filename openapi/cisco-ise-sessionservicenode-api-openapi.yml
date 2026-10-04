@@ -437,6 +437,39 @@ components:
           type: string
           example: application/json
       example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    sessionservicenodeResponse:
+      type: object
+      properties:
+        SessionServiceNode:
+          $ref: '#/components/schemas/sessionservicenodeResponseEntity'
+      example:
+        SessionServiceNode:
+          name: node1
+          ipAddress: 10.0.0.1
+          description: PSN with Session Service
+          id: id1
     sessionservicenodeListResponse:
       type: object
       properties:
@@ -478,6 +511,26 @@ components:
               type: application/xml
             description: description2
             id: id2
+    sessionservicenodeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     sessionservicenodeResponseEntity:
       properties:
         ipAddress:
@@ -503,132 +556,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    sessionservicenodeListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    sessionservicenodeResponse:
-      type: object
-      properties:
-        SessionServiceNode:
-          $ref: '#/components/schemas/sessionservicenodeResponseEntity'
-      example:
-        SessionServiceNode:
-          name: node1
-          ipAddress: 10.0.0.1
-          description: PSN with Session Service
-          id: id1
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    psnnodedetails_name:
-      type: object
-      properties:
-        SessionServiceNode:
-          $ref: '#/components/schemas/SessionServiceNode_name'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: '  ab6deded-fcc2-47ff-8577-0014737c8fcf'
-            name: TestNode
-            description: PSN with Session Service
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/sessionservicenode/ab6deded-fcc2-47ff-8577-0014737c8fcf
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    SessionServiceNode_name:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
-        name:
-          type: string
-          example: TestNode
-        description:
-          type: string
-          example: PSN with Session Service
-        gateWay:
-          type: string
-          example: 10.0.0.1
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/sessionservicenode/name/TestNode
-            type:
-              type: string
-              example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     SessionServiceNode:
       type: object
       properties:
@@ -656,11 +583,74 @@ components:
             type:
               type: string
               example: application/json
-    psnnodedetails:
+    search:
       type: object
       properties:
-        SessionServiceNode:
-          $ref: '#/components/schemas/SessionServiceNode'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: '  ab6deded-fcc2-47ff-8577-0014737c8fcf'
+            name: TestNode
+            description: PSN with Session Service
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/sessionservicenode/ab6deded-fcc2-47ff-8577-0014737c8fcf
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    SessionServiceNode_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ab6deded-fcc2-47ff-8577-0014737c8fcf
+        name:
+          type: string
+          example: TestNode
+        description:
+          type: string
+          example: PSN with Session Service
+        gateWay:
+          type: string
+          example: 10.0.0.1
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sessionservicenode/name/TestNode
+            type:
+              type: string
+              example: application/json
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     link1:
       type: object
       properties:
@@ -673,6 +663,16 @@ components:
         type:
           type: string
           example: application/json
+    psnnodedetails_name:
+      type: object
+      properties:
+        SessionServiceNode:
+          $ref: '#/components/schemas/SessionServiceNode_name'
+    psnnodedetails:
+      type: object
+      properties:
+        SessionServiceNode:
+          $ref: '#/components/schemas/SessionServiceNode'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

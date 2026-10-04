@@ -119,6 +119,23 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
     SuccessResponse:
       title: SuccessResponse
       type: object
@@ -140,6 +157,19 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
+    TrustsecGeneralSettingsResponse:
+      title: TrustsecGeneralSettingsResponse
+      type: object
+      properties:
+        allowMultipleSGACLs:
+          type: boolean
+          description: Allow multiple SGACLs to be downloaded to the network-device
+          example: false
+          exampleSetFlag: true
+        httpsServerConfig:
+          $ref: '#/components/schemas/CTSHttpsServerConfig'
+          exampleSetFlag: true
+      exampleSetFlag: false
     TrustsecGeneralSettingsRequest:
       title: TrustsecGeneralSettingsRequest
       type: object
@@ -153,19 +183,6 @@ components:
           $ref: '#/components/schemas/CTSHttpsServerConfig'
           exampleSetFlag: true
       description: CTS HTTPS Server configuration
-      exampleSetFlag: false
-    TrustsecGeneralSettingsResponse:
-      title: TrustsecGeneralSettingsResponse
-      type: object
-      properties:
-        allowMultipleSGACLs:
-          type: boolean
-          description: Allow multiple SGACLs to be downloaded to the network-device
-          example: false
-          exampleSetFlag: true
-        httpsServerConfig:
-          $ref: '#/components/schemas/CTSHttpsServerConfig'
-          exampleSetFlag: true
       exampleSetFlag: false
     CTSHttpsServerConfig:
       title: CTSHttpsServerConfig
@@ -182,21 +199,4 @@ components:
           example: true
           exampleSetFlag: true
       description: CTS HTTPS Server configuration
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
       exampleSetFlag: false

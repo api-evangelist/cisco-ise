@@ -895,44 +895,37 @@ paths:
       operationId: getErsConfigNetworkdevicegroupVersioninfo
       x-operation-id-source: derived
 components:
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   schemas:
-    UpdatedFieldsResponse:
-      type: object
+    updatedField:
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    networkdevicegroupResponseEntity:
-      properties:
-        othername:
-          title: othername
+        field:
           type: string
-          description: This field holds the Network Device Group Hierarchy (A.K.A NDG Type)
           example: null
-        name:
-          title: name
+        oldValue:
           type: string
-          description: name
           example: null
-        id:
-          title: id
+        newValue:
           type: string
-          description: Id
           example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     Link:
       type: object
@@ -952,16 +945,39 @@ components:
           type: string
           example: application/json
       example: null
-    updatedField:
+    ERSResponse:
+      type: object
       properties:
-        field:
+        operation:
           type: string
+          example: Operation
+        messages:
+          type: array
           example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
       example: null
     networkdevicegroupListResponse:
@@ -1005,35 +1021,50 @@ components:
               type: application/xml
             description: description2
             id: id2
-    network.networkdevicegroup:
-      required:
-      - NetworkDeviceGroup
-      type: object
+    networkdevicegroupListResponseEntity:
       properties:
-        NetworkDeviceGroup:
-          $ref: '#/components/schemas/NetworkDeviceGroup'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
+        id:
+          title: id
           type: string
-          example: Operation
-        messages:
-          type: array
+          description: Id description
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    networkdevicegroupResponseEntity:
+      properties:
+        othername:
+          title: othername
+          type: string
+          description: This field holds the Network Device Group Hierarchy (A.K.A NDG Type)
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     NetworkDeviceGroup:
       required:
@@ -1066,25 +1097,13 @@ components:
           name: Location#Group name
           description: Group description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    networkdevicegroupListResponseEntity:
+    network.networkdevicegroup:
+      required:
+      - NetworkDeviceGroup
+      type: object
       properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/NetworkDeviceGroup'
       example: null
     networkdevicegroupResponse:
       type: object
@@ -1097,6 +1116,32 @@ components:
           name: Location#Group name
           description: Group description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     NetworkDeviceGroup_name:
       type: object
       properties:
@@ -1124,16 +1169,6 @@ components:
         othername:
           type: string
           example: Device Type
-    networkgroup_name:
-      type: object
-      properties:
-        NetworkDeviceGroup:
-          $ref: '#/components/schemas/NetworkDeviceGroup_name'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
     version:
       type: object
       properties:
@@ -1193,56 +1228,11 @@ components:
             properties:
               name:
                 type: string
-    UpdatedFieldsList:
+    VersionInfo:
       type: object
       properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    patchRequest:
-      type: object
-      properties:
-        NetworkDeviceGroup:
-          $ref: '#/components/schemas/patchRequestBody'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     NetworkDeviceGroup_2:
       type: object
       properties:
@@ -1275,6 +1265,11 @@ components:
       properties:
         NetworkDeviceGroup:
           $ref: '#/components/schemas/NetworkDeviceGroup_2'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     link1:
       type: object
       properties:
@@ -1287,25 +1282,30 @@ components:
         type:
           type: string
           example: application/json
-  parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    patchRequest:
+      type: object
+      properties:
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/patchRequestBody'
+    networkgroup_name:
+      type: object
+      properties:
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/NetworkDeviceGroup_name'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

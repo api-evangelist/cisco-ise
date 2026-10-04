@@ -67,6 +67,47 @@ paths:
           description: Not Found
 components:
   schemas:
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    COAPushRequest:
+      title: COAPushRequest
+      type: object
+      properties:
+        coaType:
+          type: string
+          description: Type of trustsec CoA message to be sent to network-devices.
+          exampleSetFlag: true
+          enum:
+          - ALL
+          - ENV
+          - POLICY
+          - SGACL
+          - SGT
+          - STEERING_CONTRACT
+          - STEERING_POLICY
+        matrixId:
+          type: string
+          description: UUID of the Matrix
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          exampleSetFlag: true
+      description: Request object for Trustsec COA trigger to network-devices
+      exampleSetFlag: false
     COAPushResponse:
       title: COAPushResponse
       type: object
@@ -98,45 +139,4 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       description: Response object for Trustsec COA trigger to network-devices
-      exampleSetFlag: false
-    COAPushRequest:
-      title: COAPushRequest
-      type: object
-      properties:
-        coaType:
-          type: string
-          description: Type of trustsec CoA message to be sent to network-devices.
-          exampleSetFlag: true
-          enum:
-          - ALL
-          - ENV
-          - POLICY
-          - SGACL
-          - SGT
-          - STEERING_CONTRACT
-          - STEERING_POLICY
-        matrixId:
-          type: string
-          description: UUID of the Matrix
-          format: uuid
-          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
-          exampleSetFlag: true
-      description: Request object for Trustsec COA trigger to network-devices
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
       exampleSetFlag: false

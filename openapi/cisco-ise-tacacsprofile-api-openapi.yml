@@ -848,19 +848,21 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
+    tacacsprofileResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
+        TacacsProfile:
+          $ref: '#/components/schemas/tacacsprofileResponseEntity'
+      example:
+        TacacsProfile:
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          sessionAttributes:
+            sessionAttributeList:
+            - name: attr1
+              type: MANDATORY
+              value: value
     updatedField:
       properties:
         field:
@@ -911,51 +913,40 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    tacacsprofileResponseEntity:
+    ERSResponse:
+      type: object
       properties:
-        sessionAttributes:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
           properties:
-            sessionAttributeList:
-              title: sessionAttributeList
+            updatedField:
               type: array
-              description: List of SessionAttributes.
               example: null
               items:
-                properties:
-                  type:
-                    title: type
-                    type: object
-                    description: 'Required if list of attributes contains at least one attribute. Allowed values: MANDATORY, OPTIONAL'
-                    example: null
-                  name:
-                    title: name
-                    type: string
-                    description: Required if list of attributes contains at least one attribute.
-                    example: null
-                  value:
-                    title: value
-                    type: string
-                    description: Required if list of attributes contains at least one attribute, but can be empty string
-                    example: null
-                example: null
+                $ref: '#/components/schemas/updatedField'
           example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     TacacsProfile:
       required:
@@ -1012,50 +1003,51 @@ components:
             - name: attr1
               type: MANDATORY
               value: value
-    tacacsprofileResponse:
-      type: object
+    tacacsprofileResponseEntity:
       properties:
-        TacacsProfile:
-          $ref: '#/components/schemas/tacacsprofileResponseEntity'
-      example:
-        TacacsProfile:
-          name: name
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          sessionAttributes:
+        sessionAttributes:
+          properties:
             sessionAttributeList:
-            - name: attr1
-              type: MANDATORY
-              value: value
-    policy.tacacsprofile:
-      required:
-      - TacacsProfile
-      type: object
-      properties:
-        TacacsProfile:
-          $ref: '#/components/schemas/TacacsProfile'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+              title: sessionAttributeList
+              type: array
+              description: List of SessionAttributes.
+              example: null
+              items:
+                properties:
+                  type:
+                    title: type
+                    type: object
+                    description: 'Required if list of attributes contains at least one attribute. Allowed values: MANDATORY, OPTIONAL'
+                    example: null
+                  name:
+                    title: name
+                    type: string
+                    description: Required if list of attributes contains at least one attribute.
+                    example: null
+                  value:
+                    title: value
+                    type: string
+                    description: Required if list of attributes contains at least one attribute, but can be empty string
+                    example: null
+                example: null
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     tacacsprofileListResponse:
       type: object
@@ -1098,22 +1090,87 @@ components:
               type: application/xml
             description: description2
             id: id2
-    VersionInfo:
+    policy.tacacsprofile:
+      required:
+      - TacacsProfile
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
+        TacacsProfile:
+          $ref: '#/components/schemas/TacacsProfile'
+      example: null
+    patchRequestBody:
       type: object
       properties:
-        currentServerVersion:
+        any-resource-attribute:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: '1.0'
+          example: some-updated-value
+    tacacsprofile:
+      type: object
+      properties:
+        TacacsProfile:
+          $ref: '#/components/schemas/TacacsProfile_2'
+    tacacsprofile_name:
+      type: object
+      properties:
+        TacacsProfile:
+          $ref: '#/components/schemas/TacacsProfile_name'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    TacacsProfile_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 93d7ee70-92b5-11eb-a39d-96858bc78604
+        name:
+          type: string
+          example: Default Shell Profile
+        description:
+          type: string
+          example: Default Shell Profile
+        sessionAttributes:
+          type: object
+          properties:
+            sessionAttributeList:
+              type: array
+              example:
+              - type: MANDATORY
+                name: attr1
+                value: value
+              items:
+                properties:
+                  name:
+                    type: string
         link:
-          $ref: '#/components/schemas/link1'
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsprofile/93d7ee70-92b5-11eb-a39d-96858bc78604
+            type:
+              type: string
+              example: application/json
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -1155,6 +1212,27 @@ components:
             properties:
               name:
                 type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     UpdatedFieldsList:
       type: object
       properties:
@@ -1169,11 +1247,18 @@ components:
         newValue:
           type: string
           example: val_new
-    tacacsprofile:
+    link1:
       type: object
       properties:
-        TacacsProfile:
-          $ref: '#/components/schemas/TacacsProfile_2'
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/tacacsprofile/versioninfo
+        type:
+          type: string
+          example: application/json
     TacacsProfile_name:
       type: object
       properties:
@@ -1211,96 +1296,11 @@ components:
             type:
               type: string
               example: application/json
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     patchRequest:
       type: object
       properties:
         TacacsProfile:
           $ref: '#/components/schemas/patchRequestBody'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    tacacsprofile_name:
-      type: object
-      properties:
-        TacacsProfile:
-          $ref: '#/components/schemas/TacacsProfile_name'
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/tacacsprofile/versioninfo
-        type:
-          type: string
-          example: application/json
-    TacacsProfile_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 93d7ee70-92b5-11eb-a39d-96858bc78604
-        name:
-          type: string
-          example: Default Shell Profile
-        description:
-          type: string
-          example: Default Shell Profile
-        sessionAttributes:
-          type: object
-          properties:
-            sessionAttributeList:
-              type: array
-              example:
-              - type: MANDATORY
-                name: attr1
-                value: value
-              items:
-                properties:
-                  name:
-                    type: string
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsprofile/93d7ee70-92b5-11eb-a39d-96858bc78604
-            type:
-              type: string
-              example: application/json
   parameters:
     ppage:
       name: page

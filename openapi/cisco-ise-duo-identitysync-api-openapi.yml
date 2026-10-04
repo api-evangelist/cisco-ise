@@ -496,43 +496,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    AdGroup:
-      title: AdGroup
-      type: object
-      properties:
-        name:
-          type: string
-          description: Active Directory Group ID
-          example: 1y568sg7823fgs7
-          exampleSetFlag: true
-        sid:
-          type: string
-          description: Active Directory Group Security Identifier (SID)
-          example: r1.com/S-1-5-32-545
-          exampleSetFlag: true
-        source:
-          type: string
-          description: Source of the Active Directory Group
-          example: ActiveDirectory1
-          exampleSetFlag: true
-      description: Active Directory Group information
-      exampleSetFlag: false
-    AdG:
-      title: AdG
-      type: object
-      properties:
-        name:
-          type: string
-          description: Active Directory Group ID
-          example: 1y568sg7823fgs7
-          exampleSetFlag: true
-        source:
-          type: string
-          description: Source of the Active Directory Group
-          example: ActiveDirectory1
-          exampleSetFlag: true
-      description: Active Directory Group configuration format
-      exampleSetFlag: false
     ActiveDirectory:
       title: ActiveDirectory
       type: object
@@ -554,96 +517,49 @@ components:
           exampleSetFlag: true
       description: Active Directory information format
       exampleSetFlag: false
-    SyncError:
-      title: SyncError
+    AdG:
+      title: AdG
       type: object
       properties:
-        reason:
-          type: string
-          description: Reason user failed sync
-          example: Missing username
-          exampleSetFlag: true
-        user:
-          $ref: '#/components/schemas/DuoUser'
-          exampleSetFlag: true
-      description: User sync fail format
-      exampleSetFlag: false
-    IdentitysyncGetAllInfo:
-      title: IdentitysyncGetAllInfo
-      type: object
-      properties:
-        adGroups:
-          type: integer
-          description: Number of Active Directory Groups
-          format: int32
-          example: 20
-          exampleSetFlag: true
-        destination:
-          type: string
-          description: Destination of Identitysync (Mfa Provider)
-          example: DuoConnection
-          exampleSetFlag: true
-        lastSync:
-          type: string
-          description: Time of the last Sync
-          example: '2022-02-10T09:00:00'
-          exampleSetFlag: true
         name:
           type: string
-          description: Name of the Identitysync configuration
-          example: ADsync
+          description: Active Directory Group ID
+          example: 1y568sg7823fgs7
           exampleSetFlag: true
         source:
           type: string
-          description: Source of the Identitysync (Active Directory)
-          example: ActiveDirectory
+          description: Source of the Active Directory Group
+          example: ActiveDirectory1
           exampleSetFlag: true
-        syncStatus:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - Cancelled
-          - Failed
-          - Pending
-          - Pending Cancellation
-          - Success
-      description: List of all Identitysync configurations
+      description: Active Directory Group configuration format
       exampleSetFlag: false
-    IdentitysyncGetInfoIdentitySync:
-      title: IdentitysyncGetInfoIdentitySync
+    IdentitysyncGetAllResponse:
+      title: IdentitysyncGetAllResponse
       type: object
       properties:
-        adGroups:
+        response:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/AdGroup'
+            $ref: '#/components/schemas/IdentitysyncGetAllInfo'
             exampleSetFlag: false
-        configurations:
-          $ref: '#/components/schemas/IdentitysyncInfoIdentitySyncConfigurations'
-          exampleSetFlag: true
-        lastSync:
+        version:
           type: string
-          description: Time of the last Sync
-          example: '2022-02-10T09:00:00'
+          example: 1.0.0
           exampleSetFlag: true
-        syncName:
+      description: List of all Identitysync configurations
+      exampleSetFlag: false
+    IdentitysyncGetResponse:
+      title: IdentitysyncGetResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/IdentitysyncGetInfo'
+          exampleSetFlag: true
+        version:
           type: string
-          description: Name of the Identitysync config
-          example: ADSync
+          example: 1.0.0
           exampleSetFlag: true
-        syncSchedule:
-          $ref: '#/components/schemas/SyncSchedule'
-          exampleSetFlag: true
-        syncStatus:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - Cancelled
-          - Failed
-          - Pending
-          - Pending Cancellation
-          - Success
       description: Identitysync configuration
       exampleSetFlag: false
     IdentitysyncGetInfo:
@@ -737,6 +653,172 @@ components:
           example: '2022-09-19T09:00:00'
           exampleSetFlag: true
       exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    AdGroup:
+      title: AdGroup
+      type: object
+      properties:
+        name:
+          type: string
+          description: Active Directory Group ID
+          example: 1y568sg7823fgs7
+          exampleSetFlag: true
+        sid:
+          type: string
+          description: Active Directory Group Security Identifier (SID)
+          example: r1.com/S-1-5-32-545
+          exampleSetFlag: true
+        source:
+          type: string
+          description: Source of the Active Directory Group
+          example: ActiveDirectory1
+          exampleSetFlag: true
+      description: Active Directory Group information
+      exampleSetFlag: false
+    IdentitysyncInfo:
+      title: IdentitysyncInfo
+      type: object
+      properties:
+        identitySync:
+          $ref: '#/components/schemas/IdentitysyncInfoIdentitySync'
+          exampleSetFlag: true
+      description: Identitysync information format
+      exampleSetFlag: false
+    SyncError:
+      title: SyncError
+      type: object
+      properties:
+        reason:
+          type: string
+          description: Reason user failed sync
+          example: Missing username
+          exampleSetFlag: true
+        user:
+          $ref: '#/components/schemas/DuoUser'
+          exampleSetFlag: true
+      description: User sync fail format
+      exampleSetFlag: false
+    SyncUpdate:
+      title: SyncUpdate
+      type: object
+      properties:
+        errorList:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/SyncError'
+            exampleSetFlag: false
+        status:
+          type: string
+          description: status of sync
+          example: SUCCESS
+          exampleSetFlag: true
+      description: Identity Sync Update Format
+      exampleSetFlag: false
+    IdentitysyncGetInfoIdentitySync:
+      title: IdentitysyncGetInfoIdentitySync
+      type: object
+      properties:
+        adGroups:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/AdGroup'
+            exampleSetFlag: false
+        configurations:
+          $ref: '#/components/schemas/IdentitysyncInfoIdentitySyncConfigurations'
+          exampleSetFlag: true
+        lastSync:
+          type: string
+          description: Time of the last Sync
+          example: '2022-02-10T09:00:00'
+          exampleSetFlag: true
+        syncName:
+          type: string
+          description: Name of the Identitysync config
+          example: ADSync
+          exampleSetFlag: true
+        syncSchedule:
+          $ref: '#/components/schemas/SyncSchedule'
+          exampleSetFlag: true
+        syncStatus:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - Cancelled
+          - Failed
+          - Pending
+          - Pending Cancellation
+          - Success
+      description: Identitysync configuration
+      exampleSetFlag: false
+    IdentitysyncInfoIdentitySyncConfigurations:
+      title: IdentitysyncInfoIdentitySyncConfigurations
+      type: object
+      properties:
+        activeDirectories:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/ActiveDirectory'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    IdentitysyncGetAllInfo:
+      title: IdentitysyncGetAllInfo
+      type: object
+      properties:
+        adGroups:
+          type: integer
+          description: Number of Active Directory Groups
+          format: int32
+          example: 20
+          exampleSetFlag: true
+        destination:
+          type: string
+          description: Destination of Identitysync (Mfa Provider)
+          example: DuoConnection
+          exampleSetFlag: true
+        lastSync:
+          type: string
+          description: Time of the last Sync
+          example: '2022-02-10T09:00:00'
+          exampleSetFlag: true
+        name:
+          type: string
+          description: Name of the Identitysync configuration
+          example: ADsync
+          exampleSetFlag: true
+        source:
+          type: string
+          description: Source of the Identitysync (Active Directory)
+          example: ActiveDirectory
+          exampleSetFlag: true
+        syncStatus:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - Cancelled
+          - Failed
+          - Pending
+          - Pending Cancellation
+          - Success
+      description: List of all Identitysync configurations
+      exampleSetFlag: false
     IdentitysyncInfoIdentitySync:
       title: IdentitysyncInfoIdentitySync
       type: object
@@ -773,86 +855,4 @@ components:
           - Pending Cancellation
           - Success
       description: Identitysync config information format
-      exampleSetFlag: false
-    IdentitysyncInfo:
-      title: IdentitysyncInfo
-      type: object
-      properties:
-        identitySync:
-          $ref: '#/components/schemas/IdentitysyncInfoIdentitySync'
-          exampleSetFlag: true
-      description: Identitysync information format
-      exampleSetFlag: false
-    IdentitysyncGetResponse:
-      title: IdentitysyncGetResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/IdentitysyncGetInfo'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: Identitysync configuration
-      exampleSetFlag: false
-    IdentitysyncGetAllResponse:
-      title: IdentitysyncGetAllResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/IdentitysyncGetAllInfo'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: List of all Identitysync configurations
-      exampleSetFlag: false
-    SyncUpdate:
-      title: SyncUpdate
-      type: object
-      properties:
-        errorList:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/SyncError'
-            exampleSetFlag: false
-        status:
-          type: string
-          description: status of sync
-          example: SUCCESS
-          exampleSetFlag: true
-      description: Identity Sync Update Format
-      exampleSetFlag: false
-    IdentitysyncInfoIdentitySyncConfigurations:
-      title: IdentitysyncInfoIdentitySyncConfigurations
-      type: object
-      properties:
-        activeDirectories:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/ActiveDirectory'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
-          exampleSetFlag: true
       exampleSetFlag: false

@@ -496,84 +496,75 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    SmartState:
-      title: SmartState
-      type: object
-      properties:
-        connectionType:
-          type: string
-          enum:
-          - HTTP_DIRECT
-          - PROXY
-          - SSM_ONPREM_SERVER
-          - TRANSPORT_GATEWAY
-        state:
-          type: string
-          enum:
-          - DISABLED
-          - ENABLED
-      description: State of the smart license format. <br> **Please note that Transport Gateway connection method is no longer supported in ISE.**
-    MiscellaneousLicenseResponse:
-      title: MiscellaneousLicenseResponse
+    TierListResponseEntity:
+      title: TierListResponseEntity
+      required:
+      - response
+      - version
       type: object
       properties:
         response:
           type: array
           items:
-            $ref: '#/components/schemas/MiscellaneousLicenseResponseEntity'
+            $ref: '#/components/schemas/TierResponseEntity'
         version:
           type: string
           example: 1.0.0
-      description: State of the Miscellaneous license
-    MiscellaneousLicensePost:
-      title: MiscellaneousLicensePost
-      required:
-      - action
-      - licenseType
-      - token
+    SmartStateResponse:
+      title: SmartStateResponse
       type: object
       properties:
-        action:
+        response:
+          $ref: '#/components/schemas/SmartState'
+        version:
           type: string
-          enum:
-          - DISABLE
-          - ENABLE
-        licenseType:
+          example: 1.0.0
+      description: State of the smart license format
+    MiscellaneousLicenseResponseEntity:
+      title: MiscellaneousLicenseResponseEntity
+      type: object
+      properties:
+        LicenseType:
           type: string
           enum:
           - ANALYTICS
-        token:
+        status:
           type: string
-          description: Token to perform license operation
-          example: token to be provided by ISE PM
-      description: Miscellaneous License operation
-    SuccessResponse:
-      title: SuccessResponse
+          enum:
+          - DISABLED
+          - ENABLED
+      description: Miscellaneous license state
+    Error:
+      title: Error
+      required:
+      - code
+      - message
       type: object
       properties:
-        success:
+        code:
+          type: string
+          example: '400'
+        message:
+          type: string
+          example: Bad Request
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        error:
           $ref: '#/components/schemas/Message'
         version:
           type: string
           example: 1.0.0
-    Message:
-      title: Message
+    TierResponseEntity:
+      title: TierResponseEntity
       type: object
       properties:
         message:
           type: string
-          example: Success
-    FeatureToTierMap:
-      title: FeatureToTierMap
-      type: object
-      properties:
-        featureName:
-          type: array
-          description: <p>List of feature names</p>
-          example: '["GROUP_BYOD","GROUP_PROF","ENDPOINT_POLICY","LOGICAL_PROFILE","EPS_STATS","ANC_POLICY","BYOD_REGISTRATION","MSE_LOCATION","POSTURE_STATUS","EXTERNAL_MDM"]'
-          items:
-            type: string
-        tier:
+          description: Response message on successful change of license tier state.
+          example: ADVANTAGE tier state changed successfully.
+        name:
           type: string
           enum:
           - ADVANTAGE
@@ -581,7 +572,12 @@ components:
           - ESSENTIAL
           - PREMIER
           - VM
-      description: Get License feature to tier mapping
+        status:
+          type: string
+          enum:
+          - DISABLED
+          - ENABLED
+      description: Tier for Licensing state
     TierStateSettings:
       title: TierStateSettings
       type: object
@@ -623,136 +619,13 @@ components:
           - DISABLED
           - ENABLED
       description: License Tier state information
-    TierStateSettingsRequest:
-      title: TierStateSettingsRequest
-      required:
-      - name
-      - status
-      type: object
-      properties:
-        name:
-          type: string
-          enum:
-          - ADVANTAGE
-          - DEVICEADMIN
-          - ESSENTIAL
-          - PREMIER
-          - VM
-        status:
-          type: string
-          enum:
-          - DISABLED
-          - ENABLED
-    TierListResponseEntity:
-      title: TierListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          items:
-            $ref: '#/components/schemas/TierResponseEntity'
-        version:
-          type: string
-          example: 1.0.0
-    MiscellaneousLicenseResponseEntity:
-      title: MiscellaneousLicenseResponseEntity
-      type: object
-      properties:
-        LicenseType:
-          type: string
-          enum:
-          - ANALYTICS
-        status:
-          type: string
-          enum:
-          - DISABLED
-          - ENABLED
-      description: Miscellaneous license state
-    RegisterationInfoGetResponse:
-      title: RegisterationInfoGetResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/RegisterationInfoGet'
-        version:
-          type: string
-          example: 1.0.0
-      description: Registration information format
-    RegisterationInfoGet:
-      title: RegisterationInfoGet
-      type: object
-      properties:
-        connectionType:
-          type: string
-          enum:
-          - HTTP_DIRECT
-          - PROXY
-          - SSM_ONPREM_SERVER
-          - TRANSPORT_GATEWAY
-        registrationState:
-          type: string
-          enum:
-          - ENABLED
-          - REGISTERED
-        ssmOnPremServer:
-          type: string
-          description: If connection type is selected as SSM_ONPREM_SERVER, then  IP address or the hostname (or FQDN) of the SSM On-Prem server Host.
-          example: CSSM28.demo.local
-        tier:
-          type: array
-          items:
-            type: string
-            enum:
-            - ADVANTAGE
-            - DEVICEADMIN
-            - ESSENTIAL
-            - PREMIER
-            - VM
-      description: Registration information format. <br> **Please note that Transport Gateway connection method is no longer supported in ISE.**
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      properties:
-        error:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    TierResponseEntity:
-      title: TierResponseEntity
+    Message:
+      title: Message
       type: object
       properties:
         message:
           type: string
-          description: Response message on successful change of license tier state.
-          example: ADVANTAGE tier state changed successfully.
-        name:
-          type: string
-          enum:
-          - ADVANTAGE
-          - DEVICEADMIN
-          - ESSENTIAL
-          - PREMIER
-          - VM
-        status:
-          type: string
-          enum:
-          - DISABLED
-          - ENABLED
-      description: Tier for Licensing state
-    SmartStateResponse:
-      title: SmartStateResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/SmartState'
-        version:
-          type: string
-          example: 1.0.0
-      description: State of the smart license format
+          example: Success
     RegisterationInfoPost:
       title: RegisterationInfoPost
       type: object
@@ -800,16 +673,143 @@ components:
           format: int32
           example: 47
       description: Get Eval license settings
-    Error:
-      title: Error
+    MiscellaneousLicensePost:
+      title: MiscellaneousLicensePost
       required:
-      - code
-      - message
+      - action
+      - licenseType
+      - token
       type: object
       properties:
-        code:
+        action:
           type: string
-          example: '400'
-        message:
+          enum:
+          - DISABLE
+          - ENABLE
+        licenseType:
           type: string
-          example: Bad Request
+          enum:
+          - ANALYTICS
+        token:
+          type: string
+          description: Token to perform license operation
+          example: token to be provided by ISE PM
+      description: Miscellaneous License operation
+    RegisterationInfoGet:
+      title: RegisterationInfoGet
+      type: object
+      properties:
+        connectionType:
+          type: string
+          enum:
+          - HTTP_DIRECT
+          - PROXY
+          - SSM_ONPREM_SERVER
+          - TRANSPORT_GATEWAY
+        registrationState:
+          type: string
+          enum:
+          - ENABLED
+          - REGISTERED
+        ssmOnPremServer:
+          type: string
+          description: If connection type is selected as SSM_ONPREM_SERVER, then  IP address or the hostname (or FQDN) of the SSM On-Prem server Host.
+          example: CSSM28.demo.local
+        tier:
+          type: array
+          items:
+            type: string
+            enum:
+            - ADVANTAGE
+            - DEVICEADMIN
+            - ESSENTIAL
+            - PREMIER
+            - VM
+      description: Registration information format. <br> **Please note that Transport Gateway connection method is no longer supported in ISE.**
+    MiscellaneousLicenseResponse:
+      title: MiscellaneousLicenseResponse
+      type: object
+      properties:
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/MiscellaneousLicenseResponseEntity'
+        version:
+          type: string
+          example: 1.0.0
+      description: State of the Miscellaneous license
+    SmartState:
+      title: SmartState
+      type: object
+      properties:
+        connectionType:
+          type: string
+          enum:
+          - HTTP_DIRECT
+          - PROXY
+          - SSM_ONPREM_SERVER
+          - TRANSPORT_GATEWAY
+        state:
+          type: string
+          enum:
+          - DISABLED
+          - ENABLED
+      description: State of the smart license format. <br> **Please note that Transport Gateway connection method is no longer supported in ISE.**
+    RegisterationInfoGetResponse:
+      title: RegisterationInfoGetResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/RegisterationInfoGet'
+        version:
+          type: string
+          example: 1.0.0
+      description: Registration information format
+    SuccessResponse:
+      title: SuccessResponse
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    FeatureToTierMap:
+      title: FeatureToTierMap
+      type: object
+      properties:
+        featureName:
+          type: array
+          description: <p>List of feature names</p>
+          example: '["GROUP_BYOD","GROUP_PROF","ENDPOINT_POLICY","LOGICAL_PROFILE","EPS_STATS","ANC_POLICY","BYOD_REGISTRATION","MSE_LOCATION","POSTURE_STATUS","EXTERNAL_MDM"]'
+          items:
+            type: string
+        tier:
+          type: string
+          enum:
+          - ADVANTAGE
+          - DEVICEADMIN
+          - ESSENTIAL
+          - PREMIER
+          - VM
+      description: Get License feature to tier mapping
+    TierStateSettingsRequest:
+      title: TierStateSettingsRequest
+      required:
+      - name
+      - status
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - ADVANTAGE
+          - DEVICEADMIN
+          - ESSENTIAL
+          - PREMIER
+          - VM
+        status:
+          type: string
+          enum:
+          - DISABLED
+          - ENABLED

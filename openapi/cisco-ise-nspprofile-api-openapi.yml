@@ -532,18 +532,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
+    provisioning.nspprofile:
+      required:
+      - ERSNSPProfile
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
+        ERSNSPProfile:
+          $ref: '#/components/schemas/ERSNSPProfile'
       example: null
     updatedField:
       properties:
@@ -574,89 +569,6 @@ components:
         type:
           type: string
           example: application/json
-      example: null
-    ERSNSPProfile:
-      required:
-      - name
-      properties:
-        wirelessProfiles:
-          title: wirelessProfiles
-          type: array
-          description: List of Wireless profiles
-          example: null
-          items:
-            properties:
-              ssid:
-                title: ssid
-                type: string
-                description: SSID for the wireless profile.
-                example: null
-              allowedProtocol:
-                title: allowedProtocol
-                type: object
-                description: 'Allowed protocol for the wireless profile. Allowed values: PEAP, TLS, EAP-FAST'
-                example: null
-              certificateTemplateId:
-                title: certificateTemplateId
-                type: string
-                description: Certificate template id
-                example: null
-              actionType:
-                title: actionType
-                type: object
-                description: 'Action type for WifiProfile. Allowed values: ADD, UPDATE, DELETE (required for updating existing WirelessProfile)'
-                example: null
-              previousSsid:
-                title: previousSsid
-                type: string
-                description: Previous ssid for WifiProfile (required for updating existing WirelessProfile)
-                example: null
-            example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-      example:
-        ERSNSPProfile:
-          name: NSPProfile
-          description: 'ERS example Native supplicant profile '
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          wirelessProfiles:
-          - actionType: UPDATE
-            previousSsid: ssid1
-            allowedProtocol: TLS
-            ssid: ssid1
-            certificateTemplateId: '123456789'
-    nspprofileListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     ERSResponse:
       type: object
@@ -721,6 +633,39 @@ components:
               type: application/xml
             description: description2
             id: id2
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    nspprofileListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     nspprofileResponse:
       type: object
       properties:
@@ -737,14 +682,6 @@ components:
             allowedProtocol: TLS
             ssid: ssid1
             certificateTemplateId: '123456789'
-    provisioning.nspprofile:
-      required:
-      - ERSNSPProfile
-      type: object
-      properties:
-        ERSNSPProfile:
-          $ref: '#/components/schemas/ERSNSPProfile'
-      example: null
     nspprofileResponseEntity:
       properties:
         wirelessProfiles:
@@ -798,22 +735,95 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    VersionInfo:
+    ERSNSPProfile:
+      required:
+      - name
+      properties:
+        wirelessProfiles:
+          title: wirelessProfiles
+          type: array
+          description: List of Wireless profiles
+          example: null
+          items:
+            properties:
+              ssid:
+                title: ssid
+                type: string
+                description: SSID for the wireless profile.
+                example: null
+              allowedProtocol:
+                title: allowedProtocol
+                type: object
+                description: 'Allowed protocol for the wireless profile. Allowed values: PEAP, TLS, EAP-FAST'
+                example: null
+              certificateTemplateId:
+                title: certificateTemplateId
+                type: string
+                description: Certificate template id
+                example: null
+              actionType:
+                title: actionType
+                type: object
+                description: 'Action type for WifiProfile. Allowed values: ADD, UPDATE, DELETE (required for updating existing WirelessProfile)'
+                example: null
+              previousSsid:
+                title: previousSsid
+                type: string
+                description: Previous ssid for WifiProfile (required for updating existing WirelessProfile)
+                example: null
+            example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        ERSNSPProfile:
+          name: NSPProfile
+          description: 'ERS example Native supplicant profile '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          wirelessProfiles:
+          - actionType: UPDATE
+            previousSsid: ssid1
+            allowedProtocol: TLS
+            ssid: ssid1
+            certificateTemplateId: '123456789'
+    patchRequestBody:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    UpdatedField:
       type: object
       properties:
-        currentServerVersion:
+        field:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: field1
+        oldValue:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -841,6 +851,32 @@ components:
             properties:
               name:
                 type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    native:
+      type: object
+      properties:
+        ERSNSPProfile:
+          $ref: '#/components/schemas/ERSNSPProfile_2'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     UpdatedFieldsList:
       type: object
       properties:
@@ -855,21 +891,18 @@ components:
         newValue:
           type: string
           example: val_new
-    native:
+    link1:
       type: object
       properties:
-        ERSNSPProfile:
-          $ref: '#/components/schemas/ERSNSPProfile_2'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: <ise-ip>/ers/config/nspprofile/versioninfo
+        type:
+          type: string
+          example: application/json
     ERSNSPProfile_2:
       type: object
       properties:
@@ -911,39 +944,6 @@ components:
       properties:
         ERSNSPProfile:
           $ref: '#/components/schemas/patchRequestBody'
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: <ise-ip>/ers/config/nspprofile/versioninfo
-        type:
-          type: string
-          example: application/json
   parameters:
     ppage:
       name: page

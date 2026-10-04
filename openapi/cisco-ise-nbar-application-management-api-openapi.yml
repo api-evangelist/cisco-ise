@@ -286,30 +286,38 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    IdObject:
-      title: IdObject
-      type: object
-      properties:
-        id:
-          type: string
-          description: resource id
-          example: b8e52b05-5b5c-4d1c-8022-33769738c696
-          exampleSetFlag: true
-      description: Resource Id Object
-      exampleSetFlag: false
-    NetworkIdentityEx:
-      title: NetworkIdentityEx
+    Error:
+      title: Error
       required:
-      - ports
-      - protocol
+      - code
+      - message
       type: object
       properties:
-        ports:
-          type: string
+        code:
+          type: integer
+          format: int32
+          example: 400
           exampleSetFlag: true
-        protocol:
+        message:
           type: string
+          example: Some error occurred
           exampleSetFlag: true
+      exampleSetFlag: false
+    NBARAppResult:
+      title: NBARAppResult
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/NBARApp'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      description: NBAR Application Result
       exampleSetFlag: false
     NBARApp:
       title: NBARApp
@@ -335,36 +343,28 @@ components:
             $ref: '#/components/schemas/NetworkIdentityEx'
             exampleSetFlag: false
       exampleSetFlag: false
-    NBARAppResult:
-      title: NBARAppResult
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/NBARApp'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      description: NBAR Application Result
-      exampleSetFlag: false
-    Error:
-      title: Error
+    NetworkIdentityEx:
+      title: NetworkIdentityEx
       required:
-      - code
-      - message
+      - ports
+      - protocol
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
+        ports:
           type: string
-          example: Some error occurred
           exampleSetFlag: true
+        protocol:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    IdObject:
+      title: IdObject
+      type: object
+      properties:
+        id:
+          type: string
+          description: resource id
+          example: b8e52b05-5b5c-4d1c-8022-33769738c696
+          exampleSetFlag: true
+      description: Resource Id Object
       exampleSetFlag: false

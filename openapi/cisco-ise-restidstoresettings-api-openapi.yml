@@ -250,17 +250,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
-      type: object
+    updatedField:
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
           example: null
       example: null
     Link:
@@ -281,13 +280,40 @@ components:
           type: string
           example: application/json
       example: null
-    identitystores.restidstoresettings:
-      required:
-      - ERSRestIDStoreSettings
+    ERSResponse:
       type: object
       properties:
-        ERSRestIDStoreSettings:
-          $ref: '#/components/schemas/ERSRestIDStoreSettings'
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
       example: null
     ERSRestIDStoreSettings:
       required:
@@ -320,27 +346,13 @@ components:
           name: RestIDStoreSettings
           description: RestIDStore Settings
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    ERSResponse:
+    identitystores.restidstoresettings:
+      required:
+      - ERSRestIDStoreSettings
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        ERSRestIDStoreSettings:
+          $ref: '#/components/schemas/ERSRestIDStoreSettings'
       example: null
     restidstoresettingsResponse:
       type: object
@@ -353,18 +365,6 @@ components:
           name: RestIDStoreSettings
           description: RestIDStore Settings
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
     restidstoresettingsResponseEntity:
       properties:
         enableRestIdStore:

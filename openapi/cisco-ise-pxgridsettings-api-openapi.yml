@@ -169,26 +169,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
-      type: object
+    updatedField:
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        field:
+          type: string
           example: null
-      example: null
-    pxgrid.pxgridsettings:
-      required:
-      - PxgridSettings
-      type: object
-      properties:
-        PxgridSettings:
-          $ref: '#/components/schemas/PxgridSettings'
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
       example: null
     ERSResponse:
       type: object
@@ -246,28 +237,36 @@ components:
         PxgridSettings:
           allowPasswordBasedAccounts: false
           autoApproveCertBasedAccounts: true
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    VersionInfo:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    settings:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    pxgrid.pxgridsettings:
+      required:
+      - PxgridSettings
       type: object
       properties:
         PxgridSettings:
-          $ref: '#/components/schemas/PxgridSettings_2'
+          $ref: '#/components/schemas/PxgridSettings'
+      example: null
+    PxgridSettings_2:
+      type: object
+      properties:
+        autoApproveCertBasedAccounts:
+          type: boolean
+          example: true
+        allowPasswordBasedAccounts:
+          type: boolean
+          example: false
     version:
       type: object
       properties:
@@ -279,6 +278,16 @@ components:
           example: '1.0'
         link:
           $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    settings:
+      type: object
+      properties:
+        PxgridSettings:
+          $ref: '#/components/schemas/PxgridSettings_2'
     link1:
       type: object
       properties:
@@ -291,15 +300,6 @@ components:
         type:
           type: string
           example: application/json
-    PxgridSettings_2:
-      type: object
-      properties:
-        autoApproveCertBasedAccounts:
-          type: boolean
-          example: true
-        allowPasswordBasedAccounts:
-          type: boolean
-          example: false
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

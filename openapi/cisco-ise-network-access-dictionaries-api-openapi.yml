@@ -284,25 +284,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    DictionaryListResponseEntity:
-      title: DictionaryListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          example: '[{"dictionaryAttrType":"ENTITY_ATTR","id":"12345678-f0e7-456b-a2d1-876543320b11","name":"my dictionary","description":"a dictionary description","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/dictionaries/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}}]'
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Dictionary'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
     Link:
       title: Link
       required:
@@ -325,6 +306,19 @@ components:
         type:
           type: string
           example: application/json
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
           exampleSetFlag: true
       exampleSetFlag: false
     Dictionary:
@@ -386,17 +380,23 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
+    DictionaryListResponseEntity:
+      title: DictionaryListResponseEntity
+      required:
+      - response
+      - version
       type: object
       properties:
-        code:
-          type: string
-          example: '400'
+        response:
+          type: array
+          example: '[{"dictionaryAttrType":"ENTITY_ATTR","id":"12345678-f0e7-456b-a2d1-876543320b11","name":"my dictionary","description":"a dictionary description","link":{"rel":"self","href":"https://{{ISE_IP}}/api/v1/policy/{{protocol}}/dictionaries/ad947f38-7063-4da2-8723-652e0ca2ea41","type":"application/json"}}]'
           exampleSetFlag: true
-        message:
+          items:
+            $ref: '#/components/schemas/Dictionary'
+            exampleSetFlag: false
+        version:
           type: string
-          example: Bad Request
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
   securitySchemes:

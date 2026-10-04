@@ -697,17 +697,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UpdatedFieldsResponse:
-      type: object
+    sxplocalbindingsListResponseEntity:
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
           example: null
       example: null
     Link:
@@ -727,59 +746,6 @@ components:
         type:
           type: string
           example: application/json
-      example: null
-    sxplocalbindingsResponseEntity:
-      properties:
-        bindingName:
-          title: bindingName
-          type: string
-          description: This field is depricated from ISE 3.0
-          example: null
-        ipAddressOrHost:
-          title: ipAddressOrHost
-          type: string
-          description: IP address for static mapping (hostname is not supported)
-          example: null
-        sgt:
-          title: sgt
-          type: string
-          description: SGT name or ID
-          example: null
-        sxpVpn:
-          title: sxpVpn
-          type: string
-          description: 'List of SXP Domains, separated with comma. At least one of: sxpVpn or vns should be defined'
-          example: null
-        vns:
-          title: vns
-          type: string
-          description: 'List of Virtual Networks, separated with comma. At least one of: sxpVpn or vns should be defined'
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    sxp.sxplocalbindings:
-      required:
-      - ERSSxpLocalBindings
-      type: object
-      properties:
-        ERSSxpLocalBindings:
-          $ref: '#/components/schemas/ERSSxpLocalBindings'
       example: null
     ERSResponse:
       type: object
@@ -802,6 +768,68 @@ components:
                 type: string
                 example: code
             example: null
+      example: null
+    sxplocalbindingsListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/sxplocalbindingsListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    sxp.sxplocalbindings:
+      required:
+      - ERSSxpLocalBindings
+      type: object
+      properties:
+        ERSSxpLocalBindings:
+          $ref: '#/components/schemas/ERSSxpLocalBindings'
       example: null
     ERSSxpLocalBindings:
       required:
@@ -856,6 +884,51 @@ components:
           sxpVpn: Sxp Vpn Name
           vns: virtualNetwork
           ipAddressOrHost: ipAddressOrHost
+    sxplocalbindingsResponseEntity:
+      properties:
+        bindingName:
+          title: bindingName
+          type: string
+          description: This field is depricated from ISE 3.0
+          example: null
+        ipAddressOrHost:
+          title: ipAddressOrHost
+          type: string
+          description: IP address for static mapping (hostname is not supported)
+          example: null
+        sgt:
+          title: sgt
+          type: string
+          description: SGT name or ID
+          example: null
+        sxpVpn:
+          title: sxpVpn
+          type: string
+          description: 'List of SXP Domains, separated with comma. At least one of: sxpVpn or vns should be defined'
+          example: null
+        vns:
+          title: vns
+          type: string
+          description: 'List of Virtual Networks, separated with comma. At least one of: sxpVpn or vns should be defined'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     sxplocalbindingsResponse:
       type: object
       properties:
@@ -867,109 +940,11 @@ components:
           sxpVpn: Sxp Vpn Name
           vns: virtualNetwork
           ipAddressOrHost: ipAddressOrHost
-    sxplocalbindingsListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    sxplocalbindingsListResponse:
+    sxplocalbindings:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sxplocalbindingsListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.1'
-        supportedVersions:
-          type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
+        ERSSxpLocalBindings:
+          $ref: '#/components/schemas/ERSSxpLocalBindings_2'
     UpdatedField:
       type: object
       properties:
@@ -982,6 +957,21 @@ components:
         newValue:
           type: string
           example: val_new
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    bulkrequest:
+      type: object
+      properties:
+        LocalBindingBulkRequest:
+          $ref: '#/components/schemas/LocalBindingBulkRequest'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -1000,6 +990,92 @@ components:
             properties:
               name:
                 type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sxplocalbindings/versioninfo
+        type:
+          type: string
+          example: application/json
+    ERSSxpLocalBindings_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+        ipAddressOrHost:
+          type: string
+          example: ipAddressOrHost
+        sxpVpn:
+          type: string
+          example: Sxp Vpn Name
+        sgt:
+          type: string
+          example: sgt_id
+        vns:
+          type: string
+          example: virtualNetwork
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
+            type:
+              type: string
+              example: application/json
+    LocalBindingBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.sxp.sxplocalbindings.1.0+xml
     BulkStatus:
       type: object
       properties:
@@ -1054,82 +1130,6 @@ components:
             properties:
               name:
                 type: string
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    sxplocalbindings:
-      type: object
-      properties:
-        ERSSxpLocalBindings:
-          $ref: '#/components/schemas/ERSSxpLocalBindings_2'
-    ERSSxpLocalBindings_2:
-      type: object
-      properties:
-        id:
-          type: string
-          example: f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-        ipAddressOrHost:
-          type: string
-          example: ipAddressOrHost
-        sxpVpn:
-          type: string
-          example: Sxp Vpn Name
-        sgt:
-          type: string
-          example: sgt_id
-        vns:
-          type: string
-          example: virtualNetwork
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/sxplocalbindings/f9269682-dcaf-11e3-ad0a-5bdcd2d9fd69
-            type:
-              type: string
-              example: application/json
-    bulkrequest:
-      type: object
-      properties:
-        LocalBindingBulkRequest:
-          $ref: '#/components/schemas/LocalBindingBulkRequest'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/sxplocalbindings/versioninfo
-        type:
-          type: string
-          example: application/json
-    LocalBindingBulkRequest:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: vnd.com.cisco.ise.sxp.sxplocalbindings.1.0+xml
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
   parameters:
     ppage:
       name: page

@@ -1396,39 +1396,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    restidstoreListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     restidstoreListResponse:
       type: object
       properties:
@@ -1470,163 +1437,17 @@ components:
               type: application/xml
             description: description2
             id: id2
-    restidstoreResponse:
-      type: object
+    updatedField:
       properties:
-        ERSRestIDStore:
-          $ref: '#/components/schemas/restidstoreResponseEntity'
-      example:
-        ERSRestIDStore:
-          ersRestIDStoreDeviceAttributes:
-            attributes:
-            - name: ''
-              type: ''
-          name: RestIdStore1
-          description: Object that represents the restID store
-          ersRestIDStoreAttributes:
-            headers:
-            - value: tenantID_value
-              key: tenantID
-            - value: clientID_value
-              key: clientID
-            - value: clientSecret_value
-              key: clientSecret
-            usernameSuffix: '@place.com'
-            rootUrl: rootUrl
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          ersRestIDStoreGroups:
-            groups:
-            - group1
-          ersRestIDStoreUserAttributes:
-            attributes:
-            - name: AttributeName1
-              type: String
-          ersRestIDStoreAdvanceSettings:
-            sanAttribute: EMAIL
-            regex: ^(.+)@(\S+)$
-            subjectNameFormat: ''
-            sanAttributeValue: username@domain.com
-            deviceQuerySetting: ENTRA_DEVICE_NAME
-            sshKeysAttributeName: sshPublicKeys
-            identifyDeviceCertificate: SAN
-            regexType: CUSTOM
-    restidstoreResponseEntity:
-      properties:
-        ersRestIDStoreAttributes:
-          properties:
-            usernameSuffix:
-              title: usernameSuffix
-              type: string
-              description: Suffix of the username domain.
-              example: null
-            rootUrl:
-              title: rootUrl
-              type: string
-              description: url of the root of the RestIDStore. Can't Update this field
-              example: null
-            predefined:
-              title: predefined
-              type: object
-              description: The cloud provider connected to of the RestIDStore. Only Microsoft Entra ID is supported.
-              example: null
-            headers:
-              title: headers
-              type: array
-              description: headers for the RestIDStore.
-              example: null
-              items:
-                properties:
-                  key:
-                    title: key
-                    type: string
-                    description: key of the header.
-                    example: null
-                  value:
-                    title: value
-                    type: string
-                    description: value of the header
-                    example: null
-                example: null
-          example: null
-        ersRestIDStoreGroups:
-          properties:
-            name:
-              title: name
-              type: string
-              description: Name of group
-              example: null
-          example: null
-        ersRestIDStoreUserAttributes:
-          properties:
-            name:
-              title: name
-              type: string
-              description: Name and Type of attribute
-              example: null
-          example: null
-        ersRestIDStoreDeviceAttributes:
-          properties:
-            name:
-              title: name
-              type: string
-              description: Name and Type of attribute
-              example: null
-          example: null
-        ersRestIDStoreAdvanceSettings:
-          properties:
-            deviceQuerySetting:
-              title: deviceQuerySetting
-              type: object
-              description: deviceQuerySetting values must be one of NONE,ENTRA_DEVICE_NAME,ENTRA_DEVICE_ID
-              example: null
-            identifyDeviceCertificate:
-              title: identifyDeviceCertificate
-              type: object
-              description: identifyDeviceCertificate values must be one of NONE,SNF,SAN
-              example: null
-            subjectNameFormat:
-              title: subjectNameFormat
-              type: string
-              description: subjectNameFormat values must be empty
-              example: null
-            sanAttribute:
-              title: sanAttribute
-              type: object
-              description: sanAttribute values must be one of  NONE,URI,EMAIL,DNS
-              example: null
-            sanAttributeValue:
-              title: sanAttributeValue
-              type: string
-              description: sanAttributeValue values must be empty
-              example: null
-            regexType:
-              title: regexType
-              type: object
-              description: regexType values must be one of NONE,PREDEFINED,CUSTOM
-              example: null
-            regex:
-              title: regex
-              type: string
-              description: regex values must be pattren
-              example: null
-          example: null
-        name:
-          title: name
+        field:
           type: string
-          description: name
           example: null
-        id:
-          title: id
+        oldValue:
           type: string
-          description: Id
           example: null
-        description:
-          title: description
+        newValue:
           type: string
-          description: Description
           example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     Link:
       type: object
@@ -1645,14 +1466,6 @@ components:
         type:
           type: string
           example: application/json
-      example: null
-    identitystores.restidstore:
-      required:
-      - ERSRestIDStore
-      type: object
-      properties:
-        ERSRestIDStore:
-          $ref: '#/components/schemas/ERSRestIDStore'
       example: null
     ERSResponse:
       type: object
@@ -1676,16 +1489,17 @@ components:
                 example: code
             example: null
       example: null
-    updatedField:
+    UpdatedFieldsResponse:
+      type: object
       properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
       example: null
     ERSRestIDStore:
@@ -1848,76 +1662,192 @@ components:
             sshKeysAttributeName: sshPublicKeys
             identifyDeviceCertificate: SAN
             regexType: CUSTOM
-    VersionInfo:
-      type: object
+    restidstoreListResponseEntity:
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
+        id:
+          title: id
           type: string
-          example: '1.0'
-        supportedVersions:
+          description: Id description
+          example: null
+        name:
+          title: name
           type: string
-          example: '1.0'
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
         link:
-          $ref: '#/components/schemas/link1'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 79aac430-7cc8-11eb-ad58-005056926583
-            name: ISE_EST_Local_Host
-            description: example nd
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    rest:
+          $ref: '#/components/schemas/Link'
+      example: null
+    restidstoreResponse:
       type: object
       properties:
         ERSRestIDStore:
-          $ref: '#/components/schemas/ERSRestIDStore_2'
-    Update:
-      type: object
+          $ref: '#/components/schemas/restidstoreResponseEntity'
+      example:
+        ERSRestIDStore:
+          ersRestIDStoreDeviceAttributes:
+            attributes:
+            - name: ''
+              type: ''
+          name: RestIdStore1
+          description: Object that represents the restID store
+          ersRestIDStoreAttributes:
+            headers:
+            - value: tenantID_value
+              key: tenantID
+            - value: clientID_value
+              key: clientID
+            - value: clientSecret_value
+              key: clientSecret
+            usernameSuffix: '@place.com'
+            rootUrl: rootUrl
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          ersRestIDStoreGroups:
+            groups:
+            - group1
+          ersRestIDStoreUserAttributes:
+            attributes:
+            - name: AttributeName1
+              type: String
+          ersRestIDStoreAdvanceSettings:
+            sanAttribute: EMAIL
+            regex: ^(.+)@(\S+)$
+            subjectNameFormat: ''
+            sanAttributeValue: username@domain.com
+            deviceQuerySetting: ENTRA_DEVICE_NAME
+            sshKeysAttributeName: sshPublicKeys
+            identifyDeviceCertificate: SAN
+            regexType: CUSTOM
+    restidstoreResponseEntity:
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    patchRequest:
+        ersRestIDStoreAttributes:
+          properties:
+            usernameSuffix:
+              title: usernameSuffix
+              type: string
+              description: Suffix of the username domain.
+              example: null
+            rootUrl:
+              title: rootUrl
+              type: string
+              description: url of the root of the RestIDStore. Can't Update this field
+              example: null
+            predefined:
+              title: predefined
+              type: object
+              description: The cloud provider connected to of the RestIDStore. Only Microsoft Entra ID is supported.
+              example: null
+            headers:
+              title: headers
+              type: array
+              description: headers for the RestIDStore.
+              example: null
+              items:
+                properties:
+                  key:
+                    title: key
+                    type: string
+                    description: key of the header.
+                    example: null
+                  value:
+                    title: value
+                    type: string
+                    description: value of the header
+                    example: null
+                example: null
+          example: null
+        ersRestIDStoreGroups:
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name of group
+              example: null
+          example: null
+        ersRestIDStoreUserAttributes:
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name and Type of attribute
+              example: null
+          example: null
+        ersRestIDStoreDeviceAttributes:
+          properties:
+            name:
+              title: name
+              type: string
+              description: Name and Type of attribute
+              example: null
+          example: null
+        ersRestIDStoreAdvanceSettings:
+          properties:
+            deviceQuerySetting:
+              title: deviceQuerySetting
+              type: object
+              description: deviceQuerySetting values must be one of NONE,ENTRA_DEVICE_NAME,ENTRA_DEVICE_ID
+              example: null
+            identifyDeviceCertificate:
+              title: identifyDeviceCertificate
+              type: object
+              description: identifyDeviceCertificate values must be one of NONE,SNF,SAN
+              example: null
+            subjectNameFormat:
+              title: subjectNameFormat
+              type: string
+              description: subjectNameFormat values must be empty
+              example: null
+            sanAttribute:
+              title: sanAttribute
+              type: object
+              description: sanAttribute values must be one of  NONE,URI,EMAIL,DNS
+              example: null
+            sanAttributeValue:
+              title: sanAttributeValue
+              type: string
+              description: sanAttributeValue values must be empty
+              example: null
+            regexType:
+              title: regexType
+              type: object
+              description: regexType values must be one of NONE,PREDEFINED,CUSTOM
+              example: null
+            regex:
+              title: regex
+              type: string
+              description: regex values must be pattren
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    identitystores.restidstore:
+      required:
+      - ERSRestIDStore
       type: object
       properties:
         ERSRestIDStore:
-          $ref: '#/components/schemas/patchRequestBody'
+          $ref: '#/components/schemas/ERSRestIDStore'
+      example: null
     patchRequestBody:
       type: object
       properties:
@@ -1939,18 +1869,42 @@ components:
         newValue:
           type: string
           example: val_new
-    link1:
+    search:
       type: object
       properties:
-        rel:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 79aac430-7cc8-11eb-ad58-005056926583
+            name: ISE_EST_Local_Host
+            description: example nd
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
           type: string
-          example: self
-        href:
+          example: '1.0'
+        supportedVersions:
           type: string
-          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     ERSRestIDStore_2:
       type: object
       properties:
@@ -1991,6 +1945,52 @@ components:
                 properties:
                   name:
                     type: string
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    rest:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/ERSRestIDStore_2'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
+        type:
+          type: string
+          example: application/json
+    patchRequest:
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/patchRequestBody'
   parameters:
     ppage:
       name: page

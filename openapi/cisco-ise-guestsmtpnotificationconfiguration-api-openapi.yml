@@ -224,22 +224,32 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    VersionInfo:
+    patchRequestBody:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    version:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    UpdatedField:
       type: object
       properties:
-        currentServerVersion:
+        field:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: field1
+        oldValue:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -258,6 +268,27 @@ components:
             properties:
               name:
                 type: string
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     UpdatedFieldsList:
       type: object
       properties:
@@ -272,11 +303,18 @@ components:
         newValue:
           type: string
           example: val_new
-    guestsmtp:
+    link1:
       type: object
       properties:
-        ERSGuestSmtpNotificationSettings:
-          $ref: '#/components/schemas/ERSGuestSmtpNotificationSettings'
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guestsmtpnotificationsettings/versioninfo
+        type:
+          type: string
+          example: application/json
     ERSGuestSmtpNotificationSettings:
       type: object
       properties:
@@ -325,51 +363,13 @@ components:
             type:
               type: string
               example: application/json
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     patchRequest:
       type: object
       properties:
         ERSGuestSmtpNotificationSettings:
           $ref: '#/components/schemas/patchRequestBody'
-    patchRequestBody:
+    guestsmtp:
       type: object
       properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/guestsmtpnotificationsettings/versioninfo
-        type:
-          type: string
-          example: application/json
+        ERSGuestSmtpNotificationSettings:
+          $ref: '#/components/schemas/ERSGuestSmtpNotificationSettings'

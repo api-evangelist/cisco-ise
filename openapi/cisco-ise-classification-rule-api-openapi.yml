@@ -430,105 +430,6 @@ components:
           example: application/json
           exampleSetFlag: true
       exampleSetFlag: false
-    RuleCommon:
-      title: RuleCommon
-      required:
-      - name
-      type: object
-      properties:
-        condition:
-          $ref: '#/components/schemas/Condition'
-          exampleSetFlag: true
-        default:
-          type: boolean
-          description: Indicates if this rule is the default one
-          example: false
-          exampleSetFlag: true
-        hitCounts:
-          type: integer
-          description: The amount of times the rule was matched
-          format: int32
-          readOnly: true
-          example: 2
-          exampleSetFlag: true
-        id:
-          type: string
-          description: The identifier of the rule
-          format: uuid
-          readOnly: true
-          example: d82952cb-b901-4b09-b363-5ebf39bdbaf9
-          exampleSetFlag: true
-        name:
-          type: string
-          description: Rule name, [Valid characters are alphanumerics, underscore, hyphen, space, period, parentheses]
-          example: MyRuleName_1
-          exampleSetFlag: true
-        rank:
-          type: integer
-          description: The rank(priority) in relation to other rules. Lower rank is higher priority.
-          format: int32
-          example: 1
-          exampleSetFlag: true
-        state:
-          type: string
-          description: The state that the rule is in. A disabled rule cannot be matched.
-          example: enabled
-          exampleSetFlag: true
-          enum:
-          - disabled
-          - enabled
-          - monitor
-      description: Common attributes in rule authentication/authorization
-      exampleSetFlag: false
-    CdpClassificationRuleRankRequest:
-      title: CdpClassificationRuleRankRequest
-      type: object
-      properties:
-        id:
-          type: string
-          description: Identifier for the Classification Rule record
-          format: uuid
-          readOnly: true
-          example: 12345678-f0e7-456b-a2d1-876543320b14
-          exampleSetFlag: true
-        name:
-          type: string
-          example: Classification Rule 1
-          exampleSetFlag: true
-        rank:
-          type: integer
-          format: int32
-          example: 1
-          exampleSetFlag: true
-      description: Classification Rule Rank Request Object
-      exampleSetFlag: false
-    CdpClassificationRuleResponseEntity:
-      title: CdpClassificationRuleResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/CdpClassificationRule'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    MessageResponseEntity:
-      title: MessageResponseEntity
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-          exampleSetFlag: true
-      description: Response object containing success message
-      exampleSetFlag: false
     CdpClassificationRulePreview:
       title: CdpClassificationRulePreview
       type: object
@@ -624,39 +525,71 @@ components:
           exampleSetFlag: true
       description: Classification Policy details with Page Info
       exampleSetFlag: false
-    CdpClassificationRuleListResponseEntity:
-      title: CdpClassificationRuleListResponseEntity
+    RuleCommon:
+      title: RuleCommon
       required:
-      - response
-      - version
+      - name
       type: object
       properties:
-        response:
-          type: array
+        condition:
+          $ref: '#/components/schemas/Condition'
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/CdpClassificationRule'
-            exampleSetFlag: false
-        version:
+        default:
+          type: boolean
+          description: Indicates if this rule is the default one
+          example: false
+          exampleSetFlag: true
+        hitCounts:
+          type: integer
+          description: The amount of times the rule was matched
+          format: int32
+          readOnly: true
+          example: 2
+          exampleSetFlag: true
+        id:
           type: string
-          example: 1.0.0
+          description: The identifier of the rule
+          format: uuid
+          readOnly: true
+          example: d82952cb-b901-4b09-b363-5ebf39bdbaf9
           exampleSetFlag: true
+        name:
+          type: string
+          description: Rule name, [Valid characters are alphanumerics, underscore, hyphen, space, period, parentheses]
+          example: MyRuleName_1
+          exampleSetFlag: true
+        rank:
+          type: integer
+          description: The rank(priority) in relation to other rules. Lower rank is higher priority.
+          format: int32
+          example: 1
+          exampleSetFlag: true
+        state:
+          type: string
+          description: The state that the rule is in. A disabled rule cannot be matched.
+          example: enabled
+          exampleSetFlag: true
+          enum:
+          - disabled
+          - enabled
+          - monitor
+      description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    CdpClassificationRulePreviewResponseEntity:
-      title: CdpClassificationRulePreviewResponseEntity
+    Error:
+      title: Error
       required:
-      - response
-      - version
+      - code
+      - message
       type: object
       properties:
-        response:
-          type: array
+        code:
+          type: integer
+          format: int32
+          example: 400
           exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/CdpClassificationRulePreview'
-            exampleSetFlag: false
-        version:
+        message:
           type: string
+          example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false
     Condition:
@@ -689,6 +622,39 @@ components:
           exampleSetFlag: true
       description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
+    CdpClassificationRuleListResponseEntity:
+      title: CdpClassificationRuleListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/CdpClassificationRule'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CdpClassificationRuleResponseEntity:
+      title: CdpClassificationRuleResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/CdpClassificationRule'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     CdpClassificationRuleRankRequestList:
       title: CdpClassificationRuleRankRequestList
       type: object
@@ -700,20 +666,54 @@ components:
             $ref: '#/components/schemas/CdpClassificationRuleRankRequest'
             exampleSetFlag: false
       exampleSetFlag: false
-    Error:
-      title: Error
+    CdpClassificationRuleRankRequest:
+      title: CdpClassificationRuleRankRequest
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier for the Classification Rule record
+          format: uuid
+          readOnly: true
+          example: 12345678-f0e7-456b-a2d1-876543320b14
+          exampleSetFlag: true
+        name:
+          type: string
+          example: Classification Rule 1
+          exampleSetFlag: true
+        rank:
+          type: integer
+          format: int32
+          example: 1
+          exampleSetFlag: true
+      description: Classification Rule Rank Request Object
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
       required:
-      - code
       - message
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
         message:
           type: string
-          example: Some error occurred
+          example: Success
+          exampleSetFlag: true
+      description: Response object containing success message
+      exampleSetFlag: false
+    CdpClassificationRulePreviewResponseEntity:
+      title: CdpClassificationRulePreviewResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/CdpClassificationRulePreview'
+            exampleSetFlag: false
+        version:
+          type: string
           exampleSetFlag: true
       exampleSetFlag: false

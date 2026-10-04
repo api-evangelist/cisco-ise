@@ -331,57 +331,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    FQDN:
-      maxLength: 64
-      minLength: 1
-      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
-      type: string
-    DeploymentNodeResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/DeploymentNode'
-        version:
-          type: string
-          example: 1.0.0
-    NodeUpdateRequest:
-      type: object
-      properties:
-        roles:
-          $ref: '#/components/schemas/Roles'
-        services:
-          $ref: '#/components/schemas/Services'
-      required:
-      - roles
-      - services
-      example: TBD
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-    SuccessResponse:
-      type: object
-      properties:
-        success:
-          $ref: '#/components/schemas/Message'
-        version:
-          type: string
-          example: 1.0.0
-    Services:
-      type: array
-      items:
-        type: string
-        enum:
-        - Session
-        - Profiler
-        - TC-NAC
-        - SXP
-        - DeviceAdmin
-        - PassiveIdentity
-        - pxGrid
-        - pxGridCloud
     DeploymentTask:
       type: object
       properties:
@@ -392,25 +341,6 @@ components:
         message:
           type: string
           example: Deployment task initiated. You can use the Task Service Status API to get the status of the task.
-    DeploymentTaskResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/DeploymentTask'
-        version:
-          type: string
-          example: 1.0.0
-    NodeStatus:
-      type: string
-      enum:
-      - Connected
-      - Disconnected
-      - InProgress
-      - ReplicationStopped
-      - RegistrationFailed
-      - NotInSync
-      - NotUpgraded
-      - NotApplicable
     NodeRegistrationRequest:
       type: object
       properties:
@@ -452,11 +382,84 @@ components:
         version:
           type: string
           example: 1.0.0
+    NodeStatus:
+      type: string
+      enum:
+      - Connected
+      - Disconnected
+      - InProgress
+      - ReplicationStopped
+      - RegistrationFailed
+      - NotInSync
+      - NotUpgraded
+      - NotApplicable
+    Services:
+      type: array
+      items:
+        type: string
+        enum:
+        - Session
+        - Profiler
+        - TC-NAC
+        - SXP
+        - DeviceAdmin
+        - PassiveIdentity
+        - pxGrid
+        - pxGridCloud
     ErrorResponse:
       type: object
       properties:
         error:
           $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    FQDN:
+      maxLength: 64
+      minLength: 1
+      pattern: ^(?=.{2,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-|_){0,61}[0-9A-Za-z])?)*(?:\.[A-Za-z](?:(?:[A-Za-z]|-){0,61}[A-Za-z])?)+\.?$
+      type: string
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+    IPAddress:
+      type: string
+      format: ipv4 | ipv6
+    NodeUpdateRequest:
+      type: object
+      properties:
+        roles:
+          $ref: '#/components/schemas/Roles'
+        services:
+          $ref: '#/components/schemas/Services'
+      required:
+      - roles
+      - services
+      example: TBD
+    DeploymentTaskResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/DeploymentTask'
+        version:
+          type: string
+          example: 1.0.0
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+        version:
+          type: string
+          example: 1.0.0
+    DeploymentNodeResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/DeploymentNode'
         version:
           type: string
           example: 1.0.0
@@ -497,9 +500,6 @@ components:
         - PrimaryDedicatedMonitoring
         - SecondaryDedicatedMonitoring
         - Standalone
-    IPAddress:
-      type: string
-      format: ipv4 | ipv6
   parameters:
     filtering:
       name: filter

@@ -587,34 +587,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    FetchMetadataRequest:
-      title: FetchMetadataRequest
-      required:
-      - issuerUrl
-      type: object
-      properties:
-        issuerUrl:
-          type: string
-          description: The base issuer URL of the OpenID provider
-          example: https://login.microsoftonline.com/common/v2.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Group:
-      title: Group
-      type: object
-      properties:
-        id:
-          type: string
-          description: OIDC Group ID
-          example: 1y568sg7823fgs7
-          exampleSetFlag: true
-        name:
-          type: string
-          description: name of the OIDC Group
-          example: oidcGroup1
-          exampleSetFlag: true
-      description: OIDC Group configuration format
-      exampleSetFlag: false
     PortalRedirect:
       title: PortalRedirect
       type: object
@@ -632,42 +604,17 @@ components:
             exampleSetFlag: false
       description: Portal name and redirect uri format
       exampleSetFlag: false
-    OidcMetadataResponseEntity:
-      title: OidcMetadataResponseEntity
+    FetchMetadataRequest:
+      title: FetchMetadataRequest
       required:
-      - response
-      - version
+      - issuerUrl
       type: object
       properties:
-        response:
-          type: object
-          description: Raw OpenID provider metadata as returned by the well-known configuration endpoint.
-          exampleSetFlag: true
-        version:
+        issuerUrl:
           type: string
-          example: 1.0.0
+          description: The base issuer URL of the OpenID provider
+          example: https://login.microsoftonline.com/common/v2.0
           exampleSetFlag: true
-      exampleSetFlag: false
-    Attribute:
-      title: Attribute
-      type: object
-      properties:
-        name:
-          type: string
-          description: OIDC Attribute name
-          example: attribute1
-          exampleSetFlag: true
-        type:
-          type: string
-          description: Attribute type
-          example: STRING
-          exampleSetFlag: true
-          enum:
-          - BOOLEAN
-          - DATE
-          - INT
-          - STRING
-      description: OIDC attribute configuration format
       exampleSetFlag: false
     OidcInfoListResponseEntity:
       title: OidcInfoListResponseEntity
@@ -687,52 +634,17 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          description: Error message
-          example: Bad Request
-          exampleSetFlag: true
-      exampleSetFlag: false
-    OidcInfoResponseEntity:
-      title: OidcInfoResponseEntity
+    OidcMetadataResponseEntity:
+      title: OidcMetadataResponseEntity
       required:
       - response
       - version
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/OidcInfo'
+          type: object
+          description: Raw OpenID provider metadata as returned by the well-known configuration endpoint.
           exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    GroupListResponseEntity:
-      title: GroupListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Group'
-            exampleSetFlag: false
         version:
           type: string
           example: 1.0.0
@@ -800,6 +712,79 @@ components:
           exampleSetFlag: true
       description: OIDC information
       exampleSetFlag: false
+    GroupListResponseEntity:
+      title: GroupListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Group'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          description: Error message
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Group:
+      title: Group
+      type: object
+      properties:
+        id:
+          type: string
+          description: OIDC Group ID
+          example: 1y568sg7823fgs7
+          exampleSetFlag: true
+        name:
+          type: string
+          description: name of the OIDC Group
+          example: oidcGroup1
+          exampleSetFlag: true
+      description: OIDC Group configuration format
+      exampleSetFlag: false
+    Attribute:
+      title: Attribute
+      type: object
+      properties:
+        name:
+          type: string
+          description: OIDC Attribute name
+          example: attribute1
+          exampleSetFlag: true
+        type:
+          type: string
+          description: Attribute type
+          example: STRING
+          exampleSetFlag: true
+          enum:
+          - BOOLEAN
+          - DATE
+          - INT
+          - STRING
+      description: OIDC attribute configuration format
+      exampleSetFlag: false
     LifetimeAdvancedSettings:
       title: LifetimeAdvancedSettings
       type: object
@@ -838,4 +823,19 @@ components:
           example: true
           exampleSetFlag: true
       description: 'Advanced lifetime controls for an OIDC session and its cached user-info. '
+      exampleSetFlag: false
+    OidcInfoResponseEntity:
+      title: OidcInfoResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/OidcInfo'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
       exampleSetFlag: false

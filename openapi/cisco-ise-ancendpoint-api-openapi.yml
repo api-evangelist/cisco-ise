@@ -614,6 +614,101 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ancendpointResponseEntity:
+      properties:
+        macAddress:
+          title: macAddress
+          type: string
+          description: MAC address of the endpoint
+          example: null
+        policyName:
+          title: policyName
+          type: string
+          description: Policy name for applying to the endpoint
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     ErsAncEndpoint:
       required:
       - macAddress
@@ -648,18 +743,34 @@ components:
         ErsAncEndpoint:
           macAddress: 00:11:22:33:44:55
           policyName: policy1
-    UpdatedFieldsResponse:
+    ancendpointResponse:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        ErsAncEndpoint:
+          $ref: '#/components/schemas/ancendpointResponseEntity'
+      example:
+        ErsAncEndpoint:
+          macAddress: 00:11:22:33:44:55
+          policyName: policy1
+    ancendpointListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
           example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     anc.ancendpoint:
       required:
@@ -668,24 +779,6 @@ components:
       properties:
         ErsAncEndpoint:
           $ref: '#/components/schemas/ErsAncEndpoint'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
       example: null
     ancendpointListResponse:
       type: object
@@ -728,116 +821,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    ancendpointResponseEntity:
-      properties:
-        macAddress:
-          title: macAddress
-          type: string
-          description: MAC address of the endpoint
-          example: null
-        policyName:
-          title: policyName
-          type: string
-          description: Policy name for applying to the endpoint
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ancendpointResponse:
-      type: object
-      properties:
-        ErsAncEndpoint:
-          $ref: '#/components/schemas/ancendpointResponseEntity'
-      example:
-        ErsAncEndpoint:
-          macAddress: 00:11:22:33:44:55
-          policyName: policy1
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    ancendpointListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/ancendpoint/versioninfo
-        type:
-          type: string
-          example: application/xml
     getall1:
       type: object
       properties:
@@ -866,6 +849,40 @@ components:
             properties:
               name:
                 type: string
+    ancendpointid1:
+      type: object
+      properties:
+        id:
+          type: string
+          example: e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
+        macAddress:
+          type: string
+          example: 00:11:22:33:44:55
+        policyName:
+          type: string
+          example: portbounce
+        link:
+          $ref: '#/components/schemas/link2'
+    getall:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/getall1'
+    bulkrequest:
+      type: object
+      properties:
+        ErsAncEndpointBulkRequest:
+          $ref: '#/components/schemas/bulkrequest1'
+    ancendpointapply:
+      type: object
+      properties:
+        OperationAdditionalData:
+          $ref: '#/components/schemas/ancendpointapply1'
+    ancendpointid:
+      type: object
+      properties:
+        ErsAncEndpoint:
+          $ref: '#/components/schemas/ancendpointid1'
     version:
       type: object
       properties:
@@ -877,6 +894,28 @@ components:
           example: '1.0'
         link:
           $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    monitorbulkrequest:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/monitorbulkrequest1'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/ancendpoint/versioninfo
+        type:
+          type: string
+          example: application/xml
     monitorbulkrequest1:
       type: object
       properties:
@@ -928,44 +967,6 @@ components:
             properties:
               name:
                 type: string
-    bulkrequest1:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: xml
-    ancendpointid1:
-      type: object
-      properties:
-        id:
-          type: string
-          example: e5d4431a-ce6c-4d9d-9023-66ab027fa7fc
-        macAddress:
-          type: string
-          example: 00:11:22:33:44:55
-        policyName:
-          type: string
-          example: portbounce
-        link:
-          $ref: '#/components/schemas/link2'
-    ancendpointapply:
-      type: object
-      properties:
-        OperationAdditionalData:
-          $ref: '#/components/schemas/ancendpointapply1'
-    getall:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/getall1'
-    monitorbulkrequest:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/monitorbulkrequest1'
     link2:
       type: object
       properties:
@@ -978,16 +979,6 @@ components:
         type:
           type: string
           example: application/xml
-    bulkrequest:
-      type: object
-      properties:
-        ErsAncEndpointBulkRequest:
-          $ref: '#/components/schemas/bulkrequest1'
-    ancendpointid:
-      type: object
-      properties:
-        ErsAncEndpoint:
-          $ref: '#/components/schemas/ancendpointid1'
     ancendpointapply1:
       type: object
       properties:
@@ -1000,6 +991,15 @@ components:
             properties:
               name:
                 type: string
+    bulkrequest1:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: xml
   parameters:
     ppage:
       name: page

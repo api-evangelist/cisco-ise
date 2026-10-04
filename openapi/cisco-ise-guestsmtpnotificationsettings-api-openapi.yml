@@ -463,6 +463,78 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    guestsmtpnotificationsettingsListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -476,6 +548,72 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
+    identity.guestsmtpnotificationsettings:
+      required:
+      - ERSGuestSmtpNotificationSettings
+      type: object
+      properties:
+        ERSGuestSmtpNotificationSettings:
+          $ref: '#/components/schemas/ERSGuestSmtpNotificationSettings'
+      example: null
+    guestsmtpnotificationsettingsListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/guestsmtpnotificationsettingsListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    guestsmtpnotificationsettingsResponse:
+      type: object
+      properties:
+        ERSGuestSmtpNotificationSettings:
+          $ref: '#/components/schemas/guestsmtpnotificationsettingsResponseEntity'
+      example:
+        ERSGuestSmtpNotificationSettings:
+          password: ''
+          smtpServer: ''
+          useDefaultFromAddress: false
+          defaultFromAddress: donotreply@example.com
+          smtpPort: '25'
+          useTLSorSSLEncryption: false
+          userName: ''
+          connectionTimeout: '60'
+          notificationEnabled: true
+          usePasswordAuthentication: false
     ERSGuestSmtpNotificationSettings:
       properties:
         defaultFromAddress:
@@ -555,124 +693,6 @@ components:
           connectionTimeout: '60'
           notificationEnabled: true
           usePasswordAuthentication: false
-    guestsmtpnotificationsettingsListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    guestsmtpnotificationsettingsResponse:
-      type: object
-      properties:
-        ERSGuestSmtpNotificationSettings:
-          $ref: '#/components/schemas/guestsmtpnotificationsettingsResponseEntity'
-      example:
-        ERSGuestSmtpNotificationSettings:
-          password: ''
-          smtpServer: ''
-          useDefaultFromAddress: false
-          defaultFromAddress: donotreply@example.com
-          smtpPort: '25'
-          useTLSorSSLEncryption: false
-          userName: ''
-          connectionTimeout: '60'
-          notificationEnabled: true
-          usePasswordAuthentication: false
-    guestsmtpnotificationsettingsListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/guestsmtpnotificationsettingsListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     guestsmtpnotificationsettingsResponseEntity:
       properties:
         defaultFromAddress:
@@ -742,26 +762,6 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
-      example: null
-    identity.guestsmtpnotificationsettings:
-      required:
-      - ERSGuestSmtpNotificationSettings
-      type: object
-      properties:
-        ERSGuestSmtpNotificationSettings:
-          $ref: '#/components/schemas/ERSGuestSmtpNotificationSettings'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
       example: null
   parameters:
     ppage:

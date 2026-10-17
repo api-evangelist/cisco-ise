@@ -1055,26 +1055,40 @@ paths:
       operationId: getErsConfigGuesttypeVersioninfo
       x-operation-id-source: derived
 components:
-  parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
   schemas:
+    guesttypeListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -1086,24 +1100,6 @@ components:
         newValue:
           type: string
           example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
       example: null
     ERSResponse:
       type: object
@@ -1127,63 +1123,6 @@ components:
                 example: code
             example: null
       example: null
-    guesttypeResponse:
-      type: object
-      properties:
-        GuestType:
-          $ref: '#/components/schemas/guesttypeResponseEntity'
-      example:
-        GuestType:
-          allowDynamicIdentityGroups: true
-          expirationNotification:
-            sendEmailNotification: false
-            sendSmsNotification: false
-            enableNotification: false
-            emailText: EmailText
-            advanceNotificationUnits: DAYS
-            advanceNotificationDuration: 3
-            smsText: SMS Text
-          name: Name
-          description: Description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          sponsorGroups:
-          - Group1
-          - Group2
-          dynamicGroups:
-          - externalGroupName: ExternalServerName:GroupName
-            endpointIdentityGroupId: generatedID
-          loginOptions:
-            maxSimultaneousLogins: 3
-            identityGroupId: generatedID
-            failureAction: Disconnect_Oldest_Connection
-            limitSimultaneousLogins: true
-            allowGuestPortalBypass: false
-            maxRegisteredDevices: 5
-          accessTime:
-            dayTimeLimits:
-            - days:
-              - Sunday
-              - Tuesday
-              startTime: '12:00'
-              endTime: '16:00'
-            maxAccountDuration: 365
-            durationTimeUnit: DAYS
-            defaultDuration: 90
-            allowAccessOnSpecificDaysTimes: false
-            fromFirstLogin: true
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     identity.guesttype:
       required:
       - GuestType
@@ -1191,6 +1130,24 @@ components:
       properties:
         GuestType:
           $ref: '#/components/schemas/GuestType'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     GuestType:
       required:
@@ -1538,26 +1495,50 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    guesttypeListResponseEntity:
+    guesttypeResponse:
+      type: object
       properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
+        GuestType:
+          $ref: '#/components/schemas/guesttypeResponseEntity'
+      example:
+        GuestType:
+          allowDynamicIdentityGroups: true
+          expirationNotification:
+            sendEmailNotification: false
+            sendSmsNotification: false
+            enableNotification: false
+            emailText: EmailText
+            advanceNotificationUnits: DAYS
+            advanceNotificationDuration: 3
+            smsText: SMS Text
+          name: Name
+          description: Description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          sponsorGroups:
+          - Group1
+          - Group2
+          dynamicGroups:
+          - externalGroupName: ExternalServerName:GroupName
+            endpointIdentityGroupId: generatedID
+          loginOptions:
+            maxSimultaneousLogins: 3
+            identityGroupId: generatedID
+            failureAction: Disconnect_Oldest_Connection
+            limitSimultaneousLogins: true
+            allowGuestPortalBypass: false
+            maxRegisteredDevices: 5
+          accessTime:
+            dayTimeLimits:
+            - days:
+              - Sunday
+              - Tuesday
+              startTime: '12:00'
+              endTime: '16:00'
+            maxAccountDuration: 365
+            durationTimeUnit: DAYS
+            defaultDuration: 90
+            allowAccessOnSpecificDaysTimes: false
+            fromFirstLogin: true
     guesttypeListResponse:
       type: object
       properties:
@@ -1599,6 +1580,23 @@ components:
               type: application/xml
             description: description2
             id: id2
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guesttype/versioninfo
+        type:
+          type: string
+          example: application/json
+    guesttype:
+      type: object
+      properties:
+        GuestType:
+          $ref: '#/components/schemas/GuestType_2'
     UpdatedField:
       type: object
       properties:
@@ -1611,6 +1609,22 @@ components:
         newValue:
           type: string
           example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     OperationAdditionalData:
       type: object
       properties:
@@ -1626,63 +1640,25 @@ components:
                 properties:
                   name:
                     type: string
-    search:
+    Update:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
       type: object
       properties:
-        total:
-          type: integer
-          example: 4
-        resources:
-          type: array
-          example:
-          - id: 9f03a151-8c01-11e6-996c-525400b48521
-            name: Contractor (default)
-            description: Default settings allow network access for up to a year.
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9f03a151-8c01-11e6-996c-525400b48521
-              type: application/json
-          - id: 9eeda851-8c01-11e6-996c-525400b48521
-            name: Daily (default)
-            description: Default settings allow network access for just 1-5 days.
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9eeda851-8c01-11e6-996c-525400b48521
-              type: application/json
-          - id: 28bbb9f3-86ec-4296-ae9a-819005bdc0e7
-            name: SocialLogin (default)
-            description: Default settings for social login users to allow network access for just 1-5 days
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/28bbb9f3-86ec-4296-ae9a-819005bdc0e7
-              type: application/json
-          - id: 9efd11a1-8c01-11e6-996c-525400b48521
-            name: Weekly (default)
-            description: Default settings allow network access for a couple of weeks.
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9efd11a1-8c01-11e6-996c-525400b48521
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: some other field
+        oldValue:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     GuestType_2:
       type: object
       properties:
@@ -1810,47 +1786,71 @@ components:
             type:
               type: string
               example: application/json
-    VersionInfo:
+    SearchResult:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
+        total:
+          type: integer
+          example: 4
+        resources:
+          type: array
+          example:
+          - id: 9f03a151-8c01-11e6-996c-525400b48521
+            name: Contractor (default)
+            description: Default settings allow network access for up to a year.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9f03a151-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 9eeda851-8c01-11e6-996c-525400b48521
+            name: Daily (default)
+            description: Default settings allow network access for just 1-5 days.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9eeda851-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 28bbb9f3-86ec-4296-ae9a-819005bdc0e7
+            name: SocialLogin (default)
+            description: Default settings for social login users to allow network access for just 1-5 days
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/28bbb9f3-86ec-4296-ae9a-819005bdc0e7
+              type: application/json
+          - id: 9efd11a1-8c01-11e6-996c-525400b48521
+            name: Weekly (default)
+            description: Default settings allow network access for a couple of weeks.
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guesttype/9efd11a1-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    search:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/guesttype/versioninfo
-        type:
-          type: string
-          example: application/json
-    guesttype:
-      type: object
-      properties:
-        GuestType:
-          $ref: '#/components/schemas/GuestType_2'
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+  parameters:
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

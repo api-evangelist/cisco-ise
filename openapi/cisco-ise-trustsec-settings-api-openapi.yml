@@ -119,6 +119,18 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
+    SuccessResponse:
+      title: SuccessResponse
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
     Error:
       title: Error
       required:
@@ -136,17 +148,35 @@ components:
           example: Some error occurred
           exampleSetFlag: true
       exampleSetFlag: false
-    SuccessResponse:
-      title: SuccessResponse
+    CTSHttpsServerConfig:
+      title: CTSHttpsServerConfig
       type: object
       properties:
-        success:
-          $ref: '#/components/schemas/Message'
+        enableAuditLog:
+          type: boolean
+          description: Include entire response payload body in Audit
+          example: true
           exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
+        enableHttps:
+          type: boolean
+          description: Enable/Disable HTTPS Server
+          example: true
           exampleSetFlag: true
+      description: CTS HTTPS Server configuration
+      exampleSetFlag: false
+    TrustsecGeneralSettingsRequest:
+      title: TrustsecGeneralSettingsRequest
+      type: object
+      properties:
+        allowMultipleSGACLs:
+          type: boolean
+          description: Allow multiple SGACLs to be downloaded to the network-device
+          example: false
+          exampleSetFlag: true
+        httpsServerConfig:
+          $ref: '#/components/schemas/CTSHttpsServerConfig'
+          exampleSetFlag: true
+      description: CTS HTTPS Server configuration
       exampleSetFlag: false
     Message:
       title: Message
@@ -169,34 +199,4 @@ components:
         httpsServerConfig:
           $ref: '#/components/schemas/CTSHttpsServerConfig'
           exampleSetFlag: true
-      exampleSetFlag: false
-    TrustsecGeneralSettingsRequest:
-      title: TrustsecGeneralSettingsRequest
-      type: object
-      properties:
-        allowMultipleSGACLs:
-          type: boolean
-          description: Allow multiple SGACLs to be downloaded to the network-device
-          example: false
-          exampleSetFlag: true
-        httpsServerConfig:
-          $ref: '#/components/schemas/CTSHttpsServerConfig'
-          exampleSetFlag: true
-      description: CTS HTTPS Server configuration
-      exampleSetFlag: false
-    CTSHttpsServerConfig:
-      title: CTSHttpsServerConfig
-      type: object
-      properties:
-        enableAuditLog:
-          type: boolean
-          description: Include entire response payload body in Audit
-          example: true
-          exampleSetFlag: true
-        enableHttps:
-          type: boolean
-          description: Enable/Disable HTTPS Server
-          example: true
-          exampleSetFlag: true
-      description: CTS HTTPS Server configuration
       exampleSetFlag: false

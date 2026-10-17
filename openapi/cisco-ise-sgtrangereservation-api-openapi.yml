@@ -337,33 +337,16 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
-    ReserveRangePostResponse:
-      title: ReserveRangePostResponse
+    SuccessResponse:
+      title: SuccessResponse
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/ReservedTag'
+        success:
+          $ref: '#/components/schemas/Message'
           exampleSetFlag: true
         version:
           type: string
           example: 1.0.0
-          exampleSetFlag: true
-      description: Reserve range response format
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Bad Request
           exampleSetFlag: true
       exampleSetFlag: false
     ReservedTag:
@@ -384,6 +367,69 @@ components:
           type: string
           description: Name of the given client
           example: test.applicationName.com
+          exampleSetFlag: true
+        endIndex:
+          type: integer
+          description: End index of the reserved range
+          format: int32
+          example: 9020
+          exampleSetFlag: true
+        startIndex:
+          type: integer
+          description: Start index of the reserved range
+          format: int32
+          example: 9010
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Bad Request
+          exampleSetFlag: true
+      exampleSetFlag: false
+    ReserveRangePostRequest:
+      title: ReserveRangePostRequest
+      required:
+      - clientName
+      - numberOfTags
+      type: object
+      properties:
+        clientName:
+          type: string
+          description: Name of the given client
+          example: test.applicationName.com
+          exampleSetFlag: true
+        numberOfTags:
+          type: integer
+          description: Nummber of tags required to be reserved in ISE.
+          format: int32
+          example: 100
+          exampleSetFlag: true
+      description: Reserve range request format
+      exampleSetFlag: false
+    ReservedTagRequest:
+      title: ReservedTagRequest
+      required:
+      - clientId
+      - endIndex
+      - startIndex
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: Unique ID of the given client
+          format: uuid
+          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
           exampleSetFlag: true
         endIndex:
           type: integer
@@ -423,15 +469,6 @@ components:
           exampleSetFlag: true
       description: Range of reserved tag for the given Client
       exampleSetFlag: false
-    Message:
-      title: Message
-      type: object
-      properties:
-        message:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
     ReserveRangeListResponse:
       title: ReserveRangeListResponse
       type: object
@@ -447,31 +484,26 @@ components:
           example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
-    ReservedTagRequest:
-      title: ReservedTagRequest
-      required:
-      - clientId
-      - endIndex
-      - startIndex
+    ReserveRangePostResponse:
+      title: ReserveRangePostResponse
       type: object
       properties:
-        clientId:
+        response:
+          $ref: '#/components/schemas/ReservedTag'
+          exampleSetFlag: true
+        version:
           type: string
-          description: Unique ID of the given client
-          format: uuid
-          example: 7c9484cf-0ebc-47ad-a9ef-bc12729ed73b
+          example: 1.0.0
           exampleSetFlag: true
-        endIndex:
-          type: integer
-          description: End index of the reserved range
-          format: int32
-          example: 9020
-          exampleSetFlag: true
-        startIndex:
-          type: integer
-          description: Start index of the reserved range
-          format: int32
-          example: 9010
+      description: Reserve range response format
+      exampleSetFlag: false
+    Message:
+      title: Message
+      type: object
+      properties:
+        message:
+          type: string
+          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false
     AllReservedTags:
@@ -504,37 +536,5 @@ components:
           description: Start index of the reserved range
           format: int32
           example: 9010
-          exampleSetFlag: true
-      exampleSetFlag: false
-    ReserveRangePostRequest:
-      title: ReserveRangePostRequest
-      required:
-      - clientName
-      - numberOfTags
-      type: object
-      properties:
-        clientName:
-          type: string
-          description: Name of the given client
-          example: test.applicationName.com
-          exampleSetFlag: true
-        numberOfTags:
-          type: integer
-          description: Nummber of tags required to be reserved in ISE.
-          format: int32
-          example: 100
-          exampleSetFlag: true
-      description: Reserve range request format
-      exampleSetFlag: false
-    SuccessResponse:
-      title: SuccessResponse
-      type: object
-      properties:
-        success:
-          $ref: '#/components/schemas/Message'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
           exampleSetFlag: true
       exampleSetFlag: false

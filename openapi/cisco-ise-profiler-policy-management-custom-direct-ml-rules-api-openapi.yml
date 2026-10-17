@@ -441,14 +441,47 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    InlineResponse200:
-      title: InlineResponse200
+    Error:
+      title: Error
+      required:
+      - code
+      - message
       type: object
       properties:
+        code:
+          type: integer
+          format: int32
+          exampleSetFlag: true
         message:
           type: string
-          example: File export successful
           exampleSetFlag: true
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
       exampleSetFlag: false
     ProfilePolicy:
       title: ProfilePolicy
@@ -480,6 +513,23 @@ components:
           type: boolean
           example: false
           exampleSetFlag: true
+      exampleSetFlag: false
+    BaseProfilePolicy:
+      title: BaseProfilePolicy
+      required:
+      - profilingType
+      type: object
+      properties:
+        policyId:
+          type: string
+          exampleSetFlag: true
+        profilingType:
+          type: string
+          exampleSetFlag: true
+          enum:
+          - CUSTOM
+          - DIRECT
+          - ML
       exampleSetFlag: false
     ProfilePolicyWithId:
       title: ProfilePolicyWithId
@@ -520,21 +570,6 @@ components:
           example: false
           exampleSetFlag: true
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-        message:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
     ProfileLabel:
       title: ProfileLabel
       type: object
@@ -564,22 +599,26 @@ components:
             type: string
             exampleSetFlag: false
       exampleSetFlag: false
-    MFCValuesPojo:
-      title: MFCValuesPojo
+    InlineResponse200:
+      title: InlineResponse200
       type: object
       properties:
-        admin:
-          type: array
+        message:
+          type: string
+          example: File export successful
           exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-        system:
-          type: array
+      exampleSetFlag: false
+    DuplicateCheckResponseMessage:
+      title: DuplicateCheckResponseMessage
+      type: object
+      properties:
+        isDuplicate:
+          type: boolean
+          example: false
           exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
+        matchedPolicy:
+          type: string
+          exampleSetFlag: true
       exampleSetFlag: false
     PolicyAndStatus:
       title: PolicyAndStatus
@@ -596,59 +635,20 @@ components:
           example: false
           exampleSetFlag: true
       exampleSetFlag: false
-    Condition:
-      title: Condition
-      required:
-      - conditionType
+    MFCValuesPojo:
+      title: MFCValuesPojo
       type: object
       properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
+        admin:
+          type: array
           exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
+          items:
+            type: string
+            exampleSetFlag: false
+        system:
+          type: array
           exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
-      exampleSetFlag: false
-    DuplicateCheckResponseMessage:
-      title: DuplicateCheckResponseMessage
-      type: object
-      properties:
-        isDuplicate:
-          type: boolean
-          example: false
-          exampleSetFlag: true
-        matchedPolicy:
-          type: string
-          exampleSetFlag: true
-      exampleSetFlag: false
-    BaseProfilePolicy:
-      title: BaseProfilePolicy
-      required:
-      - profilingType
-      type: object
-      properties:
-        policyId:
-          type: string
-          exampleSetFlag: true
-        profilingType:
-          type: string
-          exampleSetFlag: true
-          enum:
-          - CUSTOM
-          - DIRECT
-          - ML
+          items:
+            type: string
+            exampleSetFlag: false
       exampleSetFlag: false

@@ -307,15 +307,45 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    patchRequestBody:
+    link1:
       type: object
       properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
+          example: <ise-ip>/ers/config/identitygroup/versioninfo
+        type:
+          type: string
+          example: application/json
+    IdentityGroup_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9efe2310-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: GuestType_Weekly (default)
+        description:
+          type: string
+          example: Identity group mirroring the guest type
+        parent:
+          type: string
+          example: NAC Group:NAC:IdentityGroups:User Identity Groups
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/identitygroup/name/GuestType_Weekly (default)
+            type:
+              type: string
+              example: application/json
     UpdatedField:
       type: object
       properties:
@@ -328,21 +358,73 @@ components:
         newValue:
           type: string
           example: val_new
-    identitygroup:
+    version:
       type: object
       properties:
-        IdentityGroup:
-          $ref: '#/components/schemas/IdentityGroup'
+        currentServerVersion:
+          type: string
+          example: '1.1'
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     identitygroup_name:
       type: object
       properties:
         IdentityGroup:
           $ref: '#/components/schemas/IdentityGroup_name'
-    search:
+    IdentityGroup:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+        id:
+          type: string
+          example: 9efe2310-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: GuestType_Weekly (default)
+        description:
+          type: string
+          example: Identity group mirroring the guest type
+        parent:
+          type: string
+          example: NAC Group:NAC:IdentityGroups:User Identity Groups
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/identitygroup/9efe2310-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     SearchResult:
       type: object
       properties:
@@ -412,109 +494,27 @@ components:
             properties:
               name:
                 type: string
-    version:
+    patchRequestBody:
       type: object
       properties:
-        currentServerVersion:
+        any-resource-attribute:
           type: string
-          example: '1.1'
-        supportedVersions:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    VersionInfo:
+          example: some-updated-value
+    search:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: <ise-ip>/ers/config/identitygroup/versioninfo
-        type:
-          type: string
-          example: application/json
-    IdentityGroup_name:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 9efe2310-8c01-11e6-996c-525400b48521
-        name:
-          type: string
-          example: GuestType_Weekly (default)
-        description:
-          type: string
-          example: Identity group mirroring the guest type
-        parent:
-          type: string
-          example: NAC Group:NAC:IdentityGroups:User Identity Groups
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/identitygroup/name/GuestType_Weekly (default)
-            type:
-              type: string
-              example: application/json
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     patchRequest:
       type: object
       properties:
         IdentityGroup:
           $ref: '#/components/schemas/patchRequestBody'
-    IdentityGroup:
+    identitygroup:
       type: object
       properties:
-        id:
-          type: string
-          example: 9efe2310-8c01-11e6-996c-525400b48521
-        name:
-          type: string
-          example: GuestType_Weekly (default)
-        description:
-          type: string
-          example: Identity group mirroring the guest type
-        parent:
-          type: string
-          example: NAC Group:NAC:IdentityGroups:User Identity Groups
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/identitygroup/9efe2310-8c01-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
+        IdentityGroup:
+          $ref: '#/components/schemas/IdentityGroup'

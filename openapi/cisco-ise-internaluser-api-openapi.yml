@@ -1361,15 +1361,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1379,7 +1370,29 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -1391,24 +1404,6 @@ components:
         newValue:
           type: string
           example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
       example: null
     ERSResponse:
       type: object
@@ -1432,13 +1427,23 @@ components:
                 example: code
             example: null
       example: null
-    identity.internaluser:
-      required:
-      - InternalUser
+    Link:
       type: object
       properties:
-        InternalUser:
-          $ref: '#/components/schemas/InternalUser'
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     internaluserListResponseEntity:
       properties:
@@ -1460,92 +1465,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    internaluserListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/internaluserListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    internaluserResponse:
-      type: object
-      properties:
-        InternalUser:
-          $ref: '#/components/schemas/internaluserResponseEntity'
-      example:
-        InternalUser:
-          lastName: lastName
-          passwordNeverExpires: false
-          identityGroups: CSV of identity groups IDs
-          description: description
-          dateModified: '2015-12-20'
-          enabled: true
-          changePassword: true
-          expiryDate: '2016-12-11'
-          firstName: firstName
-          password: password
-          dateCreated: '2015-12-15'
-          ssh_keys:
-          - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM= ecdsa256-key
-          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
-          passwordIDStore: Internal Users
-          enablePassword: enablePassword
-          name: name
-          daysForPasswordExpiration: 60
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          accountNameAlias: accountNameAlias
-          email: email@domain.com
-          expiryDateEnabled: false
-          customAttributes:
-            key1: value1
-            key2: value3
     internaluserResponseEntity:
       properties:
         changePassword:
@@ -1651,6 +1570,87 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
+    internaluserListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/internaluserListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    identity.internaluser:
+      required:
+      - InternalUser
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser'
+      example: null
+    internaluserResponse:
+      type: object
+      properties:
+        InternalUser:
+          $ref: '#/components/schemas/internaluserResponseEntity'
+      example:
+        InternalUser:
+          lastName: lastName
+          passwordNeverExpires: false
+          identityGroups: CSV of identity groups IDs
+          description: description
+          dateModified: '2015-12-20'
+          enabled: true
+          changePassword: true
+          expiryDate: '2016-12-11'
+          firstName: firstName
+          password: password
+          dateCreated: '2015-12-15'
+          ssh_keys:
+          - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOzFWPLghfJDhTNDinW1r6RdirQlqGxtWhrNpZ2KjXPbRiE8NBm0Rktgk/wnOg+0eItrcmrWbpVCAnEUijeNRQM= ecdsa256-key
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr9DC/1XW8KO7MtbpcEuODMGJUnEIL4SM4QPyT37WGI ed25519-key
+          passwordIDStore: Internal Users
+          enablePassword: enablePassword
+          name: name
+          daysForPasswordExpiration: 60
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          accountNameAlias: accountNameAlias
+          email: email@domain.com
+          expiryDateEnabled: false
+          customAttributes:
+            key1: value1
+            key2: value3
     InternalUser:
       required:
       - enabled
@@ -1783,20 +1783,18 @@ components:
           customAttributes:
             key1: value1
             key2: value3
-    patchRequestBody:
+    link1:
       type: object
       properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
-    internal_name:
-      type: object
-      properties:
-        InternalUser:
-          $ref: '#/components/schemas/InternalUser_name'
+          example: https://<ise-ip>:9060/ers/config/internaluser/versioninfo
+        type:
+          type: string
+          example: application/json
     UpdatedField:
       type: object
       properties:
@@ -1809,31 +1807,11 @@ components:
         newValue:
           type: string
           example: val_new
-    search:
+    internal:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: b24b09e2-16f8-4e48-ace1-2c262a9449f1
-            name: name
-            description: description
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/internaluser/b24b09e2-16f8-4e48-ace1-2c262a9449f1
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
+        InternalUser:
+          $ref: '#/components/schemas/InternalUser_2'
     version:
       type: object
       properties:
@@ -1850,37 +1828,6 @@ components:
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/internaluser/versioninfo
-        type:
-          type: string
-          example: application/json
     InternalUser_name:
       type: object
       properties:
@@ -1960,16 +1907,69 @@ components:
             type:
               type: string
               example: application/json
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: b24b09e2-16f8-4e48-ace1-2c262a9449f1
+            name: name
+            description: description
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/internaluser/b24b09e2-16f8-4e48-ace1-2c262a9449f1
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
     patchRequest:
       type: object
       properties:
         InternalUser:
           $ref: '#/components/schemas/patchRequestBody'
-    internal:
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    internal_name:
       type: object
       properties:
         InternalUser:
-          $ref: '#/components/schemas/InternalUser_2'
+          $ref: '#/components/schemas/InternalUser_name'
     InternalUser_2:
       type: object
       properties:

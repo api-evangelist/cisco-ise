@@ -168,6 +168,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -229,19 +242,6 @@ components:
       example:
         ErsSupportBundleDownload:
           fileName: Support bundle file name to be picked for download
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     supportbundle.supportbundledownload:
       required:
       - ErsSupportBundleDownload
@@ -250,17 +250,18 @@ components:
         ErsSupportBundleDownload:
           $ref: '#/components/schemas/ErsSupportBundleDownload'
       example: null
-    supportbundle:
+    link1:
       type: object
       properties:
-        ErsSupportBundleDownload:
-          $ref: '#/components/schemas/ErsSupportBundleDownload_2'
-    ErsSupportBundleDownload_2:
-      type: object
-      properties:
-        fileName:
+        rel:
           type: string
-          example: filename
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/supportbundledownload/versioninfo
+        type:
+          type: string
+          example: application/json
     version:
       type: object
       properties:
@@ -277,18 +278,17 @@ components:
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    link1:
+    supportbundle:
       type: object
       properties:
-        rel:
+        ErsSupportBundleDownload:
+          $ref: '#/components/schemas/ErsSupportBundleDownload_2'
+    ErsSupportBundleDownload_2:
+      type: object
+      properties:
+        fileName:
           type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/supportbundledownload/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: filename
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

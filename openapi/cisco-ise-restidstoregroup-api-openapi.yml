@@ -143,6 +143,28 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
     ERSRestIDStoreAllGroups:
       required:
       - name
@@ -171,28 +193,6 @@ components:
           pageSize: 20
           clientSecret: <AZURE_CLIENT_SECRET>
           restIDStoreName: ''
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     identitystores.restidstoregroup:
       required:
       - ERSRestIDStoreAllGroups
@@ -201,20 +201,6 @@ components:
         ERSRestIDStoreAllGroups:
           $ref: '#/components/schemas/ERSRestIDStoreAllGroups'
       example: null
-    ERSRestIDStoreGroups:
-      type: object
-      properties:
-        groups:
-          type: array
-          description: List of group names returned from the REST ID store.
-          example:
-          - group1
-          - group2
-          - group3
-          - group4
-          - group5
-          items:
-            type: string
     ERSRestIDStoreAllGroupsRequest:
       type: object
       properties:
@@ -259,6 +245,20 @@ components:
       properties:
         ERSRestIDStoreGroups:
           $ref: '#/components/schemas/ERSRestIDStoreGroups'
+    ERSRestIDStoreGroups:
+      type: object
+      properties:
+        groups:
+          type: array
+          description: List of group names returned from the REST ID store.
+          example:
+          - group1
+          - group2
+          - group3
+          - group4
+          - group5
+          items:
+            type: string
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

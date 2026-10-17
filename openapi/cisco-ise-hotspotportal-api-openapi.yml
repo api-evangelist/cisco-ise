@@ -973,78 +973,38 @@ paths:
       operationId: getErsConfigHotspotportalVersioninfo
       x-operation-id-source: derived
 components:
+  parameters:
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
-    hotspotportalListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    Link:
+    UpdatedFieldsResponse:
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
           example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
       example: null
     HotspotPortal:
       required:
@@ -1393,17 +1353,154 @@ components:
               themeData: Base 64 encoded string of Theme CSS file
               name: ThemeName
               id: themeId
-    UpdatedFieldsResponse:
+    portal.hotspotportal:
+      required:
+      - HotspotPortal
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
+        HotspotPortal:
+          $ref: '#/components/schemas/HotspotPortal'
+      example: null
+    hotspotportalListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    hotspotportalResponse:
+      type: object
+      properties:
+        HotspotPortal:
+          $ref: '#/components/schemas/hotspotportalResponseEntity'
+      example:
+        HotspotPortal:
+          portalType: HOTSPOTGUEST
+          settings:
+            postAccessBannerSettings:
+              includePostAccessBanner: false
+            authSuccessSettings:
+              redirectUrl: www.cisco.com
+              successRedirect: AUTHSUCCESSPAGE
+            supportInfoSettings:
+              includePolicyServer: true
+              includeFailureCode: true
+              includeMacAddr: true
+              includeBrowserUserAgent: true
+              includeSupportInfoPage: false
+              includeIpAddress: true
+              emptyFieldDisplay: HIDE
+            aupSettings:
+              requireAccessCode: false
+              requireScrolling: false
+              includeAup: false
+              useDiffAupForEmployees: false
+              displayFrequency: FIRSTLOGIN
+              skipAupForEmployees: false
+            portalSettings:
+              allowedInterfaces:
+              - eth0
+              - bond0
+              endpointIdentityGroup: f14227b0-6e5c-11e6-8f6a-005056873bd0
+              availableSsids: []
+              certificateGroupTag: Default Portal Certificate Group
+              alwaysUsedLanguage: English
+              displayLang: USEBROWSERLOCALE
+              fallbackLanguage: English
+              httpsPort: 8443
+              coaType: COAREAUTHENTICATE
+          name: name
+          description: description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          customizations:
+            globalCustomizations:
+              bannerImage:
+                data: base 64 encoded value of image
+              contactText: 'Contact Information '
+              bannerTitle: Banner Title
+              desktopLogoImage:
+                data: base 64 encoded value of image
+              mobileLogoImage:
+                data: base 64 encoded value of image
+              footerElement: Footer Element
+            portalTweakSettings:
+              pageBackgroundColor: Color code from GUI
+              pageLabelAndTextColor: Label and Text color from GUI
+              bannerColor: Banner Color from GUI
+              bannerTextColor: Banner Text color code from GUI
+            pageCustomizations:
+              data:
+              - value: Contact Support
+                key: ui_contact_link
+            language:
+              viewLanguage: English
+            portalTheme:
+              themeData: Base 64 encoded string of Theme CSS file
+              name: ThemeName
+              id: themeId
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
           example: null
       example: null
     hotspotportalResponseEntity:
@@ -1681,14 +1778,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    portal.hotspotportal:
-      required:
-      - HotspotPortal
-      type: object
-      properties:
-        HotspotPortal:
-          $ref: '#/components/schemas/HotspotPortal'
-      example: null
     hotspotportalListResponse:
       type: object
       properties:
@@ -1730,85 +1819,18 @@ components:
               type: application/xml
             description: description2
             id: id2
-    hotspotportalResponse:
+    link1:
       type: object
       properties:
-        HotspotPortal:
-          $ref: '#/components/schemas/hotspotportalResponseEntity'
-      example:
-        HotspotPortal:
-          portalType: HOTSPOTGUEST
-          settings:
-            postAccessBannerSettings:
-              includePostAccessBanner: false
-            authSuccessSettings:
-              redirectUrl: www.cisco.com
-              successRedirect: AUTHSUCCESSPAGE
-            supportInfoSettings:
-              includePolicyServer: true
-              includeFailureCode: true
-              includeMacAddr: true
-              includeBrowserUserAgent: true
-              includeSupportInfoPage: false
-              includeIpAddress: true
-              emptyFieldDisplay: HIDE
-            aupSettings:
-              requireAccessCode: false
-              requireScrolling: false
-              includeAup: false
-              useDiffAupForEmployees: false
-              displayFrequency: FIRSTLOGIN
-              skipAupForEmployees: false
-            portalSettings:
-              allowedInterfaces:
-              - eth0
-              - bond0
-              endpointIdentityGroup: f14227b0-6e5c-11e6-8f6a-005056873bd0
-              availableSsids: []
-              certificateGroupTag: Default Portal Certificate Group
-              alwaysUsedLanguage: English
-              displayLang: USEBROWSERLOCALE
-              fallbackLanguage: English
-              httpsPort: 8443
-              coaType: COAREAUTHENTICATE
-          name: name
-          description: description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          customizations:
-            globalCustomizations:
-              bannerImage:
-                data: base 64 encoded value of image
-              contactText: 'Contact Information '
-              bannerTitle: Banner Title
-              desktopLogoImage:
-                data: base 64 encoded value of image
-              mobileLogoImage:
-                data: base 64 encoded value of image
-              footerElement: Footer Element
-            portalTweakSettings:
-              pageBackgroundColor: Color code from GUI
-              pageLabelAndTextColor: Label and Text color from GUI
-              bannerColor: Banner Color from GUI
-              bannerTextColor: Banner Text color code from GUI
-            pageCustomizations:
-              data:
-              - value: Contact Support
-                key: ui_contact_link
-            language:
-              viewLanguage: English
-            portalTheme:
-              themeData: Base 64 encoded string of Theme CSS file
-              name: ThemeName
-              id: themeId
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
+          example: https://<ise-ip>:9060/ers/config/hotspotportal/versioninfo
+        type:
+          type: string
+          example: application/json
     HotspotPortal_2:
       type: object
       properties:
@@ -2009,31 +2031,6 @@ components:
         newValue:
           type: string
           example: val_new
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
-            name: Hotspot Guest Portal (default)
-            description: Guests do not require username and password credentials to access the network, but you can optionally require an access code
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/hotspotportal/b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
     version:
       type: object
       properties:
@@ -2069,47 +2066,50 @@ components:
         newValue:
           type: string
           example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/hotspotportal/versioninfo
-        type:
-          type: string
-          example: application/json
-    patchRequest:
-      type: object
-      properties:
-        HotspotPortal:
-          $ref: '#/components/schemas/patchRequestBody'
     hotspot:
       type: object
       properties:
         HotspotPortal:
           $ref: '#/components/schemas/HotspotPortal_2'
-  parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
+            name: Hotspot Guest Portal (default)
+            description: Guests do not require username and password credentials to access the network, but you can optionally require an access code
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/hotspotportal/b132a9ef-1491-4e01-9ad4-b48a9c72e1c7
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    patchRequest:
+      type: object
+      properties:
+        HotspotPortal:
+          $ref: '#/components/schemas/patchRequestBody'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

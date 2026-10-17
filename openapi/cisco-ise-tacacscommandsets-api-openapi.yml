@@ -860,15 +860,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -878,7 +869,29 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -891,23 +904,25 @@ components:
           type: string
           example: null
       example: null
-    Link:
-      type: object
+    tacacscommandsetsListResponseEntity:
       properties:
-        rel:
+        id:
+          title: id
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
+          description: Id description
+          example: null
+        name:
+          title: name
           type: string
-          example: https://{server}:{port}/ers/config
-        type:
+          description: name description
+          example: null
+        description:
+          title: description
           type: string
-          example: application/json
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
     ERSResponse:
       type: object
@@ -931,18 +946,23 @@ components:
                 example: code
             example: null
       example: null
-    UpdatedFieldsResponse:
+    Link:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     tacacscommandsetsResponse:
       type: object
@@ -963,6 +983,57 @@ components:
             - arguments: value1 value2
               grant: DENY
               command: attr
+    tacacscommandsetsResponseEntity:
+      properties:
+        permitUnmatched:
+          title: permitUnmatched
+          type: boolean
+          description: ''
+          example: null
+        commands:
+          properties:
+            commandList:
+              title: commandList
+              type: array
+              description: List of Commands
+              example: null
+              items:
+                properties:
+                  grant:
+                    title: grant
+                    type: object
+                    description: 'Required if list of commands contains at least one command. Allowed values: PERMIT, DENY, DENY_ALWAYS'
+                    example: null
+                  command:
+                    title: command
+                    type: string
+                    description: Required if list of commands contains at least one command.
+                    example: null
+                  arguments:
+                    title: arguments
+                    type: string
+                    description: Required if list of commands contains at least one command, but can be empty string
+                    example: null
+                example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     tacacscommandsetsListResponse:
       type: object
       properties:
@@ -1068,26 +1139,6 @@ components:
             - arguments: value1 value2
               grant: DENY
               command: attr
-    tacacscommandsetsListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     policy.tacacscommandsets:
       required:
       - TacacsCommandSets
@@ -1096,57 +1147,95 @@ components:
         TacacsCommandSets:
           $ref: '#/components/schemas/TacacsCommandSets'
       example: null
-    tacacscommandsetsResponseEntity:
+    link1:
+      type: object
       properties:
-        permitUnmatched:
-          title: permitUnmatched
-          type: boolean
-          description: ''
-          example: null
-        commands:
-          properties:
-            commandList:
-              title: commandList
-              type: array
-              description: List of Commands
-              example: null
-              items:
-                properties:
-                  grant:
-                    title: grant
-                    type: object
-                    description: 'Required if list of commands contains at least one command. Allowed values: PERMIT, DENY, DENY_ALWAYS'
-                    example: null
-                  command:
-                    title: command
-                    type: string
-                    description: Required if list of commands contains at least one command.
-                    example: null
-                  arguments:
-                    title: arguments
-                    type: string
-                    description: Required if list of commands contains at least one command, but can be empty string
-                    example: null
-                example: null
-          example: null
-        name:
-          title: name
+        rel:
           type: string
-          description: name
-          example: null
-        id:
-          title: id
+          example: self
+        href:
           type: string
-          description: Id
-          example: null
-        description:
-          title: description
+          example: https://<ise-ip>:9060/ers/config/tacacscommandsets/versioninfo
+        type:
           type: string
-          description: Description
-          example: null
+          example: application/json
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
         link:
-          $ref: '#/components/schemas/Link'
-      example: null
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    tacacscommandsets:
+      type: object
+      properties:
+        TacacsCommandSets:
+          $ref: '#/components/schemas/TacacsCommandSets_2'
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 0cef7990-6120-11ea-bffb-7a82c56e81f0
+            name: DenyAllCommands
+            description: Default Command Set
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/tacacscommandsets/0cef7990-6120-11ea-bffb-7a82c56e81f0
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    tacacscommandsets_name:
+      type: object
+      properties:
+        TacacsCommandSets:
+          $ref: '#/components/schemas/TacacsCommandSets_name'
     patchRequestBody:
       type: object
       properties:
@@ -1156,6 +1245,16 @@ components:
         another-resource-attribute:
           type: string
           example: some-updated-value
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    patchRequest:
+      type: object
+      properties:
+        TacacsCommandSets:
+          $ref: '#/components/schemas/patchRequestBody'
     TacacsCommandSets_name:
       type: object
       properties:
@@ -1199,54 +1298,6 @@ components:
             type:
               type: string
               example: application/json
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 0cef7990-6120-11ea-bffb-7a82c56e81f0
-            name: DenyAllCommands
-            description: Default Command Set
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/tacacscommandsets/0cef7990-6120-11ea-bffb-7a82c56e81f0
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
     TacacsCommandSets_2:
       type: object
       properties:
@@ -1290,57 +1341,6 @@ components:
             type:
               type: string
               example: application/json
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    tacacscommandsets_name:
-      type: object
-      properties:
-        TacacsCommandSets:
-          $ref: '#/components/schemas/TacacsCommandSets_name'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/tacacscommandsets/versioninfo
-        type:
-          type: string
-          example: application/json
-    tacacscommandsets:
-      type: object
-      properties:
-        TacacsCommandSets:
-          $ref: '#/components/schemas/TacacsCommandSets_2'
-    patchRequest:
-      type: object
-      properties:
-        TacacsCommandSets:
-          $ref: '#/components/schemas/patchRequestBody'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

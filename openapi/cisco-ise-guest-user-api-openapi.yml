@@ -2388,362 +2388,7 @@ paths:
       operationId: getErsConfigGuestuserBulkByBulkid
       x-operation-id-source: derived
 components:
-  parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
   schemas:
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    guestuserListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    guestuserResponse:
-      type: object
-      properties:
-        GuestUser:
-          $ref: '#/components/schemas/guestuserResponseEntity'
-      example:
-        GuestUser:
-          sponsorUserName: Mr Spons
-          guestAccessInfo:
-            fromDate: 07/29/2014 14:44
-            toDate: 10/29/2014 17:30
-            location: San Jose
-            validDays: 90
-          customFields:
-            another key: and its value
-            some key: some value
-          portalId: '23423432523'
-          name: guestUser
-          description: 'ERS Example user '
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          guestInfo:
-            emailAddress: email@some.uri.com
-            password: asdlkj324ew
-            phoneNumber: '+13211239034'
-            smsServiceProvider: GLobal Default
-            userName: DS3ewdsa34wWE
-            enabled: true
-          guestType: Contractor
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
-    identity.guestuser:
-      required:
-      - GuestUser
-      type: object
-      properties:
-        GuestUser:
-          $ref: '#/components/schemas/GuestUser'
-      example: null
-    OperationAdditionalDataEntity:
-      properties:
-        OperationAdditionalData:
-          properties:
-            additionalData:
-              type: array
-              example: null
-              items:
-                properties:
-                  value:
-                    type: string
-                    example: null
-                  name:
-                    type: string
-                    example: null
-                example: null
-          example: null
-      example: null
-    guestuserListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/guestuserListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    guestuserResponseEntity:
-      properties:
-        customFields:
-          title: customFields
-          type: object
-          description: Key value map
-          example: null
-        guestType:
-          title: guestType
-          type: string
-          description: ''
-          example: null
-        status:
-          title: status
-          type: string
-          description: This field is applicable only for Get operation not applicable for Create and Update operations.
-          example: null
-        reasonForVisit:
-          title: reasonForVisit
-          type: string
-          description: ''
-          example: null
-        personBeingVisited:
-          title: personBeingVisited
-          type: string
-          description: ''
-          example: null
-        sponsorUserName:
-          title: sponsorUserName
-          type: string
-          description: This field is applicable for Get and Create operations not applicable for Update operation.
-          example: null
-        sponsorUserId:
-          title: sponsorUserId
-          type: string
-          description: This field is applicable only for Get operation not applicable for Create and Update operations.
-          example: null
-        statusReason:
-          title: statusReason
-          type: string
-          description: ''
-          example: null
-        portalId:
-          title: portalId
-          type: string
-          description: This field is applicable only for Create and Update operations not applicable for Get operation.<br/>Portal ID will be used to fetch configuration from Portal if missing from the Payload. For example Notification Language will be fetched from Portal if missing.
-          example: null
-        guestAccessInfo:
-          properties:
-            validDays:
-              title: validDays
-              type: object
-              description: Number of days guest user is valid. To validate validDays property, ISE consider only date(not time) between fromDate and toDate properites.
-              example: null
-            fromDate:
-              title: fromDate
-              type: string
-              description: ''
-              example: null
-            toDate:
-              title: toDate
-              type: string
-              description: ''
-              example: null
-            location:
-              title: location
-              type: string
-              description: ''
-              example: null
-            ssid:
-              title: ssid
-              type: string
-              description: ''
-              example: null
-            groupTag:
-              title: groupTag
-              type: string
-              description: ''
-              example: null
-          example: null
-        guestInfo:
-          properties:
-            emailAddress:
-              title: emailAddress
-              type: string
-              description: ''
-              example: null
-            enabled:
-              title: enabled
-              type: boolean
-              description: This field is only for Get operation not applicable for Create, Update operations.
-              example: null
-            password:
-              title: password
-              type: string
-              description: ''
-              example: null
-            phoneNumber:
-              title: phoneNumber
-              type: string
-              description: Phone number should be E.164 format.
-              example: null
-            smsServiceProvider:
-              title: smsServiceProvider
-              type: string
-              description: ''
-              example: null
-            userName:
-              title: userName
-              type: string
-              description: This field is applicable for Get and Create operations not applicable for Update operation.<br/>If account needs be created with mobile number, please provide mobile number here
-              example: null
-            firstName:
-              title: firstName
-              type: string
-              description: ''
-              example: null
-            lastName:
-              title: lastName
-              type: string
-              description: ''
-              example: null
-            company:
-              title: company
-              type: string
-              description: ''
-              example: null
-            creationTime:
-              title: creationTime
-              type: string
-              description: ''
-              example: null
-            notificationLanguage:
-              title: notificationLanguage
-              type: string
-              description: ''
-              example: null
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
     GuestUser:
       required:
       - name
@@ -2928,6 +2573,255 @@ components:
             userName: DS3ewdsa34wWE
             enabled: true
           guestType: Contractor
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    identity.guestuser:
+      required:
+      - GuestUser
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/GuestUser'
+      example: null
+    guestuserResponseEntity:
+      properties:
+        customFields:
+          title: customFields
+          type: object
+          description: Key value map
+          example: null
+        guestType:
+          title: guestType
+          type: string
+          description: ''
+          example: null
+        status:
+          title: status
+          type: string
+          description: This field is applicable only for Get operation not applicable for Create and Update operations.
+          example: null
+        reasonForVisit:
+          title: reasonForVisit
+          type: string
+          description: ''
+          example: null
+        personBeingVisited:
+          title: personBeingVisited
+          type: string
+          description: ''
+          example: null
+        sponsorUserName:
+          title: sponsorUserName
+          type: string
+          description: This field is applicable for Get and Create operations not applicable for Update operation.
+          example: null
+        sponsorUserId:
+          title: sponsorUserId
+          type: string
+          description: This field is applicable only for Get operation not applicable for Create and Update operations.
+          example: null
+        statusReason:
+          title: statusReason
+          type: string
+          description: ''
+          example: null
+        portalId:
+          title: portalId
+          type: string
+          description: This field is applicable only for Create and Update operations not applicable for Get operation.<br/>Portal ID will be used to fetch configuration from Portal if missing from the Payload. For example Notification Language will be fetched from Portal if missing.
+          example: null
+        guestAccessInfo:
+          properties:
+            validDays:
+              title: validDays
+              type: object
+              description: Number of days guest user is valid. To validate validDays property, ISE consider only date(not time) between fromDate and toDate properites.
+              example: null
+            fromDate:
+              title: fromDate
+              type: string
+              description: ''
+              example: null
+            toDate:
+              title: toDate
+              type: string
+              description: ''
+              example: null
+            location:
+              title: location
+              type: string
+              description: ''
+              example: null
+            ssid:
+              title: ssid
+              type: string
+              description: ''
+              example: null
+            groupTag:
+              title: groupTag
+              type: string
+              description: ''
+              example: null
+          example: null
+        guestInfo:
+          properties:
+            emailAddress:
+              title: emailAddress
+              type: string
+              description: ''
+              example: null
+            enabled:
+              title: enabled
+              type: boolean
+              description: This field is only for Get operation not applicable for Create, Update operations.
+              example: null
+            password:
+              title: password
+              type: string
+              description: ''
+              example: null
+            phoneNumber:
+              title: phoneNumber
+              type: string
+              description: Phone number should be E.164 format.
+              example: null
+            smsServiceProvider:
+              title: smsServiceProvider
+              type: string
+              description: ''
+              example: null
+            userName:
+              title: userName
+              type: string
+              description: This field is applicable for Get and Create operations not applicable for Update operation.<br/>If account needs be created with mobile number, please provide mobile number here
+              example: null
+            firstName:
+              title: firstName
+              type: string
+              description: ''
+              example: null
+            lastName:
+              title: lastName
+              type: string
+              description: ''
+              example: null
+            company:
+              title: company
+              type: string
+              description: ''
+              example: null
+            creationTime:
+              title: creationTime
+              type: string
+              description: ''
+              example: null
+            notificationLanguage:
+              title: notificationLanguage
+              type: string
+              description: ''
+              example: null
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    guestuserListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     OperationResultEntity:
       properties:
         OperationResult:
@@ -2946,21 +2840,102 @@ components:
                 example: null
           example: null
       example: null
-    OperationAdditionalData:
+    guestuserListResponse:
       type: object
       properties:
-        OperationAdditionalData:
+        SearchResult:
           type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/guestuserListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
+    OperationAdditionalDataEntity:
+      properties:
+        OperationAdditionalData:
           properties:
             additionalData:
               type: array
-              example:
-              - name: example additional attribute name
-                value: its value
+              example: null
               items:
                 properties:
+                  value:
+                    type: string
+                    example: null
                   name:
                     type: string
+                    example: null
+                example: null
+          example: null
+      example: null
+    guestuserResponse:
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/guestuserResponseEntity'
+      example:
+        GuestUser:
+          sponsorUserName: Mr Spons
+          guestAccessInfo:
+            fromDate: 07/29/2014 14:44
+            toDate: 10/29/2014 17:30
+            location: San Jose
+            validDays: 90
+          customFields:
+            another key: and its value
+            some key: some value
+          portalId: '23423432523'
+          name: guestUser
+          description: 'ERS Example user '
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          guestInfo:
+            emailAddress: email@some.uri.com
+            password: asdlkj324ew
+            phoneNumber: '+13211239034'
+            smsServiceProvider: GLobal Default
+            userName: DS3ewdsa34wWE
+            enabled: true
+          guestType: Contractor
+    GuestUserBulkRequest:
+      type: object
+      properties:
+        operationType:
+          type: string
+          example: create
+        resourceMediaType:
+          type: string
+          example: vnd.com.cisco.ise.identity.guestuser.2.0+xml
     bulkrequest:
       type: object
       properties:
@@ -2982,6 +2957,105 @@ components:
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    guestuser:
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/GuestUser_2'
+    BulkStatus:
+      type: object
+      properties:
+        bulkId:
+          type: string
+          example: 1615360357673
+        mediaType:
+          type: string
+          example: ''
+        executionStatus:
+          type: string
+          example: COMPLETED
+        operationType:
+          type: string
+          example: create
+        startTime:
+          type: string
+          example: Wed Mar 10 07:12:37 UTC 2021
+        resourcesCount:
+          type: integer
+          example: 5
+        successCount:
+          type: integer
+          example: 5
+        failCount:
+          type: integer
+          example: 0
+        resourcesStatus:
+          type: array
+          example:
+          - id: '1234454324'
+            name: resource1
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '2343242342'
+            name: resource2
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '4564566456'
+            name: resource3
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          - id: '6544566455'
+            name: resource4
+            description: description...
+            resourceExecutionStatus: PENDING
+            status: PENDING
+          items:
+            properties:
+              name:
+                type: string
+    OperationAdditionalData:
+      type: object
+      properties:
+        OperationAdditionalData:
+          type: object
+          properties:
+            additionalData:
+              type: array
+              example:
+              - name: example additional attribute name
+                value: its value
+              items:
+                properties:
+                  name:
+                    type: string
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: ab6deded-fcc2-47ff-8577-0014737c8fcf
+            name: guestUser
+            description: ERS Example user
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guestuser/ab6deded-fcc2-47ff-8577-0014737c8fcf
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
     GuestUser_2:
       type: object
       properties:
@@ -3060,74 +3134,25 @@ components:
             type:
               type: string
               example: application/json
-    guestuser:
+    Update:
       type: object
       properties:
-        GuestUser:
-          $ref: '#/components/schemas/GuestUser_2'
-    BulkStatus:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
       type: object
       properties:
-        bulkId:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
           type: string
-          example: 1615360357673
-        mediaType:
+          example: some other field
+        oldValue:
           type: string
-          example: ''
-        executionStatus:
+          example: val_old
+        newValue:
           type: string
-          example: COMPLETED
-        operationType:
-          type: string
-          example: create
-        startTime:
-          type: string
-          example: Wed Mar 10 07:12:37 UTC 2021
-        resourcesCount:
-          type: integer
-          example: 5
-        successCount:
-          type: integer
-          example: 5
-        failCount:
-          type: integer
-          example: 0
-        resourcesStatus:
-          type: array
-          example:
-          - id: '1234454324'
-            name: resource1
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '2343242342'
-            name: resource2
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '4564566456'
-            name: resource3
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          - id: '6544566455'
-            name: resource4
-            description: description...
-            resourceExecutionStatus: PENDING
-            status: PENDING
-          items:
-            properties:
-              name:
-                type: string
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
-          type: string
-          example: some-updated-value
-        another-resource-attribute:
-          type: string
-          example: some-updated-value
+          example: val_new
     GuestUser_name:
       type: object
       properties:
@@ -3206,6 +3231,54 @@ components:
             type:
               type: string
               example: application/json
+    bulkstatus:
+      type: object
+      properties:
+        BulkStatus:
+          $ref: '#/components/schemas/BulkStatus'
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    patchRequest:
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/patchRequestBody'
+    link1:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/guestuser/versioninfo
+        type:
+          type: string
+          example: application/json
+    guestuser_name:
+      type: object
+      properties:
+        GuestUser:
+          $ref: '#/components/schemas/GuestUser_name'
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     OperationResult:
       type: object
       properties:
@@ -3221,98 +3294,25 @@ components:
                 properties:
                   name:
                     type: string
-    UpdatedField:
-      type: object
-      properties:
-        field:
-          type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    bulkstatus:
-      type: object
-      properties:
-        BulkStatus:
-          $ref: '#/components/schemas/BulkStatus'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    GuestUserBulkRequest:
-      type: object
-      properties:
-        operationType:
-          type: string
-          example: create
-        resourceMediaType:
-          type: string
-          example: vnd.com.cisco.ise.identity.guestuser.2.0+xml
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: ab6deded-fcc2-47ff-8577-0014737c8fcf
-            name: guestUser
-            description: ERS Example user
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guestuser/ab6deded-fcc2-47ff-8577-0014737c8fcf
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    guestuser_name:
-      type: object
-      properties:
-        GuestUser:
-          $ref: '#/components/schemas/GuestUser_name'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/guestuser/versioninfo
-        type:
-          type: string
-          example: application/json
-    patchRequest:
-      type: object
-      properties:
-        GuestUser:
-          $ref: '#/components/schemas/patchRequestBody'
+  parameters:
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

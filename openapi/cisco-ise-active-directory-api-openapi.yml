@@ -2792,47 +2792,77 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    activedirectoryListResponse:
+    ersActiveDirectoryDomainsResponse:
+      properties:
+        ERSActiveDirectoryDomains:
+          properties:
+            domains:
+              title: domains
+              type: array
+              description: List of Domains
+              example: null
+              items:
+                properties:
+                  dnsName:
+                    title: dnsName
+                    type: string
+                    description: ''
+                    example: null
+                  forest:
+                    title: forest
+                    type: string
+                    description: ''
+                    example: null
+                  unusableReason:
+                    title: unusableReason
+                    type: string
+                    description: ''
+                    example: null
+                example: null
+          example: null
+      example: null
+    ersActiveDirectoryGroupsResponse:
+      properties:
+        ERSActiveDirectoryGroups:
+          properties:
+            groups:
+              title: groups
+              type: array
+              description: List of Groups
+              example: null
+              items:
+                properties:
+                  name:
+                    title: name
+                    type: string
+                    description: Required for each group in the group list with no duplication between groups
+                    example: null
+                  sid:
+                    title: sid
+                    type: string
+                    description: Required for each group in the group list with no duplication between groups
+                    example: null
+                  type:
+                    title: type
+                    type: string
+                    description: ''
+                    example: null
+                example: null
+          example: null
+      example: null
+    UpdatedFieldsResponse:
       type: object
       properties:
-        SearchResult:
+        UpdatedFieldsList:
           type: object
           properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
+            updatedField:
               type: array
               example: null
               items:
-                $ref: '#/components/schemas/activedirectoryListResponseEntity'
+                $ref: '#/components/schemas/updatedField'
           example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+      example: null
     updatedField:
       properties:
         field:
@@ -2845,23 +2875,27 @@ components:
           type: string
           example: null
       example: null
-    Link:
+    ERSResponse:
       type: object
       properties:
-        rel:
+        operation:
           type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     ERSActiveDirectory:
       required:
@@ -3212,6 +3246,65 @@ components:
               defaultValue: defaultOctetString
               name: name5
               type: OCTET_STRING
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    activedirectoryListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/activedirectoryListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     activedirectoryResponse:
       type: object
       properties:
@@ -3297,60 +3390,31 @@ components:
               defaultValue: defaultOctetString
               name: name5
               type: OCTET_STRING
-    ERSResponse:
+    identitystores.activedirectory:
+      required:
+      - ERSActiveDirectory
       type: object
       properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
+        ERSActiveDirectory:
+          $ref: '#/components/schemas/ERSActiveDirectory'
       example: null
-    UpdatedFieldsResponse:
-      type: object
+    OperationAdditionalDataEntity:
       properties:
-        UpdatedFieldsList:
-          type: object
+        OperationAdditionalData:
           properties:
-            updatedField:
+            additionalData:
               type: array
               example: null
               items:
-                $ref: '#/components/schemas/updatedField'
+                properties:
+                  value:
+                    type: string
+                    example: null
+                  name:
+                    type: string
+                    example: null
+                example: null
           example: null
-      example: null
-    activedirectoryListResponseEntity:
-      properties:
-        id:
-          title: id
-          type: string
-          description: Id description
-          example: null
-        name:
-          title: name
-          type: string
-          description: name description
-          example: null
-        description:
-          title: description
-          type: string
-          description: description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     activedirectoryResponseEntity:
       properties:
@@ -3621,95 +3685,26 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    OperationAdditionalDataEntity:
+    activedirectoryListResponseEntity:
       properties:
-        OperationAdditionalData:
-          properties:
-            additionalData:
-              type: array
-              example: null
-              items:
-                properties:
-                  value:
-                    type: string
-                    example: null
-                  name:
-                    type: string
-                    example: null
-                example: null
+        id:
+          title: id
+          type: string
+          description: Id description
           example: null
-      example: null
-    ersActiveDirectoryDomainsResponse:
-      properties:
-        ERSActiveDirectoryDomains:
-          properties:
-            domains:
-              title: domains
-              type: array
-              description: List of Domains
-              example: null
-              items:
-                properties:
-                  dnsName:
-                    title: dnsName
-                    type: string
-                    description: ''
-                    example: null
-                  forest:
-                    title: forest
-                    type: string
-                    description: ''
-                    example: null
-                  unusableReason:
-                    title: unusableReason
-                    type: string
-                    description: ''
-                    example: null
-                example: null
+        name:
+          title: name
+          type: string
+          description: name description
           example: null
-      example: null
-    identitystores.activedirectory:
-      required:
-      - ERSActiveDirectory
-      type: object
-      properties:
-        ERSActiveDirectory:
-          $ref: '#/components/schemas/ERSActiveDirectory'
-      example: null
-    ersActiveDirectoryGroupsResponse:
-      properties:
-        ERSActiveDirectoryGroups:
-          properties:
-            groups:
-              title: groups
-              type: array
-              description: List of Groups
-              example: null
-              items:
-                properties:
-                  name:
-                    title: name
-                    type: string
-                    description: Required for each group in the group list with no duplication between groups
-                    example: null
-                  sid:
-                    title: sid
-                    type: string
-                    description: Required for each group in the group list with no duplication between groups
-                    example: null
-                  type:
-                    title: type
-                    type: string
-                    description: ''
-                    example: null
-                example: null
+        description:
+          title: description
+          type: string
+          description: description
           example: null
+        link:
+          $ref: '#/components/schemas/Link'
       example: null
-    OperationAdditionalData:
-      type: object
-      properties:
-        additionalData:
-          $ref: '#/components/schemas/additionalData'
     version:
       type: object
       properties:
@@ -3726,205 +3721,37 @@ components:
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    activedirectory:
+    additional:
       type: object
       properties:
-        ERSActiveDirectory:
-          $ref: '#/components/schemas/ERSActiveDirectory_2'
-    ERSActiveDirectory_name:
-      type: object
-      properties:
-        id:
-          type: string
-          example: af1cd190-7d71-11eb-b02e-ead13cf60dcb
-        name:
-          type: string
-          example: Company_users
-        description:
-          type: string
-          example: Group of Active company users
-        domain:
-          type: string
-          example: cisco.com
-        enableDomainWhiteList:
-          type: boolean
-          example: true
-        adGroups:
-          type: object
-          properties:
-            groups:
-              type: array
-              example:
-              - name: dcloud.cisco.com/Users/device-admins
-                sid: S-1-5-21-3064548688-3193819538-1298560677-1276
-              - name: dcloud.cisco.com/Users/Domain Computers
-                sid: S-1-5-21-3064548688-3193819538-1298560677-515
-              - name: dcloud.cisco.com/Users/Domain Users
-                sid: S-1-5-21-3064548688-3193819538-1298560677-513
-              items:
-                properties:
-                  name:
-                    type: string
-        advancedsettings:
-          type: object
-          properties:
-            enablePassChange:
-              type: boolean
-              example: true
-            enablePasswordlessAuth:
-              type: boolean
-              example: false
-            enableMachineAuth:
-              type: boolean
-              example: true
-            enableMachineAccess:
-              type: boolean
-              example: true
-            agingTime:
-              type: integer
-              example: 5
-            enableDialinPermissionCheck:
-              type: boolean
-              example: false
-            enableCallbackForDialinClient:
-              type: boolean
-              example: false
-            plaintextAuth:
-              type: boolean
-              example: false
-            enableFailedAuthProtection:
-              type: boolean
-              example: false
-            authProtectionType:
-              type: string
-              example: WIRELESS
-            failedAuthThreshold:
-              type: integer
-              example: 5
-            identityNotInAdBehaviour:
-              type: string
-              example: SEARCH_JOINED_FOREST
-            unreachableDomainsBehaviour:
-              type: string
-              example: PROCEED
-            enableRewrites:
-              type: boolean
-              example: false
-            rewriteRules:
-              type: array
-              example:
-              - rowId: 0
-                rewriteMatch: exampleMatch0
-                rewriteResult: exampleResult0
-              - rowId: 1
-                rewriteMatch: exampleMatch1
-                rewriteResult: exampleResult1
-              - rowId: 2
-                rewriteMatch: exampleMatch2
-                rewriteResult: exampleResult2
-              - rowId: 3
-                rewriteMatch: exampleMatch3
-                rewriteResult: exampleResult3
-              items:
-                properties:
-                  name:
-                    type: string
-            firstName:
-              type: string
-              example: givenName
-            department:
-              type: string
-              example: department
-            lastName:
-              type: string
-              example: sn
-            organizationalUnit:
-              type: string
-              example: company
-            jobTitle:
-              type: string
-              example: title
-            locality:
-              type: string
-              example: l
-            email:
-              type: string
-              example: mail
-            stateOrProvince:
-              type: string
-              example: st
-            telephone:
-              type: string
-              example: telephoneNumber
-            country:
-              type: string
-              example: co
-            streetAddress:
-              type: string
-              example: streetAddress
-            schema:
-              type: string
-              example: ACTIVE_DIRECTORY
-        adAttributes:
-          type: object
-          properties:
-            attributes:
-              type: array
-              example:
-              - name: name1
-                type: STRING
-                defaultValue: defaultString
-                internalName: internalName1
-              - name: name2
-                type: IP
-                defaultValue: 1.1.1.1
-                internalName: internalName2
-              - name: name3
-                type: BOOLEAN
-                defaultValue: 'true'
-                internalName: internalName3
-              - name: name4
-                type: INT
-                defaultValue: '5'
-                internalName: internalName4
-              - name: name5
-                type: OCTET_STRING
-                defaultValue: defaultOctetString
-                internalName: internalName5
-              items:
-                properties:
-                  name:
-                    type: string
-        adScopesNames:
-          type: string
-          example: Default_Scope
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/activedirectory/name/Company_users
-            type:
-              type: string
-              example: application/json
-    additionalData:
-      type: array
-      items:
-        $ref: '#/components/schemas/additionalData1'
+        OperationAdditionalData:
+          $ref: '#/components/schemas/OperationAdditionalData'
     search:
       type: object
       properties:
         SearchResult:
           $ref: '#/components/schemas/SearchResult'
-    domain-response1:
+    ERSActiveDirectoryDomains:
       type: object
       properties:
-        name:
-          type: string
-          example: user1
+        domains:
+          type: array
+          example:
+          - dnsName: R1.cisco.com
+            forest: cisco.com
+            unusableReason: ''
+          - dnsName: R2.R1.cisco.com
+            forest: cisco.com
+            unusableReason: ''
+          items:
+            properties:
+              name:
+                type: string
+    OperationAdditionalData:
+      type: object
+      properties:
+        additionalData:
+          $ref: '#/components/schemas/additionalData'
     ERSActiveDirectory_2:
       type: object
       properties:
@@ -4104,21 +3931,20 @@ components:
             type:
               type: string
               example: application/json
-    domain-response:
-      type: object
-      properties:
-        ERSActiveDirectoryUsers:
-          type: object
-          properties:
-            users:
-              type: array
-              items:
-                $ref: '#/components/schemas/domain-response1'
     getbyname:
       type: object
       properties:
         ERSActiveDirectory:
           $ref: '#/components/schemas/ERSActiveDirectory_name'
+    additionalData1:
+      type: object
+      properties:
+        name:
+          type: string
+          example: example additional attribute name
+        value:
+          type: string
+          example: its value
     SearchResult:
       type: object
       properties:
@@ -4139,15 +3965,6 @@ components:
             properties:
               name:
                 type: string
-    additionalData1:
-      type: object
-      properties:
-        name:
-          type: string
-          example: example additional attribute name
-        value:
-          type: string
-          example: its value
     ERSActiveDirectoryGroups:
       type: object
       properties:
@@ -4164,32 +3981,15 @@ components:
             properties:
               name:
                 type: string
-    additional:
+    activedirectory:
       type: object
       properties:
-        OperationAdditionalData:
-          $ref: '#/components/schemas/OperationAdditionalData'
-    ERSActiveDirectoryDomains:
-      type: object
-      properties:
-        domains:
-          type: array
-          example:
-          - dnsName: R1.cisco.com
-            forest: cisco.com
-            unusableReason: ''
-          - dnsName: R2.R1.cisco.com
-            forest: cisco.com
-            unusableReason: ''
-          items:
-            properties:
-              name:
-                type: string
-    ERSDomains:
-      type: object
-      properties:
-        ERSActiveDirectoryDomains:
-          $ref: '#/components/schemas/ERSActiveDirectoryDomains'
+        ERSActiveDirectory:
+          $ref: '#/components/schemas/ERSActiveDirectory_2'
+    additionalData:
+      type: array
+      items:
+        $ref: '#/components/schemas/additionalData1'
     link1:
       type: object
       properties:
@@ -4202,21 +4002,212 @@ components:
         type:
           type: string
           example: application/json
+    ERSActiveDirectory_name:
+      type: object
+      properties:
+        id:
+          type: string
+          example: af1cd190-7d71-11eb-b02e-ead13cf60dcb
+        name:
+          type: string
+          example: Company_users
+        description:
+          type: string
+          example: Group of Active company users
+        domain:
+          type: string
+          example: cisco.com
+        enableDomainWhiteList:
+          type: boolean
+          example: true
+        adGroups:
+          type: object
+          properties:
+            groups:
+              type: array
+              example:
+              - name: dcloud.cisco.com/Users/device-admins
+                sid: S-1-5-21-3064548688-3193819538-1298560677-1276
+              - name: dcloud.cisco.com/Users/Domain Computers
+                sid: S-1-5-21-3064548688-3193819538-1298560677-515
+              - name: dcloud.cisco.com/Users/Domain Users
+                sid: S-1-5-21-3064548688-3193819538-1298560677-513
+              items:
+                properties:
+                  name:
+                    type: string
+        advancedsettings:
+          type: object
+          properties:
+            enablePassChange:
+              type: boolean
+              example: true
+            enablePasswordlessAuth:
+              type: boolean
+              example: false
+            enableMachineAuth:
+              type: boolean
+              example: true
+            enableMachineAccess:
+              type: boolean
+              example: true
+            agingTime:
+              type: integer
+              example: 5
+            enableDialinPermissionCheck:
+              type: boolean
+              example: false
+            enableCallbackForDialinClient:
+              type: boolean
+              example: false
+            plaintextAuth:
+              type: boolean
+              example: false
+            enableFailedAuthProtection:
+              type: boolean
+              example: false
+            authProtectionType:
+              type: string
+              example: WIRELESS
+            failedAuthThreshold:
+              type: integer
+              example: 5
+            identityNotInAdBehaviour:
+              type: string
+              example: SEARCH_JOINED_FOREST
+            unreachableDomainsBehaviour:
+              type: string
+              example: PROCEED
+            enableRewrites:
+              type: boolean
+              example: false
+            rewriteRules:
+              type: array
+              example:
+              - rowId: 0
+                rewriteMatch: exampleMatch0
+                rewriteResult: exampleResult0
+              - rowId: 1
+                rewriteMatch: exampleMatch1
+                rewriteResult: exampleResult1
+              - rowId: 2
+                rewriteMatch: exampleMatch2
+                rewriteResult: exampleResult2
+              - rowId: 3
+                rewriteMatch: exampleMatch3
+                rewriteResult: exampleResult3
+              items:
+                properties:
+                  name:
+                    type: string
+            firstName:
+              type: string
+              example: givenName
+            department:
+              type: string
+              example: department
+            lastName:
+              type: string
+              example: sn
+            organizationalUnit:
+              type: string
+              example: company
+            jobTitle:
+              type: string
+              example: title
+            locality:
+              type: string
+              example: l
+            email:
+              type: string
+              example: mail
+            stateOrProvince:
+              type: string
+              example: st
+            telephone:
+              type: string
+              example: telephoneNumber
+            country:
+              type: string
+              example: co
+            streetAddress:
+              type: string
+              example: streetAddress
+            schema:
+              type: string
+              example: ACTIVE_DIRECTORY
+        adAttributes:
+          type: object
+          properties:
+            attributes:
+              type: array
+              example:
+              - name: name1
+                type: STRING
+                defaultValue: defaultString
+                internalName: internalName1
+              - name: name2
+                type: IP
+                defaultValue: 1.1.1.1
+                internalName: internalName2
+              - name: name3
+                type: BOOLEAN
+                defaultValue: 'true'
+                internalName: internalName3
+              - name: name4
+                type: INT
+                defaultValue: '5'
+                internalName: internalName4
+              - name: name5
+                type: OCTET_STRING
+                defaultValue: defaultOctetString
+                internalName: internalName5
+              items:
+                properties:
+                  name:
+                    type: string
+        adScopesNames:
+          type: string
+          example: Default_Scope
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/activedirectory/name/Company_users
+            type:
+              type: string
+              example: application/json
+    domain-response:
+      type: object
+      properties:
+        ERSActiveDirectoryUsers:
+          type: object
+          properties:
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/domain-response1'
     ERSGroups:
       type: object
       properties:
         ERSActiveDirectory:
           $ref: '#/components/schemas/ERSActiveDirectoryGroups'
+    domain-response1:
+      type: object
+      properties:
+        name:
+          type: string
+          example: user1
+    ERSDomains:
+      type: object
+      properties:
+        ERSActiveDirectoryDomains:
+          $ref: '#/components/schemas/ERSActiveDirectoryDomains'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -4226,6 +4217,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

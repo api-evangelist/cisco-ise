@@ -726,26 +726,28 @@ paths:
       operationId: getErsConfigSponsorgroupVersioninfo
       x-operation-id-source: derived
 components:
-  parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
   schemas:
+    identity.sponsorgroup:
+      required:
+      - SponsorGroup
+      type: object
+      properties:
+        SponsorGroup:
+          $ref: '#/components/schemas/SponsorGroup'
+      example: null
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -757,24 +759,6 @@ components:
         newValue:
           type: string
           example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
       example: null
     ERSResponse:
       type: object
@@ -797,6 +781,24 @@ components:
                 type: string
                 example: code
             example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
     sponsorgroupResponse:
       type: object
@@ -842,197 +844,67 @@ components:
             canApproveSelfregGuests: false
             canAccessViaRest: false
             limitApprovalToSponsorsGuests: false
-    sponsorgroupResponseEntity:
+    sponsorgroupListResponseEntity:
       properties:
-        isEnabled:
-          title: isEnabled
-          type: boolean
-          description: ''
-          example: null
-        isDefaultGroup:
-          title: isDefaultGroup
-          type: boolean
-          description: ''
-          example: null
-        memberGroups:
-          title: memberGroups
-          type: array
-          description: ''
-          example: null
-          items:
-            type: string
-            example: null
-        guestTypes:
-          title: guestTypes
-          type: array
-          description: ''
-          example: null
-          items:
-            type: string
-            example: null
-        locations:
-          title: locations
-          type: array
-          description: ''
-          example: null
-          items:
-            type: string
-            example: null
-        autoNotification:
-          title: autoNotification
-          type: boolean
-          description: ''
-          example: null
-        managePermission:
-          title: managePermission
-          type: object
-          description: Allowed values:allAccounts, groupAccounts, ownAccounts
-          example: null
-        createPermissions:
-          properties:
-            canImportMultipleAccounts:
-              title: canImportMultipleAccounts
-              type: boolean
-              description: ''
-              example: null
-            importBatchSizeLimit:
-              title: importBatchSizeLimit
-              type: number
-              description: ''
-              example: null
-            canCreateRandomAccounts:
-              title: canCreateRandomAccounts
-              type: boolean
-              description: ''
-              example: null
-            randomBatchSizeLimit:
-              title: randomBatchSizeLimit
-              type: number
-              description: ''
-              example: null
-            defaultUsernamePrefix:
-              title: defaultUsernamePrefix
-              type: string
-              description: ''
-              example: null
-            canSpecifyUsernamePrefix:
-              title: canSpecifyUsernamePrefix
-              type: boolean
-              description: ''
-              example: null
-            canSetFutureStartDate:
-              title: canSetFutureStartDate
-              type: boolean
-              description: ''
-              example: null
-            startDateFutureLimitDays:
-              title: startDateFutureLimitDays
-              type: number
-              description: ''
-              example: null
-          example: null
-        otherPermissions:
-          properties:
-            canUpdateGuestContactInfo:
-              title: canUpdateGuestContactInfo
-              type: boolean
-              description: ''
-              example: null
-            canViewGuestPasswords:
-              title: canViewGuestPasswords
-              type: boolean
-              description: ''
-              example: null
-            canSendSmsNotifications:
-              title: canSendSmsNotifications
-              type: boolean
-              description: ''
-              example: null
-            canResetGuestPasswords:
-              title: canResetGuestPasswords
-              type: boolean
-              description: ''
-              example: null
-            canExtendGuestAccounts:
-              title: canExtendGuestAccounts
-              type: boolean
-              description: ''
-              example: null
-            canDeleteGuestAccounts:
-              title: canDeleteGuestAccounts
-              type: boolean
-              description: ''
-              example: null
-            canSuspendGuestAccounts:
-              title: canSuspendGuestAccounts
-              type: boolean
-              description: ''
-              example: null
-            requireSuspensionReason:
-              title: requireSuspensionReason
-              type: boolean
-              description: ''
-              example: null
-            canReinstateSuspendedAccounts:
-              title: canReinstateSuspendedAccounts
-              type: boolean
-              description: ''
-              example: null
-            canApproveSelfregGuests:
-              title: canApproveSelfregGuests
-              type: boolean
-              description: ''
-              example: null
-            limitApprovalToSponsorsGuests:
-              title: limitApprovalToSponsorsGuests
-              type: boolean
-              description: ''
-              example: null
-            canAccessViaRest:
-              title: canAccessViaRest
-              type: boolean
-              description: ''
-              example: null
+        id:
+          title: id
+          type: string
+          description: Id description
           example: null
         name:
           title: name
           type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
+          description: name description
           example: null
         description:
           title: description
           type: string
-          description: Description
+          description: description
           example: null
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    UpdatedFieldsResponse:
+    sponsorgroupListResponse:
       type: object
       properties:
-        UpdatedFieldsList:
+        SearchResult:
           type: object
           properties:
-            updatedField:
+            total:
+              type: integer
+              example: '2'
+            resources:
               type: array
               example: null
               items:
-                $ref: '#/components/schemas/updatedField'
+                $ref: '#/components/schemas/sponsorgroupListResponseEntity'
           example: null
-      example: null
-    identity.sponsorgroup:
-      required:
-      - SponsorGroup
-      type: object
-      properties:
-        SponsorGroup:
-          $ref: '#/components/schemas/SponsorGroup'
-      example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     SponsorGroup:
       required:
       - name
@@ -1244,67 +1116,193 @@ components:
             canApproveSelfregGuests: false
             canAccessViaRest: false
             limitApprovalToSponsorsGuests: false
-    sponsorgroupListResponseEntity:
+    sponsorgroupResponseEntity:
       properties:
-        id:
-          title: id
-          type: string
-          description: Id description
+        isEnabled:
+          title: isEnabled
+          type: boolean
+          description: ''
+          example: null
+        isDefaultGroup:
+          title: isDefaultGroup
+          type: boolean
+          description: ''
+          example: null
+        memberGroups:
+          title: memberGroups
+          type: array
+          description: ''
+          example: null
+          items:
+            type: string
+            example: null
+        guestTypes:
+          title: guestTypes
+          type: array
+          description: ''
+          example: null
+          items:
+            type: string
+            example: null
+        locations:
+          title: locations
+          type: array
+          description: ''
+          example: null
+          items:
+            type: string
+            example: null
+        autoNotification:
+          title: autoNotification
+          type: boolean
+          description: ''
+          example: null
+        managePermission:
+          title: managePermission
+          type: object
+          description: Allowed values:allAccounts, groupAccounts, ownAccounts
+          example: null
+        createPermissions:
+          properties:
+            canImportMultipleAccounts:
+              title: canImportMultipleAccounts
+              type: boolean
+              description: ''
+              example: null
+            importBatchSizeLimit:
+              title: importBatchSizeLimit
+              type: number
+              description: ''
+              example: null
+            canCreateRandomAccounts:
+              title: canCreateRandomAccounts
+              type: boolean
+              description: ''
+              example: null
+            randomBatchSizeLimit:
+              title: randomBatchSizeLimit
+              type: number
+              description: ''
+              example: null
+            defaultUsernamePrefix:
+              title: defaultUsernamePrefix
+              type: string
+              description: ''
+              example: null
+            canSpecifyUsernamePrefix:
+              title: canSpecifyUsernamePrefix
+              type: boolean
+              description: ''
+              example: null
+            canSetFutureStartDate:
+              title: canSetFutureStartDate
+              type: boolean
+              description: ''
+              example: null
+            startDateFutureLimitDays:
+              title: startDateFutureLimitDays
+              type: number
+              description: ''
+              example: null
+          example: null
+        otherPermissions:
+          properties:
+            canUpdateGuestContactInfo:
+              title: canUpdateGuestContactInfo
+              type: boolean
+              description: ''
+              example: null
+            canViewGuestPasswords:
+              title: canViewGuestPasswords
+              type: boolean
+              description: ''
+              example: null
+            canSendSmsNotifications:
+              title: canSendSmsNotifications
+              type: boolean
+              description: ''
+              example: null
+            canResetGuestPasswords:
+              title: canResetGuestPasswords
+              type: boolean
+              description: ''
+              example: null
+            canExtendGuestAccounts:
+              title: canExtendGuestAccounts
+              type: boolean
+              description: ''
+              example: null
+            canDeleteGuestAccounts:
+              title: canDeleteGuestAccounts
+              type: boolean
+              description: ''
+              example: null
+            canSuspendGuestAccounts:
+              title: canSuspendGuestAccounts
+              type: boolean
+              description: ''
+              example: null
+            requireSuspensionReason:
+              title: requireSuspensionReason
+              type: boolean
+              description: ''
+              example: null
+            canReinstateSuspendedAccounts:
+              title: canReinstateSuspendedAccounts
+              type: boolean
+              description: ''
+              example: null
+            canApproveSelfregGuests:
+              title: canApproveSelfregGuests
+              type: boolean
+              description: ''
+              example: null
+            limitApprovalToSponsorsGuests:
+              title: limitApprovalToSponsorsGuests
+              type: boolean
+              description: ''
+              example: null
+            canAccessViaRest:
+              title: canAccessViaRest
+              type: boolean
+              description: ''
+              example: null
           example: null
         name:
           title: name
           type: string
-          description: name description
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
           example: null
         description:
           title: description
           type: string
-          description: description
+          description: Description
           example: null
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    sponsorgroupListResponse:
+    link1:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/sponsorgroupListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/sponsorgroup/versioninfo
+        type:
+          type: string
+          example: application/json
+    sponsorgroup:
+      type: object
+      properties:
+        SponsorGroup:
+          $ref: '#/components/schemas/SponsorGroup_2'
     UpdatedField:
       type: object
       properties:
@@ -1317,11 +1315,80 @@ components:
         newValue:
           type: string
           example: val_new
-    sponsorgroup:
+    version:
       type: object
       properties:
-        SponsorGroup:
-          $ref: '#/components/schemas/SponsorGroup_2'
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 3
+        resources:
+          type: array
+          example:
+          - id: 9f1eca71-8c01-11e6-996c-525400b48521
+            name: ALL_ACCOUNTS (default)
+            description: Sponsors assigned to this group can manage all guest user accounts. By default, users in the ALL_ACCOUNTS user identity group are members of this sponsor group
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/sponsorgroup/9f1eca71-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 9f69b621-8c01-11e6-996c-525400b48521
+            name: GROUP_ACCOUNTS (default)
+            description: Sponsors assigned to this group can manage just the guest accounts created by sponsors from the same sponsor group. By default, users in the GROUP_ACCOUNTS user identity group are members of this sponsor group
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/sponsorgroup/9f69b621-8c01-11e6-996c-525400b48521
+              type: application/json
+          - id: 9f4c1c01-8c01-11e6-996c-525400b48521
+            name: OWN_ACCOUNTS (default)
+            description: Sponsors assigned to this group can manage only the guest accounts that they have created. By default, users in the OWN_ACCOUNTS user identity group are members of this sponsor group
+            link:
+              rel: self
+              href: https://<ise-ip>/ers/config/sponsorgroup/9f4c1c01-8c01-11e6-996c-525400b48521
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     SponsorGroup_2:
       type: object
       properties:
@@ -1447,92 +1514,25 @@ components:
             type:
               type: string
               example: application/json
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 3
-        resources:
-          type: array
-          example:
-          - id: 9f1eca71-8c01-11e6-996c-525400b48521
-            name: ALL_ACCOUNTS (default)
-            description: Sponsors assigned to this group can manage all guest user accounts. By default, users in the ALL_ACCOUNTS user identity group are members of this sponsor group
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/sponsorgroup/9f1eca71-8c01-11e6-996c-525400b48521
-              type: application/json
-          - id: 9f69b621-8c01-11e6-996c-525400b48521
-            name: GROUP_ACCOUNTS (default)
-            description: Sponsors assigned to this group can manage just the guest accounts created by sponsors from the same sponsor group. By default, users in the GROUP_ACCOUNTS user identity group are members of this sponsor group
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/sponsorgroup/9f69b621-8c01-11e6-996c-525400b48521
-              type: application/json
-          - id: 9f4c1c01-8c01-11e6-996c-525400b48521
-            name: OWN_ACCOUNTS (default)
-            description: Sponsors assigned to this group can manage only the guest accounts that they have created. By default, users in the OWN_ACCOUNTS user identity group are members of this sponsor group
-            link:
-              rel: self
-              href: https://<ise-ip>/ers/config/sponsorgroup/9f4c1c01-8c01-11e6-996c-525400b48521
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/sponsorgroup/versioninfo
-        type:
-          type: string
-          example: application/json
+  parameters:
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

@@ -415,6 +415,17 @@ paths:
       - Session
 components:
   schemas:
+    framed_ipv6_address:
+      description: IPv6 address
+      type: object
+      properties:
+        ipv6_address:
+          type: array
+          items:
+            type: string
+          example:
+          - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+          - 2001:0db8:85a3:0000:0000:8a2e:0370:7335
     mnt-rest-result:
       type: object
       additionalProperties: true
@@ -449,6 +460,12 @@ components:
         status:
           type: string
           example: SERVER_ERROR
+    sessionCount:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 32348
     RadActiveSessionList:
       type: object
       xml:
@@ -503,184 +520,6 @@ components:
           example: 0
           xml:
             attribute: true
-    RESTMntRadSess:
-      type: object
-      additionalProperties: true
-      properties:
-        calling_station_id:
-          type: string
-        orig_calling_station_id:
-          type: string
-        session_state_bit:
-          type: integer
-        session_state:
-          type: string
-        session_source:
-          type: integer
-          example: 1
-        authentication_rule:
-          type: string
-        authorization_rule:
-          type: string
-        selected_authz_profiles:
-          type: string
-        user_domain_name:
-          type: string
-        host_domain_name:
-          type: string
-        user_netbios_name:
-          type: string
-        host_netbios_name:
-          type: string
-        auth_timestamp:
-          type: string
-        nad_timestamp:
-          type: string
-        acct_timestamp:
-          type: string
-        posture_timestamp:
-          type: string
-        dead_timestamp:
-          type: string
-        acct_session_time:
-          type: integer
-        audit_session_id:
-          type: string
-        acct_session_id:
-          type: string
-        username:
-          type: string
-        radius_username:
-          type: string
-        nas_ip_address:
-          type: string
-        nas_ipv6_address:
-          type: string
-        framed_ip_address:
-          type: string
-        framed_ipv6_address:
-          type: object
-          properties:
-            ipv6_address:
-              type: array
-              items:
-                type: string
-        nas_port_id:
-          type: string
-        auth_method:
-          type: string
-        auth_protocol:
-          type: string
-        posture_status:
-          type: string
-        pra_action:
-          type: string
-        endpoint_policy:
-          type: string
-        destination_ip_address:
-          type: string
-        server:
-          type: string
-        user_type:
-          type: string
-        is_wlc_roam:
-          type: string
-        cts_security_group:
-          type: string
-        paks_in:
-          type: integer
-        paks_out:
-          type: integer
-        bytes_in:
-          type: integer
-        bytes_out:
-          type: integer
-        eps_status:
-          type: string
-        selected_azn_profile:
-          type: string
-        network_device_name:
-          type: string
-        device_ip_address:
-          type: string
-        location:
-          type: string
-        is_live:
-          type: string
-        session_start_time:
-          type: string
-    framed_ipv6_address:
-      description: IPv6 address
-      type: object
-      properties:
-        ipv6_address:
-          type: array
-          items:
-            type: string
-          example:
-          - 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-          - 2001:0db8:85a3:0000:0000:8a2e:0370:7335
-    SimpleActiveSessionList:
-      type: object
-      description: List of active sessions
-      xml:
-        name: activeList
-      properties:
-        activeSession:
-          type: array
-          items:
-            $ref: '#/components/schemas/SimpleActiveSession'
-        noOfActiveSession:
-          type: integer
-          example: 10
-          xml:
-            attribute: true
-    sessionCount:
-      type: object
-      properties:
-        count:
-          type: integer
-          example: 32348
-    SimpleActiveSession:
-      description: Active session
-      type: object
-      additionalProperties: true
-      properties:
-        user_name:
-          type: string
-          example: jdoe
-        calling_station_id:
-          type: string
-          example: 00-14-22-01-23-45
-        orig_calling_station_id:
-          type: string
-          example: 00-14-22-01-23-45
-        nas_ip_address:
-          type: string
-          example: 192.168.1.1
-        nas_ipv6_address:
-          type: string
-          example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-        acct_session_id:
-          type: string
-          example: session123
-        audit_session_id:
-          type: string
-          example: audit123
-        cpmsession_id:
-          type: string
-          example: cpm123
-        server:
-          type: string
-          example: server1
-        framed_ip_address:
-          type: string
-          example: 192.168.1.100
-        device_ip_address:
-          type: string
-          example: 192.168.1.101
-        framed_ipv6_address:
-          $ref: '#/components/schemas/framed_ipv6_address'
     SessionParameters:
       description: Session parameters
       type: object
@@ -837,6 +676,167 @@ components:
           type: string
       xml:
         name: sessionParameters
+    SimpleActiveSessionList:
+      type: object
+      description: List of active sessions
+      xml:
+        name: activeList
+      properties:
+        activeSession:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleActiveSession'
+        noOfActiveSession:
+          type: integer
+          example: 10
+          xml:
+            attribute: true
+    RESTMntRadSess:
+      type: object
+      additionalProperties: true
+      properties:
+        calling_station_id:
+          type: string
+        orig_calling_station_id:
+          type: string
+        session_state_bit:
+          type: integer
+        session_state:
+          type: string
+        session_source:
+          type: integer
+          example: 1
+        authentication_rule:
+          type: string
+        authorization_rule:
+          type: string
+        selected_authz_profiles:
+          type: string
+        user_domain_name:
+          type: string
+        host_domain_name:
+          type: string
+        user_netbios_name:
+          type: string
+        host_netbios_name:
+          type: string
+        auth_timestamp:
+          type: string
+        nad_timestamp:
+          type: string
+        acct_timestamp:
+          type: string
+        posture_timestamp:
+          type: string
+        dead_timestamp:
+          type: string
+        acct_session_time:
+          type: integer
+        audit_session_id:
+          type: string
+        acct_session_id:
+          type: string
+        username:
+          type: string
+        radius_username:
+          type: string
+        nas_ip_address:
+          type: string
+        nas_ipv6_address:
+          type: string
+        framed_ip_address:
+          type: string
+        framed_ipv6_address:
+          type: object
+          properties:
+            ipv6_address:
+              type: array
+              items:
+                type: string
+        nas_port_id:
+          type: string
+        auth_method:
+          type: string
+        auth_protocol:
+          type: string
+        posture_status:
+          type: string
+        pra_action:
+          type: string
+        endpoint_policy:
+          type: string
+        destination_ip_address:
+          type: string
+        server:
+          type: string
+        user_type:
+          type: string
+        is_wlc_roam:
+          type: string
+        cts_security_group:
+          type: string
+        paks_in:
+          type: integer
+        paks_out:
+          type: integer
+        bytes_in:
+          type: integer
+        bytes_out:
+          type: integer
+        eps_status:
+          type: string
+        selected_azn_profile:
+          type: string
+        network_device_name:
+          type: string
+        device_ip_address:
+          type: string
+        location:
+          type: string
+        is_live:
+          type: string
+        session_start_time:
+          type: string
+    SimpleActiveSession:
+      description: Active session
+      type: object
+      additionalProperties: true
+      properties:
+        user_name:
+          type: string
+          example: jdoe
+        calling_station_id:
+          type: string
+          example: 00-14-22-01-23-45
+        orig_calling_station_id:
+          type: string
+          example: 00-14-22-01-23-45
+        nas_ip_address:
+          type: string
+          example: 192.168.1.1
+        nas_ipv6_address:
+          type: string
+          example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+        acct_session_id:
+          type: string
+          example: session123
+        audit_session_id:
+          type: string
+          example: audit123
+        cpmsession_id:
+          type: string
+          example: cpm123
+        server:
+          type: string
+          example: server1
+        framed_ip_address:
+          type: string
+          example: 192.168.1.100
+        device_ip_address:
+          type: string
+          example: 192.168.1.101
+        framed_ipv6_address:
+          $ref: '#/components/schemas/framed_ipv6_address'
   securitySchemes:
     basicAuth:
       type: http

@@ -406,6 +406,105 @@ paths:
                 exampleSetFlag: false
 components:
   schemas:
+    CdpClassificationRuleRankRequest:
+      title: CdpClassificationRuleRankRequest
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier for the Classification Rule record
+          format: uuid
+          readOnly: true
+          example: 12345678-f0e7-456b-a2d1-876543320b14
+          exampleSetFlag: true
+        name:
+          type: string
+          example: Classification Rule 1
+          exampleSetFlag: true
+        rank:
+          type: integer
+          format: int32
+          example: 1
+          exampleSetFlag: true
+      description: Classification Rule Rank Request Object
+      exampleSetFlag: false
+    Condition:
+      title: Condition
+      required:
+      - conditionType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
+          example: ConditionAttributes
+          exampleSetFlag: true
+          enum:
+          - ConditionAndBlock
+          - ConditionAttributes
+          - ConditionOrBlock
+          - ConditionReference
+          - LibraryConditionAndBlock
+          - LibraryConditionAttributes
+          - LibraryConditionOrBlock
+          - TimeAndDateCondition
+        isNegate:
+          type: boolean
+          description: Indicates whereas this condition is in negate mode
+          example: false
+          exampleSetFlag: true
+        link:
+          $ref: '#/components/schemas/Link'
+          exampleSetFlag: true
+      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
+      exampleSetFlag: false
+    Error:
+      title: Error
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+          exampleSetFlag: true
+        message:
+          type: string
+          example: Some error occurred
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CdpClassificationRuleListResponseEntity:
+      title: CdpClassificationRuleListResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/CdpClassificationRule'
+            exampleSetFlag: false
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    MessageResponseEntity:
+      title: MessageResponseEntity
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+          exampleSetFlag: true
+      description: Response object containing success message
+      exampleSetFlag: false
     Link:
       title: Link
       required:
@@ -479,6 +578,55 @@ components:
           exampleSetFlag: true
       description: Classification Rule Preview details
       exampleSetFlag: false
+    CdpClassificationRuleFilterWithPage:
+      title: CdpClassificationRuleFilterWithPage
+      type: object
+      properties:
+        PageNumber:
+          type: integer
+          description: Page Number
+          format: int32
+          example: 0
+          exampleSetFlag: true
+        PageSize:
+          type: integer
+          description: Page Size
+          format: int32
+          example: 50000
+          exampleSetFlag: true
+        cdpClassificationRule:
+          $ref: '#/components/schemas/CdpClassificationRule'
+          exampleSetFlag: true
+      description: Classification Policy details with Page Info
+      exampleSetFlag: false
+    CdpClassificationRulePreviewResponseEntity:
+      title: CdpClassificationRulePreviewResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/CdpClassificationRulePreview'
+            exampleSetFlag: false
+        version:
+          type: string
+          exampleSetFlag: true
+      exampleSetFlag: false
+    CdpClassificationRuleRankRequestList:
+      title: CdpClassificationRuleRankRequestList
+      type: object
+      properties:
+        classificationRuleRankRequests:
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/CdpClassificationRuleRankRequest'
+            exampleSetFlag: false
+      exampleSetFlag: false
     CdpClassificationRule:
       title: CdpClassificationRule
       type: object
@@ -503,27 +651,6 @@ components:
             type: string
             exampleSetFlag: false
       description: Classification Rule details
-      exampleSetFlag: false
-    CdpClassificationRuleFilterWithPage:
-      title: CdpClassificationRuleFilterWithPage
-      type: object
-      properties:
-        PageNumber:
-          type: integer
-          description: Page Number
-          format: int32
-          example: 0
-          exampleSetFlag: true
-        PageSize:
-          type: integer
-          description: Page Size
-          format: int32
-          example: 50000
-          exampleSetFlag: true
-        cdpClassificationRule:
-          $ref: '#/components/schemas/CdpClassificationRule'
-          exampleSetFlag: true
-      description: Classification Policy details with Page Info
       exampleSetFlag: false
     RuleCommon:
       title: RuleCommon
@@ -575,71 +702,6 @@ components:
           - monitor
       description: Common attributes in rule authentication/authorization
       exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
-          exampleSetFlag: true
-        message:
-          type: string
-          example: Some error occurred
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Condition:
-      title: Condition
-      required:
-      - conditionType
-      type: object
-      properties:
-        conditionType:
-          type: string
-          description: <ul><li>Inidicates whether the record is the condition itself(data) or a logical(or,and) aggregation</li> <li>Data type enum(reference,single) indicates than "conditonId" OR "ConditionAttrs" fields should contain condition data but not both</li> <li>Logical aggreation(and,or) enum indicates that additional conditions are present under the children field</li></ul>
-          example: ConditionAttributes
-          exampleSetFlag: true
-          enum:
-          - ConditionAndBlock
-          - ConditionAttributes
-          - ConditionOrBlock
-          - ConditionReference
-          - LibraryConditionAndBlock
-          - LibraryConditionAttributes
-          - LibraryConditionOrBlock
-          - TimeAndDateCondition
-        isNegate:
-          type: boolean
-          description: Indicates whereas this condition is in negate mode
-          example: false
-          exampleSetFlag: true
-        link:
-          $ref: '#/components/schemas/Link'
-          exampleSetFlag: true
-      description: <ul><li>Hierarchical structure which defines a set of conditions for which authentication or authorization policy rules could be matched.</li> <li>Logical operations(AND, OR) relationship between conditions are supported</li> <li>Each condition can have subconditions with relation to logical operations</li></ul>
-      exampleSetFlag: false
-    CdpClassificationRuleListResponseEntity:
-      title: CdpClassificationRuleListResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/CdpClassificationRule'
-            exampleSetFlag: false
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
     CdpClassificationRuleResponseEntity:
       title: CdpClassificationRuleResponseEntity
       required:
@@ -653,67 +715,5 @@ components:
         version:
           type: string
           example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    CdpClassificationRuleRankRequestList:
-      title: CdpClassificationRuleRankRequestList
-      type: object
-      properties:
-        classificationRuleRankRequests:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/CdpClassificationRuleRankRequest'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    CdpClassificationRuleRankRequest:
-      title: CdpClassificationRuleRankRequest
-      type: object
-      properties:
-        id:
-          type: string
-          description: Identifier for the Classification Rule record
-          format: uuid
-          readOnly: true
-          example: 12345678-f0e7-456b-a2d1-876543320b14
-          exampleSetFlag: true
-        name:
-          type: string
-          example: Classification Rule 1
-          exampleSetFlag: true
-        rank:
-          type: integer
-          format: int32
-          example: 1
-          exampleSetFlag: true
-      description: Classification Rule Rank Request Object
-      exampleSetFlag: false
-    MessageResponseEntity:
-      title: MessageResponseEntity
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-          exampleSetFlag: true
-      description: Response object containing success message
-      exampleSetFlag: false
-    CdpClassificationRulePreviewResponseEntity:
-      title: CdpClassificationRulePreviewResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/CdpClassificationRulePreview'
-            exampleSetFlag: false
-        version:
-          type: string
           exampleSetFlag: true
       exampleSetFlag: false

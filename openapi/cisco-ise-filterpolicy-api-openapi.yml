@@ -715,70 +715,26 @@ paths:
       operationId: getErsConfigFilterpolicyVersioninfo
       x-operation-id-source: derived
 components:
+  parameters:
+    psize:
+      name: size
+      in: query
+      description: Items by Page
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
-    filterpolicyResponse:
-      type: object
-      properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/filterpolicyResponseEntity'
-      example:
-        ERSFilterPolicy:
-          subnet: subnetAddress
-          sgt: sgt
-          vn: virtualNetwork
-          domains: Sxp Vpn Name
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -790,6 +746,26 @@ components:
               example: null
               items:
                 $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    sxp.filterpolicy:
+      required:
+      - ERSFilterPolicy
+      type: object
+      properties:
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/ERSFilterPolicy'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
           example: null
       example: null
     filterpolicyListResponse:
@@ -833,6 +809,97 @@ components:
               type: application/xml
             description: description2
             id: id2
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    filterpolicyResponseEntity:
+      properties:
+        subnet:
+          title: subnet
+          type: string
+          description: subnet for filter policy (hostname is not supported). At least one of subnet or sgt or vn should be defined
+          example: null
+        sgt:
+          title: sgt
+          type: string
+          description: SGT name or ID. At least one of subnet or sgt or vn should be defined
+          example: null
+        vn:
+          title: vn
+          type: string
+          description: Virtual Network. At least one of subnet or sgt or vn should be defined
+          example: null
+        domains:
+          title: domains
+          type: string
+          description: List of SXP Domains, separated with comma.
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    filterpolicyResponse:
+      type: object
+      properties:
+        ERSFilterPolicy:
+          $ref: '#/components/schemas/filterpolicyResponseEntity'
+      example:
+        ERSFilterPolicy:
+          subnet: subnetAddress
+          sgt: sgt
+          vn: virtualNetwork
+          domains: Sxp Vpn Name
     ERSFilterPolicy:
       required:
       - domains
@@ -878,14 +945,6 @@ components:
           sgt: sgt
           vn: virtualNetwork
           domains: Sxp Vpn Name
-    sxp.filterpolicy:
-      required:
-      - ERSFilterPolicy
-      type: object
-      properties:
-        ERSFilterPolicy:
-          $ref: '#/components/schemas/ERSFilterPolicy'
-      example: null
     filterpolicyListResponseEntity:
       properties:
         id:
@@ -906,55 +965,18 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    filterpolicyResponseEntity:
-      properties:
-        subnet:
-          title: subnet
-          type: string
-          description: subnet for filter policy (hostname is not supported). At least one of subnet or sgt or vn should be defined
-          example: null
-        sgt:
-          title: sgt
-          type: string
-          description: SGT name or ID. At least one of subnet or sgt or vn should be defined
-          example: null
-        vn:
-          title: vn
-          type: string
-          description: Virtual Network. At least one of subnet or sgt or vn should be defined
-          example: null
-        domains:
-          title: domains
-          type: string
-          description: List of SXP Domains, separated with comma.
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    patchRequestBody:
+    link1:
       type: object
       properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
+          example: https://<ise-ip>:9060/ers/config/filterpolicy/versioninfo
+        type:
+          type: string
+          example: application/json
     UpdatedField:
       type: object
       properties:
@@ -967,31 +989,46 @@ components:
         newValue:
           type: string
           example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     filter:
       type: object
       properties:
         ERSFilterPolicy:
           $ref: '#/components/schemas/ERSFilterPolicy_2'
-    ERSFilterPolicy_2:
+    Update:
       type: object
       properties:
-        subnet:
-          type: string
-          example: subnetAddress
-        domains:
-          type: string
-          example: Sxp Vpn Name
-        sgt:
-          type: string
-          example: sgt
-        vn:
-          type: string
-          example: virtualNetwork
-    search:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     SearchResult:
       type: object
       properties:
@@ -1031,77 +1068,40 @@ components:
             properties:
               name:
                 type: string
-    version:
+    patchRequestBody:
       type: object
       properties:
-        currentServerVersion:
+        any-resource-attribute:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    VersionInfo:
+          example: some-updated-value
+    search:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/filterpolicy/versioninfo
-        type:
-          type: string
-          example: application/json
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     patchRequest:
       type: object
       properties:
         ERSFilterPolicy:
           $ref: '#/components/schemas/patchRequestBody'
-  parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
-    psize:
-      name: size
-      in: query
-      description: Items by Page
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '20'
+    ERSFilterPolicy_2:
+      type: object
+      properties:
+        subnet:
+          type: string
+          example: subnetAddress
+        domains:
+          type: string
+          example: Sxp Vpn Name
+        sgt:
+          type: string
+          example: sgt
+        vn:
+          type: string
+          example: virtualNetwork
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

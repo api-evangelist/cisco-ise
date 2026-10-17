@@ -863,6 +863,27 @@ components:
             - name: attr1
               type: MANDATORY
               value: value
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    policy.tacacsprofile:
+      required:
+      - TacacsProfile
+      type: object
+      properties:
+        TacacsProfile:
+          $ref: '#/components/schemas/TacacsProfile'
+      example: null
     updatedField:
       properties:
         field:
@@ -874,6 +895,28 @@ components:
         newValue:
           type: string
           example: null
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     Link:
       type: object
@@ -912,41 +955,6 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
       example: null
     TacacsProfile:
       required:
@@ -1003,6 +1011,47 @@ components:
             - name: attr1
               type: MANDATORY
               value: value
+    tacacsprofileListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/tacacsprofileListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     tacacsprofileResponseEntity:
       properties:
         sessionAttributes:
@@ -1049,69 +1098,18 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    tacacsprofileListResponse:
+    link1:
       type: object
       properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/tacacsprofileListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
-    policy.tacacsprofile:
-      required:
-      - TacacsProfile
-      type: object
-      properties:
-        TacacsProfile:
-          $ref: '#/components/schemas/TacacsProfile'
-      example: null
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
-    tacacsprofile:
-      type: object
-      properties:
-        TacacsProfile:
-          $ref: '#/components/schemas/TacacsProfile_2'
+          example: https://<ise-ip>:9060/ers/config/tacacsprofile/versioninfo
+        type:
+          type: string
+          example: application/json
     tacacsprofile_name:
       type: object
       properties:
@@ -1129,7 +1127,28 @@ components:
         newValue:
           type: string
           example: val_new
-    TacacsProfile_2:
+    tacacsprofile:
+      type: object
+      properties:
+        TacacsProfile:
+          $ref: '#/components/schemas/TacacsProfile_2'
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    TacacsProfile_name:
       type: object
       properties:
         id:
@@ -1162,15 +1181,29 @@ components:
               example: self
             href:
               type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsprofile/93d7ee70-92b5-11eb-a39d-96858bc78604
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsprofile/name/Default Shell Profile
             type:
               type: string
               example: application/json
-    search:
+    Update:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     SearchResult:
       type: object
       properties:
@@ -1212,54 +1245,26 @@ components:
             properties:
               name:
                 type: string
-    version:
+    patchRequestBody:
       type: object
       properties:
-        currentServerVersion:
+        any-resource-attribute:
           type: string
-          example: '1.0'
-        supportedVersions:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    VersionInfo:
+          example: some-updated-value
+    search:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    patchRequest:
       type: object
       properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/tacacsprofile/versioninfo
-        type:
-          type: string
-          example: application/json
-    TacacsProfile_name:
+        TacacsProfile:
+          $ref: '#/components/schemas/patchRequestBody'
+    TacacsProfile_2:
       type: object
       properties:
         id:
@@ -1292,25 +1297,11 @@ components:
               example: self
             href:
               type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsprofile/name/Default Shell Profile
+              example: https://<ise-ip>:9060/ers/config/ers/config/tacacsprofile/93d7ee70-92b5-11eb-a39d-96858bc78604
             type:
               type: string
               example: application/json
-    patchRequest:
-      type: object
-      properties:
-        TacacsProfile:
-          $ref: '#/components/schemas/patchRequestBody'
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1320,6 +1311,15 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

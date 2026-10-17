@@ -169,6 +169,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -237,19 +250,6 @@ components:
         PxgridSettings:
           allowPasswordBasedAccounts: false
           autoApproveCertBasedAccounts: true
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     pxgrid.pxgridsettings:
       required:
       - PxgridSettings
@@ -258,15 +258,18 @@ components:
         PxgridSettings:
           $ref: '#/components/schemas/PxgridSettings'
       example: null
-    PxgridSettings_2:
+    link1:
       type: object
       properties:
-        autoApproveCertBasedAccounts:
-          type: boolean
-          example: true
-        allowPasswordBasedAccounts:
-          type: boolean
-          example: false
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/pxgridsettings/versioninfo
+        type:
+          type: string
+          example: application/json
     version:
       type: object
       properties:
@@ -283,23 +286,20 @@ components:
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
+    PxgridSettings_2:
+      type: object
+      properties:
+        autoApproveCertBasedAccounts:
+          type: boolean
+          example: true
+        allowPasswordBasedAccounts:
+          type: boolean
+          example: false
     settings:
       type: object
       properties:
         PxgridSettings:
           $ref: '#/components/schemas/PxgridSettings_2'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/pxgridsettings/versioninfo
-        type:
-          type: string
-          example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

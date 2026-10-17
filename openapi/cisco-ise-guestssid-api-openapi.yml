@@ -782,15 +782,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -800,7 +791,52 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
+    GuestSSID:
+      required:
+      - name
+      properties:
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        GuestSSID:
+          name: ssid value
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -812,24 +848,6 @@ components:
         newValue:
           type: string
           example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
       example: null
     ERSResponse:
       type: object
@@ -853,19 +871,33 @@ components:
                 example: code
             example: null
       example: null
-    UpdatedFieldsResponse:
+    Link:
       type: object
       properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
       example: null
+    guestssidResponse:
+      type: object
+      properties:
+        GuestSSID:
+          $ref: '#/components/schemas/guestssidResponseEntity'
+      example:
+        GuestSSID:
+          name: ssid value
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     guestssidListResponseEntity:
       properties:
         id:
@@ -906,15 +938,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    guestssidResponse:
-      type: object
-      properties:
-        GuestSSID:
-          $ref: '#/components/schemas/guestssidResponseEntity'
-      example:
-        GuestSSID:
-          name: ssid value
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     portal.guestssid:
       required:
       - GuestSSID
@@ -923,29 +946,6 @@ components:
         GuestSSID:
           $ref: '#/components/schemas/GuestSSID'
       example: null
-    GuestSSID:
-      required:
-      - name
-      properties:
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-      example:
-        GuestSSID:
-          name: ssid value
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
     guestssidListResponse:
       type: object
       properties:
@@ -987,15 +987,44 @@ components:
               type: application/xml
             description: description2
             id: id2
-    patchRequestBody:
+    link1:
       type: object
       properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
+          example: https://<ise-ip>:9060/ers/config/guestssid/versioninfo
+        type:
+          type: string
+          example: application/json
+    ssid:
+      type: object
+      properties:
+        GuestSSID:
+          $ref: '#/components/schemas/GuestSSID_2'
+    GuestSSID_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 9132eedc-7910-4ffe-805e-3d3a366f7fb7
+        name:
+          type: string
+          example: ssid_value
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/guestssid/9132eedc-7910-4ffe-805e-3d3a366f7fb7
+            type:
+              type: string
+              example: application/json
     UpdatedField:
       type: object
       properties:
@@ -1008,30 +1037,6 @@ components:
         newValue:
           type: string
           example: val_new
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 9132eedc-7910-4ffe-805e-3d3a366f7fb7
-            name: ssid_value
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/guestssid/96e0cb79-e6f4-464b-bf6d-aae4182daadf
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
     version:
       type: object
       properties:
@@ -1067,44 +1072,39 @@ components:
         newValue:
           type: string
           example: val_new
-    ssid:
+    SearchResult:
       type: object
       properties:
-        GuestSSID:
-          $ref: '#/components/schemas/GuestSSID_2'
-    link1:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 9132eedc-7910-4ffe-805e-3d3a366f7fb7
+            name: ssid_value
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/guestssid/96e0cb79-e6f4-464b-bf6d-aae4182daadf
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    patchRequestBody:
       type: object
       properties:
-        rel:
+        any-resource-attribute:
           type: string
-          example: self
-        href:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: https://<ise-ip>:9060/ers/config/guestssid/versioninfo
-        type:
-          type: string
-          example: application/json
-    GuestSSID_2:
+          example: some-updated-value
+    search:
       type: object
       properties:
-        id:
-          type: string
-          example: 9132eedc-7910-4ffe-805e-3d3a366f7fb7
-        name:
-          type: string
-          example: ssid_value
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/guestssid/9132eedc-7910-4ffe-805e-3d3a366f7fb7
-            type:
-              type: string
-              example: application/json
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     patchRequest:
       type: object
       properties:

@@ -1437,71 +1437,6 @@ components:
               type: application/xml
             description: description2
             id: id2
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     ERSRestIDStore:
       required:
       - name
@@ -1662,6 +1597,19 @@ components:
             sshKeysAttributeName: sshPublicKeys
             identifyDeviceCertificate: SAN
             regexType: CUSTOM
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     restidstoreListResponseEntity:
       properties:
         id:
@@ -1681,6 +1629,40 @@ components:
           example: null
         link:
           $ref: '#/components/schemas/Link'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
       example: null
     restidstoreResponse:
       type: object
@@ -1722,6 +1704,32 @@ components:
             sshKeysAttributeName: sshPublicKeys
             identifyDeviceCertificate: SAN
             regexType: CUSTOM
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    identitystores.restidstore:
+      required:
+      - ERSRestIDStore
+      type: object
+      properties:
+        ERSRestIDStore:
+          $ref: '#/components/schemas/ERSRestIDStore'
+      example: null
     restidstoreResponseEntity:
       properties:
         ersRestIDStoreAttributes:
@@ -1840,71 +1848,18 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    identitystores.restidstore:
-      required:
-      - ERSRestIDStore
+    link1:
       type: object
       properties:
-        ERSRestIDStore:
-          $ref: '#/components/schemas/ERSRestIDStore'
-      example: null
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
-    UpdatedField:
-      type: object
-      properties:
-        field:
+          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
+        type:
           type: string
-          example: field1
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
-    SearchResult:
-      type: object
-      properties:
-        total:
-          type: integer
-          example: 1
-        resources:
-          type: array
-          example:
-          - id: 79aac430-7cc8-11eb-ad58-005056926583
-            name: ISE_EST_Local_Host
-            description: example nd
-            link:
-              rel: self
-              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
-              type: application/json
-          items:
-            properties:
-              name:
-                type: string
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
+          example: application/json
     ERSRestIDStore_2:
       type: object
       properties:
@@ -1945,21 +1900,44 @@ components:
                 properties:
                   name:
                     type: string
+    UpdatedField:
+      type: object
+      properties:
+        field:
+          type: string
+          example: field1
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
     VersionInfo:
       type: object
       properties:
         VersionInfo:
           $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
     rest:
       type: object
       properties:
         ERSRestIDStore:
           $ref: '#/components/schemas/ERSRestIDStore_2'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
     UpdatedFieldsList:
       type: object
       properties:
@@ -1974,18 +1952,40 @@ components:
         newValue:
           type: string
           example: val_new
-    link1:
+    SearchResult:
       type: object
       properties:
-        rel:
+        total:
+          type: integer
+          example: 1
+        resources:
+          type: array
+          example:
+          - id: 79aac430-7cc8-11eb-ad58-005056926583
+            name: ISE_EST_Local_Host
+            description: example nd
+            link:
+              rel: self
+              href: https://<ise-ip>:9060/ers/config/ers/config/networkdevice/79aac430-7cc8-11eb-ad58-005056926583
+              type: application/json
+          items:
+            properties:
+              name:
+                type: string
+    patchRequestBody:
+      type: object
+      properties:
+        any-resource-attribute:
           type: string
-          example: self
-        href:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: https://<ise-ip>:9060/ers/config/restidstore/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: some-updated-value
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     patchRequest:
       type: object
       properties:

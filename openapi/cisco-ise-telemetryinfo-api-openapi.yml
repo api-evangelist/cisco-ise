@@ -184,15 +184,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -202,25 +193,27 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
-    Link:
+    telemetryinfoResponse:
       type: object
       properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
+        TelemetryInfo:
+          $ref: '#/components/schemas/telemetryinfoResponseEntity'
+      example:
+        TelemetryInfo:
+          deploymentId: Telemetry Deployment ID
+          udiSN: Primary PAN Serial Number
+          ccoId: Cisco Customer Account Id
+          status: Telemetry Status
     ERSResponse:
       type: object
       properties:
@@ -243,45 +236,23 @@ components:
                 example: code
             example: null
       example: null
-    telemetryinfoResponseEntity:
+    Link:
+      type: object
       properties:
-        status:
-          title: status
+        rel:
           type: string
-          description: status
-          example: null
-        deploymentId:
-          title: deploymentId
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
           type: string
-          description: deploymentId
-          example: null
-        ccoId:
-          title: ccoId
+          example: https://{server}:{port}/ers/config
+        type:
           type: string
-          description: ccoId
-          example: null
-        udiSN:
-          title: udiSN
-          type: string
-          description: udiSN
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
+          example: application/json
       example: null
     telemetryinfoListResponseEntity:
       properties:
@@ -303,17 +274,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    telemetryinfoResponse:
-      type: object
-      properties:
-        TelemetryInfo:
-          $ref: '#/components/schemas/telemetryinfoResponseEntity'
-      example:
-        TelemetryInfo:
-          deploymentId: Telemetry Deployment ID
-          udiSN: Primary PAN Serial Number
-          ccoId: Cisco Customer Account Id
-          status: Telemetry Status
     telemetryinfoListResponse:
       type: object
       properties:
@@ -355,6 +315,46 @@ components:
               type: application/xml
             description: description2
             id: id2
+    telemetryinfoResponseEntity:
+      properties:
+        status:
+          title: status
+          type: string
+          description: status
+          example: null
+        deploymentId:
+          title: deploymentId
+          type: string
+          description: deploymentId
+          example: null
+        ccoId:
+          title: ccoId
+          type: string
+          description: ccoId
+          example: null
+        udiSN:
+          title: udiSN
+          type: string
+          description: udiSN
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

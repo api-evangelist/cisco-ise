@@ -368,18 +368,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    PatchRollbackRequest:
-      title: PatchRollbackRequest
-      required:
-      - patchNumber
-      type: object
-      properties:
-        patchNumber:
-          type: integer
-          format: int32
-          example: 1
-          exampleSetFlag: true
-      exampleSetFlag: false
     Hotpatch:
       title: Hotpatch
       type: object
@@ -391,12 +379,43 @@ components:
           type: string
           exampleSetFlag: true
       exampleSetFlag: false
-    ErrorResponse:
-      title: ErrorResponse
+    HotpatchListResponse:
+      title: HotpatchListResponse
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/Message'
+          type: array
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/Hotpatch'
+            exampleSetFlag: false
+      exampleSetFlag: false
+    HotpatchInstallRequest:
+      title: HotpatchInstallRequest
+      required:
+      - hotpatchName
+      - repositoryName
+      type: object
+      properties:
+        hotpatchName:
+          type: string
+          example: ise-apply-CSCxx99999_3.1.0.518_patch1-SPA.tar.gz
+          exampleSetFlag: true
+        isDirectoryListed:
+          type: boolean
+          example: true
+          exampleSetFlag: true
+        repositoryName:
+          type: string
+          example: repo_name
+          exampleSetFlag: true
+      exampleSetFlag: false
+    PatchTaskResponse:
+      title: PatchTaskResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/TaskIdResponse'
           exampleSetFlag: true
         version:
           type: string
@@ -423,6 +442,30 @@ components:
           example: repo_name
           exampleSetFlag: true
       exampleSetFlag: false
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Message'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    Patch:
+      title: Patch
+      type: object
+      properties:
+        installDate:
+          type: string
+          exampleSetFlag: true
+        patchNumber:
+          type: integer
+          format: int32
+          exampleSetFlag: true
+      exampleSetFlag: false
     TaskIdResponse:
       title: TaskIdResponse
       type: object
@@ -446,6 +489,18 @@ components:
           example: Repository (repo_name) does not exist. Please configure the repository from Cisco ISE UI to proceed
           exampleSetFlag: true
       exampleSetFlag: false
+    PatchRollbackRequest:
+      title: PatchRollbackRequest
+      required:
+      - patchNumber
+      type: object
+      properties:
+        patchNumber:
+          type: integer
+          format: int32
+          example: 1
+          exampleSetFlag: true
+      exampleSetFlag: false
     PatchInstallRequest:
       title: PatchInstallRequest
       required:
@@ -466,50 +521,6 @@ components:
           example: repo_name
           exampleSetFlag: true
       exampleSetFlag: false
-    Patch:
-      title: Patch
-      type: object
-      properties:
-        installDate:
-          type: string
-          exampleSetFlag: true
-        patchNumber:
-          type: integer
-          format: int32
-          exampleSetFlag: true
-      exampleSetFlag: false
-    PatchTaskResponse:
-      title: PatchTaskResponse
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/TaskIdResponse'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    HotpatchInstallRequest:
-      title: HotpatchInstallRequest
-      required:
-      - hotpatchName
-      - repositoryName
-      type: object
-      properties:
-        hotpatchName:
-          type: string
-          example: ise-apply-CSCxx99999_3.1.0.518_patch1-SPA.tar.gz
-          exampleSetFlag: true
-        isDirectoryListed:
-          type: boolean
-          example: true
-          exampleSetFlag: true
-        repositoryName:
-          type: string
-          example: repo_name
-          exampleSetFlag: true
-      exampleSetFlag: false
     PatchListResponse:
       title: PatchListResponse
       type: object
@@ -522,16 +533,5 @@ components:
           exampleSetFlag: true
           items:
             $ref: '#/components/schemas/Patch'
-            exampleSetFlag: false
-      exampleSetFlag: false
-    HotpatchListResponse:
-      title: HotpatchListResponse
-      type: object
-      properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/Hotpatch'
             exampleSetFlag: false
       exampleSetFlag: false

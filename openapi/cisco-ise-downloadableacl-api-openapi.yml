@@ -756,15 +756,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -774,89 +765,16 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    downloadableaclResponseEntity:
-      properties:
-        dacl:
-          title: dacl
-          type: string
-          description: The DACL Content
-          example: null
-        daclType:
-          title: daclType
-          type: string
-          description: 'Allowed values: IPV4, IPV6, IP_AGNOSTIC'
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-        link:
-          $ref: '#/components/schemas/Link'
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -870,33 +788,17 @@ components:
                 $ref: '#/components/schemas/updatedField'
           example: null
       example: null
-    network.downloadableacl:
-      required:
-      - DownloadableAcl
-      type: object
+    updatedField:
       properties:
-        DownloadableAcl:
-          $ref: '#/components/schemas/DownloadableAcl'
-      example: null
-    downloadableaclListResponseEntity:
-      properties:
-        id:
-          title: id
+        field:
           type: string
-          description: Id description
           example: null
-        name:
-          title: name
+        oldValue:
           type: string
-          description: name description
           example: null
-        description:
-          title: description
+        newValue:
           type: string
-          description: description
           example: null
-        link:
-          $ref: '#/components/schemas/Link'
       example: null
     downloadableaclListResponse:
       type: object
@@ -939,6 +841,104 @@ components:
               type: application/xml
             description: description2
             id: id2
+    network.downloadableacl:
+      required:
+      - DownloadableAcl
+      type: object
+      properties:
+        DownloadableAcl:
+          $ref: '#/components/schemas/DownloadableAcl'
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    downloadableaclListResponseEntity:
+      properties:
+        id:
+          title: id
+          type: string
+          description: Id description
+          example: null
+        name:
+          title: name
+          type: string
+          description: name description
+          example: null
+        description:
+          title: description
+          type: string
+          description: description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
+    downloadableaclResponseEntity:
+      properties:
+        dacl:
+          title: dacl
+          type: string
+          description: The DACL Content
+          example: null
+        daclType:
+          title: daclType
+          type: string
+          description: 'Allowed values: IPV4, IPV6, IP_AGNOSTIC'
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+        link:
+          $ref: '#/components/schemas/Link'
+      example: null
     downloadableaclResponse:
       type: object
       properties:
@@ -988,15 +988,18 @@ components:
           description: description
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           daclType: IPV4
-    patchRequestBody:
+    link1:
       type: object
       properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
+          example: https://<ise-ip>:9060/ers/config/downloadableacl/versioninfo
+        type:
+          type: string
+          example: application/json
     UpdatedField:
       type: object
       properties:
@@ -1009,41 +1012,46 @@ components:
         newValue:
           type: string
           example: val_new
-    DownloadableAcl_2:
+    version:
       type: object
       properties:
-        id:
+        currentServerVersion:
           type: string
-          example: c1e0e9e0-717f-11eb-9fb2-b6cb23d38630
-        name:
+          example: 1.1
+        supportedVersions:
           type: string
-          example: multiline_acl
-        description:
-          type: string
-          example: "this is my \n multiline \n ACL."
-        dacl:
-          type: string
-          example: "permit udp any eq bootpc any eq bootps\n permit tcp any host <ise-ip> eq www\n permit tcp any host <ise-ip> eq 443\n permit tcp any host <ise-ip> eq 8443\n permit tcp any host <ise-ip> eq 8905\n permit icmp any any"
-        daclType:
-          type: string
-          example: IPV4
-        link1:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/downloadableacl/c1e09e0-717f-11eb-9fb2-b6cb23d38630
-            href:
-              type: string
-              example: link
-            type:
-              type: string
-              example: application/json
-    search:
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
       type: object
       properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    downloadable:
+      type: object
+      properties:
+        DownloadableAcl:
+          $ref: '#/components/schemas/DownloadableAcl_2'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
     SearchResult:
       type: object
       properties:
@@ -1096,63 +1104,55 @@ components:
             properties:
               name:
                 type: string
-    version:
+    patchRequestBody:
       type: object
       properties:
-        currentServerVersion:
+        any-resource-attribute:
           type: string
-          example: 1.1
-        supportedVersions:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    VersionInfo:
+          example: some-updated-value
+    search:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/downloadableacl/versioninfo
-        type:
-          type: string
-          example: application/json
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     patchRequest:
       type: object
       properties:
         DownloadableAcl:
           $ref: '#/components/schemas/patchRequestBody'
-    downloadable:
+    DownloadableAcl_2:
       type: object
       properties:
-        DownloadableAcl:
-          $ref: '#/components/schemas/DownloadableAcl_2'
+        id:
+          type: string
+          example: c1e0e9e0-717f-11eb-9fb2-b6cb23d38630
+        name:
+          type: string
+          example: multiline_acl
+        description:
+          type: string
+          example: "this is my \n multiline \n ACL."
+        dacl:
+          type: string
+          example: "permit udp any eq bootpc any eq bootps\n permit tcp any host <ise-ip> eq www\n permit tcp any host <ise-ip> eq 443\n permit tcp any host <ise-ip> eq 8443\n permit tcp any host <ise-ip> eq 8905\n permit icmp any any"
+        daclType:
+          type: string
+          example: IPV4
+        link1:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/downloadableacl/c1e09e0-717f-11eb-9fb2-b6cb23d38630
+            href:
+              type: string
+              example: link
+            type:
+              type: string
+              example: application/json
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

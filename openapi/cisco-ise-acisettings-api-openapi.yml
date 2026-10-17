@@ -430,6 +430,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
     updatedField:
       properties:
         field:
@@ -441,24 +454,6 @@ components:
         newValue:
           type: string
           example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
       example: null
     ERSResponse:
       type: object
@@ -482,6 +477,24 @@ components:
                 example: code
             example: null
       example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
     apic.acisettings:
       required:
       - AciSettings
@@ -490,17 +503,13 @@ components:
         AciSettings:
           $ref: '#/components/schemas/AciSettings'
       example: null
-    UpdatedFieldsResponse:
-      type: object
+    AciTestConnectivityEntity:
       properties:
-        UpdatedFieldsList:
-          type: object
+        ACITestConnectionResult:
           properties:
-            updatedField:
-              type: array
+            result:
+              type: boolean
               example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
           example: null
       example: null
     acisettingsResponseEntity:
@@ -636,15 +645,31 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    AciTestConnectivityEntity:
+    acisettingsResponse:
+      type: object
       properties:
-        ACITestConnectionResult:
-          properties:
-            result:
-              type: boolean
-              example: null
-          example: null
-      example: null
+        AciSettings:
+          $ref: '#/components/schemas/acisettingsResponseEntity'
+      example:
+        AciSettings:
+          suffixToEpg: SGT
+          defaultSgtName: Unknown
+          enableElementsLimit: false
+          specificSxpDomain: true
+          suffixToSgt: EPG
+          enableDataPlane: false
+          aci51: false
+          aci50: false
+          description: Aci Settings
+          maxNumSgtToAci: 500
+          untaggedPacketIepgName: Untagged
+          name: AciSettings
+          allSxpDomain: false
+          maxNumIepgFromAci: 1000
+          specifixSxpDomainList:
+          - default
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          enableAci: false
     AciSettings:
       required:
       - aci50
@@ -800,31 +825,18 @@ components:
           - default
           id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
           enableAci: false
-    acisettingsResponse:
+    link1:
       type: object
       properties:
-        AciSettings:
-          $ref: '#/components/schemas/acisettingsResponseEntity'
-      example:
-        AciSettings:
-          suffixToEpg: SGT
-          defaultSgtName: Unknown
-          enableElementsLimit: false
-          specificSxpDomain: true
-          suffixToSgt: EPG
-          enableDataPlane: false
-          aci51: false
-          aci50: false
-          description: Aci Settings
-          maxNumSgtToAci: 500
-          untaggedPacketIepgName: Untagged
-          name: AciSettings
-          allSxpDomain: false
-          maxNumIepgFromAci: 1000
-          specifixSxpDomainList:
-          - default
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          enableAci: false
+        rel:
+          type: string
+          example: self
+        href:
+          type: string
+          example: https://<ise-ip>:9060/ers/config/acisettings/versioninfo
+        type:
+          type: string
+          example: application/json
     UpdatedField:
       type: object
       properties:
@@ -837,6 +849,46 @@ components:
         newValue:
           type: string
           example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
+          type: string
+          example: '1.0'
+        supportedVersions:
+          type: string
+          example: '1.0'
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    settings:
+      type: object
+      properties:
+        AciSettings:
+          $ref: '#/components/schemas/acisettings'
     acisettings:
       type: object
       properties:
@@ -893,69 +945,17 @@ components:
         aci51:
           type: boolean
           example: false
-    Result:
-      type: object
-      properties:
-        ACITestConnectionResult:
-          $ref: '#/components/schemas/ACITestConnectionResult'
-    version:
-      type: object
-      properties:
-        currentServerVersion:
-          type: string
-          example: '1.0'
-        supportedVersions:
-          type: string
-          example: '1.0'
-        link:
-          $ref: '#/components/schemas/link1'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    settings:
-      type: object
-      properties:
-        AciSettings:
-          $ref: '#/components/schemas/acisettings'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/acisettings/versioninfo
-        type:
-          type: string
-          example: application/json
     ACITestConnectionResult:
       type: object
       properties:
         result:
           type: boolean
           example: true
-    UpdatedFieldsList:
+    Result:
       type: object
       properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
+        ACITestConnectionResult:
+          $ref: '#/components/schemas/ACITestConnectionResult'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

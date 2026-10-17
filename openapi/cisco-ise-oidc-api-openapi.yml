@@ -587,23 +587,6 @@ paths:
       - BasicAuth: []
 components:
   schemas:
-    PortalRedirect:
-      title: PortalRedirect
-      type: object
-      properties:
-        portal:
-          type: string
-          description: Portal configured with OIDC
-          example: Self-Registered Guest Portal (default)
-          exampleSetFlag: true
-        redirectUri:
-          type: array
-          exampleSetFlag: true
-          items:
-            type: string
-            exampleSetFlag: false
-      description: Portal name and redirect uri format
-      exampleSetFlag: false
     FetchMetadataRequest:
       title: FetchMetadataRequest
       required:
@@ -616,22 +599,22 @@ components:
           example: https://login.microsoftonline.com/common/v2.0
           exampleSetFlag: true
       exampleSetFlag: false
-    OidcInfoListResponseEntity:
-      title: OidcInfoListResponseEntity
+    Error:
+      title: Error
       required:
-      - response
-      - version
+      - code
+      - message
       type: object
       properties:
-        response:
-          type: array
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/OidcInfo'
-            exampleSetFlag: false
-        version:
+        code:
           type: string
-          example: 1.0.0
+          description: Error code
+          example: '400'
+          exampleSetFlag: true
+        message:
+          type: string
+          description: Error message
+          example: Bad Request
           exampleSetFlag: true
       exampleSetFlag: false
     OidcMetadataResponseEntity:
@@ -649,6 +632,59 @@ components:
           type: string
           example: 1.0.0
           exampleSetFlag: true
+      exampleSetFlag: false
+    Attribute:
+      title: Attribute
+      type: object
+      properties:
+        name:
+          type: string
+          description: OIDC Attribute name
+          example: attribute1
+          exampleSetFlag: true
+        type:
+          type: string
+          description: Attribute type
+          example: STRING
+          exampleSetFlag: true
+          enum:
+          - BOOLEAN
+          - DATE
+          - INT
+          - STRING
+      description: OIDC attribute configuration format
+      exampleSetFlag: false
+    OidcInfoResponseEntity:
+      title: OidcInfoResponseEntity
+      required:
+      - response
+      - version
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/OidcInfo'
+          exampleSetFlag: true
+        version:
+          type: string
+          example: 1.0.0
+          exampleSetFlag: true
+      exampleSetFlag: false
+    PortalRedirect:
+      title: PortalRedirect
+      type: object
+      properties:
+        portal:
+          type: string
+          description: Portal configured with OIDC
+          example: Self-Registered Guest Portal (default)
+          exampleSetFlag: true
+        redirectUri:
+          type: array
+          exampleSetFlag: true
+          items:
+            type: string
+            exampleSetFlag: false
+      description: Portal name and redirect uri format
       exampleSetFlag: false
     OidcInfo:
       title: OidcInfo
@@ -712,8 +748,8 @@ components:
           exampleSetFlag: true
       description: OIDC information
       exampleSetFlag: false
-    GroupListResponseEntity:
-      title: GroupListResponseEntity
+    OidcInfoListResponseEntity:
+      title: OidcInfoListResponseEntity
       required:
       - response
       - version
@@ -723,29 +759,11 @@ components:
           type: array
           exampleSetFlag: true
           items:
-            $ref: '#/components/schemas/Group'
+            $ref: '#/components/schemas/OidcInfo'
             exampleSetFlag: false
         version:
           type: string
           example: 1.0.0
-          exampleSetFlag: true
-      exampleSetFlag: false
-    Error:
-      title: Error
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code
-          example: '400'
-          exampleSetFlag: true
-        message:
-          type: string
-          description: Error message
-          example: Bad Request
           exampleSetFlag: true
       exampleSetFlag: false
     Group:
@@ -764,26 +782,23 @@ components:
           exampleSetFlag: true
       description: OIDC Group configuration format
       exampleSetFlag: false
-    Attribute:
-      title: Attribute
+    GroupListResponseEntity:
+      title: GroupListResponseEntity
+      required:
+      - response
+      - version
       type: object
       properties:
-        name:
-          type: string
-          description: OIDC Attribute name
-          example: attribute1
+        response:
+          type: array
           exampleSetFlag: true
-        type:
+          items:
+            $ref: '#/components/schemas/Group'
+            exampleSetFlag: false
+        version:
           type: string
-          description: Attribute type
-          example: STRING
+          example: 1.0.0
           exampleSetFlag: true
-          enum:
-          - BOOLEAN
-          - DATE
-          - INT
-          - STRING
-      description: OIDC attribute configuration format
       exampleSetFlag: false
     LifetimeAdvancedSettings:
       title: LifetimeAdvancedSettings
@@ -823,19 +838,4 @@ components:
           example: true
           exampleSetFlag: true
       description: 'Advanced lifetime controls for an OIDC session and its cached user-info. '
-      exampleSetFlag: false
-    OidcInfoResponseEntity:
-      title: OidcInfoResponseEntity
-      required:
-      - response
-      - version
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/OidcInfo'
-          exampleSetFlag: true
-        version:
-          type: string
-          example: 1.0.0
-          exampleSetFlag: true
       exampleSetFlag: false

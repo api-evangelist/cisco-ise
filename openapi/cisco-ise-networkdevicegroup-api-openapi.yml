@@ -896,15 +896,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -914,59 +905,16 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
     UpdatedFieldsResponse:
       type: object
       properties:
@@ -1021,6 +969,108 @@ components:
               type: application/xml
             description: description2
             id: id2
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    NetworkDeviceGroup:
+      required:
+      - name
+      - othername
+      properties:
+        othername:
+          title: othername
+          type: string
+          description: This field holds the Network Device Group Hierarchy (A.K.A NDG Type)
+          example: null
+        name:
+          title: name
+          type: string
+          description: name
+          example: null
+        id:
+          title: id
+          type: string
+          description: Id
+          example: null
+        description:
+          title: description
+          type: string
+          description: Description
+          example: null
+      example:
+        NetworkDeviceGroup:
+          othername: Location
+          name: Location#Group name
+          description: Group description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    networkdevicegroupResponse:
+      type: object
+      properties:
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/networkdevicegroupResponseEntity'
+      example:
+        NetworkDeviceGroup:
+          othername: Location
+          name: Location#Group name
+          description: Group description
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+    network.networkdevicegroup:
+      required:
+      - NetworkDeviceGroup
+      type: object
+      properties:
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/NetworkDeviceGroup'
+      example: null
     networkdevicegroupListResponseEntity:
       properties:
         id:
@@ -1066,65 +1116,18 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    NetworkDeviceGroup:
-      required:
-      - name
-      - othername
-      properties:
-        othername:
-          title: othername
-          type: string
-          description: This field holds the Network Device Group Hierarchy (A.K.A NDG Type)
-          example: null
-        name:
-          title: name
-          type: string
-          description: name
-          example: null
-        id:
-          title: id
-          type: string
-          description: Id
-          example: null
-        description:
-          title: description
-          type: string
-          description: Description
-          example: null
-      example:
-        NetworkDeviceGroup:
-          othername: Location
-          name: Location#Group name
-          description: Group description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    network.networkdevicegroup:
-      required:
-      - NetworkDeviceGroup
+    link1:
       type: object
       properties:
-        NetworkDeviceGroup:
-          $ref: '#/components/schemas/NetworkDeviceGroup'
-      example: null
-    networkdevicegroupResponse:
-      type: object
-      properties:
-        NetworkDeviceGroup:
-          $ref: '#/components/schemas/networkdevicegroupResponseEntity'
-      example:
-        NetworkDeviceGroup:
-          othername: Location
-          name: Location#Group name
-          description: Group description
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-    patchRequestBody:
-      type: object
-      properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
+          example: https://<ise-ip>:9060/ers/config/networkdevicegroup/versioninfo
+        type:
+          type: string
+          example: application/json
     UpdatedField:
       type: object
       properties:
@@ -1137,11 +1140,6 @@ components:
         newValue:
           type: string
           example: val_new
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     NetworkDeviceGroup_name:
       type: object
       properties:
@@ -1169,6 +1167,38 @@ components:
         othername:
           type: string
           example: Device Type
+    NetworkDeviceGroup_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 70c79c30-8bff-11e6-996c-525400b48521
+        name:
+          type: string
+          example: Device Type#All Device Types
+        description:
+          type: string
+          example: All Device Types
+        link:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/ers/config/networkdevicegroup/70c79c30-8bff-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+        othername:
+          type: string
+          example: Device Type
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     version:
       type: object
       properties:
@@ -1180,6 +1210,30 @@ components:
           example: 1.0,1.1
         link:
           $ref: '#/components/schemas/link1'
+    Update:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
+      type: object
+      properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
+        field:
+          type: string
+          example: some other field
+        oldValue:
+          type: string
+          example: val_old
+        newValue:
+          type: string
+          example: val_new
+    networkgroup_name:
+      type: object
+      properties:
+        NetworkDeviceGroup:
+          $ref: '#/components/schemas/NetworkDeviceGroup_name'
     SearchResult:
       type: object
       properties:
@@ -1228,84 +1282,30 @@ components:
             properties:
               name:
                 type: string
-    VersionInfo:
+    patchRequestBody:
       type: object
       properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    NetworkDeviceGroup_2:
+        any-resource-attribute:
+          type: string
+          example: some-updated-value
+        another-resource-attribute:
+          type: string
+          example: some-updated-value
+    search:
       type: object
       properties:
-        id:
-          type: string
-          example: 70c79c30-8bff-11e6-996c-525400b48521
-        name:
-          type: string
-          example: Device Type#All Device Types
-        description:
-          type: string
-          example: All Device Types
-        link:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/ers/config/networkdevicegroup/70c79c30-8bff-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
-        othername:
-          type: string
-          example: Device Type
-    networkgroup:
-      type: object
-      properties:
-        NetworkDeviceGroup:
-          $ref: '#/components/schemas/NetworkDeviceGroup_2'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/networkdevicegroup/versioninfo
-        type:
-          type: string
-          example: application/json
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
     patchRequest:
       type: object
       properties:
         NetworkDeviceGroup:
           $ref: '#/components/schemas/patchRequestBody'
-    networkgroup_name:
+    networkgroup:
       type: object
       properties:
         NetworkDeviceGroup:
-          $ref: '#/components/schemas/NetworkDeviceGroup_name'
+          $ref: '#/components/schemas/NetworkDeviceGroup_2'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http

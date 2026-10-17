@@ -291,6 +291,31 @@ paths:
       - BasicAuth: []
 components:
   schemas:
+    MenuAccessPermission:
+      title: MenuAccessPermission
+      type: object
+      properties:
+        childPermissions:
+          type: array
+          description: A list of child permissions that are part of this permission.
+          exampleSetFlag: true
+          items:
+            $ref: '#/components/schemas/MenuAccessPermission'
+            exampleSetFlag: false
+        id:
+          type: string
+          description: A unique identifier for the permission.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the permission.
+          exampleSetFlag: true
+        permission:
+          type: string
+          description: A string representing the type of permission, such as 'read', 'write', etc.
+          exampleSetFlag: true
+      description: Represents a menu access permission, including its own properties and any child permissions it might have.
+      exampleSetFlag: false
     MenuAccessRequest:
       title: MenuAccessRequest
       required:
@@ -357,6 +382,22 @@ components:
           exampleSetFlag: true
       description: Response schema for menu access data, including the status code, message, and a list of menu access entries.
       exampleSetFlag: false
+    MenuAccessData:
+      title: MenuAccessData
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+          description: A brief description of the menu access.
+          exampleSetFlag: true
+        name:
+          type: string
+          description: The name of the menu access entry.
+          exampleSetFlag: true
+      description: Schema representing data about a menu access entry, including its name and description.
+      exampleSetFlag: false
     BaseResponse:
       title: BaseResponse
       required:
@@ -374,47 +415,6 @@ components:
           description: A message detailing the response, indicating success or failure.
           exampleSetFlag: true
       description: 'The `BaseResponse` object represents the standard structure for a response.  It contains a `code` indicating the success or failure of the request, and a  `message` providing additional details about the outcome. A `code` of `0` typically indicates a successful operation, whereas non-zero  values represent various types of errors or issues. '
-      exampleSetFlag: false
-    MenuAccessPermission:
-      title: MenuAccessPermission
-      type: object
-      properties:
-        childPermissions:
-          type: array
-          description: A list of child permissions that are part of this permission.
-          exampleSetFlag: true
-          items:
-            $ref: '#/components/schemas/MenuAccessPermission'
-            exampleSetFlag: false
-        id:
-          type: string
-          description: A unique identifier for the permission.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the permission.
-          exampleSetFlag: true
-        permission:
-          type: string
-          description: A string representing the type of permission, such as 'read', 'write', etc.
-          exampleSetFlag: true
-      description: Represents a menu access permission, including its own properties and any child permissions it might have.
-      exampleSetFlag: false
-    MenuAccessData:
-      title: MenuAccessData
-      required:
-      - name
-      type: object
-      properties:
-        description:
-          type: string
-          description: A brief description of the menu access.
-          exampleSetFlag: true
-        name:
-          type: string
-          description: The name of the menu access entry.
-          exampleSetFlag: true
-      description: Schema representing data about a menu access entry, including its name and description.
       exampleSetFlag: false
     MenuAccessByNameResponse:
       title: MenuAccessByNameResponse

@@ -1037,15 +1037,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    ppage:
-      name: page
-      in: query
-      description: Page Number (0...N)
-      allowReserved: true
-      schema:
-        type: integer
-        example: null
-      example: '1'
     psize:
       name: size
       in: query
@@ -1055,7 +1046,208 @@ components:
         type: integer
         example: null
       example: '20'
+    ppage:
+      name: page
+      in: query
+      description: Page Number (0...N)
+      allowReserved: true
+      schema:
+        type: integer
+        example: null
+      example: '1'
   schemas:
+    UpdatedFieldsResponse:
+      type: object
+      properties:
+        UpdatedFieldsList:
+          type: object
+          properties:
+            updatedField:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/updatedField'
+          example: null
+      example: null
+    policy.allowedprotocols:
+      required:
+      - AllowedProtocols
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/AllowedProtocols'
+      example: null
+    updatedField:
+      properties:
+        field:
+          type: string
+          example: null
+        oldValue:
+          type: string
+          example: null
+        newValue:
+          type: string
+          example: null
+      example: null
+    ERSResponse:
+      type: object
+      properties:
+        operation:
+          type: string
+          example: Operation
+        messages:
+          type: array
+          example: null
+          items:
+            properties:
+              title:
+                type: string
+                example: title
+              type:
+                type: string
+                example: type
+              code:
+                type: string
+                example: code
+            example: null
+      example: null
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          example: self
+          enum:
+          - next
+          - previous
+          - self
+          - status
+        href:
+          type: string
+          example: https://{server}:{port}/ers/config
+        type:
+          type: string
+          example: application/json
+      example: null
+    allowedprotocolsResponse:
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/allowedprotocolsResponseEntity'
+      example:
+        AllowedProtocols:
+          allowEapMd5: true
+          allowMsChapV2: false
+          allowMsChapV1: false
+          allowEapTls: true
+          description: example allowed protocols
+          requireMessageAuth: false
+          displayAdditionalTLSParams: false
+          peap:
+            allowPeapEapMsChapV2: true
+            requireCryptobinding: false
+            allowPeapEapMsChapV2PwdChange: false
+            allowPeapEapGtc: false
+            allowPeapEapMsChapV2PwdChangeRetries: 1
+            allowPeapEapTlsAuthOfExpiredCerts: false
+            allowPeapV0: false
+            allowPeapEapTls: true
+          eapTlsLBit: false
+          eapTtls:
+            eapTtlsEapMsChapV2PwdChange: false
+            eapTtlsMsChapV2: true
+            eapTtlsMsChapV1: true
+            eapTtlsEapMsChapV2: true
+            eapTtlsPapAscii: true
+            eapTtlsEapMd5: true
+            eapTtlsEapMsChapV2PwdChangeRetries: 1
+            eapTtlsChap: true
+          teap:
+            allowTeapEapTlsAuthOfExpiredCerts: false
+            allowTeapEapMsChapV2PwdChange: false
+            enableEapChaining: false
+            acceptClientCertDuringTunnelEst: true
+            allowTeapEapMsChapV2: true
+            allowDowngradeMsk: true
+            allowTeapEapMsChapV2PwdChangeRetries: 3
+            allowTeapEapTls: true
+          preferredEapProtocol: PEAP
+          allowWeakCiphersForEap: false
+          allowChap: false
+          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
+          fiveG: false
+          eapTls:
+            eapTlsEnableStatelessSessionResume: false
+            allowEapTlsAuthOfExpiredCerts: false
+          allowPreferredEapProtocol: true
+          allowTeap: true
+          processHostLookup: true
+          allowPapAscii: true
+          allowPeap: true
+          eapFast:
+            allowEapFastEapMsChapV2PwdChangeRetries: 1
+            allowEapFastEapTlsAuthOfExpiredCerts: false
+            allowEapFastEapGtc: true
+            allowEapFastEapGtcPwdChangeRetries: 1
+            allowEapFastEapTls: true
+            eapFastUsePacsUseProactivePacUpdatePrecentage: 10
+            eapFastUsePacsStatelessSessionResume: false
+            allowEapFastEapMsChapV2: true
+            eapFastUsePacsAllowMachineAuthentication: false
+            eapFastUsePacsTunnelPacTtlUnits: SECONDS
+            allowEapFastEapMsChapV2PwdChange: false
+            eapFastUsePacsAllowAnonymProvisioning: false
+            eapFastEnableEAPChaining: false
+            eapFastUsePacsTunnelPacTtl: 7776000
+            eapFastUsePacsAllowAuthenProvisioning: false
+            eapFastUsePacs: true
+            allowEapFastEapGtcPwdChange: false
+          allowEapTtls: true
+          name: allowedprotocols1
+          allowLeap: false
+          allowEapFast: true
+          rsaPss: false
+    allowedprotocolsListResponse:
+      type: object
+      properties:
+        SearchResult:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: '2'
+            resources:
+              type: array
+              example: null
+              items:
+                $ref: '#/components/schemas/allowedprotocolsListResponseEntity'
+          example: null
+      example:
+        SearchResult:
+          total: 2
+          previousPage:
+            rel: previous
+            href: link-to-previous-page
+            type: application/xml
+          nextPage:
+            rel: next
+            href: link-to-next-page
+            type: application/xml
+          resources:
+          - name: name1
+            link:
+              rel: self
+              href: <url to resource name1>
+              type: application/xml
+            description: description1
+            id: id1
+          - name: name2
+            link:
+              rel: self
+              href: <url to resource name2>
+              type: application/xml
+            description: description2
+            id: id2
     AllowedProtocols:
       required:
       - allowChap
@@ -1588,149 +1780,6 @@ components:
           allowLeap: false
           allowEapFast: true
           rsaPss: false
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-          enum:
-          - next
-          - previous
-          - self
-          - status
-        href:
-          type: string
-          example: https://{server}:{port}/ers/config
-        type:
-          type: string
-          example: application/json
-      example: null
-    updatedField:
-      properties:
-        field:
-          type: string
-          example: null
-        oldValue:
-          type: string
-          example: null
-        newValue:
-          type: string
-          example: null
-      example: null
-    ERSResponse:
-      type: object
-      properties:
-        operation:
-          type: string
-          example: Operation
-        messages:
-          type: array
-          example: null
-          items:
-            properties:
-              title:
-                type: string
-                example: title
-              type:
-                type: string
-                example: type
-              code:
-                type: string
-                example: code
-            example: null
-      example: null
-    allowedprotocolsResponse:
-      type: object
-      properties:
-        AllowedProtocols:
-          $ref: '#/components/schemas/allowedprotocolsResponseEntity'
-      example:
-        AllowedProtocols:
-          allowEapMd5: true
-          allowMsChapV2: false
-          allowMsChapV1: false
-          allowEapTls: true
-          description: example allowed protocols
-          requireMessageAuth: false
-          displayAdditionalTLSParams: false
-          peap:
-            allowPeapEapMsChapV2: true
-            requireCryptobinding: false
-            allowPeapEapMsChapV2PwdChange: false
-            allowPeapEapGtc: false
-            allowPeapEapMsChapV2PwdChangeRetries: 1
-            allowPeapEapTlsAuthOfExpiredCerts: false
-            allowPeapV0: false
-            allowPeapEapTls: true
-          eapTlsLBit: false
-          eapTtls:
-            eapTtlsEapMsChapV2PwdChange: false
-            eapTtlsMsChapV2: true
-            eapTtlsMsChapV1: true
-            eapTtlsEapMsChapV2: true
-            eapTtlsPapAscii: true
-            eapTtlsEapMd5: true
-            eapTtlsEapMsChapV2PwdChangeRetries: 1
-            eapTtlsChap: true
-          teap:
-            allowTeapEapTlsAuthOfExpiredCerts: false
-            allowTeapEapMsChapV2PwdChange: false
-            enableEapChaining: false
-            acceptClientCertDuringTunnelEst: true
-            allowTeapEapMsChapV2: true
-            allowDowngradeMsk: true
-            allowTeapEapMsChapV2PwdChangeRetries: 3
-            allowTeapEapTls: true
-          preferredEapProtocol: PEAP
-          allowWeakCiphersForEap: false
-          allowChap: false
-          id: dceff5c6-d4f2-48b7-92ae-87adcdd2777b
-          fiveG: false
-          eapTls:
-            eapTlsEnableStatelessSessionResume: false
-            allowEapTlsAuthOfExpiredCerts: false
-          allowPreferredEapProtocol: true
-          allowTeap: true
-          processHostLookup: true
-          allowPapAscii: true
-          allowPeap: true
-          eapFast:
-            allowEapFastEapMsChapV2PwdChangeRetries: 1
-            allowEapFastEapTlsAuthOfExpiredCerts: false
-            allowEapFastEapGtc: true
-            allowEapFastEapGtcPwdChangeRetries: 1
-            allowEapFastEapTls: true
-            eapFastUsePacsUseProactivePacUpdatePrecentage: 10
-            eapFastUsePacsStatelessSessionResume: false
-            allowEapFastEapMsChapV2: true
-            eapFastUsePacsAllowMachineAuthentication: false
-            eapFastUsePacsTunnelPacTtlUnits: SECONDS
-            allowEapFastEapMsChapV2PwdChange: false
-            eapFastUsePacsAllowAnonymProvisioning: false
-            eapFastEnableEAPChaining: false
-            eapFastUsePacsTunnelPacTtl: 7776000
-            eapFastUsePacsAllowAuthenProvisioning: false
-            eapFastUsePacs: true
-            allowEapFastEapGtcPwdChange: false
-          allowEapTtls: true
-          name: allowedprotocols1
-          allowLeap: false
-          allowEapFast: true
-          rsaPss: false
-    UpdatedFieldsResponse:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          type: object
-          properties:
-            updatedField:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/updatedField'
-          example: null
-      example: null
     allowedprotocolsListResponseEntity:
       properties:
         id:
@@ -1751,55 +1800,6 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    policy.allowedprotocols:
-      required:
-      - AllowedProtocols
-      type: object
-      properties:
-        AllowedProtocols:
-          $ref: '#/components/schemas/AllowedProtocols'
-      example: null
-    allowedprotocolsListResponse:
-      type: object
-      properties:
-        SearchResult:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: '2'
-            resources:
-              type: array
-              example: null
-              items:
-                $ref: '#/components/schemas/allowedprotocolsListResponseEntity'
-          example: null
-      example:
-        SearchResult:
-          total: 2
-          previousPage:
-            rel: previous
-            href: link-to-previous-page
-            type: application/xml
-          nextPage:
-            rel: next
-            href: link-to-next-page
-            type: application/xml
-          resources:
-          - name: name1
-            link:
-              rel: self
-              href: <url to resource name1>
-              type: application/xml
-            description: description1
-            id: id1
-          - name: name2
-            link:
-              rel: self
-              href: <url to resource name2>
-              type: application/xml
-            description: description2
-            id: id2
     allowedprotocolsResponseEntity:
       properties:
         processHostLookup:
@@ -2215,246 +2215,46 @@ components:
         link:
           $ref: '#/components/schemas/Link'
       example: null
-    patchRequestBody:
+    link1:
       type: object
       properties:
-        any-resource-attribute:
+        rel:
           type: string
-          example: some-updated-value
-        another-resource-attribute:
+          example: self
+        href:
           type: string
-          example: some-updated-value
-    AllowedProtocols_2:
+          example: https://<ise-ip>:9060/ers/config/allowedprotocols/versioninfo
+        type:
+          type: string
+          example: application/json
+    UpdatedField:
       type: object
       properties:
-        id:
+        field:
           type: string
-          example: 92613980-8c01-11e6-996c-525400b48521
-        name:
+          example: field1
+        oldValue:
           type: string
-          example: Default Network Access
-        description:
+          example: val_old
+        newValue:
           type: string
-          example: Default Allowed Protocol Service
-        eapTls:
-          type: object
-          properties:
-            allowEapTlsAuthOfExpiredCerts:
-              type: boolean
-              example: false
-            eapTlsEnableStatelessSessionResume:
-              type: boolean
-              example: false
-        peap:
-          type: object
-          properties:
-            allowPeapEapMsChapV2:
-              type: boolean
-              example: true
-            allowPeapEapMsChapV2PwdChange:
-              type: boolean
-              example: true
-            allowPeapEapMsChapV2PwdChangeRetries:
-              type: integer
-              example: 1
-            allowPeapEapGtc:
-              type: boolean
-              example: true
-            allowPeapEapGtcPwdChange:
-              type: boolean
-              example: true
-            allowPeapEapGtcPwdChangeRetries:
-              type: integer
-              example: 1
-            allowPeapEapTls:
-              type: boolean
-              example: true
-            allowPeapEapTlsAuthOfExpiredCerts:
-              type: boolean
-              example: false
-            requireCryptobinding:
-              type: boolean
-              example: false
-            allowPeapV0:
-              type: boolean
-              example: false
-        eapFast:
-          type: object
-          properties:
-            allowEapFastEapMsChapV2:
-              type: boolean
-              example: true
-            allowEapFastEapMsChapV2PwdChange:
-              type: boolean
-              example: true
-            allowEapFastEapMsChapV2PwdChangeRetries:
-              type: integer
-              example: 1
-            allowEapFastEapGtc:
-              type: boolean
-              example: true
-            allowEapFastEapGtcPwdChange:
-              type: boolean
-              example: true
-            allowEapFastEapGtcPwdChangeRetries:
-              type: integer
-              example: 1
-            allowEapFastEapTls:
-              type: boolean
-              example: true
-            allowEapFastEapTlsAuthOfExpiredCerts:
-              type: boolean
-              example: false
-            eapFastUsePacs:
-              type: boolean
-              example: true
-            eapFastUsePacsTunnelPacTtl:
-              type: integer
-              example: 7776000
-            eapFastUsePacsTunnelPacTtlUnits:
-              type: string
-              example: SECONDS
-            eapFastUsePacsUseProactivePacUpdatePrecentage:
-              type: integer
-              example: 10
-            eapFastUsePacsAllowAnonymProvisioning:
-              type: boolean
-              example: false
-            eapFastUsePacsAllowAuthenProvisioning:
-              type: boolean
-              example: false
-            eapFastUsePacsAllowMachineAuthentication:
-              type: boolean
-              example: false
-            eapFastUsePacsStatelessSessionResume:
-              type: boolean
-              example: false
-            eapFastEnableEAPChaining:
-              type: boolean
-              example: false
-        eapTtls:
-          type: object
-          properties:
-            eapTtlsPapAscii:
-              type: boolean
-              example: true
-            eapTtlsChap:
-              type: boolean
-              example: true
-            eapTtlsMsChapV1:
-              type: boolean
-              example: true
-            eapTtlsMsChapV2:
-              type: boolean
-              example: true
-            eapTtlsEapMd5:
-              type: boolean
-              example: true
-            eapTtlsEapMsChapV2:
-              type: boolean
-              example: true
-            eapTtlsEapMsChapV2PwdChange:
-              type: boolean
-              example: true
-            eapTtlsEapMsChapV2PwdChangeRetries:
-              type: integer
-              example: 1
-        teap:
-          type: object
-          properties:
-            allowTeapEapMsChapV2:
-              type: boolean
-              example: true
-            allowTeapEapMsChapV2PwdChange:
-              type: boolean
-              example: true
-            allowTeapEapMsChapV2PwdChangeRetries:
-              type: integer
-              example: 3
-            allowTeapEapTls:
-              type: boolean
-              example: true
-            allowTeapEapTlsAuthOfExpiredCerts:
-              type: boolean
-              example: false
-            acceptClientCertDuringTunnelEst:
-              type: boolean
-              example: true
-            enableEapChaining:
-              type: boolean
-              example: false
-            allowDowngradeMsk:
-              type: boolean
-              example: true
-        processHostLookup:
-          type: boolean
-          example: true
-        allowPapAscii:
-          type: boolean
-          example: true
-        allowChap:
-          type: boolean
-          example: false
-        allowMsChapV1:
-          type: boolean
-          example: false
-        allowMsChapV2:
-          type: boolean
-          example: false
-        allowEapMd5:
-          type: boolean
-          example: true
-        allowLeap:
-          type: boolean
-          example: false
-        allowEapTls:
-          type: boolean
-          example: true
-        allowEapTtls:
-          type: boolean
-          example: true
-        allowEapFast:
-          type: boolean
-          example: true
-        allowPeap:
-          type: boolean
-          example: true
-        allowTeap:
-          type: boolean
-          example: true
-        allowPreferredEapProtocol:
-          type: boolean
-          example: true
-        preferredEapProtocol:
+          example: val_new
+    version:
+      type: object
+      properties:
+        currentServerVersion:
           type: string
-          example: PEAP
-        eapTlsLBit:
-          type: boolean
-          example: false
-        allowWeakCiphersForEap:
-          type: boolean
-          example: false
-        fiveG:
-          type: boolean
-          example: false
-        rsaPss:
-          type: boolean
-          example: false
-        requireMessageAuth:
-          type: boolean
-          example: false
-        link1:
-          type: object
-          properties:
-            rel:
-              type: string
-              example: self
-            href:
-              type: string
-              example: https://<ise-ip>:9060/ers/config/allowedprotocols/926901b0-8c01-11e6-996c-525400b48521
-            type:
-              type: string
-              example: application/json
+          example: 1.1
+        supportedVersions:
+          type: string
+          example: 1.0,1.1
+        link:
+          $ref: '#/components/schemas/link1'
+    VersionInfo:
+      type: object
+      properties:
+        VersionInfo:
+          $ref: '#/components/schemas/version'
     AllowedProtocols_name:
       type: object
       properties:
@@ -2686,33 +2486,25 @@ components:
             type:
               type: string
               example: application/json
-    allowed:
+    Update:
       type: object
       properties:
-        AllowedProtocols:
-          $ref: '#/components/schemas/AllowedProtocols_2'
-    UpdatedField:
+        UpdatedFieldsList:
+          $ref: '#/components/schemas/UpdatedFieldsList'
+    UpdatedFieldsList:
       type: object
       properties:
+        updatedField:
+          $ref: '#/components/schemas/UpdatedField'
         field:
           type: string
-          example: field1
+          example: some other field
         oldValue:
           type: string
           example: val_old
         newValue:
           type: string
           example: val_new
-    allowed_name:
-      type: object
-      properties:
-        AllowedProtocols:
-          $ref: '#/components/schemas/AllowedProtocols_name'
-    search:
-      type: object
-      properties:
-        SearchResult:
-          $ref: '#/components/schemas/SearchResult'
     SearchResult:
       type: object
       properties:
@@ -2740,58 +2532,266 @@ components:
             properties:
               name:
                 type: string
-    version:
+    patchRequestBody:
       type: object
       properties:
-        currentServerVersion:
+        any-resource-attribute:
           type: string
-          example: 1.1
-        supportedVersions:
+          example: some-updated-value
+        another-resource-attribute:
           type: string
-          example: 1.0,1.1
-        link:
-          $ref: '#/components/schemas/link1'
-    VersionInfo:
-      type: object
-      properties:
-        VersionInfo:
-          $ref: '#/components/schemas/version'
-    Update:
-      type: object
-      properties:
-        UpdatedFieldsList:
-          $ref: '#/components/schemas/UpdatedFieldsList'
-    UpdatedFieldsList:
-      type: object
-      properties:
-        updatedField:
-          $ref: '#/components/schemas/UpdatedField'
-        field:
-          type: string
-          example: some other field
-        oldValue:
-          type: string
-          example: val_old
-        newValue:
-          type: string
-          example: val_new
-    link1:
-      type: object
-      properties:
-        rel:
-          type: string
-          example: self
-        href:
-          type: string
-          example: https://<ise-ip>:9060/ers/config/allowedprotocols/versioninfo
-        type:
-          type: string
-          example: application/json
+          example: some-updated-value
     patchRequest:
       type: object
       properties:
         AllowedProtocols:
           $ref: '#/components/schemas/patchRequestBody'
+    search:
+      type: object
+      properties:
+        SearchResult:
+          $ref: '#/components/schemas/SearchResult'
+    AllowedProtocols_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 92613980-8c01-11e6-996c-525400b48521
+        name:
+          type: string
+          example: Default Network Access
+        description:
+          type: string
+          example: Default Allowed Protocol Service
+        eapTls:
+          type: object
+          properties:
+            allowEapTlsAuthOfExpiredCerts:
+              type: boolean
+              example: false
+            eapTlsEnableStatelessSessionResume:
+              type: boolean
+              example: false
+        peap:
+          type: object
+          properties:
+            allowPeapEapMsChapV2:
+              type: boolean
+              example: true
+            allowPeapEapMsChapV2PwdChange:
+              type: boolean
+              example: true
+            allowPeapEapMsChapV2PwdChangeRetries:
+              type: integer
+              example: 1
+            allowPeapEapGtc:
+              type: boolean
+              example: true
+            allowPeapEapGtcPwdChange:
+              type: boolean
+              example: true
+            allowPeapEapGtcPwdChangeRetries:
+              type: integer
+              example: 1
+            allowPeapEapTls:
+              type: boolean
+              example: true
+            allowPeapEapTlsAuthOfExpiredCerts:
+              type: boolean
+              example: false
+            requireCryptobinding:
+              type: boolean
+              example: false
+            allowPeapV0:
+              type: boolean
+              example: false
+        eapFast:
+          type: object
+          properties:
+            allowEapFastEapMsChapV2:
+              type: boolean
+              example: true
+            allowEapFastEapMsChapV2PwdChange:
+              type: boolean
+              example: true
+            allowEapFastEapMsChapV2PwdChangeRetries:
+              type: integer
+              example: 1
+            allowEapFastEapGtc:
+              type: boolean
+              example: true
+            allowEapFastEapGtcPwdChange:
+              type: boolean
+              example: true
+            allowEapFastEapGtcPwdChangeRetries:
+              type: integer
+              example: 1
+            allowEapFastEapTls:
+              type: boolean
+              example: true
+            allowEapFastEapTlsAuthOfExpiredCerts:
+              type: boolean
+              example: false
+            eapFastUsePacs:
+              type: boolean
+              example: true
+            eapFastUsePacsTunnelPacTtl:
+              type: integer
+              example: 7776000
+            eapFastUsePacsTunnelPacTtlUnits:
+              type: string
+              example: SECONDS
+            eapFastUsePacsUseProactivePacUpdatePrecentage:
+              type: integer
+              example: 10
+            eapFastUsePacsAllowAnonymProvisioning:
+              type: boolean
+              example: false
+            eapFastUsePacsAllowAuthenProvisioning:
+              type: boolean
+              example: false
+            eapFastUsePacsAllowMachineAuthentication:
+              type: boolean
+              example: false
+            eapFastUsePacsStatelessSessionResume:
+              type: boolean
+              example: false
+            eapFastEnableEAPChaining:
+              type: boolean
+              example: false
+        eapTtls:
+          type: object
+          properties:
+            eapTtlsPapAscii:
+              type: boolean
+              example: true
+            eapTtlsChap:
+              type: boolean
+              example: true
+            eapTtlsMsChapV1:
+              type: boolean
+              example: true
+            eapTtlsMsChapV2:
+              type: boolean
+              example: true
+            eapTtlsEapMd5:
+              type: boolean
+              example: true
+            eapTtlsEapMsChapV2:
+              type: boolean
+              example: true
+            eapTtlsEapMsChapV2PwdChange:
+              type: boolean
+              example: true
+            eapTtlsEapMsChapV2PwdChangeRetries:
+              type: integer
+              example: 1
+        teap:
+          type: object
+          properties:
+            allowTeapEapMsChapV2:
+              type: boolean
+              example: true
+            allowTeapEapMsChapV2PwdChange:
+              type: boolean
+              example: true
+            allowTeapEapMsChapV2PwdChangeRetries:
+              type: integer
+              example: 3
+            allowTeapEapTls:
+              type: boolean
+              example: true
+            allowTeapEapTlsAuthOfExpiredCerts:
+              type: boolean
+              example: false
+            acceptClientCertDuringTunnelEst:
+              type: boolean
+              example: true
+            enableEapChaining:
+              type: boolean
+              example: false
+            allowDowngradeMsk:
+              type: boolean
+              example: true
+        processHostLookup:
+          type: boolean
+          example: true
+        allowPapAscii:
+          type: boolean
+          example: true
+        allowChap:
+          type: boolean
+          example: false
+        allowMsChapV1:
+          type: boolean
+          example: false
+        allowMsChapV2:
+          type: boolean
+          example: false
+        allowEapMd5:
+          type: boolean
+          example: true
+        allowLeap:
+          type: boolean
+          example: false
+        allowEapTls:
+          type: boolean
+          example: true
+        allowEapTtls:
+          type: boolean
+          example: true
+        allowEapFast:
+          type: boolean
+          example: true
+        allowPeap:
+          type: boolean
+          example: true
+        allowTeap:
+          type: boolean
+          example: true
+        allowPreferredEapProtocol:
+          type: boolean
+          example: true
+        preferredEapProtocol:
+          type: string
+          example: PEAP
+        eapTlsLBit:
+          type: boolean
+          example: false
+        allowWeakCiphersForEap:
+          type: boolean
+          example: false
+        fiveG:
+          type: boolean
+          example: false
+        rsaPss:
+          type: boolean
+          example: false
+        requireMessageAuth:
+          type: boolean
+          example: false
+        link1:
+          type: object
+          properties:
+            rel:
+              type: string
+              example: self
+            href:
+              type: string
+              example: https://<ise-ip>:9060/ers/config/allowedprotocols/926901b0-8c01-11e6-996c-525400b48521
+            type:
+              type: string
+              example: application/json
+    allowed_name:
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/AllowedProtocols_name'
+    allowed:
+      type: object
+      properties:
+        AllowedProtocols:
+          $ref: '#/components/schemas/AllowedProtocols_2'
   securitySchemes:
     HTTPBasicAuthentication:
       type: http
